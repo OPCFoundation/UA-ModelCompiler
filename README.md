@@ -3,10 +3,10 @@ The [OPC Foundation](https://opcfoundation.org) Model Compiler will generate C# 
 
 ## Example Generation ##
 The following process will demonstrate how to generate code using the supplied nodeset files:
-1. Clone the repository and then build the source in Visual Studio 2015, in Release mode.
-2. Open a Command prompt and then launch the BuildStandardTypes.bat
-3. After the script completes, navigate to the .\Published folder to view the output.
-4. Optionally, modify the BAT file and specify the location of your UA Stack(s) to automatically copy the generated files.
+ 1. Clone the repository and then build the source in Visual Studio 2015, in Release mode.
+ 2. Open a Command prompt and then launch the BuildStandardTypes.bat
+ 3. After the script completes, navigate to the .\Published folder to view the output.
+ 4. Optionally, modify the BAT file and specify the location of your UA Stack(s) to automatically copy the generated files.
 
 ### XML Files ###
 #### UA Services example ####
