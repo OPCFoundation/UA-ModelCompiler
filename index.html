@@ -1,0 +1,201 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Ua-modelcompiler by OPCFoundation</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Ua-modelcompiler</h1>
+        <p>ModelCompiler converts Nodeset files into C#/Java/ANSIC</p>
+
+        <p class="view"><a href="https://github.com/OPCFoundation/UA-ModelCompiler">View the Project on GitHub <small>OPCFoundation/UA-ModelCompiler</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/OPCFoundation/UA-ModelCompiler/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/OPCFoundation/UA-ModelCompiler/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/OPCFoundation/UA-ModelCompiler">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h3>
+<a id="model-compiler" class="anchor" href="#model-compiler" aria-hidden="true"><span class="octicon octicon-link"></span></a>Model Compiler</h3>
+
+<p>The <a href="https://opcfoundation.org">OPC Foundation</a> <em>Model Compiler</em> will generate <em>C#</em> and <em>ANSI C</em> source code from XML files which include the UA Services, data-types, error codes, etc.; and numerous CSV files that contain <em>NodeIds, error codes,</em> and <em>attributes</em> etc.</p>
+
+<h2>
+<a id="example-generation" class="anchor" href="#example-generation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example Generation</h2>
+
+<p>The following process will demonstrate how to generate code using the supplied nodeset files:
+1. Clone the repository and then build the source in Visual Studio 2015, in Release mode.
+2. Open a Command prompt and then launch the <code>BuildStandardTypes.bat</code>
+3. After the script completes, navigate to the <code>.\Published</code> folder to view the output.
+4. Optionally, modify the BAT file and specify the location of your UA Stack(s) to automatically copy the generated files.</p>
+
+<h2>
+<a id="xml-files" class="anchor" href="#xml-files" aria-hidden="true"><span class="octicon octicon-link"></span></a>XML Files</h2>
+
+<h3>
+<a id="ua-services-example" class="anchor" href="#ua-services-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>UA Services example</h3>
+
+<p>An excerpt of the Core Services.xml file is shown below:</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;opc:TypeDictionary
+  xmlns:s0="http://opcfoundation.org/UA/BuiltInTypes/"
+  xmlns:s1="http://opcfoundation.org/UA/Core/DataTypes/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:opc="http://opcfoundation.org/UA/TypeDictionary/"
+  xmlns="http://opcfoundation.org/UA/Core/"
+  TargetNamespace="http://opcfoundation.org/UA/Core/"
+&gt;
+  &lt;opc:Import Namespace="http://opcfoundation.org/UA/BuiltInTypes/" /&gt;
+  &lt;opc:ServiceType Name="Read"&gt;
+    &lt;opc:Request&gt;
+      &lt;opc:Parameter Name="RequestHeader" DataType="RequestHeader" /&gt;
+      &lt;opc:Parameter Name="MaxAge" DataType="Duration" /&gt;
+      &lt;opc:Parameter Name="TimestampsToReturn" DataType="TimestampsToReturn" /&gt;
+      &lt;opc:Parameter Name="NodesToRead" DataType="ReadValueId" ValueRank="0" /&gt;
+    &lt;/opc:Request&gt;
+    &lt;opc:Response&gt;
+      &lt;opc:Parameter Name="ResponseHeader" DataType="ResponseHeader" /&gt;
+      &lt;opc:Parameter Name="Results" DataType="s0:DataValue" ValueRank="0" /&gt;
+      &lt;opc:Parameter Name="DiagnosticInfos" DataType="s0:DiagnosticInfo" ValueRank="0" /&gt;
+    &lt;/opc:Response&gt;
+  &lt;/opc:ServiceType&gt;
+</code></pre>
+
+<h3>
+<a id="standard-data-types-example" class="anchor" href="#standard-data-types-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Standard Data Types example</h3>
+
+<p>Nodeset files are defined in <a href="https://opcfoundation.org/developer-tools/specifications-unified-architecture/part-6-mappings/">UA Specifications Part 6</a>. An excerpt of the <em>standard types</em> nodeset is shown here:</p>
+
+<pre><code>?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;opc:ModelDesign
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:opc="http://opcfoundation.org/UA/ModelDesign.xsd"
+  xmlns:ua="http://opcfoundation.org/UA/"
+  xmlns="http://opcfoundation.org/UA/"
+  xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
+  TargetNamespace="http://opcfoundation.org/UA/"
+  TargetNamespaceVersion="1.02"
+&gt;
+  &lt;opc:Namespaces&gt;
+    &lt;opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd"&gt;http://opcfoundation.org/UA/&lt;/opc:Namespace&gt;
+  &lt;/opc:Namespaces&gt;
+
+  &lt;opc:Property SymbolicName="NodeVersion" DataType="ua:String" PartNo="3"&gt;
+    &lt;opc:Description&gt;The version number of the node (used to indicate changes to references of the owning node).&lt;/opc:Description&gt;
+  &lt;/opc:Property&gt;
+
+  &lt;opc:Property SymbolicName="ViewVersion" DataType="ua:UInt32" PartNo="3"&gt;
+    &lt;opc:Description&gt;The version number of the view.&lt;/opc:Description&gt;
+  &lt;/opc:Property&gt;
+</code></pre>
+
+<h3>
+<a id="status-codes-example" class="anchor" href="#status-codes-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Status Codes example</h3>
+
+<p>The following excerpt is of the Statuscodes:</p>
+
+<pre><code>Bad_UnexpectedError,1
+Bad_InternalError,2
+Bad_OutOfMemory,3
+Bad_ResourceUnavailable,4
+Bad_CommunicationError,5
+Bad_EncodingError,6
+Bad_DecodingError,7
+Bad_EncodingLimitsExceeded,8
+Bad_UnknownResponse,9
+Bad_Timeout,10
+</code></pre>
+
+<h2>
+<a id="example-code-generation-output" class="anchor" href="#example-code-generation-output" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example Code Generation Output</h2>
+
+<p>The following are just snippets that demonstrate the output of the model compiler for different languages:</p>
+
+<h3>
+<a id="c" class="anchor" href="#c" aria-hidden="true"><span class="octicon octicon-link"></span></a>C#</h3>
+
+<pre><code>using System;
+using System.Collections.Generic;
+
+namespace Opc.Ua
+{
+    #region ISessionServer Interface
+    /// &lt;summary&gt;
+    /// An interface to a UA server implementation.
+    /// &lt;/summary&gt;
+    /// &lt;exclude /&gt;
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
+    public interface ISessionServer : IServerBase
+    {
+        #if (!OPCUA_EXCLUDE_FindServers)
+        /// &lt;summary&gt;
+        /// Invokes the FindServers service.
+        /// &lt;/summary&gt;
+        ResponseHeader FindServers(
+            RequestHeader                        requestHeader,
+            string                               endpointUrl,
+            StringCollection                     localeIds,
+            StringCollection                     serverUris,
+            out ApplicationDescriptionCollection servers);
+        #endif
+</code></pre>
+
+<h3>
+<a id="ansi-c" class="anchor" href="#ansi-c" aria-hidden="true"><span class="octicon octicon-link"></span></a>ANSI C</h3>
+
+<pre><code>#ifndef _OpcUa_ServerApi_H_
+#define _OpcUa_ServerApi_H_ 1
+#ifdef OPCUA_HAVE_SERVERAPI
+
+#include &lt;opcua_types.h&gt;
+#include &lt;opcua_endpoint.h&gt;
+
+OPCUA_BEGIN_EXTERN_C
+
+#ifndef OPCUA_EXCLUDE_FindServers
+/*============================================================================
+ * Synchronously calls the FindServers service.
+ *===========================================================================*/
+OpcUa_StatusCode OpcUa_ServerApi_FindServers(
+    OpcUa_Endpoint                 hEndpoint,
+    OpcUa_Handle                   hContext,
+    const OpcUa_RequestHeader*     pRequestHeader,
+    const OpcUa_String*            pEndpointUrl,
+    OpcUa_Int32                    nNoOfLocaleIds,
+    const OpcUa_String*            pLocaleIds,
+    OpcUa_Int32                    nNoOfServerUris,
+    const OpcUa_String*            pServerUris,
+    OpcUa_ResponseHeader*          pResponseHeader,
+    OpcUa_Int32*                   pNoOfServers,
+    OpcUa_ApplicationDescription** pServers);
+</code></pre>
+
+<h2>
+<a id="other-repositories" class="anchor" href="#other-repositories" aria-hidden="true"><span class="octicon octicon-link"></span></a>Other Repositories</h2>
+
+<p>This ModelCompiler is used to generate the content of the <a href="https://github.com/OPCFoundation/UA-Nodeset">Nodeset GitHub repository</a>.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/OPCFoundation">OPCFoundation</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
