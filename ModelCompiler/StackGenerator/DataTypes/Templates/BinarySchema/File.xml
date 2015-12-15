@@ -1,0 +1,17 @@
+<!--***START***-->
+<opc:TypeDictionary
+  xmlns:s0="ListOfNamespaces"
+  xmlns:opc="http://opcfoundation.org/BinarySchema/"
+  xmlns:ua="http://opcfoundation.org/UA/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  DefaultByteOrder="LittleEndian"
+  TargetNamespace="_DictionaryUri_"
+>
+  <!-- This File was generated on _BuildDate_ and supports the specifications supported by the UA SDK v_Version_. -->
+
+  <!-- Imports -->
+
+  <!-- ListOfTypes -->
+
+</opc:TypeDictionary>
+<!--***END***-->

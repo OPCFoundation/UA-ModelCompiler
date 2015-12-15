@@ -1,0 +1,13 @@
+<Placeholder
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:tns="_Namespace_">
+<xs:complexType name="_TypeName_">
+<!--***START***-->
+<xs:annotation>
+  <xs:documentation>_Description_</xs:documentation>
+</xs:annotation>
+<!--***END***-->
+</xs:complexType>
+<xs:element name="ListOf_TypeName_" type="tns:ListOf_TypeName_" nillable="true"></xs:element>
+</Placeholder>

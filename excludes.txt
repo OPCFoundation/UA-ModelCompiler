@@ -1,0 +1,10 @@
+\.git\
+\bin\
+\obj\
+\debug\
+\release\
+\.svn\
+.pdb
+.ncb
+.suo
+.git

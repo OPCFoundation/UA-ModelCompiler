@@ -1,0 +1,16 @@
+<!--***START***-->
+<xs:schema
+  xmlns:s0="ListOfNamespaces"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:ua="http://opcfoundation.org/UA/BuiltInTypes/"
+  targetNamespace="_Namespace_"
+  elementFormDefault="qualified"
+>
+  <!-- This File was generated on _BuildDate_ and supports the specifications supported by the UA SDK v_Version_. -->
+
+  <!-- Imports -->
+
+  <!-- ListOfTypes -->
+
+</xs:schema>
+<!--***END***-->

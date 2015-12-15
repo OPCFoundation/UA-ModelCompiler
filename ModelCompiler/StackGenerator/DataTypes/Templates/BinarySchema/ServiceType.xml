@@ -1,0 +1,15 @@
+<Placeholder
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:opc="http://opcfoundation.org/OPCBinary/2.0/">
+<!--***START***-->
+<opc:StructuredType Name="_TypeName_Request">
+  <opc:Documentation>_Description_</opc:Documentation>
+  <!-- ListOfRequestParameters -->
+</opc:StructuredType>
+
+<opc:StructuredType Name="_TypeName_Response">
+  <opc:Documentation>_Description_</opc:Documentation>
+  <!-- ListOfResponseParameters -->
+</opc:StructuredType>
+<!--***END***-->
+</Placeholder>

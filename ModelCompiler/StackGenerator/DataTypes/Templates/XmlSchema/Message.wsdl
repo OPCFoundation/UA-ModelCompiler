@@ -1,0 +1,17 @@
+<Placeholder
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:tns="_Namespace_">
+<!--***START***-->
+<wsdl:message name="_NAME_Message">
+  <wsdl:part name="parameters" element="s0:_NAME_Request"/>
+</wsdl:message>
+<wsdl:message name="_NAME_ResponseMessage">
+  <wsdl:part name="parameters" element="s0:_NAME_Response"/>
+</wsdl:message>
+<wsdl:message name="_NAME__FaultMessage">
+  <wsdl:part name="detail" element="s0:ServiceFault" />
+</wsdl:message>
+<!--***END***-->
+</Placeholder>

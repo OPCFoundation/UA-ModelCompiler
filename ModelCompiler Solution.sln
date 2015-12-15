@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{01D50556-A863-4999-9A5E-13488F9ABFDF}"
+	ProjectSection(SolutionItems) = preProject
+		BuildStandardTypes.bat = BuildStandardTypes.bat
+		Generated\Schema\Opc.Ua.Types.bsd = Generated\Schema\Opc.Ua.Types.bsd
+		Generated\Schema\Opc.Ua.Types.xsd = Generated\Schema\Opc.Ua.Types.xsd
+		Generated\Schema\OPCBinarySchema.xsd = Generated\Schema\OPCBinarySchema.xsd
+		Generated\Schema\SecuredApplication.xsd = Generated\Schema\SecuredApplication.xsd
+		Generated\Schema\UANodeSet.xsd = Generated\Schema\UANodeSet.xsd
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UA Core Library", "Core\UA Core Library.csproj", "{7543AFCB-F5AF-44AF-83C9-23164474C1E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UA Model Compiler", "ModelCompiler\UA Model Compiler.csproj", "{98E685DC-8961-4F46-8261-91D8685EDB6E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|Win32 = Debug|Win32
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7543AFCB-F5AF-44AF-83C9-23164474C1E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7543AFCB-F5AF-44AF-83C9-23164474C1E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7543AFCB-F5AF-44AF-83C9-23164474C1E9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7543AFCB-F5AF-44AF-83C9-23164474C1E9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7543AFCB-F5AF-44AF-83C9-23164474C1E9}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{7543AFCB-F5AF-44AF-83C9-23164474C1E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7543AFCB-F5AF-44AF-83C9-23164474C1E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7543AFCB-F5AF-44AF-83C9-23164474C1E9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7543AFCB-F5AF-44AF-83C9-23164474C1E9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7543AFCB-F5AF-44AF-83C9-23164474C1E9}.Release|Win32.ActiveCfg = Release|Any CPU
+		{98E685DC-8961-4F46-8261-91D8685EDB6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98E685DC-8961-4F46-8261-91D8685EDB6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98E685DC-8961-4F46-8261-91D8685EDB6E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{98E685DC-8961-4F46-8261-91D8685EDB6E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{98E685DC-8961-4F46-8261-91D8685EDB6E}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{98E685DC-8961-4F46-8261-91D8685EDB6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98E685DC-8961-4F46-8261-91D8685EDB6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98E685DC-8961-4F46-8261-91D8685EDB6E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{98E685DC-8961-4F46-8261-91D8685EDB6E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{98E685DC-8961-4F46-8261-91D8685EDB6E}.Release|Win32.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

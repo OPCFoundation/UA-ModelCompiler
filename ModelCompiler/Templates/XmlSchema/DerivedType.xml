@@ -1,0 +1,19 @@
+<Placeholder
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:tns="_Namespace_">
+<!--***START***-->
+<xs:complexType name="_TypeName_">
+  <!-- Documentation -->
+  <xs:complexContent mixed="false">
+    <xs:extension base="_BaseType_">
+      <xs:sequence>
+        <!-- ListOfFields -->
+      </xs:sequence>
+    </xs:extension>
+  </xs:complexContent>
+</xs:complexType>
+<xs:element name="_TypeName_" type="tns:_TypeName_" />
+<!-- CollectionType -->
+<!--***END***-->
+</Placeholder>

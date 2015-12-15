@@ -1,0 +1,13 @@
+<Placeholder
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:tns="_Namespace_">
+<!--***START***-->
+<xs:complexType name="ListOf_TypeName_">
+  <xs:sequence>
+    <xs:element name="_TypeName_" type="tns:_TypeName_" minOccurs="0" maxOccurs="unbounded" nillable="true" />
+  </xs:sequence>
+</xs:complexType>
+<xs:element name="ListOf_TypeName_" type="tns:ListOf_TypeName_" nillable="true"></xs:element>
+<!--***END***-->
+</Placeholder>

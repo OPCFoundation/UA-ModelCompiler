@@ -1,0 +1,14 @@
+<Placeholder
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+  xmlns:tns="_Namespace_">
+  <!--***START***-->
+<wsdl:operation name="_NAME_">
+  <wsdl:input wsaw:Action="_ServicesNamespace_/_NAME_" name="_NAME_Message" message="tns:_NAME_Message"/>
+  <wsdl:output wsaw:Action="_ServicesNamespace_/_NAME_Response" name="_NAME_ResponseMessage" message="tns:_NAME_ResponseMessage"/>
+  <wsdl:fault wsaw:Action="_ServicesNamespace_/_NAME_Fault" name="_NAME_FaultMessage" message="tns:_NAME__FaultMessage" />
+</wsdl:operation>
+<!--***END***-->
+</Placeholder>

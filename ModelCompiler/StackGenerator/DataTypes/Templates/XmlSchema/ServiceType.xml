@@ -1,0 +1,23 @@
+<Placeholder
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:tns="_Namespace_">
+<!--***START***-->
+<xs:complexType name="_TypeName_Request">
+  <xs:annotation>
+    <xs:documentation>_Description_</xs:documentation>
+  </xs:annotation>
+  <xs:sequence>
+    <!-- ListOfRequestParameters -->
+  </xs:sequence>
+</xs:complexType>
+<xs:element name="_TypeName_Request" type="tns:_TypeName_Request" />
+
+<xs:complexType name="_TypeName_Response">
+  <xs:sequence>
+    <!-- ListOfResponseParameters -->
+  </xs:sequence>
+</xs:complexType>
+<xs:element name="_TypeName_Response" type="tns:_TypeName_Response" />
+<!--***END***-->
+</Placeholder>

@@ -1,0 +1,17 @@
+<Placeholder
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:tns="_Namespace_">
+<!--***START***-->
+<xs:simpleType  name="_TypeName_">
+  <xs:annotation>
+    <xs:documentation>_Description_</xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string">
+    <!-- ListOfValues -->
+  </xs:restriction>
+</xs:simpleType>
+<xs:element name="_TypeName_" type="tns:_TypeName_" />
+<!-- ArrayDeclaration -->
+<!--***END***-->
+</Placeholder>

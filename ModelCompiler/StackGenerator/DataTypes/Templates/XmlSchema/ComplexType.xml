@@ -1,0 +1,17 @@
+<Placeholder
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:tns="_Namespace_">
+<!--***START***-->
+<xs:complexType name="_TypeName_">
+  <xs:annotation>
+    <xs:documentation>_Description_</xs:documentation>
+  </xs:annotation>
+  <xs:sequence>
+    <!-- ListOfFields -->
+  </xs:sequence>
+</xs:complexType>
+<xs:element name="_TypeName_" type="tns:_TypeName_" />
+<!-- ArrayDeclaration -->
+<!--***END***-->
+</Placeholder>
