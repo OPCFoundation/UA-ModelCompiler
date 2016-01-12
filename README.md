@@ -1,6 +1,12 @@
 # Model Compiler #
 The [OPC Foundation](https://opcfoundation.org) Model Compiler will generate C# and ANSI C source code from XML files which include the UA Services, data-types, error codes, etc.; and numerous CSV files that contain NodeIds, error codes, and attributes etc.
 
+## About this Repository ##
+This repository contains *sub-modules* for the Nodeset files, which are independently tracked. Please clone this repository as shown:
+```
+git clone https://github.com/OPCFoundation/UA-ModelCompiler --recursive
+```
+
 ## Example Generation ##
 The following process will demonstrate how to generate code using the supplied nodeset files:
  1. Clone the repository and then build the source in Visual Studio 2015, in Release mode.
