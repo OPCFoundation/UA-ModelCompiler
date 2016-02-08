@@ -66,6 +66,24 @@ IF NOT EXIST %OUTPUT%\PLCopen MKDIR %OUTPUT%\PLCopen
 %MODELCOMPILER% -d2 ".\ModelCompiler\Design\OpcUaPLCopenModel.xml" -cg ".\ModelCompiler\Design\OpcUaPLCopenModel.csv" -o2 "%OUTPUT%\PLCopen\"
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
 
+SET PARTNAME="MTConnect"
+ECHO Building %PARTNAME%
+IF NOT EXIST %OUTPUT%\MTConnect MKDIR %OUTPUT%\MTConnect
+%MODELCOMPILER% -d2 ".\ModelCompiler\Design\MTConnectModel.xml" -cg ".\ModelCompiler\Design\MTConnectModel.csv" -o2 "%OUTPUT%\MTConnect\"
+IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
+
+SET PARTNAME="FDIPart5"
+ECHO Building %PARTNAME%
+IF NOT EXIST %OUTPUT%\FDI MKDIR %OUTPUT%\FDI
+%MODELCOMPILER% -d2 ".\ModelCompiler\Design\OpcUaFdiPart5Model.xml" -cg ".\ModelCompiler\Design\OpcUaFdiPart5Model.csv" -o2 "%OUTPUT%\FDI\"
+IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
+
+SET PARTNAME="FDIPart7"
+ECHO Building %PARTNAME%
+IF NOT EXIST %OUTPUT%\FDI MKDIR %OUTPUT%\FDI
+%MODELCOMPILER% -d2 ".\ModelCompiler\Design\OpcUaFDIPart7Model.xml" -cg ".\ModelCompiler\Design\OpcUaFDIPart7Model.csv" -o2 "%OUTPUT%\FDI\"
+IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
+
 REM STEP 2) Copy the generated files to the OUTPUT directory which is how our nodeset files are created...
 
 ECHO Copying CSV files to %OUTPUT%\Schema\
