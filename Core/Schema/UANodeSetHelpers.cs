@@ -273,7 +273,12 @@ namespace Opc.Ua.Export
                     ReferenceTypeState o = (ReferenceTypeState)node;
                     UAReferenceType value = new UAReferenceType();
                     value.IsAbstract = o.IsAbstract;
-                    value.InverseName = Export(new Opc.Ua.LocalizedText[] { o.InverseName });
+
+                    if (!Opc.Ua.LocalizedText.IsNullOrEmpty(o.InverseName))
+                    {
+                        value.InverseName = Export(new Opc.Ua.LocalizedText[] { o.InverseName });
+                    }
+
                     value.Symmetric = o.Symmetric;
                     exportedNode = value;
                     break;
@@ -808,7 +813,7 @@ namespace Opc.Ua.Export
         /// <summary>
         /// Exports a DataTypeDefinition
         /// </summary>
-        private Opc.Ua.Export.DataTypeDefinition Export(Opc.Ua.DataTypeDefinition source, NamespaceTable namespaceUris)
+        private Opc.Ua.Export.DataTypeDefinition Export(Opc.Ua.DataTypeDefinition2 source, NamespaceTable namespaceUris)
         {
             if (source == null)
             {
@@ -858,14 +863,14 @@ namespace Opc.Ua.Export
         /// <summary>
         /// Imports a DataTypeDefinition
         /// </summary>
-        private Opc.Ua.DataTypeDefinition Import(Opc.Ua.Export.DataTypeDefinition source, NamespaceTable namespaceUris)
+        private Opc.Ua.DataTypeDefinition2 Import(Opc.Ua.Export.DataTypeDefinition source, NamespaceTable namespaceUris)
         {
             if (source == null)
             {
                 return null;
             }
 
-            Opc.Ua.DataTypeDefinition definition = new Opc.Ua.DataTypeDefinition();
+            Opc.Ua.DataTypeDefinition2 definition = new Opc.Ua.DataTypeDefinition2();
 
             definition.Name = ImportQualifiedName(source.Name, namespaceUris);
             definition.SymbolicName = source.SymbolicName;

@@ -7,7 +7,8 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   TargetNamespace="http://opcfoundation.org/UA/DI/"
   TargetXmlNamespace="http://opcfoundation.org/UA/DI/"
-  TargetNamespaceVersion="1.00"
+  TargetVersion="1.00"
+  TargetPublicationDate="2010-12-31T00:00:00Z"
   xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
 
   <Namespaces>

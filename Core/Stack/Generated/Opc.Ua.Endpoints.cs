@@ -4063,226 +4063,6 @@ namespace Opc.Ua
         #endif
         #endif
         #endregion
-
-        #region TestStack Service
-        #if (!OPCUA_EXCLUDE_TestStack)
-        /// <summary>
-        /// Invokes the TestStack service.
-        /// </summary>
-        public IServiceResponse TestStack(IServiceRequest incoming)
-        {
-            TestStackResponse response = null;
-
-            try
-            {
-                OnRequestReceived(incoming);
-
-                TestStackRequest request = (TestStackRequest)incoming;
-
-                Variant output = new Variant();
-
-                response = new TestStackResponse();
-
-                response.ResponseHeader = ServerInstance.TestStack(
-                   request.RequestHeader,
-                   request.TestId,
-                   request.Iteration,
-                   request.Input,
-                   out output);
-
-                response.Output = output;
-            }
-            finally
-            {
-                OnResponseSent(response);
-            }
-
-            return response;
-        }
-
-        #if OPCUA_USE_SYNCHRONOUS_ENDPOINTS
-        /// <summary>
-        /// The operation contract for the TestStack service.
-        /// </summary>
-        public virtual TestStackResponseMessage TestStack(TestStackMessage request)
-        {
-            TestStackResponse response = null;
-
-            try
-            {
-                // OnRequestReceived(message.TestStackRequest);
-
-                SetRequestContext(RequestEncoding.Xml);
-                response = (TestStackResponse)TestStack(request.TestStackRequest);
-                // OnResponseSent(response);
-                return new TestStackResponseMessage(response);
-            }
-            catch (Exception e)
-            {
-                Exception fault = CreateSoapFault(request.TestStackRequest, e);
-                // OnResponseFaultSent(fault);
-                throw fault;
-            }
-        }
-        #else
-        /// <summary>
-        /// Asynchronously calls the TestStack service.
-        /// </summary>
-        public virtual IAsyncResult BeginTestStack(TestStackMessage message, AsyncCallback callback, object callbackData)
-        {
-            try
-            {
-                OnRequestReceived(message.TestStackRequest);
-
-                // check for bad data.
-                if (message == null) throw new ArgumentNullException("message");
-
-                // set the request context.
-                SetRequestContext(RequestEncoding.Xml);
-
-                // create handler.
-                ProcessRequestAsyncResult result = new ProcessRequestAsyncResult(this, callback, callbackData, 0);
-                return result.BeginProcessRequest(SecureChannelContext.Current, message.TestStackRequest);
-            }
-            catch (Exception e)
-            {
-                Exception fault = CreateSoapFault(message.TestStackRequest, e);
-                OnResponseFaultSent(fault);
-                throw fault;
-            }
-        }
-
-        /// <summary>
-        /// Waits for an asynchronous call to the TestStack service to complete.
-        /// </summary>
-        public virtual TestStackResponseMessage EndTestStack(IAsyncResult ar)
-        {
-            try
-            {
-                IServiceResponse response = ProcessRequestAsyncResult.WaitForComplete(ar, true);
-                OnResponseSent(response);
-                return new TestStackResponseMessage((TestStackResponse)response);
-            }
-            catch (Exception e)
-            {
-                Exception fault = CreateSoapFault(ProcessRequestAsyncResult.GetRequest(ar), e);
-                OnResponseFaultSent(fault);
-                throw fault;
-            }
-        }
-        #endif
-        #endif
-        #endregion
-
-        #region TestStackEx Service
-        #if (!OPCUA_EXCLUDE_TestStackEx)
-        /// <summary>
-        /// Invokes the TestStackEx service.
-        /// </summary>
-        public IServiceResponse TestStackEx(IServiceRequest incoming)
-        {
-            TestStackExResponse response = null;
-
-            try
-            {
-                OnRequestReceived(incoming);
-
-                TestStackExRequest request = (TestStackExRequest)incoming;
-
-                CompositeTestType output = null;
-
-                response = new TestStackExResponse();
-
-                response.ResponseHeader = ServerInstance.TestStackEx(
-                   request.RequestHeader,
-                   request.TestId,
-                   request.Iteration,
-                   request.Input,
-                   out output);
-
-                response.Output = output;
-            }
-            finally
-            {
-                OnResponseSent(response);
-            }
-
-            return response;
-        }
-
-        #if OPCUA_USE_SYNCHRONOUS_ENDPOINTS
-        /// <summary>
-        /// The operation contract for the TestStackEx service.
-        /// </summary>
-        public virtual TestStackExResponseMessage TestStackEx(TestStackExMessage request)
-        {
-            TestStackExResponse response = null;
-
-            try
-            {
-                // OnRequestReceived(message.TestStackExRequest);
-
-                SetRequestContext(RequestEncoding.Xml);
-                response = (TestStackExResponse)TestStackEx(request.TestStackExRequest);
-                // OnResponseSent(response);
-                return new TestStackExResponseMessage(response);
-            }
-            catch (Exception e)
-            {
-                Exception fault = CreateSoapFault(request.TestStackExRequest, e);
-                // OnResponseFaultSent(fault);
-                throw fault;
-            }
-        }
-        #else
-        /// <summary>
-        /// Asynchronously calls the TestStackEx service.
-        /// </summary>
-        public virtual IAsyncResult BeginTestStackEx(TestStackExMessage message, AsyncCallback callback, object callbackData)
-        {
-            try
-            {
-                OnRequestReceived(message.TestStackExRequest);
-
-                // check for bad data.
-                if (message == null) throw new ArgumentNullException("message");
-
-                // set the request context.
-                SetRequestContext(RequestEncoding.Xml);
-
-                // create handler.
-                ProcessRequestAsyncResult result = new ProcessRequestAsyncResult(this, callback, callbackData, 0);
-                return result.BeginProcessRequest(SecureChannelContext.Current, message.TestStackExRequest);
-            }
-            catch (Exception e)
-            {
-                Exception fault = CreateSoapFault(message.TestStackExRequest, e);
-                OnResponseFaultSent(fault);
-                throw fault;
-            }
-        }
-
-        /// <summary>
-        /// Waits for an asynchronous call to the TestStackEx service to complete.
-        /// </summary>
-        public virtual TestStackExResponseMessage EndTestStackEx(IAsyncResult ar)
-        {
-            try
-            {
-                IServiceResponse response = ProcessRequestAsyncResult.WaitForComplete(ar, true);
-                OnResponseSent(response);
-                return new TestStackExResponseMessage((TestStackExResponse)response);
-            }
-            catch (Exception e)
-            {
-                Exception fault = CreateSoapFault(ProcessRequestAsyncResult.GetRequest(ar), e);
-                OnResponseFaultSent(fault);
-                throw fault;
-            }
-        }
-        #endif
-        #endif
-        #endregion
         #endregion
 
         #region Protected Members
@@ -4395,12 +4175,6 @@ namespace Opc.Ua
             #endif
             #if (!OPCUA_EXCLUDE_DeleteSubscriptions)
             SupportedServices.Add(DataTypeIds.DeleteSubscriptionsRequest, new ServiceDefinition(typeof(DeleteSubscriptionsRequest), new InvokeServiceEventHandler(DeleteSubscriptions)));
-            #endif
-            #if (!OPCUA_EXCLUDE_TestStack)
-            SupportedServices.Add(DataTypeIds.TestStackRequest, new ServiceDefinition(typeof(TestStackRequest), new InvokeServiceEventHandler(TestStack)));
-            #endif
-            #if (!OPCUA_EXCLUDE_TestStackEx)
-            SupportedServices.Add(DataTypeIds.TestStackExRequest, new ServiceDefinition(typeof(TestStackExRequest), new InvokeServiceEventHandler(TestStackEx)));
             #endif
         }
         #endregion
@@ -4916,13 +4690,20 @@ namespace Opc.Ua
 
                 RegisterServer2Request request = (RegisterServer2Request)incoming;
 
+                StatusCodeCollection configurationResults = null;
+                DiagnosticInfoCollection diagnosticInfos = null;
 
                 response = new RegisterServer2Response();
 
                 response.ResponseHeader = ServerInstance.RegisterServer2(
                    request.RequestHeader,
-                   request.Server);
+                   request.Server,
+                   request.DiscoveryConfiguration,
+                   out configurationResults,
+                   out diagnosticInfos);
 
+                response.ConfigurationResults = configurationResults;
+                response.DiagnosticInfos      = diagnosticInfos;
             }
             finally
             {

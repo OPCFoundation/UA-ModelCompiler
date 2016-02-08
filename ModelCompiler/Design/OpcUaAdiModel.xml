@@ -8,7 +8,8 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   TargetNamespace="http://opcfoundation.org/UA/ADI/"
   TargetXmlNamespace="http://opcfoundation.org/UA/ADI/"
-  TargetNamespaceVersion="1.00"
+  TargetVersion="1.01"
+  TargetPublicationDate="2013-07-31T00:00:00Z"
   xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
 
   <Namespaces>

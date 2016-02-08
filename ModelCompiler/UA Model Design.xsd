@@ -52,7 +52,8 @@
         </xs:choice>
       </xs:sequence>
       <xs:attribute name="TargetNamespace" type="xs:string" use="required" />
-      <xs:attribute name="TargetNamespaceVersion" type="xs:string" use="optional" />
+      <xs:attribute name="TargetVersion" type="xs:string" use="optional" />
+      <xs:attribute name="TargetPublicationDate" type="xs:dateTime" use="optional" />
       <xs:attribute name="TargetXmlNamespace" type="xs:string" use="optional" />
       <xs:attribute name="DefaultLocale" type="xs:string" use="optional" default="en" />
       <xs:anyAttribute processContents="lax" />
@@ -613,6 +614,7 @@
     <xs:attribute name="Identifier" type="xs:int" use="optional" />
     <xs:attribute name="DataType" type="xs:QName" use="optional" />
     <xs:attribute name="ValueRank" type="ValueRank" use="optional" default="Scalar" />
+    <xs:attribute name="ArrayDimensions" type="xs:string" use="optional" />
   </xs:complexType>
 
   <xs:complexType name="ListOfArguments">

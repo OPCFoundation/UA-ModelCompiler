@@ -43,11 +43,8 @@ namespace Opc.Ua.ModelCompiler
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        /// <returns>
-        /// 0 if successful; 1 if failed
-        /// </returns>
         [STAThread]
-        static int Main()
+        static void Main()
         {
             try
             {
@@ -59,9 +56,7 @@ namespace Opc.Ua.ModelCompiler
                     StreamReader reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Opc.Ua.ModelCompiler.HelpFile.txt"));
                     MessageBox.Show(reader.ReadToEnd(), "Opc.Ua.ModelCompiler");
                     reader.Close();
-                    return (1);
                 }
-                return (0);
             }
             catch (Exception e)
             {
@@ -74,7 +69,6 @@ namespace Opc.Ua.ModelCompiler
                 {
                     Application.Run(new ExceptionDlg(e));
                 }
-                return (1);
             }
         }
 
@@ -345,7 +339,7 @@ namespace Opc.Ua.ModelCompiler
                     new ExceptionDlg(e).ShowDialog();
                 }
 
-                return false;
+                return true;
             }
 
             return true;

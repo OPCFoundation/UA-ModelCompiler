@@ -41,6 +41,9 @@ namespace Opc.Ua.ModelCompiler
 
         [XmlIgnore()]
         public NamespaceTable NamespaceUris;
+        
+        [XmlIgnore()]
+        public Dictionary<string,Export.ModelTableEntry> Dependencies;
     }
 
     public partial class LocalizedText

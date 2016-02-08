@@ -1,19 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <PublishUrlHistory />
-    <InstallUrlHistory />
-    <SupportUrlHistory />
-    <UpdateUrlHistory />
-    <BootstrapperUrlHistory />
-    <ErrorReportUrlHistory />
-    <FallbackCulture>en-US</FallbackCulture>
-    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <StartArguments>-d2 ".\ModelCompiler\Design\StandardTypes.xml" -d2 ".\ModelCompiler\Design\UA Core Services.xml" -c ".\ModelCompiler\Design\StandardTypes.csv" -o2 "OUTPUT\Schema\" -stack "OUTPUT\DotNet\" -ansic "OUTPUT\AnsiC\"
+</StartArguments>
+    <StartWorkingDirectory>X:\Work\OPC\uanodeset\Source\</StartWorkingDirectory>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartAction>Project</StartAction>
-    <StartProgram>
-    </StartProgram>
-    <StartArguments>-d2 ".\ModelCompiler\Design\OpcUaPart12Model.xml" -cg ".\ModelCompiler\Design\OpcUaPart12Model.csv" -o2 "%25OUTPUT%25\Part12\"</StartArguments>
+  <PropertyGroup>
+    <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
 </Project>

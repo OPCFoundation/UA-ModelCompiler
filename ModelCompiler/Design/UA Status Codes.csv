@@ -217,4 +217,14 @@ Bad_TooManyMonitoredItems,219
 Good_Edited,220
 Good_PostActionFailed,221
 Uncertain_DominantValueChanged,222
-Good_DependendValueChanged,223
+Good_DependentValueChanged,224
+Bad_DominantValueChanged,225
+Uncertain_DependentValueChanged,226
+Bad_DependentValueChanged,227
+Bad_RequestNotAllowed,228
+Bad_TooManyArguments,229
+Bad_SecurityModeInsufficient,230
+Bad_CertificateChainIncomplete,269
+Bad_LicenseExpired,270
+Bad_LicenseLimitsExceeded,271
+Bad_LicenseNotAvailable,272

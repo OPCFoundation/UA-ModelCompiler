@@ -91,14 +91,15 @@
     <opc:Documentation>A recursive structure containing diagnostic information associated with a status code.</opc:Documentation>
     <opc:Field Name="SymbolicIdSpecified" TypeName="opc:Bit" />
     <opc:Field Name="NamespaceURISpecified" TypeName="opc:Bit" />
-    <opc:Field Name="LocalizedTextSpecified" TypeName="opc:Bit" />
     <opc:Field Name="LocaleSpecified" TypeName="opc:Bit" />
+    <opc:Field Name="LocalizedTextSpecified" TypeName="opc:Bit" />
     <opc:Field Name="AdditionalInfoSpecified" TypeName="opc:Bit" />
     <opc:Field Name="InnerStatusCodeSpecified" TypeName="opc:Bit" />
     <opc:Field Name="InnerDiagnosticInfoSpecified" TypeName="opc:Bit" />
     <opc:Field Name="Reserved1" TypeName="opc:Bit" Length="1" />
     <opc:Field Name="SymbolicId" TypeName="opc:Int32" SwitchField="SymbolicIdSpecified" />
     <opc:Field Name="NamespaceURI" TypeName="opc:Int32" SwitchField="NamespaceURISpecified" />
+    <opc:Field Name="Locale" TypeName="opc:Int32" SwitchField="LocaleSpecified" />
     <opc:Field Name="LocalizedText" TypeName="opc:Int32" SwitchField="LocalizedTextSpecified" />
     <opc:Field Name="AdditionalInfo" TypeName="opc:CharArray" SwitchField="AdditionalInfoSpecified" />
     <opc:Field Name="InnerStatusCode" TypeName="ua:StatusCode" SwitchField="InnerStatusCodeSpecified" />
@@ -150,7 +151,8 @@
 
   <opc:StructuredType Name="Variant">
     <opc:Documentation>A union of several types.</opc:Documentation>
-    <opc:Field Name="VariantType" TypeName="opc:Bit" Length="7" />
+    <opc:Field Name="VariantType" TypeName="opc:Bit" Length="6" />
+    <opc:Field Name="ArrayDimensionsSpecified" TypeName="opc:Bit" Length="1"/>
     <opc:Field Name="ArrayLengthSpecified" TypeName="opc:Bit" Length="1"/>
     <opc:Field Name="ArrayLength" TypeName="opc:Int32" SwitchField="ArrayLengthSpecified" />
     <opc:Field Name="Boolean" TypeName="opc:Boolean" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="1" />
@@ -164,7 +166,7 @@
     <opc:Field Name="UInt64" TypeName="opc:UInt64" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="9" />
     <opc:Field Name="Float" TypeName="opc:Float" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="10" />
     <opc:Field Name="Double" TypeName="opc:Double" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="11" />
-    <opc:Field Name="String" TypeName="opc:String" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="12" />
+    <opc:Field Name="String" TypeName="opc:CharArray" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="12" />
     <opc:Field Name="DateTime" TypeName="opc:DateTime" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="13" />
     <opc:Field Name="Guid" TypeName="opc:Guid" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="14" />
     <opc:Field Name="ByteString" TypeName="opc:ByteString" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="15" />
@@ -172,12 +174,21 @@
     <opc:Field Name="NodeId" TypeName="ua:NodeId" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="17" />
     <opc:Field Name="ExpandedNodeId" TypeName="ua:ExpandedNodeId" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="18" />
     <opc:Field Name="StatusCode" TypeName="ua:StatusCode" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="19" />
-    <opc:Field Name="DiagnosticInfo" TypeName="ua:DiagnosticInfo" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="20" />
-    <opc:Field Name="QualifiedName" TypeName="ua:QualifiedName" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="21" />
-    <opc:Field Name="LocalizedText" TypeName="ua:LocalizedText" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="22" />
-    <opc:Field Name="ExtensionObject" TypeName="ua:ExtensionObject" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="23" />
-    <opc:Field Name="DataValue" TypeName="ua:DataValue" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="24" />
-    <opc:Field Name="Variant" TypeName="ua:Variant" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="25" />
+    <opc:Field Name="QualifiedName" TypeName="ua:QualifiedName" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="20" />
+    <opc:Field Name="LocalizedText" TypeName="ua:LocalizedText" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="21" />
+    <opc:Field Name="ExtensionObject" TypeName="ua:ExtensionObject" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="22" />
+    <opc:Field Name="DataValue" TypeName="ua:DataValue" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="23" />
+    <opc:Field Name="Variant" TypeName="ua:Variant" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="24" />
+    <opc:Field Name="DiagnosticInfo" TypeName="ua:DiagnosticInfo" LengthField="ArrayLength" SwitchField="VariantType" SwitchValue="25" />
+    <opc:Field Name="NoOfArrayDimensions" TypeName="opc:Int32" SwitchField="ArrayDimensionsSpecified" />
+    <opc:Field Name="ArrayDimensions" TypeName="opc:Int32" LengthField="NoOfArrayDimensions" SwitchField="ArrayDimensionsSpecified" />
   </opc:StructuredType>
+  
+  <opc:EnumeratedType Name="NamingRuleType" LengthInBits="32">
+    <opc:EnumeratedValue Name="Mandatory" Value="1" />
+    <opc:EnumeratedValue Name="Optional" Value="2" />
+    <opc:EnumeratedValue Name="Constraint" Value="3" />
+  </opc:EnumeratedType>
+  
 <!-- ***END*** -->
 </opc:TypeDictionary>

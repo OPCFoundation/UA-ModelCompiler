@@ -18,12 +18,10 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
-    <NoWin32Manifest>true</NoWin32Manifest>
-    <TargetFrameworkProfile />
     <PublishUrl>http://localhost/Opc.Ua.ModelCompiler/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
@@ -38,29 +36,29 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NoWin32Manifest>true</NoWin32Manifest>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Bin\Debug\</OutputPath>
+    <OutputPath>..\..\Bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Bin\Release\</OutputPath>
+    <OutputPath>..\..\Bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -70,8 +68,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
-    <Reference Include="System.ServiceModel, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -193,7 +191,9 @@
     </Compile>
     <EmbeddedResource Include="Design\StandardTypes.csv" />
     <EmbeddedResource Include="Design\UA Attributes.xml" />
-    <EmbeddedResource Include="Design\UA Core Services.xml" />
+    <EmbeddedResource Include="Design\UA Core Services.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Design\UA Status Codes.xml" />
     <EmbeddedResource Include="Design\UA Status Codes.csv" />
     <EmbeddedResource Include="Design\UA Attributes.csv" />
@@ -206,6 +206,8 @@
       </SubType>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="Design\DemoModel.csv" />
+    <None Include="Design\MTConnectModel.csv" />
     <None Include="Design\OpcUaFdiPart7Model.csv" />
     <None Include="Design\OpcUaFdiPart5Model.csv" />
     <None Include="Design\OpcUaGdsModel.csv" />
@@ -213,7 +215,6 @@
     <None Include="Design\OpcUaDiModelv10.csv" />
     <None Include="Design\OpcUaDiModel.csv" />
     <None Include="Design\OpcUaPLCopenModel.csv" />
-    <None Include="Design\OpcUaPart12Model.csv" />
     <None Include="StackGenerator\DataTypes\Templates\XmlSchema\BuiltInTypes.xsx">
       <DependentUpon>BuiltInTypes.xsd</DependentUpon>
     </None>
@@ -223,14 +224,20 @@
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\Services.wsdl" />
     <EmbeddedResource Include="Design\UA Defined Types.xml" />
     <EmbeddedResource Include="HelpFile.txt" />
+    <Content Include="Design\MTConnectModel.xml" />
     <Content Include="Design\OpcUaFdiPart7Model.xml" />
     <Content Include="Design\OpcUaFdiPart5Model.xml" />
-    <Content Include="Design\OpcUaGdsModel.xml" />
+    <Content Include="Design\OpcUaGdsModel.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Design\OpcUaAdiModel.xml" />
     <Content Include="Design\OpcUaDiModelv10.xml" />
-    <Content Include="Design\OpcUaDiModel.xml" />
+    <Content Include="Design\OpcUaDiModel.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Design\OpcUaPLCopenModel.xml" />
-    <Content Include="Design\OpcUaPart12Model.xml" />
+    <Content Include="Design\DemoModel.xml" />
+    <None Include="Design\UA ServerCapabilities.csv" />
     <Content Include="StackGenerator\Validators\UA Type Dictionary.xsd">
       <SubType>
       </SubType>
@@ -299,7 +306,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Design\BuiltInTypes.xml" />
+    <EmbeddedResource Include="Design\BuiltInTypes.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ExceptionDlg.resx">
@@ -308,7 +317,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Design\StandardTypes.xml" />
+    <EmbeddedResource Include="Design\StandardTypes.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Templates\BinarySchema\BuiltInTypes.bsd" />
     <EmbeddedResource Include="Templates\BinarySchema\ComplexType.xml" />
     <EmbeddedResource Include="Templates\BinarySchema\EnumeratedType.xml" />
@@ -329,7 +340,7 @@
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <ProductName>.NET Framework Client Profile</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

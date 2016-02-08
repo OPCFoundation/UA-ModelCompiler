@@ -7,7 +7,8 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   TargetNamespace="http://opcfoundation.org/UA/DI/"
   TargetXmlNamespace="http://opcfoundation.org/UA/DI/"
-  TargetNamespaceVersion="1.01"
+  TargetVersion="1.01"
+  TargetPublicationDate="2012-12-31T00:00:00Z"
   xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
 
   <Namespaces>
@@ -228,7 +229,7 @@
     </Children>
   </ObjectType>
 
-  <ObjectType SymbolicName="DI:ProtocolType" BaseType="OpcUa:BaseObjectType" IsAbstract="true">
+  <ObjectType SymbolicName="DI:ProtocolType" BaseType="OpcUa:BaseObjectType" IsAbstract="false">
     <Description>General structure of a Protocol ObjectType</Description>
   </ObjectType>
 
@@ -315,7 +316,7 @@
     </OutputArguments>
   </Method>
 
-  <DataType SymbolicName="DI:FetchResultDataType" BaseType="OpcUa:Structure">
+  <DataType SymbolicName="DI:FetchResultDataType" BaseType="OpcUa:Structure" IsAbstract="true">
   </DataType>
 
   <DataType SymbolicName="DI:FetchResultErrorDataType" BaseType="DI:FetchResultDataType">
@@ -391,7 +392,7 @@
     <Children>
       <Property SymbolicName="DI:Locked" DataType="OpcUa:Boolean" />
       <Property SymbolicName="DI:LockingClient" DataType="OpcUa:String" />
-      <Property SymbolicName="DI:LockingUser" DataType="OpcUa:Boolean" />
+      <Property SymbolicName="DI:LockingUser" DataType="OpcUa:String" />
       <Property SymbolicName="DI:RemainingLockTime" DataType="OpcUa:Duration" />
       <Method SymbolicName="DI:InitLock" TypeDefinition="DI:InitLockMethodType"></Method>
       <Method SymbolicName="DI:RenewLock" TypeDefinition="DI:RenewLockMethodType"></Method>

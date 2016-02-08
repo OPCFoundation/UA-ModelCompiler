@@ -656,6 +656,11 @@ namespace Opc.Ua
         /// <remarks>
         /// Will add null elements if individual elements cannot be converted.
         /// </remarks>
+        public static Array ToArray(object extensions, Type elementType)
+        {
+            return ToArray(extensions as Array, elementType);
+        }
+
         public static Array ToArray(Array extensions, Type elementType)
         {
             if (extensions == null)

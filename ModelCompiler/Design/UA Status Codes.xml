@@ -5,6 +5,8 @@
   xmlns:opc="http://opcfoundation.org/UA/TypeDictionary/"
   xmlns="http://opcfoundation.org/UA/StatusCodes/"
   TargetNamespace="http://opcfoundation.org/UA/StatusCodes/"
+  TargetVersion="1.03"
+  TargetPublicationDate="2013-12-02T00:00:00Z"
 >
   <!-- Common Service Level Codes -->
   <opc:Constant Name="Bad_UnexpectedError">
@@ -101,10 +103,13 @@
     <opc:Documentation>It was not possible to determine if the Issuer Certificate has been revoked.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_CertificateRevoked">
-    <opc:Documentation>The Certificate has been revoked.</opc:Documentation>
+    <opc:Documentation>The certificate has been revoked.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_CertificateIssuerRevoked">
-    <opc:Documentation>The Issuer Certificate has been revoked.</opc:Documentation>
+    <opc:Documentation>The issuer certificate has been revoked.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Bad_CertificateChainIncomplete">
+    <opc:Documentation>The certificate chain is incomplete.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_UserAccessDenied">
     <opc:Documentation>User does not have permission to perform the requested operation.</opc:Documentation>
@@ -145,7 +150,19 @@
   <opc:Constant Name="Bad_RequestCancelledByClient">
     <opc:Documentation>The request was cancelled by the client.</opc:Documentation>
   </opc:Constant>
-
+  <opc:Constant Name="Bad_TooManyArguments">
+    <opc:Documentation>Too many arguments were provided.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Bad_LicenseExpired">
+    <opc:Documentation>The UA Server requires a license to operate in general or to perform a service or operation, but existing license is expired.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Bad_LicenseLimitsExceeded">
+    <opc:Documentation>The UA Server has limits on number of allowed operations / objects, based on installed licenses, and these limits where exceeded.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Bad_LicenseNotAvailable">
+    <opc:Documentation>The UA Server does not have a license which is required to operate in general or to perform a service or operation.</opc:Documentation>
+  </opc:Constant>
+  
   <!-- Common Operation Level Codes  -->
   <opc:Constant Name="Good_SubscriptionTransferred">
     <opc:Documentation>The subscription was transferred to another session.</opc:Documentation>
@@ -417,7 +434,10 @@
   <opc:Constant Name="Bad_MaxAgeInvalid">
     <opc:Documentation>The max age parameter is invalid.</opc:Documentation>
   </opc:Constant>
-
+  <opc:Constant Name="Bad_SecurityModeInsufficient">
+    <opc:Documentation>The operation is not permitted over the current secure channel.</opc:Documentation>
+  </opc:Constant>
+  
   <!-- ReadHistory -->
   <opc:Constant Name="Bad_HistoryOperationInvalid">
     <opc:Documentation>The history details parameter is not valid.</opc:Documentation>
@@ -658,6 +678,11 @@
     <opc:Documentation>The request pecifies fields which are not valid for the EventType or cannot be saved by the historian.</opc:Documentation>
   </opc:Constant>
 
+  <!-- Part 12 -->
+  <opc:Constant Name="Bad_RequestNotAllowed">
+    <opc:Documentation>The request was rejected by the server because it did not meet the criteria set by the server.</opc:Documentation>
+  </opc:Constant>
+  
   <!-- FDI -->
   <opc:Constant Name="Good_Edited">
     <opc:Documentation>The value does not come from the real source and has been edited by the server.</opc:Documentation>
@@ -668,10 +693,19 @@
   <opc:Constant Name="Uncertain_DominantValueChanged">
     <opc:Documentation>The related EngineeringUnit has been changed but the Variable Value is still provided based on the previous unit.</opc:Documentation>
   </opc:Constant>
-  <opc:Constant Name="Good_DependendValueChanged">
+  <opc:Constant Name="Good_DependentValueChanged">
     <opc:Documentation>A dependent value has been changed but the change has not been applied to the device.</opc:Documentation>
   </opc:Constant>
-  
+  <opc:Constant Name="Bad_DominantValueChanged">
+    <opc:Documentation>The related EngineeringUnit has been changed but this change has not been applied to the device. The Variable Value is still dependent on the previous unit but its status is currently Bad.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Uncertain_DependentValueChanged">
+    <opc:Documentation>A dependent value has been changed but the change has not been applied to the device. The quality of the dominant variable is uncertain.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Bad_DependentValueChanged">
+    <opc:Documentation>A dependent value has been changed but the change has not been applied to the device. The quality of the dominant variable is Bad.</opc:Documentation>
+  </opc:Constant>
+
   <!-- Codes Only Used By The Stack  -->
   <opc:Constant Name="Good_CommunicationEvent">
     <opc:Documentation>The communication layer has raised an event.</opc:Documentation>

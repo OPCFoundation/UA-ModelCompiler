@@ -228,7 +228,16 @@ namespace Opc.Ua.ModelCompiler
 
                 using (Stream ostrm = File.Open(file, FileMode.Create))
                 {
-                    entry.Value.SaveAsNodeSet2(context, ostrm, "1.02");
+                    entry.Value.SaveAsNodeSet2(
+                        context, 
+                        ostrm, 
+                        new Export.ModelTableEntry() 
+                        { 
+                            ModelUri = Namespaces.OpcUa,
+                            Version = "1.02",
+                            PublicationDate = DateTime.Now,
+                            PublicationDateSpecified = true 
+                        });
                 }
             }
 
@@ -268,7 +277,20 @@ namespace Opc.Ua.ModelCompiler
 
             using (Stream ostrm = File.Open(outputFile3, FileMode.Create))
             {
-                collection.SaveAsNodeSet2(context, ostrm, m_model.TargetNamespaceVersion);
+                var model = new Export.ModelTableEntry() 
+                { 
+                    ModelUri = m_model.TargetNamespace,
+                    Version = m_model.TargetVersion,
+                    PublicationDate = m_model.TargetPublicationDate,
+                    PublicationDateSpecified = m_model.TargetPublicationDateSpecified,
+                };
+
+                if (m_model.Dependencies != null)
+                {
+                    model.RequiredModel = new List<Export.ModelTableEntry>(m_model.Dependencies.Values).ToArray();
+                }
+
+                collection.SaveAsNodeSet2(context, ostrm, model);
             }
 
             // load as node set.
@@ -1815,16 +1837,19 @@ namespace Opc.Ua.ModelCompiler
                     {
                         if (!current.Value.ExplicitlyDefined)
                         {
-                            if (current.Value.Inherited)
+                            if (current.Value.Inherited && (current.Value.Instance == null || current.Value.Instance.BrowseName == current.Value.RelativePath))
                             {
                                 continue;
                             }
 
                             InstanceDesign child = current.Value.Instance as InstanceDesign;
 
-                            if (child != null && child.ModellingRule != ModellingRule.Mandatory)
+                            if (child != null)
                             {
-                                continue;
+                                if (child.ModellingRule != ModellingRule.Mandatory)
+                                {
+                                    continue;
+                                }
                             }
                         }
                     }
@@ -2782,7 +2807,7 @@ namespace Opc.Ua.ModelCompiler
                 return null;
             }
 
-            if (instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
+            if (instance.ModellingRule == ModellingRule.ExposesItsArray || instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
             {
                 return null;
             }
@@ -3319,7 +3344,7 @@ namespace Opc.Ua.ModelCompiler
                 return null;
             }
 
-            if (instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
+            if (instance.ModellingRule == ModellingRule.ExposesItsArray || instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
             {
                 return null;
             }
@@ -3359,7 +3384,7 @@ namespace Opc.Ua.ModelCompiler
 
         private bool IsOverridden(InstanceDesign instance)
         {
-            if (instance.OveriddenNode != null && instance.ModellingRule != ModellingRule.None && instance.ModellingRule != ModellingRule.MandatoryPlaceholder && instance.ModellingRule != ModellingRule.OptionalPlaceholder)
+            if (instance.OveriddenNode != null && instance.ModellingRule != ModellingRule.None && instance.ModellingRule != ModellingRule.ExposesItsArray && instance.ModellingRule != ModellingRule.MandatoryPlaceholder && instance.ModellingRule != ModellingRule.OptionalPlaceholder)
             {
                 return true;
             }
@@ -3531,7 +3556,7 @@ namespace Opc.Ua.ModelCompiler
             {
                 InstanceDesign instance = (InstanceDesign)children.GetValue(ii);
 
-                if (instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
+                if (instance.ModellingRule == ModellingRule.ExposesItsArray || instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
                 {
                     continue;
                 }

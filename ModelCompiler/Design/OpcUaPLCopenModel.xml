@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:OpcUaPlc="http://PLCopen.org/OpcUa/IEC61131-3/" xmlns:OpcUaDi="http://opcfoundation.org/UA/DI/" xmlns:OpcUa="http://opcfoundation.org/UA/" TargetNamespace="http://PLCopen.org/OpcUa/IEC61131-3/" TargetXmlNamespace="http://PLCopen.org/OpcUa/IEC61131-3/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign 
+  xmlns:OpcUaPlc="http://PLCopen.org/OpcUa/IEC61131-3/" 
+  xmlns:OpcUaDi="http://opcfoundation.org/UA/DI/" 
+  xmlns:OpcUa="http://opcfoundation.org/UA/"
+  TargetNamespace="http://PLCopen.org/OpcUa/IEC61131-3/"
+  TargetXmlNamespace="http://PLCopen.org/OpcUa/IEC61131-3/" 
+  TargetVersion="1.00"
+  TargetPublicationDate="2010-03-24T00:00:00Z"
+  xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
     <Namespace Name="OpcUaDi" Prefix="Opc.Ua.Di" XmlNamespace="http://opcfoundation.org/UA/DI/Types.xsd" FilePath="OpcUaDiModel">http://opcfoundation.org/UA/DI/</Namespace>

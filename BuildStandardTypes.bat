@@ -27,8 +27,6 @@ set DOTNET_TARGET=
 set DI_TARGET=
 set ADI_TARGET=
 
-
-
 REM Make sure that all of our output locations exist..
 
 IF NOT EXIST %MODELCOMPILER% GOTO noModelCompiler
@@ -37,8 +35,6 @@ IF NOT EXIST %OUTPUT%\Schema MKDIR %OUTPUT%\Schema
 IF NOT EXIST %OUTPUT%\DotNet MKDIR %OUTPUT%\DotNet
 IF NOT EXIST %OUTPUT%\AnsiC MKDIR %OUTPUT%\AnsiC
 
-
-
 REM STEP 1) Generate all of our files first...
 
 SET PARTNAME="StandardTypes"
@@ -46,13 +42,11 @@ ECHO Building %PARTNAME%
 %MODELCOMPILER% -d2 ".\ModelCompiler\Design\StandardTypes.xml" -d2 ".\ModelCompiler\Design\UA Core Services.xml" -c ".\ModelCompiler\Design\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\"
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 1 )
 
-
 SET PARTNAME="GDS"
 ECHO Building %PARTNAME%
 IF NOT EXIST %OUTPUT%\GDS MKDIR %OUTPUT%\GDS
 %MODELCOMPILER% -d2 ".\ModelCompiler\Design\OpcUaGdsModel.xml" -cg ".\ModelCompiler\Design\OpcUaGdsModel.csv" -o2 "%OUTPUT%\GDS\"
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 2 )
-
 
 SET PARTNAME="DI"
 ECHO Building %PARTNAME%
@@ -60,21 +54,17 @@ IF NOT EXIST %OUTPUT%\DI MKDIR %OUTPUT%\DI
 %MODELCOMPILER% -d2 ".\ModelCompiler\Design\OpcUaDiModel.xml" -cg ".\ModelCompiler\Design\OpcUaDiModel.csv" -o2 "%OUTPUT%\DI\"
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 3 )
 
-
 SET PARTNAME="ADI"
 ECHO Building %PARTNAME%
 IF NOT EXIST %OUTPUT%\ADI MKDIR %OUTPUT%\ADI
 %MODELCOMPILER% -d2 ".\ModelCompiler\Design\OpcUaAdiModel.xml" -cg ".\ModelCompiler\Design\OpcUaAdiModel.csv" -o2 "%OUTPUT%\ADI\"
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 4 )
 
-
 SET PARTNAME="PLCopen"
 ECHO Building %PARTNAME%
 IF NOT EXIST %OUTPUT%\PLCopen MKDIR %OUTPUT%\PLCopen
 %MODELCOMPILER% -d2 ".\ModelCompiler\Design\OpcUaPLCopenModel.xml" -cg ".\ModelCompiler\Design\OpcUaPLCopenModel.csv" -o2 "%OUTPUT%\PLCopen\"
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
-
-
 
 REM STEP 2) Copy the generated files to the OUTPUT directory which is how our nodeset files are created...
 
@@ -86,7 +76,6 @@ COPY ".\Core\Schema\UANodeSet.xsd" "%OUTPUT%\Schema\UANodeSet.xsd"
 COPY ".\Core\Schema\SecuredApplication.xsd" "%OUTPUT%\Schema\SecuredApplication.xsd"
 COPY ".\Core\Types\Schemas\OPCBinarySchema.xsd" "%OUTPUT%\Schema\OPCBinarySchema.xsd"
 @ECHO OFF
-
 
 REM STEP 2a) Copy code to ANSIC
 IF "%ANSIC_TARGET%" NEQ "" (
@@ -104,7 +93,6 @@ IF "%ANSIC_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\AnsiC\opcua_serverapi.c" "%ANSIC_TARGET%\proxystub\serverstub\"
 	@ECHO OFF
 )
-
 
 REM STEP 2b) Copy code to .NET
 IF "%DOTNET_TARGET%" NEQ "" (
@@ -134,7 +122,6 @@ IF "%DOTNET_TARGET%" NEQ "" (
 	ECHO ON
 )
 
-
 REM STEP 2c) Copy remaining collaboration outputs to their respective locations...
 IF "%DI_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\DI\*.*" "%DI_TARGET%"
@@ -150,12 +137,10 @@ IF "%PLCOPEN_TARGET%" NEQ "" (
 
 GOTO theEnd
 
-
 :noModelCompiler
 ECHO.
 ECHO ModelCompiler not found. Please make sure it is compiled in RELEASE mode.
 ECHO Searched for: %MODELCOMPILER%
-
 
 :theEnd
 ENDLOCAL

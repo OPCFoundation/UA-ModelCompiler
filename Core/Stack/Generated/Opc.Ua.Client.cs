@@ -4492,276 +4492,6 @@ namespace Opc.Ua
         }
         #endif
         #endregion
-
-        #region TestStack Methods
-        #if (!OPCUA_EXCLUDE_TestStack)
-        /// <summary>
-        /// Invokes the TestStack service.
-        /// </summary>
-        public virtual ResponseHeader TestStack(
-            RequestHeader requestHeader,
-            uint          testId,
-            int           iteration,
-            Variant       input,
-            out Variant   output)
-        {
-            TestStackRequest request = new TestStackRequest();
-            TestStackResponse response = null;
-
-            request.RequestHeader = requestHeader;
-            request.TestId        = testId;
-            request.Iteration     = iteration;
-            request.Input         = input;
-
-            UpdateRequestHeader(request, requestHeader == null, "TestStack");
-
-            try
-            {
-                if (UseTransportChannel)
-                {
-                    IServiceResponse genericResponse = TransportChannel.SendRequest(request);
-
-                    if (genericResponse == null)
-                    {
-                        throw new ServiceResultException(StatusCodes.BadUnknownResponse);
-                    }
-
-                    ValidateResponse(genericResponse.ResponseHeader);
-                    response = (TestStackResponse)genericResponse;
-                }
-                else
-                {
-                    TestStackResponseMessage responseMessage = InnerChannel.TestStack(new TestStackMessage(request));
-
-                    if (responseMessage == null || responseMessage.TestStackResponse == null)
-                    {
-                        throw new ServiceResultException(StatusCodes.BadUnknownResponse);
-                    }
-
-                    response = responseMessage.TestStackResponse;
-                    ValidateResponse(response.ResponseHeader);
-                }
-
-                output = response.Output;
-            }
-            finally
-            {
-                RequestCompleted(request, response, "TestStack");
-            }
-
-            return response.ResponseHeader;
-        }
-
-        /// <summary>
-        /// Begins an asynchronous invocation of the TestStack service.
-        /// </summary>
-        public IAsyncResult BeginTestStack(
-            RequestHeader requestHeader,
-            uint          testId,
-            int           iteration,
-            Variant       input,
-            AsyncCallback callback,
-            object        asyncState)
-        {
-            TestStackRequest request = new TestStackRequest();
-
-            request.RequestHeader = requestHeader;
-            request.TestId        = testId;
-            request.Iteration     = iteration;
-            request.Input         = input;
-
-            UpdateRequestHeader(request, requestHeader == null, "TestStack");
-
-            if (UseTransportChannel)
-            {
-                return TransportChannel.BeginSendRequest(request, callback, asyncState);
-            }
-
-            return InnerChannel.BeginTestStack(new TestStackMessage(request), callback, asyncState);
-        }
-
-        /// <summary>
-        /// Finishes an asynchronous invocation of the TestStack service.
-        /// </summary>
-        public ResponseHeader EndTestStack(
-            IAsyncResult result,
-            out Variant output)
-        {
-            TestStackResponse response = null;
-
-            try
-            {
-                if (UseTransportChannel)
-                {
-                    IServiceResponse genericResponse = TransportChannel.EndSendRequest(result);
-
-                    if (genericResponse == null)
-                    {
-                        throw new ServiceResultException(StatusCodes.BadUnknownResponse);
-                    }
-
-                    ValidateResponse(genericResponse.ResponseHeader);
-                    response = (TestStackResponse)genericResponse;
-                }
-                else
-                {
-                    TestStackResponseMessage responseMessage = InnerChannel.EndTestStack(result);
-
-                    if (responseMessage == null || responseMessage.TestStackResponse == null)
-                    {
-                        throw new ServiceResultException(StatusCodes.BadUnknownResponse);
-                    }
-
-                    response = responseMessage.TestStackResponse;
-                    ValidateResponse(response.ResponseHeader);
-                }
-
-                output = response.Output;
-            }
-            finally
-            {
-                RequestCompleted(null, response, "TestStack");
-            }
-
-            return response.ResponseHeader;
-        }
-        #endif
-        #endregion
-
-        #region TestStackEx Methods
-        #if (!OPCUA_EXCLUDE_TestStackEx)
-        /// <summary>
-        /// Invokes the TestStackEx service.
-        /// </summary>
-        public virtual ResponseHeader TestStackEx(
-            RequestHeader         requestHeader,
-            uint                  testId,
-            int                   iteration,
-            CompositeTestType     input,
-            out CompositeTestType output)
-        {
-            TestStackExRequest request = new TestStackExRequest();
-            TestStackExResponse response = null;
-
-            request.RequestHeader = requestHeader;
-            request.TestId        = testId;
-            request.Iteration     = iteration;
-            request.Input         = input;
-
-            UpdateRequestHeader(request, requestHeader == null, "TestStackEx");
-
-            try
-            {
-                if (UseTransportChannel)
-                {
-                    IServiceResponse genericResponse = TransportChannel.SendRequest(request);
-
-                    if (genericResponse == null)
-                    {
-                        throw new ServiceResultException(StatusCodes.BadUnknownResponse);
-                    }
-
-                    ValidateResponse(genericResponse.ResponseHeader);
-                    response = (TestStackExResponse)genericResponse;
-                }
-                else
-                {
-                    TestStackExResponseMessage responseMessage = InnerChannel.TestStackEx(new TestStackExMessage(request));
-
-                    if (responseMessage == null || responseMessage.TestStackExResponse == null)
-                    {
-                        throw new ServiceResultException(StatusCodes.BadUnknownResponse);
-                    }
-
-                    response = responseMessage.TestStackExResponse;
-                    ValidateResponse(response.ResponseHeader);
-                }
-
-                output = response.Output;
-            }
-            finally
-            {
-                RequestCompleted(request, response, "TestStackEx");
-            }
-
-            return response.ResponseHeader;
-        }
-
-        /// <summary>
-        /// Begins an asynchronous invocation of the TestStackEx service.
-        /// </summary>
-        public IAsyncResult BeginTestStackEx(
-            RequestHeader     requestHeader,
-            uint              testId,
-            int               iteration,
-            CompositeTestType input,
-            AsyncCallback     callback,
-            object            asyncState)
-        {
-            TestStackExRequest request = new TestStackExRequest();
-
-            request.RequestHeader = requestHeader;
-            request.TestId        = testId;
-            request.Iteration     = iteration;
-            request.Input         = input;
-
-            UpdateRequestHeader(request, requestHeader == null, "TestStackEx");
-
-            if (UseTransportChannel)
-            {
-                return TransportChannel.BeginSendRequest(request, callback, asyncState);
-            }
-
-            return InnerChannel.BeginTestStackEx(new TestStackExMessage(request), callback, asyncState);
-        }
-
-        /// <summary>
-        /// Finishes an asynchronous invocation of the TestStackEx service.
-        /// </summary>
-        public ResponseHeader EndTestStackEx(
-            IAsyncResult          result,
-            out CompositeTestType output)
-        {
-            TestStackExResponse response = null;
-
-            try
-            {
-                if (UseTransportChannel)
-                {
-                    IServiceResponse genericResponse = TransportChannel.EndSendRequest(result);
-
-                    if (genericResponse == null)
-                    {
-                        throw new ServiceResultException(StatusCodes.BadUnknownResponse);
-                    }
-
-                    ValidateResponse(genericResponse.ResponseHeader);
-                    response = (TestStackExResponse)genericResponse;
-                }
-                else
-                {
-                    TestStackExResponseMessage responseMessage = InnerChannel.EndTestStackEx(result);
-
-                    if (responseMessage == null || responseMessage.TestStackExResponse == null)
-                    {
-                        throw new ServiceResultException(StatusCodes.BadUnknownResponse);
-                    }
-
-                    response = responseMessage.TestStackExResponse;
-                    ValidateResponse(response.ResponseHeader);
-                }
-
-                output = response.Output;
-            }
-            finally
-            {
-                RequestCompleted(null, response, "TestStackEx");
-            }
-
-            return response.ResponseHeader;
-        }
-        #endif
-        #endregion
         #endregion
     }
 
@@ -5363,14 +5093,18 @@ namespace Opc.Ua
         /// Invokes the RegisterServer2 service.
         /// </summary>
         public virtual ResponseHeader RegisterServer2(
-            RequestHeader     requestHeader,
-            RegisteredServer2 server)
+            RequestHeader                requestHeader,
+            RegisteredServer             server,
+            ExtensionObjectCollection    discoveryConfiguration,
+            out StatusCodeCollection     configurationResults,
+            out DiagnosticInfoCollection diagnosticInfos)
         {
             RegisterServer2Request request = new RegisterServer2Request();
             RegisterServer2Response response = null;
 
-            request.RequestHeader = requestHeader;
-            request.Server        = server;
+            request.RequestHeader          = requestHeader;
+            request.Server                 = server;
+            request.DiscoveryConfiguration = discoveryConfiguration;
 
             UpdateRequestHeader(request, requestHeader == null, "RegisterServer2");
 
@@ -5401,6 +5135,8 @@ namespace Opc.Ua
                     ValidateResponse(response.ResponseHeader);
                 }
 
+                configurationResults = response.ConfigurationResults;
+                diagnosticInfos      = response.DiagnosticInfos;
             }
             finally
             {
@@ -5414,15 +5150,17 @@ namespace Opc.Ua
         /// Begins an asynchronous invocation of the RegisterServer2 service.
         /// </summary>
         public IAsyncResult BeginRegisterServer2(
-            RequestHeader     requestHeader,
-            RegisteredServer2 server,
-            AsyncCallback     callback,
-            object            asyncState)
+            RequestHeader             requestHeader,
+            RegisteredServer          server,
+            ExtensionObjectCollection discoveryConfiguration,
+            AsyncCallback             callback,
+            object                    asyncState)
         {
             RegisterServer2Request request = new RegisterServer2Request();
 
-            request.RequestHeader = requestHeader;
-            request.Server        = server;
+            request.RequestHeader          = requestHeader;
+            request.Server                 = server;
+            request.DiscoveryConfiguration = discoveryConfiguration;
 
             UpdateRequestHeader(request, requestHeader == null, "RegisterServer2");
 
@@ -5438,7 +5176,9 @@ namespace Opc.Ua
         /// Finishes an asynchronous invocation of the RegisterServer2 service.
         /// </summary>
         public ResponseHeader EndRegisterServer2(
-            IAsyncResult result)
+            IAsyncResult                 result,
+            out StatusCodeCollection     configurationResults,
+            out DiagnosticInfoCollection diagnosticInfos)
         {
             RegisterServer2Response response = null;
 
@@ -5469,6 +5209,8 @@ namespace Opc.Ua
                     ValidateResponse(response.ResponseHeader);
                 }
 
+                configurationResults = response.ConfigurationResults;
+                diagnosticInfos      = response.DiagnosticInfos;
             }
             finally
             {

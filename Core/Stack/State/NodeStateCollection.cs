@@ -170,12 +170,18 @@ namespace Opc.Ua
         /// <summary>
         /// Writes the collection to a stream using the Opc.Ua.Schema.UANodeSet schema.
         /// </summary>
-        public void SaveAsNodeSet2(ISystemContext context, Stream ostrm, string version)
+        public void SaveAsNodeSet2(ISystemContext context, Stream ostrm, Export.ModelTableEntry model)
         {
             Opc.Ua.Export.UANodeSet nodeSet = new Opc.Ua.Export.UANodeSet();
-            nodeSet.Version = version;
-            nodeSet.LastModified = DateTime.UtcNow;
+
+            DateTime now = DateTime.UtcNow;
+            nodeSet.LastModified = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0, 0, DateTimeKind.Utc);
             nodeSet.LastModifiedSpecified = true;
+
+            if (model != null)
+            {
+                nodeSet.Models = new Export.ModelTableEntry[] { model };
+            }
 
             for (int ii = 0; ii < s_AliasesToUse.Length; ii++)
             {

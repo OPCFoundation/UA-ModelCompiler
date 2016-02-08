@@ -332,24 +332,6 @@ namespace Opc.Ua
         [FaultContract(typeof(ServiceFault), Action = Namespaces.OpcUaWsdl + "/DeleteSubscriptionsFault", Name="ServiceFault", Namespace=Namespaces.OpcUaXsd)]
         DeleteSubscriptionsResponseMessage DeleteSubscriptions(DeleteSubscriptionsMessage request);
         #endif
-
-        #if (!OPCUA_EXCLUDE_TestStack)
-        /// <summary>
-        /// The operation contract for the TestStack service.
-        /// </summary>
-        [OperationContract(Action = Namespaces.OpcUaWsdl + "/TestStack", ReplyAction = Namespaces.OpcUaWsdl + "/TestStackResponse")]
-        [FaultContract(typeof(ServiceFault), Action = Namespaces.OpcUaWsdl + "/TestStackFault", Name="ServiceFault", Namespace=Namespaces.OpcUaXsd)]
-        TestStackResponseMessage TestStack(TestStackMessage request);
-        #endif
-
-        #if (!OPCUA_EXCLUDE_TestStackEx)
-        /// <summary>
-        /// The operation contract for the TestStackEx service.
-        /// </summary>
-        [OperationContract(Action = Namespaces.OpcUaWsdl + "/TestStackEx", ReplyAction = Namespaces.OpcUaWsdl + "/TestStackExResponse")]
-        [FaultContract(typeof(ServiceFault), Action = Namespaces.OpcUaWsdl + "/TestStackExFault", Name="ServiceFault", Namespace=Namespaces.OpcUaXsd)]
-        TestStackExResponseMessage TestStackEx(TestStackExMessage request);
-        #endif
     }
     #else
     /// <summary>
@@ -806,34 +788,6 @@ namespace Opc.Ua
         /// The method used to retrieve the results of a DeleteSubscriptions service request.
         /// </summary>
         DeleteSubscriptionsResponseMessage EndDeleteSubscriptions(IAsyncResult result);
-        #endif
-
-        #if (!OPCUA_EXCLUDE_TestStack)
-        /// <summary>
-        /// The operation contract for the TestStack service.
-        /// </summary>
-        [OperationContractAttribute(AsyncPattern=true, Action=Namespaces.OpcUaWsdl + "/TestStack", ReplyAction = Namespaces.OpcUaWsdl + "/TestStackResponse")]
-        [FaultContract(typeof(ServiceFault), Action = Namespaces.OpcUaWsdl + "/TestStackFault", Name = "ServiceFault", Namespace = Namespaces.OpcUaXsd)]
-        IAsyncResult BeginTestStack(TestStackMessage request, AsyncCallback callback, object asyncState);
-
-        /// <summary>
-        /// The method used to retrieve the results of a TestStack service request.
-        /// </summary>
-        TestStackResponseMessage EndTestStack(IAsyncResult result);
-        #endif
-
-        #if (!OPCUA_EXCLUDE_TestStackEx)
-        /// <summary>
-        /// The operation contract for the TestStackEx service.
-        /// </summary>
-        [OperationContractAttribute(AsyncPattern=true, Action=Namespaces.OpcUaWsdl + "/TestStackEx", ReplyAction = Namespaces.OpcUaWsdl + "/TestStackExResponse")]
-        [FaultContract(typeof(ServiceFault), Action = Namespaces.OpcUaWsdl + "/TestStackExFault", Name = "ServiceFault", Namespace = Namespaces.OpcUaXsd)]
-        IAsyncResult BeginTestStackEx(TestStackExMessage request, AsyncCallback callback, object asyncState);
-
-        /// <summary>
-        /// The method used to retrieve the results of a TestStackEx service request.
-        /// </summary>
-        TestStackExResponseMessage EndTestStackEx(IAsyncResult result);
         #endif
     }
     #endif
@@ -1486,46 +1440,6 @@ namespace Opc.Ua
         /// The method used to retrieve the results of a DeleteSubscriptions service request.
         /// </summary>
         DeleteSubscriptionsResponseMessage EndDeleteSubscriptions(IAsyncResult result);
-        #endif
-
-        #if (!OPCUA_EXCLUDE_TestStack)
-        /// <summary>
-        /// The operation contract for the TestStack service.
-        /// </summary>
-        [OperationContract(Action = Namespaces.OpcUaWsdl + "/TestStack", ReplyAction = Namespaces.OpcUaWsdl + "/TestStackResponse")]
-        [FaultContract(typeof(ServiceFault), Action = Namespaces.OpcUaWsdl + "/TestStackFault", Name="ServiceFault", Namespace=Namespaces.OpcUaXsd)]
-        TestStackResponseMessage TestStack(TestStackMessage request);
-
-        /// <summary>
-        /// The operation contract for the TestStack service.
-        /// </summary>
-        [OperationContractAttribute(AsyncPattern=true, Action=Namespaces.OpcUaWsdl + "/TestStack", ReplyAction = Namespaces.OpcUaWsdl + "/TestStackResponse")]
-        IAsyncResult BeginTestStack(TestStackMessage request, AsyncCallback callback, object asyncState);
-
-        /// <summary>
-        /// The method used to retrieve the results of a TestStack service request.
-        /// </summary>
-        TestStackResponseMessage EndTestStack(IAsyncResult result);
-        #endif
-
-        #if (!OPCUA_EXCLUDE_TestStackEx)
-        /// <summary>
-        /// The operation contract for the TestStackEx service.
-        /// </summary>
-        [OperationContract(Action = Namespaces.OpcUaWsdl + "/TestStackEx", ReplyAction = Namespaces.OpcUaWsdl + "/TestStackExResponse")]
-        [FaultContract(typeof(ServiceFault), Action = Namespaces.OpcUaWsdl + "/TestStackExFault", Name="ServiceFault", Namespace=Namespaces.OpcUaXsd)]
-        TestStackExResponseMessage TestStackEx(TestStackExMessage request);
-
-        /// <summary>
-        /// The operation contract for the TestStackEx service.
-        /// </summary>
-        [OperationContractAttribute(AsyncPattern=true, Action=Namespaces.OpcUaWsdl + "/TestStackEx", ReplyAction = Namespaces.OpcUaWsdl + "/TestStackExResponse")]
-        IAsyncResult BeginTestStackEx(TestStackExMessage request, AsyncCallback callback, object asyncState);
-
-        /// <summary>
-        /// The method used to retrieve the results of a TestStackEx service request.
-        /// </summary>
-        TestStackExResponseMessage EndTestStackEx(IAsyncResult result);
         #endif
     }
     #endregion

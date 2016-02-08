@@ -7,6 +7,8 @@
   xmlns="http://opcfoundation.org/UA/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
+  TargetVersion="1.03"
+  TargetPublicationDate="2013-12-02T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -34,7 +36,7 @@
     <opc:Description>Describes a value that can have any integer DataType.</opc:Description>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="UInteger" BaseType="Number" IsAbstract="true" PartNo="3">
+  <opc:DataType SymbolicName="UInteger" BaseType="Integer" IsAbstract="true" PartNo="3">
     <opc:Description>Describes a value that can have any unsigned integer DataType.</opc:Description>
   </opc:DataType>
 
@@ -141,6 +143,10 @@
   <opc:DataType SymbolicName="Image" BaseType="ByteString" PartNo="3">
     <opc:Description>Describes a value that is an image encoded as a string of bytes.</opc:Description>
   </opc:DataType>
+  
+  <opc:DataType SymbolicName="Decimal128" BaseType="Number" PartNo="3">
+    <opc:Description>Describes a 128-bit decimal value.</opc:Description>
+  </opc:DataType>
 
   <opc:ReferenceType SymbolicName="References" IsAbstract="true" Symmetric="true" PartNo="3">
     <opc:Description>The abstract base type for all references.</opc:Description>
@@ -206,7 +212,7 @@
 
   <opc:ReferenceType SymbolicName="HasSubtype" BaseType="HasChild" PartNo="3">
     <opc:Description>The type for non-looping hierarchical references that are used to define sub types.</opc:Description>
-    <opc:InverseName>HasSupertype</opc:InverseName>
+    <opc:InverseName>SubtypeOf</opc:InverseName>
   </opc:ReferenceType>
 
   <opc:ReferenceType SymbolicName="HasProperty" BaseType="Aggregates" PartNo="3">

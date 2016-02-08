@@ -261,7 +261,7 @@ namespace Opc.Ua.ModelCompiler
         /// </summary>
         /// <param name="targetFile">The type file being loaded.</param>
         /// <param name="ns">The namespace being reference.</param>
-        private void LoadIncludedDesignFile(FileInfo targetFile, string designFileName)
+        private void LoadIncludedDesignFile(ModelDesign parent, FileInfo targetFile, string designFileName)
         {
             // determine the file location.
             bool isResource = false;
@@ -313,6 +313,46 @@ namespace Opc.Ua.ModelCompiler
             // mark the target namespace as found.
             m_designLocations[dictionary.TargetNamespace] = designFilePath;
 
+            // save the model information.
+            Export.ModelTableEntry modelInfo = null;
+
+            if (parent.Dependencies == null)
+            {
+                parent.Dependencies = new Dictionary<string, Export.ModelTableEntry>();
+
+                modelInfo = new Export.ModelTableEntry()
+                {
+                    ModelUri = m_dictionary.TargetNamespace,
+                    Version = m_dictionary.TargetVersion,
+                    PublicationDate = m_dictionary.TargetPublicationDate,
+                    PublicationDateSpecified = m_dictionary.TargetPublicationDateSpecified
+                };
+
+                parent.Dependencies[m_dictionary.TargetNamespace] = modelInfo;
+            }
+
+            if (!parent.Dependencies.TryGetValue(dictionary.TargetNamespace, out modelInfo))
+            {
+                modelInfo = new Export.ModelTableEntry()
+                {
+                    ModelUri = dictionary.TargetNamespace,
+                    Version = dictionary.TargetVersion,
+                    PublicationDate = dictionary.TargetPublicationDate,
+                    PublicationDateSpecified = dictionary.TargetPublicationDateSpecified
+                };
+
+                parent.Dependencies[dictionary.TargetNamespace] = modelInfo;
+            }
+            else
+            {
+                if (!modelInfo.PublicationDateSpecified || (dictionary.TargetPublicationDateSpecified && modelInfo.PublicationDate < dictionary.TargetPublicationDate))
+                {
+                    modelInfo.Version = dictionary.TargetVersion;
+                    modelInfo.PublicationDate = dictionary.TargetPublicationDate;
+                    modelInfo.PublicationDateSpecified = dictionary.TargetPublicationDateSpecified;
+                }
+            }
+
             // load any included design files.
             if (dictionary.Namespaces != null)
             {
@@ -330,7 +370,7 @@ namespace Opc.Ua.ModelCompiler
                         continue;
                     }
 
-                    LoadIncludedDesignFile(new FileInfo(designFilePath), ns.FilePath);
+                    LoadIncludedDesignFile(dictionary, new FileInfo(designFilePath), ns.FilePath);
                 }
             }
 
@@ -673,7 +713,9 @@ namespace Opc.Ua.ModelCompiler
 
             model.Items = nodes.ToArray();
             model.TargetNamespace = DefaultNamespace;
-            model.TargetNamespaceVersion = "1.02";
+            model.TargetNamespace = validator.Dictionary.TargetVersion;
+            model.TargetPublicationDate = validator.Dictionary.TargetPublicationDate;
+            model.TargetPublicationDateSpecified = true;
 
             return model;
         }
@@ -897,6 +939,21 @@ namespace Opc.Ua.ModelCompiler
                     component = dictionary;
                 }
 
+                if (component.Dependencies == null && m_dictionary != null)
+                {
+                    component.Dependencies = new Dictionary<string, Export.ModelTableEntry>();
+
+                    var modelInfo = new Export.ModelTableEntry()
+                    {
+                        ModelUri = m_dictionary.TargetNamespace,
+                        Version = m_dictionary.TargetVersion,
+                        PublicationDate = m_dictionary.TargetPublicationDate,
+                        PublicationDateSpecified = m_dictionary.TargetPublicationDateSpecified
+                    };
+
+                    component.Dependencies[m_dictionary.TargetNamespace] = modelInfo;
+                }
+
                 dictionary = component;
             }
 
@@ -926,7 +983,7 @@ namespace Opc.Ua.ModelCompiler
                         continue;
                     }
 
-                    LoadIncludedDesignFile(new FileInfo(inputPath), ns.FilePath);
+                    LoadIncludedDesignFile(dictionary, new FileInfo(inputPath), ns.FilePath);
                 }
             }
 
@@ -935,7 +992,6 @@ namespace Opc.Ua.ModelCompiler
             {
                 string mergedFilePath = inputPath.Substring(0, inputPath.Length-"StandardTypes.xml".Length);
                 mergedFilePath += "UA Defined Types.xml";
-                dictionary.TargetNamespaceVersion = "1.02";
                 SaveDesignFile(mergedFilePath, dictionary);
             }
 
@@ -1000,9 +1056,16 @@ namespace Opc.Ua.ModelCompiler
 
                     argument.Name = parameter.Name;
                     argument.DataType = new NodeId(parameter.DataType.ToString());
-                    argument.ValueRank = ConstructValueRank(parameter.ValueRank, null);
+                    argument.ValueRank = ConstructValueRank(parameter.ValueRank, parameter.ArrayDimensions);
                     argument.ArrayDimensions = null;
                     argument.Description = null;
+
+                    var dimensions = ConstructArrayDimensions(parameter.ValueRank, parameter.ArrayDimensions);
+                    
+                    if (dimensions != null)
+                    {
+                        argument.ArrayDimensions = new List<uint>(dimensions).ToArray();
+                    }
 
                     if (!parameter.Description.IsAutogenerated)
                     {
@@ -1033,9 +1096,16 @@ namespace Opc.Ua.ModelCompiler
 
                     argument.Name = parameter.Name;
                     argument.DataType = new NodeId(parameter.DataType.ToString());
-                    argument.ValueRank = ConstructValueRank(parameter.ValueRank, null);
+                    argument.ValueRank = ConstructValueRank(parameter.ValueRank, parameter.ArrayDimensions);
                     argument.ArrayDimensions = null;
                     argument.Description = null;
+
+                    var dimensions = ConstructArrayDimensions(parameter.ValueRank, parameter.ArrayDimensions);
+
+                    if (dimensions != null)
+                    {
+                        argument.ArrayDimensions = new List<uint>(dimensions).ToArray();
+                    }
 
                     if (!parameter.Description.IsAutogenerated)
                     {
@@ -2130,6 +2200,7 @@ namespace Opc.Ua.ModelCompiler
                             case ModellingRule.Optional:
                             case ModellingRule.MandatoryPlaceholder:
                             case ModellingRule.OptionalPlaceholder:
+                            case ModellingRule.ExposesItsArray:
                             {
                                 break;
                             }
@@ -3353,10 +3424,20 @@ namespace Opc.Ua.ModelCompiler
         /// </summary>
         private EncodingDesign CreateEncoding(DataTypeDesign dataType, XmlQualifiedName encodingName)
         {
-            EncodingDesign encoding = new EncodingDesign();
+            var symbolicId = new XmlQualifiedName(String.Format("{0}_Encoding_{1}", dataType.SymbolicId.Name, encodingName.Name), dataType.SymbolicId.Namespace);
 
+            EncodingDesign encoding = new EncodingDesign();
             encoding.SymbolicName = encodingName;
-            encoding.SymbolicId = new XmlQualifiedName(String.Format("{0}_Encoding_{1}", dataType.SymbolicId.Name, encodingName.Name), dataType.SymbolicId.Namespace);
+            encoding.SymbolicId = symbolicId;
+
+            NodeDesign target = null;
+
+            if (m_nodes.TryGetValue(symbolicId, out target))
+            {
+                encoding.NumericId = target.NumericId;
+                encoding.NumericIdSpecified = target.NumericIdSpecified;
+                m_nodes.Remove(symbolicId);
+            }
 
             // use the name to assign a browse name.
             SetBrowseName(encoding);
@@ -3732,6 +3813,7 @@ namespace Opc.Ua.ModelCompiler
                 case ModellingRule.Optional: return Opc.Ua.Objects.ModellingRule_Optional;
                 case ModellingRule.MandatoryPlaceholder: return Opc.Ua.Objects.ModellingRule_MandatoryPlaceholder;
                 case ModellingRule.OptionalPlaceholder: return Opc.Ua.Objects.ModellingRule_OptionalPlaceholder;
+                case ModellingRule.ExposesItsArray: return Opc.Ua.Objects.ModellingRule_ExposesItsArray;
             }
 
             return null;
@@ -3769,7 +3851,7 @@ namespace Opc.Ua.ModelCompiler
         /// </summary>
         private ReadOnlyList<uint> ConstructArrayDimensions(ValueRank valueRank, string arrayDimensions)
         {
-            if (valueRank != ValueRank.OneOrMoreDimensions)
+            if (valueRank < 0 && valueRank != ValueRank.OneOrMoreDimensions)
             {
                 return null;
             }
@@ -4326,7 +4408,7 @@ namespace Opc.Ua.ModelCompiler
                 {
                     InstanceDesign instance = type.Children.Items[ii];
 
-                    if (instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
+                    if (instance.ModellingRule == ModellingRule.ExposesItsArray || instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
                     {
                         continue;
                     }
@@ -4479,7 +4561,7 @@ namespace Opc.Ua.ModelCompiler
                 {
                     InstanceDesign instance = type.Children.Items[ii];
 
-                    if (!String.IsNullOrEmpty(basePath) && (instance.ModellingRule == ModellingRule.None || instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder))
+                    if (!String.IsNullOrEmpty(basePath) && (instance.ModellingRule == ModellingRule.None || instance.ModellingRule == ModellingRule.ExposesItsArray || instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder))
                     {
                         continue;
                     }
@@ -5140,7 +5222,7 @@ namespace Opc.Ua.ModelCompiler
                     {
                         if (instance.ModellingRule != ModellingRule.Mandatory && !current.ExplicitlyDefined)
                         {
-                            if ((instance.ModellingRule != ModellingRule.None && instance.ModellingRule != ModellingRule.OptionalPlaceholder && instance.ModellingRule != ModellingRule.MandatoryPlaceholder) || !isTypeDefinition)
+                            if ((instance.ModellingRule != ModellingRule.None && instance.ModellingRule != ModellingRule.ExposesItsArray && instance.ModellingRule != ModellingRule.OptionalPlaceholder && instance.ModellingRule != ModellingRule.MandatoryPlaceholder) || !isTypeDefinition)
                             {
                                 continue;
                             }
@@ -5178,7 +5260,7 @@ namespace Opc.Ua.ModelCompiler
                         {
                             state.AddChild(child);
                         }
-                        else if (current.ExplicitlyDefined && (child.ModellingRuleId == ObjectIds.ModellingRule_OptionalPlaceholder || child.ModellingRuleId == ObjectIds.ModellingRule_MandatoryPlaceholder))
+                        else if (current.ExplicitlyDefined && (child.ModellingRuleId == ObjectIds.ModellingRule_ExposesItsArray || child.ModellingRuleId == ObjectIds.ModellingRule_OptionalPlaceholder || child.ModellingRuleId == ObjectIds.ModellingRule_MandatoryPlaceholder))
                         {
                             state.AddChild(child);
                         }
@@ -5378,8 +5460,16 @@ namespace Opc.Ua.ModelCompiler
             }
 
             state.IsAbstract = root.IsAbstract;
-            state.InverseName = new Opc.Ua.LocalizedText(root.InverseName.Key, String.Empty, root.InverseName.Value);
             state.Symmetric = root.Symmetric;
+
+            if (state.Symmetric)
+            {
+                state.InverseName = Opc.Ua.LocalizedText.Null;
+            }
+            else
+            {
+                state.InverseName = new Opc.Ua.LocalizedText(root.InverseName.Key, String.Empty, root.InverseName.Value);
+            }
 
             return state;
         }
@@ -5402,7 +5492,7 @@ namespace Opc.Ua.ModelCompiler
 
             if ((root.BasicDataType == BasicDataType.Enumeration || root.BasicDataType == BasicDataType.UserDefined) && root.Fields != null && root.Fields.Length > 0)
             {
-                DataTypeDefinition definition = new DataTypeDefinition();
+                DataTypeDefinition2 definition = new DataTypeDefinition2();
 
                 List<DataTypeDefinitionField> fields = new List<DataTypeDefinitionField>();
 

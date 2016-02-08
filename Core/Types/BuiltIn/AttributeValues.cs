@@ -104,6 +104,16 @@ namespace Opc.Ua
         /// Indicates if the Variable generates SemanticChangeEvents when its value changes.
         /// </summary>
         public const byte SemanticChange = 0x10;
+
+        /// <summary>
+        /// Indicates Indicates if the current status is writable.
+        /// </summary>
+        public const byte StatusWrite = 0x20;
+
+        /// <summary>
+        /// Indicates Indicates if the current timestamp is writable.
+        /// </summary>
+        public const byte TimestampWrite = 0x40;
     }
 
     /// <summary>

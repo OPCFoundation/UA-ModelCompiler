@@ -488,30 +488,6 @@ namespace Opc.Ua
             out StatusCodeCollection     results,
             out DiagnosticInfoCollection diagnosticInfos);
         #endif
-
-        #if (!OPCUA_EXCLUDE_TestStack)
-        /// <summary>
-        /// Invokes the TestStack service.
-        /// </summary>
-        ResponseHeader TestStack(
-            RequestHeader requestHeader,
-            uint          testId,
-            int           iteration,
-            Variant       input,
-            out Variant   output);
-        #endif
-
-        #if (!OPCUA_EXCLUDE_TestStackEx)
-        /// <summary>
-        /// Invokes the TestStackEx service.
-        /// </summary>
-        ResponseHeader TestStackEx(
-            RequestHeader         requestHeader,
-            uint                  testId,
-            int                   iteration,
-            CompositeTestType     input,
-            out CompositeTestType output);
-        #endif
     }
     #endregion
 
@@ -1332,48 +1308,6 @@ namespace Opc.Ua
             return CreateResponse(requestHeader, StatusCodes.BadServiceUnsupported);
         }
         #endif
-
-        #if (!OPCUA_EXCLUDE_TestStack)
-        /// <summary>
-        /// Invokes the TestStack service.
-        /// </summary>
-        public virtual ResponseHeader TestStack(
-            RequestHeader requestHeader,
-            uint          testId,
-            int           iteration,
-            Variant       input,
-            out Variant   output)
-        {
-            output = new Variant();
-
-            ValidateRequest(requestHeader);
-
-            // Insert implementation.
-
-            return CreateResponse(requestHeader, StatusCodes.BadServiceUnsupported);
-        }
-        #endif
-
-        #if (!OPCUA_EXCLUDE_TestStackEx)
-        /// <summary>
-        /// Invokes the TestStackEx service.
-        /// </summary>
-        public virtual ResponseHeader TestStackEx(
-            RequestHeader         requestHeader,
-            uint                  testId,
-            int                   iteration,
-            CompositeTestType     input,
-            out CompositeTestType output)
-        {
-            output = null;
-
-            ValidateRequest(requestHeader);
-
-            // Insert implementation.
-
-            return CreateResponse(requestHeader, StatusCodes.BadServiceUnsupported);
-        }
-        #endif
     }
     #endregion
 
@@ -1436,8 +1370,11 @@ namespace Opc.Ua
         /// Invokes the RegisterServer2 service.
         /// </summary>
         ResponseHeader RegisterServer2(
-            RequestHeader     requestHeader,
-            RegisteredServer2 server);
+            RequestHeader                requestHeader,
+            RegisteredServer             server,
+            ExtensionObjectCollection    discoveryConfiguration,
+            out StatusCodeCollection     configurationResults,
+            out DiagnosticInfoCollection diagnosticInfos);
         #endif
     }
     #endregion
@@ -1537,9 +1474,14 @@ namespace Opc.Ua
         /// Invokes the RegisterServer2 service.
         /// </summary>
         public virtual ResponseHeader RegisterServer2(
-            RequestHeader     requestHeader,
-            RegisteredServer2 server)
+            RequestHeader                requestHeader,
+            RegisteredServer             server,
+            ExtensionObjectCollection    discoveryConfiguration,
+            out StatusCodeCollection     configurationResults,
+            out DiagnosticInfoCollection diagnosticInfos)
         {
+            configurationResults = null;
+            diagnosticInfos = null;
 
             ValidateRequest(requestHeader);
 

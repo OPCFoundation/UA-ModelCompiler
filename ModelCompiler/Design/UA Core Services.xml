@@ -6,6 +6,8 @@
   xmlns:opc="http://opcfoundation.org/UA/TypeDictionary/"
   xmlns="http://opcfoundation.org/UA/Core/"
   TargetNamespace="http://opcfoundation.org/UA/Core/"
+  TargetVersion="1.03"
+  TargetPublicationDate="2013-12-02T00:00:00Z"
 >
   <opc:Import Namespace="http://opcfoundation.org/UA/BuiltInTypes/" />
 
@@ -232,8 +234,42 @@
     </opc:Field>
   </opc:ComplexType>
 
+  <opc:ComplexType Name="OptionSet" AllowArrays="true" PartNo="3">
+    <opc:Documentation>This abstract Structured DataType is the base DataType for all DataTypes representing a bit mask.</opc:Documentation>
+    <opc:Field Name="Value" DataType="s0:ByteString">
+      <opc:Documentation>Array of bytes representing the bits in the option set.</opc:Documentation>
+    </opc:Field>
+    <opc:Field Name="ValidBits" DataType="s0:ByteString">
+      <opc:Documentation>Array of bytes with same size as value representing the valid bits in the value parameter.</opc:Documentation>
+    </opc:Field>
+  </opc:ComplexType>
+
+  <opc:ComplexType Name="Union" AllowArrays="true" PartNo="3">
+    <opc:Documentation>This abstract DataType is the base DataType for all union DataTypes.</opc:Documentation>
+  </opc:ComplexType>
+
+  <opc:TypeDeclaration Name="NormalizedString" SourceType="s0:String" PartNo="3">
+    <opc:Documentation>A string normalized based on the rules in the unicode specification.</opc:Documentation>
+  </opc:TypeDeclaration>
+
+  <opc:TypeDeclaration Name="DecimalString" SourceType="s0:String" PartNo="3">
+    <opc:Documentation>An arbitraty numeric value.</opc:Documentation>
+  </opc:TypeDeclaration>
+
+  <opc:TypeDeclaration Name="DurationString" SourceType="s0:String" PartNo="3">
+    <opc:Documentation>A period of time formatted as defined in ISO 8601-2000.</opc:Documentation>
+  </opc:TypeDeclaration>
+
+  <opc:TypeDeclaration Name="TimeString" SourceType="s0:String" PartNo="3">
+    <opc:Documentation>A time formatted as defined in ISO 8601-2000.</opc:Documentation>
+  </opc:TypeDeclaration>
+
+  <opc:TypeDeclaration Name="DateString" SourceType="s0:String" PartNo="3">
+    <opc:Documentation>A date formatted as defined in ISO 8601-2000.</opc:Documentation>
+  </opc:TypeDeclaration>
+
   <opc:TypeDeclaration Name="Duration" SourceType="s0:Double" PartNo="3">
-    <opc:Documentation>A period of time measured in seconds.</opc:Documentation>
+    <opc:Documentation>A period of time measured in milliseconds.</opc:Documentation>
   </opc:TypeDeclaration>
 
   <opc:TypeDeclaration Name="UtcTime" SourceType="s0:DateTime" PartNo="3">
@@ -551,19 +587,31 @@
       </opc:Parameter>
     </opc:Response>
   </opc:ServiceType>
-  
-  <opc:ComplexType Name="RegisteredServer2" BaseType="RegisteredServer" AllowArrays="true" PartNo="4">
-    <opc:Field Name="MdnsServerName" DataType="s0:String"></opc:Field>
-    <opc:Field Name="ServerCapabilities" DataType="s0:String" ValueRank="0"></opc:Field>
+
+  <opc:ComplexType Name="DiscoveryConfiguration" PartNo="4">
+    <opc:Documentation>A base type for discovery configuration information.</opc:Documentation>
   </opc:ComplexType>
-  
+
+  <opc:ComplexType Name="MdnsDiscoveryConfiguration" BaseType="DiscoveryConfiguration" PartNo="4">
+    <opc:Documentation>The discovery information needed for mDNS registration.</opc:Documentation>
+    <opc:Field Name="MdnsServerName" DataType="s0:String">
+      <opc:Documentation>The name for server that is broadcast via mDNS.</opc:Documentation>
+    </opc:Field>
+    <opc:Field Name="ServerCapabilities" DataType="s0:String" ValueRank="0">
+      <opc:Documentation>The server capabilities that are broadcast via mDNS.</opc:Documentation>
+    </opc:Field>
+  </opc:ComplexType>
+
   <opc:ServiceType Name="RegisterServer2" InterfaceType="Registration">
     <opc:Request>
       <opc:Parameter Name="RequestHeader" DataType="RequestHeader" />
-      <opc:Parameter Name="Server" DataType="RegisteredServer2" />
+      <opc:Parameter Name="Server" DataType="RegisteredServer" />
+      <opc:Parameter Name="DiscoveryConfiguration" DataType="s0:ExtensionObject" ValueRank="0" />
     </opc:Request>
     <opc:Response>
       <opc:Parameter Name="ResponseHeader" DataType="ResponseHeader" />
+      <opc:Parameter Name="ConfigurationResults" DataType="s0:StatusCode" ValueRank="0" />
+      <opc:Parameter Name="DiagnosticInfos" DataType="s0:DiagnosticInfo" ValueRank="0" />
     </opc:Response>
   </opc:ServiceType>
   
@@ -2347,6 +2395,7 @@
     </opc:Value>
   </opc:EnumeratedType>
 
+  <!--
   <opc:ComplexType AllowArrays="true" Name="ScalarTestType" PartNo="999">
     <opc:Documentation>A complex type containing all possible scalar types used for testing.</opc:Documentation>
     <opc:Field Name="Boolean" DataType="s0:Boolean"/>
@@ -2435,7 +2484,8 @@
       <opc:Parameter Name="Output" DataType="CompositeTestType"/>
     </opc:Response>
   </opc:ServiceType>
-
+  -->
+  
   <opc:ComplexType Name="BuildInfo" PartNo="5">
     <opc:Field Name="ProductUri" DataType="s0:String" />
     <opc:Field Name="ManufacturerName" DataType="s0:String" />
