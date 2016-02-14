@@ -6,8 +6,6 @@
   targetNamespace="_Namespace_"
   elementFormDefault="qualified"
 >
-  <!-- This File was generated on _BuildDate_ and supports the specifications supported by the UA SDK v_Version_. -->
-
   <!-- Imports -->
 
   <!-- ListOfTypes -->

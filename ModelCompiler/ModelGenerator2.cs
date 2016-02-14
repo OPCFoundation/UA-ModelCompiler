@@ -235,9 +235,10 @@ namespace Opc.Ua.ModelCompiler
                         { 
                             ModelUri = Namespaces.OpcUa,
                             Version = "1.02",
-                            PublicationDate = DateTime.Now,
-                            PublicationDateSpecified = true 
-                        });
+                            PublicationDate = m_model.TargetPublicationDate,
+                            PublicationDateSpecified = m_model.TargetPublicationDateSpecified
+                        },
+                        (m_model.TargetPublicationDate != DateTime.UtcNow)? m_model.TargetPublicationDate:DateTime.MinValue);
                 }
             }
 
@@ -290,7 +291,7 @@ namespace Opc.Ua.ModelCompiler
                     model.RequiredModel = new List<Export.ModelTableEntry>(m_model.Dependencies.Values).ToArray();
                 }
 
-                collection.SaveAsNodeSet2(context, ostrm, model);
+                collection.SaveAsNodeSet2(context, ostrm, model, (m_model.TargetPublicationDate != DateTime.MinValue)? m_model.TargetPublicationDate:DateTime.MinValue);
             }
 
             // load as node set.

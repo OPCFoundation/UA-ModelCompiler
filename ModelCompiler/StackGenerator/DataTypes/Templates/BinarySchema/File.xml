@@ -7,8 +7,6 @@
   DefaultByteOrder="LittleEndian"
   TargetNamespace="_DictionaryUri_"
 >
-  <!-- This File was generated on _BuildDate_ and supports the specifications supported by the UA SDK v_Version_. -->
-
   <!-- Imports -->
 
   <!-- ListOfTypes -->

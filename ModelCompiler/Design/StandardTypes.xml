@@ -2999,7 +2999,7 @@
         <opc:BrowseName>&lt;ConnectionName&gt;</opc:BrowseName>
         <opc:ReferenceType>HasPubSubConnection</opc:ReferenceType>
       </opc:Object>
-      <opc:Method SymbolicName="AddUdpConnection" TypeDefinition="AddUdpConnectionMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddUadpConnection" TypeDefinition="AddUadpConnectionMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddAmqpConnection" TypeDefinition="AddAmqpConnectionMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveConnection" TypeDefinition="RemoveConnectionMethodType" ModellingRule="Optional" />
       <opc:Object SymbolicName="PublishedDataSets" TypeDefinition="DataSetFolderType" ModellingRule="Mandatory" />
@@ -3008,7 +3008,7 @@
 
   <opc:Object SymbolicName="PublishSubscribe" TypeDefinition="PublishSubscribeType" PartNo="14">
     <opc:Children>
-      <opc:Method SymbolicName="AddUdpConnection" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddUadpConnection" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddAmqpConnection" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RemoveConnection" ModellingRule="Mandatory" />
     </opc:Children>
@@ -3020,11 +3020,10 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Method SymbolicName="AddUdpConnectionMethodType" PartNo="14">
+  <opc:Method SymbolicName="AddUadpConnectionMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="ConnectionName" DataType="ua:String" />
       <opc:Argument Name="Address" DataType="ua:String" />
-      <opc:Argument Name="ConnectionTypeId" DataType="ua:NodeId" />
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="ConnectionId" DataType="ua:NodeId" />
@@ -3036,7 +3035,6 @@
       <opc:Argument Name="ConnectionName" DataType="ua:String" />
       <opc:Argument Name="Address" DataType="ua:String" />
       <opc:Argument Name="PublisherId" DataType="ua:String" />
-      <opc:Argument Name="ConnectionTypeId" DataType="ua:NodeId" />
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="ConnectionId" DataType="ua:NodeId" />
@@ -3091,9 +3089,11 @@
       <opc:Argument Name="EventNotifier" DataType="ua:NodeId" />
       <opc:Argument Name="SelectedFields" DataType="ua:SimpleAttributeOperand" ValueRank="Array" />
       <opc:Argument Name="Filter" DataType="ua:ContentFilter" />
+      <opc:Argument Name="KeepAliveTime" DataType="ua:Duration" />
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="DataSetId" DataType="ua:NodeId" />
+      <opc:Argument Name="RevisedKeepAliveTime" DataType="ua:Duration" />
     </opc:OutputArguments>
   </opc:Method>
 
@@ -3107,15 +3107,32 @@
     <opc:Children>
       <opc:Object SymbolicName="xMessageWriterNamex" TypeDefinition="MessageWriterType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;MessageWriterName&gt;</opc:BrowseName>
-        <opc:ReferenceType>HasMessageWriter</opc:ReferenceType>
+        <opc:ReferenceType>DataSetToWriter</opc:ReferenceType>
       </opc:Object>
       <opc:Property SymbolicName="MaxBufferTime" DataType="ua:Duration" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ConfigurationVersion" DataType="ConfigurationVersionDataType" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ConfigurationGuid" DataType="ua:Guid" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MetaData" DataType="DataSetMetaDataType" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="StaticFields" DataType="KeyValuePair" ModellingRule="Optional" />
+      <opc:Object SymbolicName="StaticFields" TypeDefinition="BaseObjectType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddStaticField" TypeDefinition="AddStaticFieldType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="RemoveStaticField" TypeDefinition="RemoveStaticFieldType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
+  
+  <opc:Method SymbolicName="AddStaticFieldType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="FieldName" DataType="ua:QualifiedName" />
+      <opc:Argument Name="FieldValue" DataType="ua:QualifiedName" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="FieldId" DataType="ua:NodeId" />
+    </opc:OutputArguments>
+  </opc:Method>
+  
+  <opc:Method SymbolicName="RemoveStaticFieldType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="FieldId" DataType="ua:NodeId" />
+    </opc:InputArguments>
+  </opc:Method>
 
   <opc:DataType SymbolicName="DataSetMetaDataType" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
@@ -3281,6 +3298,7 @@
       <opc:Property SymbolicName="EventNotifier" DataType="ua:NodeId" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="SelectedFields" DataType="ua:SimpleAttributeOperand" ValueRank="Array" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Filter" DataType="ua:ContentFilter" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="KeepAliveTime" DataType="ua:Duration" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="Modify" TypeDefinition="PublishedEventsTypeModifyMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
@@ -3300,8 +3318,8 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:ReferenceType SymbolicName="HasMessageWriter" BaseType="ua:HierarchicalReferences" IsAbstract="false" Symmetric="false" PartNo="14">
-    <opc:InverseName>HasDataSet</opc:InverseName>
+  <opc:ReferenceType SymbolicName="DataSetToWriter" BaseType="ua:HierarchicalReferences" IsAbstract="false" Symmetric="false" PartNo="14">
+    <opc:InverseName>WriterToDataSet</opc:InverseName>
   </opc:ReferenceType>
 
   <opc:ObjectType SymbolicName="PubSubConnectionType" BaseType="ua:BaseObjectType" PartNo="14">
@@ -3326,12 +3344,12 @@
     <opc:Children>
       <opc:Object SymbolicName="xMessageWriterNamex" TypeDefinition="MessageWriterType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;MessageWriterName&gt;</opc:BrowseName>
-        <opc:ReferenceType>HasWriter</opc:ReferenceType>
+        <opc:ReferenceType>HasMessageWriter</opc:ReferenceType>
       </opc:Object>
       <opc:Method SymbolicName="RemoveMessageWriter" TypeDefinition="PubSubGroupTypeRemoveWriterMethodType" ModellingRule="Optional" />
       <opc:Object SymbolicName="xMessageReaderNamex" TypeDefinition="MessageReaderType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;MessageReaderName&gt;</opc:BrowseName>
-        <opc:ReferenceType>HasReader</opc:ReferenceType>
+        <opc:ReferenceType>HasMessageReader</opc:ReferenceType>
       </opc:Object>
       <opc:Method SymbolicName="RemoveMessageReader" TypeDefinition="PubSubGroupTypeRemoveReaderMethodType" ModellingRule="Optional" />
     </opc:Children>
@@ -3349,11 +3367,11 @@
     </opc:InputArguments>
   </opc:Method>
 
-  <opc:ReferenceType SymbolicName="HasWriter" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
+  <opc:ReferenceType SymbolicName="HasMessageWriter" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
     <opc:InverseName>IsWriterInGroup</opc:InverseName>
   </opc:ReferenceType>
 
-  <opc:ReferenceType SymbolicName="HasReader" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
+  <opc:ReferenceType SymbolicName="HasMessageReader" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
     <opc:InverseName>IsReaderInGroup</opc:InverseName>
   </opc:ReferenceType>
 
@@ -3367,6 +3385,17 @@
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="MessageWriterEncodingType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14">
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="BinaryWriterEncodingType" BaseType="MessageWriterEncodingType" PartNo="14">
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="TaggedWriterEncodingType" BaseType="MessageWriterEncodingType" PartNo="14">
+    <opc:Children>
+      <opc:Property SymbolicName="EncodingMimeType" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MessageFieldAliases" DataType="ua:String" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="PromotedFieldNames" DataType="ua:String" ValueRank="Array" ModellingRule="Mandatory" />
+    </opc:Children>
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="MessageWriterSecurityType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14">
@@ -3401,21 +3430,21 @@
   <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" PartNo="14">
   </opc:Object>
 
-  <opc:ObjectType SymbolicName="UdpConnectionType" BaseType="PubSubConnectionType" PartNo="14">
+  <opc:ObjectType SymbolicName="UadpConnectionType" BaseType="PubSubConnectionType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="PublisherId" DataType="ua:Guid" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="Modify" TypeDefinition="UdpConnectionTypeModifyMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddGroup" TypeDefinition="UdpConnectionTypeAddGroupMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="Modify" TypeDefinition="UadpConnectionTypeModifyMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddGroup" TypeDefinition="UadpConnectionTypeAddGroupMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Method SymbolicName="UdpConnectionTypeModifyMethodType" PartNo="14">
+  <opc:Method SymbolicName="UadpConnectionTypeModifyMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="Address" DataType="ua:String" />
     </opc:InputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="UdpConnectionTypeAddGroupMethodType" PartNo="14">
+  <opc:Method SymbolicName="UadpConnectionTypeAddGroupMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="GroupName" DataType="ua:String" />
       <opc:Argument Name="SecurityPolicy" DataType="ua:String" />
@@ -3429,20 +3458,20 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:ObjectType SymbolicName="UdpGroupType" BaseType="PubSubGroupType" PartNo="14">
+  <opc:ObjectType SymbolicName="UadpGroupType" BaseType="PubSubGroupType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="SecurityPolicy" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="SecurityMode" DataType="ua:MessageSecurityMode" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="SecurityTokenLifetime" DataType="ua:Duration" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MaxPacketSize" DataType="ua:UInt16" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="Modify" TypeDefinition="UdpGroupTypeModifyMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="GetSecurityToken" TypeDefinition="UdpGroupTypeGetSecurityTokenMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="AddMessageWriter" TypeDefinition="UdpGroupTypeAddWriterMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddMessageReader" TypeDefinition="UdpGroupTypeAddReaderMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="Modify" TypeDefinition="UadpGroupTypeModifyMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="GetSecurityToken" TypeDefinition="UadpGroupTypeGetSecurityTokenMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddMessageWriter" TypeDefinition="UadpGroupTypeAddWriterMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddMessageReader" TypeDefinition="UadpGroupTypeAddReaderMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Method SymbolicName="UdpGroupTypeModifyMethodType" PartNo="14">
+  <opc:Method SymbolicName="UadpGroupTypeModifyMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="SecurityPolicy" DataType="ua:String" />
       <opc:Argument Name="SecurityMode" DataType="ua:MessageSecurityMode" />
@@ -3454,7 +3483,7 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="UdpGroupTypeGetSecurityTokenMethodType" PartNo="14">
+  <opc:Method SymbolicName="UadpGroupTypeGetSecurityTokenMethodType" PartNo="14">
     <opc:OutputArguments>
       <opc:Argument Name="SecurityPolicy" DataType="ua:String" />
       <opc:Argument Name="SecurityMode" DataType="ua:MessageSecurityMode" />
@@ -3465,7 +3494,7 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="UdpGroupTypeAddWriterMethodType" PartNo="14">
+  <opc:Method SymbolicName="UadpGroupTypeAddWriterMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="MessageWriterName" DataType="ua:String" />
       <opc:Argument Name="PublishedDataSetId" DataType="ua:NodeId" />
@@ -3477,7 +3506,7 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="UdpGroupTypeAddReaderMethodType" PartNo="14">
+  <opc:Method SymbolicName="UadpGroupTypeAddReaderMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="MessageReaderName" DataType="ua:String" />
       <opc:Argument Name="PublisherId" DataType="ua:Guid" />
@@ -3493,7 +3522,7 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:ObjectType SymbolicName="UdpWriterTransportType" BaseType="MessageWriterTransportType" PartNo="14">
+  <opc:ObjectType SymbolicName="UadpWriterTransportType" BaseType="MessageWriterTransportType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="DataSetWriterId" DataType="ua:UInt16" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MessageRepeatCount" DataType="ua:Byte" ModellingRule="Mandatory" />
@@ -3501,20 +3530,20 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="UdpDataReaderType" BaseType="MessageReaderType" PartNo="14">
+  <opc:ObjectType SymbolicName="UadpDataReaderType" BaseType="MessageReaderType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="PublisherId" DataType="ua:Guid" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetWriterId" DataType="ua:UInt16" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetMetaData" DataType="DataSetMetaDataType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataUpdateTimeout" DataType="ua:Duration" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ConnectedVariables" DataType="DataConnectionDataType" ValueRank="Array" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="Modify" TypeDefinition="UdpDataReaderTypeModifyMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddDataConnections" TypeDefinition="UdpDataReaderTypeAddDataConnectionsMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveDataConnections" TypeDefinition="UdpDataReaderTypeRemoveDataConnectionsMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="Modify" TypeDefinition="UadpDataReaderTypeModifyMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddDataConnections" TypeDefinition="UadpDataReaderTypeAddDataConnectionsMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="RemoveDataConnections" TypeDefinition="UadpDataReaderTypeRemoveDataConnectionsMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Method SymbolicName="UdpDataReaderTypeModifyMethodType" PartNo="14">
+  <opc:Method SymbolicName="UadpDataReaderTypeModifyMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="PublisherId" DataType="ua:Guid" />
       <opc:Argument Name="DataSetWriterId" DataType="ua:UInt16" />
@@ -3526,7 +3555,7 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="UdpDataReaderTypeAddDataConnectionsMethodType" PartNo="14">
+  <opc:Method SymbolicName="UadpDataReaderTypeAddDataConnectionsMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="ConfigurationVersion" DataType="ConfigurationVersionDataType" />
       <opc:Argument Name="ConnectionsToAdd" DataType="DataConnectionDataType" ValueRank="Array" />
@@ -3536,7 +3565,7 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="UdpDataReaderTypeRemoveDataConnectionsMethodType" PartNo="14">
+  <opc:Method SymbolicName="UadpDataReaderTypeRemoveDataConnectionsMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="ConnectionsToRemove" DataType="ua:UInt32" ValueRank="Array" />
     </opc:InputArguments>
@@ -3552,7 +3581,7 @@
       <opc:Field Name="TargetNodeId"  DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="AttributeId"  DataType="ua:IntegerId" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="WriteIndexRange"  DataType="ua:NumericRange" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="OverwriteValue"  DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="OverrideValue"  DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -3574,7 +3603,7 @@
   <opc:Method SymbolicName="AmqpConnectionTypeAddGroupMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="GroupName" DataType="ua:String" />
-      <opc:Argument Name="LinkAddress" DataType="ua:String" />
+      <opc:Argument Name="AmqpLinkAddress" DataType="ua:String" />
       <opc:Argument Name="BrokerCredential" DataType="ua:String" />
       <opc:Argument Name="BrokerSecret" DataType="ua:String" />
     </opc:InputArguments>
@@ -3593,7 +3622,7 @@
 
   <opc:Method SymbolicName="AmqpGroupTypeModifyMethodType" PartNo="14">
     <opc:InputArguments>
-      <opc:Argument Name="LinkAddress" DataType="ua:String" />
+      <opc:Argument Name="AmqpLinkAddress" DataType="ua:String" />
       <opc:Argument Name="BrokerCredential" DataType="ua:String" />
       <opc:Argument Name="BrokerSecret" DataType="ua:String" />
     </opc:InputArguments>
@@ -3612,11 +3641,13 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:ObjectType SymbolicName="AmqpWriterEncodingType" BaseType="MessageWriterEncodingType" PartNo="14">
+  <opc:ObjectType SymbolicName="AmqpWriterTransportType" BaseType="MessageWriterTransportType" PartNo="14">
     <opc:Children>
-      <opc:Property SymbolicName="EncodingMimeType" DataType="ua:String" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="MessageFieldAliases" DataType="ua:String" ValueRank="Array" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="PromotedFieldNames" DataType="ua:String" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="AmqpLinkAddress" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MetaDataLinkAddress" DataType="ua:String" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MetaDataUpdateTime" DataType="ua:Duration" ModellingRule="Optional" />
+      <opc:Property SymbolicName="DataSetWriterId" DataType="ua:UInt16" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MaxMessageSize" DataType="ua:UInt32" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 

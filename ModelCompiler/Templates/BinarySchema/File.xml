@@ -8,7 +8,6 @@
   DefaultByteOrder="LittleEndian"
   TargetNamespace="_DictionaryUri_"
 >
-  <!-- This File was generated on _BuildDate_ and supports the specifications supported by version _Version_ of the OPC UA deliverables. -->
   <!-- Imports -->
   <!-- BuiltInTypes -->
   <!-- ListOfTypes -->

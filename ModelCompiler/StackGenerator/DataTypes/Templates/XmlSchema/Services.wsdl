@@ -8,8 +8,6 @@
   xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 >
-  <!-- This File was generated on _BuildDate_ and supports the specifications supported by the UA SDK v_Version_. -->
-
   <wsdl:types>
     <xsd:schema targetNamespace="_Namespace_/Imports">
       <xsd:import schemaLocation="_TypesNamespace_" namespace="_TypesNamespace_"/>

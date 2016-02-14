@@ -162,21 +162,23 @@ namespace Opc.Ua
         /// <summary>
         /// Writes the collection to a stream using the Opc.Ua.Schema.UANodeSet schema.
         /// </summary>
-        public void SaveAsNodeSet2(ISystemContext context, Stream ostrm)
+        public void SaveAsNodeSet2(ISystemContext context, Stream ostrm, DateTime lastModified)
         {
-            SaveAsNodeSet2(context, ostrm, null);
+            SaveAsNodeSet2(context, ostrm, null, lastModified);
         }
 
         /// <summary>
         /// Writes the collection to a stream using the Opc.Ua.Schema.UANodeSet schema.
         /// </summary>
-        public void SaveAsNodeSet2(ISystemContext context, Stream ostrm, Export.ModelTableEntry model)
+        public void SaveAsNodeSet2(ISystemContext context, Stream ostrm, Export.ModelTableEntry model, DateTime lastModified)
         {
             Opc.Ua.Export.UANodeSet nodeSet = new Opc.Ua.Export.UANodeSet();
 
-            DateTime now = DateTime.UtcNow;
-            nodeSet.LastModified = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0, 0, DateTimeKind.Utc);
-            nodeSet.LastModifiedSpecified = true;
+            if (lastModified != DateTime.MinValue)
+            {
+                nodeSet.LastModified = lastModified;
+                nodeSet.LastModifiedSpecified = true;
+            }
 
             if (model != null)
             {

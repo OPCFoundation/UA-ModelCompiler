@@ -23,7 +23,7 @@ REM
 REM Leaving these fields empty will skip the operation
 
 set ANSIC_TARGET=
-set DOTNET_TARGET=
+set DOTNET_TARGET=.\Core
 set DI_TARGET=
 set ADI_TARGET=
 
