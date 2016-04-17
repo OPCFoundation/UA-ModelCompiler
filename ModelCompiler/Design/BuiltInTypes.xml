@@ -36,7 +36,7 @@
     <opc:Description>Describes a value that can have any integer DataType.</opc:Description>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="UInteger" BaseType="Integer" IsAbstract="true" PartNo="3">
+  <opc:DataType SymbolicName="UInteger" BaseType="Number" IsAbstract="true" PartNo="3">
     <opc:Description>Describes a value that can have any unsigned integer DataType.</opc:Description>
   </opc:DataType>
 

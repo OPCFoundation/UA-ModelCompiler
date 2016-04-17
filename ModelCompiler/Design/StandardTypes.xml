@@ -454,7 +454,7 @@
       <opc:Property SymbolicName="StaticNumericNodeIdRange" DataType="ua:NumericRange" ValueRank="Array">
         <opc:Description>A list of ranges for numeric node ids which are the same in every server that exposes them.</opc:Description>
       </opc:Property>
-      <opc:Property SymbolicName="StaticStringNodeIdPattern" DataType="ua:String" ValueRank="Array">
+      <opc:Property SymbolicName="StaticStringNodeIdPattern" DataType="ua:String" ValueRank="Scalar">
         <opc:Description>A regular expression which matches string node ids are the same in every server that exposes them.</opc:Description>
       </opc:Property>
       <opc:Object SymbolicName="NamespaceFile" TypeDefinition="AddressSpaceFileType" ModellingRule="Optional">
@@ -462,6 +462,7 @@
       </opc:Object>
     </opc:Children>
   </opc:ObjectType>
+
 
   <opc:ObjectType SymbolicName="NamespacesType" BaseType="ua:BaseObjectType" PartNo="5">
     <opc:Description>A container for the namespace metadata provided by the server.</opc:Description>
@@ -976,7 +977,38 @@
           <opc:Property SymbolicName="ServerNetworkGroups" DataType="NetworkGroupDataType" ValueRank="Array" ModellingRule="Mandatory" />
         </opc:Children>
       </opc:Object>
-      <opc:Object SymbolicName="Namespaces" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="Namespaces" ModellingRule="Mandatory">
+        <opc:Children>
+          <opc:Object SymbolicName="OPCUANamespaceUri" TypeDefinition="ua:NamespaceMetadataType" PartNo="5">
+            <opc:BrowseName>http://opcfoundation.org/UA/</opc:BrowseName>
+            <opc:Children>
+              <opc:Property SymbolicName="NamespaceUri" DataType="ua:String">
+                <opc:DefaultValue>
+                  <uax:String>http://opcfoundation.org/UA/</uax:String>
+                </opc:DefaultValue>
+              </opc:Property>
+              <opc:Property SymbolicName="NamespaceVersion" DataType="ua:String">
+                <opc:DefaultValue>
+                  <uax:String>1.03</uax:String>
+                </opc:DefaultValue>
+              </opc:Property>
+              <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
+                <opc:DefaultValue>
+                  <uax:String>2016-04-15</uax:String>
+                </opc:DefaultValue>
+              </opc:Property>
+              <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
+                <opc:DefaultValue>
+                  <uax:Boolean>false</uax:Boolean>
+                </opc:DefaultValue>
+              </opc:Property>
+              <opc:Property SymbolicName="StaticNodeIdTypes" DataType="ua:IdType" ValueRank="Array"></opc:Property>
+              <opc:Property SymbolicName="StaticNumericNodeIdRange" DataType="ua:NumericRange" ValueRank="Array"></opc:Property>
+              <opc:Property SymbolicName="StaticStringNodeIdPattern" DataType="ua:String" ValueRank="Scalar"></opc:Property>
+            </opc:Children>
+          </opc:Object>
+        </opc:Children>
+      </opc:Object>
       <opc:Method SymbolicName="GetMonitoredItems" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="ResendData" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="SetSubscriptionDurable" ModellingRule="Mandatory" />

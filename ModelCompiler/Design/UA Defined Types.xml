@@ -20,7 +20,7 @@
   <DataType SymbolicName="tns:Integer" PartNo="3" BaseType="tns:Number" IsAbstract="true">
     <Description>Describes a value that can have any integer DataType.</Description>
   </DataType>
-  <DataType SymbolicName="tns:UInteger" PartNo="3" BaseType="tns:Integer" IsAbstract="true">
+  <DataType SymbolicName="tns:UInteger" PartNo="3" BaseType="tns:Number" IsAbstract="true">
     <Description>Describes a value that can have any unsigned integer DataType.</Description>
   </DataType>
   <DataType SymbolicName="tns:Enumeration" PartNo="3" BaseType="tns:BaseDataType" IsAbstract="true">
@@ -831,7 +831,7 @@
       <Property SymbolicName="tns:StaticNumericNodeIdRange" DataType="tns:NumericRange" ValueRank="Array">
         <Description>A list of ranges for numeric node ids which are the same in every server that exposes them.</Description>
       </Property>
-      <Property SymbolicName="tns:StaticStringNodeIdPattern" DataType="tns:String" ValueRank="Array">
+      <Property SymbolicName="tns:StaticStringNodeIdPattern" DataType="tns:String" ValueRank="Scalar">
         <Description>A regular expression which matches string node ids are the same in every server that exposes them.</Description>
       </Property>
       <Object SymbolicName="tns:NamespaceFile" TypeDefinition="tns:AddressSpaceFileType" ModellingRule="Optional">
@@ -1280,7 +1280,38 @@
           <Property SymbolicName="tns:ServerNetworkGroups" ModellingRule="Mandatory" DataType="tns:NetworkGroupDataType" ValueRank="Array" />
         </Children>
       </Object>
-      <Object SymbolicName="tns:Namespaces" ModellingRule="Mandatory" />
+      <Object SymbolicName="tns:Namespaces" ModellingRule="Mandatory">
+        <Children>
+          <Object SymbolicName="tns:OPCUANamespaceUri" PartNo="5" TypeDefinition="tns:NamespaceMetadataType">
+            <BrowseName>http://opcfoundation.org/UA/</BrowseName>
+            <Children>
+              <Property SymbolicName="tns:NamespaceUri" DataType="tns:String">
+                <DefaultValue>
+                  <uax:String>http://opcfoundation.org/UA/</uax:String>
+                </DefaultValue>
+              </Property>
+              <Property SymbolicName="tns:NamespaceVersion" DataType="tns:String">
+                <DefaultValue>
+                  <uax:String>1.03</uax:String>
+                </DefaultValue>
+              </Property>
+              <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
+                <DefaultValue>
+                  <uax:String>2016-04-15</uax:String>
+                </DefaultValue>
+              </Property>
+              <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
+                <DefaultValue>
+                  <uax:Boolean>false</uax:Boolean>
+                </DefaultValue>
+              </Property>
+              <Property SymbolicName="tns:StaticNodeIdTypes" DataType="tns:IdType" ValueRank="Array" />
+              <Property SymbolicName="tns:StaticNumericNodeIdRange" DataType="tns:NumericRange" ValueRank="Array" />
+              <Property SymbolicName="tns:StaticStringNodeIdPattern" DataType="tns:String" ValueRank="Scalar" />
+            </Children>
+          </Object>
+        </Children>
+      </Object>
       <Method SymbolicName="tns:GetMonitoredItems" ModellingRule="Mandatory" />
       <Method SymbolicName="tns:ResendData" ModellingRule="Mandatory" />
       <Method SymbolicName="tns:SetSubscriptionDurable" ModellingRule="Mandatory" />
