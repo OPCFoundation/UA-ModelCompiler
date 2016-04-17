@@ -3132,15 +3132,14 @@
   <Method SymbolicName="tns:AddPublishedDataItemsMethodType" PartNo="14">
     <InputArguments>
       <Argument Name="Name" DataType="tns:String" />
-      <Argument Name="MaxBufferTime" DataType="tns:Duration" />
-      <Argument Name="PublishingInterval" DataType="tns:Duration" />
       <Argument Name="FrameContentMask" DataType="tns:DataValueContentMask" />
       <Argument Name="KeyFrameCount" DataType="tns:UInt32" />
+      <Argument Name="FieldNameAliases" DataType="tns:String" ValueRank="Array" />
+      <Argument Name="PromotedFields" DataType="tns:Boolean" ValueRank="Array" />
       <Argument Name="VariablesToAdd" DataType="tns:PublishedVariableDataType" ValueRank="Array" />
     </InputArguments>
     <OutputArguments>
       <Argument Name="DataSetId" DataType="tns:NodeId" />
-      <Argument Name="RevisedPublishingInterval" DataType="tns:Duration" />
       <Argument Name="RevisedKeyFrameCount" DataType="tns:UInt32" />
       <Argument Name="AddResults" DataType="tns:StatusCode" ValueRank="Array" />
     </OutputArguments>
@@ -3149,13 +3148,13 @@
     <InputArguments>
       <Argument Name="Name" DataType="tns:String" />
       <Argument Name="EventNotifier" DataType="tns:NodeId" />
+      <Argument Name="FieldNameAliases" DataType="tns:String" ValueRank="Array" />
+      <Argument Name="PromotedFields" DataType="tns:Boolean" ValueRank="Array" />
       <Argument Name="SelectedFields" DataType="tns:SimpleAttributeOperand" ValueRank="Array" />
       <Argument Name="Filter" DataType="tns:ContentFilter" />
-      <Argument Name="KeepAliveTime" DataType="tns:Duration" />
     </InputArguments>
     <OutputArguments>
       <Argument Name="DataSetId" DataType="tns:NodeId" />
-      <Argument Name="RevisedKeepAliveTime" DataType="tns:Duration" />
     </OutputArguments>
   </Method>
   <Method SymbolicName="tns:RemovePublishedDataSetMethodType" PartNo="14">
@@ -3163,13 +3162,12 @@
       <Argument Name="DataSetId" DataType="tns:NodeId" />
     </InputArguments>
   </Method>
-  <ObjectType SymbolicName="tns:PublishedDataSetType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true">
+  <ObjectType SymbolicName="tns:PublishedDataSetType" PartNo="14" BaseType="tns:BaseObjectType">
     <Children>
       <Object SymbolicName="tns:xMessageWriterNamex" TypeDefinition="tns:MessageWriterType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;MessageWriterName&gt;</BrowseName>
         <ReferenceType>tns:DataSetToWriter</ReferenceType>
       </Object>
-      <Property SymbolicName="tns:MaxBufferTime" ModellingRule="Mandatory" DataType="tns:Duration" />
       <Property SymbolicName="tns:ConfigurationVersion" ModellingRule="Mandatory" DataType="tns:ConfigurationVersionDataType" />
       <Property SymbolicName="tns:MetaData" ModellingRule="Mandatory" DataType="tns:DataSetMetaDataType" />
       <Object SymbolicName="tns:StaticFields" TypeDefinition="tns:BaseObjectType" ModellingRule="Optional" />
@@ -3195,62 +3193,63 @@
     <Fields>
       <Field Name="Fields" DataType="tns:FieldMetaData" ValueRank="Array" />
       <Field Name="Namespaces" DataType="tns:String" ValueRank="Array" />
-      <Field Name="StructuredTypes" DataType="tns:StructureDataTypeDescription" ValueRank="Array" />
-      <Field Name="EnumeratedTypes" DataType="tns:EnumDataTypeDescription" ValueRank="Array" />
-      <Field Name="ConfigurationGuid" DataType="tns:Guid" />
+      <Field Name="DataSetClassId" DataType="tns:Guid" />
+      <Field Name="StructureDataTypes" DataType="tns:StructureDataTypeDescription" ValueRank="Array" />
+      <Field Name="EnumDataTypes" DataType="tns:EnumDataTypeDescription" ValueRank="Array" />
       <Field Name="ConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:FieldMetaData" PartNo="14" BaseType="tns:Structure">
     <Fields>
       <Field Name="Name" DataType="tns:String" />
+      <Field Name="PromotedField" DataType="tns:Boolean" />
       <Field Name="DataType" DataType="tns:NodeId" />
       <Field Name="ValueRank" DataType="tns:Int32" />
       <Field Name="ArrayDimensions" DataType="tns:UInt32" ValueRank="Array" />
       <Field Name="DataSetFieldId" DataType="tns:Guid" />
+      <Field Name="Properties" DataType="tns:KeyValuePair" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:DataTypeDescription" PartNo="14" BaseType="tns:Structure">
     <Fields>
       <Field Name="DataTypeId" DataType="tns:NodeId" />
+      <Field Name="Name" DataType="tns:QualifiedName" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:StructureDataTypeDescription" PartNo="14" BaseType="tns:DataTypeDescription">
     <Fields>
-      <Field Name="DataTypeDefinition" DataType="tns:StructureDefinition" />
+      <Field Name="StructureDefinition" DataType="tns:StructureDefinition" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:EnumDataTypeDescription" PartNo="14" BaseType="tns:DataTypeDescription">
     <Fields>
-      <Field Name="DataTypeDefinition" DataType="tns:EnumDefinition" />
+      <Field Name="EnumDefinition" DataType="tns:EnumDefinition" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:DataTypeDefinition" PartNo="14" BaseType="tns:Structure">
-    <Fields>
-      <Field Name="Name" DataType="tns:QualifiedName" />
-    </Fields>
+  <DataType SymbolicName="tns:DataTypeDefinition" PartNo="3" BaseType="tns:Structure">
+    <Fields />
   </DataType>
-  <DataType SymbolicName="tns:StructureType" PartNo="14" BaseType="tns:Enumeration" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:StructureType" PartNo="3" BaseType="tns:Enumeration" NoArraysAllowed="true">
     <Fields>
       <Field Name="Structure" Identifier="0" />
       <Field Name="StructureWithOptionalFields" Identifier="1" />
       <Field Name="Union" Identifier="2" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:StructureDefinition" PartNo="14" BaseType="tns:DataTypeDefinition">
+  <DataType SymbolicName="tns:StructureDefinition" PartNo="3" BaseType="tns:DataTypeDefinition">
     <Fields>
-      <Field Name="UaBinaryEncodingId" DataType="tns:NodeId" />
+      <Field Name="DefaultEncodingId" DataType="tns:NodeId" />
       <Field Name="BaseDataType" DataType="tns:NodeId" />
       <Field Name="StructureType" DataType="tns:StructureType" />
       <Field Name="Fields" DataType="tns:StructureField" ValueRank="Array" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:EnumDefinition" PartNo="14" BaseType="tns:DataTypeDefinition">
+  <DataType SymbolicName="tns:EnumDefinition" PartNo="3" BaseType="tns:DataTypeDefinition">
     <Fields>
       <Field Name="Fields" DataType="tns:EnumField" ValueRank="Array" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:StructureField" PartNo="14" BaseType="tns:Structure">
+  <DataType SymbolicName="tns:StructureField" PartNo="3" BaseType="tns:Structure">
     <Fields>
       <Field Name="Name" DataType="tns:String" />
       <Field Name="Description" DataType="tns:LocalizedText" />
@@ -3262,8 +3261,6 @@
   <DataType SymbolicName="tns:EnumField" PartNo="14" BaseType="tns:Structure">
     <Fields>
       <Field Name="Name" DataType="tns:String" />
-      <Field Name="Description" DataType="tns:LocalizedText" />
-      <Field Name="Value" DataType="tns:Int32" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:KeyValuePair" PartNo="14" BaseType="tns:Structure">
@@ -3275,28 +3272,17 @@
   <ObjectType SymbolicName="tns:PublishedDataItemsType" PartNo="14" BaseType="tns:PublishedDataSetType">
     <Children>
       <Property SymbolicName="tns:PublishedData" ModellingRule="Mandatory" DataType="tns:PublishedVariableDataType" ValueRank="Array" />
-      <Property SymbolicName="tns:PublishingInterval" ModellingRule="Mandatory" DataType="tns:Duration" />
       <Property SymbolicName="tns:FrameContentMask" ModellingRule="Mandatory" DataType="tns:DataValueContentMask" />
       <Property SymbolicName="tns:KeyFrameCount" ModellingRule="Mandatory" DataType="tns:UInt32" />
-      <Method SymbolicName="tns:Modify" TypeDefinition="tns:PublishedDataItemsModifyMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:AddVariables" TypeDefinition="tns:PublishedDataItemsAddVariablesMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:RemoveVariables" TypeDefinition="tns:PublishedDataItemsRemoveVariablesMethodType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
-  <Method SymbolicName="tns:PublishedDataItemsModifyMethodType" PartNo="14">
-    <InputArguments>
-      <Argument Name="MaxBufferTime" DataType="tns:Duration" />
-      <Argument Name="PublishingInterval" DataType="tns:Duration" />
-      <Argument Name="FrameContentMask" DataType="tns:DataValueContentMask" />
-      <Argument Name="KeyFrameCount" DataType="tns:UInt32" />
-    </InputArguments>
-    <OutputArguments>
-      <Argument Name="RevisedPublishingInterval" DataType="tns:Duration" />
-      <Argument Name="RevisedKeyFrameCount" DataType="tns:UInt32" />
-    </OutputArguments>
-  </Method>
   <Method SymbolicName="tns:PublishedDataItemsAddVariablesMethodType" PartNo="14">
     <InputArguments>
+      <Argument Name="ConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
+      <Argument Name="FieldNameAliases" DataType="tns:String" ValueRank="Array" />
+      <Argument Name="PromotedFields" DataType="tns:Boolean" ValueRank="Array" />
       <Argument Name="VariablesToAdd" DataType="tns:PublishedVariableDataType" ValueRank="Array" />
     </InputArguments>
     <OutputArguments>
@@ -3337,23 +3323,28 @@
       <Property SymbolicName="tns:EventNotifier" ModellingRule="Mandatory" DataType="tns:NodeId" />
       <Property SymbolicName="tns:SelectedFields" ModellingRule="Mandatory" DataType="tns:SimpleAttributeOperand" ValueRank="Array" />
       <Property SymbolicName="tns:Filter" ModellingRule="Mandatory" DataType="tns:ContentFilter" />
-      <Property SymbolicName="tns:KeepAliveTime" ModellingRule="Mandatory" DataType="tns:Duration" />
-      <Method SymbolicName="tns:Modify" TypeDefinition="tns:PublishedEventsTypeModifyMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:ModifyFieldSelection" TypeDefinition="tns:PublishedEventsTypeModifyFieldSelectionMethodType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
-  <Method SymbolicName="tns:PublishedEventsTypeModifyMethodType" PartNo="14">
+  <Method SymbolicName="tns:PublishedEventsTypeModifyFieldSelectionMethodType" PartNo="14">
     <InputArguments>
-      <Argument Name="EventNotifier" DataType="tns:NodeId" />
+      <Argument Name="FieldNameAliases" DataType="tns:String" ValueRank="Array" />
+      <Argument Name="PromotedFields" DataType="tns:Boolean" ValueRank="Array" />
       <Argument Name="SelectedFields" DataType="tns:SimpleAttributeOperand" ValueRank="Array" />
-      <Argument Name="Filter" DataType="tns:ContentFilter" />
     </InputArguments>
   </Method>
   <DataType SymbolicName="tns:ConfigurationVersionDataType" PartNo="14" BaseType="tns:Structure">
     <Fields>
+      <Field Name="UniqueId" DataType="tns:Guid" />
       <Field Name="MajorVersion" DataType="tns:Byte" />
       <Field Name="MinorVersion" DataType="tns:Byte" />
     </Fields>
   </DataType>
+  <ObjectType SymbolicName="tns:DataSetClassType" PartNo="14" BaseType="tns:PublishedDataSetType">
+    <Children>
+      <Property SymbolicName="tns:DataSetClassId" ModellingRule="Mandatory" DataType="tns:Guid" />
+    </Children>
+  </ObjectType>
   <ReferenceType SymbolicName="tns:DataSetToWriter" PartNo="14" BaseType="tns:HierarchicalReferences" Symmetric="false">
     <InverseName>WriterToDataSet</InverseName>
   </ReferenceType>
@@ -3375,6 +3366,9 @@
   </Method>
   <ObjectType SymbolicName="tns:PubSubGroupType" PartNo="14" BaseType="tns:BaseObjectType">
     <Children>
+      <Property SymbolicName="tns:PublishingInterval" ModellingRule="Mandatory" DataType="tns:Duration" />
+      <Property SymbolicName="tns:KeepAliveTime" ModellingRule="Mandatory" DataType="tns:Duration" />
+      <Object SymbolicName="tns:MessageSecurity" TypeDefinition="tns:PubSubMessageSecurityType" ModellingRule="Optional" />
       <Object SymbolicName="tns:xMessageWriterNamex" TypeDefinition="tns:MessageWriterType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;MessageWriterName&gt;</BrowseName>
         <ReferenceType>tns:HasMessageWriter</ReferenceType>
@@ -3385,6 +3379,13 @@
         <ReferenceType>tns:HasMessageReader</ReferenceType>
       </Object>
       <Method SymbolicName="tns:RemoveMessageReader" TypeDefinition="tns:PubSubGroupTypeRemoveReaderMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:PubSubMessageSecurityType" PartNo="14" BaseType="tns:BaseObjectType">
+    <Children>
+      <Property SymbolicName="tns:SecurityGroupId" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:KeyServerUrls" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Array" />
+      <Property SymbolicName="tns:SecurityMode" ModellingRule="Mandatory" DataType="tns:MessageSecurityMode" />
     </Children>
   </ObjectType>
   <Method SymbolicName="tns:PubSubGroupTypeRemoveWriterMethodType" PartNo="14">
@@ -3406,26 +3407,63 @@
   <ObjectType SymbolicName="tns:MessageWriterType" PartNo="14" BaseType="tns:BaseObjectType">
     <Children>
       <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
-      <Object SymbolicName="tns:EncodingSettings" TypeDefinition="tns:MessageWriterEncodingType" ModellingRule="Optional" />
-      <Object SymbolicName="tns:SecuritySettings" TypeDefinition="tns:MessageWriterSecurityType" ModellingRule="Optional" />
       <Object SymbolicName="tns:TransportSettings" TypeDefinition="tns:MessageWriterTransportType" ModellingRule="Optional" />
-    </Children>
-  </ObjectType>
-  <ObjectType SymbolicName="tns:MessageWriterEncodingType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true" />
-  <ObjectType SymbolicName="tns:BinaryWriterEncodingType" PartNo="14" BaseType="tns:MessageWriterEncodingType" />
-  <ObjectType SymbolicName="tns:TaggedWriterEncodingType" PartNo="14" BaseType="tns:MessageWriterEncodingType">
-    <Children>
       <Property SymbolicName="tns:EncodingMimeType" ModellingRule="Mandatory" DataType="tns:String" />
-      <Property SymbolicName="tns:MessageFieldAliases" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Array" />
-      <Property SymbolicName="tns:PromotedFieldNames" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Array" />
     </Children>
   </ObjectType>
-  <ObjectType SymbolicName="tns:MessageWriterSecurityType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true" />
   <ObjectType SymbolicName="tns:MessageWriterTransportType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true" />
   <ObjectType SymbolicName="tns:MessageReaderType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true">
     <Children>
       <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
+      <Object SymbolicName="tns:TransportSettings" TypeDefinition="tns:MessageReaderTransportType" ModellingRule="Optional" />
+      <Object SymbolicName="tns:MessageSecurity" TypeDefinition="tns:PubSubMessageSecurityType" ModellingRule="Optional" />
+      <Object SymbolicName="tns:SubscribedDataSet" TypeDefinition="tns:SubscribedDataSetType" ModellingRule="Optional" />
     </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:MessageReaderTransportType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true" />
+  <ObjectType SymbolicName="tns:SubscribedDataSetType" PartNo="14" BaseType="tns:BaseObjectType">
+    <Children>
+      <Property SymbolicName="tns:DataSetMetaData" ModellingRule="Mandatory" DataType="tns:DataSetMetaDataType" />
+      <Property SymbolicName="tns:MessageReceiveTimeout" ModellingRule="Mandatory" DataType="tns:Duration" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:ConnectedVariablesType" PartNo="14" BaseType="tns:SubscribedDataSetType">
+    <Children>
+      <Property SymbolicName="tns:ConnectedVariables" ModellingRule="Mandatory" DataType="tns:DataConnectionDataType" ValueRank="Array" />
+      <Method SymbolicName="tns:AddDataConnections" TypeDefinition="tns:ConnectedVariablesTypeAddDataConnectionsMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:RemoveDataConnections" TypeDefinition="tns:ConnectedVariablesTypeRemoveDataConnectionsMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <DataType SymbolicName="tns:DataConnectionDataType" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="DataSetFieldId" DataType="tns:Guid" />
+      <Field Name="ReceiverIndexRange" DataType="tns:NumericRange" />
+      <Field Name="TargetNodeId" DataType="tns:NodeId" />
+      <Field Name="AttributeId" DataType="tns:IntegerId" />
+      <Field Name="WriteIndexRange" DataType="tns:NumericRange" />
+      <Field Name="OverrideValue" DataType="tns:BaseDataType" />
+    </Fields>
+  </DataType>
+  <Method SymbolicName="tns:ConnectedVariablesTypeAddDataConnectionsMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="ConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
+      <Argument Name="ConnectionsToAdd" DataType="tns:DataConnectionDataType" ValueRank="Array" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="AddResults" DataType="tns:StatusCode" ValueRank="Array" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:ConnectedVariablesTypeRemoveDataConnectionsMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="ConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
+      <Argument Name="ConnectionsToRemove" DataType="tns:UInt32" ValueRank="Array" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="RemoveResults" DataType="tns:StatusCode" ValueRank="Array" />
+    </OutputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:SubscribedDataSetMirrorType" PartNo="14" BaseType="tns:SubscribedDataSetType">
+    <Children />
   </ObjectType>
   <ObjectType SymbolicName="tns:PubSubStatusType" PartNo="14" BaseType="tns:BaseObjectType">
     <Children>
@@ -3446,67 +3484,38 @@
   <ObjectType SymbolicName="tns:UadpConnectionType" PartNo="14" BaseType="tns:PubSubConnectionType">
     <Children>
       <Property SymbolicName="tns:PublisherId" ModellingRule="Mandatory" DataType="tns:Guid" />
-      <Method SymbolicName="tns:Modify" TypeDefinition="tns:UadpConnectionTypeModifyMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:AddGroup" TypeDefinition="tns:UadpConnectionTypeAddGroupMethodType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
-  <Method SymbolicName="tns:UadpConnectionTypeModifyMethodType" PartNo="14">
-    <InputArguments>
-      <Argument Name="Address" DataType="tns:String" />
-    </InputArguments>
-  </Method>
   <Method SymbolicName="tns:UadpConnectionTypeAddGroupMethodType" PartNo="14">
     <InputArguments>
       <Argument Name="GroupName" DataType="tns:String" />
-      <Argument Name="SecurityPolicy" DataType="tns:String" />
       <Argument Name="SecurityMode" DataType="tns:MessageSecurityMode" />
-      <Argument Name="SecurityTokenLifetime" DataType="tns:Duration" />
-      <Argument Name="Nonce" DataType="tns:ByteString" />
+      <Argument Name="SecurityGroupId" DataType="tns:String" />
+      <Argument Name="KeyServerUrls" DataType="tns:String" ValueRank="Array" />
+      <Argument Name="MaxPacketSize" DataType="tns:UInt16" />
+      <Argument Name="PublishingOffset" DataType="tns:Duration" />
+      <Argument Name="MessageRepeatCount" DataType="tns:Byte" />
+      <Argument Name="MessageRepeatDelay" DataType="tns:Duration" />
     </InputArguments>
     <OutputArguments>
       <Argument Name="GroupId" DataType="tns:NodeId" />
-      <Argument Name="RevisedTokenLifetime" DataType="tns:Duration" />
     </OutputArguments>
   </Method>
   <ObjectType SymbolicName="tns:UadpGroupType" PartNo="14" BaseType="tns:PubSubGroupType">
     <Children>
-      <Property SymbolicName="tns:SecurityPolicy" ModellingRule="Mandatory" DataType="tns:String" />
-      <Property SymbolicName="tns:SecurityMode" ModellingRule="Mandatory" DataType="tns:MessageSecurityMode" />
-      <Property SymbolicName="tns:SecurityTokenLifetime" ModellingRule="Mandatory" DataType="tns:Duration" />
       <Property SymbolicName="tns:MaxPacketSize" ModellingRule="Mandatory" DataType="tns:UInt16" />
-      <Method SymbolicName="tns:Modify" TypeDefinition="tns:UadpGroupTypeModifyMethodType" ModellingRule="Optional" />
-      <Method SymbolicName="tns:GetSecurityToken" TypeDefinition="tns:UadpGroupTypeGetSecurityTokenMethodType" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:PublishingOffset" ModellingRule="Mandatory" DataType="tns:Duration" />
+      <Property SymbolicName="tns:MessageRepeatCount" ModellingRule="Mandatory" DataType="tns:Byte" />
+      <Property SymbolicName="tns:MessageRepeatDelay" ModellingRule="Mandatory" DataType="tns:Duration" />
       <Method SymbolicName="tns:AddMessageWriter" TypeDefinition="tns:UadpGroupTypeAddWriterMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:AddMessageReader" TypeDefinition="tns:UadpGroupTypeAddReaderMethodType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
-  <Method SymbolicName="tns:UadpGroupTypeModifyMethodType" PartNo="14">
-    <InputArguments>
-      <Argument Name="SecurityPolicy" DataType="tns:String" />
-      <Argument Name="SecurityMode" DataType="tns:MessageSecurityMode" />
-      <Argument Name="SecurityTokenLifetime" DataType="tns:Duration" />
-      <Argument Name="Nonce" DataType="tns:ByteString" />
-    </InputArguments>
-    <OutputArguments>
-      <Argument Name="RevisedTokenLifetime" DataType="tns:Duration" />
-    </OutputArguments>
-  </Method>
-  <Method SymbolicName="tns:UadpGroupTypeGetSecurityTokenMethodType" PartNo="14">
-    <OutputArguments>
-      <Argument Name="SecurityPolicy" DataType="tns:String" />
-      <Argument Name="SecurityMode" DataType="tns:MessageSecurityMode" />
-      <Argument Name="CurrentSenderKey" DataType="tns:ByteString" />
-      <Argument Name="CurrentTokenId" DataType="tns:Byte" />
-      <Argument Name="TimeToNextKey" DataType="tns:Duration" />
-      <Argument Name="NextSenderKey" DataType="tns:ByteString" />
-    </OutputArguments>
-  </Method>
   <Method SymbolicName="tns:UadpGroupTypeAddWriterMethodType" PartNo="14">
     <InputArguments>
       <Argument Name="MessageWriterName" DataType="tns:String" />
       <Argument Name="PublishedDataSetId" DataType="tns:NodeId" />
-      <Argument Name="MessageRepeatCount" DataType="tns:Byte" />
-      <Argument Name="MessageRepeatDelay" DataType="tns:Duration" />
     </InputArguments>
     <OutputArguments>
       <Argument Name="MessageWriterId" DataType="tns:NodeId" />
@@ -3518,85 +3527,30 @@
       <Argument Name="PublisherId" DataType="tns:Guid" />
       <Argument Name="DataSetWriterId" DataType="tns:UInt16" />
       <Argument Name="DataSetMetaData" DataType="tns:DataSetMetaDataType" />
-      <Argument Name="DataUpdateTimeout" DataType="tns:Duration" />
-      <Argument Name="ConnectionsToAdd" DataType="tns:DataConnectionDataType" ValueRank="Array" />
+      <Argument Name="MessageReceiveTimeout" DataType="tns:Duration" />
     </InputArguments>
     <OutputArguments>
-      <Argument Name="RevisedDataUpdateTimeout" DataType="tns:Duration" />
-      <Argument Name="AddResults" DataType="tns:StatusCode" ValueRank="Array" />
       <Argument Name="MessageReaderId" DataType="tns:NodeId" />
+      <Argument Name="RevisedMessageReceiveTimeout" DataType="tns:Duration" />
     </OutputArguments>
   </Method>
   <ObjectType SymbolicName="tns:UadpWriterTransportType" PartNo="14" BaseType="tns:MessageWriterTransportType">
     <Children>
       <Property SymbolicName="tns:DataSetWriterId" ModellingRule="Mandatory" DataType="tns:UInt16" />
-      <Property SymbolicName="tns:MessageRepeatCount" ModellingRule="Mandatory" DataType="tns:Byte" />
-      <Property SymbolicName="tns:MessageRepeatDelay" ModellingRule="Mandatory" DataType="tns:Duration" />
     </Children>
   </ObjectType>
-  <ObjectType SymbolicName="tns:UadpDataReaderType" PartNo="14" BaseType="tns:MessageReaderType">
+  <ObjectType SymbolicName="tns:UadpReaderTransportType" PartNo="14" BaseType="tns:MessageReaderTransportType">
     <Children>
       <Property SymbolicName="tns:PublisherId" ModellingRule="Mandatory" DataType="tns:Guid" />
       <Property SymbolicName="tns:DataSetWriterId" ModellingRule="Mandatory" DataType="tns:UInt16" />
-      <Property SymbolicName="tns:DataSetMetaData" ModellingRule="Mandatory" DataType="tns:DataSetMetaDataType" />
-      <Property SymbolicName="tns:DataUpdateTimeout" ModellingRule="Mandatory" DataType="tns:Duration" />
-      <Property SymbolicName="tns:ConnectedVariables" ModellingRule="Mandatory" DataType="tns:DataConnectionDataType" ValueRank="Array" />
-      <Method SymbolicName="tns:Modify" TypeDefinition="tns:UadpDataReaderTypeModifyMethodType" ModellingRule="Optional" />
-      <Method SymbolicName="tns:AddDataConnections" TypeDefinition="tns:UadpDataReaderTypeAddDataConnectionsMethodType" ModellingRule="Optional" />
-      <Method SymbolicName="tns:RemoveDataConnections" TypeDefinition="tns:UadpDataReaderTypeRemoveDataConnectionsMethodType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
-  <Method SymbolicName="tns:UadpDataReaderTypeModifyMethodType" PartNo="14">
-    <InputArguments>
-      <Argument Name="PublisherId" DataType="tns:Guid" />
-      <Argument Name="DataSetWriterId" DataType="tns:UInt16" />
-      <Argument Name="DataSetMetaData" DataType="tns:DataSetMetaDataType" />
-      <Argument Name="DataUpdateTimeout" DataType="tns:Duration" />
-    </InputArguments>
-    <OutputArguments>
-      <Argument Name="RevisedDataUpdateTimeout" DataType="tns:Duration" />
-    </OutputArguments>
-  </Method>
-  <Method SymbolicName="tns:UadpDataReaderTypeAddDataConnectionsMethodType" PartNo="14">
-    <InputArguments>
-      <Argument Name="ConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
-      <Argument Name="ConnectionsToAdd" DataType="tns:DataConnectionDataType" ValueRank="Array" />
-    </InputArguments>
-    <OutputArguments>
-      <Argument Name="AddResults" DataType="tns:StatusCode" ValueRank="Array" />
-    </OutputArguments>
-  </Method>
-  <Method SymbolicName="tns:UadpDataReaderTypeRemoveDataConnectionsMethodType" PartNo="14">
-    <InputArguments>
-      <Argument Name="ConnectionsToRemove" DataType="tns:UInt32" ValueRank="Array" />
-    </InputArguments>
-    <OutputArguments>
-      <Argument Name="RemoveResults" DataType="tns:StatusCode" ValueRank="Array" />
-    </OutputArguments>
-  </Method>
-  <DataType SymbolicName="tns:DataConnectionDataType" BaseType="tns:Structure">
-    <Fields>
-      <Field Name="DataSetFieldId" DataType="tns:Guid" />
-      <Field Name="ReceiverIndexRange" DataType="tns:NumericRange" />
-      <Field Name="TargetNodeId" DataType="tns:NodeId" />
-      <Field Name="AttributeId" DataType="tns:IntegerId" />
-      <Field Name="WriteIndexRange" DataType="tns:NumericRange" />
-      <Field Name="OverrideValue" DataType="tns:BaseDataType" />
-    </Fields>
-  </DataType>
   <ObjectType SymbolicName="tns:AmqpConnectionType" PartNo="14" BaseType="tns:PubSubConnectionType">
     <Children>
       <Property SymbolicName="tns:PublisherId" ModellingRule="Mandatory" DataType="tns:String" />
-      <Method SymbolicName="tns:Modify" TypeDefinition="tns:AmqpConnectionTypeModifyMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:AddGroup" TypeDefinition="tns:AmqpConnectionTypeAddGroupMethodType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
-  <Method SymbolicName="tns:AmqpConnectionTypeModifyMethodType" PartNo="14">
-    <InputArguments>
-      <Argument Name="Address" DataType="tns:String" />
-      <Argument Name="PublisherId" DataType="tns:String" />
-    </InputArguments>
-  </Method>
   <Method SymbolicName="tns:AmqpConnectionTypeAddGroupMethodType" PartNo="14">
     <InputArguments>
       <Argument Name="GroupName" DataType="tns:String" />
@@ -3611,36 +3565,38 @@
   <ObjectType SymbolicName="tns:AmqpGroupType" PartNo="14" BaseType="tns:PubSubGroupType">
     <Children>
       <Property SymbolicName="tns:AmqpLinkAddress" ModellingRule="Mandatory" DataType="tns:String" />
-      <Method SymbolicName="tns:Modify" TypeDefinition="tns:AmqpGroupTypeModifyMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:AddMessageWriter" TypeDefinition="tns:AmqpGroupTypeAddWriterMethodType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
-  <Method SymbolicName="tns:AmqpGroupTypeModifyMethodType" PartNo="14">
-    <InputArguments>
-      <Argument Name="AmqpLinkAddress" DataType="tns:String" />
-      <Argument Name="BrokerCredential" DataType="tns:String" />
-      <Argument Name="BrokerSecret" DataType="tns:String" />
-    </InputArguments>
-  </Method>
   <Method SymbolicName="tns:AmqpGroupTypeAddWriterMethodType" PartNo="14">
     <InputArguments>
       <Argument Name="MessageWriterName" DataType="tns:String" />
       <Argument Name="PublishedDataSetId" DataType="tns:NodeId" />
       <Argument Name="EncodingMimeType" DataType="tns:String" />
-      <Argument Name="MessageFieldAliases" DataType="tns:String" ValueRank="Array" />
-      <Argument Name="PromotedFieldNames" DataType="tns:String" ValueRank="Array" />
+      <Argument Name="AmqpLinkAddress" DataType="tns:String" />
+      <Argument Name="MetaDataLinkAddress" DataType="tns:String" />
+      <Argument Name="MetaDataUpdateTime" DataType="tns:Duration" />
+      <Argument Name="MaxMessageSize" DataType="tns:UInt32" />
     </InputArguments>
     <OutputArguments>
       <Argument Name="MessageWriterId" DataType="tns:NodeId" />
+      <Argument Name="RevisedMaxMessageSize" DataType="tns:UInt32" />
     </OutputArguments>
   </Method>
   <ObjectType SymbolicName="tns:AmqpWriterTransportType" PartNo="14" BaseType="tns:MessageWriterTransportType">
     <Children>
       <Property SymbolicName="tns:AmqpLinkAddress" ModellingRule="Mandatory" DataType="tns:String" />
-      <Property SymbolicName="tns:MetaDataLinkAddress" ModellingRule="Optional" DataType="tns:String" />
-      <Property SymbolicName="tns:MetaDataUpdateTime" ModellingRule="Optional" DataType="tns:Duration" />
-      <Property SymbolicName="tns:DataSetWriterId" ModellingRule="Optional" DataType="tns:UInt16" />
+      <Property SymbolicName="tns:MetaDataLinkAddress" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:MetaDataUpdateTime" ModellingRule="Mandatory" DataType="tns:Duration" />
+      <Property SymbolicName="tns:DataSetWriterId" ModellingRule="Mandatory" DataType="tns:UInt16" />
       <Property SymbolicName="tns:MaxMessageSize" ModellingRule="Mandatory" DataType="tns:UInt32" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:AmqpReaderTransportType" PartNo="14" BaseType="tns:MessageReaderTransportType">
+    <Children>
+      <Property SymbolicName="tns:AmqpLinkAddress" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:MetaDataLinkAddress" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:DataSetWriterId" ModellingRule="Mandatory" DataType="tns:UInt16" />
     </Children>
   </ObjectType>
   <DataType SymbolicName="tns:IdType" SymbolicId="tns:IdType" PartNo="3" BaseType="tns:Enumeration">

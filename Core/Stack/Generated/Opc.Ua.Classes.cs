@@ -5532,7 +5532,7 @@ namespace Opc.Ua
         /// <summary>
         /// A description for the DeleteFileMethodType Method.
         /// </summary>
-        public DeleteFileMethodState Delete
+        public new DeleteFileMethodState Delete
         {
             get
             {
@@ -52103,7 +52103,7 @@ namespace Opc.Ua
         /// <summary>
         /// A description for the EventNotifier Property.
         /// </summary>
-        public PropertyState<NodeId> EventNotifier
+        public new PropertyState<NodeId> EventNotifier
         {
             get
             {
