@@ -3034,6 +3034,7 @@
       <opc:Method SymbolicName="AddUadpConnection" TypeDefinition="AddUadpConnectionMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddAmqpConnection" TypeDefinition="AddAmqpConnectionMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveConnection" TypeDefinition="RemoveConnectionMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="GetSecurityKeys" TypeDefinition="GetSecurityKeysMethodType" ModellingRule="Optional" />
       <opc:Object SymbolicName="PublishedDataSets" TypeDefinition="DataSetFolderType" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
@@ -3043,6 +3044,7 @@
       <opc:Method SymbolicName="AddUadpConnection" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddAmqpConnection" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RemoveConnection" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="GetSecurityKeys" ModellingRule="Mandatory" />
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -3051,7 +3053,7 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
-
+  
   <opc:Method SymbolicName="AddUadpConnectionMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="ConnectionName" DataType="ua:String" />
@@ -3079,6 +3081,21 @@
     </opc:InputArguments>
   </opc:Method>
 
+  <opc:Method SymbolicName="GetSecurityKeysMethodType">
+    <opc:InputArguments>
+      <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
+      <opc:Argument Name="FutureKeyCount" DataType="ua:UInt32" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="SecurityPolicyUri" DataType="ua:String"></opc:Argument>
+      <opc:Argument Name="CurrentTokenId" DataType="ua:UInt32"></opc:Argument>
+      <opc:Argument Name="CurrentKey" DataType="ua:ByteString"></opc:Argument>
+      <opc:Argument Name="NextKeys" DataType="ua:ByteString" ValueRank="Array"></opc:Argument>
+      <opc:Argument Name="TimeToNextKey" DataType="ua:UInt32"></opc:Argument>
+      <opc:Argument Name="KeyLifetime" DataType="ua:UInt32"></opc:Argument>
+    </opc:OutputArguments>
+  </opc:Method>
+  
   <opc:ReferenceType SymbolicName="HasPubSubConnection" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
     <opc:InverseName>HasDataSet</opc:InverseName>
   </opc:ReferenceType>
