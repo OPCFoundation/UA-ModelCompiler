@@ -463,7 +463,6 @@
     </opc:Children>
   </opc:ObjectType>
 
-
   <opc:ObjectType SymbolicName="NamespacesType" BaseType="ua:BaseObjectType" PartNo="5">
     <opc:Description>A container for the namespace metadata provided by the server.</opc:Description>
     <opc:Children>
@@ -3118,15 +3117,12 @@
   <opc:Method SymbolicName="AddPublishedDataItemsMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="Name" DataType="ua:String" />
-      <opc:Argument Name="FrameContentMask" DataType="DataValueContentMask" />
-      <opc:Argument Name="KeyFrameCount" DataType="ua:UInt32" />
       <opc:Argument Name="FieldNameAliases" DataType="ua:String"  ValueRank="Array" />
       <opc:Argument Name="PromotedFields" DataType="ua:Boolean"  ValueRank="Array" />
       <opc:Argument Name="VariablesToAdd" DataType="PublishedVariableDataType"  ValueRank="Array" />
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="DataSetId" DataType="ua:NodeId" />
-      <opc:Argument Name="RevisedKeyFrameCount" DataType="ua:UInt32" />
       <opc:Argument Name="AddResults" DataType="ua:StatusCode" ValueRank="Array" />
     </opc:OutputArguments>
   </opc:Method>
@@ -3153,12 +3149,12 @@
 
   <opc:ObjectType SymbolicName="PublishedDataSetType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
-      <opc:Object SymbolicName="xMessageWriterNamex" TypeDefinition="MessageWriterType" ModellingRule="OptionalPlaceholder">
-        <opc:BrowseName>&lt;MessageWriterName&gt;</opc:BrowseName>
+      <opc:Object SymbolicName="xDataSetWriterNamex" TypeDefinition="DataSetWriterType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;DataSetWriterName&gt;</opc:BrowseName>
         <opc:ReferenceType>DataSetToWriter</opc:ReferenceType>
       </opc:Object>
       <opc:Property SymbolicName="ConfigurationVersion" DataType="ConfigurationVersionDataType" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="MetaData" DataType="DataSetMetaDataType" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="DataSetMetaData" DataType="DataSetMetaDataType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="StaticFields" TypeDefinition="BaseObjectType" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddStaticField" TypeDefinition="AddStaticFieldType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveStaticField" TypeDefinition="RemoveStaticFieldType" ModellingRule="Optional" />
@@ -3183,6 +3179,7 @@
 
   <opc:DataType SymbolicName="DataSetMetaDataType" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
+      <opc:Field Name="Name"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Fields"  DataType="FieldMetaData" ValueRank="Array"></opc:Field>
       <opc:Field Name="Namespaces"  DataType="ua:String" ValueRank="Array"></opc:Field>
       <opc:Field Name="DataSetClassId"  DataType="ua:Guid" ValueRank="Scalar"></opc:Field>
@@ -3261,12 +3258,6 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="EnumField" BaseType="ua:Structure" PartNo="14">
-    <opc:Fields>
-      <opc:Field Name="Name"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
   <opc:DataType SymbolicName="KeyValuePair" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
       <opc:Field Name="Key"  DataType="ua:QualifiedName" ValueRank="Scalar"></opc:Field>
@@ -3277,8 +3268,6 @@
   <opc:ObjectType SymbolicName="PublishedDataItemsType" BaseType="PublishedDataSetType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="PublishedData" DataType="PublishedVariableDataType" ValueRank="Array" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="FrameContentMask" DataType="DataValueContentMask" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="KeyFrameCount" DataType="ua:UInt32" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddVariables" TypeDefinition="PublishedDataItemsAddVariablesMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveVariables" TypeDefinition="PublishedDataItemsRemoveVariablesMethodType" ModellingRule="Optional" />
     </opc:Children>
@@ -3385,69 +3374,81 @@
     <opc:Children>
       <opc:Property SymbolicName="PublishingInterval" DataType="ua:Duration" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="KeepAliveTime" DataType="ua:Duration" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="EncodingMimeType" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="MessageSecurity" TypeDefinition="PubSubMessageSecurityType" ModellingRule="Optional" />
-      <opc:Object SymbolicName="xMessageWriterNamex" TypeDefinition="MessageWriterType" ModellingRule="OptionalPlaceholder">
-        <opc:BrowseName>&lt;MessageWriterName&gt;</opc:BrowseName>
-        <opc:ReferenceType>HasMessageWriter</opc:ReferenceType>
+      <opc:Object SymbolicName="xDataSetWriterNamex" TypeDefinition="DataSetWriterType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;DataSetWriterName&gt;</opc:BrowseName>
+        <opc:ReferenceType>HasDataSetWriter</opc:ReferenceType>
       </opc:Object>
-      <opc:Method SymbolicName="RemoveMessageWriter" TypeDefinition="PubSubGroupTypeRemoveWriterMethodType" ModellingRule="Optional" />
-      <opc:Object SymbolicName="xMessageReaderNamex" TypeDefinition="MessageReaderType" ModellingRule="OptionalPlaceholder">
-        <opc:BrowseName>&lt;MessageReaderName&gt;</opc:BrowseName>
-        <opc:ReferenceType>HasMessageReader</opc:ReferenceType>
+      <opc:Method SymbolicName="RemoveDataSetWriter" TypeDefinition="PubSubGroupTypeRemoveWriterMethodType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="xDataSetReaderNamex" TypeDefinition="DataSetReaderType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;DataSetReaderName&gt;</opc:BrowseName>
+        <opc:ReferenceType>HasDataSetReader</opc:ReferenceType>
       </opc:Object>
-      <opc:Method SymbolicName="RemoveMessageReader" TypeDefinition="PubSubGroupTypeRemoveReaderMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="RemoveDataSetReader" TypeDefinition="PubSubGroupTypeRemoveReaderMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
+
+  <opc:DataType SymbolicName="SecurityKeyServiceDataType" BaseType="ua:Structure" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="ApplicationUri"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="EndpointUrls"  DataType="ua:String" ValueRank="Array"></opc:Field>
+      <opc:Field Name="AuthorizationUrls"  DataType="ua:String" ValueRank="Array"></opc:Field>
+      <opc:Field Name="TransportProfileUri"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
   
   <opc:ObjectType SymbolicName="PubSubMessageSecurityType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="SecurityGroupId" DataType="ua:String" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="KeyServerUrls" DataType="ua:String" ValueRank="Array" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="SecurityMode" DataType="MessageSecurityMode" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="KeyServers" DataType="SecurityKeyServiceDataType" ValueRank="Array" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
   <opc:Method SymbolicName="PubSubGroupTypeRemoveWriterMethodType" PartNo="14">
     <opc:InputArguments>
-      <opc:Argument Name="MessageWriterId" DataType="ua:NodeId" />
+      <opc:Argument Name="DataSetWriterNodeId" DataType="ua:NodeId" />
     </opc:InputArguments>
   </opc:Method>
 
   <opc:Method SymbolicName="PubSubGroupTypeRemoveReaderMethodType" PartNo="14">
     <opc:InputArguments>
-      <opc:Argument Name="MessageReaderId" DataType="ua:NodeId" />
+      <opc:Argument Name="DataSetReaderNodeId" DataType="ua:NodeId" />
     </opc:InputArguments>
   </opc:Method>
 
-  <opc:ReferenceType SymbolicName="HasMessageWriter" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
+  <opc:ReferenceType SymbolicName="HasDataSetWriter" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
     <opc:InverseName>IsWriterInGroup</opc:InverseName>
   </opc:ReferenceType>
 
-  <opc:ReferenceType SymbolicName="HasMessageReader" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
+  <opc:ReferenceType SymbolicName="HasDataSetReader" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
     <opc:InverseName>IsReaderInGroup</opc:InverseName>
   </opc:ReferenceType>
 
-  <opc:ObjectType SymbolicName="MessageWriterType" BaseType="ua:BaseObjectType" PartNo="14">
+  <opc:ObjectType SymbolicName="DataSetWriterType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="TransportSettings" TypeDefinition="MessageWriterTransportType" ModellingRule="Optional" />
-      <opc:Property SymbolicName="EncodingMimeType" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="TransportSettings" TypeDefinition="DataSetWriterTransportType" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="FrameContentMask" DataType="DataValueContentMask" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="MessageWriterTransportType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14">
+  <opc:ObjectType SymbolicName="DataSetWriterTransportType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14">
+      <opc:Property SymbolicName="KeyFrameCount" DataType="ua:UInt32" ModellingRule="Optional" />
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="MessageReaderType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14">
+  <opc:ObjectType SymbolicName="DataSetReaderType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14">
     <opc:Children>
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="TransportSettings" TypeDefinition="MessageReaderTransportType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="TransportSettings" TypeDefinition="DataSetReaderTransportType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="MessageSecurity" TypeDefinition="PubSubMessageSecurityType" ModellingRule="Optional" />
-      <opc:Object SymbolicName="SubscribedDataSet" TypeDefinition="SubscribedDataSetType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="SubscribedDataSet" TypeDefinition="SubscribedDataSetType" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="MessageReaderTransportType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14">
+  <opc:ObjectType SymbolicName="DataSetReaderTransportType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14">
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="SubscribedDataSetType" BaseType="ua:BaseObjectType" IsAbstract="false" PartNo="14">
@@ -3525,6 +3526,8 @@
   <opc:ObjectType SymbolicName="UadpConnectionType" BaseType="PubSubConnectionType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="PublisherId" DataType="ua:Guid" ModellingRule="Mandatory" />
+      <opc:Variable SymbolicName="NetworkInterface" DataType="ua:UInt32" ValueRank="Array" TypeDefinition="MultiStateDiscreteType" />
+      <opc:Property SymbolicName="TimeToLive" DataType="ua:Byte" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddGroup" TypeDefinition="UadpConnectionTypeAddGroupMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
@@ -3535,10 +3538,9 @@
       <opc:Argument Name="SecurityMode" DataType="ua:MessageSecurityMode" />
       <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
       <opc:Argument Name="KeyServerUrls" DataType="ua:String" ValueRank="Array" />
-      <opc:Argument Name="MaxPacketSize" DataType="ua:UInt16" />
+      <opc:Argument Name="MaxNetworkMessageSize" DataType="ua:UInt16" />
       <opc:Argument Name="PublishingOffset" DataType="ua:Duration" />
-      <opc:Argument Name="MessageRepeatCount" DataType="ua:Byte" />
-      <opc:Argument Name="MessageRepeatDelay" DataType="ua:Duration" />
+      <opc:Argument Name="Priority" DataType="ua:Byte" />
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="GroupId" DataType="ua:NodeId" />
@@ -3547,46 +3549,52 @@
 
   <opc:ObjectType SymbolicName="UadpGroupType" BaseType="PubSubGroupType" PartNo="14">
     <opc:Children>
-      <opc:Property SymbolicName="MaxPacketSize" DataType="ua:UInt16" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MaxNetworkMessageSize" DataType="ua:UInt16" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="SamplingOffset" DataType="ua:Duration" ModellingRule="Optional" />
       <opc:Property SymbolicName="PublishingOffset" DataType="ua:Duration" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="MessageRepeatCount" DataType="ua:Byte" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="MessageRepeatDelay" DataType="ua:Duration" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="AddMessageWriter" TypeDefinition="UadpGroupTypeAddWriterMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddMessageReader" TypeDefinition="UadpGroupTypeAddReaderMethodType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="Priority" DataType="ua:Byte" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MessageRepeatCount" DataType="ua:Byte" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MessageRepeatDelay" DataType="ua:Duration" ModellingRule="Optional" />
+      <opc:Property SymbolicName="UadpStreamAddress" DataType="ua:String" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddDataSetWriter" TypeDefinition="UadpGroupTypeAddWriterMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddDataSetReader" TypeDefinition="UadpGroupTypeAddReaderMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
   <opc:Method SymbolicName="UadpGroupTypeAddWriterMethodType" PartNo="14">
     <opc:InputArguments>
-      <opc:Argument Name="MessageWriterName" DataType="ua:String" />
+      <opc:Argument Name="DataSetWriterName" DataType="ua:String" />
       <opc:Argument Name="PublishedDataSetId" DataType="ua:NodeId" />
+      <opc:Argument Name="FrameContentMask" DataType="DataValueContentMask" />
+      <opc:Argument Name="KeyFrameCount" DataType="ua:UInt32" />
     </opc:InputArguments>
     <opc:OutputArguments>
-      <opc:Argument Name="MessageWriterId" DataType="ua:NodeId" />
+      <opc:Argument Name="DataSetWriterNodeId" DataType="ua:NodeId" />
+      <opc:Argument Name="RevisedKeyFrameCount" DataType="ua:UInt32" />
     </opc:OutputArguments>
   </opc:Method>
 
   <opc:Method SymbolicName="UadpGroupTypeAddReaderMethodType" PartNo="14">
     <opc:InputArguments>
-      <opc:Argument Name="MessageReaderName" DataType="ua:String" />
+      <opc:Argument Name="DataSetReaderName" DataType="ua:String" />
       <opc:Argument Name="PublisherId" DataType="ua:Guid" />
       <opc:Argument Name="DataSetWriterId" DataType="ua:UInt16" />
       <opc:Argument Name="DataSetMetaData" DataType="DataSetMetaDataType" />
       <opc:Argument Name="MessageReceiveTimeout" DataType="ua:Duration" />
     </opc:InputArguments>
     <opc:OutputArguments>
-      <opc:Argument Name="MessageReaderId" DataType="ua:NodeId" />
+      <opc:Argument Name="DataSetReaderNodeId" DataType="ua:NodeId" />
       <opc:Argument Name="RevisedMessageReceiveTimeout" DataType="ua:Duration" />
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:ObjectType SymbolicName="UadpWriterTransportType" BaseType="MessageWriterTransportType" PartNo="14">
+  <opc:ObjectType SymbolicName="UadpWriterTransportType" BaseType="DataSetWriterTransportType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="DataSetWriterId" DataType="ua:UInt16" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="UadpReaderTransportType" BaseType="MessageReaderTransportType" PartNo="14">
+  <opc:ObjectType SymbolicName="UadpReaderTransportType" BaseType="DataSetReaderTransportType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="PublisherId" DataType="ua:Guid" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetWriterId" DataType="ua:UInt16" ModellingRule="Mandatory" />
@@ -3603,9 +3611,10 @@
   <opc:Method SymbolicName="AmqpConnectionTypeAddGroupMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="GroupName" DataType="ua:String" />
-      <opc:Argument Name="AmqpLinkAddress" DataType="ua:String" />
-      <opc:Argument Name="BrokerCredential" DataType="ua:String" />
-      <opc:Argument Name="BrokerSecret" DataType="ua:String" />
+      <opc:Argument Name="AmqpNodeName" DataType="ua:String" />
+      <opc:Argument Name="EncodingMimeType" DataType="ua:String" />
+      <opc:Argument Name="SecurityMode" DataType="ua:MessageSecurityMode" />
+      <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="GroupId" DataType="ua:NodeId" />
@@ -3614,41 +3623,40 @@
 
   <opc:ObjectType SymbolicName="AmqpGroupType" BaseType="PubSubGroupType" PartNo="14">
     <opc:Children>
-      <opc:Property SymbolicName="AmqpLinkAddress" DataType="ua:String" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="AddMessageWriter" TypeDefinition="AmqpGroupTypeAddWriterMethodType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="AmqpNodeName" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddDataSetWriter" TypeDefinition="AmqpGroupTypeAddWriterMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
   <opc:Method SymbolicName="AmqpGroupTypeAddWriterMethodType" PartNo="14">
     <opc:InputArguments>
-      <opc:Argument Name="MessageWriterName" DataType="ua:String" />
+      <opc:Argument Name="DataSetWriterName" DataType="ua:String" />
       <opc:Argument Name="PublishedDataSetId" DataType="ua:NodeId" />
-      <opc:Argument Name="EncodingMimeType" DataType="ua:String" />
-      <opc:Argument Name="AmqpLinkAddress" DataType="ua:String" />
-      <opc:Argument Name="MetaDataLinkAddress" DataType="ua:String" />
+      <opc:Argument Name="AmqpNodeName" DataType="ua:String" />
+      <opc:Argument Name="MetaDataAmqpNodeName" DataType="ua:String" />
       <opc:Argument Name="MetaDataUpdateTime" DataType="ua:Duration" />
       <opc:Argument Name="MaxMessageSize" DataType="ua:UInt32" />
     </opc:InputArguments>
     <opc:OutputArguments>
-      <opc:Argument Name="MessageWriterId" DataType="ua:NodeId" />
+      <opc:Argument Name="DataSetWriterNodeId" DataType="ua:NodeId" />
       <opc:Argument Name="RevisedMaxMessageSize" DataType="ua:UInt32" />
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:ObjectType SymbolicName="AmqpWriterTransportType" BaseType="MessageWriterTransportType" PartNo="14">
+  <opc:ObjectType SymbolicName="AmqpWriterTransportType" BaseType="DataSetWriterTransportType" PartNo="14">
     <opc:Children>
-      <opc:Property SymbolicName="AmqpLinkAddress" DataType="ua:String" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="MetaDataLinkAddress" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="AmqpNodeName" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MetaDataAmqpNodeName" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MetaDataUpdateTime" DataType="ua:Duration" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetWriterId" DataType="ua:UInt16" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MaxMessageSize" DataType="ua:UInt32" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AmqpReaderTransportType" BaseType="MessageReaderTransportType" PartNo="14">
+  <opc:ObjectType SymbolicName="AmqpReaderTransportType" BaseType="DataSetReaderTransportType" PartNo="14">
     <opc:Children>
-      <opc:Property SymbolicName="AmqpLinkAddress" DataType="ua:String" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="MetaDataLinkAddress" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="AmqpNodeName" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MetaDataAmqpNodeName" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetWriterId" DataType="ua:UInt16" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
