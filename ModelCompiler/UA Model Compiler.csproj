@@ -194,7 +194,9 @@
     <EmbeddedResource Include="Design\UA Core Services.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Design\UA Status Codes.xml" />
+    <EmbeddedResource Include="Design\UA Status Codes.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Design\UA Status Codes.csv" />
     <EmbeddedResource Include="Design\UA Attributes.csv" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\BinarySchema\BuiltInTypes.bsd" />
