@@ -234,9 +234,11 @@
     </opc:Field>
   </opc:ComplexType>
 
+  <!--
   <opc:ComplexType Name="EnumField" BaseType="EnumValueType" AllowArrays="true" PartNo="14">
     <opc:Field Name="Name" DataType="s0:String" />
   </opc:ComplexType>
+  -->
 
   <opc:ComplexType Name="OptionSet" AllowArrays="true" PartNo="3">
     <opc:Documentation>This abstract Structured DataType is the base DataType for all DataTypes representing a bit mask.</opc:Documentation>

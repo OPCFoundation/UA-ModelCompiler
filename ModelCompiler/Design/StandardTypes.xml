@@ -130,9 +130,13 @@
       <opc:Object SymbolicName="Namespaces" TypeDefinition="NamespacesType" ModellingRule="Optional">
         <opc:Description>Describes the namespaces supported by the server.</opc:Description>
       </opc:Object>
+      
+      <!--
       <opc:Object SymbolicName="Roles" TypeDefinition="RoleFolderType" ModellingRule="Optional">
         <opc:Description>Describes the roles supported by the server.</opc:Description>
       </opc:Object>
+      -->
+      
       <opc:Method SymbolicName="GetMonitoredItems" TypeDefinition="GetMonitoredItemsMethodType" ModellingRule="Optional">
         <opc:Description>Returns the monitored items for a subscription.</opc:Description>
       </opc:Method>
@@ -1011,7 +1015,11 @@
           </opc:Object>
         </opc:Children>
       </opc:Object>
+      
+      <!--
       <opc:Object SymbolicName="Roles" ModellingRule="Mandatory"></opc:Object>
+      -->
+      
       <opc:Method SymbolicName="GetMonitoredItems" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="ResendData" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="SetSubscriptionDurable" ModellingRule="Mandatory" />
@@ -3028,10 +3036,11 @@
     <opc:Description>Retrieve the variance for the interval as calculated by the StandardDeviationPopulation which includes Simple Bounding Values.</opc:Description>
   </opc:Object>
 
+  <!--
   <opc:DataType SymbolicName="DataTypeDefinition" BaseType="ua:Structure" PartNo="3">
   </opc:DataType>
-  
-  <!-- Part 3 - Additional Types -->
+
+  Part 3 - Additional Types 
   <opc:DataType SymbolicName="StructureType" PartNo="3" BaseType="ua:Enumeration" NoArraysAllowed="true">
     <opc:Fields>
       <opc:Field Name="Structure" Identifier="0" />
@@ -3204,8 +3213,9 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
-
-  <!-- Part 14 -->
+ 
+  Part 14 
+  
   <opc:ObjectType SymbolicName="PublishSubscribeType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
       <opc:Object SymbolicName="xConnectionNamex" TypeDefinition="PubSubConnectionType" ModellingRule="OptionalPlaceholder">
@@ -3902,5 +3912,6 @@
       <opc:Property SymbolicName="DataSetWriterId" DataType="ua:UInt16" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
+  -->
 
 </opc:ModelDesign>

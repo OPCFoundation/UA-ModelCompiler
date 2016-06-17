@@ -22,8 +22,9 @@ REM 	set ADI_TARGET=..\..\uastack\Source\Common\Core\Stack\Generated\
 REM
 REM Leaving these fields empty will skip the operation
 
-set ANSIC_TARGET=
-set DOTNET_TARGET=
+set ANSIC_TARGET=X:\Work\OPC\amqp-prototype\ansic\src\oauth2-client\
+set DOTNET_TARGET=X:\Work\OPC\UA-ModelCompiler\Core\
+REM set DOTNET_TARGET=X:\Work\OPC\amqp-prototype\Stack\Core\
 set DI_TARGET=
 set ADI_TARGET=
 
