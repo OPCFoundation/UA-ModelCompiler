@@ -22,7 +22,7 @@ REM 	set ADI_TARGET=..\..\uastack\Source\Common\Core\Stack\Generated\
 REM
 REM Leaving these fields empty will skip the operation
 
-set DOTNET_TARGET=X:\Work\OPC\amqp-prototype\Stack\Core\
+set DOTNET_TARGET=
 set DI_TARGET=
 set ADI_TARGET=
 
