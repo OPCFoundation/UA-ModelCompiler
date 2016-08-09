@@ -741,7 +741,8 @@ namespace Opc.Ua.CodeGenerator
 
                 if (types[ii] == "OpcUa_String")
                 {
-                    template.Write("OpcUa_String_SafeAttachReadOnly(&cRequest.{0}, {1});", names1[ii], names2[ii].Substring(1));
+                    template.Write("cRequest.{0}{1} = {2};", names1[ii], padding, names2[ii]);
+                    // template.Write("OpcUa_String_SafeAttachReadOnly(&cRequest.{0}, {1});", names1[ii], names2[ii].Substring(1));
                 }
                 else if (types[ii].EndsWith("*"))
                 {

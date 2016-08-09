@@ -3,7 +3,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <StartArguments>-d2 ".\ModelCompiler\Design\StandardTypes.xml" -d2 ".\ModelCompiler\Design\UA Core Services.xml" -c ".\ModelCompiler\Design\StandardTypes.csv" -o2 "OUTPUT\Schema\" -stack "OUTPUT\DotNet\" -ansic "OUTPUT\AnsiC\"
 </StartArguments>
-    <StartWorkingDirectory>X:\Work\OPC\uanodeset\Source\</StartWorkingDirectory>
+    <StartWorkingDirectory>X:\Work\OPC\UA-ModelCompiler\</StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectView>ShowAllFiles</ProjectView>
