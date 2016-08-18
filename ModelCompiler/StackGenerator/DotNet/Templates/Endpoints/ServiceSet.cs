@@ -7,10 +7,8 @@ namespace _Prefix_
 /// </summary>
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
-#if !NET_STANDARD
 [ServiceMessageContextBehavior()]
 [ServiceBehavior(Namespace = Namespaces._ServicesNamespace_, InstanceContextMode=InstanceContextMode.PerSession, ConcurrencyMode=ConcurrencyMode.Multiple)]
-#endif
 public partial class _ServiceSet_Endpoint : EndpointBase, _IEndpoints_
 {
     #region Constructors

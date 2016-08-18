@@ -6,11 +6,7 @@
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 [CollectionDataContract(Name = "ListOf_BrowseName_", Namespace = _XmlNamespaceUri_, ItemName = "_BrowseName_")]
-#if !NET_STANDARD
 public partial class _BrowseName_Collection : List<_BrowseName_>, ICloneable
-#else
-public partial class _BrowseName_Collection : List<_BrowseName_>
-#endif
 {
     #region Constructors
     /// <summary>
@@ -57,20 +53,11 @@ public partial class _BrowseName_Collection : List<_BrowseName_>
     }
     #endregion
 
-    #if !NET_STANDARD
     #region ICloneable Methods
     /// <summary>
     /// Creates a deep copy of the collection.
     /// </summary>
     public object Clone()
-    {
-        return (_BrowseName_)this.MemberwiseClone();
-    }
-    #endregion
-    #endif
-
-    /// <summary cref="Object.MemberwiseClone" />
-    public new object MemberwiseClone()
     {
         _BrowseName_Collection clone = new _BrowseName_Collection(this.Count);
 
@@ -81,6 +68,7 @@ public partial class _BrowseName_Collection : List<_BrowseName_>
 
         return clone;
     }
+    #endregion
 }
 #endregion
 // ***END***

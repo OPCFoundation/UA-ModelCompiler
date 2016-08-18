@@ -102,20 +102,12 @@ public partial class _BrowseName_ : _BaseType_
         // ListOfComparedFields
 
         return true;
-    }    
+    }
 
-    #if !NET_STANDARD
     /// <summary cref="ICloneable.Clone" />
     public override object Clone()
     {
-        return (_BrowseName_)this.MemberwiseClone();
-    }
-    #endif
-
-    /// <summary cref="Object.MemberwiseClone" />
-    public new object MemberwiseClone()
-    {
-        _BrowseName_ clone = (_BrowseName_)base.MemberwiseClone();
+        _BrowseName_ clone = (_BrowseName_)base.Clone();
 
         // ListOfClonedFields
 

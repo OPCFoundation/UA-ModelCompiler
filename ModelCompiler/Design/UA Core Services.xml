@@ -389,13 +389,7 @@
       <opc:Documentation>A standard header included in all responses returned by servers.</opc:Documentation>
     </opc:Field>
   </opc:ComplexType>
-
-  <opc:ComplexType Name="SessionLessServiceMessageType" NotInAddressSpace="true" PartNo="4">
-    <opc:Field Name="NamespaceUris" DataType="s0:String" ValueRank="0" />
-    <opc:Field Name="ServerUris" DataType="s0:String" ValueRank="0" />
-    <opc:Field Name="ServiceId" DataType="s0:UInt32" />
-  </opc:ComplexType>
-
+  
   <opc:ServiceType Name="FindServers" InterfaceType="Discovery">
     <opc:Documentation>Finds the servers known to the discovery server.</opc:Documentation>
     <opc:Request>
@@ -2358,110 +2352,6 @@
       <opc:Parameter Name="DiagnosticInfos" DataType="s0:DiagnosticInfo" ValueRank="0" />
     </opc:Response>
   </opc:ServiceType>
-
-  <!--
-  <opc:EnumeratedType AllowArrays="true" Name="EnumeratedTestType" PartNo="999">
-    <opc:Documentation>A simple enumerated type used for testing.</opc:Documentation>
-    <opc:Value Name="Red" Value="1">
-      <opc:Documentation>Operation has halted.</opc:Documentation>
-    </opc:Value>
-    <opc:Value Name="Yellow" Value="4">
-      <opc:Documentation>Operation is proceeding with caution.</opc:Documentation>
-    </opc:Value>
-    <opc:Value Name="Green">
-      <opc:Documentation>Operation is proceeding normally.</opc:Documentation>
-    </opc:Value>
-  </opc:EnumeratedType>
-
-  <opc:ComplexType AllowArrays="true" Name="ScalarTestType" PartNo="999">
-    <opc:Documentation>A complex type containing all possible scalar types used for testing.</opc:Documentation>
-    <opc:Field Name="Boolean" DataType="s0:Boolean"/>
-    <opc:Field Name="SByte" DataType="s0:SByte"/>
-    <opc:Field Name="Byte" DataType="s0:Byte"/>
-    <opc:Field Name="Int16" DataType="s0:Int16"/>
-    <opc:Field Name="UInt16" DataType="s0:UInt16"/>
-    <opc:Field Name="Int32" DataType="s0:Int32"/>
-    <opc:Field Name="UInt32" DataType="s0:UInt32"/>
-    <opc:Field Name="Int64" DataType="s0:Int64"/>
-    <opc:Field Name="UInt64" DataType="s0:UInt64"/>
-    <opc:Field Name="Float" DataType="s0:Float"/>
-    <opc:Field Name="Double" DataType="s0:Double"/>
-    <opc:Field Name="String" DataType="s0:String"/>
-    <opc:Field Name="DateTime" DataType="s0:DateTime"/>
-    <opc:Field Name="Guid" DataType="s0:Guid"/>
-    <opc:Field Name="ByteString" DataType="s0:ByteString"/>
-    <opc:Field Name="XmlElement" DataType="s0:XmlElement"/>
-    <opc:Field Name="NodeId" DataType="s0:NodeId"/>
-    <opc:Field Name="ExpandedNodeId" DataType="s0:ExpandedNodeId"/>
-    <opc:Field Name="StatusCode" DataType="s0:StatusCode"/>
-    <opc:Field Name="DiagnosticInfo" DataType="s0:DiagnosticInfo"/>
-    <opc:Field Name="QualifiedName" DataType="s0:QualifiedName"/>
-    <opc:Field Name="LocalizedText" DataType="s0:LocalizedText"/>
-    <opc:Field Name="ExtensionObject" DataType="s0:ExtensionObject"/>
-    <opc:Field Name="DataValue" DataType="s0:DataValue"/>
-    <opc:Field Name="EnumeratedValue" DataType="EnumeratedTestType"/>
-  </opc:ComplexType>
-
-  <opc:ComplexType AllowArrays="true" Name="ArrayTestType" PartNo="999">
-    <opc:Documentation>A complex type containing all possible array types used for testing.</opc:Documentation>
-    <opc:Field Name="Booleans" DataType="s0:Boolean" ValueRank="0"/>
-    <opc:Field Name="SBytes" DataType="s0:SByte" ValueRank="0"/>
-    <opc:Field Name="Int16s" DataType="s0:Int16" ValueRank="0"/>
-    <opc:Field Name="UInt16s" DataType="s0:UInt16" ValueRank="0"/>
-    <opc:Field Name="Int32s" DataType="s0:Int32" ValueRank="0"/>
-    <opc:Field Name="UInt32s" DataType="s0:UInt32" ValueRank="0"/>
-    <opc:Field Name="Int64s" DataType="s0:Int64" ValueRank="0"/>
-    <opc:Field Name="UInt64s" DataType="s0:UInt64" ValueRank="0"/>
-    <opc:Field Name="Floats" DataType="s0:Float" ValueRank="0"/>
-    <opc:Field Name="Doubles" DataType="s0:Double" ValueRank="0"/>
-    <opc:Field Name="Strings" DataType="s0:String" ValueRank="0"/>
-    <opc:Field Name="DateTimes" DataType="s0:DateTime" ValueRank="0"/>
-    <opc:Field Name="Guids" DataType="s0:Guid" ValueRank="0"/>
-    <opc:Field Name="ByteStrings" DataType="s0:ByteString" ValueRank="0"/>
-    <opc:Field Name="XmlElements" DataType="s0:XmlElement" ValueRank="0"/>
-    <opc:Field Name="NodeIds" DataType="s0:NodeId" ValueRank="0"/>
-    <opc:Field Name="ExpandedNodeIds" DataType="s0:ExpandedNodeId" ValueRank="0"/>
-    <opc:Field Name="StatusCodes" DataType="s0:StatusCode" ValueRank="0"/>
-    <opc:Field Name="DiagnosticInfos" DataType="s0:DiagnosticInfo" ValueRank="0"/>
-    <opc:Field Name="QualifiedNames" DataType="s0:QualifiedName" ValueRank="0"/>
-    <opc:Field Name="LocalizedTexts" DataType="s0:LocalizedText" ValueRank="0"/>
-    <opc:Field Name="ExtensionObjects" DataType="s0:ExtensionObject" ValueRank="0"/>
-    <opc:Field Name="DataValues" DataType="s0:DataValue" ValueRank="0"/>
-    <opc:Field Name="Variants" DataType="s0:Variant" ValueRank="0"/>
-    <opc:Field Name="EnumeratedValues" DataType="EnumeratedTestType" ValueRank="0"/>
-  </opc:ComplexType>
-
-  <opc:ComplexType Name="CompositeTestType" PartNo="999">
-    <opc:Field Name="Field1" DataType="ScalarTestType"/>
-    <opc:Field Name="Field2" DataType="ArrayTestType"/>
-  </opc:ComplexType>
-
-  <opc:ServiceType Name="TestStack" InterfaceType="Test" PartNo="999">
-    <opc:Request>
-      <opc:Parameter Name="RequestHeader" DataType="RequestHeader"/>
-      <opc:Parameter Name="TestId" DataType="s0:UInt32"/>
-      <opc:Parameter Name="Iteration" DataType="s0:Int32"/>
-      <opc:Parameter Name="Input" DataType="s0:Variant"/>
-    </opc:Request>
-    <opc:Response>
-      <opc:Parameter Name="ResponseHeader" DataType="ResponseHeader"/>
-      <opc:Parameter Name="Output" DataType="s0:Variant"/>
-    </opc:Response>
-  </opc:ServiceType>
-
-  <opc:ServiceType Name="TestStackEx" InterfaceType="Test" PartNo="999">
-    <opc:Request>
-      <opc:Parameter Name="RequestHeader" DataType="RequestHeader"/>
-      <opc:Parameter Name="TestId" DataType="s0:UInt32"/>
-      <opc:Parameter Name="Iteration" DataType="s0:Int32"/>
-      <opc:Parameter Name="Input" DataType="CompositeTestType"/>
-    </opc:Request>
-    <opc:Response>
-      <opc:Parameter Name="ResponseHeader" DataType="ResponseHeader"/>
-      <opc:Parameter Name="Output" DataType="CompositeTestType"/>
-    </opc:Response>
-  </opc:ServiceType>
-  -->
   
   <opc:ComplexType Name="BuildInfo" PartNo="5">
     <opc:Field Name="ProductUri" DataType="s0:String" />
