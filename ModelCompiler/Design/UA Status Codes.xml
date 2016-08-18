@@ -76,31 +76,31 @@
     <opc:Documentation>An error occurred verifying security.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_CertificateTimeInvalid">
-    <opc:Documentation>The Certificate has expired or is not yet valid.</opc:Documentation>
+    <opc:Documentation>The certificate has expired or is not yet valid.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_CertificateIssuerTimeInvalid">
-    <opc:Documentation>An Issuer Certificate has expired or is not yet valid.</opc:Documentation>
+    <opc:Documentation>An issuer certificate has expired or is not yet valid.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_CertificateHostNameInvalid">
-    <opc:Documentation>The HostName used to connect to a Server does not match a HostName in the Certificate.</opc:Documentation>
+    <opc:Documentation>The HostName used to connect to a Server does not match a HostName in the certificate.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_CertificateUriInvalid">
-    <opc:Documentation>The URI specified in the ApplicationDescription does not match the URI in the Certificate.</opc:Documentation>
+    <opc:Documentation>The URI specified in the ApplicationDescription does not match the URI in the certificate.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_CertificateUseNotAllowed">
-    <opc:Documentation>The Certificate may not be used for the requested operation.</opc:Documentation>
+    <opc:Documentation>The certificate may not be used for the requested operation.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_CertificateIssuerUseNotAllowed">
-    <opc:Documentation>The Issuer Certificate may not be used for the requested operation.</opc:Documentation>
+    <opc:Documentation>The issuer certificate may not be used for the requested operation.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_CertificateUntrusted">
-    <opc:Documentation>The Certificate is not trusted.</opc:Documentation>
+    <opc:Documentation>The certificate is not trusted.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_CertificateRevocationUnknown">
-    <opc:Documentation>It was not possible to determine if the Certificate has been revoked.</opc:Documentation>
+    <opc:Documentation>It was not possible to determine if the certificate has been revoked.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_CertificateIssuerRevocationUnknown">
-    <opc:Documentation>It was not possible to determine if the Issuer Certificate has been revoked.</opc:Documentation>
+    <opc:Documentation>It was not possible to determine if the issuer certificate has been revoked.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_CertificateRevoked">
     <opc:Documentation>The certificate has been revoked.</opc:Documentation>
@@ -451,7 +451,7 @@
 
   <!-- Write -->
   <opc:Constant Name="Bad_WriteNotSupported">
-    <opc:Documentation>The server not does support writing the combination of value, status and timestamps provided.</opc:Documentation>
+    <opc:Documentation>The server does not support writing the combination of value, status and timestamps provided.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_TypeMismatch">
     <opc:Documentation>The value supplied for the attribute is not of the same type as the attribute's value.</opc:Documentation>

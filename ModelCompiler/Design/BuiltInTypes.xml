@@ -200,7 +200,7 @@
     <opc:InverseName>GeneratesEvent</opc:InverseName>
   </opc:ReferenceType>
 
-  <opc:ReferenceType SymbolicName="AlwaysGeneratesEvent" BaseType="NonHierarchicalReferences" PartNo="3">
+  <opc:ReferenceType SymbolicName="AlwaysGeneratesEvent" BaseType="GeneratesEvent" PartNo="3">
     <opc:Description>The type for references from a node to an event type that is always raised by node.</opc:Description>
     <opc:InverseName>AlwaysGeneratesEvent</opc:InverseName>
   </opc:ReferenceType>

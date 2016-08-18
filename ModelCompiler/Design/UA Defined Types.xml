@@ -145,7 +145,7 @@
     <Description>The type for references from a node to an event type that is raised by node.</Description>
     <InverseName>GeneratesEvent</InverseName>
   </ReferenceType>
-  <ReferenceType SymbolicName="tns:AlwaysGeneratesEvent" PartNo="3" BaseType="tns:NonHierarchicalReferences">
+  <ReferenceType SymbolicName="tns:AlwaysGeneratesEvent" PartNo="3" BaseType="tns:GeneratesEvent">
     <Description>The type for references from a node to an event type that is always raised by node.</Description>
     <InverseName>AlwaysGeneratesEvent</InverseName>
   </ReferenceType>
@@ -530,6 +530,9 @@
       <Object SymbolicName="tns:Namespaces" TypeDefinition="tns:NamespacesType" ModellingRule="Optional">
         <Description>Describes the namespaces supported by the server.</Description>
       </Object>
+      <Object SymbolicName="tns:Roles" TypeDefinition="tns:RoleFolderType" ModellingRule="Optional">
+        <Description>Describes the roles supported by the server.</Description>
+      </Object>
       <Method SymbolicName="tns:GetMonitoredItems" TypeDefinition="tns:GetMonitoredItemsMethodType" ModellingRule="Optional">
         <Description>Returns the monitored items for a subscription.</Description>
       </Method>
@@ -587,7 +590,7 @@
       <Object SymbolicName="tns:AggregateFunctions" TypeDefinition="tns:FolderType">
         <Description>A folder for the real time aggregates supported by the server.</Description>
       </Object>
-      <Variable SymbolicName="tns:VendorCapability" TypeDefinition="tns:ServerVendorCapabilityType" ModellingRule="OptionalPlaceholder">
+      <Variable SymbolicName="tns:VendorCapability_Placeholder" TypeDefinition="tns:ServerVendorCapabilityType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;VendorCapability&gt;</BrowseName>
       </Variable>
     </Children>
@@ -621,7 +624,7 @@
       <Variable SymbolicName="tns:SessionSecurityDiagnosticsArray" TypeDefinition="tns:SessionSecurityDiagnosticsArrayType">
         <Description>A list of security related diagnostics for each active session.</Description>
       </Variable>
-      <Object SymbolicName="tns:ClientName" TypeDefinition="tns:SessionDiagnosticsObjectType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:ClientName_Placeholder" TypeDefinition="tns:SessionDiagnosticsObjectType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;ClientName&gt;</BrowseName>
       </Object>
     </Children>
@@ -790,10 +793,10 @@
   </Method>
   <ObjectType SymbolicName="tns:FileDirectoryType" PartNo="5" BaseType="tns:FolderType">
     <Children>
-      <Object SymbolicName="tns:xFileDirectoryNamex" TypeDefinition="tns:FileDirectoryType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:FileDirectoryName_Placeholder" TypeDefinition="tns:FileDirectoryType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;FileDirectoryName&gt;</BrowseName>
       </Object>
-      <Object SymbolicName="tns:xFileNamex" TypeDefinition="tns:FileType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:FileName_Placeholder" TypeDefinition="tns:FileType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;FileName&gt;</BrowseName>
       </Object>
       <Method SymbolicName="tns:CreateDirectory" TypeDefinition="tns:CreateDirectoryMethodType" />
@@ -802,6 +805,41 @@
       <Method SymbolicName="tns:MoveOrCopy" TypeDefinition="tns:MoveOrCopyMethodType" />
     </Children>
   </ObjectType>
+  <ObjectType SymbolicName="tns:TemporaryFileTransferType" PartNo="5" BaseType="tns:BaseObjectType">
+    <Children>
+      <Property SymbolicName="tns:ClientProcessingTimeout" DataType="tns:Duration" />
+      <Method SymbolicName="tns:GenerateFileForRead" TypeDefinition="tns:GenerateFileForReadMethodType" />
+      <Method SymbolicName="tns:GenerateFileForWrite" TypeDefinition="tns:GenerateFileForWriteMethodType" />
+      <Method SymbolicName="tns:CloseAndCommit" TypeDefinition="tns:CloseAndCommitMethodType" />
+      <Object SymbolicName="tns:TransferState_Placeholder" TypeDefinition="tns:FileTransferStateMachineType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;TransferState&gt;</BrowseName>
+      </Object>
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:GenerateFileForReadMethodType" PartNo="5">
+    <InputArguments>
+      <Argument Name="GenerateOptions" DataType="tns:BaseDataType" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="FileNodeId" DataType="tns:NodeId" />
+      <Argument Name="FileHandle" DataType="tns:UInt32" />
+      <Argument Name="CompletionStateMachine" DataType="tns:NodeId" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:GenerateFileForWriteMethodType" PartNo="5">
+    <OutputArguments>
+      <Argument Name="FileNodeId" DataType="tns:NodeId" />
+      <Argument Name="FileHandle" DataType="tns:UInt32" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:CloseAndCommitMethodType" PartNo="5">
+    <InputArguments>
+      <Argument Name="FileHandle" DataType="tns:UInt32" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="CompletionStateMachine" DataType="tns:NodeId" />
+    </OutputArguments>
+  </Method>
   <ObjectType SymbolicName="tns:AddressSpaceFileType" PartNo="5" BaseType="tns:FileType">
     <Description>A file used to store a namespace exported from the server.</Description>
     <Children>
@@ -842,7 +880,7 @@
   <ObjectType SymbolicName="tns:NamespacesType" PartNo="5" BaseType="tns:BaseObjectType">
     <Description>A container for the namespace metadata provided by the server.</Description>
     <Children>
-      <Object SymbolicName="tns:NamespaceIdentifier" TypeDefinition="tns:NamespaceMetadataType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:NamespaceIdentifier_Placeholder" TypeDefinition="tns:NamespaceMetadataType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;NamespaceIdentifier&gt;</BrowseName>
       </Object>
       <Object SymbolicName="tns:AddressSpaceFile" TypeDefinition="tns:AddressSpaceFileType" ModellingRule="Optional">
@@ -1312,6 +1350,7 @@
           </Object>
         </Children>
       </Object>
+      <Object SymbolicName="tns:Roles" ModellingRule="Mandatory" />
       <Method SymbolicName="tns:GetMonitoredItems" ModellingRule="Mandatory" />
       <Method SymbolicName="tns:ResendData" ModellingRule="Mandatory" />
       <Method SymbolicName="tns:SetSubscriptionDurable" ModellingRule="Mandatory" />
@@ -1421,6 +1460,25 @@
       <Property SymbolicName="tns:TransitionNumber" ModellingRule="Mandatory" DataType="tns:UInt32" />
     </Children>
     <ClassName>StateMachineTransition</ClassName>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:FileTransferStateMachineType" PartNo="5" BaseType="tns:FiniteStateMachineType">
+    <Children>
+      <Object SymbolicName="tns:Idle" TypeDefinition="tns:InitialStateType" />
+      <Object SymbolicName="tns:ReadPrepare" TypeDefinition="tns:StateType" />
+      <Object SymbolicName="tns:ReadTransfer" TypeDefinition="tns:StateType" />
+      <Object SymbolicName="tns:ApplyWrite" TypeDefinition="tns:StateType" />
+      <Object SymbolicName="tns:Error" TypeDefinition="tns:StateType" />
+      <Object SymbolicName="tns:IdleToReadPrepare" TypeDefinition="tns:TransitionType" />
+      <Object SymbolicName="tns:ReadPrepareToReadTransfer" TypeDefinition="tns:TransitionType" />
+      <Object SymbolicName="tns:ReadTransferToIdle" TypeDefinition="tns:TransitionType" />
+      <Object SymbolicName="tns:IdleToApplyWrite" TypeDefinition="tns:TransitionType" />
+      <Object SymbolicName="tns:ApplyWriteToIdle" TypeDefinition="tns:TransitionType" />
+      <Object SymbolicName="tns:ReadPrepareToError" TypeDefinition="tns:TransitionType" />
+      <Object SymbolicName="tns:ReadTransferToError" TypeDefinition="tns:TransitionType" />
+      <Object SymbolicName="tns:ApplyWriteToError" TypeDefinition="tns:TransitionType" />
+      <Object SymbolicName="tns:ErrorToIdle" TypeDefinition="tns:TransitionType" />
+      <Method SymbolicName="tns:Reset" />
+    </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:TransitionEventType" PartNo="5" BaseType="tns:BaseEventType">
     <Children>
@@ -2821,7 +2879,7 @@
       <Object SymbolicName="tns:DefaultApplicationGroup" TypeDefinition="tns:CertificateGroupType" ModellingRule="Mandatory" />
       <Object SymbolicName="tns:DefaultHttpsGroup" TypeDefinition="tns:CertificateGroupType" ModellingRule="Optional" />
       <Object SymbolicName="tns:DefaultUserTokenGroup" TypeDefinition="tns:CertificateGroupType" ModellingRule="Optional" />
-      <Object SymbolicName="tns:AdditionalGroup" TypeDefinition="tns:CertificateGroupType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:AdditionalGroup_Placeholder" TypeDefinition="tns:CertificateGroupType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;AdditionalGroup&gt;</BrowseName>
         <ReferenceType>tns:Organizes</ReferenceType>
       </Object>
@@ -3094,6 +3152,817 @@
     <BrowseName>VariancePopulation</BrowseName>
     <Description>Retrieve the variance for the interval as calculated by the StandardDeviationPopulation which includes Simple Bounding Values.</Description>
   </Object>
+  <DataType SymbolicName="tns:DataTypeDefinition" PartNo="3" BaseType="tns:Structure" />
+  <DataType SymbolicName="tns:StructureType" PartNo="3" BaseType="tns:Enumeration" NoArraysAllowed="true">
+    <Fields>
+      <Field Name="Structure" Identifier="0" />
+      <Field Name="StructureWithOptionalFields" Identifier="1" />
+      <Field Name="Union" Identifier="2" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:StructureDefinition" PartNo="3" BaseType="tns:DataTypeDefinition">
+    <Fields>
+      <Field Name="DefaultEncodingId" DataType="tns:NodeId" />
+      <Field Name="BaseDataType" DataType="tns:NodeId" />
+      <Field Name="StructureType" DataType="tns:StructureType" />
+      <Field Name="Fields" DataType="tns:StructureField" ValueRank="Array" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:EnumDefinition" PartNo="3" BaseType="tns:DataTypeDefinition">
+    <Fields>
+      <Field Name="Fields" DataType="tns:EnumField" ValueRank="Array" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:StructureField" PartNo="3" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="Name" DataType="tns:String" />
+      <Field Name="Description" DataType="tns:LocalizedText" />
+      <Field Name="DataType" DataType="tns:NodeId" />
+      <Field Name="ValueRank" DataType="tns:Int32" />
+      <Field Name="IsOptional" DataType="tns:Boolean" />
+    </Fields>
+  </DataType>
+  <ObjectType SymbolicName="tns:RoleFolderType" PartNo="3" BaseType="tns:FolderType">
+    <Description>A container for the roles supported by the server.</Description>
+    <Children>
+      <Object SymbolicName="tns:RoleName_Placeholder" TypeDefinition="tns:RoleType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;RoleName&gt;</BrowseName>
+      </Object>
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:RoleType" PartNo="3" BaseType="tns:BaseObjectType">
+    <Children>
+      <Property SymbolicName="tns:Identities" DataType="tns:IdentityMappingRuleType" ValueRank="Array" />
+      <Property SymbolicName="tns:Applications" ModellingRule="Optional" DataType="tns:ApplicationPermissionRuleType" ValueRank="Array" />
+      <Property SymbolicName="tns:Endpoints" ModellingRule="Optional" DataType="tns:String" ValueRank="Array" />
+      <Method SymbolicName="tns:AddIdentity" TypeDefinition="tns:AddIdentityMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:RemoveIdentity" TypeDefinition="tns:RemoveIdentityMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:AddApplication" TypeDefinition="tns:AddApplicationMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:RemoveApplication" TypeDefinition="tns:RemoveApplicationMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <DataType SymbolicName="tns:IdentityCriteriaType" PartNo="3" BaseType="tns:Enumeration">
+    <Fields>
+      <Field Name="UserName" Identifier="1" />
+      <Field Name="Thumbprint" Identifier="2" />
+      <Field Name="Scope" Identifier="3" />
+      <Field Name="GroupId" Identifier="4" />
+      <Field Name="Anonymous" Identifier="5" />
+      <Field Name="Everyone" Identifier="6" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:IdentityMappingRuleType" PartNo="3" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="CriteriaType" DataType="tns:IdentityCriteriaType" />
+      <Field Name="Criteria" DataType="tns:String" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:ApplicationPermissionRuleType" PartNo="3" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="ApplicationUri" DataType="tns:String" />
+      <Field Name="Thumbprint" DataType="tns:String" />
+    </Fields>
+  </DataType>
+  <Method SymbolicName="tns:AddIdentityMethodType" PartNo="3">
+    <InputArguments>
+      <Argument Name="RuleToAdd" DataType="tns:IdentityMappingRuleType" />
+    </InputArguments>
+  </Method>
+  <Method SymbolicName="tns:RemoveIdentityMethodType" PartNo="3">
+    <InputArguments>
+      <Argument Name="RuleToRemove" DataType="tns:IdentityMappingRuleType" />
+    </InputArguments>
+  </Method>
+  <Method SymbolicName="tns:AddApplicationMethodType" PartNo="3">
+    <InputArguments>
+      <Argument Name="RuleToAdd" DataType="tns:ApplicationPermissionRuleType" />
+    </InputArguments>
+  </Method>
+  <Method SymbolicName="tns:RemoveApplicationMethodType" PartNo="3">
+    <InputArguments>
+      <Argument Name="RuleToRemove" DataType="tns:ApplicationPermissionRuleType" />
+    </InputArguments>
+  </Method>
+  <Object SymbolicName="tns:Anonymous" PartNo="3" TypeDefinition="tns:RoleType">
+    <Description>The Role has very limited access for use when a Session has anonymous credentials.</Description>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Server_Roles</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <Object SymbolicName="tns:AuthenticatedUsers" PartNo="3" TypeDefinition="tns:RoleType">
+    <Description>The Role has limited access for use when a Session has valid non-anonymous credentials but has not been explicity granted access to a Role.</Description>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Server_Roles</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <Object SymbolicName="tns:Observer" PartNo="3" TypeDefinition="tns:RoleType">
+    <Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</Description>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Server_Roles</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <Object SymbolicName="tns:Operator" PartNo="3" TypeDefinition="tns:RoleType">
+    <Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</Description>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Server_Roles</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <Object SymbolicName="tns:Supervisor" PartNo="3" TypeDefinition="tns:RoleType">
+    <Description>The Role is allowed to browse, read/write live data, read and update historical data/events, call methods or subscribe to data/events.</Description>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Server_Roles</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <Object SymbolicName="tns:SecurityAdmin" PartNo="3" TypeDefinition="tns:RoleType">
+    <Description>The Role is allowed to change security related settings.</Description>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Server_Roles</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <Object SymbolicName="tns:ConfigureAdmin" PartNo="3" TypeDefinition="tns:RoleType">
+    <Description>The Role is allowed to change the non-security related configuration settings.</Description>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Server_Roles</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <ObjectType SymbolicName="tns:PublishSubscribeType" PartNo="14" BaseType="tns:BaseObjectType">
+    <Children>
+      <Object SymbolicName="tns:ConnectionName_Placeholder" TypeDefinition="tns:PubSubConnectionType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;ConnectionName&gt;</BrowseName>
+        <ReferenceType>tns:HasPubSubConnection</ReferenceType>
+      </Object>
+      <Method SymbolicName="tns:AddUadpConnection" TypeDefinition="tns:AddUadpConnectionMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:AddAmqpConnection" TypeDefinition="tns:AddAmqpConnectionMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:RemoveConnection" TypeDefinition="tns:RemoveConnectionMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:GetSecurityKeys" TypeDefinition="tns:GetSecurityKeysMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:GetSecurityGroup" TypeDefinition="tns:GetSecurityGroupMethodType" ModellingRule="Optional" />
+      <Object SymbolicName="tns:SecurityGroups" TypeDefinition="tns:SecurityGroupFolderType" ModellingRule="Optional" />
+      <Object SymbolicName="tns:PublishedDataSets" TypeDefinition="tns:DataSetFolderType" ModellingRule="Mandatory" />
+      <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
+    </Children>
+  </ObjectType>
+  <Object SymbolicName="tns:PublishSubscribe" PartNo="14" TypeDefinition="tns:PublishSubscribeType">
+    <Children>
+      <Method SymbolicName="tns:AddUadpConnection" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddAmqpConnection" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveConnection" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:GetSecurityKeys" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:GetSecurityGroup" ModellingRule="Mandatory" />
+      <Object SymbolicName="tns:SecurityGroups" ModellingRule="Mandatory" />
+    </Children>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:HasComponent</ReferenceType>
+        <TargetId>tns:Server</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <Method SymbolicName="tns:RemoveConnectionMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="ConnectionId" DataType="tns:NodeId" />
+    </InputArguments>
+  </Method>
+  <Method SymbolicName="tns:GetSecurityKeysMethodType">
+    <InputArguments>
+      <Argument Name="SecurityGroupId" DataType="tns:String" />
+      <Argument Name="FutureKeyCount" DataType="tns:UInt32" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="SecurityPolicyUri" DataType="tns:String" />
+      <Argument Name="CurrentTokenId" DataType="tns:IntegerId" />
+      <Argument Name="CurrentKey" DataType="tns:ByteString" />
+      <Argument Name="NextKeys" DataType="tns:ByteString" ValueRank="Array" />
+      <Argument Name="TimeToNextKey" DataType="tns:Duration" />
+      <Argument Name="KeyLifetime" DataType="tns:Duration" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:GetSecurityGroupMethodType">
+    <InputArguments>
+      <Argument Name="SecurityGroupId" DataType="tns:String" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="SecurityGroupNodeId" DataType="tns:NodeId" />
+    </OutputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:SecurityGroupFolderType" PartNo="14" BaseType="tns:FolderType">
+    <Children>
+      <Object SymbolicName="tns:SecurityGroupFolderName_Placeholder" TypeDefinition="tns:SecurityGroupFolderType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;SecurityGroupFolderName&gt;</BrowseName>
+        <ReferenceType>tns:Organizes</ReferenceType>
+      </Object>
+      <Object SymbolicName="tns:SecurityGroupName_Placeholder" TypeDefinition="tns:SecurityGroupType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;SecurityGroupName&gt;</BrowseName>
+      </Object>
+      <Method SymbolicName="tns:AddSecurityGroup" TypeDefinition="tns:AddSecurityGroupMethodType" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveSecurityGroup" TypeDefinition="tns:RemoveSecurityGroupMethodType" ModellingRule="Mandatory" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:AddSecurityGroupMethodType">
+    <InputArguments>
+      <Argument Name="SecurityGroupName" DataType="tns:String" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="SecurityGroupNodeId" DataType="tns:NodeId" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:RemoveSecurityGroupMethodType">
+    <InputArguments>
+      <Argument Name="SecurityGroupNodeId" DataType="tns:NodeId" />
+    </InputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:SecurityGroupType" PartNo="14" BaseType="tns:BaseObjectType">
+    <Children>
+      <Property SymbolicName="tns:SecurityGroupId" ModellingRule="Mandatory" DataType="tns:String" />
+    </Children>
+  </ObjectType>
+  <ReferenceType SymbolicName="tns:HasPubSubConnection" PartNo="14" BaseType="tns:HasComponent" Symmetric="false">
+    <InverseName>PubSubConnectionOf</InverseName>
+  </ReferenceType>
+  <ObjectType SymbolicName="tns:DataSetFolderType" PartNo="14" BaseType="tns:FolderType">
+    <Children>
+      <Object SymbolicName="tns:DataSetFolderName_Placeholder" TypeDefinition="tns:DataSetFolderType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;DataSetFolderName&gt;</BrowseName>
+        <ReferenceType>tns:Organizes</ReferenceType>
+      </Object>
+      <Object SymbolicName="tns:PublishedDataSetName_Placeholder" TypeDefinition="tns:PublishedDataSetType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;PublishedDataSetName&gt;</BrowseName>
+      </Object>
+      <Method SymbolicName="tns:AddPublishedDataItems" TypeDefinition="tns:AddPublishedDataItemsMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:AddPublishedEvents" TypeDefinition="tns:AddPublishedEventsMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:RemovePublishedDataSet" TypeDefinition="tns:RemovePublishedDataSetMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:RemovePublishedDataSetMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="DataSetId" DataType="tns:NodeId" />
+    </InputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:PublishedDataSetType" PartNo="14" BaseType="tns:BaseObjectType">
+    <Children>
+      <Object SymbolicName="tns:DataSetWriterName_Placeholder" TypeDefinition="tns:DataSetWriterType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;DataSetWriterName&gt;</BrowseName>
+        <ReferenceType>tns:DataSetToWriter</ReferenceType>
+      </Object>
+      <Property SymbolicName="tns:ConfigurationVersion" ModellingRule="Mandatory" DataType="tns:ConfigurationVersionDataType" />
+      <Property SymbolicName="tns:DataSetMetaData" ModellingRule="Mandatory" DataType="tns:DataSetMetaDataType" />
+      <Object SymbolicName="tns:ExtensionFields" TypeDefinition="tns:ExtensionFieldsType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <DataType SymbolicName="tns:ConfigurationVersionDataType" PartNo="14" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="MajorVersion" DataType="tns:UInt32" />
+      <Field Name="MinorVersion" DataType="tns:UInt32" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:DataSetMetaDataType" PartNo="14" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="Name" DataType="tns:String" />
+      <Field Name="Fields" DataType="tns:FieldMetaData" ValueRank="Array" />
+      <Field Name="DataSetClassId" DataType="tns:Guid" />
+      <Field Name="Namespaces" DataType="tns:String" ValueRank="Array" />
+      <Field Name="StructureDataTypes" DataType="tns:StructureDescription" ValueRank="Array" />
+      <Field Name="EnumDataTypes" DataType="tns:EnumDescription" ValueRank="Array" />
+      <Field Name="ConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:FieldMetaData" PartNo="14" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="Name" DataType="tns:String" />
+      <Field Name="PromotedField" DataType="tns:Boolean" />
+      <Field Name="DataType" DataType="tns:NodeId" />
+      <Field Name="ValueRank" DataType="tns:Int32" />
+      <Field Name="ArrayDimensions" DataType="tns:UInt32" ValueRank="Array" />
+      <Field Name="DataSetFieldId" DataType="tns:Guid" />
+      <Field Name="Properties" DataType="tns:KeyValuePair" ValueRank="Array" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:DataTypeDescription" PartNo="14" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="DataTypeId" DataType="tns:NodeId" />
+      <Field Name="Name" DataType="tns:QualifiedName" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:StructureDescription" PartNo="14" BaseType="tns:DataTypeDescription">
+    <Fields>
+      <Field Name="StructureDefinition" DataType="tns:StructureDefinition" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:EnumDescription" PartNo="14" BaseType="tns:DataTypeDescription">
+    <Fields>
+      <Field Name="EnumDefinition" DataType="tns:EnumDefinition" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:KeyValuePair" PartNo="14" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="Key" DataType="tns:QualifiedName" />
+      <Field Name="Value" DataType="tns:BaseDataType" />
+    </Fields>
+  </DataType>
+  <ObjectType SymbolicName="tns:ExtensionFieldsType" PartNo="14" BaseType="tns:BaseObjectType">
+    <Children>
+      <Property SymbolicName="tns:ExtensionFieldName_Placeholder" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;ExtensionFieldName&gt;</BrowseName>
+      </Property>
+      <Method SymbolicName="tns:AddExtensionField" TypeDefinition="tns:AddExtensionFieldMethodType" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveExtensionField" TypeDefinition="tns:RemoveExtensionFieldMethodType" ModellingRule="Mandatory" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:AddExtensionFieldMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="FieldName" DataType="tns:QualifiedName" />
+      <Argument Name="FieldValue" DataType="tns:BaseDataType" ValueRank="ScalarOrArray" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="FieldId" DataType="tns:NodeId" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:RemoveExtensionFieldMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="FieldId" DataType="tns:NodeId" />
+    </InputArguments>
+  </Method>
+  <ReferenceType SymbolicName="tns:DataSetToWriter" PartNo="14" BaseType="tns:HierarchicalReferences" Symmetric="false">
+    <InverseName>WriterToDataSet</InverseName>
+  </ReferenceType>
+  <ObjectType SymbolicName="tns:PublishedDataItemsType" PartNo="14" BaseType="tns:PublishedDataSetType">
+    <Children>
+      <Property SymbolicName="tns:PublishedData" ModellingRule="Mandatory" DataType="tns:PublishedVariableDataType" ValueRank="Array" />
+      <Method SymbolicName="tns:AddVariables" TypeDefinition="tns:PublishedDataItemsAddVariablesMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:RemoveVariables" TypeDefinition="tns:PublishedDataItemsRemoveVariablesMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:AddPublishedDataItemsMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="Name" DataType="tns:String" />
+      <Argument Name="FieldNameAliases" DataType="tns:String" ValueRank="Array" />
+      <Argument Name="PromotedFields" DataType="tns:Boolean" ValueRank="Array" />
+      <Argument Name="VariablesToAdd" DataType="tns:PublishedVariableDataType" ValueRank="Array" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="DataSetNodeId" DataType="tns:NodeId" />
+      <Argument Name="ConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
+      <Argument Name="AddResults" DataType="tns:StatusCode" ValueRank="Array" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:PublishedDataItemsAddVariablesMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="ConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
+      <Argument Name="FieldNameAliases" DataType="tns:String" ValueRank="Array" />
+      <Argument Name="PromotedFields" DataType="tns:Boolean" ValueRank="Array" />
+      <Argument Name="VariablesToAdd" DataType="tns:PublishedVariableDataType" ValueRank="Array" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="NewConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
+      <Argument Name="AddResults" DataType="tns:StatusCode" ValueRank="Array" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:PublishedDataItemsRemoveVariablesMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="ConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
+      <Argument Name="VariablesToRemove" DataType="tns:UInt32" ValueRank="Array" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="NewConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
+      <Argument Name="RemoveResults" DataType="tns:StatusCode" ValueRank="Array" />
+    </OutputArguments>
+  </Method>
+  <DataType SymbolicName="tns:PublishedVariableDataType" PartNo="14" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="PublishedVariable" DataType="tns:NodeId" />
+      <Field Name="AttributeId" DataType="tns:IntegerId" />
+      <Field Name="SamplingIntervalHint" DataType="tns:Duration" />
+      <Field Name="DeadbandType" DataType="tns:UInt32" />
+      <Field Name="DeadbandValue" DataType="tns:Double" />
+      <Field Name="IndexRange" DataType="tns:NumericRange" />
+      <Field Name="SubstituteValue" DataType="tns:BaseDataType" />
+      <Field Name="MetaDataProperties" DataType="tns:QualifiedName" ValueRank="Array" />
+    </Fields>
+  </DataType>
+  <ObjectType SymbolicName="tns:PublishedEventsType" PartNo="14" BaseType="tns:PublishedDataSetType">
+    <Children>
+      <Property SymbolicName="tns:EventNotifier" ModellingRule="Mandatory" DataType="tns:NodeId" />
+      <Property SymbolicName="tns:SelectedFields" ModellingRule="Mandatory" DataType="tns:SimpleAttributeOperand" ValueRank="Array" />
+      <Property SymbolicName="tns:Filter" ModellingRule="Mandatory" DataType="tns:ContentFilter" />
+      <Method SymbolicName="tns:ModifyFieldSelection" TypeDefinition="tns:PublishedEventsTypeModifyFieldSelectionMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:AddPublishedEventsMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="Name" DataType="tns:String" />
+      <Argument Name="EventNotifier" DataType="tns:NodeId" />
+      <Argument Name="FieldNameAliases" DataType="tns:String" ValueRank="Array" />
+      <Argument Name="PromotedFields" DataType="tns:Boolean" ValueRank="Array" />
+      <Argument Name="SelectedFields" DataType="tns:SimpleAttributeOperand" ValueRank="Array" />
+      <Argument Name="Filter" DataType="tns:ContentFilter" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="ConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
+      <Argument Name="DataSetNodeId" DataType="tns:NodeId" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:PublishedEventsTypeModifyFieldSelectionMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="ConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
+      <Argument Name="FieldNameAliases" DataType="tns:String" ValueRank="Array" />
+      <Argument Name="PromotedFields" DataType="tns:Boolean" ValueRank="Array" />
+      <Argument Name="SelectedFields" DataType="tns:SimpleAttributeOperand" ValueRank="Array" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="NewConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
+    </OutputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:DataSetClassType" PartNo="14" BaseType="tns:PublishedDataSetType">
+    <Children>
+      <Property SymbolicName="tns:DataSetClassId" ModellingRule="Mandatory" DataType="tns:Guid" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:PubSubConnectionType" PartNo="14" BaseType="tns:BaseObjectType">
+    <Children>
+      <Property SymbolicName="tns:PublisherId" ModellingRule="Mandatory" DataType="tns:BaseDataType" />
+      <Object SymbolicName="tns:GroupName_Placeholder" TypeDefinition="tns:PubSubGroupType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;GroupName&gt;</BrowseName>
+      </Object>
+      <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:Address" ModellingRule="Mandatory" DataType="tns:String" />
+      <Method SymbolicName="tns:RemoveGroup" TypeDefinition="tns:PubSubConnectionTypeRemoveGroupMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:PubSubConnectionTypeRemoveGroupMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="GroupId" DataType="tns:NodeId" />
+    </InputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:PubSubGroupType" PartNo="14" BaseType="tns:BaseObjectType">
+    <Children>
+      <Property SymbolicName="tns:PublishingInterval" ModellingRule="Mandatory" DataType="tns:Duration" />
+      <Property SymbolicName="tns:KeepAliveTime" ModellingRule="Mandatory" DataType="tns:Duration" />
+      <Property SymbolicName="tns:EncodingMimeType" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:Priority" ModellingRule="Mandatory" DataType="tns:Byte" />
+      <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
+      <Object SymbolicName="tns:MessageSecurity" TypeDefinition="tns:PubSubMessageSecurityType" ModellingRule="Optional" />
+      <Object SymbolicName="tns:DataSetWriterName_Placeholder" TypeDefinition="tns:DataSetWriterType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;DataSetWriterName&gt;</BrowseName>
+        <ReferenceType>tns:HasDataSetWriter</ReferenceType>
+      </Object>
+      <Method SymbolicName="tns:RemoveDataSetWriter" TypeDefinition="tns:PubSubGroupTypeRemoveWriterMethodType" ModellingRule="Optional" />
+      <Object SymbolicName="tns:DataSetReaderName_Placeholder" TypeDefinition="tns:DataSetReaderType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;DataSetReaderName&gt;</BrowseName>
+        <ReferenceType>tns:HasDataSetReader</ReferenceType>
+      </Object>
+      <Method SymbolicName="tns:RemoveDataSetReader" TypeDefinition="tns:PubSubGroupTypeRemoveReaderMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:PubSubGroupTypeRemoveWriterMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="DataSetWriterNodeId" DataType="tns:NodeId" />
+    </InputArguments>
+  </Method>
+  <Method SymbolicName="tns:PubSubGroupTypeRemoveReaderMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="DataSetReaderNodeId" DataType="tns:NodeId" />
+    </InputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:PubSubMessageSecurityType" PartNo="14" BaseType="tns:BaseObjectType">
+    <Children>
+      <Property SymbolicName="tns:SecurityGroupId" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:SecurityMode" ModellingRule="Mandatory" DataType="tns:MessageSecurityMode" />
+      <Property SymbolicName="tns:SecurityKeyServices" ModellingRule="Optional" DataType="tns:EndpointDescription" ValueRank="Array" />
+    </Children>
+  </ObjectType>
+  <DataType SymbolicName="tns:SecurityKeyServiceDataType" PartNo="14" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="ApplicationUri" DataType="tns:String" />
+      <Field Name="EndpointUrls" DataType="tns:String" ValueRank="Array" />
+      <Field Name="AuthorizationUrls" DataType="tns:String" ValueRank="Array" />
+      <Field Name="TransportProfileUri" DataType="tns:String" />
+    </Fields>
+  </DataType>
+  <ReferenceType SymbolicName="tns:HasDataSetWriter" PartNo="14" BaseType="tns:HasComponent" Symmetric="false">
+    <InverseName>IsWriterInGroup</InverseName>
+  </ReferenceType>
+  <ReferenceType SymbolicName="tns:HasDataSetReader" PartNo="14" BaseType="tns:HasComponent" Symmetric="false">
+    <InverseName>IsReaderInGroup</InverseName>
+  </ReferenceType>
+  <ObjectType SymbolicName="tns:DataSetWriterType" PartNo="14" BaseType="tns:BaseObjectType">
+    <Children>
+      <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
+      <Object SymbolicName="tns:TransportSettings" TypeDefinition="tns:DataSetWriterTransportType" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:DataSetContentMask" ModellingRule="Mandatory" DataType="tns:DataSetContentMask" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:DataSetWriterTransportType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true">
+    <Children>
+      <Property SymbolicName="tns:KeyFrameCount" ModellingRule="Optional" DataType="tns:UInt32" />
+    </Children>
+  </ObjectType>
+  <DataType SymbolicName="tns:DataSetContentMask" PartNo="14" BaseType="tns:Enumeration">
+    <Fields>
+      <Field Name="FieldStatusCode" Identifier="1" />
+      <Field Name="FieldSourceTimestamp" Identifier="2" />
+      <Field Name="FieldServerTimestamp" Identifier="4" />
+      <Field Name="FieldSourcePicoSeconds" Identifier="8" />
+      <Field Name="FieldServerPicoSeconds" Identifier="16" />
+      <Field Name="FieldRawDataEncoding" Identifier="32" />
+      <Field Name="HeaderTimestamp" Identifier="64" />
+      <Field Name="HeaderPicoSeconds" Identifier="128" />
+      <Field Name="HeaderStatusCode" Identifier="256" />
+      <Field Name="HeaderMajorVersion" Identifier="512" />
+      <Field Name="HeaderMinorVersion" Identifier="1024" />
+    </Fields>
+  </DataType>
+  <ObjectType SymbolicName="tns:DataSetReaderType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true">
+    <Children>
+      <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
+      <Object SymbolicName="tns:TransportSettings" TypeDefinition="tns:DataSetReaderTransportType" ModellingRule="Mandatory" />
+      <Object SymbolicName="tns:MessageSecurity" TypeDefinition="tns:PubSubMessageSecurityType" ModellingRule="Optional" />
+      <Object SymbolicName="tns:SubscribedDataSet" TypeDefinition="tns:SubscribedDataSetType" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:SetConnectVariables" TypeDefinition="tns:DataSetReaderTypeSetConnectVariablesMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:SetDataSetMirror" TypeDefinition="tns:DataSetReaderTypeSetDataSetMirrorMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:DataSetReaderTransportType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true" />
+  <Method SymbolicName="tns:DataSetReaderTypeSetConnectVariablesMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="ConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
+      <Argument Name="DataConnectionsToAdd" DataType="tns:DataConnectionDataType" ValueRank="Array" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="AddResults" DataType="tns:StatusCode" ValueRank="Array" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:DataSetReaderTypeSetDataSetMirrorMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="ParentNode" DataType="tns:NodeId" />
+    </InputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:SubscribedDataSetType" PartNo="14" BaseType="tns:BaseObjectType">
+    <Children>
+      <Property SymbolicName="tns:DataSetMetaData" ModellingRule="Mandatory" DataType="tns:DataSetMetaDataType" />
+      <Property SymbolicName="tns:MessageReceiveTimeout" ModellingRule="Mandatory" DataType="tns:Duration" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:ConnectedVariablesType" PartNo="14" BaseType="tns:SubscribedDataSetType">
+    <Children>
+      <Property SymbolicName="tns:ConnectedVariables" ModellingRule="Mandatory" DataType="tns:DataConnectionDataType" ValueRank="Array" />
+      <Method SymbolicName="tns:AddDataConnections" TypeDefinition="tns:ConnectedVariablesTypeAddDataConnectionsMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:RemoveDataConnections" TypeDefinition="tns:ConnectedVariablesTypeRemoveDataConnectionsMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:ConnectedVariablesTypeAddDataConnectionsMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="ConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
+      <Argument Name="ConnectionsToAdd" DataType="tns:DataConnectionDataType" ValueRank="Array" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="AddResults" DataType="tns:StatusCode" ValueRank="Array" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:ConnectedVariablesTypeRemoveDataConnectionsMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="ConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
+      <Argument Name="ConnectionsToRemove" DataType="tns:UInt32" ValueRank="Array" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="RemoveResults" DataType="tns:StatusCode" ValueRank="Array" />
+    </OutputArguments>
+  </Method>
+  <DataType SymbolicName="tns:DataConnectionDataType" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="DataSetFieldId" DataType="tns:Guid" />
+      <Field Name="ReceiverIndexRange" DataType="tns:NumericRange" />
+      <Field Name="TargetNodeId" DataType="tns:NodeId" />
+      <Field Name="AttributeId" DataType="tns:IntegerId" />
+      <Field Name="WriteIndexRange" DataType="tns:NumericRange" />
+      <Field Name="OverrideValueHandling" DataType="tns:OverrideValueHandling" />
+      <Field Name="OverrideValue" DataType="tns:BaseDataType" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:OverrideValueHandling" PartNo="14" BaseType="tns:Enumeration">
+    <Fields>
+      <Field Name="Disabled" Identifier="0" />
+      <Field Name="LastUseableValue" Identifier="1" />
+      <Field Name="OverrideValue" Identifier="2" />
+    </Fields>
+  </DataType>
+  <ObjectType SymbolicName="tns:SubscribedDataSetMirrorType" PartNo="14" BaseType="tns:SubscribedDataSetType">
+    <Children>
+      <Property SymbolicName="tns:ParentNode" DataType="tns:NodeId" ValueRank="Scalar" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:PubSubStatusType" PartNo="14" BaseType="tns:BaseObjectType">
+    <Children>
+      <Property SymbolicName="tns:State" ModellingRule="Mandatory" DataType="tns:PubSubState" />
+      <Method SymbolicName="tns:Enable" ModellingRule="Optional" />
+      <Method SymbolicName="tns:Disable" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <DataType SymbolicName="tns:PubSubState" BaseType="tns:Enumeration">
+    <Fields>
+      <Field Name="Disabled" Identifier="0" />
+      <Field Name="Stopped" Identifier="1" />
+      <Field Name="Operational" Identifier="2" />
+      <Field Name="Error" Identifier="3" />
+    </Fields>
+  </DataType>
+  <ObjectType SymbolicName="tns:PubSubStatusEventType" PartNo="14" BaseType="tns:SystemEventType" IsAbstract="true">
+    <Children>
+      <Property SymbolicName="tns:ConnectionId" ModellingRule="Mandatory" DataType="tns:NodeId" />
+      <Property SymbolicName="tns:GroupId" ModellingRule="Mandatory" DataType="tns:NodeId" />
+      <Property SymbolicName="tns:State" ModellingRule="Mandatory" DataType="tns:PubSubState" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:PubSubTransportLimitsExceedEventType" PartNo="14" BaseType="tns:PubSubStatusEventType" IsAbstract="true">
+    <Children>
+      <Property SymbolicName="tns:Actual" ModellingRule="Mandatory" DataType="tns:UInt32" />
+      <Property SymbolicName="tns:Maximum" ModellingRule="Mandatory" DataType="tns:UInt32" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:PubSubCommunicationFailureEventType" PartNo="14" BaseType="tns:PubSubStatusEventType" IsAbstract="true">
+    <Children>
+      <Property SymbolicName="tns:Error" ModellingRule="Mandatory" DataType="tns:StatusCode" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:UadpConnectionType" PartNo="14" BaseType="tns:PubSubConnectionType">
+    <Children>
+      <Variable SymbolicName="tns:NetworkInterface" TypeDefinition="tns:MultiStateDiscreteType" DataType="tns:UInt32" ValueRank="Array" />
+      <Property SymbolicName="tns:TimeToLive" ModellingRule="Optional" DataType="tns:Byte" />
+      <Method SymbolicName="tns:AddGroup" TypeDefinition="tns:UadpConnectionTypeAddGroupMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:AddUadpConnectionMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="ConnectionName" DataType="tns:String" />
+      <Argument Name="Address" DataType="tns:String" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="ConnectionId" DataType="tns:NodeId" />
+    </OutputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:UadpGroupType" PartNo="14" BaseType="tns:PubSubGroupType">
+    <Children>
+      <Property SymbolicName="tns:MaxNetworkMessageSize" ModellingRule="Mandatory" DataType="tns:UInt16" />
+      <Property SymbolicName="tns:SamplingOffset" ModellingRule="Optional" DataType="tns:Duration" />
+      <Property SymbolicName="tns:PublishingOffset" ModellingRule="Mandatory" DataType="tns:Duration" />
+      <Property SymbolicName="tns:MessageRepeatCount" ModellingRule="Optional" DataType="tns:Byte" />
+      <Property SymbolicName="tns:MessageRepeatDelay" ModellingRule="Optional" DataType="tns:Duration" />
+      <Property SymbolicName="tns:UadpStreamAddress" ModellingRule="Optional" DataType="tns:String" />
+      <Method SymbolicName="tns:AddDataSetWriter" TypeDefinition="tns:UadpGroupTypeAddWriterMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:AddDataSetReader" TypeDefinition="tns:UadpGroupTypeAddReaderMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:UadpConnectionTypeAddGroupMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="GroupName" DataType="tns:String" />
+      <Argument Name="PublishingInterval" DataType="tns:Duration" />
+      <Argument Name="PublishingOffset" DataType="tns:Duration" />
+      <Argument Name="KeepAliveTime" DataType="tns:Duration" />
+      <Argument Name="Priority" DataType="tns:Byte" />
+      <Argument Name="SecurityMode" DataType="tns:MessageSecurityMode" />
+      <Argument Name="SecurityGroupId" DataType="tns:String" />
+      <Argument Name="MaxNetworkMessageSize" DataType="tns:UInt16" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="GroupId" DataType="tns:NodeId" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:UadpGroupTypeAddWriterMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="DataSetWriterName" DataType="tns:String" />
+      <Argument Name="PublishedDataSetId" DataType="tns:NodeId" />
+      <Argument Name="DataSetContentMask" DataType="tns:DataSetContentMask" />
+      <Argument Name="KeyFrameCount" DataType="tns:UInt32" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="DataSetWriterNodeId" DataType="tns:NodeId" />
+      <Argument Name="RevisedKeyFrameCount" DataType="tns:UInt32" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:UadpGroupTypeAddReaderMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="DataSetReaderName" DataType="tns:String" />
+      <Argument Name="PublisherId" DataType="tns:Guid" />
+      <Argument Name="DataSetWriterId" DataType="tns:UInt16" />
+      <Argument Name="DataSetMetaData" DataType="tns:DataSetMetaDataType" />
+      <Argument Name="MessageReceiveTimeout" DataType="tns:Duration" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="DataSetReaderNodeId" DataType="tns:NodeId" />
+      <Argument Name="RevisedMessageReceiveTimeout" DataType="tns:Duration" />
+    </OutputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:UadpWriterTransportType" PartNo="14" BaseType="tns:DataSetWriterTransportType">
+    <Children>
+      <Property SymbolicName="tns:DataSetWriterId" ModellingRule="Mandatory" DataType="tns:UInt16" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:UadpReaderTransportType" PartNo="14" BaseType="tns:DataSetReaderTransportType">
+    <Children>
+      <Property SymbolicName="tns:PublisherId" ModellingRule="Mandatory" DataType="tns:Guid" />
+      <Property SymbolicName="tns:DataSetWriterId" ModellingRule="Mandatory" DataType="tns:UInt16" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:AmqpConnectionType" PartNo="14" BaseType="tns:PubSubConnectionType">
+    <Children>
+      <Method SymbolicName="tns:AddGroup" TypeDefinition="tns:AmqpConnectionTypeAddGroupMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:AddAmqpConnectionMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="ConnectionName" DataType="tns:String" />
+      <Argument Name="Address" DataType="tns:String" />
+      <Argument Name="PublisherId" DataType="tns:String" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="ConnectionId" DataType="tns:NodeId" />
+    </OutputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:AmqpGroupType" PartNo="14" BaseType="tns:PubSubGroupType">
+    <Children>
+      <Property SymbolicName="tns:AmqpNodeName" ModellingRule="Mandatory" DataType="tns:String" />
+      <Method SymbolicName="tns:AddDataSetWriter" TypeDefinition="tns:AmqpGroupTypeAddWriterMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:AddDataSetReader" TypeDefinition="tns:AmqpGroupTypeAddReaderType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:AmqpConnectionTypeAddGroupMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="GroupName" DataType="tns:String" />
+      <Argument Name="PublishingInterval" DataType="tns:Duration" />
+      <Argument Name="KeepAliveTime" DataType="tns:Duration" />
+      <Argument Name="Priority" DataType="tns:Byte" />
+      <Argument Name="EncodingMimeType" DataType="tns:String" />
+      <Argument Name="SecurityMode" DataType="tns:MessageSecurityMode" />
+      <Argument Name="SecurityGroupId" DataType="tns:String" />
+      <Argument Name="AmqpNodeName" DataType="tns:String" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="GroupId" DataType="tns:NodeId" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:AmqpGroupTypeAddWriterMethodType" PartNo="14">
+    <InputArguments>
+      <Argument Name="DataSetWriterName" DataType="tns:String" />
+      <Argument Name="PublishedDataSetId" DataType="tns:NodeId" />
+      <Argument Name="AmqpNodeName" DataType="tns:String" />
+      <Argument Name="MetaDataAmqpNodeName" DataType="tns:String" />
+      <Argument Name="MetaDataUpdateTime" DataType="tns:Duration" />
+      <Argument Name="MaxMessageSize" DataType="tns:UInt32" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="DataSetWriterNodeId" DataType="tns:NodeId" />
+      <Argument Name="RevisedMaxMessageSize" DataType="tns:UInt32" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:AmqpGroupTypeAddReaderType" PartNo="14">
+    <InputArguments>
+      <Argument Name="DataSetReaderName" DataType="tns:String" />
+      <Argument Name="AmqpNodeName" DataType="tns:String" />
+      <Argument Name="MetaDataAmqpNodeName" DataType="tns:String" />
+      <Argument Name="DataSetWriterId" DataType="tns:UInt32" />
+      <Argument Name="DataSetMetaData" DataType="tns:DataSetMetaDataType" />
+      <Argument Name="MessageReceiveTimeout" DataType="tns:Duration" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="DataSetReaderNodeId" DataType="tns:NodeId" />
+      <Argument Name="RevisedMessageReceiveTimeout" DataType="tns:UInt32" />
+    </OutputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:AmqpWriterTransportType" PartNo="14" BaseType="tns:DataSetWriterTransportType">
+    <Children>
+      <Property SymbolicName="tns:AmqpNodeName" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:MetaDataAmqpNodeName" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:MetaDataUpdateTime" ModellingRule="Mandatory" DataType="tns:Duration" />
+      <Property SymbolicName="tns:DataSetWriterId" ModellingRule="Mandatory" DataType="tns:UInt16" />
+      <Property SymbolicName="tns:MaxMessageSize" ModellingRule="Mandatory" DataType="tns:UInt32" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:AmqpReaderTransportType" PartNo="14" BaseType="tns:DataSetReaderTransportType">
+    <Children>
+      <Property SymbolicName="tns:AmqpNodeName" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:MetaDataAmqpNodeName" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:DataSetWriterId" ModellingRule="Mandatory" DataType="tns:UInt16" />
+    </Children>
+  </ObjectType>
   <DataType SymbolicName="tns:IdType" SymbolicId="tns:IdType" PartNo="3" BaseType="tns:Enumeration">
     <Description>The type of identifier used in a node id.</Description>
     <Fields>
@@ -3329,6 +4198,11 @@
       </Field>
     </Fields>
   </DataType>
+  <DataType SymbolicName="tns:EnumField" SymbolicId="tns:EnumField" PartNo="14" BaseType="tns:EnumValueType">
+    <Fields>
+      <Field Name="Name" DataType="tns:String" />
+    </Fields>
+  </DataType>
   <DataType SymbolicName="tns:OptionSet" SymbolicId="tns:OptionSet" PartNo="3" BaseType="tns:Structure">
     <Description>This abstract Structured DataType is the base DataType for all DataTypes representing a bit mask.</Description>
     <Fields>
@@ -3476,6 +4350,13 @@
       </Field>
     </Fields>
   </DataType>
+  <DataType SymbolicName="tns:SessionLessServiceMessageType" SymbolicId="tns:SessionLessServiceMessageType" PartNo="4" BaseType="tns:Structure" NoClassGeneration="true" NoArraysAllowed="true" NotInAddressSpace="true">
+    <Fields>
+      <Field Name="NamespaceUris" DataType="tns:String" ValueRank="Array" />
+      <Field Name="ServerUris" DataType="tns:String" ValueRank="Array" />
+      <Field Name="ServiceId" DataType="tns:UInt32" />
+    </Fields>
+  </DataType>
   <DataType SymbolicName="tns:FindServersRequest" SymbolicId="tns:FindServersRequest" PartNo="4" BaseType="tns:Structure" NoArraysAllowed="true" NotInAddressSpace="true">
     <Description>Finds the servers known to the discovery server.</Description>
     <Fields>
@@ -3561,9 +4442,6 @@
       </Field>
       <Field Name="IssuedToken" Identifier="3">
         <Description>A user identified by WS-Security XML token.</Description>
-      </Field>
-      <Field Name="Kerberos" Identifier="4">
-        <Description>A user identified by Kerberos ticket.</Description>
       </Field>
     </Fields>
   </DataType>
@@ -3927,11 +4805,6 @@
       <Field Name="CertificateData" DataType="tns:ByteString">
         <Description>The certificate.</Description>
       </Field>
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:KerberosIdentityToken" SymbolicId="tns:KerberosIdentityToken" PartNo="4" BaseType="tns:UserIdentityToken" NoArraysAllowed="true">
-    <Fields>
-      <Field Name="TicketData" DataType="tns:ByteString" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:IssuedIdentityToken" SymbolicId="tns:IssuedIdentityToken" PartNo="4" BaseType="tns:UserIdentityToken" NoArraysAllowed="true">
@@ -4533,6 +5406,7 @@
       <Field Name="Both" Identifier="2">
         <Description>Return forward and inverse references.</Description>
       </Field>
+      <Field Name="Invalid" Identifier="3" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ViewDescription" SymbolicId="tns:ViewDescription" PartNo="4" BaseType="tns:Structure" NoClassGeneration="true" NoArraysAllowed="true" NotInAddressSpace="true">
@@ -4858,38 +5732,6 @@
       <Field Name="SecurityTokenLifetime" DataType="tns:Int32" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:ComplianceLevel" SymbolicId="tns:ComplianceLevel" PartNo="4" BaseType="tns:Enumeration" NoArraysAllowed="true">
-    <Fields>
-      <Field Name="Untested" Identifier="0" />
-      <Field Name="Partial" Identifier="1" />
-      <Field Name="SelfTested" Identifier="2" />
-      <Field Name="Certified" Identifier="3" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:SupportedProfile" SymbolicId="tns:SupportedProfile" PartNo="4" BaseType="tns:Structure">
-    <Fields>
-      <Field Name="OrganizationUri" DataType="tns:String" />
-      <Field Name="ProfileId" DataType="tns:String" />
-      <Field Name="ComplianceTool" DataType="tns:String" />
-      <Field Name="ComplianceDate" DataType="tns:UtcTime" />
-      <Field Name="ComplianceLevel" DataType="tns:ComplianceLevel" />
-      <Field Name="UnsupportedUnitIds" DataType="tns:String" ValueRank="Array" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:SoftwareCertificate" SymbolicId="tns:SoftwareCertificate" PartNo="4" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Fields>
-      <Field Name="ProductName" DataType="tns:String" />
-      <Field Name="ProductUri" DataType="tns:String" />
-      <Field Name="VendorName" DataType="tns:String" />
-      <Field Name="VendorProductCertificate" DataType="tns:ByteString" />
-      <Field Name="SoftwareVersion" DataType="tns:String" />
-      <Field Name="BuildNumber" DataType="tns:String" />
-      <Field Name="BuildDate" DataType="tns:UtcTime" />
-      <Field Name="IssuedBy" DataType="tns:String" />
-      <Field Name="IssueDate" DataType="tns:DateTime" />
-      <Field Name="SupportedProfiles" DataType="tns:SupportedProfile" ValueRank="Array" />
-    </Fields>
-  </DataType>
   <DataType SymbolicName="tns:QueryDataDescription" SymbolicId="tns:QueryDataDescription" PartNo="4" BaseType="tns:Structure" NoClassGeneration="true" NotInAddressSpace="true">
     <Fields>
       <Field Name="RelativePath" DataType="tns:RelativePath" />
@@ -5040,6 +5882,7 @@
       <Field Name="Server" Identifier="1" />
       <Field Name="Both" Identifier="2" />
       <Field Name="Neither" Identifier="3" />
+      <Field Name="Invalid" Identifier="4" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ReadValueId" SymbolicId="tns:ReadValueId" PartNo="4" BaseType="tns:Structure" NoClassGeneration="true" NotInAddressSpace="true">
@@ -5622,20 +6465,6 @@
       <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
       <Field Name="Results" DataType="tns:StatusCode" ValueRank="Array" />
       <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:EnumeratedTestType" SymbolicId="tns:EnumeratedTestType" PartNo="999" BaseType="tns:Enumeration">
-    <Description>A simple enumerated type used for testing.</Description>
-    <Fields>
-      <Field Name="Red" Identifier="1">
-        <Description>Operation has halted.</Description>
-      </Field>
-      <Field Name="Yellow" Identifier="4">
-        <Description>Operation is proceeding with caution.</Description>
-      </Field>
-      <Field Name="Green" Identifier="5">
-        <Description>Operation is proceeding normally.</Description>
-      </Field>
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:BuildInfo" SymbolicId="tns:BuildInfo" PartNo="5" BaseType="tns:Structure" NoArraysAllowed="true">

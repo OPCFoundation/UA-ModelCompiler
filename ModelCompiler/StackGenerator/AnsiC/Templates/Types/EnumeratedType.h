@@ -9,9 +9,9 @@ typedef enum __TYPE_
 }
 _TYPE_;
 
-#define _TYPE__Clear(xValue) OpcUa_Int32_Clear((OpcUa_Int32*)xValue)
+#define _TYPE__Clear(xValue) OpcUa_EnumeratedType_Clear(xValue, _DEFAULT_)
 
-#define _TYPE__Initialize(xValue) OpcUa_Int32_Initialize((OpcUa_Int32*)xValue)
+#define _TYPE__Initialize(xValue) OpcUa_EnumeratedType_Initialize(xValue, _DEFAULT_)
 
 OPCUA_IMEXPORT extern struct _OpcUa_EnumeratedType _TYPE__EnumeratedType;
 #endif

@@ -100,10 +100,18 @@ public partial class _BrowseName_ : IEncodeable
         return true;
     }
 
+    #if !NET_STANDARD
     /// <summary cref="ICloneable.Clone" />
     public virtual object Clone()
     {
-        _BrowseName_ clone = (_BrowseName_)this.MemberwiseClone();
+        return (_BrowseName_)this.MemberwiseClone();
+    }
+    #endif
+
+    /// <summary cref="Object.MemberwiseClone" />
+    public new object MemberwiseClone()
+    {
+        _BrowseName_ clone = (_BrowseName_)base.MemberwiseClone();
 
         // ListOfClonedFields
 

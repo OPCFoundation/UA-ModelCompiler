@@ -195,7 +195,7 @@
       <opc:Object SymbolicName="AggregateFunctions" TypeDefinition="FolderType">
         <opc:Description>A folder for the real time aggregates supported by the server.</opc:Description>
       </opc:Object>
-      <opc:Variable SymbolicName="VendorCapability" TypeDefinition="ServerVendorCapabilityType" ModellingRule="OptionalPlaceholder">
+      <opc:Variable SymbolicName="VendorCapability_Placeholder" TypeDefinition="ServerVendorCapabilityType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;VendorCapability&gt;</opc:BrowseName>
       </opc:Variable>
     </opc:Children>
@@ -231,7 +231,7 @@
       <opc:Variable SymbolicName="SessionSecurityDiagnosticsArray" TypeDefinition="SessionSecurityDiagnosticsArrayType">
         <opc:Description>A list of security related diagnostics for each active session.</opc:Description>
       </opc:Variable>
-      <opc:Object SymbolicName="ClientName" TypeDefinition="SessionDiagnosticsObjectType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="ClientName_Placeholder" TypeDefinition="SessionDiagnosticsObjectType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ClientName&gt;</opc:BrowseName>
       </opc:Object>
     </opc:Children>
@@ -414,10 +414,10 @@
 
   <opc:ObjectType SymbolicName="FileDirectoryType" BaseType="ua:FolderType" PartNo="5">
     <opc:Children>
-      <opc:Object SymbolicName="xFileDirectoryNamex" TypeDefinition="FileDirectoryType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="FileDirectoryName_Placeholder" TypeDefinition="FileDirectoryType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;FileDirectoryName&gt;</opc:BrowseName>
       </opc:Object>
-      <opc:Object SymbolicName="xFileNamex" TypeDefinition="FileType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="FileName_Placeholder" TypeDefinition="FileType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;FileName&gt;</opc:BrowseName>
       </opc:Object>
       <opc:Method SymbolicName="CreateDirectory" TypeDefinition="CreateDirectoryMethodType">
@@ -430,7 +430,46 @@
       </opc:Method>
     </opc:Children>
   </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="TemporaryFileTransferType" BaseType="ua:BaseObjectType" PartNo="5">
+    <opc:Children>
+      <opc:Property SymbolicName="ClientProcessingTimeout" DataType="ua:Duration" />
+      <opc:Method SymbolicName="GenerateFileForRead" TypeDefinition="GenerateFileForReadMethodType" />
+      <opc:Method SymbolicName="GenerateFileForWrite" TypeDefinition="GenerateFileForWriteMethodType" />
+      <opc:Method SymbolicName="CloseAndCommit" TypeDefinition="CloseAndCommitMethodType" />
+      <opc:Object SymbolicName="TransferState_Placeholder" TypeDefinition="FileTransferStateMachineType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;TransferState&gt;</opc:BrowseName>
+      </opc:Object>
+    </opc:Children>
+  </opc:ObjectType>
   
+  <opc:Method SymbolicName="GenerateFileForReadMethodType" PartNo="5">
+    <opc:InputArguments>
+      <opc:Argument Name="GenerateOptions" DataType="ua:BaseDataType" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="FileNodeId" DataType="ua:NodeId" />
+      <opc:Argument Name="FileHandle" DataType="ua:UInt32" />
+      <opc:Argument Name="CompletionStateMachine" DataType="ua:NodeId" />
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="GenerateFileForWriteMethodType" PartNo="5">
+    <opc:OutputArguments>
+      <opc:Argument Name="FileNodeId" DataType="ua:NodeId" />
+      <opc:Argument Name="FileHandle" DataType="ua:UInt32" />
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="CloseAndCommitMethodType" PartNo="5">
+    <opc:InputArguments>
+      <opc:Argument Name="FileHandle" DataType="ua:UInt32" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="CompletionStateMachine" DataType="ua:NodeId" />
+    </opc:OutputArguments>
+  </opc:Method>
+    
   <opc:ObjectType SymbolicName="AddressSpaceFileType" BaseType="FileType" PartNo="5">
     <opc:Description>A file used to store a namespace exported from the server.</opc:Description>
     <opc:Children>
@@ -473,7 +512,7 @@
   <opc:ObjectType SymbolicName="NamespacesType" BaseType="ua:BaseObjectType" PartNo="5">
     <opc:Description>A container for the namespace metadata provided by the server.</opc:Description>
     <opc:Children>
-      <opc:Object SymbolicName="NamespaceIdentifier" TypeDefinition="NamespaceMetadataType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="NamespaceIdentifier_Placeholder" TypeDefinition="NamespaceMetadataType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;NamespaceIdentifier&gt;</opc:BrowseName>
       </opc:Object>
       <opc:Object SymbolicName="AddressSpaceFile" TypeDefinition="AddressSpaceFileType" ModellingRule="Optional">
@@ -1192,6 +1231,26 @@
       <opc:Property SymbolicName="TransitionNumber" DataType="ua:UInt32" ModellingRule="Mandatory"></opc:Property>
     </opc:Children>
     <opc:ClassName>StateMachineTransition</opc:ClassName>
+  </opc:ObjectType>
+  
+  <opc:ObjectType SymbolicName="FileTransferStateMachineType" BaseType="FiniteStateMachineType" PartNo="5">
+    <opc:Children>
+      <opc:Object SymbolicName="Idle" TypeDefinition="InitialStateType" />
+      <opc:Object SymbolicName="ReadPrepare" TypeDefinition="StateType" />
+      <opc:Object SymbolicName="ReadTransfer" TypeDefinition="StateType" />
+      <opc:Object SymbolicName="ApplyWrite" TypeDefinition="StateType" />
+      <opc:Object SymbolicName="Error" TypeDefinition="StateType" />
+      <opc:Object SymbolicName="IdleToReadPrepare" TypeDefinition="TransitionType" />
+      <opc:Object SymbolicName="ReadPrepareToReadTransfer" TypeDefinition="TransitionType" />
+      <opc:Object SymbolicName="ReadTransferToIdle" TypeDefinition="TransitionType" />
+      <opc:Object SymbolicName="IdleToApplyWrite" TypeDefinition="TransitionType" />
+      <opc:Object SymbolicName="ApplyWriteToIdle" TypeDefinition="TransitionType" />
+      <opc:Object SymbolicName="ReadPrepareToError" TypeDefinition="TransitionType" />
+      <opc:Object SymbolicName="ReadTransferToError" TypeDefinition="TransitionType" />
+      <opc:Object SymbolicName="ApplyWriteToError" TypeDefinition="TransitionType" />
+      <opc:Object SymbolicName="ErrorToIdle" TypeDefinition="TransitionType" />
+      <opc:Method SymbolicName="Reset" />
+    </opc:Children>
   </opc:ObjectType>
 
   <!-- FromState BuiltInTypes.xml -->
@@ -2707,7 +2766,7 @@
       <opc:Object SymbolicName="DefaultApplicationGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Mandatory" />
       <opc:Object SymbolicName="DefaultHttpsGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Optional" />
       <opc:Object SymbolicName="DefaultUserTokenGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Optional" />
-      <opc:Object SymbolicName="AdditionalGroup" TypeDefinition="CertificateGroupType"  ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="AdditionalGroup_Placeholder" TypeDefinition="CertificateGroupType"  ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;AdditionalGroup&gt;</opc:BrowseName>
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
@@ -3077,8 +3136,8 @@
   <opc:ObjectType SymbolicName="RoleFolderType" BaseType="ua:FolderType" PartNo="3">
     <opc:Description>A container for the roles supported by the server.</opc:Description>
     <opc:Children>
-      <opc:Object SymbolicName="xRolex" TypeDefinition="RoleType" ModellingRule="OptionalPlaceholder">
-        <opc:BrowseName>&lt;Role&gt;</opc:BrowseName>
+      <opc:Object SymbolicName="RoleName_Placeholder" TypeDefinition="RoleType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;RoleName&gt;</opc:BrowseName>
       </opc:Object>
     </opc:Children>
   </opc:ObjectType>
@@ -3218,7 +3277,7 @@
   
   <opc:ObjectType SymbolicName="PublishSubscribeType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
-      <opc:Object SymbolicName="xConnectionNamex" TypeDefinition="PubSubConnectionType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="ConnectionName_Placeholder" TypeDefinition="PubSubConnectionType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ConnectionName&gt;</opc:BrowseName>
         <opc:ReferenceType>HasPubSubConnection</opc:ReferenceType>
       </opc:Object>
@@ -3227,8 +3286,9 @@
       <opc:Method SymbolicName="RemoveConnection" TypeDefinition="RemoveConnectionMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="GetSecurityKeys" TypeDefinition="GetSecurityKeysMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="GetSecurityGroup" TypeDefinition="GetSecurityGroupMethodType" ModellingRule="Optional" />
-      <opc:Object SymbolicName="PublishedDataSets" TypeDefinition="DataSetFolderType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="SecurityGroups" TypeDefinition="SecurityGroupFolderType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="PublishedDataSets" TypeDefinition="DataSetFolderType" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -3262,11 +3322,11 @@
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="SecurityPolicyUri" DataType="ua:String"></opc:Argument>
-      <opc:Argument Name="CurrentTokenId" DataType="ua:UInt32"></opc:Argument>
+      <opc:Argument Name="CurrentTokenId" DataType="ua:IntegerId"></opc:Argument>
       <opc:Argument Name="CurrentKey" DataType="ua:ByteString"></opc:Argument>
       <opc:Argument Name="NextKeys" DataType="ua:ByteString" ValueRank="Array"></opc:Argument>
-      <opc:Argument Name="TimeToNextKey" DataType="ua:UInt32"></opc:Argument>
-      <opc:Argument Name="KeyLifetime" DataType="ua:UInt32"></opc:Argument>
+      <opc:Argument Name="TimeToNextKey" DataType="ua:Duration"></opc:Argument>
+      <opc:Argument Name="KeyLifetime" DataType="ua:Duration"></opc:Argument>
     </opc:OutputArguments>
   </opc:Method>
 
@@ -3281,15 +3341,15 @@
   
   <opc:ObjectType SymbolicName="SecurityGroupFolderType" BaseType="ua:FolderType" PartNo="14">
     <opc:Children>
-      <opc:Object SymbolicName="xSecurityGroupFolderNamex" TypeDefinition="SecurityGroupFolderType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="SecurityGroupFolderName_Placeholder" TypeDefinition="SecurityGroupFolderType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;SecurityGroupFolderName&gt;</opc:BrowseName>
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
-      <opc:Object SymbolicName="xSecurityGroupNamex" TypeDefinition="SecurityGroupType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="SecurityGroupName_Placeholder" TypeDefinition="SecurityGroupType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;SecurityGroupName&gt;</opc:BrowseName>
       </opc:Object>
-      <opc:Method SymbolicName="AddSecurityGroup" TypeDefinition="AddSecurityGroupMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveSecurityGroup" TypeDefinition="RemoveSecurityGroupMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddSecurityGroup" TypeDefinition="AddSecurityGroupMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveSecurityGroup" TypeDefinition="RemoveSecurityGroupMethodType" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
   
@@ -3320,11 +3380,11 @@
 
   <opc:ObjectType SymbolicName="DataSetFolderType" BaseType="ua:FolderType" PartNo="14">
     <opc:Children>
-      <opc:Object SymbolicName="xDataSetFolderNamex" TypeDefinition="DataSetFolderType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="DataSetFolderName_Placeholder" TypeDefinition="DataSetFolderType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;DataSetFolderName&gt;</opc:BrowseName>
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
-      <opc:Object SymbolicName="xPublishedDataSetNamex" TypeDefinition="PublishedDataSetType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="PublishedDataSetName_Placeholder" TypeDefinition="PublishedDataSetType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;PublishedDataSetName&gt;</opc:BrowseName>
       </opc:Object>
       <opc:Method SymbolicName="AddPublishedDataItems" TypeDefinition="AddPublishedDataItemsMethodType" ModellingRule="Optional" />
@@ -3341,7 +3401,7 @@
 
   <opc:ObjectType SymbolicName="PublishedDataSetType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
-      <opc:Object SymbolicName="xDataSetWriterNamex" TypeDefinition="DataSetWriterType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="DataSetWriterName_Placeholder" TypeDefinition="DataSetWriterType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;DataSetWriterName&gt;</opc:BrowseName>
         <opc:ReferenceType>DataSetToWriter</opc:ReferenceType>
       </opc:Object>
@@ -3353,9 +3413,8 @@
 
   <opc:DataType SymbolicName="ConfigurationVersionDataType" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="UniqueId"  DataType="ua:Guid" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="MajorVersion"  DataType="ua:Byte" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="MinorVersion"  DataType="ua:Byte" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="MajorVersion"  DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="MinorVersion"  DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
   
@@ -3411,10 +3470,10 @@
 
   <opc:ObjectType SymbolicName="ExtensionFieldsType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
-      <opc:Property SymbolicName="xExtensionFieldNamex" ModellingRule="OptionalPlaceholder">
+      <opc:Property SymbolicName="ExtensionFieldName_Placeholder" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ExtensionFieldName&gt;</opc:BrowseName></opc:Property>
-      <opc:Method SymbolicName="AddExtensionField" TypeDefinition="AddExtensionFieldMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveExtensionField" TypeDefinition="RemoveExtensionFieldMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddExtensionField" TypeDefinition="AddExtensionFieldMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveExtensionField" TypeDefinition="RemoveExtensionFieldMethodType" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
   
@@ -3424,13 +3483,13 @@
       <opc:Argument Name="FieldValue" DataType="ua:BaseDataType" ValueRank="ScalarOrArray" />
     </opc:InputArguments>
     <opc:OutputArguments>
-      <opc:Argument Name="FieldId" DataType="ua:NodeId"  ValueRank="Array" />    
+      <opc:Argument Name="FieldId" DataType="ua:NodeId"  ValueRank="Scalar" />    
     </opc:OutputArguments>
   </opc:Method>
   
   <opc:Method SymbolicName="RemoveExtensionFieldMethodType" PartNo="14">
     <opc:InputArguments>
-      <opc:Argument Name="FieldId" DataType="ua:NodeId"  ValueRank="Array" />    
+      <opc:Argument Name="FieldId" DataType="ua:NodeId"  ValueRank="Scalar" />    
     </opc:InputArguments>
   </opc:Method>
   
@@ -3454,7 +3513,7 @@
       <opc:Argument Name="VariablesToAdd" DataType="PublishedVariableDataType"  ValueRank="Array" />
     </opc:InputArguments>
     <opc:OutputArguments>
-      <opc:Argument Name="DataSetId" DataType="ua:NodeId" />
+      <opc:Argument Name="DataSetNodeId" DataType="ua:NodeId" />
       <opc:Argument Name="ConfigurationVersion" DataType="ConfigurationVersionDataType" />
       <opc:Argument Name="AddResults" DataType="ua:StatusCode" ValueRank="Array" />
     </opc:OutputArguments>
@@ -3493,6 +3552,7 @@
       <opc:Field Name="DeadbandValue"  DataType="ua:Double" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="IndexRange"  DataType="ua:NumericRange" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="SubstituteValue"  DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="MetaDataProperties"  DataType="ua:QualifiedName" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -3516,7 +3576,7 @@
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="ConfigurationVersion" DataType="ConfigurationVersionDataType" />
-      <opc:Argument Name="DataSetId" DataType="ua:NodeId" />
+      <opc:Argument Name="DataSetNodeId" DataType="ua:NodeId" />
     </opc:OutputArguments>
   </opc:Method>
   
@@ -3541,7 +3601,7 @@
   <opc:ObjectType SymbolicName="PubSubConnectionType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="PublisherId" DataType="ua:BaseDataType" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="xGroupNamex" TypeDefinition="PubSubGroupType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="GroupName_Placeholder" TypeDefinition="PubSubGroupType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;GroupName&gt;</opc:BrowseName>
       </opc:Object>
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
@@ -3561,14 +3621,15 @@
       <opc:Property SymbolicName="PublishingInterval" DataType="ua:Duration" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="KeepAliveTime" DataType="ua:Duration" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EncodingMimeType" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Priority" DataType="ua:Byte" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="MessageSecurity" TypeDefinition="PubSubMessageSecurityType" ModellingRule="Optional" />
-      <opc:Object SymbolicName="xDataSetWriterNamex" TypeDefinition="DataSetWriterType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="DataSetWriterName_Placeholder" TypeDefinition="DataSetWriterType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;DataSetWriterName&gt;</opc:BrowseName>
         <opc:ReferenceType>HasDataSetWriter</opc:ReferenceType>
       </opc:Object>
       <opc:Method SymbolicName="RemoveDataSetWriter" TypeDefinition="PubSubGroupTypeRemoveWriterMethodType" ModellingRule="Optional" />
-      <opc:Object SymbolicName="xDataSetReaderNamex" TypeDefinition="DataSetReaderType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="DataSetReaderName_Placeholder" TypeDefinition="DataSetReaderType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;DataSetReaderName&gt;</opc:BrowseName>
         <opc:ReferenceType>HasDataSetReader</opc:ReferenceType>
       </opc:Object>
@@ -3592,7 +3653,7 @@
     <opc:Children>
       <opc:Property SymbolicName="SecurityGroupId" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="SecurityMode" DataType="MessageSecurityMode" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="KeyServers" DataType="SecurityKeyServiceDataType" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="SecurityKeyServices" DataType="EndpointDescription" ValueRank="Array" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -3617,7 +3678,7 @@
     <opc:Children>
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="TransportSettings" TypeDefinition="DataSetWriterTransportType" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="DataSetContentMask" DataType="DataSetContentMask" ModellingRule="Optional" />
+      <opc:Property SymbolicName="DataSetContentMask" DataType="DataSetContentMask" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -3629,11 +3690,17 @@
   
   <opc:DataType SymbolicName="DataSetContentMask" BaseType="Enumeration" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="StatusCode" Identifier="1"></opc:Field>
-      <opc:Field Name="SourceTimestamp" Identifier="2"></opc:Field>
-      <opc:Field Name="ServerTimestamp" Identifier="4"></opc:Field>
-      <opc:Field Name="SourcePicoSeconds" Identifier="8"></opc:Field>
-      <opc:Field Name="ServerPicoSeconds" Identifier="16"></opc:Field>
+      <opc:Field Name="FieldStatusCode" Identifier="1"></opc:Field>
+      <opc:Field Name="FieldSourceTimestamp" Identifier="2"></opc:Field>
+      <opc:Field Name="FieldServerTimestamp" Identifier="4"></opc:Field>
+      <opc:Field Name="FieldSourcePicoSeconds" Identifier="8"></opc:Field>
+      <opc:Field Name="FieldServerPicoSeconds" Identifier="16"></opc:Field>
+      <opc:Field Name="FieldRawDataEncoding" Identifier="32"></opc:Field>
+      <opc:Field Name="HeaderTimestamp" Identifier="64"></opc:Field>
+      <opc:Field Name="HeaderPicoSeconds" Identifier="128"></opc:Field>
+      <opc:Field Name="HeaderStatusCode" Identifier="256"></opc:Field>
+      <opc:Field Name="HeaderMajorVersion" Identifier="512"></opc:Field>
+      <opc:Field Name="HeaderMinorVersion" Identifier="1024"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -3643,11 +3710,29 @@
       <opc:Object SymbolicName="TransportSettings" TypeDefinition="DataSetReaderTransportType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="MessageSecurity" TypeDefinition="PubSubMessageSecurityType" ModellingRule="Optional" />
       <opc:Object SymbolicName="SubscribedDataSet" TypeDefinition="SubscribedDataSetType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="SetConnectVariables" TypeDefinition="DataSetReaderTypeSetConnectVariablesMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="SetDataSetMirror" TypeDefinition="DataSetReaderTypeSetDataSetMirrorMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="DataSetReaderTransportType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14">
   </opc:ObjectType>
+  
+  <opc:Method SymbolicName="DataSetReaderTypeSetConnectVariablesMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="ConfigurationVersion" DataType="ConfigurationVersionDataType" />
+      <opc:Argument Name="DataConnectionsToAdd" DataType="DataConnectionDataType" ValueRank="Array" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="AddResults" DataType="ua:StatusCode" ValueRank="Array" />      
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="DataSetReaderTypeSetDataSetMirrorMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="ParentNode" DataType="ua:NodeId" />
+    </opc:InputArguments>
+  </opc:Method>
 
   <opc:ObjectType SymbolicName="SubscribedDataSetType" BaseType="ua:BaseObjectType" IsAbstract="false" PartNo="14">
     <opc:Children>
@@ -3691,7 +3776,16 @@
       <opc:Field Name="TargetNodeId"  DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="AttributeId"  DataType="ua:IntegerId" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="WriteIndexRange"  DataType="ua:NumericRange" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="OverrideValueHandling"  DataType="OverrideValueHandling" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="OverrideValue"  DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="OverrideValueHandling" BaseType="Enumeration" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="Disabled" Identifier="0"></opc:Field>
+      <opc:Field Name="LastUseableValue" Identifier="1"></opc:Field>
+      <opc:Field Name="OverrideValue" Identifier="2"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -3741,7 +3835,6 @@
 
   <opc:ObjectType SymbolicName="UadpConnectionType" BaseType="PubSubConnectionType" PartNo="14">
     <opc:Children>
-      <opc:Property SymbolicName="PublisherId" DataType="ua:Guid" ModellingRule="Mandatory" />
       <opc:Variable SymbolicName="NetworkInterface" DataType="ua:UInt32" ValueRank="Array" TypeDefinition="MultiStateDiscreteType" />
       <opc:Property SymbolicName="TimeToLive" DataType="ua:Byte" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddGroup" TypeDefinition="UadpConnectionTypeAddGroupMethodType" ModellingRule="Optional" />
@@ -3763,7 +3856,6 @@
       <opc:Property SymbolicName="MaxNetworkMessageSize" DataType="ua:UInt16" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="SamplingOffset" DataType="ua:Duration" ModellingRule="Optional" />
       <opc:Property SymbolicName="PublishingOffset" DataType="ua:Duration" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="Priority" DataType="ua:Byte" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MessageRepeatCount" DataType="ua:Byte" ModellingRule="Optional" />
       <opc:Property SymbolicName="MessageRepeatDelay" DataType="ua:Duration" ModellingRule="Optional" />
       <opc:Property SymbolicName="UadpStreamAddress" DataType="ua:String" ModellingRule="Optional" />
@@ -3775,11 +3867,13 @@
   <opc:Method SymbolicName="UadpConnectionTypeAddGroupMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="GroupName" DataType="ua:String" />
+      <opc:Argument Name="PublishingInterval" DataType="ua:Duration" />
+      <opc:Argument Name="PublishingOffset" DataType="ua:Duration" />
+      <opc:Argument Name="KeepAliveTime" DataType="ua:Duration" />
+      <opc:Argument Name="Priority" DataType="ua:Byte" />
       <opc:Argument Name="SecurityMode" DataType="ua:MessageSecurityMode" />
       <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
       <opc:Argument Name="MaxNetworkMessageSize" DataType="ua:UInt16" />
-      <opc:Argument Name="PublishingOffset" DataType="ua:Duration" />
-      <opc:Argument Name="Priority" DataType="ua:Byte" />
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="GroupId" DataType="ua:NodeId" />
@@ -3828,7 +3922,6 @@
 
   <opc:ObjectType SymbolicName="AmqpConnectionType" BaseType="PubSubConnectionType" PartNo="14">
     <opc:Children>
-      <opc:Property SymbolicName="PublisherId" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddGroup" TypeDefinition="AmqpConnectionTypeAddGroupMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
@@ -3855,10 +3948,13 @@
   <opc:Method SymbolicName="AmqpConnectionTypeAddGroupMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="GroupName" DataType="ua:String" />
-      <opc:Argument Name="AmqpNodeName" DataType="ua:String" />
+      <opc:Argument Name="PublishingInterval" DataType="ua:Duration" />
+      <opc:Argument Name="KeepAliveTime" DataType="ua:Duration" />
+      <opc:Argument Name="Priority" DataType="ua:Byte" />
       <opc:Argument Name="EncodingMimeType" DataType="ua:String" />
       <opc:Argument Name="SecurityMode" DataType="ua:MessageSecurityMode" />
       <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
+      <opc:Argument Name="AmqpNodeName" DataType="ua:String" />
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="GroupId" DataType="ua:NodeId" />
