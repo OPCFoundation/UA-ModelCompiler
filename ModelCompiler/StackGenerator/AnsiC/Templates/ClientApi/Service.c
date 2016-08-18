@@ -39,8 +39,8 @@ OPCUA_EXPORT OpcUa_StatusCode OpcUa_ClientApi__NAME_(
         OpcUa_ReturnStatusCode;
     }
 
-    /* check response type */
-    else if (OpcUa__NAME_Response_EncodeableType.TypeId != pResponseType->TypeId)
+    /* check response type */ 
+    else if (pResponseType->TypeId != OpcUaId__NAME_Response)
     {
         pResponseType->Clear(pResponse);
         OpcUa_GotoErrorWithStatus(OpcUa_BadUnknownResponse);

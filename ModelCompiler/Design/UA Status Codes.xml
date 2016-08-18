@@ -451,7 +451,7 @@
 
   <!-- Write -->
   <opc:Constant Name="Bad_WriteNotSupported">
-    <opc:Documentation>The server not does support writing the combination of value, status and timestamps provided.</opc:Documentation>
+    <opc:Documentation>The server does not support writing the combination of value, status and timestamps provided.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_TypeMismatch">
     <opc:Documentation>The value supplied for the attribute is not of the same type as the attribute's value.</opc:Documentation>
