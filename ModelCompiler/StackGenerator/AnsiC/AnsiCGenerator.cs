@@ -1054,6 +1054,11 @@ namespace Opc.Ua.CodeGenerator
 
             if (enumeratedType != null)
             {
+                if (enumeratedType.Value != null && enumeratedType.Value.Length > 0)
+                {
+                    template.AddReplacement("_DEFAULT_", String.Format("OpcUa_{0}_{1}", enumeratedType.Name, enumeratedType.Value[0].Name));
+                }
+
                 AddTemplate(
                     template,
                     "// _ValueList_",

@@ -145,7 +145,7 @@
     <Description>The type for references from a node to an event type that is raised by node.</Description>
     <InverseName>GeneratesEvent</InverseName>
   </ReferenceType>
-  <ReferenceType SymbolicName="tns:AlwaysGeneratesEvent" PartNo="3" BaseType="tns:NonHierarchicalReferences">
+  <ReferenceType SymbolicName="tns:AlwaysGeneratesEvent" PartNo="3" BaseType="tns:GeneratesEvent">
     <Description>The type for references from a node to an event type that is always raised by node.</Description>
     <InverseName>AlwaysGeneratesEvent</InverseName>
   </ReferenceType>
@@ -590,7 +590,7 @@
       <Object SymbolicName="tns:AggregateFunctions" TypeDefinition="tns:FolderType">
         <Description>A folder for the real time aggregates supported by the server.</Description>
       </Object>
-      <Variable SymbolicName="tns:Placeholder_VendorCapability" TypeDefinition="tns:ServerVendorCapabilityType" ModellingRule="OptionalPlaceholder">
+      <Variable SymbolicName="tns:VendorCapability_Placeholder" TypeDefinition="tns:ServerVendorCapabilityType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;VendorCapability&gt;</BrowseName>
       </Variable>
     </Children>
@@ -624,7 +624,7 @@
       <Variable SymbolicName="tns:SessionSecurityDiagnosticsArray" TypeDefinition="tns:SessionSecurityDiagnosticsArrayType">
         <Description>A list of security related diagnostics for each active session.</Description>
       </Variable>
-      <Object SymbolicName="tns:Placeholder_ClientName" TypeDefinition="tns:SessionDiagnosticsObjectType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:ClientName_Placeholder" TypeDefinition="tns:SessionDiagnosticsObjectType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;ClientName&gt;</BrowseName>
       </Object>
     </Children>
@@ -793,10 +793,10 @@
   </Method>
   <ObjectType SymbolicName="tns:FileDirectoryType" PartNo="5" BaseType="tns:FolderType">
     <Children>
-      <Object SymbolicName="tns:Placeholder_FileDirectoryName" TypeDefinition="tns:FileDirectoryType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:FileDirectoryName_Placeholder" TypeDefinition="tns:FileDirectoryType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;FileDirectoryName&gt;</BrowseName>
       </Object>
-      <Object SymbolicName="tns:Placeholder_FileName" TypeDefinition="tns:FileType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:FileName_Placeholder" TypeDefinition="tns:FileType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;FileName&gt;</BrowseName>
       </Object>
       <Method SymbolicName="tns:CreateDirectory" TypeDefinition="tns:CreateDirectoryMethodType" />
@@ -811,7 +811,7 @@
       <Method SymbolicName="tns:GenerateFileForRead" TypeDefinition="tns:GenerateFileForReadMethodType" />
       <Method SymbolicName="tns:GenerateFileForWrite" TypeDefinition="tns:GenerateFileForWriteMethodType" />
       <Method SymbolicName="tns:CloseAndCommit" TypeDefinition="tns:CloseAndCommitMethodType" />
-      <Object SymbolicName="tns:Placeholder_TransferState" TypeDefinition="tns:FileTransferStateMachineType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:TransferState_Placeholder" TypeDefinition="tns:FileTransferStateMachineType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;TransferState&gt;</BrowseName>
       </Object>
     </Children>
@@ -880,7 +880,7 @@
   <ObjectType SymbolicName="tns:NamespacesType" PartNo="5" BaseType="tns:BaseObjectType">
     <Description>A container for the namespace metadata provided by the server.</Description>
     <Children>
-      <Object SymbolicName="tns:Placeholder_NamespaceIdentifier" TypeDefinition="tns:NamespaceMetadataType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:NamespaceIdentifier_Placeholder" TypeDefinition="tns:NamespaceMetadataType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;NamespaceIdentifier&gt;</BrowseName>
       </Object>
       <Object SymbolicName="tns:AddressSpaceFile" TypeDefinition="tns:AddressSpaceFileType" ModellingRule="Optional">
@@ -2879,7 +2879,7 @@
       <Object SymbolicName="tns:DefaultApplicationGroup" TypeDefinition="tns:CertificateGroupType" ModellingRule="Mandatory" />
       <Object SymbolicName="tns:DefaultHttpsGroup" TypeDefinition="tns:CertificateGroupType" ModellingRule="Optional" />
       <Object SymbolicName="tns:DefaultUserTokenGroup" TypeDefinition="tns:CertificateGroupType" ModellingRule="Optional" />
-      <Object SymbolicName="tns:Placeholder_AdditionalGroup" TypeDefinition="tns:CertificateGroupType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:AdditionalGroup_Placeholder" TypeDefinition="tns:CertificateGroupType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;AdditionalGroup&gt;</BrowseName>
         <ReferenceType>tns:Organizes</ReferenceType>
       </Object>
@@ -3185,7 +3185,7 @@
   <ObjectType SymbolicName="tns:RoleFolderType" PartNo="3" BaseType="tns:FolderType">
     <Description>A container for the roles supported by the server.</Description>
     <Children>
-      <Object SymbolicName="tns:Placeholder_RoleName" TypeDefinition="tns:RoleType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:RoleName_Placeholder" TypeDefinition="tns:RoleType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;RoleName&gt;</BrowseName>
       </Object>
     </Children>
@@ -3308,7 +3308,7 @@
   </Object>
   <ObjectType SymbolicName="tns:PublishSubscribeType" PartNo="14" BaseType="tns:BaseObjectType">
     <Children>
-      <Object SymbolicName="tns:Placeholder_ConnectionName" TypeDefinition="tns:PubSubConnectionType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:ConnectionName_Placeholder" TypeDefinition="tns:PubSubConnectionType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;ConnectionName&gt;</BrowseName>
         <ReferenceType>tns:HasPubSubConnection</ReferenceType>
       </Object>
@@ -3367,11 +3367,11 @@
   </Method>
   <ObjectType SymbolicName="tns:SecurityGroupFolderType" PartNo="14" BaseType="tns:FolderType">
     <Children>
-      <Object SymbolicName="tns:Placeholder_SecurityGroupFolderName" TypeDefinition="tns:SecurityGroupFolderType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:SecurityGroupFolderName_Placeholder" TypeDefinition="tns:SecurityGroupFolderType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;SecurityGroupFolderName&gt;</BrowseName>
         <ReferenceType>tns:Organizes</ReferenceType>
       </Object>
-      <Object SymbolicName="tns:Placeholder_SecurityGroupName" TypeDefinition="tns:SecurityGroupType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:SecurityGroupName_Placeholder" TypeDefinition="tns:SecurityGroupType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;SecurityGroupName&gt;</BrowseName>
       </Object>
       <Method SymbolicName="tns:AddSecurityGroup" TypeDefinition="tns:AddSecurityGroupMethodType" ModellingRule="Mandatory" />
@@ -3401,11 +3401,11 @@
   </ReferenceType>
   <ObjectType SymbolicName="tns:DataSetFolderType" PartNo="14" BaseType="tns:FolderType">
     <Children>
-      <Object SymbolicName="tns:Placeholder_DataSetFolderName" TypeDefinition="tns:DataSetFolderType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:DataSetFolderName_Placeholder" TypeDefinition="tns:DataSetFolderType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;DataSetFolderName&gt;</BrowseName>
         <ReferenceType>tns:Organizes</ReferenceType>
       </Object>
-      <Object SymbolicName="tns:Placeholder_PublishedDataSetName" TypeDefinition="tns:PublishedDataSetType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:PublishedDataSetName_Placeholder" TypeDefinition="tns:PublishedDataSetType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;PublishedDataSetName&gt;</BrowseName>
       </Object>
       <Method SymbolicName="tns:AddPublishedDataItems" TypeDefinition="tns:AddPublishedDataItemsMethodType" ModellingRule="Optional" />
@@ -3420,7 +3420,7 @@
   </Method>
   <ObjectType SymbolicName="tns:PublishedDataSetType" PartNo="14" BaseType="tns:BaseObjectType">
     <Children>
-      <Object SymbolicName="tns:Placeholder_DataSetWriterName" TypeDefinition="tns:DataSetWriterType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:DataSetWriterName_Placeholder" TypeDefinition="tns:DataSetWriterType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;DataSetWriterName&gt;</BrowseName>
         <ReferenceType>tns:DataSetToWriter</ReferenceType>
       </Object>
@@ -3481,7 +3481,7 @@
   </DataType>
   <ObjectType SymbolicName="tns:ExtensionFieldsType" PartNo="14" BaseType="tns:BaseObjectType">
     <Children>
-      <Property SymbolicName="tns:Placeholder_ExtensionFieldName" ModellingRule="OptionalPlaceholder">
+      <Property SymbolicName="tns:ExtensionFieldName_Placeholder" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;ExtensionFieldName&gt;</BrowseName>
       </Property>
       <Method SymbolicName="tns:AddExtensionField" TypeDefinition="tns:AddExtensionFieldMethodType" ModellingRule="Mandatory" />
@@ -3600,7 +3600,7 @@
   <ObjectType SymbolicName="tns:PubSubConnectionType" PartNo="14" BaseType="tns:BaseObjectType">
     <Children>
       <Property SymbolicName="tns:PublisherId" ModellingRule="Mandatory" DataType="tns:BaseDataType" />
-      <Object SymbolicName="tns:Placeholder_GroupName" TypeDefinition="tns:PubSubGroupType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:GroupName_Placeholder" TypeDefinition="tns:PubSubGroupType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;GroupName&gt;</BrowseName>
       </Object>
       <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
@@ -3621,12 +3621,12 @@
       <Property SymbolicName="tns:Priority" ModellingRule="Mandatory" DataType="tns:Byte" />
       <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
       <Object SymbolicName="tns:MessageSecurity" TypeDefinition="tns:PubSubMessageSecurityType" ModellingRule="Optional" />
-      <Object SymbolicName="tns:Placeholder_DataSetWriterName" TypeDefinition="tns:DataSetWriterType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:DataSetWriterName_Placeholder" TypeDefinition="tns:DataSetWriterType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;DataSetWriterName&gt;</BrowseName>
         <ReferenceType>tns:HasDataSetWriter</ReferenceType>
       </Object>
       <Method SymbolicName="tns:RemoveDataSetWriter" TypeDefinition="tns:PubSubGroupTypeRemoveWriterMethodType" ModellingRule="Optional" />
-      <Object SymbolicName="tns:Placeholder_DataSetReaderName" TypeDefinition="tns:DataSetReaderType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:DataSetReaderName_Placeholder" TypeDefinition="tns:DataSetReaderType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;DataSetReaderName&gt;</BrowseName>
         <ReferenceType>tns:HasDataSetReader</ReferenceType>
       </Object>
@@ -4350,6 +4350,13 @@
       </Field>
     </Fields>
   </DataType>
+  <DataType SymbolicName="tns:SessionLessServiceMessageType" SymbolicId="tns:SessionLessServiceMessageType" PartNo="4" BaseType="tns:Structure" NoClassGeneration="true" NoArraysAllowed="true" NotInAddressSpace="true">
+    <Fields>
+      <Field Name="NamespaceUris" DataType="tns:String" ValueRank="Array" />
+      <Field Name="ServerUris" DataType="tns:String" ValueRank="Array" />
+      <Field Name="ServiceId" DataType="tns:UInt32" />
+    </Fields>
+  </DataType>
   <DataType SymbolicName="tns:FindServersRequest" SymbolicId="tns:FindServersRequest" PartNo="4" BaseType="tns:Structure" NoArraysAllowed="true" NotInAddressSpace="true">
     <Description>Finds the servers known to the discovery server.</Description>
     <Fields>
@@ -4435,9 +4442,6 @@
       </Field>
       <Field Name="IssuedToken" Identifier="3">
         <Description>A user identified by WS-Security XML token.</Description>
-      </Field>
-      <Field Name="Kerberos" Identifier="4">
-        <Description>A user identified by Kerberos ticket.</Description>
       </Field>
     </Fields>
   </DataType>
@@ -4801,11 +4805,6 @@
       <Field Name="CertificateData" DataType="tns:ByteString">
         <Description>The certificate.</Description>
       </Field>
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:KerberosIdentityToken" SymbolicId="tns:KerberosIdentityToken" PartNo="4" BaseType="tns:UserIdentityToken" NoArraysAllowed="true">
-    <Fields>
-      <Field Name="TicketData" DataType="tns:ByteString" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:IssuedIdentityToken" SymbolicId="tns:IssuedIdentityToken" PartNo="4" BaseType="tns:UserIdentityToken" NoArraysAllowed="true">
@@ -5407,6 +5406,7 @@
       <Field Name="Both" Identifier="2">
         <Description>Return forward and inverse references.</Description>
       </Field>
+      <Field Name="Invalid" Identifier="3" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ViewDescription" SymbolicId="tns:ViewDescription" PartNo="4" BaseType="tns:Structure" NoClassGeneration="true" NoArraysAllowed="true" NotInAddressSpace="true">
@@ -5732,38 +5732,6 @@
       <Field Name="SecurityTokenLifetime" DataType="tns:Int32" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:ComplianceLevel" SymbolicId="tns:ComplianceLevel" PartNo="4" BaseType="tns:Enumeration" NoArraysAllowed="true">
-    <Fields>
-      <Field Name="Untested" Identifier="0" />
-      <Field Name="Partial" Identifier="1" />
-      <Field Name="SelfTested" Identifier="2" />
-      <Field Name="Certified" Identifier="3" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:SupportedProfile" SymbolicId="tns:SupportedProfile" PartNo="4" BaseType="tns:Structure">
-    <Fields>
-      <Field Name="OrganizationUri" DataType="tns:String" />
-      <Field Name="ProfileId" DataType="tns:String" />
-      <Field Name="ComplianceTool" DataType="tns:String" />
-      <Field Name="ComplianceDate" DataType="tns:UtcTime" />
-      <Field Name="ComplianceLevel" DataType="tns:ComplianceLevel" />
-      <Field Name="UnsupportedUnitIds" DataType="tns:String" ValueRank="Array" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:SoftwareCertificate" SymbolicId="tns:SoftwareCertificate" PartNo="4" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Fields>
-      <Field Name="ProductName" DataType="tns:String" />
-      <Field Name="ProductUri" DataType="tns:String" />
-      <Field Name="VendorName" DataType="tns:String" />
-      <Field Name="VendorProductCertificate" DataType="tns:ByteString" />
-      <Field Name="SoftwareVersion" DataType="tns:String" />
-      <Field Name="BuildNumber" DataType="tns:String" />
-      <Field Name="BuildDate" DataType="tns:UtcTime" />
-      <Field Name="IssuedBy" DataType="tns:String" />
-      <Field Name="IssueDate" DataType="tns:DateTime" />
-      <Field Name="SupportedProfiles" DataType="tns:SupportedProfile" ValueRank="Array" />
-    </Fields>
-  </DataType>
   <DataType SymbolicName="tns:QueryDataDescription" SymbolicId="tns:QueryDataDescription" PartNo="4" BaseType="tns:Structure" NoClassGeneration="true" NotInAddressSpace="true">
     <Fields>
       <Field Name="RelativePath" DataType="tns:RelativePath" />
@@ -5914,6 +5882,7 @@
       <Field Name="Server" Identifier="1" />
       <Field Name="Both" Identifier="2" />
       <Field Name="Neither" Identifier="3" />
+      <Field Name="Invalid" Identifier="4" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ReadValueId" SymbolicId="tns:ReadValueId" PartNo="4" BaseType="tns:Structure" NoClassGeneration="true" NotInAddressSpace="true">
@@ -6496,20 +6465,6 @@
       <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
       <Field Name="Results" DataType="tns:StatusCode" ValueRank="Array" />
       <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:EnumeratedTestType" SymbolicId="tns:EnumeratedTestType" PartNo="999" BaseType="tns:Enumeration">
-    <Description>A simple enumerated type used for testing.</Description>
-    <Fields>
-      <Field Name="Red" Identifier="1">
-        <Description>Operation has halted.</Description>
-      </Field>
-      <Field Name="Yellow" Identifier="4">
-        <Description>Operation is proceeding with caution.</Description>
-      </Field>
-      <Field Name="Green" Identifier="5">
-        <Description>Operation is proceeding normally.</Description>
-      </Field>
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:BuildInfo" SymbolicId="tns:BuildInfo" PartNo="5" BaseType="tns:Structure" NoArraysAllowed="true">

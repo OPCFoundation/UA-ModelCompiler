@@ -387,7 +387,13 @@
       <opc:Documentation>A standard header included in all responses returned by servers.</opc:Documentation>
     </opc:Field>
   </opc:ComplexType>
-  
+
+  <opc:ComplexType Name="SessionLessServiceMessageType" NotInAddressSpace="true" PartNo="4">
+    <opc:Field Name="NamespaceUris" DataType="s0:String" ValueRank="0" />
+    <opc:Field Name="ServerUris" DataType="s0:String" ValueRank="0" />
+    <opc:Field Name="ServiceId" DataType="s0:UInt32" />
+  </opc:ComplexType>
+
   <opc:ServiceType Name="FindServers" InterfaceType="Discovery">
     <opc:Documentation>Finds the servers known to the discovery server.</opc:Documentation>
     <opc:Request>
@@ -468,9 +474,6 @@
     </opc:Value>
     <opc:Value Name="IssuedToken" Value="3">
       <opc:Documentation>A user identified by WS-Security XML token.</opc:Documentation>
-    </opc:Value>
-    <opc:Value Name="Kerberos" Value="4">
-      <opc:Documentation>A user identified by Kerberos ticket.</opc:Documentation>
     </opc:Value>
   </opc:EnumeratedType>
 
@@ -814,11 +817,6 @@
     <opc:Documentation>A token representing a user identified by an X509 certificate.</opc:Documentation>
     <opc:Field  Name="CertificateData" DataType="s0:ByteString">
       <opc:Documentation>The certificate.</opc:Documentation>
-    </opc:Field>
-  </opc:ComplexType>
-
-  <opc:ComplexType Name="KerberosIdentityToken" BaseType="UserIdentityToken" PartNo="4">
-    <opc:Field  Name="TicketData" DataType="s0:ByteString">
     </opc:Field>
   </opc:ComplexType>
 
@@ -1389,6 +1387,7 @@
     <opc:Value Name="Both" Value="2">
       <opc:Documentation>Return forward and inverse references.</opc:Documentation>
     </opc:Value>
+    <opc:Value Name="Invalid" Value="3" />
   </opc:EnumeratedType>
 
   <opc:ComplexType Name="ViewDescription" NotInAddressSpace="true" PartNo="4">
@@ -1698,35 +1697,6 @@
     <opc:Field  Name="SecurityTokenLifetime" DataType="s0:Int32" />
   </opc:ComplexType>
 
-  <opc:EnumeratedType Name="ComplianceLevel" PartNo="4">
-    <opc:Value Name="Untested" Value="0" />
-    <opc:Value Name="Partial" Value="1" />
-    <opc:Value Name="SelfTested" Value="2" />
-    <opc:Value Name="Certified" Value="3" />
-  </opc:EnumeratedType>
-
-  <opc:ComplexType Name="SupportedProfile" AllowArrays="true" PartNo="4">
-    <opc:Field Name="OrganizationUri" DataType="s0:String" />
-    <opc:Field Name="ProfileId" DataType="s0:String" />
-    <opc:Field Name="ComplianceTool" DataType="s0:String" />
-    <opc:Field Name="ComplianceDate" DataType="UtcTime" />
-    <opc:Field Name="ComplianceLevel" DataType="ComplianceLevel" />
-    <opc:Field Name="UnsupportedUnitIds" DataType="s0:String" ValueRank="0" />
-  </opc:ComplexType>
-
-  <opc:ComplexType Name="SoftwareCertificate" PartNo="4">
-    <opc:Field Name="ProductName" DataType="s0:String" />
-    <opc:Field Name="ProductUri" DataType="s0:String" />
-    <opc:Field Name="VendorName" DataType="s0:String" />
-    <opc:Field Name="VendorProductCertificate" DataType="s0:ByteString" />
-    <opc:Field Name="SoftwareVersion" DataType="s0:String" />
-    <opc:Field Name="BuildNumber" DataType="s0:String" />
-    <opc:Field Name="BuildDate" DataType="UtcTime" />
-    <opc:Field Name="IssuedBy" DataType="s0:String" />
-    <opc:Field Name="IssueDate" DataType="s0:DateTime" />
-    <opc:Field Name="SupportedProfiles" DataType="SupportedProfile" ValueRank="0" />
-  </opc:ComplexType>
-
   <opc:ComplexType Name="QueryDataDescription" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
     <opc:Field Name="RelativePath" DataType="RelativePath" />
     <opc:Field Name="AttributeId" DataType="IntegerId" />
@@ -1861,6 +1831,7 @@
     <opc:Value Name="Server" Value="1" />
     <opc:Value Name="Both" Value="2" />
     <opc:Value Name="Neither" Value="3" />
+    <opc:Value Name="Invalid" Value="4" />
   </opc:EnumeratedType>
 
   <opc:ComplexType Name="ReadValueId" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
@@ -2386,6 +2357,7 @@
     </opc:Response>
   </opc:ServiceType>
 
+  <!--
   <opc:EnumeratedType AllowArrays="true" Name="EnumeratedTestType" PartNo="999">
     <opc:Documentation>A simple enumerated type used for testing.</opc:Documentation>
     <opc:Value Name="Red" Value="1">
@@ -2399,7 +2371,6 @@
     </opc:Value>
   </opc:EnumeratedType>
 
-  <!--
   <opc:ComplexType AllowArrays="true" Name="ScalarTestType" PartNo="999">
     <opc:Documentation>A complex type containing all possible scalar types used for testing.</opc:Documentation>
     <opc:Field Name="Boolean" DataType="s0:Boolean"/>

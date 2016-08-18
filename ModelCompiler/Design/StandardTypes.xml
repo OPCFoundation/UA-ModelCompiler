@@ -191,7 +191,7 @@
       <opc:Object SymbolicName="AggregateFunctions" TypeDefinition="FolderType">
         <opc:Description>A folder for the real time aggregates supported by the server.</opc:Description>
       </opc:Object>
-      <opc:Variable SymbolicName="Placeholder_VendorCapability" TypeDefinition="ServerVendorCapabilityType" ModellingRule="OptionalPlaceholder">
+      <opc:Variable SymbolicName="VendorCapability_Placeholder" TypeDefinition="ServerVendorCapabilityType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;VendorCapability&gt;</opc:BrowseName>
       </opc:Variable>
     </opc:Children>
@@ -227,7 +227,7 @@
       <opc:Variable SymbolicName="SessionSecurityDiagnosticsArray" TypeDefinition="SessionSecurityDiagnosticsArrayType">
         <opc:Description>A list of security related diagnostics for each active session.</opc:Description>
       </opc:Variable>
-      <opc:Object SymbolicName="Placeholder_ClientName" TypeDefinition="SessionDiagnosticsObjectType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="ClientName_Placeholder" TypeDefinition="SessionDiagnosticsObjectType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ClientName&gt;</opc:BrowseName>
       </opc:Object>
     </opc:Children>
@@ -410,10 +410,10 @@
 
   <opc:ObjectType SymbolicName="FileDirectoryType" BaseType="ua:FolderType" PartNo="5">
     <opc:Children>
-      <opc:Object SymbolicName="Placeholder_FileDirectoryName" TypeDefinition="FileDirectoryType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="FileDirectoryName_Placeholder" TypeDefinition="FileDirectoryType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;FileDirectoryName&gt;</opc:BrowseName>
       </opc:Object>
-      <opc:Object SymbolicName="Placeholder_FileName" TypeDefinition="FileType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="FileName_Placeholder" TypeDefinition="FileType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;FileName&gt;</opc:BrowseName>
       </opc:Object>
       <opc:Method SymbolicName="CreateDirectory" TypeDefinition="CreateDirectoryMethodType">
@@ -433,7 +433,7 @@
       <opc:Method SymbolicName="GenerateFileForRead" TypeDefinition="GenerateFileForReadMethodType" />
       <opc:Method SymbolicName="GenerateFileForWrite" TypeDefinition="GenerateFileForWriteMethodType" />
       <opc:Method SymbolicName="CloseAndCommit" TypeDefinition="CloseAndCommitMethodType" />
-      <opc:Object SymbolicName="Placeholder_TransferState" TypeDefinition="FileTransferStateMachineType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="TransferState_Placeholder" TypeDefinition="FileTransferStateMachineType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;TransferState&gt;</opc:BrowseName>
       </opc:Object>
     </opc:Children>
@@ -508,7 +508,7 @@
   <opc:ObjectType SymbolicName="NamespacesType" BaseType="ua:BaseObjectType" PartNo="5">
     <opc:Description>A container for the namespace metadata provided by the server.</opc:Description>
     <opc:Children>
-      <opc:Object SymbolicName="Placeholder_NamespaceIdentifier" TypeDefinition="NamespaceMetadataType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="NamespaceIdentifier_Placeholder" TypeDefinition="NamespaceMetadataType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;NamespaceIdentifier&gt;</opc:BrowseName>
       </opc:Object>
       <opc:Object SymbolicName="AddressSpaceFile" TypeDefinition="AddressSpaceFileType" ModellingRule="Optional">
@@ -2758,7 +2758,7 @@
       <opc:Object SymbolicName="DefaultApplicationGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Mandatory" />
       <opc:Object SymbolicName="DefaultHttpsGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Optional" />
       <opc:Object SymbolicName="DefaultUserTokenGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Optional" />
-      <opc:Object SymbolicName="Placeholder_AdditionalGroup" TypeDefinition="CertificateGroupType"  ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="AdditionalGroup_Placeholder" TypeDefinition="CertificateGroupType"  ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;AdditionalGroup&gt;</opc:BrowseName>
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
@@ -3127,7 +3127,7 @@
   <opc:ObjectType SymbolicName="RoleFolderType" BaseType="ua:FolderType" PartNo="3">
     <opc:Description>A container for the roles supported by the server.</opc:Description>
     <opc:Children>
-      <opc:Object SymbolicName="Placeholder_RoleName" TypeDefinition="RoleType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="RoleName_Placeholder" TypeDefinition="RoleType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;RoleName&gt;</opc:BrowseName>
       </opc:Object>
     </opc:Children>
@@ -3267,7 +3267,7 @@
   <!-- Part 14 -->
   <opc:ObjectType SymbolicName="PublishSubscribeType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
-      <opc:Object SymbolicName="Placeholder_ConnectionName" TypeDefinition="PubSubConnectionType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="ConnectionName_Placeholder" TypeDefinition="PubSubConnectionType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ConnectionName&gt;</opc:BrowseName>
         <opc:ReferenceType>HasPubSubConnection</opc:ReferenceType>
       </opc:Object>
@@ -3331,11 +3331,11 @@
   
   <opc:ObjectType SymbolicName="SecurityGroupFolderType" BaseType="ua:FolderType" PartNo="14">
     <opc:Children>
-      <opc:Object SymbolicName="Placeholder_SecurityGroupFolderName" TypeDefinition="SecurityGroupFolderType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="SecurityGroupFolderName_Placeholder" TypeDefinition="SecurityGroupFolderType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;SecurityGroupFolderName&gt;</opc:BrowseName>
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
-      <opc:Object SymbolicName="Placeholder_SecurityGroupName" TypeDefinition="SecurityGroupType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="SecurityGroupName_Placeholder" TypeDefinition="SecurityGroupType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;SecurityGroupName&gt;</opc:BrowseName>
       </opc:Object>
       <opc:Method SymbolicName="AddSecurityGroup" TypeDefinition="AddSecurityGroupMethodType" ModellingRule="Mandatory" />
@@ -3370,11 +3370,11 @@
 
   <opc:ObjectType SymbolicName="DataSetFolderType" BaseType="ua:FolderType" PartNo="14">
     <opc:Children>
-      <opc:Object SymbolicName="Placeholder_DataSetFolderName" TypeDefinition="DataSetFolderType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="DataSetFolderName_Placeholder" TypeDefinition="DataSetFolderType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;DataSetFolderName&gt;</opc:BrowseName>
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
-      <opc:Object SymbolicName="Placeholder_PublishedDataSetName" TypeDefinition="PublishedDataSetType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="PublishedDataSetName_Placeholder" TypeDefinition="PublishedDataSetType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;PublishedDataSetName&gt;</opc:BrowseName>
       </opc:Object>
       <opc:Method SymbolicName="AddPublishedDataItems" TypeDefinition="AddPublishedDataItemsMethodType" ModellingRule="Optional" />
@@ -3391,7 +3391,7 @@
 
   <opc:ObjectType SymbolicName="PublishedDataSetType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
-      <opc:Object SymbolicName="Placeholder_DataSetWriterName" TypeDefinition="DataSetWriterType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="DataSetWriterName_Placeholder" TypeDefinition="DataSetWriterType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;DataSetWriterName&gt;</opc:BrowseName>
         <opc:ReferenceType>DataSetToWriter</opc:ReferenceType>
       </opc:Object>
@@ -3460,7 +3460,7 @@
 
   <opc:ObjectType SymbolicName="ExtensionFieldsType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
-      <opc:Property SymbolicName="Placeholder_ExtensionFieldName" ModellingRule="OptionalPlaceholder">
+      <opc:Property SymbolicName="ExtensionFieldName_Placeholder" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ExtensionFieldName&gt;</opc:BrowseName></opc:Property>
       <opc:Method SymbolicName="AddExtensionField" TypeDefinition="AddExtensionFieldMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RemoveExtensionField" TypeDefinition="RemoveExtensionFieldMethodType" ModellingRule="Mandatory" />
@@ -3591,7 +3591,7 @@
   <opc:ObjectType SymbolicName="PubSubConnectionType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="PublisherId" DataType="ua:BaseDataType" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="Placeholder_GroupName" TypeDefinition="PubSubGroupType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="GroupName_Placeholder" TypeDefinition="PubSubGroupType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;GroupName&gt;</opc:BrowseName>
       </opc:Object>
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
@@ -3614,12 +3614,12 @@
       <opc:Property SymbolicName="Priority" DataType="ua:Byte" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="MessageSecurity" TypeDefinition="PubSubMessageSecurityType" ModellingRule="Optional" />
-      <opc:Object SymbolicName="Placeholder_DataSetWriterName" TypeDefinition="DataSetWriterType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="DataSetWriterName_Placeholder" TypeDefinition="DataSetWriterType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;DataSetWriterName&gt;</opc:BrowseName>
         <opc:ReferenceType>HasDataSetWriter</opc:ReferenceType>
       </opc:Object>
       <opc:Method SymbolicName="RemoveDataSetWriter" TypeDefinition="PubSubGroupTypeRemoveWriterMethodType" ModellingRule="Optional" />
-      <opc:Object SymbolicName="Placeholder_DataSetReaderName" TypeDefinition="DataSetReaderType" ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="DataSetReaderName_Placeholder" TypeDefinition="DataSetReaderType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;DataSetReaderName&gt;</opc:BrowseName>
         <opc:ReferenceType>HasDataSetReader</opc:ReferenceType>
       </opc:Object>
