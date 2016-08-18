@@ -39,7 +39,7 @@ OPCUA_EXPORT OpcUa_StatusCode OpcUa_ClientApi__NAME_(
         OpcUa_ReturnStatusCode;
     }
 
-    /* check response type */ 
+    /* check response type */
     else if (pResponseType->TypeId != OpcUaId__NAME_Response)
     {
         pResponseType->Clear(pResponse);
