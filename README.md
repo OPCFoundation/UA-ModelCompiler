@@ -2,20 +2,24 @@
 The [OPC Foundation](https://opcfoundation.org) Model Compiler will generate C# and ANSI C source code from XML files which include the UA Services, data-types, error codes, etc.; and numerous CSV files that contain NodeIds, error codes, and attributes etc.
 
 The input format for the tool is a file that conforms to the schema defined in UA Model Design.xsd. 
-The output of the tool includes:
 
-1) A NodeSet which conforms to the schema defined in Part 6 Annex F;
-2) An XSD and BSD (defined in Part 3 Annex C)  that describes any datatypes;
-2) Class and constant definitions suitable for use with the .NET sample libraries;
-3) Other data files used to load information into a Server built with the .NET sample libraries;
-4) A CSV file which contains numeric identifiers. 
+The output of the tool includes:
+ 1. A NodeSet which conforms to the schema defined in Part 6 Annex F;
+ 2. An XSD and BSD (defined in Part 3 Annex C)  that describes any datatypes;
+ 3. Class and constant definitions suitable for use with the .NET sample libraries;
+ 4. Other data files used to load information into a Server built with the .NET sample libraries;
+ 5. A CSV file which contains numeric identifiers. 
 
 The [UA Model Design.xsd] (https://github.com/OPCFoundation/UA-ModelCompiler/blob/master/ModelCompiler/UA%20Model%20Design.xsd) has more information about the schema itself.
+
 The .NET sample libraries has [a sample Model Design file] (https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/Sample/SampleDesign.xml) that illustrate how to create a Model Design file for a user defined model.
+
 This [batch file](https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/BuildDesign.bat) is used to regenerate the files used in the sample after changes.
 
 The tool only produces ANSI C output for the stack.
+
 All of the standard outputs are published in the [Nodeset GitHub repository](https://github.com/OPCFoundation/UA-Nodeset)
+
 Developers should never need to build the standard outputs themselves.
 
 ## About this Repository ##
