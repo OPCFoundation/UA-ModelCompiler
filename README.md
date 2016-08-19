@@ -7,7 +7,7 @@ The output of the tool includes:
  1. A NodeSet which conforms to the schema defined in Part 6 Annex F;
  2. An XSD and BSD (defined in Part 3 Annex C)  that describes any datatypes;
  3. Class and constant definitions suitable for use with the .NET sample libraries;
- 4. Other data files used to load information info into a Server built with the .NET sample libraries;
+ 4. Other data files used to load an information model into a Server built with the .NET sample libraries;
  5. A CSV file which contains numeric identifiers. 
 
 The [UA Model Design.xsd] (https://github.com/OPCFoundation/UA-ModelCompiler/blob/master/ModelCompiler/UA%20Model%20Design.xsd) has more information about the schema itself.
