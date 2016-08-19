@@ -396,6 +396,7 @@ namespace Opc.Ua.ModelCompiler
                 identifiers["Service"] = serviceNames;
                 identifiers["DataType"] = datatypeNames;
 
+                template.AddReplacement("#define __FileName__H_ 1", String.Format("/* #define {0}_Exclusions_H_ 1 */", prefix));
                 template.AddReplacement("_Date_", DateTime.Now.ToShortDateString());
                 template.AddReplacement("_FileName_", String.Format("{0}_Exclusions", prefix));
 

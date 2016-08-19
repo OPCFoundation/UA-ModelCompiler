@@ -488,7 +488,7 @@
 
   <!-- TransferSubscription -->
   <opc:Constant Name="Bad_InsufficientClientProfile">
-    <opc:Documentation>The client of the current Session does not support one or more Profiles that are necessary for the Subscription.</opc:Documentation>
+    <opc:Documentation>The client of the current session does not support one or more Profiles that are necessary for the subscription.</opc:Documentation>
   </opc:Constant>
 
   <!-- Part 5 -->
