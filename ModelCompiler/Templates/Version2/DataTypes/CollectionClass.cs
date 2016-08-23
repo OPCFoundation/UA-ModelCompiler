@@ -64,7 +64,7 @@ public partial class _BrowseName_Collection : List<_BrowseName_>
     /// </summary>
     public object Clone()
     {
-        return (_BrowseName_)this.MemberwiseClone();
+        return (_BrowseName_Collection)this.MemberwiseClone();
     }
     #endregion
     #endif
