@@ -108,10 +108,10 @@
         <Description>An incremental counter indicating the number of times the static data within the Device has been modified</Description>
       </Property>
       <Property SymbolicName="DI:Manufacturer" DataType="OpcUa:LocalizedText">
-        <Description>Model name of the device</Description>
+        <Description>Name of the company that manufactured the device</Description>
       </Property>
       <Property SymbolicName="DI:Model" DataType="OpcUa:LocalizedText">
-        <Description>Name of the company that manufactured the device</Description>
+        <Description>Model name of the device</Description>
       </Property>
       <Property SymbolicName="DI:DeviceManual" DataType="OpcUa:String">
         <Description>Address (pathname in the file system or a URL | Web address) of user manual for the device</Description>
