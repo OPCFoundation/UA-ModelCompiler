@@ -1249,7 +1249,7 @@
           <Property SymbolicName="tns:MaxArrayLength" ModellingRule="Mandatory" />
           <Property SymbolicName="tns:MaxStringLength" ModellingRule="Mandatory" />
           <Property SymbolicName="tns:MaxByteStringLength" ModellingRule="Mandatory" />
-          <Object SymbolicName="tns:OperationLimits">
+          <Object SymbolicName="tns:OperationLimits" ModellingRule="Mandatory">
             <Children>
               <Property SymbolicName="tns:MaxNodesPerRead" ModellingRule="Mandatory" />
               <Property SymbolicName="tns:MaxNodesPerHistoryReadData" ModellingRule="Mandatory" />

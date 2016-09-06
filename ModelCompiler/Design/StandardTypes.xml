@@ -952,7 +952,7 @@
           <opc:Property SymbolicName="MaxArrayLength" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="MaxStringLength" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="MaxByteStringLength" ModellingRule="Mandatory" />
-          <opc:Object SymbolicName="OperationLimits">
+          <opc:Object SymbolicName="OperationLimits" ModellingRule="Mandatory">
             <opc:Children>
               <opc:Property SymbolicName="MaxNodesPerRead" ModellingRule="Mandatory" />
               <opc:Property SymbolicName="MaxNodesPerHistoryReadData" ModellingRule="Mandatory" />
