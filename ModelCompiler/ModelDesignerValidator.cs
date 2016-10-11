@@ -5573,6 +5573,7 @@ namespace Opc.Ua.ModelCompiler
             ViewState state = new ViewState();
             state.Handle = root;
             state.EventNotifier = ConstructEventNotifier(root.SupportsEvents);
+            state.ContainsNoLoops = root.ContainsNoLoops;
             return state;
         }
 

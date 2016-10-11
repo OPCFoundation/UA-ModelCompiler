@@ -1010,6 +1010,7 @@
           <opc:Variable SymbolicName="SamplingIntervalDiagnosticsArray" ModellingRule="Mandatory" />
         </opc:Children>
       </opc:Object>
+      <opc:Object SymbolicName="VendorServerInfo" TypeDefinition="VendorServerInfoType"/>
       <opc:Object SymbolicName="ServerRedundancy" TypeDefinition="ServerRedundancyType">
         <opc:Children>
           <opc:Property SymbolicName="CurrentServerId" DataType="ua:String" ModellingRule="Mandatory"  />
@@ -1461,7 +1462,7 @@
           <opc:Property SymbolicName="EffectiveDisplayName" DataType="ua:LocalizedText" ModellingRule="Optional" />
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
           <opc:Property SymbolicName="EffectiveTransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -1469,7 +1470,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -1578,7 +1579,7 @@
         <opc:Children>
           <opc:Property SymbolicName="Id" DataType="ua:Boolean" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -1586,7 +1587,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -1639,7 +1640,7 @@
         <opc:Children>
           <opc:Property SymbolicName="Id" DataType="ua:Boolean" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -1647,7 +1648,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -1661,7 +1662,7 @@
         <opc:Children>
           <opc:Property SymbolicName="Id" DataType="ua:Boolean" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -1669,7 +1670,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -1722,7 +1723,7 @@
           <opc:Property SymbolicName="EffectiveDisplayName" DataType="ua:LocalizedText" ModellingRule="Optional" />
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
           <opc:Property SymbolicName="EffectiveTransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -1730,7 +1731,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -1744,7 +1745,7 @@
       <opc:Variable SymbolicName="SuppressedState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -1752,7 +1753,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2057,7 +2058,7 @@
       <opc:Variable SymbolicName="HighHighState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2065,7 +2066,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2078,7 +2079,7 @@
       <opc:Variable SymbolicName="HighState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2086,7 +2087,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2099,7 +2100,7 @@
       <opc:Variable SymbolicName="LowState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2107,7 +2108,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2120,7 +2121,7 @@
       <opc:Variable SymbolicName="LowLowState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2128,7 +2129,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2530,19 +2531,19 @@
           </opc:Reference>
         </opc:References>
       </opc:Object>
-      <opc:Method SymbolicName="Start" ModellingRule="Mandatory">
+      <opc:Method SymbolicName="Start" ModellingRule="Optional">
         <opc:Description>Causes the Program to transition from the Ready state to the Running state.</opc:Description>
       </opc:Method>
-      <opc:Method SymbolicName="Suspend" ModellingRule="Mandatory">
+      <opc:Method SymbolicName="Suspend" ModellingRule="Optional">
         <opc:Description>Causes the Program to transition from the Running state to the Suspended state.</opc:Description>
       </opc:Method>
-      <opc:Method SymbolicName="Resume" ModellingRule="Mandatory">
+      <opc:Method SymbolicName="Resume" ModellingRule="Optional">
         <opc:Description>Causes the Program to transition from the Suspended state to the Running state.</opc:Description>
       </opc:Method>
-      <opc:Method SymbolicName="Halt" ModellingRule="Mandatory">
+      <opc:Method SymbolicName="Halt" ModellingRule="Optional">
         <opc:Description>Causes the Program to transition from the Ready, Running or Suspended state to the Halted state.</opc:Description>
       </opc:Method>
-      <opc:Method SymbolicName="Reset" ModellingRule="Mandatory">
+      <opc:Method SymbolicName="Reset" ModellingRule="Optional">
         <opc:Description>Causes the Program to transition from the Halted state to the Ready state.</opc:Description>
       </opc:Method>
     </opc:Children>
@@ -3265,142 +3266,6 @@
   </opc:Object>
 
   <!-- Part 14 -->
-  <opc:ObjectType SymbolicName="PublishSubscribeType" BaseType="ua:BaseObjectType" PartNo="14">
-    <opc:Children>
-      <opc:Object SymbolicName="ConnectionName_Placeholder" TypeDefinition="PubSubConnectionType" ModellingRule="OptionalPlaceholder">
-        <opc:BrowseName>&lt;ConnectionName&gt;</opc:BrowseName>
-        <opc:ReferenceType>HasPubSubConnection</opc:ReferenceType>
-      </opc:Object>
-      <opc:Method SymbolicName="AddUadpConnection" TypeDefinition="AddUadpConnectionMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddAmqpConnection" TypeDefinition="AddAmqpConnectionMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveConnection" TypeDefinition="RemoveConnectionMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="GetSecurityKeys" TypeDefinition="GetSecurityKeysMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="GetSecurityGroup" TypeDefinition="GetSecurityGroupMethodType" ModellingRule="Optional" />
-      <opc:Object SymbolicName="SecurityGroups" TypeDefinition="SecurityGroupFolderType" ModellingRule="Optional" />
-      <opc:Object SymbolicName="PublishedDataSets" TypeDefinition="DataSetFolderType" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
-    </opc:Children>
-  </opc:ObjectType>
-
-  <opc:Object SymbolicName="PublishSubscribe" TypeDefinition="PublishSubscribeType" PartNo="14">
-    <opc:Children>
-      <opc:Method SymbolicName="AddUadpConnection" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="AddAmqpConnection" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="RemoveConnection" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="GetSecurityKeys" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="GetSecurityGroup" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="SecurityGroups" ModellingRule="Mandatory" />
-    </opc:Children>
-    <opc:References>
-      <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
-        <opc:TargetId>ua:Server</opc:TargetId>
-      </opc:Reference>
-    </opc:References>
-  </opc:Object>
-
-  <opc:Method SymbolicName="RemoveConnectionMethodType" PartNo="14">
-    <opc:InputArguments>
-      <opc:Argument Name="ConnectionId" DataType="ua:NodeId" />
-    </opc:InputArguments>
-  </opc:Method>
-
-  <opc:Method SymbolicName="GetSecurityKeysMethodType">
-    <opc:InputArguments>
-      <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
-      <opc:Argument Name="FutureKeyCount" DataType="ua:UInt32" />
-    </opc:InputArguments>
-    <opc:OutputArguments>
-      <opc:Argument Name="SecurityPolicyUri" DataType="ua:String"></opc:Argument>
-      <opc:Argument Name="CurrentTokenId" DataType="ua:IntegerId"></opc:Argument>
-      <opc:Argument Name="CurrentKey" DataType="ua:ByteString"></opc:Argument>
-      <opc:Argument Name="NextKeys" DataType="ua:ByteString" ValueRank="Array"></opc:Argument>
-      <opc:Argument Name="TimeToNextKey" DataType="ua:Duration"></opc:Argument>
-      <opc:Argument Name="KeyLifetime" DataType="ua:Duration"></opc:Argument>
-    </opc:OutputArguments>
-  </opc:Method>
-
-  <opc:Method SymbolicName="GetSecurityGroupMethodType">
-    <opc:InputArguments>
-      <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
-    </opc:InputArguments>
-    <opc:OutputArguments>
-      <opc:Argument Name="SecurityGroupNodeId" DataType="ua:NodeId" />
-    </opc:OutputArguments>
-  </opc:Method>
-  
-  <opc:ObjectType SymbolicName="SecurityGroupFolderType" BaseType="ua:FolderType" PartNo="14">
-    <opc:Children>
-      <opc:Object SymbolicName="SecurityGroupFolderName_Placeholder" TypeDefinition="SecurityGroupFolderType" ModellingRule="OptionalPlaceholder">
-        <opc:BrowseName>&lt;SecurityGroupFolderName&gt;</opc:BrowseName>
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-      </opc:Object>
-      <opc:Object SymbolicName="SecurityGroupName_Placeholder" TypeDefinition="SecurityGroupType" ModellingRule="OptionalPlaceholder">
-        <opc:BrowseName>&lt;SecurityGroupName&gt;</opc:BrowseName>
-      </opc:Object>
-      <opc:Method SymbolicName="AddSecurityGroup" TypeDefinition="AddSecurityGroupMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="RemoveSecurityGroup" TypeDefinition="RemoveSecurityGroupMethodType" ModellingRule="Mandatory" />
-    </opc:Children>
-  </opc:ObjectType>
-  
-  <opc:Method SymbolicName="AddSecurityGroupMethodType">
-    <opc:InputArguments>
-      <opc:Argument Name="SecurityGroupName" DataType="ua:String" />
-    </opc:InputArguments>
-    <opc:OutputArguments>
-      <opc:Argument Name="SecurityGroupNodeId" DataType="ua:NodeId" />
-    </opc:OutputArguments>
-  </opc:Method>
-  
-  <opc:Method SymbolicName="RemoveSecurityGroupMethodType">
-    <opc:InputArguments>
-      <opc:Argument Name="SecurityGroupNodeId" DataType="ua:NodeId" />
-    </opc:InputArguments>
-  </opc:Method>
-  
-  <opc:ObjectType SymbolicName="SecurityGroupType" BaseType="ua:BaseObjectType" PartNo="14">
-    <opc:Children>
-      <opc:Property SymbolicName="SecurityGroupId" DataType="String" ModellingRule="Mandatory" />
-    </opc:Children>
-  </opc:ObjectType>
-  
-  <opc:ReferenceType SymbolicName="HasPubSubConnection" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
-    <opc:InverseName>PubSubConnectionOf</opc:InverseName>
-  </opc:ReferenceType>
-
-  <opc:ObjectType SymbolicName="DataSetFolderType" BaseType="ua:FolderType" PartNo="14">
-    <opc:Children>
-      <opc:Object SymbolicName="DataSetFolderName_Placeholder" TypeDefinition="DataSetFolderType" ModellingRule="OptionalPlaceholder">
-        <opc:BrowseName>&lt;DataSetFolderName&gt;</opc:BrowseName>
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-      </opc:Object>
-      <opc:Object SymbolicName="PublishedDataSetName_Placeholder" TypeDefinition="PublishedDataSetType" ModellingRule="OptionalPlaceholder">
-        <opc:BrowseName>&lt;PublishedDataSetName&gt;</opc:BrowseName>
-      </opc:Object>
-      <opc:Method SymbolicName="AddPublishedDataItems" TypeDefinition="AddPublishedDataItemsMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddPublishedEvents" TypeDefinition="AddPublishedEventsMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemovePublishedDataSet" TypeDefinition="RemovePublishedDataSetMethodType" ModellingRule="Optional" />
-    </opc:Children>
-  </opc:ObjectType>
-
-  <opc:Method SymbolicName="RemovePublishedDataSetMethodType" PartNo="14">
-    <opc:InputArguments>
-      <opc:Argument Name="DataSetId" DataType="ua:NodeId" />
-    </opc:InputArguments>
-  </opc:Method>
-
-  <opc:ObjectType SymbolicName="PublishedDataSetType" BaseType="ua:BaseObjectType" PartNo="14">
-    <opc:Children>
-      <opc:Object SymbolicName="DataSetWriterName_Placeholder" TypeDefinition="DataSetWriterType" ModellingRule="OptionalPlaceholder">
-        <opc:BrowseName>&lt;DataSetWriterName&gt;</opc:BrowseName>
-        <opc:ReferenceType>DataSetToWriter</opc:ReferenceType>
-      </opc:Object>
-      <opc:Property SymbolicName="ConfigurationVersion" DataType="ConfigurationVersionDataType" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="DataSetMetaData" DataType="DataSetMetaDataType" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="ExtensionFields" TypeDefinition="ExtensionFieldsType" ModellingRule="Optional" />
-    </opc:Children>
-  </opc:ObjectType>
-
   <opc:DataType SymbolicName="ConfigurationVersionDataType" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
       <opc:Field Name="MajorVersion"  DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
@@ -3411,6 +3276,7 @@
   <opc:DataType SymbolicName="DataSetMetaDataType" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
       <opc:Field Name="Name"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Description"  DataType="ua:LocalizedText" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Fields"  DataType="FieldMetaData" ValueRank="Array"></opc:Field>
       <opc:Field Name="DataSetClassId"  DataType="ua:Guid" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Namespaces"  DataType="ua:String" ValueRank="Array"></opc:Field>
@@ -3420,10 +3286,18 @@
     </opc:Fields>
   </opc:DataType>
 
+  <opc:DataType SymbolicName="DataSetFieldFlags" BaseType="ua:Enumeration" NoArraysAllowed="true" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="PromotedField" Identifier="1"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
   <opc:DataType SymbolicName="FieldMetaData" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
       <opc:Field Name="Name"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="PromotedField"  DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Description"  DataType="ua:LocalizedText" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="FieldFlags"  DataType="DataSetFieldFlags" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="BuiltInType"  DataType="ua:Byte" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataType"  DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="ValueRank"  DataType="ua:Int32" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="ArrayDimensions"  DataType="ua:UInt32" ValueRank="Array"></opc:Field>
@@ -3457,32 +3331,170 @@
       <opc:Field Name="Value"  DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
+  
+  <opc:DataType SymbolicName="DataSetContentMask" BaseType="Enumeration" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="FieldStatusCode" Identifier="1"></opc:Field>
+      <opc:Field Name="FieldSourceTimestamp" Identifier="2"></opc:Field>
+      <opc:Field Name="FieldServerTimestamp" Identifier="4"></opc:Field>
+      <opc:Field Name="FieldSourcePicoSeconds" Identifier="8"></opc:Field>
+      <opc:Field Name="FieldServerPicoSeconds" Identifier="16"></opc:Field>
+      <opc:Field Name="FieldRawDataEncoding" Identifier="32"></opc:Field>
+      <opc:Field Name="HeaderTimestamp" Identifier="64"></opc:Field>
+      <opc:Field Name="HeaderPicoSeconds" Identifier="128"></opc:Field>
+      <opc:Field Name="HeaderStatusCode" Identifier="256"></opc:Field>
+      <opc:Field Name="HeaderMajorVersion" Identifier="512"></opc:Field>
+      <opc:Field Name="HeaderMinorVersion" Identifier="1024"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:ObjectType SymbolicName="PubSubKeyServiceType" BaseType="ua:BaseObjectType" PartNo="14">
+    <opc:Children>
+      <opc:Method SymbolicName="GetSecurityKeys" TypeDefinition="GetSecurityKeysMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="GetSecurityGroup" TypeDefinition="GetSecurityGroupMethodType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="SecurityGroups" TypeDefinition="SecurityGroupFolderType" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:Method SymbolicName="GetSecurityKeysMethodType">
+    <opc:InputArguments>
+      <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
+      <opc:Argument Name="FutureKeyCount" DataType="ua:UInt32" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="SecurityPolicyUri" DataType="ua:String"></opc:Argument>
+      <opc:Argument Name="CurrentTokenId" DataType="ua:IntegerId"></opc:Argument>
+      <opc:Argument Name="CurrentKey" DataType="ua:ByteString"></opc:Argument>
+      <opc:Argument Name="FutureKeys" DataType="ua:ByteString" ValueRank="Array"></opc:Argument>
+      <opc:Argument Name="TimeToNextKey" DataType="ua:Duration"></opc:Argument>
+      <opc:Argument Name="KeyLifetime" DataType="ua:Duration"></opc:Argument>
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="GetSecurityGroupMethodType">
+    <opc:InputArguments>
+      <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="SecurityGroupNodeId" DataType="ua:NodeId" />
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="AddSecurityGroupMethodType">
+    <opc:InputArguments>
+      <opc:Argument Name="SecurityGroupName" DataType="ua:String" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="SecurityGroupNodeId" DataType="ua:NodeId" />
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="RemoveSecurityGroupMethodType">
+    <opc:InputArguments>
+      <opc:Argument Name="SecurityGroupNodeId" DataType="ua:NodeId" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:ObjectType SymbolicName="SecurityGroupFolderType" BaseType="ua:FolderType" PartNo="14">
+    <opc:Children>
+      <opc:Object SymbolicName="SecurityGroupFolderName_Placeholder" TypeDefinition="SecurityGroupFolderType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;SecurityGroupFolderName&gt;</opc:BrowseName>
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+      </opc:Object>
+      <opc:Object SymbolicName="SecurityGroupName_Placeholder" TypeDefinition="SecurityGroupType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;SecurityGroupName&gt;</opc:BrowseName>
+      </opc:Object>
+      <opc:Method SymbolicName="AddSecurityGroup" TypeDefinition="AddSecurityGroupMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveSecurityGroup" TypeDefinition="RemoveSecurityGroupMethodType" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+ 
+  <opc:ObjectType SymbolicName="SecurityGroupType" BaseType="ua:BaseObjectType" PartNo="14">
+    <opc:Children>
+      <opc:Property SymbolicName="SecurityGroupId" DataType="String" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="PublishSubscribeType" BaseType="PubSubKeyServiceType" PartNo="14">
+    <opc:Children>
+      <opc:Object SymbolicName="ConnectionName_Placeholder" TypeDefinition="PubSubConnectionType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;ConnectionName&gt;</opc:BrowseName>
+        <opc:ReferenceType>HasPubSubConnection</opc:ReferenceType>
+      </opc:Object>
+      <opc:Method SymbolicName="AddUadpConnection" TypeDefinition="AddUadpConnectionMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddBrokerConnection" TypeDefinition="AddBrokerConnectionMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="RemoveConnection" TypeDefinition="RemoveConnectionMethodType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="PublishedDataSets" TypeDefinition="DataSetFolderType" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="DefaultPublisherId" DataType="ua:BaseDataType" ValueRank="Scalar" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:Method SymbolicName="RemoveConnectionMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="ConnectionId" DataType="ua:NodeId" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:Object SymbolicName="PublishSubscribe" TypeDefinition="PublishSubscribeType" PartNo="14">
+    <opc:Children>
+      <opc:Method SymbolicName="AddUadpConnection" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddBrokerConnection" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveConnection" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="GetSecurityKeys" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="GetSecurityGroup" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="SecurityGroups" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+        <opc:TargetId>ua:Server</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:ReferenceType SymbolicName="HasPubSubConnection" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
+    <opc:InverseName>PubSubConnectionOf</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ObjectType SymbolicName="PublishedDataSetType" BaseType="ua:BaseObjectType" PartNo="14">
+    <opc:Children>
+      <opc:Object SymbolicName="DataSetWriterName_Placeholder" TypeDefinition="DataSetWriterType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;DataSetWriterName&gt;</opc:BrowseName>
+        <opc:ReferenceType>DataSetToWriter</opc:ReferenceType>
+      </opc:Object>
+      <opc:Property SymbolicName="ConfigurationVersion" DataType="ConfigurationVersionDataType" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="DataSetMetaData" DataType="DataSetMetaDataType" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="ExtensionFields" TypeDefinition="ExtensionFieldsType" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="ExtensionFieldsType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="ExtensionFieldName_Placeholder" ModellingRule="OptionalPlaceholder">
-        <opc:BrowseName>&lt;ExtensionFieldName&gt;</opc:BrowseName></opc:Property>
+        <opc:BrowseName>&lt;ExtensionFieldName&gt;</opc:BrowseName>
+      </opc:Property>
       <opc:Method SymbolicName="AddExtensionField" TypeDefinition="AddExtensionFieldMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RemoveExtensionField" TypeDefinition="RemoveExtensionFieldMethodType" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
-  
+
   <opc:Method SymbolicName="AddExtensionFieldMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="FieldName" DataType="ua:QualifiedName" ValueRank="Scalar" />
       <opc:Argument Name="FieldValue" DataType="ua:BaseDataType" ValueRank="ScalarOrArray" />
     </opc:InputArguments>
     <opc:OutputArguments>
-      <opc:Argument Name="FieldId" DataType="ua:NodeId"  ValueRank="Scalar" />    
+      <opc:Argument Name="FieldId" DataType="ua:NodeId"  ValueRank="Scalar" />
     </opc:OutputArguments>
   </opc:Method>
-  
+
   <opc:Method SymbolicName="RemoveExtensionFieldMethodType" PartNo="14">
     <opc:InputArguments>
-      <opc:Argument Name="FieldId" DataType="ua:NodeId"  ValueRank="Scalar" />    
+      <opc:Argument Name="FieldId" DataType="ua:NodeId"  ValueRank="Scalar" />
     </opc:InputArguments>
   </opc:Method>
-  
+
   <opc:ReferenceType SymbolicName="DataSetToWriter" BaseType="ua:HierarchicalReferences" IsAbstract="false" Symmetric="false" PartNo="14">
     <opc:InverseName>WriterToDataSet</opc:InverseName>
   </opc:ReferenceType>
@@ -3494,20 +3506,6 @@
       <opc:Method SymbolicName="RemoveVariables" TypeDefinition="PublishedDataItemsRemoveVariablesMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
-
-  <opc:Method SymbolicName="AddPublishedDataItemsMethodType" PartNo="14">
-    <opc:InputArguments>
-      <opc:Argument Name="Name" DataType="ua:String" />
-      <opc:Argument Name="FieldNameAliases" DataType="ua:String" ValueRank="Array" />
-      <opc:Argument Name="PromotedFields" DataType="ua:Boolean" ValueRank="Array" />
-      <opc:Argument Name="VariablesToAdd" DataType="PublishedVariableDataType"  ValueRank="Array" />
-    </opc:InputArguments>
-    <opc:OutputArguments>
-      <opc:Argument Name="DataSetNodeId" DataType="ua:NodeId" />
-      <opc:Argument Name="ConfigurationVersion" DataType="ConfigurationVersionDataType" />
-      <opc:Argument Name="AddResults" DataType="ua:StatusCode" ValueRank="Array" />
-    </opc:OutputArguments>
-  </opc:Method>
 
   <opc:Method SymbolicName="PublishedDataItemsAddVariablesMethodType" PartNo="14">
     <opc:InputArguments>
@@ -3554,21 +3552,6 @@
       <opc:Method SymbolicName="ModifyFieldSelection" TypeDefinition="PublishedEventsTypeModifyFieldSelectionMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
-
-  <opc:Method SymbolicName="AddPublishedEventsMethodType" PartNo="14">
-    <opc:InputArguments>
-      <opc:Argument Name="Name" DataType="ua:String" />
-      <opc:Argument Name="EventNotifier" DataType="ua:NodeId" />
-      <opc:Argument Name="FieldNameAliases" DataType="ua:String"  ValueRank="Array" />
-      <opc:Argument Name="PromotedFields" DataType="ua:Boolean"  ValueRank="Array" />
-      <opc:Argument Name="SelectedFields" DataType="ua:SimpleAttributeOperand" ValueRank="Array" />
-      <opc:Argument Name="Filter" DataType="ua:ContentFilter" />
-    </opc:InputArguments>
-    <opc:OutputArguments>
-      <opc:Argument Name="ConfigurationVersion" DataType="ConfigurationVersionDataType" />
-      <opc:Argument Name="DataSetNodeId" DataType="ua:NodeId" />
-    </opc:OutputArguments>
-  </opc:Method>
   
   <opc:Method SymbolicName="PublishedEventsTypeModifyFieldSelectionMethodType" PartNo="14">
     <opc:InputArguments>
@@ -3588,14 +3571,64 @@
     </opc:Children>
   </opc:ObjectType>
 
+  <opc:ObjectType SymbolicName="DataSetFolderType" BaseType="ua:FolderType" PartNo="14">
+    <opc:Children>
+      <opc:Object SymbolicName="DataSetFolderName_Placeholder" TypeDefinition="DataSetFolderType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;DataSetFolderName&gt;</opc:BrowseName>
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+      </opc:Object>
+      <opc:Object SymbolicName="PublishedDataSetName_Placeholder" TypeDefinition="PublishedDataSetType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;PublishedDataSetName&gt;</opc:BrowseName>
+      </opc:Object>
+      <opc:Method SymbolicName="AddPublishedDataItems" TypeDefinition="AddPublishedDataItemsMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddPublishedEvents" TypeDefinition="AddPublishedEventsMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="RemovePublishedDataSet" TypeDefinition="RemovePublishedDataSetMethodType" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:ObjectType>
+  
+  <opc:Method SymbolicName="AddPublishedDataItemsMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="Name" DataType="ua:String" />
+      <opc:Argument Name="FieldNameAliases" DataType="ua:String" ValueRank="Array" />
+      <opc:Argument Name="PromotedFields" DataType="ua:Boolean" ValueRank="Array" />
+      <opc:Argument Name="VariablesToAdd" DataType="PublishedVariableDataType"  ValueRank="Array" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="DataSetNodeId" DataType="ua:NodeId" />
+      <opc:Argument Name="ConfigurationVersion" DataType="ConfigurationVersionDataType" />
+      <opc:Argument Name="AddResults" DataType="ua:StatusCode" ValueRank="Array" />
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="AddPublishedEventsMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="Name" DataType="ua:String" />
+      <opc:Argument Name="EventNotifier" DataType="ua:NodeId" />
+      <opc:Argument Name="FieldNameAliases" DataType="ua:String"  ValueRank="Array" />
+      <opc:Argument Name="PromotedFields" DataType="ua:Boolean"  ValueRank="Array" />
+      <opc:Argument Name="SelectedFields" DataType="ua:SimpleAttributeOperand" ValueRank="Array" />
+      <opc:Argument Name="Filter" DataType="ua:ContentFilter" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="ConfigurationVersion" DataType="ConfigurationVersionDataType" />
+      <opc:Argument Name="DataSetNodeId" DataType="ua:NodeId" />
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="RemovePublishedDataSetMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="DataSetId" DataType="ua:NodeId" />
+    </opc:InputArguments>
+  </opc:Method>
+
   <opc:ObjectType SymbolicName="PubSubConnectionType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="PublisherId" DataType="ua:BaseDataType" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Address" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="GroupName_Placeholder" TypeDefinition="PubSubGroupType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;GroupName&gt;</opc:BrowseName>
       </opc:Object>
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="Address" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RemoveGroup" TypeDefinition="PubSubConnectionTypeRemoveGroupMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
@@ -3612,8 +3645,11 @@
       <opc:Property SymbolicName="KeepAliveTime" DataType="ua:Duration" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EncodingMimeType" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Priority" DataType="ua:Byte" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="LocaleIds" DataType="ua:LocaleId" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="SecurityMode" DataType="MessageSecurityMode" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="SecurityGroupId" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="SecurityKeyServices" DataType="EndpointDescription" ValueRank="Array" ModellingRule="Optional" />
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="MessageSecurity" TypeDefinition="PubSubMessageSecurityType" ModellingRule="Optional" />
       <opc:Object SymbolicName="DataSetWriterName_Placeholder" TypeDefinition="DataSetWriterType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;DataSetWriterName&gt;</opc:BrowseName>
         <opc:ReferenceType>HasDataSetWriter</opc:ReferenceType>
@@ -3638,23 +3674,6 @@
       <opc:Argument Name="DataSetReaderNodeId" DataType="ua:NodeId" />
     </opc:InputArguments>
   </opc:Method>
-  
-  <opc:ObjectType SymbolicName="PubSubMessageSecurityType" BaseType="ua:BaseObjectType" PartNo="14">
-    <opc:Children>
-      <opc:Property SymbolicName="SecurityGroupId" DataType="ua:String" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="SecurityMode" DataType="MessageSecurityMode" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="SecurityKeyServices" DataType="EndpointDescription" ValueRank="Array" ModellingRule="Optional" />
-    </opc:Children>
-  </opc:ObjectType>
-
-  <opc:DataType SymbolicName="SecurityKeyServiceDataType" BaseType="ua:Structure" PartNo="14">
-    <opc:Fields>
-      <opc:Field Name="ApplicationUri"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="EndpointUrls"  DataType="ua:String" ValueRank="Array"></opc:Field>
-      <opc:Field Name="AuthorizationUrls"  DataType="ua:String" ValueRank="Array"></opc:Field>
-      <opc:Field Name="TransportProfileUri"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
 
   <opc:ReferenceType SymbolicName="HasDataSetWriter" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
     <opc:InverseName>IsWriterInGroup</opc:InverseName>
@@ -3678,27 +3697,13 @@
     </opc:Children>
   </opc:ObjectType>
   
-  <opc:DataType SymbolicName="DataSetContentMask" BaseType="Enumeration" PartNo="14">
-    <opc:Fields>
-      <opc:Field Name="FieldStatusCode" Identifier="1"></opc:Field>
-      <opc:Field Name="FieldSourceTimestamp" Identifier="2"></opc:Field>
-      <opc:Field Name="FieldServerTimestamp" Identifier="4"></opc:Field>
-      <opc:Field Name="FieldSourcePicoSeconds" Identifier="8"></opc:Field>
-      <opc:Field Name="FieldServerPicoSeconds" Identifier="16"></opc:Field>
-      <opc:Field Name="FieldRawDataEncoding" Identifier="32"></opc:Field>
-      <opc:Field Name="HeaderTimestamp" Identifier="64"></opc:Field>
-      <opc:Field Name="HeaderPicoSeconds" Identifier="128"></opc:Field>
-      <opc:Field Name="HeaderStatusCode" Identifier="256"></opc:Field>
-      <opc:Field Name="HeaderMajorVersion" Identifier="512"></opc:Field>
-      <opc:Field Name="HeaderMinorVersion" Identifier="1024"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
   <opc:ObjectType SymbolicName="DataSetReaderType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14">
     <opc:Children>
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="TransportSettings" TypeDefinition="DataSetReaderTransportType" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="MessageSecurity" TypeDefinition="PubSubMessageSecurityType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="SecurityMode" DataType="MessageSecurityMode" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="SecurityGroupId" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="SecurityKeyServices" DataType="EndpointDescription" ValueRank="Array" ModellingRule="Optional" />
       <opc:Object SymbolicName="SubscribedDataSet" TypeDefinition="SubscribedDataSetType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="SetConnectVariables" TypeDefinition="DataSetReaderTypeSetConnectVariablesMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="SetDataSetMirror" TypeDefinition="DataSetReaderTypeSetDataSetMirrorMethodType" ModellingRule="Optional" />
@@ -3825,7 +3830,7 @@
 
   <opc:ObjectType SymbolicName="UadpConnectionType" BaseType="PubSubConnectionType" PartNo="14">
     <opc:Children>
-      <opc:Variable SymbolicName="NetworkInterface" DataType="ua:UInt32" ValueRank="Array" TypeDefinition="MultiStateDiscreteType" />
+      <opc:Property SymbolicName="NetworkInterface" DataType="ua:UInt32" ValueRank="Array" TypeDefinition="MultiStateDiscreteType" />
       <opc:Property SymbolicName="TimeToLive" DataType="ua:Byte" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddGroup" TypeDefinition="UadpConnectionTypeAddGroupMethodType" ModellingRule="Optional" />
     </opc:Children>
@@ -3886,7 +3891,7 @@
   <opc:Method SymbolicName="UadpGroupTypeAddReaderMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="DataSetReaderName" DataType="ua:String" />
-      <opc:Argument Name="PublisherId" DataType="ua:Guid" />
+      <opc:Argument Name="PublisherId" DataType="ua:BaseDataType" />
       <opc:Argument Name="DataSetWriterId" DataType="ua:UInt16" />
       <opc:Argument Name="DataSetMetaData" DataType="DataSetMetaDataType" />
       <opc:Argument Name="MessageReceiveTimeout" DataType="ua:Duration" />
@@ -3905,18 +3910,18 @@
 
   <opc:ObjectType SymbolicName="UadpReaderTransportType" BaseType="DataSetReaderTransportType" PartNo="14">
     <opc:Children>
-      <opc:Property SymbolicName="PublisherId" DataType="ua:Guid" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="PublisherId" DataType="ua:BaseDataType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetWriterId" DataType="ua:UInt16" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AmqpConnectionType" BaseType="PubSubConnectionType" PartNo="14">
+  <opc:ObjectType SymbolicName="BrokerConnectionType" BaseType="PubSubConnectionType" PartNo="14">
     <opc:Children>
-      <opc:Method SymbolicName="AddGroup" TypeDefinition="AmqpConnectionTypeAddGroupMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddGroup" TypeDefinition="BrokerConnectionTypeAddGroupMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Method SymbolicName="AddAmqpConnectionMethodType" PartNo="14">
+  <opc:Method SymbolicName="AddBrokerConnectionMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="ConnectionName" DataType="ua:String" />
       <opc:Argument Name="Address" DataType="ua:String" />
@@ -3927,15 +3932,15 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:ObjectType SymbolicName="AmqpGroupType" BaseType="PubSubGroupType" PartNo="14">
+  <opc:ObjectType SymbolicName="BrokerGroupType" BaseType="PubSubGroupType" PartNo="14">
     <opc:Children>
-      <opc:Property SymbolicName="AmqpNodeName" DataType="ua:String" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="AddDataSetWriter" TypeDefinition="AmqpGroupTypeAddWriterMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddDataSetReader" TypeDefinition="AmqpGroupTypeAddReaderType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="QueueName" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddDataSetWriter" TypeDefinition="BrokerGroupTypeAddWriterMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddDataSetReader" TypeDefinition="BrokerGroupTypeAddReaderType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Method SymbolicName="AmqpConnectionTypeAddGroupMethodType" PartNo="14">
+  <opc:Method SymbolicName="BrokerConnectionTypeAddGroupMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="GroupName" DataType="ua:String" />
       <opc:Argument Name="PublishingInterval" DataType="ua:Duration" />
@@ -3944,19 +3949,19 @@
       <opc:Argument Name="EncodingMimeType" DataType="ua:String" />
       <opc:Argument Name="SecurityMode" DataType="ua:MessageSecurityMode" />
       <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
-      <opc:Argument Name="AmqpNodeName" DataType="ua:String" />
+      <opc:Argument Name="QueueName" DataType="ua:String" />
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="GroupId" DataType="ua:NodeId" />
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="AmqpGroupTypeAddWriterMethodType" PartNo="14">
+  <opc:Method SymbolicName="BrokerGroupTypeAddWriterMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="DataSetWriterName" DataType="ua:String" />
       <opc:Argument Name="PublishedDataSetId" DataType="ua:NodeId" />
-      <opc:Argument Name="AmqpNodeName" DataType="ua:String" />
-      <opc:Argument Name="MetaDataAmqpNodeName" DataType="ua:String" />
+      <opc:Argument Name="QueueName" DataType="ua:String" />
+      <opc:Argument Name="MetaDataQueueName" DataType="ua:String" />
       <opc:Argument Name="MetaDataUpdateTime" DataType="ua:Duration" />
       <opc:Argument Name="MaxMessageSize" DataType="ua:UInt32" />
     </opc:InputArguments>
@@ -3966,11 +3971,11 @@
     </opc:OutputArguments>
   </opc:Method>
   
-  <opc:Method SymbolicName="AmqpGroupTypeAddReaderType" PartNo="14">
+  <opc:Method SymbolicName="BrokerGroupTypeAddReaderType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="DataSetReaderName" DataType="ua:String" />
-      <opc:Argument Name="AmqpNodeName" DataType="ua:String" />
-      <opc:Argument Name="MetaDataAmqpNodeName" DataType="ua:String" />
+      <opc:Argument Name="QueueName" DataType="ua:String" />
+      <opc:Argument Name="MetaDataQueueName" DataType="ua:String" />
       <opc:Argument Name="DataSetWriterId" DataType="ua:UInt32" />
       <opc:Argument Name="DataSetMetaData" DataType="DataSetMetaDataType" />
       <opc:Argument Name="MessageReceiveTimeout" DataType="ua:Duration" />
@@ -3981,20 +3986,20 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:ObjectType SymbolicName="AmqpWriterTransportType" BaseType="DataSetWriterTransportType" PartNo="14">
+  <opc:ObjectType SymbolicName="BrokerWriterTransportType" BaseType="DataSetWriterTransportType" PartNo="14">
     <opc:Children>
-      <opc:Property SymbolicName="AmqpNodeName" DataType="ua:String" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="MetaDataAmqpNodeName" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="QueueName" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MetaDataQueueName" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MetaDataUpdateTime" DataType="ua:Duration" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetWriterId" DataType="ua:UInt16" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MaxMessageSize" DataType="ua:UInt32" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AmqpReaderTransportType" BaseType="DataSetReaderTransportType" PartNo="14">
+  <opc:ObjectType SymbolicName="BrokerReaderTransportType" BaseType="DataSetReaderTransportType" PartNo="14">
     <opc:Children>
-      <opc:Property SymbolicName="AmqpNodeName" DataType="ua:String" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="MetaDataAmqpNodeName" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="QueueName" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MetaDataQueueName" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetWriterId" DataType="ua:UInt16" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
