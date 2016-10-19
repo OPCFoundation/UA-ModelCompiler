@@ -8,7 +8,7 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   TargetNamespace="http://fdi-cooperation.com/OPCUA/FDI7/"
   TargetXmlNamespace="http://fdi-cooperation.com/OPCUA/FDI7/"
-  TargetNamespaceVersion="1.2"
+  TargetNamespaceVersion="1.1"
   xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
 
   <Namespaces>
@@ -400,9 +400,10 @@
     <InputArguments>
       <Argument Name="CommunicationRelationId" DataType="ua:ByteString" />
       <Argument Name="IPAddress" DataType="ua:ByteString" ValueRank="Scalar" />
-      <Argument Name="ConnectType" DataType="ua:UInt32" ValueRank="Scalar" />
+      <Argument Name="ServiceId" DataType="ua:UInt32" ValueRank="Scalar" />
     </InputArguments>
     <OutputArguments>
+      <Argument Name="DelayForNextCall" DataType="ua:UInt32" ValueRank="Scalar" />
       <Argument Name="ServiceError" DataType="ua:Integer" ValueRank="Scalar" />
     </OutputArguments>
   </Method>
@@ -614,6 +615,7 @@
   <Method SymbolicName="FDI:GetPublishedDataMethodISA100_WirelessType">
     <InputArguments>
       <Argument Name="CommunicationRelationId" DataType="ua:ByteString" />
+      <Argument Name="RequestId" DataType="ua:UInt32" ValueRank="Scalar" />
     </InputArguments>
     <OutputArguments>
       <Argument Name="AppID" DataType="ua:UInt16" ValueRank="Scalar" />
