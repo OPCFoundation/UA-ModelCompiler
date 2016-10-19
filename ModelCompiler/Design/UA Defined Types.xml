@@ -883,9 +883,6 @@
       <Object SymbolicName="tns:NamespaceIdentifier_Placeholder" TypeDefinition="tns:NamespaceMetadataType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;NamespaceIdentifier&gt;</BrowseName>
       </Object>
-      <Object SymbolicName="tns:AddressSpaceFile" TypeDefinition="tns:AddressSpaceFileType" ModellingRule="Optional">
-        <Description>A file containing the nodes of the namespace.</Description>
-      </Object>
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:BaseEventType" PartNo="5" BaseType="tns:BaseObjectType" IsAbstract="true">

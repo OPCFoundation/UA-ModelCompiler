@@ -511,9 +511,6 @@
       <opc:Object SymbolicName="NamespaceIdentifier_Placeholder" TypeDefinition="NamespaceMetadataType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;NamespaceIdentifier&gt;</opc:BrowseName>
       </opc:Object>
-      <opc:Object SymbolicName="AddressSpaceFile" TypeDefinition="AddressSpaceFileType" ModellingRule="Optional">
-        <opc:Description>A file containing the nodes of the namespace.</opc:Description>
-      </opc:Object>
     </opc:Children>
   </opc:ObjectType>
 
