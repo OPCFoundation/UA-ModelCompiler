@@ -914,16 +914,16 @@ namespace Opc.Ua.ModelCompiler
                 {
                     component = (ModelDesign)LoadInput(typeof(ModelDesign), designFilePaths[ii]);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     try
                     {
                         component = ImportTypeDictionary(designFilePaths[ii]);
                     }
-                    catch (Exception)
+                    catch (Exception e2)
                     {
                         // ignore exception - probably not a type dictionary.
-                        throw e;
+                        throw e2;
                     }
                 }
 

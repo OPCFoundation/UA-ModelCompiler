@@ -7,13 +7,67 @@
   xmlns="http://opcfoundation.org/UA/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
-  TargetVersion="1.03"
-  TargetPublicationDate="2013-12-02T00:00:00Z"
+  TargetVersion="1.04"
+  TargetPublicationDate="2016-12-12T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
   </opc:Namespaces>
 
+  <opc:Object SymbolicName="OPCUANamespaceMetadata" TypeDefinition="ua:NamespaceMetadataType" PartNo="5">
+    <opc:BrowseName>http://opcfoundation.org/UA/</opc:BrowseName>
+    <opc:Children>
+      <opc:Property SymbolicName="NamespaceUri" DataType="ua:String">
+        <opc:DefaultValue>
+          <uax:String>http://opcfoundation.org/UA/</uax:String>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="NamespaceVersion" DataType="ua:String">
+        <opc:DefaultValue>
+          <uax:String>1.04</uax:String>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
+        <opc:DefaultValue>
+          <uax:String>2016-12-31</uax:String>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
+        <opc:DefaultValue>
+          <uax:Boolean>false</uax:Boolean>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="StaticNodeIdTypes" DataType="ua:IdType" ValueRank="Array">
+        <opc:DefaultValue>
+          <uax:ListOfInt32>
+            <uax:Int32>0</uax:Int32>
+          </uax:ListOfInt32>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="StaticNumericNodeIdRange" DataType="ua:NumericRange" ValueRank="Array">
+        <opc:DefaultValue>
+          <uax:ListOfString>
+            <uax:String>1:65535</uax:String>
+          </uax:ListOfString>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="StaticStringNodeIdPattern" DataType="ua:String">
+        <opc:DefaultValue>
+          <uax:String></uax:String>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="DefaultRolePermissions" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="DefaultUserRolePermissions" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="DefaultAccessRestrictions" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:Server_Namespaces</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+  
   <opc:Property SymbolicName="NodeVersion" DataType="ua:String" PartNo="3">
     <opc:Description>The version number of the node (used to indicate changes to references of the owning node).</opc:Description>
   </opc:Property>
@@ -130,9 +184,6 @@
       <opc:Object SymbolicName="Namespaces" TypeDefinition="NamespacesType" ModellingRule="Optional">
         <opc:Description>Describes the namespaces supported by the server.</opc:Description>
       </opc:Object>
-      <opc:Object SymbolicName="Roles" TypeDefinition="RoleFolderType" ModellingRule="Optional">
-        <opc:Description>Describes the roles supported by the server.</opc:Description>
-      </opc:Object>
       <opc:Method SymbolicName="GetMonitoredItems" TypeDefinition="GetMonitoredItemsMethodType" ModellingRule="Optional">
         <opc:Description>Returns the monitored items for a subscription.</opc:Description>
       </opc:Method>
@@ -194,6 +245,9 @@
       <opc:Variable SymbolicName="VendorCapability_Placeholder" TypeDefinition="ServerVendorCapabilityType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;VendorCapability&gt;</opc:BrowseName>
       </opc:Variable>
+      <opc:Object SymbolicName="Roles" TypeDefinition="RoleSetType" ModellingRule="Optional">
+        <opc:Description>Describes the roles supported by the server.</opc:Description>
+      </opc:Object>
     </opc:Children>
   </opc:ObjectType>
 
@@ -331,6 +385,189 @@
     </opc:Children>
   </opc:ObjectType>
 
+  <opc:ObjectType SymbolicName="RoleSetType" BaseType="ua:BaseObjectType" PartNo="5">
+    <opc:Description>A container for the roles supported by the server.</opc:Description>
+    <opc:Children>
+      <opc:Object SymbolicName="RoleName_Placeholder" TypeDefinition="RoleType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;RoleName&gt;</opc:BrowseName>
+      </opc:Object>
+      <opc:Method SymbolicName="AddRole" TypeDefinition="AddRoleMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveRole" TypeDefinition="RemoveRoleMethodType" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+  
+  <opc:Method SymbolicName="AddRoleMethodType" PartNo="5">
+    <opc:InputArguments>
+      <opc:Argument Name="RoleName" DataType="ua:String" />
+      <opc:Argument Name="NamespaceUri" DataType="ua:String" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="RoleNodeId" DataType="ua:NodeId" />
+    </opc:OutputArguments>
+  </opc:Method>
+  
+  <opc:Method SymbolicName="RemoveRoleMethodType" PartNo="5">
+    <opc:InputArguments>
+      <opc:Argument Name="RoleNodeId" DataType="ua:NodeId" />
+    </opc:InputArguments>
+  </opc:Method>
+  
+  <opc:ObjectType SymbolicName="RoleType" BaseType="BaseObjectType" PartNo="5">
+    <opc:Children>
+      <opc:Property SymbolicName="Identities" DataType="IdentityMappingRuleType" ValueRank="Array"></opc:Property>
+      <opc:Property SymbolicName="Applications" DataType="ua:String" ValueRank="Array" ModellingRule="Optional"></opc:Property>
+      <opc:Property SymbolicName="Endpoints" DataType="ua:String" ValueRank="Array" ModellingRule="Optional"></opc:Property>
+      <opc:Method SymbolicName="AddIdentity" TypeDefinition="AddIdentityMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="RemoveIdentity" TypeDefinition="RemoveIdentityMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddApplication" TypeDefinition="AddApplicationMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="RemoveApplication" TypeDefinition="RemoveApplicationMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddEndpoint" TypeDefinition="AddEndpointMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="RemoveEndpoint" TypeDefinition="RemoveEndpointMethodType" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:DataType SymbolicName="IdentityCriteriaType" BaseType="ua:Enumeration" PartNo="5">
+    <opc:Fields>
+      <opc:Field Name="UserName" Identifier="1" />
+      <opc:Field Name="Thumbprint" Identifier="2" />
+      <opc:Field Name="Scope" Identifier="3" />
+      <opc:Field Name="GroupId" Identifier="4" />
+      <opc:Field Name="Anonymous" Identifier="5" />
+      <opc:Field Name="AuthenticatedUser" Identifier="6" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="IdentityMappingRuleType" BaseType="ua:Structure" PartNo="5">
+    <opc:Fields>
+      <opc:Field Name="CriteriaType" DataType="IdentityCriteriaType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Criteria" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:Method SymbolicName="AddIdentityMethodType" PartNo="5">
+    <opc:InputArguments>
+      <opc:Argument Name="RuleToAdd" DataType="IdentityMappingRuleType" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="RemoveIdentityMethodType" PartNo="5">
+    <opc:InputArguments>
+      <opc:Argument Name="RuleToRemove" DataType="IdentityMappingRuleType" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="AddApplicationMethodType" PartNo="5">
+    <opc:InputArguments>
+      <opc:Argument Name="RuleToAdd" DataType="ua:String" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="RemoveApplicationMethodType" PartNo="5">
+    <opc:InputArguments>
+      <opc:Argument Name="RuleToRemove" DataType="ua:String" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="AddEndpointMethodType" PartNo="5">
+    <opc:InputArguments>
+      <opc:Argument Name="RuleToAdd" DataType="ua:String" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="RemoveEndpointMethodType" PartNo="5">
+    <opc:InputArguments>
+      <opc:Argument Name="RuleToRemove" DataType="ua:String" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:Object SymbolicName="WellKnownRole_Anonymous" TypeDefinition="RoleType" PartNo="5">
+    <opc:BrowseName>Anonymous</opc:BrowseName>
+    <opc:Description>The Role has very limited access for use when a Session has anonymous credentials.</opc:Description>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_Roles</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+  
+  <opc:Object SymbolicName="WellKnownRole_AuthenticatedUser" TypeDefinition="RoleType" PartNo="53">
+    <opc:BrowseName>AuthenticatedUser</opc:BrowseName>
+    <opc:Description>The Role has limited access for use when a Session has valid non-anonymous credentials but has not been explicity granted access to a Role.</opc:Description>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_Roles</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:Object SymbolicName="WellKnownRole_Observer" TypeDefinition="RoleType" PartNo="5">
+    <opc:BrowseName>Observer</opc:BrowseName>
+    <opc:Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_Roles</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:Object SymbolicName="WellKnownRole_Operator" TypeDefinition="RoleType" PartNo="5">
+    <opc:BrowseName>Operator</opc:BrowseName>
+    <opc:Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_Roles</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:Object SymbolicName="WellKnownRole_Engineer" TypeDefinition="RoleType" PartNo="5">
+    <opc:BrowseName>Engineer</opc:BrowseName>
+    <opc:Description>The Role is allowed to browse, read live data, read and update historical data/events, call methods or subscribe to data/events.</opc:Description>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_Roles</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+  
+  <opc:Object SymbolicName="WellKnownRole_Supervisor" TypeDefinition="RoleType" PartNo="5">
+    <opc:BrowseName>Supervisor</opc:BrowseName>
+    <opc:Description>The Role is allowed to browse, read live data, read and historical data/events, call methods or subscribe to data/events.</opc:Description>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_Roles</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:Object SymbolicName="WellKnownRole_SecurityAdmin" TypeDefinition="RoleType" PartNo="5">
+    <opc:BrowseName>SecurityAdmin</opc:BrowseName>
+    <opc:Description>The Role is allowed to change security related settings.</opc:Description>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_Roles</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:Object SymbolicName="WellKnownRole_ConfigureAdmin" TypeDefinition="RoleType" PartNo="5">
+    <opc:BrowseName>ConfigureAdmin</opc:BrowseName>
+    <opc:Description>The Role is allowed to change the non-security related configuration settings.</opc:Description>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_Roles</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
   <opc:ObjectType SymbolicName="FileType" BaseType="ua:BaseObjectType" PartNo="5">
     <opc:Description>An object that represents a file that can be accessed via the server.</opc:Description>
     <opc:Children>
@@ -420,7 +657,8 @@
       </opc:Method>
       <opc:Method SymbolicName="CreateFile" TypeDefinition="CreateFileMethodType">
       </opc:Method>
-      <opc:Method SymbolicName="Delete" TypeDefinition="DeleteFileMethodType">
+      <opc:Method SymbolicName="DeleteFile" TypeDefinition="DeleteFileMethodType">
+        <opc:BrowseName>Delete</opc:BrowseName>
       </opc:Method>
       <opc:Method SymbolicName="MoveOrCopy" TypeDefinition="MoveOrCopyMethodType">
       </opc:Method>
@@ -502,6 +740,9 @@
       <opc:Object SymbolicName="NamespaceFile" TypeDefinition="AddressSpaceFileType" ModellingRule="Optional">
         <opc:Description>A file containing the nodes of the namespace.</opc:Description>
       </opc:Object>
+      <opc:Property SymbolicName="DefaultRolePermissions" DataType="ua:RolePermissionType" ValueRank="Array" ModellingRule="Optional" />
+      <opc:Property SymbolicName="DefaultUserRolePermissions" DataType="ua:RolePermissionType" ValueRank="Array" ModellingRule="Optional" />
+      <opc:Property SymbolicName="DefaultAccessRestrictions" DataType="ua:Byte" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -1000,6 +1241,7 @@
               <opc:Property SymbolicName="MaxMonitoredItemsPerCall" ModellingRule="Mandatory" />
             </opc:Children>
           </opc:Object>
+          <opc:Object SymbolicName="Roles" ModellingRule="Mandatory" />
         </opc:Children>
       </opc:Object>
       <opc:Object SymbolicName="ServerDiagnostics">
@@ -1017,38 +1259,7 @@
         </opc:Children>
       </opc:Object>
       <opc:Object SymbolicName="Namespaces" ModellingRule="Mandatory">
-        <opc:Children>
-          <opc:Object SymbolicName="OPCUANamespaceUri" TypeDefinition="ua:NamespaceMetadataType" PartNo="5">
-            <opc:BrowseName>http://opcfoundation.org/UA/</opc:BrowseName>
-            <opc:Children>
-              <opc:Property SymbolicName="NamespaceUri" DataType="ua:String">
-                <opc:DefaultValue>
-                  <uax:String>http://opcfoundation.org/UA/</uax:String>
-                </opc:DefaultValue>
-              </opc:Property>
-              <opc:Property SymbolicName="NamespaceVersion" DataType="ua:String">
-                <opc:DefaultValue>
-                  <uax:String>1.03</uax:String>
-                </opc:DefaultValue>
-              </opc:Property>
-              <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
-                <opc:DefaultValue>
-                  <uax:String>2016-04-15</uax:String>
-                </opc:DefaultValue>
-              </opc:Property>
-              <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
-                <opc:DefaultValue>
-                  <uax:Boolean>false</uax:Boolean>
-                </opc:DefaultValue>
-              </opc:Property>
-              <opc:Property SymbolicName="StaticNodeIdTypes" DataType="ua:IdType" ValueRank="Array"></opc:Property>
-              <opc:Property SymbolicName="StaticNumericNodeIdRange" DataType="ua:NumericRange" ValueRank="Array"></opc:Property>
-              <opc:Property SymbolicName="StaticStringNodeIdPattern" DataType="ua:String" ValueRank="Scalar"></opc:Property>
-            </opc:Children>
-          </opc:Object>
-        </opc:Children>
       </opc:Object>
-      <opc:Object SymbolicName="Roles" ModellingRule="Mandatory"></opc:Object>
       <opc:Method SymbolicName="GetMonitoredItems" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="ResendData" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="SetSubscriptionDurable" ModellingRule="Mandatory" />
@@ -2890,6 +3101,51 @@
     </opc:References>
   </opc:Object>
 
+  <opc:ObjectType SymbolicName="NetworkServiceFolderType" BaseType="ua:FolderType">
+    <opc:Children>
+      <opc:Object SymbolicName="ServiceName_Placeholder" TypeDefinition="NetworkServiceType"  ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;ServiceName&gt;</opc:BrowseName>
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+      </opc:Object>
+      <opc:Property SymbolicName="CredentialSecurityPolicies"  DataType="ua:String" ValueRank="Array" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:Object SymbolicName="NetworkServices" TypeDefinition="NetworkServiceFolderType">
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:ServerConfiguration</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+  
+  <opc:ObjectType SymbolicName="NetworkServiceType" BaseType="ua:BaseObjectType">
+    <opc:Children>
+      <opc:Property SymbolicName="ServiceUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Enabled"  DataType="ua:Boolean" ValueRank="Scalar" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ServiceStatus"  DataType="ua:StatusCode" ValueRank="Scalar" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="TransportProfiles"  DataType="ua:String" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints"  DataType="ua:EndpointDescription" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="UpdateCredential" TypeDefinition="UpdateCredentialMethodType" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:Method SymbolicName="UpdateCredentialMethodType">
+    <opc:InputArguments>
+      <opc:Argument Name="CredentialId" DataType="ua:String" />
+      <opc:Argument Name="CredentialSecret" DataType="ua:ByteString"></opc:Argument>
+      <opc:Argument Name="CertificateThumbprint" DataType="ua:String" />
+      <opc:Argument Name="SecurityPolicyUri" DataType="ua:String" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:ObjectType SymbolicName="CredentialUpdatedAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true">
+    <opc:Children>
+      <opc:Property SymbolicName="ServiceUri" DataType="ua:String" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+  
   <!-- Part 13 -->
   <opc:ObjectType SymbolicName="AggregateConfigurationType" BaseType="ua:BaseObjectType" PartNo="13">
     <opc:Children>
@@ -3085,182 +3341,7 @@
     <opc:Description>Retrieve the variance for the interval as calculated by the StandardDeviationPopulation which includes Simple Bounding Values.</opc:Description>
   </opc:Object>
 
-  <opc:DataType SymbolicName="DataTypeDefinition" BaseType="ua:Structure" PartNo="3">
-  </opc:DataType>
-  
   <!-- Part 3 - Additional Types -->
-  <opc:DataType SymbolicName="StructureType" PartNo="3" BaseType="ua:Enumeration" NoArraysAllowed="true">
-    <opc:Fields>
-      <opc:Field Name="Structure" Identifier="0" />
-      <opc:Field Name="StructureWithOptionalFields" Identifier="1" />
-      <opc:Field Name="Union" Identifier="2" />
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="StructureDefinition" BaseType="DataTypeDefinition" PartNo="3">
-    <opc:Fields>
-      <opc:Field Name="DefaultEncodingId"  DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="BaseDataType"  DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="StructureType"  DataType="StructureType" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="Fields"  DataType="StructureField" ValueRank="Array"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="EnumDefinition" BaseType="DataTypeDefinition" PartNo="3">
-    <opc:Fields>
-      <opc:Field Name="Fields"  DataType="EnumField" ValueRank="Array"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="StructureField" BaseType="ua:Structure" PartNo="3">
-    <opc:Fields>
-      <opc:Field Name="Name"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="Description"  DataType="ua:LocalizedText" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="DataType"  DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="ValueRank"  DataType="ua:Int32" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="IsOptional"  DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:ObjectType SymbolicName="RoleFolderType" BaseType="ua:FolderType" PartNo="3">
-    <opc:Description>A container for the roles supported by the server.</opc:Description>
-    <opc:Children>
-      <opc:Object SymbolicName="RoleName_Placeholder" TypeDefinition="RoleType" ModellingRule="OptionalPlaceholder">
-        <opc:BrowseName>&lt;RoleName&gt;</opc:BrowseName>
-      </opc:Object>
-    </opc:Children>
-  </opc:ObjectType>
-  
-  <opc:ObjectType SymbolicName="RoleType" BaseType="BaseObjectType" PartNo="3">
-    <opc:Children>
-      <opc:Property SymbolicName="Identities" DataType="IdentityMappingRuleType" ValueRank="Array"></opc:Property>
-      <opc:Property SymbolicName="Applications" DataType="ApplicationPermissionRuleType" ValueRank="Array" ModellingRule="Optional"></opc:Property>
-      <opc:Property SymbolicName="Endpoints" DataType="String" ValueRank="Array" ModellingRule="Optional"></opc:Property>
-      <opc:Method SymbolicName="AddIdentity" TypeDefinition="AddIdentityMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveIdentity" TypeDefinition="RemoveIdentityMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddApplication" TypeDefinition="AddApplicationMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveApplication" TypeDefinition="RemoveApplicationMethodType" ModellingRule="Optional" />
-    </opc:Children>
-  </opc:ObjectType>
-
-  <opc:DataType SymbolicName="IdentityCriteriaType" BaseType="ua:Enumeration" PartNo="3">
-    <opc:Fields>
-      <opc:Field Name="UserName" Identifier="1" />
-      <opc:Field Name="Thumbprint" Identifier="2" />
-      <opc:Field Name="Scope" Identifier="3" />
-      <opc:Field Name="GroupId" Identifier="4" />
-      <opc:Field Name="Anonymous" Identifier="5" />
-      <opc:Field Name="Everyone" Identifier="6" />
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="IdentityMappingRuleType" BaseType="ua:Structure" PartNo="3">
-    <opc:Fields>
-      <opc:Field Name="CriteriaType" DataType="IdentityCriteriaType" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="Criteria" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-  
-  <opc:DataType SymbolicName="ApplicationPermissionRuleType" BaseType="ua:Structure" PartNo="3">
-    <opc:Fields>
-      <opc:Field Name="ApplicationUri" DataType="String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="Thumbprint" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-  
-  <opc:Method SymbolicName="AddIdentityMethodType" PartNo="3">
-    <opc:InputArguments>
-      <opc:Argument Name="RuleToAdd" DataType="IdentityMappingRuleType" />
-    </opc:InputArguments>
-  </opc:Method>
-
-  <opc:Method SymbolicName="RemoveIdentityMethodType" PartNo="3">
-    <opc:InputArguments>
-      <opc:Argument Name="RuleToRemove" DataType="IdentityMappingRuleType" />
-    </opc:InputArguments>
-  </opc:Method>
-
-  <opc:Method SymbolicName="AddApplicationMethodType" PartNo="3">
-    <opc:InputArguments>
-      <opc:Argument Name="RuleToAdd" DataType="ApplicationPermissionRuleType" />
-    </opc:InputArguments>
-  </opc:Method>
-
-  <opc:Method SymbolicName="RemoveApplicationMethodType" PartNo="3">
-    <opc:InputArguments>
-      <opc:Argument Name="RuleToRemove" DataType="ApplicationPermissionRuleType" />
-    </opc:InputArguments>
-  </opc:Method>
-
-  <opc:Object SymbolicName="Anonymous" TypeDefinition="RoleType" PartNo="3">
-    <opc:Description>The Role has very limited access for use when a Session has anonymous credentials.</opc:Description>
-    <opc:References>
-      <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:Server_Roles</opc:TargetId>
-      </opc:Reference>
-    </opc:References>
-  </opc:Object>
-  
-  <opc:Object SymbolicName="AuthenticatedUsers" TypeDefinition="RoleType" PartNo="3">
-    <opc:Description>The Role has limited access for use when a Session has valid non-anonymous credentials but has not been explicity granted access to a Role.</opc:Description>
-    <opc:References>
-      <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:Server_Roles</opc:TargetId>
-      </opc:Reference>
-    </opc:References>
-  </opc:Object>
-
-  <opc:Object SymbolicName="Observer" TypeDefinition="RoleType" PartNo="3">
-    <opc:Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
-    <opc:References>
-      <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:Server_Roles</opc:TargetId>
-      </opc:Reference>
-    </opc:References>
-  </opc:Object>
-
-  <opc:Object SymbolicName="Operator" TypeDefinition="RoleType" PartNo="3">
-    <opc:Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
-    <opc:References>
-      <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:Server_Roles</opc:TargetId>
-      </opc:Reference>
-    </opc:References>
-  </opc:Object>
-
-  <opc:Object SymbolicName="Supervisor" TypeDefinition="RoleType" PartNo="3">
-    <opc:Description>The Role is allowed to browse, read/write live data, read and update historical data/events, call methods or subscribe to data/events.</opc:Description>
-    <opc:References>
-      <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:Server_Roles</opc:TargetId>
-      </opc:Reference>
-    </opc:References>
-  </opc:Object>
-
-  <opc:Object SymbolicName="SecurityAdmin" TypeDefinition="RoleType" PartNo="3">
-    <opc:Description>The Role is allowed to change security related settings.</opc:Description>
-    <opc:References>
-      <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:Server_Roles</opc:TargetId>
-      </opc:Reference>
-    </opc:References>
-  </opc:Object>
-
-  <opc:Object SymbolicName="ConfigureAdmin" TypeDefinition="RoleType" PartNo="3">
-    <opc:Description>The Role is allowed to change the non-security related configuration settings.</opc:Description>
-    <opc:References>
-      <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:Server_Roles</opc:TargetId>
-      </opc:Reference>
-    </opc:References>
-  </opc:Object>
 
   <!-- Part 14 -->
   <opc:DataType SymbolicName="ConfigurationVersionDataType" BaseType="ua:Structure" PartNo="14">
@@ -3279,7 +3360,7 @@
       <opc:Field Name="Namespaces"  DataType="ua:String" ValueRank="Array"></opc:Field>
       <opc:Field Name="StructureDataTypes"  DataType="StructureDescription" ValueRank="Array"></opc:Field>
       <opc:Field Name="EnumDataTypes"  DataType="EnumDescription" ValueRank="Array"></opc:Field>
-      <opc:Field Name="ConfigurationVersion"  DataType="ConfigurationVersionDataType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ConfigurationVersion"  DataType="ua:ConfigurationVersionDataType" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -3300,25 +3381,6 @@
       <opc:Field Name="ArrayDimensions"  DataType="ua:UInt32" ValueRank="Array"></opc:Field>
       <opc:Field Name="DataSetFieldId"  DataType="ua:Guid" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Properties"  DataType="KeyValuePair" ValueRank="Array"></opc:Field>      
-    </opc:Fields>
-  </opc:DataType>
-  
-  <opc:DataType SymbolicName="DataTypeDescription" BaseType="ua:Structure" PartNo="14">
-    <opc:Fields>
-      <opc:Field Name="DataTypeId"  DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="Name"  DataType="ua:QualifiedName" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-  
-  <opc:DataType SymbolicName="StructureDescription" BaseType="DataTypeDescription" PartNo="14">
-    <opc:Fields>
-      <opc:Field Name="StructureDefinition"  DataType="StructureDefinition" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="EnumDescription" BaseType="DataTypeDescription" PartNo="14">
-    <opc:Fields>
-      <opc:Field Name="EnumDefinition"  DataType="EnumDefinition" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -3543,7 +3605,9 @@
 
   <opc:ObjectType SymbolicName="PublishedEventsType" BaseType="PublishedDataSetType" PartNo="14">
     <opc:Children>
-      <opc:Property SymbolicName="EventNotifier" DataType="ua:NodeId" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="PubSubEventNotifier" DataType="ua:NodeId" ModellingRule="Mandatory">
+        <opc:BrowseName>EventNotifier</opc:BrowseName>
+      </opc:Property>
       <opc:Property SymbolicName="SelectedFields" DataType="ua:SimpleAttributeOperand" ValueRank="Array" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Filter" DataType="ua:ContentFilter" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="ModifyFieldSelection" TypeDefinition="PublishedEventsTypeModifyFieldSelectionMethodType" ModellingRule="Optional" />

@@ -8,4 +8,8 @@
   <PropertyGroup>
     <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartArguments>-d2 ".\ModelCompiler\Design\StandardTypes.xml" -d2 ".\ModelCompiler\Design\UA Core Services.xml" -c ".\ModelCompiler\Design\StandardTypes.csv" -o2 "OUTPUT" -stack "OUTPUT"</StartArguments>
+    <StartWorkingDirectory>X:\Work\OPC\UA-ModelCompiler\</StartWorkingDirectory>
+  </PropertyGroup>
 </Project>

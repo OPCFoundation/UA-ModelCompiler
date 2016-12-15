@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.03" TargetPublicationDate="2013-12-02T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04" TargetPublicationDate="2016-12-31T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -101,7 +101,7 @@
   <DataType SymbolicName="tns:Image" PartNo="3" BaseType="tns:ByteString">
     <Description>Describes a value that is an image encoded as a string of bytes.</Description>
   </DataType>
-  <DataType SymbolicName="tns:Decimal128" PartNo="3" BaseType="tns:Number">
+  <DataType SymbolicName="tns:Decimal" PartNo="3" BaseType="tns:Number">
     <Description>Describes a 128-bit decimal value.</Description>
   </DataType>
   <ReferenceType SymbolicName="tns:References" PartNo="3" IsAbstract="true" Symmetric="true">
@@ -437,6 +437,59 @@
       </Reference>
     </References>
   </Object>
+  <Object SymbolicName="tns:OPCUANamespaceMetadata" PartNo="5" TypeDefinition="tns:NamespaceMetadataType">
+    <BrowseName>http://opcfoundation.org/UA/</BrowseName>
+    <Children>
+      <Property SymbolicName="tns:NamespaceUri" DataType="tns:String">
+        <DefaultValue>
+          <uax:String>http://opcfoundation.org/UA/</uax:String>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="tns:NamespaceVersion" DataType="tns:String">
+        <DefaultValue>
+          <uax:String>1.04</uax:String>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
+        <DefaultValue>
+          <uax:String>2016-12-31</uax:String>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
+        <DefaultValue>
+          <uax:Boolean>false</uax:Boolean>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="tns:StaticNodeIdTypes" DataType="tns:IdType" ValueRank="Array">
+        <DefaultValue>
+          <uax:ListOfInt32>
+            <uax:Int32>0</uax:Int32>
+          </uax:ListOfInt32>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="tns:StaticNumericNodeIdRange" DataType="tns:NumericRange" ValueRank="Array">
+        <DefaultValue>
+          <uax:ListOfString>
+            <uax:String>1:65535</uax:String>
+          </uax:ListOfString>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="tns:StaticStringNodeIdPattern" DataType="tns:String">
+        <DefaultValue>
+          <uax:String></uax:String>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="tns:DefaultRolePermissions" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:DefaultUserRolePermissions" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:DefaultAccessRestrictions" ModellingRule="Mandatory" />
+    </Children>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Server_Namespaces</TargetId>
+      </Reference>
+    </References>
+  </Object>
   <Property SymbolicName="tns:NodeVersion" PartNo="3" DataType="tns:String">
     <Description>The version number of the node (used to indicate changes to references of the owning node).</Description>
   </Property>
@@ -530,9 +583,6 @@
       <Object SymbolicName="tns:Namespaces" TypeDefinition="tns:NamespacesType" ModellingRule="Optional">
         <Description>Describes the namespaces supported by the server.</Description>
       </Object>
-      <Object SymbolicName="tns:Roles" TypeDefinition="tns:RoleFolderType" ModellingRule="Optional">
-        <Description>Describes the roles supported by the server.</Description>
-      </Object>
       <Method SymbolicName="tns:GetMonitoredItems" TypeDefinition="tns:GetMonitoredItemsMethodType" ModellingRule="Optional">
         <Description>Returns the monitored items for a subscription.</Description>
       </Method>
@@ -593,6 +643,9 @@
       <Variable SymbolicName="tns:VendorCapability_Placeholder" TypeDefinition="tns:ServerVendorCapabilityType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;VendorCapability&gt;</BrowseName>
       </Variable>
+      <Object SymbolicName="tns:Roles" TypeDefinition="tns:RoleSetType" ModellingRule="Optional">
+        <Description>Describes the roles supported by the server.</Description>
+      </Object>
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:ServerDiagnosticsType" PartNo="5" BaseType="tns:BaseObjectType">
@@ -719,6 +772,169 @@
       </Property>
     </Children>
   </ObjectType>
+  <ObjectType SymbolicName="tns:RoleSetType" PartNo="5" BaseType="tns:BaseObjectType">
+    <Description>A container for the roles supported by the server.</Description>
+    <Children>
+      <Object SymbolicName="tns:RoleName_Placeholder" TypeDefinition="tns:RoleType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;RoleName&gt;</BrowseName>
+      </Object>
+      <Method SymbolicName="tns:AddRole" TypeDefinition="tns:AddRoleMethodType" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveRole" TypeDefinition="tns:RemoveRoleMethodType" ModellingRule="Mandatory" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:AddRoleMethodType" PartNo="5">
+    <InputArguments>
+      <Argument Name="RoleName" DataType="tns:String" />
+      <Argument Name="NamespaceUri" DataType="tns:String" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="RoleNodeId" DataType="tns:NodeId" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:RemoveRoleMethodType" PartNo="5">
+    <InputArguments>
+      <Argument Name="RoleNodeId" DataType="tns:NodeId" />
+    </InputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:RoleType" PartNo="5" BaseType="tns:BaseObjectType">
+    <Children>
+      <Property SymbolicName="tns:Identities" DataType="tns:IdentityMappingRuleType" ValueRank="Array" />
+      <Property SymbolicName="tns:Applications" ModellingRule="Optional" DataType="tns:String" ValueRank="Array" />
+      <Property SymbolicName="tns:Endpoints" ModellingRule="Optional" DataType="tns:String" ValueRank="Array" />
+      <Method SymbolicName="tns:AddIdentity" TypeDefinition="tns:AddIdentityMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:RemoveIdentity" TypeDefinition="tns:RemoveIdentityMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:AddApplication" TypeDefinition="tns:AddApplicationMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:RemoveApplication" TypeDefinition="tns:RemoveApplicationMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:AddEndpoint" TypeDefinition="tns:AddEndpointMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:RemoveEndpoint" TypeDefinition="tns:RemoveEndpointMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <DataType SymbolicName="tns:IdentityCriteriaType" PartNo="5" BaseType="tns:Enumeration">
+    <Fields>
+      <Field Name="UserName" Identifier="1" />
+      <Field Name="Thumbprint" Identifier="2" />
+      <Field Name="Scope" Identifier="3" />
+      <Field Name="GroupId" Identifier="4" />
+      <Field Name="Anonymous" Identifier="5" />
+      <Field Name="AuthenticatedUser" Identifier="6" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:IdentityMappingRuleType" PartNo="5" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="CriteriaType" DataType="tns:IdentityCriteriaType" />
+      <Field Name="Criteria" DataType="tns:String" />
+    </Fields>
+  </DataType>
+  <Method SymbolicName="tns:AddIdentityMethodType" PartNo="5">
+    <InputArguments>
+      <Argument Name="RuleToAdd" DataType="tns:IdentityMappingRuleType" />
+    </InputArguments>
+  </Method>
+  <Method SymbolicName="tns:RemoveIdentityMethodType" PartNo="5">
+    <InputArguments>
+      <Argument Name="RuleToRemove" DataType="tns:IdentityMappingRuleType" />
+    </InputArguments>
+  </Method>
+  <Method SymbolicName="tns:AddApplicationMethodType" PartNo="5">
+    <InputArguments>
+      <Argument Name="RuleToAdd" DataType="tns:String" />
+    </InputArguments>
+  </Method>
+  <Method SymbolicName="tns:RemoveApplicationMethodType" PartNo="5">
+    <InputArguments>
+      <Argument Name="RuleToRemove" DataType="tns:String" />
+    </InputArguments>
+  </Method>
+  <Method SymbolicName="tns:AddEndpointMethodType" PartNo="5">
+    <InputArguments>
+      <Argument Name="RuleToAdd" DataType="tns:String" />
+    </InputArguments>
+  </Method>
+  <Method SymbolicName="tns:RemoveEndpointMethodType" PartNo="5">
+    <InputArguments>
+      <Argument Name="RuleToRemove" DataType="tns:String" />
+    </InputArguments>
+  </Method>
+  <Object SymbolicName="tns:WellKnownRole_Anonymous" PartNo="5" TypeDefinition="tns:RoleType">
+    <BrowseName>Anonymous</BrowseName>
+    <Description>The Role has very limited access for use when a Session has anonymous credentials.</Description>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Server_ServerCapabilities_Roles</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <Object SymbolicName="tns:WellKnownRole_AuthenticatedUser" PartNo="53" TypeDefinition="tns:RoleType">
+    <BrowseName>AuthenticatedUser</BrowseName>
+    <Description>The Role has limited access for use when a Session has valid non-anonymous credentials but has not been explicity granted access to a Role.</Description>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Server_ServerCapabilities_Roles</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <Object SymbolicName="tns:WellKnownRole_Observer" PartNo="5" TypeDefinition="tns:RoleType">
+    <BrowseName>Observer</BrowseName>
+    <Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</Description>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Server_ServerCapabilities_Roles</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <Object SymbolicName="tns:WellKnownRole_Operator" PartNo="5" TypeDefinition="tns:RoleType">
+    <BrowseName>Operator</BrowseName>
+    <Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</Description>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Server_ServerCapabilities_Roles</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <Object SymbolicName="tns:WellKnownRole_Engineer" PartNo="5" TypeDefinition="tns:RoleType">
+    <BrowseName>Engineer</BrowseName>
+    <Description>The Role is allowed to browse, read live data, read and update historical data/events, call methods or subscribe to data/events.</Description>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Server_ServerCapabilities_Roles</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <Object SymbolicName="tns:WellKnownRole_Supervisor" PartNo="5" TypeDefinition="tns:RoleType">
+    <BrowseName>Supervisor</BrowseName>
+    <Description>The Role is allowed to browse, read live data, read and historical data/events, call methods or subscribe to data/events.</Description>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Server_ServerCapabilities_Roles</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <Object SymbolicName="tns:WellKnownRole_SecurityAdmin" PartNo="5" TypeDefinition="tns:RoleType">
+    <BrowseName>SecurityAdmin</BrowseName>
+    <Description>The Role is allowed to change security related settings.</Description>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Server_ServerCapabilities_Roles</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <Object SymbolicName="tns:WellKnownRole_ConfigureAdmin" PartNo="5" TypeDefinition="tns:RoleType">
+    <BrowseName>ConfigureAdmin</BrowseName>
+    <Description>The Role is allowed to change the non-security related configuration settings.</Description>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Server_ServerCapabilities_Roles</TargetId>
+      </Reference>
+    </References>
+  </Object>
   <ObjectType SymbolicName="tns:FileType" PartNo="5" BaseType="tns:BaseObjectType">
     <Description>An object that represents a file that can be accessed via the server.</Description>
     <Children>
@@ -801,7 +1017,9 @@
       </Object>
       <Method SymbolicName="tns:CreateDirectory" TypeDefinition="tns:CreateDirectoryMethodType" />
       <Method SymbolicName="tns:CreateFile" TypeDefinition="tns:CreateFileMethodType" />
-      <Method SymbolicName="tns:Delete" TypeDefinition="tns:DeleteFileMethodType" />
+      <Method SymbolicName="tns:DeleteFile" TypeDefinition="tns:DeleteFileMethodType">
+        <BrowseName>Delete</BrowseName>
+      </Method>
       <Method SymbolicName="tns:MoveOrCopy" TypeDefinition="tns:MoveOrCopyMethodType" />
     </Children>
   </ObjectType>
@@ -875,6 +1093,9 @@
       <Object SymbolicName="tns:NamespaceFile" TypeDefinition="tns:AddressSpaceFileType" ModellingRule="Optional">
         <Description>A file containing the nodes of the namespace.</Description>
       </Object>
+      <Property SymbolicName="tns:DefaultRolePermissions" ModellingRule="Optional" DataType="tns:RolePermissionType" ValueRank="Array" />
+      <Property SymbolicName="tns:DefaultUserRolePermissions" ModellingRule="Optional" DataType="tns:RolePermissionType" ValueRank="Array" />
+      <Property SymbolicName="tns:DefaultAccessRestrictions" ModellingRule="Optional" DataType="tns:Byte" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:NamespacesType" PartNo="5" BaseType="tns:BaseObjectType">
@@ -1300,6 +1521,7 @@
               <Property SymbolicName="tns:MaxMonitoredItemsPerCall" ModellingRule="Mandatory" />
             </Children>
           </Object>
+          <Object SymbolicName="tns:Roles" ModellingRule="Mandatory" />
         </Children>
       </Object>
       <Object SymbolicName="tns:ServerDiagnostics">
@@ -1316,39 +1538,7 @@
           <Property SymbolicName="tns:ServerNetworkGroups" ModellingRule="Mandatory" DataType="tns:NetworkGroupDataType" ValueRank="Array" />
         </Children>
       </Object>
-      <Object SymbolicName="tns:Namespaces" ModellingRule="Mandatory">
-        <Children>
-          <Object SymbolicName="tns:OPCUANamespaceUri" PartNo="5" TypeDefinition="tns:NamespaceMetadataType">
-            <BrowseName>http://opcfoundation.org/UA/</BrowseName>
-            <Children>
-              <Property SymbolicName="tns:NamespaceUri" DataType="tns:String">
-                <DefaultValue>
-                  <uax:String>http://opcfoundation.org/UA/</uax:String>
-                </DefaultValue>
-              </Property>
-              <Property SymbolicName="tns:NamespaceVersion" DataType="tns:String">
-                <DefaultValue>
-                  <uax:String>1.03</uax:String>
-                </DefaultValue>
-              </Property>
-              <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
-                <DefaultValue>
-                  <uax:String>2016-04-15</uax:String>
-                </DefaultValue>
-              </Property>
-              <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
-                <DefaultValue>
-                  <uax:Boolean>false</uax:Boolean>
-                </DefaultValue>
-              </Property>
-              <Property SymbolicName="tns:StaticNodeIdTypes" DataType="tns:IdType" ValueRank="Array" />
-              <Property SymbolicName="tns:StaticNumericNodeIdRange" DataType="tns:NumericRange" ValueRank="Array" />
-              <Property SymbolicName="tns:StaticStringNodeIdPattern" DataType="tns:String" ValueRank="Scalar" />
-            </Children>
-          </Object>
-        </Children>
-      </Object>
-      <Object SymbolicName="tns:Roles" ModellingRule="Mandatory" />
+      <Object SymbolicName="tns:Namespaces" ModellingRule="Mandatory" />
       <Method SymbolicName="tns:GetMonitoredItems" ModellingRule="Mandatory" />
       <Method SymbolicName="tns:ResendData" ModellingRule="Mandatory" />
       <Method SymbolicName="tns:SetSubscriptionDurable" ModellingRule="Mandatory" />
@@ -2994,6 +3184,46 @@
       </Reference>
     </References>
   </Object>
+  <ObjectType SymbolicName="tns:NetworkServiceFolderType" BaseType="tns:FolderType">
+    <Children>
+      <Object SymbolicName="tns:ServiceName_Placeholder" TypeDefinition="tns:NetworkServiceType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;ServiceName&gt;</BrowseName>
+        <ReferenceType>tns:Organizes</ReferenceType>
+      </Object>
+      <Property SymbolicName="tns:CredentialSecurityPolicies" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Array" />
+    </Children>
+  </ObjectType>
+  <Object SymbolicName="tns:NetworkServices" TypeDefinition="tns:NetworkServiceFolderType">
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:ServerConfiguration</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <ObjectType SymbolicName="tns:NetworkServiceType" BaseType="tns:BaseObjectType">
+    <Children>
+      <Property SymbolicName="tns:ServiceUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
+      <Property SymbolicName="tns:Enabled" ModellingRule="Mandatory" DataType="tns:Boolean" ValueRank="Scalar" />
+      <Property SymbolicName="tns:ServiceStatus" ModellingRule="Mandatory" DataType="tns:StatusCode" ValueRank="Scalar" />
+      <Property SymbolicName="tns:TransportProfiles" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Array" />
+      <Property SymbolicName="tns:Endpoints" ModellingRule="Mandatory" DataType="tns:EndpointDescription" ValueRank="Array" />
+      <Method SymbolicName="tns:UpdateCredential" TypeDefinition="tns:UpdateCredentialMethodType" ModellingRule="Mandatory" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:UpdateCredentialMethodType">
+    <InputArguments>
+      <Argument Name="CredentialId" DataType="tns:String" />
+      <Argument Name="CredentialSecret" DataType="tns:ByteString" />
+      <Argument Name="CertificateThumbprint" DataType="tns:String" />
+      <Argument Name="SecurityPolicyUri" DataType="tns:String" />
+    </InputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:CredentialUpdatedAuditEventType" BaseType="tns:AuditUpdateMethodEventType" IsAbstract="true">
+    <Children>
+      <Property SymbolicName="tns:ServiceUri" ModellingRule="Mandatory" DataType="tns:String" />
+    </Children>
+  </ObjectType>
   <ObjectType SymbolicName="tns:AggregateConfigurationType" PartNo="13" BaseType="tns:BaseObjectType">
     <Children>
       <Property SymbolicName="tns:TreatUncertainAsBad" ModellingRule="Mandatory" DataType="tns:Boolean" />
@@ -3150,160 +3380,6 @@
     <BrowseName>VariancePopulation</BrowseName>
     <Description>Retrieve the variance for the interval as calculated by the StandardDeviationPopulation which includes Simple Bounding Values.</Description>
   </Object>
-  <DataType SymbolicName="tns:DataTypeDefinition" PartNo="3" BaseType="tns:Structure" />
-  <DataType SymbolicName="tns:StructureType" PartNo="3" BaseType="tns:Enumeration" NoArraysAllowed="true">
-    <Fields>
-      <Field Name="Structure" Identifier="0" />
-      <Field Name="StructureWithOptionalFields" Identifier="1" />
-      <Field Name="Union" Identifier="2" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:StructureDefinition" PartNo="3" BaseType="tns:DataTypeDefinition">
-    <Fields>
-      <Field Name="DefaultEncodingId" DataType="tns:NodeId" />
-      <Field Name="BaseDataType" DataType="tns:NodeId" />
-      <Field Name="StructureType" DataType="tns:StructureType" />
-      <Field Name="Fields" DataType="tns:StructureField" ValueRank="Array" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:EnumDefinition" PartNo="3" BaseType="tns:DataTypeDefinition">
-    <Fields>
-      <Field Name="Fields" DataType="tns:EnumField" ValueRank="Array" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:StructureField" PartNo="3" BaseType="tns:Structure">
-    <Fields>
-      <Field Name="Name" DataType="tns:String" />
-      <Field Name="Description" DataType="tns:LocalizedText" />
-      <Field Name="DataType" DataType="tns:NodeId" />
-      <Field Name="ValueRank" DataType="tns:Int32" />
-      <Field Name="IsOptional" DataType="tns:Boolean" />
-    </Fields>
-  </DataType>
-  <ObjectType SymbolicName="tns:RoleFolderType" PartNo="3" BaseType="tns:FolderType">
-    <Description>A container for the roles supported by the server.</Description>
-    <Children>
-      <Object SymbolicName="tns:RoleName_Placeholder" TypeDefinition="tns:RoleType" ModellingRule="OptionalPlaceholder">
-        <BrowseName>&lt;RoleName&gt;</BrowseName>
-      </Object>
-    </Children>
-  </ObjectType>
-  <ObjectType SymbolicName="tns:RoleType" PartNo="3" BaseType="tns:BaseObjectType">
-    <Children>
-      <Property SymbolicName="tns:Identities" DataType="tns:IdentityMappingRuleType" ValueRank="Array" />
-      <Property SymbolicName="tns:Applications" ModellingRule="Optional" DataType="tns:ApplicationPermissionRuleType" ValueRank="Array" />
-      <Property SymbolicName="tns:Endpoints" ModellingRule="Optional" DataType="tns:String" ValueRank="Array" />
-      <Method SymbolicName="tns:AddIdentity" TypeDefinition="tns:AddIdentityMethodType" ModellingRule="Optional" />
-      <Method SymbolicName="tns:RemoveIdentity" TypeDefinition="tns:RemoveIdentityMethodType" ModellingRule="Optional" />
-      <Method SymbolicName="tns:AddApplication" TypeDefinition="tns:AddApplicationMethodType" ModellingRule="Optional" />
-      <Method SymbolicName="tns:RemoveApplication" TypeDefinition="tns:RemoveApplicationMethodType" ModellingRule="Optional" />
-    </Children>
-  </ObjectType>
-  <DataType SymbolicName="tns:IdentityCriteriaType" PartNo="3" BaseType="tns:Enumeration">
-    <Fields>
-      <Field Name="UserName" Identifier="1" />
-      <Field Name="Thumbprint" Identifier="2" />
-      <Field Name="Scope" Identifier="3" />
-      <Field Name="GroupId" Identifier="4" />
-      <Field Name="Anonymous" Identifier="5" />
-      <Field Name="Everyone" Identifier="6" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:IdentityMappingRuleType" PartNo="3" BaseType="tns:Structure">
-    <Fields>
-      <Field Name="CriteriaType" DataType="tns:IdentityCriteriaType" />
-      <Field Name="Criteria" DataType="tns:String" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:ApplicationPermissionRuleType" PartNo="3" BaseType="tns:Structure">
-    <Fields>
-      <Field Name="ApplicationUri" DataType="tns:String" />
-      <Field Name="Thumbprint" DataType="tns:String" />
-    </Fields>
-  </DataType>
-  <Method SymbolicName="tns:AddIdentityMethodType" PartNo="3">
-    <InputArguments>
-      <Argument Name="RuleToAdd" DataType="tns:IdentityMappingRuleType" />
-    </InputArguments>
-  </Method>
-  <Method SymbolicName="tns:RemoveIdentityMethodType" PartNo="3">
-    <InputArguments>
-      <Argument Name="RuleToRemove" DataType="tns:IdentityMappingRuleType" />
-    </InputArguments>
-  </Method>
-  <Method SymbolicName="tns:AddApplicationMethodType" PartNo="3">
-    <InputArguments>
-      <Argument Name="RuleToAdd" DataType="tns:ApplicationPermissionRuleType" />
-    </InputArguments>
-  </Method>
-  <Method SymbolicName="tns:RemoveApplicationMethodType" PartNo="3">
-    <InputArguments>
-      <Argument Name="RuleToRemove" DataType="tns:ApplicationPermissionRuleType" />
-    </InputArguments>
-  </Method>
-  <Object SymbolicName="tns:Anonymous" PartNo="3" TypeDefinition="tns:RoleType">
-    <Description>The Role has very limited access for use when a Session has anonymous credentials.</Description>
-    <References>
-      <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
-        <TargetId>tns:Server_Roles</TargetId>
-      </Reference>
-    </References>
-  </Object>
-  <Object SymbolicName="tns:AuthenticatedUsers" PartNo="3" TypeDefinition="tns:RoleType">
-    <Description>The Role has limited access for use when a Session has valid non-anonymous credentials but has not been explicity granted access to a Role.</Description>
-    <References>
-      <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
-        <TargetId>tns:Server_Roles</TargetId>
-      </Reference>
-    </References>
-  </Object>
-  <Object SymbolicName="tns:Observer" PartNo="3" TypeDefinition="tns:RoleType">
-    <Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</Description>
-    <References>
-      <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
-        <TargetId>tns:Server_Roles</TargetId>
-      </Reference>
-    </References>
-  </Object>
-  <Object SymbolicName="tns:Operator" PartNo="3" TypeDefinition="tns:RoleType">
-    <Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</Description>
-    <References>
-      <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
-        <TargetId>tns:Server_Roles</TargetId>
-      </Reference>
-    </References>
-  </Object>
-  <Object SymbolicName="tns:Supervisor" PartNo="3" TypeDefinition="tns:RoleType">
-    <Description>The Role is allowed to browse, read/write live data, read and update historical data/events, call methods or subscribe to data/events.</Description>
-    <References>
-      <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
-        <TargetId>tns:Server_Roles</TargetId>
-      </Reference>
-    </References>
-  </Object>
-  <Object SymbolicName="tns:SecurityAdmin" PartNo="3" TypeDefinition="tns:RoleType">
-    <Description>The Role is allowed to change security related settings.</Description>
-    <References>
-      <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
-        <TargetId>tns:Server_Roles</TargetId>
-      </Reference>
-    </References>
-  </Object>
-  <Object SymbolicName="tns:ConfigureAdmin" PartNo="3" TypeDefinition="tns:RoleType">
-    <Description>The Role is allowed to change the non-security related configuration settings.</Description>
-    <References>
-      <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
-        <TargetId>tns:Server_Roles</TargetId>
-      </Reference>
-    </References>
-  </Object>
   <DataType SymbolicName="tns:ConfigurationVersionDataType" PartNo="14" BaseType="tns:Structure">
     <Fields>
       <Field Name="MajorVersion" DataType="tns:UInt32" />
@@ -3338,22 +3414,6 @@
       <Field Name="ArrayDimensions" DataType="tns:UInt32" ValueRank="Array" />
       <Field Name="DataSetFieldId" DataType="tns:Guid" />
       <Field Name="Properties" DataType="tns:KeyValuePair" ValueRank="Array" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:DataTypeDescription" PartNo="14" BaseType="tns:Structure">
-    <Fields>
-      <Field Name="DataTypeId" DataType="tns:NodeId" />
-      <Field Name="Name" DataType="tns:QualifiedName" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:StructureDescription" PartNo="14" BaseType="tns:DataTypeDescription">
-    <Fields>
-      <Field Name="StructureDefinition" DataType="tns:StructureDefinition" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:EnumDescription" PartNo="14" BaseType="tns:DataTypeDescription">
-    <Fields>
-      <Field Name="EnumDefinition" DataType="tns:EnumDefinition" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:KeyValuePair" PartNo="14" BaseType="tns:Structure">
@@ -3555,7 +3615,9 @@
   </DataType>
   <ObjectType SymbolicName="tns:PublishedEventsType" PartNo="14" BaseType="tns:PublishedDataSetType">
     <Children>
-      <Property SymbolicName="tns:EventNotifier" ModellingRule="Mandatory" DataType="tns:NodeId" />
+      <Property SymbolicName="tns:PubSubEventNotifier" ModellingRule="Mandatory" DataType="tns:NodeId">
+        <BrowseName>EventNotifier</BrowseName>
+      </Property>
       <Property SymbolicName="tns:SelectedFields" ModellingRule="Mandatory" DataType="tns:SimpleAttributeOperand" ValueRank="Array" />
       <Property SymbolicName="tns:Filter" ModellingRule="Mandatory" DataType="tns:ContentFilter" />
       <Method SymbolicName="tns:ModifyFieldSelection" TypeDefinition="tns:PublishedEventsTypeModifyFieldSelectionMethodType" ModellingRule="Optional" />
@@ -4013,6 +4075,96 @@
       </Field>
     </Fields>
   </DataType>
+  <DataType SymbolicName="tns:PermissionType" SymbolicId="tns:PermissionType" PartNo="3" BaseType="tns:Enumeration" NoArraysAllowed="true">
+    <Fields>
+      <Field Name="None" Identifier="0" />
+      <Field Name="Browse" Identifier="1" />
+      <Field Name="ReadRolePermissions" Identifier="2" />
+      <Field Name="WriteAttribute" Identifier="4" />
+      <Field Name="WriteRolePermissions" Identifier="8" />
+      <Field Name="WriteHistorizing" Identifier="16" />
+      <Field Name="Read" Identifier="32" />
+      <Field Name="Write" Identifier="64" />
+      <Field Name="ReadHistory" Identifier="128" />
+      <Field Name="InsertHistory" Identifier="256" />
+      <Field Name="ModifyHistory" Identifier="512" />
+      <Field Name="DeleteHistory" Identifier="1024" />
+      <Field Name="ReceiveEvents" Identifier="2048" />
+      <Field Name="Call" Identifier="4096" />
+      <Field Name="AddReference" Identifier="8192" />
+      <Field Name="RemoveReference" Identifier="16384" />
+      <Field Name="DeleteNode" Identifier="32768" />
+      <Field Name="AddNode" Identifier="65536" />
+      <Field Name="All" Identifier="131071" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:AccessRestrictionType" SymbolicId="tns:AccessRestrictionType" PartNo="3" BaseType="tns:Enumeration" NoArraysAllowed="true">
+    <Fields>
+      <Field Name="None" Identifier="0" />
+      <Field Name="SigningRequired" Identifier="128" />
+      <Field Name="EncryptionRequired" Identifier="256" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:RolePermissionType" SymbolicId="tns:RolePermissionType" PartNo="3" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="RoleId" DataType="tns:NodeId" />
+      <Field Name="Permissions" DataType="tns:UInt32" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:DataTypeDefinition" SymbolicId="tns:DataTypeDefinition" PartNo="3" BaseType="tns:Structure" />
+  <DataType SymbolicName="tns:StructureType" SymbolicId="tns:StructureType" PartNo="3" BaseType="tns:Enumeration" NoArraysAllowed="true">
+    <Fields>
+      <Field Name="Structure" Identifier="0" />
+      <Field Name="StructureWithOptionalFields" Identifier="1" />
+      <Field Name="Union" Identifier="2" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:StructureField" SymbolicId="tns:StructureField" PartNo="3" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="Name" DataType="tns:String" />
+      <Field Name="Description" DataType="tns:LocalizedText" />
+      <Field Name="DataType" DataType="tns:NodeId" />
+      <Field Name="ValueRank" DataType="tns:Int32" />
+      <Field Name="IsOptional" DataType="tns:Boolean" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:StructureDefinition" SymbolicId="tns:StructureDefinition" PartNo="3" BaseType="tns:DataTypeDefinition" NoArraysAllowed="true">
+    <Fields>
+      <Field Name="DefaultEncodingId" DataType="tns:NodeId" ValueRank="Array" />
+      <Field Name="BaseDataType" DataType="tns:NodeId" />
+      <Field Name="StructureType" DataType="tns:StructureType" />
+      <Field Name="Fields" DataType="tns:StructureField" ValueRank="Array" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:EnumDefinition" SymbolicId="tns:EnumDefinition" PartNo="3" BaseType="tns:DataTypeDefinition" NoArraysAllowed="true">
+    <Fields>
+      <Field Name="Fields" DataType="tns:EnumField" ValueRank="Array" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:DataTypeDescription" SymbolicId="tns:DataTypeDescription" PartNo="3" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="DataTypeId" DataType="tns:NodeId" />
+      <Field Name="Name" DataType="tns:QualifiedName" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:StructureDescription" SymbolicId="tns:StructureDescription" PartNo="3" BaseType="tns:DataTypeDescription">
+    <Fields>
+      <Field Name="StructureDefinition" DataType="tns:StructureDefinition" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:EnumDescription" SymbolicId="tns:EnumDescription" PartNo="3" BaseType="tns:DataTypeDescription">
+    <Fields>
+      <Field Name="EnumDefinition" DataType="tns:EnumDefinition" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:NestedStructureDefinition" SymbolicId="tns:NestedStructureDefinition" PartNo="3" BaseType="tns:StructureDefinition" NoArraysAllowed="true">
+    <Fields>
+      <Field Name="Name" DataType="tns:String" />
+      <Field Name="Description" DataType="tns:LocalizedText" />
+      <Field Name="StructureDataTypes" DataType="tns:StructureDescription" ValueRank="Array" />
+      <Field Name="EnumDataTypes" DataType="tns:EnumDescription" ValueRank="Array" />
+    </Fields>
+  </DataType>
   <DataType SymbolicName="tns:Node" SymbolicId="tns:Node" PartNo="3" BaseType="tns:Structure" NoClassGeneration="true" NotInAddressSpace="true">
     <Description>Specifies the attributes which belong to all nodes.</Description>
     <Fields>
@@ -4036,6 +4188,15 @@
       </Field>
       <Field Name="UserWriteMask" DataType="tns:UInt32">
         <Description>A mask indicating which attributes are writable by the current user.</Description>
+      </Field>
+      <Field Name="RolePermissions" DataType="tns:RolePermissionType" ValueRank="Array">
+        <Description>A list of permissions for the node assigned to roles.</Description>
+      </Field>
+      <Field Name="UserRolePermissions" DataType="tns:RolePermissionType" ValueRank="Array">
+        <Description>A list of permissions for the node assigned to roles which are available to the current session.</Description>
+      </Field>
+      <Field Name="AccessRestrictions" DataType="tns:Byte">
+        <Description>A mask indicating any access restrictions that apply to the node.</Description>
       </Field>
       <Field Name="References" DataType="tns:ReferenceNode" ValueRank="Array">
         <Description>The references that belong to the node.</Description>
@@ -4148,6 +4309,9 @@
     <Fields>
       <Field Name="IsAbstract" DataType="tns:Boolean">
         <Description>If TRUE the type is abstract and only subtypes of it appear in the address space.</Description>
+      </Field>
+      <Field Name="DataTypeDefinition" DataType="tns:Structure">
+        <Description>Provides the metadata and encoding information for custom DataTypes.</Description>
       </Field>
     </Fields>
   </DataType>
@@ -4972,31 +5136,40 @@
       <Field Name="Value" Identifier="2097152">
         <Description>The value attribute is specified.</Description>
       </Field>
-      <Field Name="All" Identifier="4194303">
+      <Field Name="DataTypeDefinition" Identifier="4194304">
+        <Description>The write mask attribute is specified.</Description>
+      </Field>
+      <Field Name="RolePermissions" Identifier="8388608">
+        <Description>The write mask attribute is specified.</Description>
+      </Field>
+      <Field Name="AccessRestrictions" Identifier="16777216">
+        <Description>The write mask attribute is specified.</Description>
+      </Field>
+      <Field Name="All" Identifier="33554431">
         <Description>All attributes are specified.</Description>
       </Field>
-      <Field Name="BaseNode" Identifier="1335396">
+      <Field Name="BaseNode" Identifier="26501220">
         <Description>All base attributes are specified.</Description>
       </Field>
-      <Field Name="Object" Identifier="1335524">
+      <Field Name="Object" Identifier="26501348">
         <Description>All object attributes are specified.</Description>
       </Field>
-      <Field Name="ObjectTypeOrDataType" Identifier="1337444">
-        <Description>All object type or data type attributes are specified.</Description>
+      <Field Name="ObjectType" Identifier="26503268">
+        <Description>All object type attributes are specified.</Description>
       </Field>
-      <Field Name="Variable" Identifier="4026999">
+      <Field Name="Variable" Identifier="26571383">
         <Description>All variable attributes are specified.</Description>
       </Field>
-      <Field Name="VariableType" Identifier="3958902">
+      <Field Name="VariableType" Identifier="28600438">
         <Description>All variable type attributes are specified.</Description>
       </Field>
-      <Field Name="Method" Identifier="1466724">
+      <Field Name="Method" Identifier="26632548">
         <Description>All method attributes are specified.</Description>
       </Field>
-      <Field Name="ReferenceType" Identifier="1371236">
+      <Field Name="ReferenceType" Identifier="26537060">
         <Description>All reference type attributes are specified.</Description>
       </Field>
-      <Field Name="View" Identifier="1335532">
+      <Field Name="View" Identifier="26501356">
         <Description>All view attributes are specified.</Description>
       </Field>
     </Fields>
@@ -5392,6 +5565,15 @@
       </Field>
       <Field Name="ValueForVariableType" Identifier="2097152">
         <Description>The value attribute is writable.</Description>
+      </Field>
+      <Field Name="DataTypeDefinition" Identifier="4194304">
+        <Description>The DataTypeDefinition attribute is writable.</Description>
+      </Field>
+      <Field Name="RolePermissions" Identifier="8388608">
+        <Description>The RolePermissions attribute is writable.</Description>
+      </Field>
+      <Field Name="AccessRestrictions" Identifier="16777216">
+        <Description>The AccessRestrictions attribute is writable.</Description>
       </Field>
     </Fields>
   </DataType>

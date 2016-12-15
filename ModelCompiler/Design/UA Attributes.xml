@@ -78,13 +78,13 @@
   <opc:Constant Name="DataTypeDefinition">
     <opc:Documentation>Provides the metadata and encoding information for custom DataTypes.</opc:Documentation>
   </opc:Constant>
-  <opc:Constant Name="Permissions">
-    <opc:Documentation>The permissions available for the node.</opc:Documentation>
-  </opc:Constant>
-  <opc:Constant Name="UserPermissions">
-    <opc:Documentation>The subset of permissions available for the current user.</opc:Documentation>
-  </opc:Constant>
   <opc:Constant Name="RolePermissions">
-    <opc:Documentation>The permissions granted to roles.</opc:Documentation>
+    <opc:Documentation>The permissions for the node granted to roles.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="UserRolePermissions">
+    <opc:Documentation>The subset of permissions available for the roles available to the current session.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="AccessRestrictions">
+    <opc:Documentation>The access restrictions assigned to the node.</opc:Documentation>
   </opc:Constant>
 </opc:TypeDictionary>

@@ -292,7 +292,9 @@
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\EnumeratedType.xml" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\File.xml" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\ServiceType.xml" />
-    <EmbeddedResource Include="StackGenerator\Validators\BuiltInTypes.xml" />
+    <EmbeddedResource Include="StackGenerator\Validators\BuiltInTypes.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Content Include="UA Model Design.xsd">
       <SubType>
       </SubType>
