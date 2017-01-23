@@ -87,4 +87,7 @@
   <opc:Constant Name="AccessRestrictions">
     <opc:Documentation>The access restrictions assigned to the node.</opc:Documentation>
   </opc:Constant>
+  <opc:Constant Name="AccessLevelEx">
+    <opc:Documentation>How a variable may be accessed.</opc:Documentation>
+  </opc:Constant>
 </opc:TypeDictionary>

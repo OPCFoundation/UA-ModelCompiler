@@ -169,7 +169,6 @@ namespace Opc.Ua.Export
                     value.ValueRank = o.ValueRank;
                     value.ArrayDimensions = Export(o.ArrayDimensions);
                     value.AccessLevel = o.AccessLevel;
-                    value.UserAccessLevel = o.UserAccessLevel;
                     value.MinimumSamplingInterval = o.MinimumSamplingInterval;
                     value.Historizing = o.Historizing;
 
@@ -199,7 +198,6 @@ namespace Opc.Ua.Export
                     MethodState o = (MethodState)node;
                     UAMethod value = new UAMethod();
                     value.Executable = o.Executable;
-                    value.UserExecutable = o.UserExecutable;
 
                     if (o.TypeDefinitionId != o.NodeId)
                     {
@@ -500,8 +498,8 @@ namespace Opc.Ua.Export
                     value.DataType = ImportNodeId(o.DataType, context.NamespaceUris, true);
                     value.ValueRank = o.ValueRank;
                     value.ArrayDimensions = ImportArrayDimensions(o.ArrayDimensions);
-                    value.AccessLevel = o.AccessLevel;
-                    value.UserAccessLevel = o.UserAccessLevel;
+                    value.AccessLevelEx = o.AccessLevel;
+                    value.UserAccessLevel = (byte)(o.AccessLevel & 0xFF);
                     value.MinimumSamplingInterval = o.MinimumSamplingInterval;
                     value.Historizing = o.Historizing;
 
@@ -522,7 +520,7 @@ namespace Opc.Ua.Export
                     UAMethod o = (UAMethod)node;
                     MethodState value = new MethodState(null);
                     value.Executable = o.Executable;
-                    value.UserExecutable = o.UserExecutable;
+                    value.UserExecutable = o.Executable;
                     value.TypeDefinitionId = ImportNodeId(o.MethodDeclarationId, context.NamespaceUris, true);
                     importedNode = value;
                     break;
@@ -824,7 +822,6 @@ namespace Opc.Ua.Export
 
             definition.Name = Export(source.Name, namespaceUris);
             definition.SymbolicName = source.SymbolicName;
-            definition.BaseType = Export(source.BaseType, namespaceUris);
 
             if (source.Fields != null)
             {
@@ -849,7 +846,6 @@ namespace Opc.Ua.Export
 
                     output.ValueRank = field.ValueRank;
                     output.Value = field.Value;
-                    output.Definition = Export(field.Definition, namespaceUris);
 
                     fields.Add(output);
                 }
@@ -874,7 +870,6 @@ namespace Opc.Ua.Export
 
             definition.Name = ImportQualifiedName(source.Name, namespaceUris);
             definition.SymbolicName = source.SymbolicName;
-            definition.BaseType = ImportQualifiedName(source.BaseType, namespaceUris);
 
             if (source.Field != null)
             {
@@ -890,7 +885,6 @@ namespace Opc.Ua.Export
                     output.DataType = ImportNodeId(field.DataType, namespaceUris, true);
                     output.ValueRank = field.ValueRank;
                     output.Value = field.Value;
-                    output.Definition = Import(field.Definition, namespaceUris);
 
                     fields.Add(output);
                 }

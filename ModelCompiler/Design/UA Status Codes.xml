@@ -464,7 +464,10 @@
   <opc:Constant Name="Bad_ArgumentsMissing">
     <opc:Documentation>The client did not specify all of the input arguments for the method.</opc:Documentation>
   </opc:Constant>
-
+  <opc:Constant Name="Bad_NotExecutable">
+    <opc:Documentation>The executable attribute does not allow the execution of the method.</opc:Documentation>
+  </opc:Constant>
+  
   <!-- CreateSubscription -->
   <opc:Constant Name="Bad_TooManySubscriptions">
     <opc:Documentation>The server has reached its  maximum number of subscriptions.</opc:Documentation>
@@ -682,7 +685,7 @@
   <opc:Constant Name="Bad_RequestNotAllowed">
     <opc:Documentation>The request was rejected by the server because it did not meet the criteria set by the server.</opc:Documentation>
   </opc:Constant>
-  
+
   <!-- FDI -->
   <opc:Constant Name="Good_Edited">
     <opc:Documentation>The value does not come from the real source and has been edited by the server.</opc:Documentation>

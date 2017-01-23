@@ -145,6 +145,8 @@ namespace Opc.Ua.Export {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd")]
     public partial class ModelTableEntry {
         
+        private RolePermission[] rolePermissionsField;
+        
         private ModelTableEntry[] requiredModelField;
         
         private string modelUriField;
@@ -154,6 +156,25 @@ namespace Opc.Ua.Export {
         private System.DateTime publicationDateField;
         
         private bool publicationDateFieldSpecified;
+        
+        private string symbolicNameField;
+        
+        private byte accessRestrictionsField;
+        
+        public ModelTableEntry() {
+            this.accessRestrictionsField = ((byte)(0));
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
+        public RolePermission[] RolePermissions {
+            get {
+                return this.rolePermissionsField;
+            }
+            set {
+                this.rolePermissionsField = value;
+            }
+        }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("RequiredModel")]
@@ -207,6 +228,69 @@ namespace Opc.Ua.Export {
             }
             set {
                 this.publicationDateFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string SymbolicName {
+            get {
+                return this.symbolicNameField;
+            }
+            set {
+                this.symbolicNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(typeof(byte), "0")]
+        public byte AccessRestrictions {
+            get {
+                return this.accessRestrictionsField;
+            }
+            set {
+                this.accessRestrictionsField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd")]
+    public partial class RolePermission {
+        
+        private uint permissionsField;
+        
+        private string valueField;
+        
+        public RolePermission() {
+            this.permissionsField = ((uint)(0));
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(typeof(uint), "0")]
+        public uint Permissions {
+            get {
+                return this.permissionsField;
+            }
+            set {
+                this.permissionsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlTextAttribute()]
+        public string Value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
             }
         }
     }
@@ -369,8 +453,6 @@ namespace Opc.Ua.Export {
         
         private LocalizedText[] descriptionField;
         
-        private DataTypeDefinition definitionField;
-        
         private string nameField;
         
         private string symbolicNameField;
@@ -409,16 +491,6 @@ namespace Opc.Ua.Export {
             }
             set {
                 this.descriptionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public DataTypeDefinition Definition {
-            get {
-                return this.definitionField;
-            }
-            set {
-                this.definitionField = value;
             }
         }
         
@@ -545,14 +617,11 @@ namespace Opc.Ua.Export {
         
         private string nameField;
         
-        private string baseTypeField;
-        
         private string symbolicNameField;
         
         private bool isUnionField;
         
         public DataTypeDefinition() {
-            this.baseTypeField = "";
             this.symbolicNameField = "";
             this.isUnionField = false;
         }
@@ -576,18 +645,6 @@ namespace Opc.Ua.Export {
             }
             set {
                 this.nameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute("")]
-        public string BaseType {
-            get {
-                return this.baseTypeField;
-            }
-            set {
-                this.baseTypeField = value;
             }
         }
         
@@ -704,46 +761,6 @@ namespace Opc.Ua.Export {
             }
             set {
                 this.itemsField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd")]
-    public partial class RolePermission {
-        
-        private uint permissionsField;
-        
-        private string valueField;
-        
-        public RolePermission() {
-            this.permissionsField = ((uint)(0));
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute(typeof(uint), "0")]
-        public uint Permissions {
-            get {
-                return this.permissionsField;
-            }
-            set {
-                this.permissionsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        public string Value {
-            get {
-                return this.valueField;
-            }
-            set {
-                this.valueField = value;
             }
         }
     }
@@ -1247,13 +1264,10 @@ namespace Opc.Ua.Export {
         
         private bool executableField;
         
-        private bool userExecutableField;
-        
         private string methodDeclarationIdField;
         
         public UAMethod() {
             this.executableField = true;
-            this.userExecutableField = true;
         }
         
         /// <remarks/>
@@ -1276,18 +1290,6 @@ namespace Opc.Ua.Export {
             }
             set {
                 this.executableField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute(true)]
-        public bool UserExecutable {
-            get {
-                return this.userExecutableField;
-            }
-            set {
-                this.userExecutableField = value;
             }
         }
         
@@ -1321,25 +1323,19 @@ namespace Opc.Ua.Export {
         
         private string arrayDimensionsField;
         
-        private byte accessLevelField;
-        
-        private byte userAccessLevelField;
+        private uint accessLevelField;
         
         private double minimumSamplingIntervalField;
         
         private bool historizingField;
         
-        private uint accessLevelExField;
-        
         public UAVariable() {
             this.dataTypeField = "i=24";
             this.valueRankField = -1;
             this.arrayDimensionsField = "";
-            this.accessLevelField = ((byte)(1));
-            this.userAccessLevelField = ((byte)(1));
+            this.accessLevelField = ((uint)(1));
             this.minimumSamplingIntervalField = 0D;
             this.historizingField = false;
-            this.accessLevelExField = ((uint)(1));
         }
         
         /// <remarks/>
@@ -1401,25 +1397,13 @@ namespace Opc.Ua.Export {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute(typeof(byte), "1")]
-        public byte AccessLevel {
+        [System.ComponentModel.DefaultValueAttribute(typeof(uint), "1")]
+        public uint AccessLevel {
             get {
                 return this.accessLevelField;
             }
             set {
                 this.accessLevelField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute(typeof(byte), "1")]
-        public byte UserAccessLevel {
-            get {
-                return this.userAccessLevelField;
-            }
-            set {
-                this.userAccessLevelField = value;
             }
         }
         
@@ -1444,18 +1428,6 @@ namespace Opc.Ua.Export {
             }
             set {
                 this.historizingField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute(typeof(uint), "1")]
-        public uint AccessLevelEx {
-            get {
-                return this.accessLevelExField;
-            }
-            set {
-                this.accessLevelExField = value;
             }
         }
     }

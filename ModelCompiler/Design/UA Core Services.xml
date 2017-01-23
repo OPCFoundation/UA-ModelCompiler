@@ -82,8 +82,9 @@
 
   <opc:EnumeratedType Name="AccessRestrictionType" PartNo="3">
     <opc:Value Name="None" Value="0" />
-    <opc:Value Name="SigningRequired" Value="128" />
-    <opc:Value Name="EncryptionRequired" Value="256" />
+    <opc:Value Name="SigningRequired" Value="1" />
+    <opc:Value Name="EncryptionRequired" Value="2" />
+    <opc:Value Name="SessionRequired " Value="4" />
   </opc:EnumeratedType>
   
   <opc:ComplexType Name="RolePermissionType" AllowArrays="true" PartNo="3">
@@ -118,26 +119,6 @@
     <opc:Field Name="Fields" DataType="EnumField" ValueRank="0"></opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="DataTypeDescription" AllowArrays="true" PartNo="3">
-    <opc:Field Name="DataTypeId"  DataType="s0:NodeId"></opc:Field>
-    <opc:Field Name="Name"  DataType="s0:QualifiedName"></opc:Field>
-  </opc:ComplexType>
-
-  <opc:ComplexType Name="StructureDescription" BaseType="DataTypeDescription" AllowArrays="true" PartNo="3">
-    <opc:Field Name="StructureDefinition"  DataType="StructureDefinition"></opc:Field>
-  </opc:ComplexType>
-
-  <opc:ComplexType Name="EnumDescription" BaseType="DataTypeDescription" AllowArrays="true" PartNo="3">
-    <opc:Field Name="EnumDefinition"  DataType="EnumDefinition"></opc:Field>
-  </opc:ComplexType>
-
-  <opc:ComplexType Name="NestedStructureDefinition" BaseType="StructureDefinition" PartNo="3">
-    <opc:Field Name="Name" DataType="s0:String"></opc:Field>
-    <opc:Field Name="Description"  DataType="s0:LocalizedText"></opc:Field>
-    <opc:Field Name="StructureDataTypes" DataType="StructureDescription" ValueRank="0"></opc:Field>
-    <opc:Field Name="EnumDataTypes" DataType="EnumDescription" ValueRank="0"></opc:Field>
-  </opc:ComplexType>
-  
   <opc:ComplexType Name="Node" AllowArrays="true" NotInAddressSpace="true" PartNo="3">
     <opc:Documentation>Specifies the attributes which belong to all nodes.</opc:Documentation>
     <opc:Field Name="NodeId" DataType="s0:NodeId">
@@ -167,7 +148,7 @@
     <opc:Field Name="UserRolePermissions" DataType="RolePermissionType" ValueRank="0">
       <opc:Documentation>A list of permissions for the node assigned to roles which are available to the current session.</opc:Documentation>
     </opc:Field>
-    <opc:Field Name="AccessRestrictions" DataType="s0:Byte">
+    <opc:Field Name="AccessRestrictions" DataType="s0:UInt16">
       <opc:Documentation>A mask indicating any access restrictions that apply to the node.</opc:Documentation>
     </opc:Field>
     <opc:Field Name="References" DataType="ReferenceNode" ValueRank="0">
@@ -218,6 +199,9 @@
     </opc:Field>
     <opc:Field Name="Historizing" DataType="s0:Boolean">
       <opc:Documentation>TRUE if the server is current storing the history of the value.</opc:Documentation>
+    </opc:Field>
+    <opc:Field Name="AccessLevelEx" DataType="s0:UInt32">
+      <opc:Documentation>A bit mask specifying how the value may be accessed.</opc:Documentation>
     </opc:Field>
   </opc:ComplexType>
 
@@ -1226,6 +1210,15 @@
     </opc:Field>
   </opc:ComplexType>
 
+  <opc:ComplexType Name="GenericAttributeValue" NotInAddressSpace="true" AllowArrays="true" PartNo="4">
+    <opc:Field Name="AttributeId" DataType="IntegerId" />
+    <opc:Field Name="Value" DataType="s0:Variant" />
+  </opc:ComplexType>
+
+  <opc:ComplexType Name="GenericAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" PartNo="4">
+    <opc:Field Name="AttributeValues" DataType="GenericAttributeValue" ValueRank="0" />
+  </opc:ComplexType>
+
   <opc:ComplexType Name="AddNodesItem" AllowArrays="true" PartNo="4">
     <opc:Documentation>A request to add a node to the server address space.</opc:Documentation>
     <opc:Field Name="ParentNodeId" DataType="s0:ExpandedNodeId">
@@ -1483,6 +1476,9 @@
     </opc:Value>
     <opc:Value Name="AccessRestrictions" Value="16777216">
       <opc:Documentation>The AccessRestrictions attribute is writable.</opc:Documentation>
+    </opc:Value>
+    <opc:Value Name="AccessLevelEx" Value="33554432">
+      <opc:Documentation>The AccessLevelEx attribute is writable.</opc:Documentation>
     </opc:Value>
   </opc:EnumeratedType>
 

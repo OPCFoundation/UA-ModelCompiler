@@ -205,19 +205,9 @@
     <opc:Documentation>An image encoded in PNG format.</opc:Documentation>
   </opc:OpaqueType>
 
-  <opc:EnumeratedType Name="IdentityCriteriaType" LengthInBits="32">
-    <opc:EnumeratedValue Name="UserName" Value="1" />
-    <opc:EnumeratedValue Name="Thumbprint" Value="2" />
-    <opc:EnumeratedValue Name="Scope" Value="3" />
-    <opc:EnumeratedValue Name="GroupId" Value="4" />
-    <opc:EnumeratedValue Name="Anonymous" Value="5" />
-    <opc:EnumeratedValue Name="Everyone" Value="6" />
-  </opc:EnumeratedType>
-
-  <opc:StructuredType Name="IdentityMappingRuleType" BaseType="ua:ExtensionObject">
-    <opc:Field Name="CriteriaType" TypeName="tns:IdentityCriteriaType" />
-    <opc:Field Name="Criteria" TypeName="opc:String" />
-  </opc:StructuredType>
+  <opc:OpaqueType Name="AudioData">
+    <opc:Documentation>An image encoded in PNG format.</opc:Documentation>
+  </opc:OpaqueType>
 
   <opc:OpaqueType Name="BitFieldMaskDataType">
     <opc:Documentation>A mask of 32 bits that can be updated individually by using the top 32 bits as a mask.</opc:Documentation>
@@ -229,6 +219,20 @@
     <opc:EnumeratedValue Name="EraseExisting" Value="4" />
     <opc:EnumeratedValue Name="Append" Value="8" />
   </opc:EnumeratedType>
+
+  <opc:EnumeratedType Name="IdentityCriteriaType" LengthInBits="32">
+    <opc:EnumeratedValue Name="UserName" Value="1" />
+    <opc:EnumeratedValue Name="Thumbprint" Value="2" />
+    <opc:EnumeratedValue Name="Scope" Value="3" />
+    <opc:EnumeratedValue Name="GroupId" Value="4" />
+    <opc:EnumeratedValue Name="Anonymous" Value="5" />
+    <opc:EnumeratedValue Name="AuthenticatedUser" Value="6" />
+  </opc:EnumeratedType>
+
+  <opc:StructuredType Name="IdentityMappingRuleType" BaseType="ua:ExtensionObject">
+    <opc:Field Name="CriteriaType" TypeName="tns:IdentityCriteriaType" />
+    <opc:Field Name="Criteria" TypeName="opc:String" />
+  </opc:StructuredType>
 
   <opc:EnumeratedType Name="TrustListMasks" LengthInBits="32">
     <opc:EnumeratedValue Name="None" Value="0" />
@@ -325,6 +329,15 @@
     <opc:EnumeratedValue Name="HeaderMinorVersion" Value="1024" />
   </opc:EnumeratedType>
 
+  <opc:EnumeratedType Name="NetworkMessageContentMask" LengthInBits="32">
+    <opc:EnumeratedValue Name="PublisherId" Value="1" />
+    <opc:EnumeratedValue Name="DataSetWriterId" Value="2" />
+    <opc:EnumeratedValue Name="Timestamp" Value="4" />
+    <opc:EnumeratedValue Name="Picoseconds" Value="8" />
+    <opc:EnumeratedValue Name="DataSetClassId" Value="16" />
+    <opc:EnumeratedValue Name="PromotedFields" Value="32" />
+  </opc:EnumeratedType>
+
   <opc:StructuredType Name="PublishedVariableDataType" BaseType="ua:ExtensionObject">
     <opc:Field Name="PublishedVariable" TypeName="ua:NodeId" />
     <opc:Field Name="AttributeId" TypeName="opc:UInt32" />
@@ -394,7 +407,7 @@
     <opc:Field Name="RolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfRolePermissions" />
     <opc:Field Name="NoOfUserRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="UserRolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfUserRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="opc:Byte" />
+    <opc:Field Name="AccessRestrictions" TypeName="opc:UInt16" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:ReferenceNode" LengthField="NoOfReferences" />
   </opc:StructuredType>
@@ -411,7 +424,7 @@
     <opc:Field Name="RolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfRolePermissions" />
     <opc:Field Name="NoOfUserRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="UserRolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfUserRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="opc:Byte" SourceType="tns:Node" />
+    <opc:Field Name="AccessRestrictions" TypeName="opc:UInt16" SourceType="tns:Node" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:ReferenceNode" LengthField="NoOfReferences" />
   </opc:StructuredType>
@@ -428,7 +441,7 @@
     <opc:Field Name="RolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfRolePermissions" />
     <opc:Field Name="NoOfUserRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="UserRolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfUserRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="opc:Byte" SourceType="tns:Node" />
+    <opc:Field Name="AccessRestrictions" TypeName="opc:UInt16" SourceType="tns:Node" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:ReferenceNode" LengthField="NoOfReferences" />
   </opc:StructuredType>
@@ -446,7 +459,7 @@
     <opc:Field Name="RolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfRolePermissions" />
     <opc:Field Name="NoOfUserRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="UserRolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfUserRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="opc:Byte" SourceType="tns:Node" />
+    <opc:Field Name="AccessRestrictions" TypeName="opc:UInt16" SourceType="tns:Node" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:ReferenceNode" LengthField="NoOfReferences" />
     <opc:Field Name="EventNotifier" TypeName="opc:Byte" />
@@ -465,7 +478,7 @@
     <opc:Field Name="RolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfRolePermissions" />
     <opc:Field Name="NoOfUserRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="UserRolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfUserRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="opc:Byte" SourceType="tns:Node" />
+    <opc:Field Name="AccessRestrictions" TypeName="opc:UInt16" SourceType="tns:Node" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:ReferenceNode" LengthField="NoOfReferences" />
     <opc:Field Name="IsAbstract" TypeName="opc:Boolean" />
@@ -484,7 +497,7 @@
     <opc:Field Name="RolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfRolePermissions" />
     <opc:Field Name="NoOfUserRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="UserRolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfUserRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="opc:Byte" SourceType="tns:Node" />
+    <opc:Field Name="AccessRestrictions" TypeName="opc:UInt16" SourceType="tns:Node" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:ReferenceNode" LengthField="NoOfReferences" />
     <opc:Field Name="Value" TypeName="ua:Variant" />
@@ -496,6 +509,7 @@
     <opc:Field Name="UserAccessLevel" TypeName="opc:Byte" />
     <opc:Field Name="MinimumSamplingInterval" TypeName="opc:Double" />
     <opc:Field Name="Historizing" TypeName="opc:Boolean" />
+    <opc:Field Name="AccessLevelEx" TypeName="opc:UInt32" />
   </opc:StructuredType>
 
   <opc:StructuredType Name="VariableTypeNode" BaseType="tns:TypeNode">
@@ -511,7 +525,7 @@
     <opc:Field Name="RolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfRolePermissions" />
     <opc:Field Name="NoOfUserRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="UserRolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfUserRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="opc:Byte" SourceType="tns:Node" />
+    <opc:Field Name="AccessRestrictions" TypeName="opc:UInt16" SourceType="tns:Node" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:ReferenceNode" LengthField="NoOfReferences" />
     <opc:Field Name="Value" TypeName="ua:Variant" />
@@ -535,7 +549,7 @@
     <opc:Field Name="RolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfRolePermissions" />
     <opc:Field Name="NoOfUserRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="UserRolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfUserRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="opc:Byte" SourceType="tns:Node" />
+    <opc:Field Name="AccessRestrictions" TypeName="opc:UInt16" SourceType="tns:Node" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:ReferenceNode" LengthField="NoOfReferences" />
     <opc:Field Name="IsAbstract" TypeName="opc:Boolean" />
@@ -556,7 +570,7 @@
     <opc:Field Name="RolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfRolePermissions" />
     <opc:Field Name="NoOfUserRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="UserRolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfUserRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="opc:Byte" SourceType="tns:Node" />
+    <opc:Field Name="AccessRestrictions" TypeName="opc:UInt16" SourceType="tns:Node" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:ReferenceNode" LengthField="NoOfReferences" />
     <opc:Field Name="Executable" TypeName="opc:Boolean" />
@@ -575,7 +589,7 @@
     <opc:Field Name="RolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfRolePermissions" />
     <opc:Field Name="NoOfUserRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="UserRolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfUserRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="opc:Byte" SourceType="tns:Node" />
+    <opc:Field Name="AccessRestrictions" TypeName="opc:UInt16" SourceType="tns:Node" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:ReferenceNode" LengthField="NoOfReferences" />
     <opc:Field Name="ContainsNoLoops" TypeName="opc:Boolean" />
@@ -594,7 +608,7 @@
     <opc:Field Name="RolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfRolePermissions" />
     <opc:Field Name="NoOfUserRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="UserRolePermissions" TypeName="tns:RolePermissionType" LengthField="NoOfUserRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="opc:Byte" SourceType="tns:Node" />
+    <opc:Field Name="AccessRestrictions" TypeName="opc:UInt16" SourceType="tns:Node" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:ReferenceNode" LengthField="NoOfReferences" />
     <opc:Field Name="IsAbstract" TypeName="opc:Boolean" />
@@ -1069,15 +1083,18 @@
     <opc:EnumeratedValue Name="ValueRank" Value="524288" />
     <opc:EnumeratedValue Name="WriteMask" Value="1048576" />
     <opc:EnumeratedValue Name="Value" Value="2097152" />
-    <opc:EnumeratedValue Name="All" Value="4194303" />
-    <opc:EnumeratedValue Name="BaseNode" Value="1335396" />
-    <opc:EnumeratedValue Name="Object" Value="1335524" />
-    <opc:EnumeratedValue Name="ObjectTypeOrDataType" Value="1337444" />
-    <opc:EnumeratedValue Name="Variable" Value="4026999" />
-    <opc:EnumeratedValue Name="VariableType" Value="3958902" />
-    <opc:EnumeratedValue Name="Method" Value="1466724" />
-    <opc:EnumeratedValue Name="ReferenceType" Value="1371236" />
-    <opc:EnumeratedValue Name="View" Value="1335532" />
+    <opc:EnumeratedValue Name="DataTypeDefinition" Value="4194304" />
+    <opc:EnumeratedValue Name="RolePermissions" Value="8388608" />
+    <opc:EnumeratedValue Name="AccessRestrictions" Value="16777216" />
+    <opc:EnumeratedValue Name="All" Value="33554431" />
+    <opc:EnumeratedValue Name="BaseNode" Value="26501220" />
+    <opc:EnumeratedValue Name="Object" Value="26501348" />
+    <opc:EnumeratedValue Name="ObjectType" Value="26503268" />
+    <opc:EnumeratedValue Name="Variable" Value="26571383" />
+    <opc:EnumeratedValue Name="VariableType" Value="28600438" />
+    <opc:EnumeratedValue Name="Method" Value="26632548" />
+    <opc:EnumeratedValue Name="ReferenceType" Value="26537060" />
+    <opc:EnumeratedValue Name="View" Value="26501356" />
   </opc:EnumeratedType>
 
   <opc:StructuredType Name="NodeAttributes" BaseType="ua:ExtensionObject">
@@ -1184,6 +1201,21 @@
     <opc:Field Name="UserWriteMask" TypeName="opc:UInt32" SourceType="tns:NodeAttributes" />
     <opc:Field Name="ContainsNoLoops" TypeName="opc:Boolean" />
     <opc:Field Name="EventNotifier" TypeName="opc:Byte" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="GenericAttributeValue" BaseType="ua:ExtensionObject">
+    <opc:Field Name="AttributeId" TypeName="opc:UInt32" />
+    <opc:Field Name="Value" TypeName="ua:Variant" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="GenericAttributes" BaseType="tns:NodeAttributes">
+    <opc:Field Name="SpecifiedAttributes" TypeName="opc:UInt32" SourceType="tns:NodeAttributes" />
+    <opc:Field Name="DisplayName" TypeName="ua:LocalizedText" SourceType="tns:NodeAttributes" />
+    <opc:Field Name="Description" TypeName="ua:LocalizedText" SourceType="tns:NodeAttributes" />
+    <opc:Field Name="WriteMask" TypeName="opc:UInt32" SourceType="tns:NodeAttributes" />
+    <opc:Field Name="UserWriteMask" TypeName="opc:UInt32" SourceType="tns:NodeAttributes" />
+    <opc:Field Name="NoOfAttributeValues" TypeName="opc:Int32" />
+    <opc:Field Name="AttributeValues" TypeName="tns:GenericAttributeValue" LengthField="NoOfAttributeValues" />
   </opc:StructuredType>
 
   <opc:StructuredType Name="AddNodesItem" BaseType="ua:ExtensionObject">
@@ -1317,6 +1349,10 @@
     <opc:EnumeratedValue Name="ValueRank" Value="524288" />
     <opc:EnumeratedValue Name="WriteMask" Value="1048576" />
     <opc:EnumeratedValue Name="ValueForVariableType" Value="2097152" />
+    <opc:EnumeratedValue Name="DataTypeDefinition" Value="4194304" />
+    <opc:EnumeratedValue Name="RolePermissions" Value="8388608" />
+    <opc:EnumeratedValue Name="AccessRestrictions" Value="16777216" />
+    <opc:EnumeratedValue Name="AccessLevelEx" Value="33554432" />
   </opc:EnumeratedType>
 
   <opc:EnumeratedType Name="BrowseDirection" LengthInBits="32">
