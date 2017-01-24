@@ -718,7 +718,23 @@ namespace Opc.Ua.ModelCompiler
             // don't write built-in types.
             if (dataType.NumericId < 256 && dataType.SymbolicId.Namespace == DefaultNamespace)
             {
-                return null;
+                switch (dataType.NumericId)
+                {
+                    case DataTypes.RolePermissionType:
+                    case DataTypes.StructureDefinition:
+                    case DataTypes.StructureField:
+                    case DataTypes.StructureType:
+                    case DataTypes.EnumDefinition:
+                    case DataTypes.EnumField:
+                    {
+                        break;
+                    }
+
+                    default:
+                    {
+                        return null;
+                    }
+                }
             }
 
             BasicDataType basicType = dataType.BasicDataType;
@@ -1247,7 +1263,23 @@ namespace Opc.Ua.ModelCompiler
             // don't write built-in types.
             if (dataType.NumericId < 256 && dataType.SymbolicId.Namespace == DefaultNamespace)
             {
-                return null;
+                switch (dataType.NumericId)
+                {
+                    case DataTypes.RolePermissionType:
+                    case DataTypes.StructureDefinition:
+                    case DataTypes.StructureField:
+                    case DataTypes.StructureType:
+                    case DataTypes.EnumDefinition:
+                    case DataTypes.EnumField:
+                    {
+                        break;
+                    }
+
+                    default:
+                    {
+                        return null;
+                    }
+                }
             }
 
             BasicDataType basicType = dataType.BasicDataType;
