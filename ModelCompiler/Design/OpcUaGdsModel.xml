@@ -302,18 +302,17 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
-
-  <opc:ObjectType SymbolicName="CredentialManagementFolderType" BaseType="ua:FolderType">
+  
+  <opc:ObjectType SymbolicName="NetworkServiceFolderType" BaseType="ua:FolderType">
     <opc:Children>
       <opc:Object SymbolicName="ServiceName_Placeholder" TypeDefinition="CredentialManagementType"  ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ServiceName&gt;</opc:BrowseName>
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
-      <opc:Property SymbolicName="CredentialSecurityPolicies"  DataType="ua:String" ValueRank="Array" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
-
-  <opc:Object SymbolicName="CredentialManagement" TypeDefinition="CredentialManagementFolderType">
+  
+  <opc:Object SymbolicName="AuthorizationServices" TypeDefinition="NetworkServiceFolderType">
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
@@ -324,15 +323,12 @@
   
   <opc:ObjectType SymbolicName="CredentialManagementType" BaseType="ua:BaseObjectType">
     <opc:Children>
-      <opc:Property SymbolicName="ServiceUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="Endpoints"  DataType="ua:EndpointDescription" ValueRank="Array" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="StartCredentialRequest" TypeDefinition="StartCredentialRequestMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="FinishCredentialRequest" TypeDefinition="FinishCredentialRequestMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RevokeCredential" TypeDefinition="RevokeCredentialMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RequestAccessToken" TypeDefinition="RequestAccessTokenMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
-  
+
   <opc:Method SymbolicName="StartCredentialRequestMethodType">
     <opc:InputArguments>
       <opc:Argument Name="ApplicationId" DataType="ua:NodeId"></opc:Argument>
@@ -364,13 +360,30 @@
       <opc:Argument Name="CredentialId" DataType="ua:String" />
     </opc:InputArguments>
   </opc:Method>
+  
+  <opc:ObjectType SymbolicName="NetworkServiceType" BaseType="ua:BaseObjectType">
+    <opc:Children>
+      <opc:Property SymbolicName="ServiceUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ServiceProfileUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ServiceEndpointUrls"  DataType="ua:String" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="CredentialManagement" TypeDefinition="CredentialManagementType" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="AuthorizationServiceType" BaseType="NetworkServiceType">
+    <opc:Children>
+      <opc:Property SymbolicName="UserTokenPolicies"  DataType="ua:UserTokenPolicy" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RequestAccessToken" TypeDefinition="RequestAccessTokenMethodType" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:ObjectType>
 
   <opc:Method SymbolicName="RequestAccessTokenMethodType">
     <opc:InputArguments>
       <opc:Argument Name="ApplicationId" DataType="ua:NodeId"></opc:Argument>
-      <opc:Argument Name="CredentialId" DataType="ua:String" />
-      <opc:Argument Name="CredentialSecret" DataType="ua:String"></opc:Argument>
       <opc:Argument Name="ResourceId" DataType="ua:String"></opc:Argument>
+      <opc:Argument Name="Identity" DataType="ua:UserIdentityToken"></opc:Argument>
+      <opc:Argument Name="CreationTime" DataType="ua:UtcTime"></opc:Argument>
+      <opc:Argument Name="Signature" DataType="ua:ByteString"></opc:Argument>
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="AccessToken" DataType="ua:String" />

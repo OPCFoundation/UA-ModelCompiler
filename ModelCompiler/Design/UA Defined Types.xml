@@ -574,7 +574,7 @@
       <Property SymbolicName="tns:EstimatedReturnTime" ModellingRule="Optional" DataType="tns:DateTime" MinimumSamplingInterval="1000">
         <Description>Indicates the time at which the Server is expected to be available in the state RUNNING.</Description>
       </Property>
-      <Property SymbolicName="tns:CurrentTimeZone" ModellingRule="Optional" DataType="tns:TimeZoneDataType" MinimumSamplingInterval="1000">
+      <Property SymbolicName="tns:LocalTime" ModellingRule="Optional" DataType="tns:TimeZoneDataType" MinimumSamplingInterval="1000">
         <Description>Indicates the time zone the Server is is  running in.</Description>
       </Property>
       <Object SymbolicName="tns:ServerCapabilities" TypeDefinition="tns:ServerCapabilitiesType">
@@ -921,6 +921,9 @@
   </ObjectType>
   <ObjectType SymbolicName="tns:AuditSecurityEventType" PartNo="5" BaseType="tns:AuditEventType" IsAbstract="true">
     <Description>A base type for events used to track security related changes.</Description>
+    <Children>
+      <Property SymbolicName="tns:StatusCodeId" ModellingRule="Optional" DataType="tns:StatusCode" />
+    </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:AuditChannelEventType" PartNo="5" BaseType="tns:AuditSecurityEventType" IsAbstract="true">
     <Description>A base type for events used to track related changes to a secure channel.</Description>
@@ -1079,13 +1082,6 @@
   </ObjectType>
   <ObjectType SymbolicName="tns:AggregateFunctionType" PartNo="5" BaseType="tns:BaseObjectType" />
   <VariableType SymbolicName="tns:ServerVendorCapabilityType" PartNo="5" BaseType="tns:BaseDataVariableType" IsAbstract="true" ValueRank="Scalar" />
-  <VariableType SymbolicName="tns:SelectionListType" PartNo="5" BaseType="tns:BaseDataVariableType" DataType="tns:ServerStatusDataType" ValueRank="Scalar" ExposesItsChildren="true">
-    <Children>
-      <Variable SymbolicName="tns:SelectionValues" DataType="tns:BaseDataType" ValueRank="Array" />
-      <Variable SymbolicName="tns:SelectionValueDescriptions" DataType="tns:LocalizedText" ValueRank="Array" />
-      <Variable SymbolicName="tns:RestrictToList" DataType="tns:Boolean" />
-    </Children>
-  </VariableType>
   <VariableType SymbolicName="tns:ServerStatusType" PartNo="5" BaseType="tns:BaseDataVariableType" DataType="tns:ServerStatusDataType" ValueRank="Scalar" ExposesItsChildren="true">
     <Children>
       <Variable SymbolicName="tns:StartTime" DataType="tns:UtcTime" />
@@ -1252,6 +1248,13 @@
       <Property SymbolicName="tns:BitMask" ModellingRule="Optional" DataType="tns:Boolean" ValueRank="Array" />
     </Children>
   </VariableType>
+  <VariableType SymbolicName="tns:SelectionListType" PartNo="5" BaseType="tns:BaseDataVariableType" DataType="tns:ServerStatusDataType" ValueRank="ScalarOrArray" ExposesItsChildren="true">
+    <Children>
+      <Variable SymbolicName="tns:Selections" DataType="tns:BaseDataType" ValueRank="Array" />
+      <Variable SymbolicName="tns:SelectionDescriptions" DataType="tns:LocalizedText" ValueRank="Array" />
+      <Variable SymbolicName="tns:RestrictToList" DataType="tns:Boolean" />
+    </Children>
+  </VariableType>
   <Object SymbolicName="tns:EventTypesFolder" PartNo="5" TypeDefinition="tns:FolderType" ModellingRule="None">
     <BrowseName>EventTypes</BrowseName>
     <References>
@@ -1364,6 +1367,12 @@
   <DataType SymbolicName="tns:BitFieldMaskDataType" PartNo="5" BaseType="tns:UInt64">
     <Description>A mask of 32 bits that can be updated individually by using the top 32 bits as a mask.</Description>
   </DataType>
+  <DataType SymbolicName="tns:KeyValuePair" PartNo="5" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="Key" DataType="tns:QualifiedName" />
+      <Field Name="Value" DataType="tns:BaseDataType" />
+    </Fields>
+  </DataType>
   <ObjectType SymbolicName="tns:StateMachineType" PartNo="5">
     <Children>
       <Variable SymbolicName="tns:CurrentState" TypeDefinition="tns:StateVariableType" ModellingRule="Mandatory" />
@@ -1391,6 +1400,8 @@
     <Children>
       <Variable SymbolicName="tns:CurrentState" TypeDefinition="tns:FiniteStateVariableType" ModellingRule="Mandatory" />
       <Variable SymbolicName="tns:LastTransition" TypeDefinition="tns:FiniteTransitionVariableType" ModellingRule="Optional" />
+      <Variable SymbolicName="tns:AvailableStates" ModellingRule="Optional" DataType="tns:NodeId" ValueRank="Array" />
+      <Variable SymbolicName="tns:PossibleTransitions" ModellingRule="Optional" DataType="tns:NodeId" ValueRank="Array" />
     </Children>
   </ObjectType>
   <VariableType SymbolicName="tns:FiniteStateVariableType" PartNo="5" BaseType="tns:StateVariableType">
@@ -1672,6 +1683,7 @@
       <Argument Name="RuleToRemove" DataType="tns:String" />
     </InputArguments>
   </Method>
+  <ObjectType SymbolicName="tns:RoleMappingRuleChangedAuditEventType" PartNo="5" BaseType="tns:AuditUpdateMethodEventType" />
   <Object SymbolicName="tns:WellKnownRole_Anonymous" PartNo="5" TypeDefinition="tns:RoleType">
     <BrowseName>Anonymous</BrowseName>
     <Description>The Role has very limited access for use when a Session has anonymous credentials.</Description>
@@ -3598,12 +3610,6 @@
       <Field Name="EnumDefinition" DataType="tns:EnumDefinition" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:KeyValuePair" PartNo="14" BaseType="tns:Structure">
-    <Fields>
-      <Field Name="Key" DataType="tns:QualifiedName" />
-      <Field Name="Value" DataType="tns:BaseDataType" />
-    </Fields>
-  </DataType>
   <DataType SymbolicName="tns:DataSetContentMask" PartNo="14" BaseType="tns:Enumeration">
     <Fields>
       <Field Name="FieldStatusCode" Identifier="1" />
@@ -4383,7 +4389,7 @@
   </DataType>
   <DataType SymbolicName="tns:StructureDefinition" SymbolicId="tns:StructureDefinition" PartNo="3" BaseType="tns:DataTypeDefinition" NoClassGeneration="true" NoArraysAllowed="true" NotInAddressSpace="true">
     <Fields>
-      <Field Name="DefaultEncodingId" DataType="tns:NodeId" ValueRank="Array" />
+      <Field Name="DefaultEncodingId" DataType="tns:NodeId" />
       <Field Name="BaseDataType" DataType="tns:NodeId" />
       <Field Name="StructureType" DataType="tns:StructureType" />
       <Field Name="Fields" DataType="tns:StructureField" ValueRank="Array" />

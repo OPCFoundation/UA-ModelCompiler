@@ -109,7 +109,7 @@
   </opc:ComplexType>
 
   <opc:ComplexType Name="StructureDefinition" NotInAddressSpace="true" BaseType="DataTypeDefinition" PartNo="3">
-    <opc:Field Name="DefaultEncodingId" DataType="s0:NodeId" ValueRank="0"></opc:Field>
+    <opc:Field Name="DefaultEncodingId" DataType="s0:NodeId"></opc:Field>
     <opc:Field Name="BaseDataType" DataType="s0:NodeId"></opc:Field>
     <opc:Field Name="StructureType" DataType="StructureType"></opc:Field>
     <opc:Field Name="Fields" DataType="StructureField" ValueRank="0"></opc:Field>

@@ -177,7 +177,7 @@
       <opc:Property SymbolicName="EstimatedReturnTime" DataType="ua:DateTime" MinimumSamplingInterval="1000" ModellingRule="Optional">
         <opc:Description>Indicates the time at which the Server is expected to be available in the state RUNNING.</opc:Description>
       </opc:Property>
-      <opc:Property SymbolicName="CurrentTimeZone" DataType="ua:TimeZoneDataType" MinimumSamplingInterval="1000" ModellingRule="Optional">
+      <opc:Property SymbolicName="LocalTime" DataType="ua:TimeZoneDataType" MinimumSamplingInterval="1000" ModellingRule="Optional">
         <opc:Description>Indicates the time zone the Server is is  running in.</opc:Description>
       </opc:Property>
       <opc:Object SymbolicName="ServerCapabilities" TypeDefinition="ServerCapabilitiesType">
@@ -542,6 +542,9 @@
 
   <opc:ObjectType SymbolicName="AuditSecurityEventType" BaseType="AuditEventType" IsAbstract="true" PartNo="5">
     <opc:Description>A base type for events used to track security related changes.</opc:Description>
+    <opc:Children>
+      <opc:Property SymbolicName="StatusCodeId" DataType="StatusCode" ModellingRule="Optional" />
+    </opc:Children>
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditChannelEventType" BaseType="AuditSecurityEventType" IsAbstract="true" PartNo="5">
@@ -743,14 +746,6 @@
   <!-- DataTypeDictionaryType BuiltInTypes.xml -->
   <!-- DataTypeDescriptionType BuiltInTypes.xml -->
   
-  <opc:VariableType SymbolicName="SelectionListType" BaseType="ua:BaseDataVariableType" DataType="ServerStatusDataType" ValueRank="Scalar" ExposesItsChildren="true" PartNo="5">
-    <opc:Children>
-      <opc:Variable SymbolicName="SelectionValues" DataType="ua:BaseDataType" ValueRank="Array" />
-      <opc:Variable SymbolicName="SelectionValueDescriptions" DataType="ua:LocalizedText" ValueRank="Array" />
-      <opc:Variable SymbolicName="RestrictToList" DataType="ua:Boolean" />
-    </opc:Children>
-  </opc:VariableType>
-  
   <opc:VariableType SymbolicName="ServerStatusType" BaseType="ua:BaseDataVariableType" DataType="ServerStatusDataType" ValueRank="Scalar" ExposesItsChildren="true" PartNo="5">
     <opc:Children>
       <opc:Variable SymbolicName="StartTime" DataType="ua:UtcTime" />
@@ -929,6 +924,14 @@
     </opc:Children>
   </opc:VariableType>
 
+  <opc:VariableType SymbolicName="SelectionListType" BaseType="ua:BaseDataVariableType" DataType="ServerStatusDataType" ValueRank="ScalarOrArray" ExposesItsChildren="true" PartNo="5">
+    <opc:Children>
+      <opc:Variable SymbolicName="Selections" DataType="ua:BaseDataType" ValueRank="Array" />
+      <opc:Variable SymbolicName="SelectionDescriptions" DataType="ua:LocalizedText" ValueRank="Array" />
+      <opc:Variable SymbolicName="RestrictToList" DataType="ua:Boolean" />
+    </opc:Children>
+  </opc:VariableType>
+  
   <!-- Part 5 Standard Objects and Variables -->
 
   <!-- Root BuiltInTypes.xml -->
@@ -1112,6 +1115,13 @@
   <!-- NetworkGroupDataType UA Core Services.xml -->
   <!-- EndpointUrlListDataType UA Core Services.xml -->
 
+  <opc:DataType SymbolicName="KeyValuePair" BaseType="Structure" PartNo="5">
+    <opc:Fields>
+      <opc:Field Name="Key" DataType="ua:QualifiedName" />
+      <opc:Field Name="Value" DataType="ua:BaseDataType" />
+    </opc:Fields>
+  </opc:DataType>
+  
   <!-- Part 5 Annex B - State Machines -->
 
   <opc:ObjectType SymbolicName="StateMachineType" PartNo="5">
@@ -1144,6 +1154,8 @@
     <opc:Children>
       <opc:Variable SymbolicName="CurrentState" TypeDefinition="FiniteStateVariableType" ModellingRule="Mandatory" />
       <opc:Variable SymbolicName="LastTransition" TypeDefinition="FiniteTransitionVariableType" ModellingRule="Optional" />
+      <opc:Variable SymbolicName="AvailableStates" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Optional" />
+      <opc:Variable SymbolicName="PossibleTransitions" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -1477,6 +1489,8 @@
       <opc:Argument Name="RuleToRemove" DataType="ua:String" />
     </opc:InputArguments>
   </opc:Method>
+
+  <opc:ObjectType SymbolicName="RoleMappingRuleChangedAuditEventType" BaseType="AuditUpdateMethodEventType" PartNo="5" />  
 
   <opc:Object SymbolicName="WellKnownRole_Anonymous" TypeDefinition="RoleType" PartNo="5">
     <opc:BrowseName>Anonymous</opc:BrowseName>
@@ -3617,13 +3631,6 @@
   <opc:DataType SymbolicName="EnumDescription" BaseType="DataTypeDescription" PartNo="3">
     <opc:Fields>
       <opc:Field Name="EnumDefinition"  DataType="ua:EnumDefinition"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="KeyValuePair" BaseType="ua:Structure" PartNo="14">
-    <opc:Fields>
-      <opc:Field Name="Key"  DataType="ua:QualifiedName" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="Value"  DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
   
