@@ -213,6 +213,11 @@
     <opc:Documentation>A mask of 32 bits that can be updated individually by using the top 32 bits as a mask.</opc:Documentation>
   </opc:OpaqueType>
 
+  <opc:StructuredType Name="KeyValuePair" BaseType="ua:ExtensionObject">
+    <opc:Field Name="Key" TypeName="ua:QualifiedName" />
+    <opc:Field Name="Value" TypeName="ua:Variant" />
+  </opc:StructuredType>
+
   <opc:EnumeratedType Name="OpenFileMode" LengthInBits="32">
     <opc:EnumeratedValue Name="Read" Value="1" />
     <opc:EnumeratedValue Name="Write" Value="2" />
@@ -310,11 +315,6 @@
     <opc:Field Name="EnumDefinition" TypeName="tns:EnumDefinition" />
   </opc:StructuredType>
 
-  <opc:StructuredType Name="KeyValuePair" BaseType="ua:ExtensionObject">
-    <opc:Field Name="Key" TypeName="ua:QualifiedName" />
-    <opc:Field Name="Value" TypeName="ua:Variant" />
-  </opc:StructuredType>
-
   <opc:EnumeratedType Name="DataSetContentMask" LengthInBits="32">
     <opc:EnumeratedValue Name="FieldStatusCode" Value="1" />
     <opc:EnumeratedValue Name="FieldSourceTimestamp" Value="2" />
@@ -393,6 +393,38 @@
     <opc:EnumeratedValue Name="DataType" Value="64" />
     <opc:EnumeratedValue Name="View" Value="128" />
   </opc:EnumeratedType>
+
+  <opc:StructuredType Name="RolePermissionType" BaseType="ua:ExtensionObject">
+    <opc:Field Name="RoleId" TypeName="ua:NodeId" />
+    <opc:Field Name="Permissions" TypeName="opc:UInt32" />
+  </opc:StructuredType>
+
+  <opc:EnumeratedType Name="StructureType" LengthInBits="32">
+    <opc:EnumeratedValue Name="Structure" Value="0" />
+    <opc:EnumeratedValue Name="StructureWithOptionalFields" Value="1" />
+    <opc:EnumeratedValue Name="Union" Value="2" />
+  </opc:EnumeratedType>
+
+  <opc:StructuredType Name="StructureField" BaseType="ua:ExtensionObject">
+    <opc:Field Name="Name" TypeName="opc:String" />
+    <opc:Field Name="Description" TypeName="ua:LocalizedText" />
+    <opc:Field Name="DataType" TypeName="ua:NodeId" />
+    <opc:Field Name="ValueRank" TypeName="opc:Int32" />
+    <opc:Field Name="IsOptional" TypeName="opc:Boolean" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="StructureDefinition" BaseType="tns:DataTypeDefinition">
+    <opc:Field Name="DefaultEncodingId" TypeName="ua:NodeId" />
+    <opc:Field Name="BaseDataType" TypeName="ua:NodeId" />
+    <opc:Field Name="StructureType" TypeName="tns:StructureType" />
+    <opc:Field Name="NoOfFields" TypeName="opc:Int32" />
+    <opc:Field Name="Fields" TypeName="tns:StructureField" LengthField="NoOfFields" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="EnumDefinition" BaseType="tns:DataTypeDefinition">
+    <opc:Field Name="NoOfFields" TypeName="opc:Int32" />
+    <opc:Field Name="Fields" TypeName="tns:EnumField" LengthField="NoOfFields" />
+  </opc:StructuredType>
 
   <opc:StructuredType Name="Node" BaseType="ua:ExtensionObject">
     <opc:Documentation>Specifies the attributes which belong to all nodes.</opc:Documentation>
@@ -637,6 +669,13 @@
     <opc:Field Name="Value" TypeName="opc:Int64" />
     <opc:Field Name="DisplayName" TypeName="ua:LocalizedText" />
     <opc:Field Name="Description" TypeName="ua:LocalizedText" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="EnumField" BaseType="tns:EnumValueType">
+    <opc:Field Name="Value" TypeName="opc:Int64" SourceType="tns:EnumValueType" />
+    <opc:Field Name="DisplayName" TypeName="ua:LocalizedText" SourceType="tns:EnumValueType" />
+    <opc:Field Name="Description" TypeName="ua:LocalizedText" SourceType="tns:EnumValueType" />
+    <opc:Field Name="Name" TypeName="opc:String" />
   </opc:StructuredType>
 
   <opc:StructuredType Name="OptionSet" BaseType="ua:ExtensionObject">

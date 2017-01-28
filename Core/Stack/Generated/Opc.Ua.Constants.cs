@@ -235,6 +235,11 @@ namespace Opc.Ua
         public const uint BitFieldMaskDataType = 11737;
 
         /// <summary>
+        /// The identifier for the KeyValuePair DataType.
+        /// </summary>
+        public const uint KeyValuePair = 14533;
+
+        /// <summary>
         /// The identifier for the OpenFileMode DataType.
         /// </summary>
         public const uint OpenFileMode = 11939;
@@ -295,11 +300,6 @@ namespace Opc.Ua
         public const uint EnumDescription = 15488;
 
         /// <summary>
-        /// The identifier for the KeyValuePair DataType.
-        /// </summary>
-        public const uint KeyValuePair = 14533;
-
-        /// <summary>
         /// The identifier for the DataSetContentMask DataType.
         /// </summary>
         public const uint DataSetContentMask = 15532;
@@ -307,7 +307,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the NetworkMessageContentMask DataType.
         /// </summary>
-        public const uint NetworkMessageContentMask = 17296;
+        public const uint NetworkMessageContentMask = 17290;
 
         /// <summary>
         /// The identifier for the PublishedVariableDataType DataType.
@@ -802,12 +802,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the GenericAttributeValue DataType.
         /// </summary>
-        public const uint GenericAttributeValue = 16357;
+        public const uint GenericAttributeValue = 17606;
 
         /// <summary>
         /// The identifier for the GenericAttributes DataType.
         /// </summary>
-        public const uint GenericAttributes = 16358;
+        public const uint GenericAttributes = 17607;
 
         /// <summary>
         /// The identifier for the AddNodesItem DataType.
@@ -1890,9 +1890,9 @@ namespace Opc.Ua
         public const uint FileDirectoryType_FileDirectoryName_Placeholder_CreateFile = 13358;
 
         /// <summary>
-        /// The identifier for the FileDirectoryType_FileDirectoryName_Placeholder_DeleteFile Method.
+        /// The identifier for the FileDirectoryType_FileDirectoryName_Placeholder_DeleteFileSystemObject Method.
         /// </summary>
-        public const uint FileDirectoryType_FileDirectoryName_Placeholder_DeleteFile = 13361;
+        public const uint FileDirectoryType_FileDirectoryName_Placeholder_DeleteFileSystemObject = 17718;
 
         /// <summary>
         /// The identifier for the FileDirectoryType_FileDirectoryName_Placeholder_MoveOrCopy Method.
@@ -1940,9 +1940,9 @@ namespace Opc.Ua
         public const uint FileDirectoryType_CreateFile = 13390;
 
         /// <summary>
-        /// The identifier for the FileDirectoryType_DeleteFile Method.
+        /// The identifier for the FileDirectoryType_DeleteFileSystemObject Method.
         /// </summary>
-        public const uint FileDirectoryType_DeleteFile = 13393;
+        public const uint FileDirectoryType_DeleteFileSystemObject = 13393;
 
         /// <summary>
         /// The identifier for the FileDirectoryType_MoveOrCopy Method.
@@ -1952,72 +1952,72 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the FileSystem_FileDirectoryName_Placeholder_CreateDirectory Method.
         /// </summary>
-        public const uint FileSystem_FileDirectoryName_Placeholder_CreateDirectory = 16312;
+        public const uint FileSystem_FileDirectoryName_Placeholder_CreateDirectory = 16316;
 
         /// <summary>
         /// The identifier for the FileSystem_FileDirectoryName_Placeholder_CreateFile Method.
         /// </summary>
-        public const uint FileSystem_FileDirectoryName_Placeholder_CreateFile = 16315;
+        public const uint FileSystem_FileDirectoryName_Placeholder_CreateFile = 16319;
 
         /// <summary>
-        /// The identifier for the FileSystem_FileDirectoryName_Placeholder_DeleteFile Method.
+        /// The identifier for the FileSystem_FileDirectoryName_Placeholder_DeleteFileSystemObject Method.
         /// </summary>
-        public const uint FileSystem_FileDirectoryName_Placeholder_DeleteFile = 16318;
+        public const uint FileSystem_FileDirectoryName_Placeholder_DeleteFileSystemObject = 17722;
 
         /// <summary>
         /// The identifier for the FileSystem_FileDirectoryName_Placeholder_MoveOrCopy Method.
         /// </summary>
-        public const uint FileSystem_FileDirectoryName_Placeholder_MoveOrCopy = 16320;
+        public const uint FileSystem_FileDirectoryName_Placeholder_MoveOrCopy = 16324;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_Open Method.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_Open = 16329;
+        public const uint FileSystem_FileName_Placeholder_Open = 16333;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_Close Method.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_Close = 16332;
+        public const uint FileSystem_FileName_Placeholder_Close = 16336;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_Read Method.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_Read = 16334;
+        public const uint FileSystem_FileName_Placeholder_Read = 16338;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_Write Method.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_Write = 16337;
+        public const uint FileSystem_FileName_Placeholder_Write = 16341;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_GetPosition Method.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_GetPosition = 16339;
+        public const uint FileSystem_FileName_Placeholder_GetPosition = 16343;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_SetPosition Method.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_SetPosition = 16342;
+        public const uint FileSystem_FileName_Placeholder_SetPosition = 16346;
 
         /// <summary>
         /// The identifier for the FileSystem_CreateDirectory Method.
         /// </summary>
-        public const uint FileSystem_CreateDirectory = 16344;
+        public const uint FileSystem_CreateDirectory = 16348;
 
         /// <summary>
         /// The identifier for the FileSystem_CreateFile Method.
         /// </summary>
-        public const uint FileSystem_CreateFile = 16347;
+        public const uint FileSystem_CreateFile = 16351;
 
         /// <summary>
-        /// The identifier for the FileSystem_DeleteFile Method.
+        /// The identifier for the FileSystem_DeleteFileSystemObject Method.
         /// </summary>
-        public const uint FileSystem_DeleteFile = 16350;
+        public const uint FileSystem_DeleteFileSystemObject = 16354;
 
         /// <summary>
         /// The identifier for the FileSystem_MoveOrCopy Method.
         /// </summary>
-        public const uint FileSystem_MoveOrCopy = 16352;
+        public const uint FileSystem_MoveOrCopy = 16356;
 
         /// <summary>
         /// The identifier for the TemporaryFileTransferType_GenerateFileForRead Method.
@@ -2142,52 +2142,52 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the AlarmConditionType_Silence Method.
         /// </summary>
-        public const uint AlarmConditionType_Silence = 16404;
+        public const uint AlarmConditionType_Silence = 16402;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_Suppress Method.
         /// </summary>
-        public const uint AlarmConditionType_Suppress = 16405;
+        public const uint AlarmConditionType_Suppress = 16403;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_OutOfService Method.
         /// </summary>
-        public const uint AlarmConditionType_OutOfService = 16406;
+        public const uint AlarmConditionType_OutOfService = 16404;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_Disable Method.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Disable = 16441;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Disable = 16439;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_Enable Method.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Enable = 16442;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Enable = 16440;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_AddComment Method.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_AddComment = 16443;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_AddComment = 16441;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_Acknowledge Method.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Acknowledge = 16463;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Acknowledge = 16461;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_Unshelve Method.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_Unshelve = 16517;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_Unshelve = 16515;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_OneShotShelve Method.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_OneShotShelve = 16518;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_OneShotShelve = 16516;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_TimedShelve Method.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_TimedShelve = 16519;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_TimedShelve = 16517;
 
         /// <summary>
         /// The identifier for the ShelvedStateMachineType_Unshelve Method.
@@ -2417,17 +2417,17 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_ShelvingState_Unshelve Method.
         /// </summary>
-        public const uint DiscrepancyAlarmType_ShelvingState_Unshelve = 17195;
+        public const uint DiscrepancyAlarmType_ShelvingState_Unshelve = 17193;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_ShelvingState_OneShotShelve Method.
         /// </summary>
-        public const uint DiscrepancyAlarmType_ShelvingState_OneShotShelve = 17196;
+        public const uint DiscrepancyAlarmType_ShelvingState_OneShotShelve = 17194;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_ShelvingState_TimedShelve Method.
         /// </summary>
-        public const uint DiscrepancyAlarmType_ShelvingState_TimedShelve = 17197;
+        public const uint DiscrepancyAlarmType_ShelvingState_TimedShelve = 17195;
 
         /// <summary>
         /// The identifier for the ProgramStateMachineType_Start Method.
@@ -3012,7 +3012,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the PublishSubscribeType_SetSecurityKeys Method.
         /// </summary>
-        public const uint PublishSubscribeType_SetSecurityKeys = 17302;
+        public const uint PublishSubscribeType_SetSecurityKeys = 17296;
 
         /// <summary>
         /// The identifier for the PublishSubscribeType_AddUadpConnection Method.
@@ -3052,7 +3052,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the PublishSubscribe_SetSecurityKeys Method.
         /// </summary>
-        public const uint PublishSubscribe_SetSecurityKeys = 17310;
+        public const uint PublishSubscribe_SetSecurityKeys = 17304;
 
         /// <summary>
         /// The identifier for the PublishSubscribe_AddUadpConnection Method.
@@ -3182,22 +3182,22 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the PubSubWriterGroupType_RemoveDataSetWriter Method.
         /// </summary>
-        public const uint PubSubWriterGroupType_RemoveDataSetWriter = 17362;
+        public const uint PubSubWriterGroupType_RemoveDataSetWriter = 17356;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType_RemoveDataSetReader Method.
         /// </summary>
-        public const uint PubSubReaderGroupType_RemoveDataSetReader = 17390;
+        public const uint PubSubReaderGroupType_RemoveDataSetReader = 17384;
 
         /// <summary>
         /// The identifier for the DataSetReaderType_CreateConnectedVariables Method.
         /// </summary>
-        public const uint DataSetReaderType_CreateConnectedVariables = 17392;
+        public const uint DataSetReaderType_CreateConnectedVariables = 17386;
 
         /// <summary>
         /// The identifier for the DataSetReaderType_CreateDataSetMirror Method.
         /// </summary>
-        public const uint DataSetReaderType_CreateDataSetMirror = 17395;
+        public const uint DataSetReaderType_CreateDataSetMirror = 17389;
 
         /// <summary>
         /// The identifier for the ConnectedVariablesType_AddDataConnections Method.
@@ -3222,42 +3222,42 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the UadpConnectionType_AddWriterGroup Method.
         /// </summary>
-        public const uint UadpConnectionType_AddWriterGroup = 17436;
+        public const uint UadpConnectionType_AddWriterGroup = 17430;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_AddReaderGroup Method.
         /// </summary>
-        public const uint UadpConnectionType_AddReaderGroup = 17439;
+        public const uint UadpConnectionType_AddReaderGroup = 17433;
 
         /// <summary>
         /// The identifier for the UadpWriterGroupType_AddDataSetWriter Method.
         /// </summary>
-        public const uint UadpWriterGroupType_AddDataSetWriter = 17472;
+        public const uint UadpWriterGroupType_AddDataSetWriter = 17466;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_AddDataSetReader Method.
         /// </summary>
-        public const uint UadpReaderGroupType_AddDataSetReader = 17506;
+        public const uint UadpReaderGroupType_AddDataSetReader = 17500;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_AddWriterGroup Method.
         /// </summary>
-        public const uint BrokerConnectionType_AddWriterGroup = 17541;
+        public const uint BrokerConnectionType_AddWriterGroup = 17535;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_AddReaderGroup Method.
         /// </summary>
-        public const uint BrokerConnectionType_AddReaderGroup = 17544;
+        public const uint BrokerConnectionType_AddReaderGroup = 17538;
 
         /// <summary>
         /// The identifier for the BrokerWriterGroupType_AddDataSetWriter Method.
         /// </summary>
-        public const uint BrokerWriterGroupType_AddDataSetWriter = 17571;
+        public const uint BrokerWriterGroupType_AddDataSetWriter = 17565;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_AddDataSetReader Method.
         /// </summary>
-        public const uint BrokerReaderGroupType_AddDataSetReader = 17606;
+        public const uint BrokerReaderGroupType_AddDataSetReader = 17600;
 
         /// <summary>
         /// The identifier for the BrokerGroupTypeAddReaderType Method.
@@ -3532,7 +3532,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the FileSystem Object.
         /// </summary>
-        public const uint FileSystem = 16310;
+        public const uint FileSystem = 16314;
 
         /// <summary>
         /// The identifier for the TemporaryFileTransferType_TransferState_Placeholder Object.
@@ -3662,17 +3662,17 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the AlarmConditionType_FirstInGroup Object.
         /// </summary>
-        public const uint AlarmConditionType_FirstInGroup = 16400;
+        public const uint AlarmConditionType_FirstInGroup = 16398;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_AlarmGroup_Placeholder Object.
         /// </summary>
-        public const uint AlarmConditionType_AlarmGroup_Placeholder = 16401;
+        public const uint AlarmConditionType_AlarmGroup_Placeholder = 16399;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder Object.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder = 16408;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder = 16406;
 
         /// <summary>
         /// The identifier for the ShelvedStateMachineType_Unshelved Object.
@@ -4287,22 +4287,22 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the PubSubConnectionType_WriterGroupName_Placeholder Object.
         /// </summary>
-        public const uint PubSubConnectionType_WriterGroupName_Placeholder = 17316;
+        public const uint PubSubConnectionType_WriterGroupName_Placeholder = 17310;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_WriterGroupName_Placeholder_Status Object.
         /// </summary>
-        public const uint PubSubConnectionType_WriterGroupName_Placeholder_Status = 17320;
+        public const uint PubSubConnectionType_WriterGroupName_Placeholder_Status = 17314;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_ReaderGroupName_Placeholder Object.
         /// </summary>
-        public const uint PubSubConnectionType_ReaderGroupName_Placeholder = 17331;
+        public const uint PubSubConnectionType_ReaderGroupName_Placeholder = 17325;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_ReaderGroupName_Placeholder_Status Object.
         /// </summary>
-        public const uint PubSubConnectionType_ReaderGroupName_Placeholder_Status = 17335;
+        public const uint PubSubConnectionType_ReaderGroupName_Placeholder_Status = 17329;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_Status Object.
@@ -4317,37 +4317,37 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the PubSubWriterGroupType_DataSetWriterName_Placeholder Object.
         /// </summary>
-        public const uint PubSubWriterGroupType_DataSetWriterName_Placeholder = 17354;
+        public const uint PubSubWriterGroupType_DataSetWriterName_Placeholder = 17348;
 
         /// <summary>
         /// The identifier for the PubSubWriterGroupType_DataSetWriterName_Placeholder_Status Object.
         /// </summary>
-        public const uint PubSubWriterGroupType_DataSetWriterName_Placeholder_Status = 17355;
+        public const uint PubSubWriterGroupType_DataSetWriterName_Placeholder_Status = 17349;
 
         /// <summary>
         /// The identifier for the PubSubWriterGroupType_DataSetWriterName_Placeholder_TransportSettings Object.
         /// </summary>
-        public const uint PubSubWriterGroupType_DataSetWriterName_Placeholder_TransportSettings = 17359;
+        public const uint PubSubWriterGroupType_DataSetWriterName_Placeholder_TransportSettings = 17353;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType_DataSetReaderName_Placeholder Object.
         /// </summary>
-        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder = 17372;
+        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder = 17366;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType_DataSetReaderName_Placeholder_Status Object.
         /// </summary>
-        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_Status = 17373;
+        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_Status = 17367;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType_DataSetReaderName_Placeholder_TransportSettings Object.
         /// </summary>
-        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_TransportSettings = 17377;
+        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_TransportSettings = 17371;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet Object.
         /// </summary>
-        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet = 17381;
+        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet = 17375;
 
         /// <summary>
         /// The identifier for the DataSetWriterType_Status Object.
@@ -4377,72 +4377,77 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the UadpConnectionType_WriterGroupName_Placeholder_Status Object.
         /// </summary>
-        public const uint UadpConnectionType_WriterGroupName_Placeholder_Status = 17412;
+        public const uint UadpConnectionType_WriterGroupName_Placeholder_Status = 17406;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_ReaderGroupName_Placeholder_Status Object.
         /// </summary>
-        public const uint UadpConnectionType_ReaderGroupName_Placeholder_Status = 17427;
+        public const uint UadpConnectionType_ReaderGroupName_Placeholder_Status = 17421;
 
         /// <summary>
         /// The identifier for the UadpWriterGroupType_DataSetWriterName_Placeholder_Status Object.
         /// </summary>
-        public const uint UadpWriterGroupType_DataSetWriterName_Placeholder_Status = 17456;
+        public const uint UadpWriterGroupType_DataSetWriterName_Placeholder_Status = 17450;
 
         /// <summary>
         /// The identifier for the UadpWriterGroupType_DataSetWriterName_Placeholder_TransportSettings Object.
         /// </summary>
-        public const uint UadpWriterGroupType_DataSetWriterName_Placeholder_TransportSettings = 17460;
+        public const uint UadpWriterGroupType_DataSetWriterName_Placeholder_TransportSettings = 17454;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_DataSetReaderName_Placeholder_Status Object.
         /// </summary>
-        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_Status = 17487;
+        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_Status = 17481;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_DataSetReaderName_Placeholder_TransportSettings Object.
         /// </summary>
-        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_TransportSettings = 17491;
+        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_TransportSettings = 17485;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet Object.
         /// </summary>
-        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet = 17495;
+        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet = 17489;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_WriterGroupName_Placeholder_Status Object.
         /// </summary>
-        public const uint BrokerConnectionType_WriterGroupName_Placeholder_Status = 17520;
+        public const uint BrokerConnectionType_WriterGroupName_Placeholder_Status = 17514;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_ReaderGroupName_Placeholder_Status Object.
         /// </summary>
-        public const uint BrokerConnectionType_ReaderGroupName_Placeholder_Status = 17535;
+        public const uint BrokerConnectionType_ReaderGroupName_Placeholder_Status = 17529;
 
         /// <summary>
         /// The identifier for the BrokerWriterGroupType_DataSetWriterName_Placeholder_Status Object.
         /// </summary>
-        public const uint BrokerWriterGroupType_DataSetWriterName_Placeholder_Status = 17561;
+        public const uint BrokerWriterGroupType_DataSetWriterName_Placeholder_Status = 17555;
 
         /// <summary>
         /// The identifier for the BrokerWriterGroupType_DataSetWriterName_Placeholder_TransportSettings Object.
         /// </summary>
-        public const uint BrokerWriterGroupType_DataSetWriterName_Placeholder_TransportSettings = 17565;
+        public const uint BrokerWriterGroupType_DataSetWriterName_Placeholder_TransportSettings = 17559;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_DataSetReaderName_Placeholder_Status Object.
         /// </summary>
-        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_Status = 17586;
+        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_Status = 17580;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_DataSetReaderName_Placeholder_TransportSettings Object.
         /// </summary>
-        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_TransportSettings = 17590;
+        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_TransportSettings = 17584;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet Object.
         /// </summary>
-        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet = 17594;
+        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet = 17588;
+
+        /// <summary>
+        /// The identifier for the KeyValuePair_Encoding_DefaultXml Object.
+        /// </summary>
+        public const uint KeyValuePair_Encoding_DefaultXml = 14802;
 
         /// <summary>
         /// The identifier for the IdentityMappingRuleType_Encoding_DefaultXml Object.
@@ -4483,11 +4488,6 @@ namespace Opc.Ua
         /// The identifier for the EnumDescription_Encoding_DefaultXml Object.
         /// </summary>
         public const uint EnumDescription_Encoding_DefaultXml = 15590;
-
-        /// <summary>
-        /// The identifier for the KeyValuePair_Encoding_DefaultXml Object.
-        /// </summary>
-        public const uint KeyValuePair_Encoding_DefaultXml = 14802;
 
         /// <summary>
         /// The identifier for the PublishedVariableDataType_Encoding_DefaultXml Object.
@@ -4867,12 +4867,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the GenericAttributeValue_Encoding_DefaultXml Object.
         /// </summary>
-        public const uint GenericAttributeValue_Encoding_DefaultXml = 16359;
+        public const uint GenericAttributeValue_Encoding_DefaultXml = 17608;
 
         /// <summary>
         /// The identifier for the GenericAttributes_Encoding_DefaultXml Object.
         /// </summary>
-        public const uint GenericAttributes_Encoding_DefaultXml = 16360;
+        public const uint GenericAttributes_Encoding_DefaultXml = 17609;
 
         /// <summary>
         /// The identifier for the AddNodesItem_Encoding_DefaultXml Object.
@@ -5640,6 +5640,11 @@ namespace Opc.Ua
         public const uint Annotation_Encoding_DefaultXml = 892;
 
         /// <summary>
+        /// The identifier for the KeyValuePair_Encoding_DefaultBinary Object.
+        /// </summary>
+        public const uint KeyValuePair_Encoding_DefaultBinary = 14846;
+
+        /// <summary>
         /// The identifier for the IdentityMappingRuleType_Encoding_DefaultBinary Object.
         /// </summary>
         public const uint IdentityMappingRuleType_Encoding_DefaultBinary = 15736;
@@ -5657,7 +5662,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the DataSetMetaDataType_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint DataSetMetaDataType_Encoding_DefaultBinary = 14838;
+        public const uint DataSetMetaDataType_Encoding_DefaultBinary = 124;
 
         /// <summary>
         /// The identifier for the FieldMetaData_Encoding_DefaultBinary Object.
@@ -5667,22 +5672,17 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the DataTypeDescription_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint DataTypeDescription_Encoding_DefaultBinary = 14840;
+        public const uint DataTypeDescription_Encoding_DefaultBinary = 125;
 
         /// <summary>
         /// The identifier for the StructureDescription_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint StructureDescription_Encoding_DefaultBinary = 15597;
+        public const uint StructureDescription_Encoding_DefaultBinary = 126;
 
         /// <summary>
         /// The identifier for the EnumDescription_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint EnumDescription_Encoding_DefaultBinary = 15598;
-
-        /// <summary>
-        /// The identifier for the KeyValuePair_Encoding_DefaultBinary Object.
-        /// </summary>
-        public const uint KeyValuePair_Encoding_DefaultBinary = 14846;
+        public const uint EnumDescription_Encoding_DefaultBinary = 127;
 
         /// <summary>
         /// The identifier for the PublishedVariableDataType_Encoding_DefaultBinary Object.
@@ -5697,12 +5697,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the RolePermissionType_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint RolePermissionType_Encoding_DefaultBinary = 16130;
+        public const uint RolePermissionType_Encoding_DefaultBinary = 128;
 
         /// <summary>
         /// The identifier for the DataTypeDefinition_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint DataTypeDefinition_Encoding_DefaultBinary = 14841;
+        public const uint DataTypeDefinition_Encoding_DefaultBinary = 121;
 
         /// <summary>
         /// The identifier for the StructureField_Encoding_DefaultBinary Object.
@@ -5712,12 +5712,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the StructureDefinition_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint StructureDefinition_Encoding_DefaultBinary = 14842;
+        public const uint StructureDefinition_Encoding_DefaultBinary = 122;
 
         /// <summary>
         /// The identifier for the EnumDefinition_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint EnumDefinition_Encoding_DefaultBinary = 14843;
+        public const uint EnumDefinition_Encoding_DefaultBinary = 123;
 
         /// <summary>
         /// The identifier for the Node_Encoding_DefaultBinary Object.
@@ -6062,12 +6062,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the GenericAttributeValue_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint GenericAttributeValue_Encoding_DefaultBinary = 16361;
+        public const uint GenericAttributeValue_Encoding_DefaultBinary = 17610;
 
         /// <summary>
         /// The identifier for the GenericAttributes_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint GenericAttributes_Encoding_DefaultBinary = 16362;
+        public const uint GenericAttributes_Encoding_DefaultBinary = 17611;
 
         /// <summary>
         /// The identifier for the AddNodesItem_Encoding_DefaultBinary Object.
@@ -7180,6 +7180,11 @@ namespace Opc.Ua
         public const uint RoleType = 15620;
 
         /// <summary>
+        /// The identifier for the RoleMappingRuleChangedAuditEventType ObjectType.
+        /// </summary>
+        public const uint RoleMappingRuleChangedAuditEventType = 17641;
+
+        /// <summary>
         /// The identifier for the ConditionType ObjectType.
         /// </summary>
         public const uint ConditionType = 2782;
@@ -7202,7 +7207,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the AlarmGroupType ObjectType.
         /// </summary>
-        public const uint AlarmGroupType = 16407;
+        public const uint AlarmGroupType = 16405;
 
         /// <summary>
         /// The identifier for the ShelvedStateMachineType ObjectType.
@@ -7287,7 +7292,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType ObjectType.
         /// </summary>
-        public const uint DiscrepancyAlarmType = 17082;
+        public const uint DiscrepancyAlarmType = 17080;
 
         /// <summary>
         /// The identifier for the BaseConditionClassType ObjectType.
@@ -7312,22 +7317,22 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the SafetyConditionClassType ObjectType.
         /// </summary>
-        public const uint SafetyConditionClassType = 17220;
+        public const uint SafetyConditionClassType = 17218;
 
         /// <summary>
         /// The identifier for the BaseConditionClassModifierType ObjectType.
         /// </summary>
-        public const uint BaseConditionClassModifierType = 17221;
+        public const uint BaseConditionClassModifierType = 17219;
 
         /// <summary>
         /// The identifier for the TrainingConditionClassModifierType ObjectType.
         /// </summary>
-        public const uint TrainingConditionClassModifierType = 17222;
+        public const uint TrainingConditionClassModifierType = 17220;
 
         /// <summary>
         /// The identifier for the TestingConditionClassModifierType ObjectType.
         /// </summary>
-        public const uint TestingConditionClassModifierType = 17223;
+        public const uint TestingConditionClassModifierType = 17221;
 
         /// <summary>
         /// The identifier for the AuditConditionEventType ObjectType.
@@ -7367,17 +7372,17 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the AuditConditionSuppressionEventType ObjectType.
         /// </summary>
-        public const uint AuditConditionSuppressionEventType = 17227;
+        public const uint AuditConditionSuppressionEventType = 17225;
 
         /// <summary>
         /// The identifier for the AuditConditionSilenceEventType ObjectType.
         /// </summary>
-        public const uint AuditConditionSilenceEventType = 17244;
+        public const uint AuditConditionSilenceEventType = 17242;
 
         /// <summary>
         /// The identifier for the AuditConditionOutOfServiceEventType ObjectType.
         /// </summary>
-        public const uint AuditConditionOutOfServiceEventType = 17261;
+        public const uint AuditConditionOutOfServiceEventType = 17259;
 
         /// <summary>
         /// The identifier for the RefreshStartEventType ObjectType.
@@ -7397,7 +7402,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the AlarmDiagnosticsSummaryType ObjectType.
         /// </summary>
-        public const uint AlarmDiagnosticsSummaryType = 17281;
+        public const uint AlarmDiagnosticsSummaryType = 17279;
 
         /// <summary>
         /// The identifier for the ProgramStateMachineType ObjectType.
@@ -7597,12 +7602,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the PubSubWriterGroupType ObjectType.
         /// </summary>
-        public const uint PubSubWriterGroupType = 17341;
+        public const uint PubSubWriterGroupType = 17335;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType ObjectType.
         /// </summary>
-        public const uint PubSubReaderGroupType = 17364;
+        public const uint PubSubReaderGroupType = 17358;
 
         /// <summary>
         /// The identifier for the DataSetWriterType ObjectType.
@@ -7667,12 +7672,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the UadpWriterGroupType ObjectType.
         /// </summary>
-        public const uint UadpWriterGroupType = 17442;
+        public const uint UadpWriterGroupType = 17436;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType ObjectType.
         /// </summary>
-        public const uint UadpReaderGroupType = 17478;
+        public const uint UadpReaderGroupType = 17472;
 
         /// <summary>
         /// The identifier for the UadpWriterTransportType ObjectType.
@@ -7692,12 +7697,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the BrokerWriterGroupType ObjectType.
         /// </summary>
-        public const uint BrokerWriterGroupType = 17547;
+        public const uint BrokerWriterGroupType = 17541;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType ObjectType.
         /// </summary>
-        public const uint BrokerReaderGroupType = 17577;
+        public const uint BrokerReaderGroupType = 17571;
 
         /// <summary>
         /// The identifier for the BrokerWriterTransportType ObjectType.
@@ -7852,12 +7857,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the HasAlarmSuppressionGroup ReferenceType.
         /// </summary>
-        public const uint HasAlarmSuppressionGroup = 16363;
+        public const uint HasAlarmSuppressionGroup = 16361;
 
         /// <summary>
         /// The identifier for the AlarmGroupMember ReferenceType.
         /// </summary>
-        public const uint AlarmGroupMember = 16364;
+        public const uint AlarmGroupMember = 16362;
 
         /// <summary>
         /// The identifier for the HasCondition ReferenceType.
@@ -7867,7 +7872,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the HasEffectDisable ReferenceType.
         /// </summary>
-        public const uint HasEffectDisable = 17278;
+        public const uint HasEffectDisable = 17276;
 
         /// <summary>
         /// The identifier for the HasPubSubConnection ReferenceType.
@@ -8245,9 +8250,9 @@ namespace Opc.Ua
         public const uint ServerType_EstimatedReturnTime = 12882;
 
         /// <summary>
-        /// The identifier for the ServerType_CurrentTimeZone Variable.
+        /// The identifier for the ServerType_LocalTime Variable.
         /// </summary>
-        public const uint ServerType_CurrentTimeZone = 16308;
+        public const uint ServerType_LocalTime = 17612;
 
         /// <summary>
         /// The identifier for the ServerType_ServerCapabilities_ServerProfileArray Variable.
@@ -9625,6 +9630,11 @@ namespace Opc.Ua
         public const uint AuditEventType_ClientUserId = 2057;
 
         /// <summary>
+        /// The identifier for the AuditSecurityEventType_StatusCodeId Variable.
+        /// </summary>
+        public const uint AuditSecurityEventType_StatusCodeId = 17615;
+
+        /// <summary>
         /// The identifier for the AuditChannelEventType_SecureChannelId Variable.
         /// </summary>
         public const uint AuditChannelEventType_SecureChannelId = 2745;
@@ -9803,21 +9813,6 @@ namespace Opc.Ua
         /// The identifier for the ProgressEventType_Progress Variable.
         /// </summary>
         public const uint ProgressEventType_Progress = 12503;
-
-        /// <summary>
-        /// The identifier for the SelectionListType_SelectionValues Variable.
-        /// </summary>
-        public const uint SelectionListType_SelectionValues = 17293;
-
-        /// <summary>
-        /// The identifier for the SelectionListType_SelectionValueDescriptions Variable.
-        /// </summary>
-        public const uint SelectionListType_SelectionValueDescriptions = 17294;
-
-        /// <summary>
-        /// The identifier for the SelectionListType_RestrictToList Variable.
-        /// </summary>
-        public const uint SelectionListType_RestrictToList = 17295;
 
         /// <summary>
         /// The identifier for the ServerStatusType_StartTime Variable.
@@ -10870,6 +10865,21 @@ namespace Opc.Ua
         public const uint OptionSetType_BitMask = 11701;
 
         /// <summary>
+        /// The identifier for the SelectionListType_Selections Variable.
+        /// </summary>
+        public const uint SelectionListType_Selections = 17632;
+
+        /// <summary>
+        /// The identifier for the SelectionListType_SelectionDescriptions Variable.
+        /// </summary>
+        public const uint SelectionListType_SelectionDescriptions = 17633;
+
+        /// <summary>
+        /// The identifier for the SelectionListType_RestrictToList Variable.
+        /// </summary>
+        public const uint SelectionListType_RestrictToList = 16312;
+
+        /// <summary>
         /// The identifier for the Server_ServerArray Variable.
         /// </summary>
         public const uint Server_ServerArray = 2254;
@@ -10958,11 +10968,6 @@ namespace Opc.Ua
         /// The identifier for the Server_EstimatedReturnTime Variable.
         /// </summary>
         public const uint Server_EstimatedReturnTime = 12885;
-
-        /// <summary>
-        /// The identifier for the Server_CurrentTimeZone Variable.
-        /// </summary>
-        public const uint Server_CurrentTimeZone = 16309;
 
         /// <summary>
         /// The identifier for the Server_ServerCapabilities_ServerProfileArray Variable.
@@ -11215,6 +11220,11 @@ namespace Opc.Ua
         public const uint Server_RequestServerStateChange_InputArguments = 12887;
 
         /// <summary>
+        /// The identifier for the Server_CurrentTimeZone Variable.
+        /// </summary>
+        public const uint Server_CurrentTimeZone = 16313;
+
+        /// <summary>
         /// The identifier for the Server_ServerRedundancy_CurrentServerId Variable.
         /// </summary>
         public const uint Server_ServerRedundancy_CurrentServerId = 11312;
@@ -11390,6 +11400,16 @@ namespace Opc.Ua
         public const uint FiniteStateMachineType_LastTransition_Id = 3732;
 
         /// <summary>
+        /// The identifier for the FiniteStateMachineType_AvailableStates Variable.
+        /// </summary>
+        public const uint FiniteStateMachineType_AvailableStates = 17635;
+
+        /// <summary>
+        /// The identifier for the FiniteStateMachineType_AvailableTransitions Variable.
+        /// </summary>
+        public const uint FiniteStateMachineType_AvailableTransitions = 17636;
+
+        /// <summary>
         /// The identifier for the FiniteStateVariableType_Id Variable.
         /// </summary>
         public const uint FiniteStateVariableType_Id = 2761;
@@ -11475,9 +11495,9 @@ namespace Opc.Ua
         public const uint FileDirectoryType_FileDirectoryName_Placeholder_CreateFile_OutputArguments = 13360;
 
         /// <summary>
-        /// The identifier for the FileDirectoryType_FileDirectoryName_Placeholder_DeleteFile_InputArguments Variable.
+        /// The identifier for the FileDirectoryType_FileDirectoryName_Placeholder_DeleteFileSystemObject_InputArguments Variable.
         /// </summary>
-        public const uint FileDirectoryType_FileDirectoryName_Placeholder_DeleteFile_InputArguments = 13362;
+        public const uint FileDirectoryType_FileDirectoryName_Placeholder_DeleteFileSystemObject_InputArguments = 17719;
 
         /// <summary>
         /// The identifier for the FileDirectoryType_FileDirectoryName_Placeholder_MoveOrCopy_InputArguments Variable.
@@ -11575,9 +11595,9 @@ namespace Opc.Ua
         public const uint FileDirectoryType_CreateFile_OutputArguments = 13392;
 
         /// <summary>
-        /// The identifier for the FileDirectoryType_DeleteFile_InputArguments Variable.
+        /// The identifier for the FileDirectoryType_DeleteFileSystemObject_InputArguments Variable.
         /// </summary>
-        public const uint FileDirectoryType_DeleteFile_InputArguments = 13394;
+        public const uint FileDirectoryType_DeleteFileSystemObject_InputArguments = 13394;
 
         /// <summary>
         /// The identifier for the FileDirectoryType_MoveOrCopy_InputArguments Variable.
@@ -11592,137 +11612,137 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the FileSystem_FileDirectoryName_Placeholder_CreateDirectory_InputArguments Variable.
         /// </summary>
-        public const uint FileSystem_FileDirectoryName_Placeholder_CreateDirectory_InputArguments = 16313;
+        public const uint FileSystem_FileDirectoryName_Placeholder_CreateDirectory_InputArguments = 16317;
 
         /// <summary>
         /// The identifier for the FileSystem_FileDirectoryName_Placeholder_CreateDirectory_OutputArguments Variable.
         /// </summary>
-        public const uint FileSystem_FileDirectoryName_Placeholder_CreateDirectory_OutputArguments = 16314;
+        public const uint FileSystem_FileDirectoryName_Placeholder_CreateDirectory_OutputArguments = 16318;
 
         /// <summary>
         /// The identifier for the FileSystem_FileDirectoryName_Placeholder_CreateFile_InputArguments Variable.
         /// </summary>
-        public const uint FileSystem_FileDirectoryName_Placeholder_CreateFile_InputArguments = 16316;
+        public const uint FileSystem_FileDirectoryName_Placeholder_CreateFile_InputArguments = 16320;
 
         /// <summary>
         /// The identifier for the FileSystem_FileDirectoryName_Placeholder_CreateFile_OutputArguments Variable.
         /// </summary>
-        public const uint FileSystem_FileDirectoryName_Placeholder_CreateFile_OutputArguments = 16317;
+        public const uint FileSystem_FileDirectoryName_Placeholder_CreateFile_OutputArguments = 16321;
 
         /// <summary>
-        /// The identifier for the FileSystem_FileDirectoryName_Placeholder_DeleteFile_InputArguments Variable.
+        /// The identifier for the FileSystem_FileDirectoryName_Placeholder_DeleteFileSystemObject_InputArguments Variable.
         /// </summary>
-        public const uint FileSystem_FileDirectoryName_Placeholder_DeleteFile_InputArguments = 16319;
+        public const uint FileSystem_FileDirectoryName_Placeholder_DeleteFileSystemObject_InputArguments = 17723;
 
         /// <summary>
         /// The identifier for the FileSystem_FileDirectoryName_Placeholder_MoveOrCopy_InputArguments Variable.
         /// </summary>
-        public const uint FileSystem_FileDirectoryName_Placeholder_MoveOrCopy_InputArguments = 16321;
+        public const uint FileSystem_FileDirectoryName_Placeholder_MoveOrCopy_InputArguments = 16325;
 
         /// <summary>
         /// The identifier for the FileSystem_FileDirectoryName_Placeholder_MoveOrCopy_OutputArguments Variable.
         /// </summary>
-        public const uint FileSystem_FileDirectoryName_Placeholder_MoveOrCopy_OutputArguments = 16322;
+        public const uint FileSystem_FileDirectoryName_Placeholder_MoveOrCopy_OutputArguments = 16326;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_Size Variable.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_Size = 16324;
+        public const uint FileSystem_FileName_Placeholder_Size = 16328;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_Writable Variable.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_Writable = 16325;
+        public const uint FileSystem_FileName_Placeholder_Writable = 16329;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_UserWritable Variable.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_UserWritable = 16326;
+        public const uint FileSystem_FileName_Placeholder_UserWritable = 16330;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_OpenCount Variable.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_OpenCount = 16327;
+        public const uint FileSystem_FileName_Placeholder_OpenCount = 16331;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_Open_InputArguments Variable.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_Open_InputArguments = 16330;
+        public const uint FileSystem_FileName_Placeholder_Open_InputArguments = 16334;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_Open_OutputArguments Variable.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_Open_OutputArguments = 16331;
+        public const uint FileSystem_FileName_Placeholder_Open_OutputArguments = 16335;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_Close_InputArguments Variable.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_Close_InputArguments = 16333;
+        public const uint FileSystem_FileName_Placeholder_Close_InputArguments = 16337;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_Read_InputArguments Variable.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_Read_InputArguments = 16335;
+        public const uint FileSystem_FileName_Placeholder_Read_InputArguments = 16339;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_Read_OutputArguments Variable.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_Read_OutputArguments = 16336;
+        public const uint FileSystem_FileName_Placeholder_Read_OutputArguments = 16340;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_Write_InputArguments Variable.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_Write_InputArguments = 16338;
+        public const uint FileSystem_FileName_Placeholder_Write_InputArguments = 16342;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_GetPosition_InputArguments Variable.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_GetPosition_InputArguments = 16340;
+        public const uint FileSystem_FileName_Placeholder_GetPosition_InputArguments = 16344;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_GetPosition_OutputArguments Variable.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_GetPosition_OutputArguments = 16341;
+        public const uint FileSystem_FileName_Placeholder_GetPosition_OutputArguments = 16345;
 
         /// <summary>
         /// The identifier for the FileSystem_FileName_Placeholder_SetPosition_InputArguments Variable.
         /// </summary>
-        public const uint FileSystem_FileName_Placeholder_SetPosition_InputArguments = 16343;
+        public const uint FileSystem_FileName_Placeholder_SetPosition_InputArguments = 16347;
 
         /// <summary>
         /// The identifier for the FileSystem_CreateDirectory_InputArguments Variable.
         /// </summary>
-        public const uint FileSystem_CreateDirectory_InputArguments = 16345;
+        public const uint FileSystem_CreateDirectory_InputArguments = 16349;
 
         /// <summary>
         /// The identifier for the FileSystem_CreateDirectory_OutputArguments Variable.
         /// </summary>
-        public const uint FileSystem_CreateDirectory_OutputArguments = 16346;
+        public const uint FileSystem_CreateDirectory_OutputArguments = 16350;
 
         /// <summary>
         /// The identifier for the FileSystem_CreateFile_InputArguments Variable.
         /// </summary>
-        public const uint FileSystem_CreateFile_InputArguments = 16348;
+        public const uint FileSystem_CreateFile_InputArguments = 16352;
 
         /// <summary>
         /// The identifier for the FileSystem_CreateFile_OutputArguments Variable.
         /// </summary>
-        public const uint FileSystem_CreateFile_OutputArguments = 16349;
+        public const uint FileSystem_CreateFile_OutputArguments = 16353;
 
         /// <summary>
-        /// The identifier for the FileSystem_DeleteFile_InputArguments Variable.
+        /// The identifier for the FileSystem_DeleteFileSystemObject_InputArguments Variable.
         /// </summary>
-        public const uint FileSystem_DeleteFile_InputArguments = 16351;
+        public const uint FileSystem_DeleteFileSystemObject_InputArguments = 16355;
 
         /// <summary>
         /// The identifier for the FileSystem_MoveOrCopy_InputArguments Variable.
         /// </summary>
-        public const uint FileSystem_MoveOrCopy_InputArguments = 16353;
+        public const uint FileSystem_MoveOrCopy_InputArguments = 16357;
 
         /// <summary>
         /// The identifier for the FileSystem_MoveOrCopy_OutputArguments Variable.
         /// </summary>
-        public const uint FileSystem_MoveOrCopy_OutputArguments = 16354;
+        public const uint FileSystem_MoveOrCopy_OutputArguments = 16358;
 
         /// <summary>
         /// The identifier for the TemporaryFileTransferType_ClientProcessingTimeout Variable.
@@ -11742,7 +11762,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the TemporaryFileTransferType_GenerateFileForWrite_InputArguments Variable.
         /// </summary>
-        public const uint TemporaryFileTransferType_GenerateFileForWrite_InputArguments = 16355;
+        public const uint TemporaryFileTransferType_GenerateFileForWrite_InputArguments = 16359;
 
         /// <summary>
         /// The identifier for the TemporaryFileTransferType_GenerateFileForWrite_OutputArguments Variable.
@@ -12392,12 +12412,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the ConditionType_ConditionClassModifier Variable.
         /// </summary>
-        public const uint ConditionType_ConditionClassModifier = 16365;
+        public const uint ConditionType_ConditionClassModifier = 16363;
 
         /// <summary>
         /// The identifier for the ConditionType_ConditionClassModifierName Variable.
         /// </summary>
-        public const uint ConditionType_ConditionClassModifierName = 16366;
+        public const uint ConditionType_ConditionClassModifierName = 16364;
 
         /// <summary>
         /// The identifier for the ConditionType_ConditionName Variable.
@@ -12827,52 +12847,52 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the AlarmConditionType_OutOfServiceState Variable.
         /// </summary>
-        public const uint AlarmConditionType_OutOfServiceState = 16373;
+        public const uint AlarmConditionType_OutOfServiceState = 16371;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint AlarmConditionType_OutOfServiceState_Id = 16374;
+        public const uint AlarmConditionType_OutOfServiceState_Id = 16372;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_OutOfServiceState_TransitionTime Variable.
         /// </summary>
-        public const uint AlarmConditionType_OutOfServiceState_TransitionTime = 16378;
+        public const uint AlarmConditionType_OutOfServiceState_TransitionTime = 16376;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_OutOfServiceState_TrueState Variable.
         /// </summary>
-        public const uint AlarmConditionType_OutOfServiceState_TrueState = 16380;
+        public const uint AlarmConditionType_OutOfServiceState_TrueState = 16378;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_OutOfServiceState_FalseState Variable.
         /// </summary>
-        public const uint AlarmConditionType_OutOfServiceState_FalseState = 16381;
+        public const uint AlarmConditionType_OutOfServiceState_FalseState = 16379;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_SilenceState Variable.
         /// </summary>
-        public const uint AlarmConditionType_SilenceState = 16382;
+        public const uint AlarmConditionType_SilenceState = 16380;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_SilenceState_Id Variable.
         /// </summary>
-        public const uint AlarmConditionType_SilenceState_Id = 16383;
+        public const uint AlarmConditionType_SilenceState_Id = 16381;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_SilenceState_TransitionTime Variable.
         /// </summary>
-        public const uint AlarmConditionType_SilenceState_TransitionTime = 16387;
+        public const uint AlarmConditionType_SilenceState_TransitionTime = 16385;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_SilenceState_TrueState Variable.
         /// </summary>
-        public const uint AlarmConditionType_SilenceState_TrueState = 16389;
+        public const uint AlarmConditionType_SilenceState_TrueState = 16387;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_SilenceState_FalseState Variable.
         /// </summary>
-        public const uint AlarmConditionType_SilenceState_FalseState = 16390;
+        public const uint AlarmConditionType_SilenceState_FalseState = 16388;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_ShelvingState_CurrentState Variable.
@@ -12922,262 +12942,262 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the AlarmConditionType_AudibleEnabled Variable.
         /// </summary>
-        public const uint AlarmConditionType_AudibleEnabled = 16391;
+        public const uint AlarmConditionType_AudibleEnabled = 16389;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_AudibleSound Variable.
         /// </summary>
-        public const uint AlarmConditionType_AudibleSound = 16392;
+        public const uint AlarmConditionType_AudibleSound = 16390;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_AudibleSoundMIMEType Variable.
         /// </summary>
-        public const uint AlarmConditionType_AudibleSoundMIMEType = 16393;
+        public const uint AlarmConditionType_AudibleSoundMIMEType = 16391;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_AudibleSoundMIMEListId Variable.
         /// </summary>
-        public const uint AlarmConditionType_AudibleSoundMIMEListId = 16394;
+        public const uint AlarmConditionType_AudibleSoundMIMEListId = 16392;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_AudibleSoundMIMEListAgencyId Variable.
         /// </summary>
-        public const uint AlarmConditionType_AudibleSoundMIMEListAgencyId = 16395;
+        public const uint AlarmConditionType_AudibleSoundMIMEListAgencyId = 16393;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_AudibleSoundMIMEListVersionId Variable.
         /// </summary>
-        public const uint AlarmConditionType_AudibleSoundMIMEListVersionId = 16396;
+        public const uint AlarmConditionType_AudibleSoundMIMEListVersionId = 16394;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_OnDelay Variable.
         /// </summary>
-        public const uint AlarmConditionType_OnDelay = 16397;
+        public const uint AlarmConditionType_OnDelay = 16395;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_OffDelay Variable.
         /// </summary>
-        public const uint AlarmConditionType_OffDelay = 16398;
+        public const uint AlarmConditionType_OffDelay = 16396;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_FirstInGroupFlag Variable.
         /// </summary>
-        public const uint AlarmConditionType_FirstInGroupFlag = 16399;
+        public const uint AlarmConditionType_FirstInGroupFlag = 16397;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_ReAlarmTime Variable.
         /// </summary>
-        public const uint AlarmConditionType_ReAlarmTime = 16402;
+        public const uint AlarmConditionType_ReAlarmTime = 16400;
 
         /// <summary>
         /// The identifier for the AlarmConditionType_ReAlarmRepeatCount Variable.
         /// </summary>
-        public const uint AlarmConditionType_ReAlarmRepeatCount = 16403;
+        public const uint AlarmConditionType_ReAlarmRepeatCount = 16401;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_EventId Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_EventId = 16409;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_EventId = 16407;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_EventType Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_EventType = 16410;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_EventType = 16408;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_SourceNode Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_SourceNode = 16411;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_SourceNode = 16409;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_SourceName Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_SourceName = 16412;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_SourceName = 16410;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_Time Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Time = 16413;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Time = 16411;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_ReceiveTime Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ReceiveTime = 16414;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ReceiveTime = 16412;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_LocalTime Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_LocalTime = 16415;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_LocalTime = 16413;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_Message Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Message = 16416;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Message = 16414;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_Severity Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Severity = 16417;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Severity = 16415;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_ConditionClassId Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ConditionClassId = 16418;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ConditionClassId = 16416;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_ConditionClassName Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ConditionClassName = 16419;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ConditionClassName = 16417;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_ConditionName Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ConditionName = 16422;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ConditionName = 16420;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_BranchId Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_BranchId = 16423;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_BranchId = 16421;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_Retain Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Retain = 16424;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Retain = 16422;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_EnabledState Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_EnabledState = 16425;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_EnabledState = 16423;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_EnabledState_Id Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_EnabledState_Id = 16426;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_EnabledState_Id = 16424;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_Quality Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Quality = 16434;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Quality = 16432;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_Quality_SourceTimestamp Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Quality_SourceTimestamp = 16435;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Quality_SourceTimestamp = 16433;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_LastSeverity Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_LastSeverity = 16436;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_LastSeverity = 16434;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_LastSeverity_SourceTimestamp Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_LastSeverity_SourceTimestamp = 16437;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_LastSeverity_SourceTimestamp = 16435;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_Comment Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Comment = 16438;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Comment = 16436;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_Comment_SourceTimestamp Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Comment_SourceTimestamp = 16439;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Comment_SourceTimestamp = 16437;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_ClientUserId Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ClientUserId = 16440;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ClientUserId = 16438;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_AddComment_InputArguments Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_AddComment_InputArguments = 16444;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_AddComment_InputArguments = 16442;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_AckedState Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_AckedState = 16445;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_AckedState = 16443;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_AckedState_Id Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_AckedState_Id = 16446;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_AckedState_Id = 16444;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_ConfirmedState_Id Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ConfirmedState_Id = 16455;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ConfirmedState_Id = 16453;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_Acknowledge_InputArguments Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Acknowledge_InputArguments = 16464;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Acknowledge_InputArguments = 16462;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_Confirm_InputArguments Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Confirm_InputArguments = 16466;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_Confirm_InputArguments = 16464;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_ActiveState Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ActiveState = 16467;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ActiveState = 16465;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_ActiveState_Id Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ActiveState_Id = 16468;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ActiveState_Id = 16466;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_InputNode Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_InputNode = 16476;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_InputNode = 16474;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_SuppressedState_Id Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_SuppressedState_Id = 16478;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_SuppressedState_Id = 16476;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_OutOfServiceState_Id = 16487;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_OutOfServiceState_Id = 16485;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_SilenceState_Id Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_SilenceState_Id = 16496;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_SilenceState_Id = 16494;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_CurrentState Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_CurrentState = 16505;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_CurrentState = 16503;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_CurrentState_Id Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_CurrentState_Id = 16506;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_CurrentState_Id = 16504;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_LastTransition_Id Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_LastTransition_Id = 16511;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_LastTransition_Id = 16509;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_UnshelveTime Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_UnshelveTime = 16516;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_UnshelveTime = 16514;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_TimedShelve_InputArguments Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_TimedShelve_InputArguments = 16520;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_ShelvingState_TimedShelve_InputArguments = 16518;
 
         /// <summary>
         /// The identifier for the AlarmGroupType_AlarmConditionInstance_Placeholder_SuppressedOrShelved Variable.
         /// </summary>
-        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_SuppressedOrShelved = 16521;
+        public const uint AlarmGroupType_AlarmConditionInstance_Placeholder_SuppressedOrShelved = 16519;
 
         /// <summary>
         /// The identifier for the ShelvedStateMachineType_CurrentState_Id Variable.
@@ -13312,12 +13332,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the LimitAlarmType_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint LimitAlarmType_OutOfServiceState_Id = 16541;
+        public const uint LimitAlarmType_OutOfServiceState_Id = 16539;
 
         /// <summary>
         /// The identifier for the LimitAlarmType_SilenceState_Id Variable.
         /// </summary>
-        public const uint LimitAlarmType_SilenceState_Id = 16550;
+        public const uint LimitAlarmType_SilenceState_Id = 16548;
 
         /// <summary>
         /// The identifier for the LimitAlarmType_ShelvingState_CurrentState Variable.
@@ -13367,22 +13387,22 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the LimitAlarmType_BaseHighHighLimit Variable.
         /// </summary>
-        public const uint LimitAlarmType_BaseHighHighLimit = 16574;
+        public const uint LimitAlarmType_BaseHighHighLimit = 16572;
 
         /// <summary>
         /// The identifier for the LimitAlarmType_BaseHighLimit Variable.
         /// </summary>
-        public const uint LimitAlarmType_BaseHighLimit = 16575;
+        public const uint LimitAlarmType_BaseHighLimit = 16573;
 
         /// <summary>
         /// The identifier for the LimitAlarmType_BaseLowLimit Variable.
         /// </summary>
-        public const uint LimitAlarmType_BaseLowLimit = 16576;
+        public const uint LimitAlarmType_BaseLowLimit = 16574;
 
         /// <summary>
         /// The identifier for the LimitAlarmType_BaseLowLowLimit Variable.
         /// </summary>
-        public const uint LimitAlarmType_BaseLowLowLimit = 16577;
+        public const uint LimitAlarmType_BaseLowLowLimit = 16575;
 
         /// <summary>
         /// The identifier for the ExclusiveLimitStateMachineType_CurrentState_Id Variable.
@@ -13507,12 +13527,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the ExclusiveLimitAlarmType_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint ExclusiveLimitAlarmType_OutOfServiceState_Id = 16581;
+        public const uint ExclusiveLimitAlarmType_OutOfServiceState_Id = 16579;
 
         /// <summary>
         /// The identifier for the ExclusiveLimitAlarmType_SilenceState_Id Variable.
         /// </summary>
-        public const uint ExclusiveLimitAlarmType_SilenceState_Id = 16590;
+        public const uint ExclusiveLimitAlarmType_SilenceState_Id = 16588;
 
         /// <summary>
         /// The identifier for the ExclusiveLimitAlarmType_ShelvingState_CurrentState Variable.
@@ -13637,12 +13657,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the NonExclusiveLimitAlarmType_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint NonExclusiveLimitAlarmType_OutOfServiceState_Id = 16621;
+        public const uint NonExclusiveLimitAlarmType_OutOfServiceState_Id = 16619;
 
         /// <summary>
         /// The identifier for the NonExclusiveLimitAlarmType_SilenceState_Id Variable.
         /// </summary>
-        public const uint NonExclusiveLimitAlarmType_SilenceState_Id = 16630;
+        public const uint NonExclusiveLimitAlarmType_SilenceState_Id = 16628;
 
         /// <summary>
         /// The identifier for the NonExclusiveLimitAlarmType_ShelvingState_CurrentState Variable.
@@ -13837,12 +13857,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the NonExclusiveLevelAlarmType_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint NonExclusiveLevelAlarmType_OutOfServiceState_Id = 16661;
+        public const uint NonExclusiveLevelAlarmType_OutOfServiceState_Id = 16659;
 
         /// <summary>
         /// The identifier for the NonExclusiveLevelAlarmType_SilenceState_Id Variable.
         /// </summary>
-        public const uint NonExclusiveLevelAlarmType_SilenceState_Id = 16670;
+        public const uint NonExclusiveLevelAlarmType_SilenceState_Id = 16668;
 
         /// <summary>
         /// The identifier for the NonExclusiveLevelAlarmType_ShelvingState_CurrentState Variable.
@@ -13957,12 +13977,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the ExclusiveLevelAlarmType_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint ExclusiveLevelAlarmType_OutOfServiceState_Id = 16701;
+        public const uint ExclusiveLevelAlarmType_OutOfServiceState_Id = 16699;
 
         /// <summary>
         /// The identifier for the ExclusiveLevelAlarmType_SilenceState_Id Variable.
         /// </summary>
-        public const uint ExclusiveLevelAlarmType_SilenceState_Id = 16710;
+        public const uint ExclusiveLevelAlarmType_SilenceState_Id = 16708;
 
         /// <summary>
         /// The identifier for the ExclusiveLevelAlarmType_ShelvingState_CurrentState Variable.
@@ -14072,12 +14092,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the NonExclusiveDeviationAlarmType_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint NonExclusiveDeviationAlarmType_OutOfServiceState_Id = 16741;
+        public const uint NonExclusiveDeviationAlarmType_OutOfServiceState_Id = 16739;
 
         /// <summary>
         /// The identifier for the NonExclusiveDeviationAlarmType_SilenceState_Id Variable.
         /// </summary>
-        public const uint NonExclusiveDeviationAlarmType_SilenceState_Id = 16750;
+        public const uint NonExclusiveDeviationAlarmType_SilenceState_Id = 16748;
 
         /// <summary>
         /// The identifier for the NonExclusiveDeviationAlarmType_ShelvingState_CurrentState Variable.
@@ -14132,7 +14152,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the NonExclusiveDeviationAlarmType_BaseSetpointNode Variable.
         /// </summary>
-        public const uint NonExclusiveDeviationAlarmType_BaseSetpointNode = 16778;
+        public const uint NonExclusiveDeviationAlarmType_BaseSetpointNode = 16776;
 
         /// <summary>
         /// The identifier for the ExclusiveDeviationAlarmType_EnabledState_Id Variable.
@@ -14202,12 +14222,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the ExclusiveDeviationAlarmType_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint ExclusiveDeviationAlarmType_OutOfServiceState_Id = 16782;
+        public const uint ExclusiveDeviationAlarmType_OutOfServiceState_Id = 16780;
 
         /// <summary>
         /// The identifier for the ExclusiveDeviationAlarmType_SilenceState_Id Variable.
         /// </summary>
-        public const uint ExclusiveDeviationAlarmType_SilenceState_Id = 16791;
+        public const uint ExclusiveDeviationAlarmType_SilenceState_Id = 16789;
 
         /// <summary>
         /// The identifier for the ExclusiveDeviationAlarmType_ShelvingState_CurrentState Variable.
@@ -14257,7 +14277,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the ExclusiveDeviationAlarmType_BaseSetpointNode Variable.
         /// </summary>
-        public const uint ExclusiveDeviationAlarmType_BaseSetpointNode = 16819;
+        public const uint ExclusiveDeviationAlarmType_BaseSetpointNode = 16817;
 
         /// <summary>
         /// The identifier for the NonExclusiveRateOfChangeAlarmType_EnabledState_Id Variable.
@@ -14327,12 +14347,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the NonExclusiveRateOfChangeAlarmType_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint NonExclusiveRateOfChangeAlarmType_OutOfServiceState_Id = 16823;
+        public const uint NonExclusiveRateOfChangeAlarmType_OutOfServiceState_Id = 16821;
 
         /// <summary>
         /// The identifier for the NonExclusiveRateOfChangeAlarmType_SilenceState_Id Variable.
         /// </summary>
-        public const uint NonExclusiveRateOfChangeAlarmType_SilenceState_Id = 16832;
+        public const uint NonExclusiveRateOfChangeAlarmType_SilenceState_Id = 16830;
 
         /// <summary>
         /// The identifier for the NonExclusiveRateOfChangeAlarmType_ShelvingState_CurrentState Variable.
@@ -14382,7 +14402,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the NonExclusiveRateOfChangeAlarmType_EngineeringUnits Variable.
         /// </summary>
-        public const uint NonExclusiveRateOfChangeAlarmType_EngineeringUnits = 16860;
+        public const uint NonExclusiveRateOfChangeAlarmType_EngineeringUnits = 16858;
 
         /// <summary>
         /// The identifier for the ExclusiveRateOfChangeAlarmType_EnabledState_Id Variable.
@@ -14452,12 +14472,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the ExclusiveRateOfChangeAlarmType_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint ExclusiveRateOfChangeAlarmType_OutOfServiceState_Id = 16864;
+        public const uint ExclusiveRateOfChangeAlarmType_OutOfServiceState_Id = 16862;
 
         /// <summary>
         /// The identifier for the ExclusiveRateOfChangeAlarmType_SilenceState_Id Variable.
         /// </summary>
-        public const uint ExclusiveRateOfChangeAlarmType_SilenceState_Id = 16873;
+        public const uint ExclusiveRateOfChangeAlarmType_SilenceState_Id = 16871;
 
         /// <summary>
         /// The identifier for the ExclusiveRateOfChangeAlarmType_ShelvingState_CurrentState Variable.
@@ -14502,7 +14522,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the ExclusiveRateOfChangeAlarmType_EngineeringUnits Variable.
         /// </summary>
-        public const uint ExclusiveRateOfChangeAlarmType_EngineeringUnits = 16901;
+        public const uint ExclusiveRateOfChangeAlarmType_EngineeringUnits = 16899;
 
         /// <summary>
         /// The identifier for the DiscreteAlarmType_EnabledState_Id Variable.
@@ -14572,12 +14592,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the DiscreteAlarmType_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint DiscreteAlarmType_OutOfServiceState_Id = 16905;
+        public const uint DiscreteAlarmType_OutOfServiceState_Id = 16903;
 
         /// <summary>
         /// The identifier for the DiscreteAlarmType_SilenceState_Id Variable.
         /// </summary>
-        public const uint DiscreteAlarmType_SilenceState_Id = 16914;
+        public const uint DiscreteAlarmType_SilenceState_Id = 16912;
 
         /// <summary>
         /// The identifier for the DiscreteAlarmType_ShelvingState_CurrentState Variable.
@@ -14672,12 +14692,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the OffNormalAlarmType_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint OffNormalAlarmType_OutOfServiceState_Id = 16941;
+        public const uint OffNormalAlarmType_OutOfServiceState_Id = 16939;
 
         /// <summary>
         /// The identifier for the OffNormalAlarmType_SilenceState_Id Variable.
         /// </summary>
-        public const uint OffNormalAlarmType_SilenceState_Id = 16950;
+        public const uint OffNormalAlarmType_SilenceState_Id = 16948;
 
         /// <summary>
         /// The identifier for the OffNormalAlarmType_ShelvingState_CurrentState Variable.
@@ -14777,12 +14797,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the SystemOffNormalAlarmType_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint SystemOffNormalAlarmType_OutOfServiceState_Id = 16977;
+        public const uint SystemOffNormalAlarmType_OutOfServiceState_Id = 16975;
 
         /// <summary>
         /// The identifier for the SystemOffNormalAlarmType_SilenceState_Id Variable.
         /// </summary>
-        public const uint SystemOffNormalAlarmType_SilenceState_Id = 16986;
+        public const uint SystemOffNormalAlarmType_SilenceState_Id = 16984;
 
         /// <summary>
         /// The identifier for the SystemOffNormalAlarmType_ShelvingState_CurrentState Variable.
@@ -14877,12 +14897,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the TripAlarmType_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint TripAlarmType_OutOfServiceState_Id = 17013;
+        public const uint TripAlarmType_OutOfServiceState_Id = 17011;
 
         /// <summary>
         /// The identifier for the TripAlarmType_SilenceState_Id Variable.
         /// </summary>
-        public const uint TripAlarmType_SilenceState_Id = 17022;
+        public const uint TripAlarmType_SilenceState_Id = 17020;
 
         /// <summary>
         /// The identifier for the TripAlarmType_ShelvingState_CurrentState Variable.
@@ -14977,12 +14997,12 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the CertificateExpirationAlarmType_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint CertificateExpirationAlarmType_OutOfServiceState_Id = 17049;
+        public const uint CertificateExpirationAlarmType_OutOfServiceState_Id = 17047;
 
         /// <summary>
         /// The identifier for the CertificateExpirationAlarmType_SilenceState_Id Variable.
         /// </summary>
-        public const uint CertificateExpirationAlarmType_SilenceState_Id = 17058;
+        public const uint CertificateExpirationAlarmType_SilenceState_Id = 17056;
 
         /// <summary>
         /// The identifier for the CertificateExpirationAlarmType_ShelvingState_CurrentState Variable.
@@ -15032,122 +15052,122 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_EnabledState_Id Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_EnabledState_Id = 17100;
+        public const uint DiscrepancyAlarmType_EnabledState_Id = 17098;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_Quality_SourceTimestamp Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_Quality_SourceTimestamp = 17109;
+        public const uint DiscrepancyAlarmType_Quality_SourceTimestamp = 17107;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_LastSeverity_SourceTimestamp Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_LastSeverity_SourceTimestamp = 17111;
+        public const uint DiscrepancyAlarmType_LastSeverity_SourceTimestamp = 17109;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_Comment_SourceTimestamp Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_Comment_SourceTimestamp = 17113;
+        public const uint DiscrepancyAlarmType_Comment_SourceTimestamp = 17111;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_AddComment_InputArguments Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_AddComment_InputArguments = 17118;
+        public const uint DiscrepancyAlarmType_AddComment_InputArguments = 17116;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_ConditionRefresh_InputArguments Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_ConditionRefresh_InputArguments = 17120;
+        public const uint DiscrepancyAlarmType_ConditionRefresh_InputArguments = 17118;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_ConditionRefresh2_InputArguments Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_ConditionRefresh2_InputArguments = 17122;
+        public const uint DiscrepancyAlarmType_ConditionRefresh2_InputArguments = 17120;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_AckedState_Id Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_AckedState_Id = 17124;
+        public const uint DiscrepancyAlarmType_AckedState_Id = 17122;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_ConfirmedState_Id Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_ConfirmedState_Id = 17133;
+        public const uint DiscrepancyAlarmType_ConfirmedState_Id = 17131;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_Acknowledge_InputArguments Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_Acknowledge_InputArguments = 17142;
+        public const uint DiscrepancyAlarmType_Acknowledge_InputArguments = 17140;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_Confirm_InputArguments Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_Confirm_InputArguments = 17144;
+        public const uint DiscrepancyAlarmType_Confirm_InputArguments = 17142;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_ActiveState_Id Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_ActiveState_Id = 17146;
+        public const uint DiscrepancyAlarmType_ActiveState_Id = 17144;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_SuppressedState_Id Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_SuppressedState_Id = 17156;
+        public const uint DiscrepancyAlarmType_SuppressedState_Id = 17154;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_OutOfServiceState_Id Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_OutOfServiceState_Id = 17165;
+        public const uint DiscrepancyAlarmType_OutOfServiceState_Id = 17163;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_SilenceState_Id Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_SilenceState_Id = 17174;
+        public const uint DiscrepancyAlarmType_SilenceState_Id = 17172;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_ShelvingState_CurrentState Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_ShelvingState_CurrentState = 17183;
+        public const uint DiscrepancyAlarmType_ShelvingState_CurrentState = 17181;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_ShelvingState_CurrentState_Id Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_ShelvingState_CurrentState_Id = 17184;
+        public const uint DiscrepancyAlarmType_ShelvingState_CurrentState_Id = 17182;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_ShelvingState_LastTransition_Id Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_ShelvingState_LastTransition_Id = 17189;
+        public const uint DiscrepancyAlarmType_ShelvingState_LastTransition_Id = 17187;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_ShelvingState_UnshelveTime Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_ShelvingState_UnshelveTime = 17194;
+        public const uint DiscrepancyAlarmType_ShelvingState_UnshelveTime = 17192;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_ShelvingState_TimedShelve_InputArguments Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_ShelvingState_TimedShelve_InputArguments = 17198;
+        public const uint DiscrepancyAlarmType_ShelvingState_TimedShelve_InputArguments = 17196;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_TargetValueNode Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_TargetValueNode = 17217;
+        public const uint DiscrepancyAlarmType_TargetValueNode = 17215;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_ExpectedTime Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_ExpectedTime = 17218;
+        public const uint DiscrepancyAlarmType_ExpectedTime = 17216;
 
         /// <summary>
         /// The identifier for the DiscrepancyAlarmType_Tolerance Variable.
         /// </summary>
-        public const uint DiscrepancyAlarmType_Tolerance = 17219;
+        public const uint DiscrepancyAlarmType_Tolerance = 17217;
 
         /// <summary>
         /// The identifier for the AuditConditionCommentEventType_ConditionEventId Variable.
         /// </summary>
-        public const uint AuditConditionCommentEventType_ConditionEventId = 17224;
+        public const uint AuditConditionCommentEventType_ConditionEventId = 17222;
 
         /// <summary>
         /// The identifier for the AuditConditionCommentEventType_Comment Variable.
@@ -15162,7 +15182,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the AuditConditionAcknowledgeEventType_ConditionEventId Variable.
         /// </summary>
-        public const uint AuditConditionAcknowledgeEventType_ConditionEventId = 17225;
+        public const uint AuditConditionAcknowledgeEventType_ConditionEventId = 17223;
 
         /// <summary>
         /// The identifier for the AuditConditionAcknowledgeEventType_Comment Variable.
@@ -15172,7 +15192,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the AuditConditionConfirmEventType_ConditionEventId Variable.
         /// </summary>
-        public const uint AuditConditionConfirmEventType_ConditionEventId = 17226;
+        public const uint AuditConditionConfirmEventType_ConditionEventId = 17224;
 
         /// <summary>
         /// The identifier for the AuditConditionConfirmEventType_Comment Variable.
@@ -15187,57 +15207,57 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the AlarmRateVariableType_Rate Variable.
         /// </summary>
-        public const uint AlarmRateVariableType_Rate = 17280;
+        public const uint AlarmRateVariableType_Rate = 17278;
 
         /// <summary>
         /// The identifier for the AlarmDiagnosticsSummaryType_AlarmCount Variable.
         /// </summary>
-        public const uint AlarmDiagnosticsSummaryType_AlarmCount = 17282;
+        public const uint AlarmDiagnosticsSummaryType_AlarmCount = 17280;
 
         /// <summary>
         /// The identifier for the AlarmDiagnosticsSummaryType_MaximumActiveState Variable.
         /// </summary>
-        public const uint AlarmDiagnosticsSummaryType_MaximumActiveState = 17283;
+        public const uint AlarmDiagnosticsSummaryType_MaximumActiveState = 17281;
 
         /// <summary>
         /// The identifier for the AlarmDiagnosticsSummaryType_MaximumUnAck Variable.
         /// </summary>
-        public const uint AlarmDiagnosticsSummaryType_MaximumUnAck = 17284;
+        public const uint AlarmDiagnosticsSummaryType_MaximumUnAck = 17282;
 
         /// <summary>
         /// The identifier for the AlarmDiagnosticsSummaryType_MaximumReAlarmCount Variable.
         /// </summary>
-        public const uint AlarmDiagnosticsSummaryType_MaximumReAlarmCount = 17285;
+        public const uint AlarmDiagnosticsSummaryType_MaximumReAlarmCount = 17283;
 
         /// <summary>
         /// The identifier for the AlarmDiagnosticsSummaryType_CurrentAlarmRate Variable.
         /// </summary>
-        public const uint AlarmDiagnosticsSummaryType_CurrentAlarmRate = 17286;
+        public const uint AlarmDiagnosticsSummaryType_CurrentAlarmRate = 17284;
 
         /// <summary>
         /// The identifier for the AlarmDiagnosticsSummaryType_CurrentAlarmRate_Rate Variable.
         /// </summary>
-        public const uint AlarmDiagnosticsSummaryType_CurrentAlarmRate_Rate = 17287;
+        public const uint AlarmDiagnosticsSummaryType_CurrentAlarmRate_Rate = 17285;
 
         /// <summary>
         /// The identifier for the AlarmDiagnosticsSummaryType_MaximumAlarmRate Variable.
         /// </summary>
-        public const uint AlarmDiagnosticsSummaryType_MaximumAlarmRate = 17288;
+        public const uint AlarmDiagnosticsSummaryType_MaximumAlarmRate = 17286;
 
         /// <summary>
         /// The identifier for the AlarmDiagnosticsSummaryType_MaximumAlarmRate_Rate Variable.
         /// </summary>
-        public const uint AlarmDiagnosticsSummaryType_MaximumAlarmRate_Rate = 17289;
+        public const uint AlarmDiagnosticsSummaryType_MaximumAlarmRate_Rate = 17287;
 
         /// <summary>
         /// The identifier for the AlarmDiagnosticsSummaryType_AverageAlarmRate Variable.
         /// </summary>
-        public const uint AlarmDiagnosticsSummaryType_AverageAlarmRate = 17290;
+        public const uint AlarmDiagnosticsSummaryType_AverageAlarmRate = 17288;
 
         /// <summary>
         /// The identifier for the AlarmDiagnosticsSummaryType_AverageAlarmRate_Rate Variable.
         /// </summary>
-        public const uint AlarmDiagnosticsSummaryType_AverageAlarmRate_Rate = 17291;
+        public const uint AlarmDiagnosticsSummaryType_AverageAlarmRate_Rate = 17289;
 
         /// <summary>
         /// The identifier for the ProgramStateMachineType_CurrentState Variable.
@@ -17247,7 +17267,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the NetworkMessageContentMask_EnumValues Variable.
         /// </summary>
-        public const uint NetworkMessageContentMask_EnumValues = 17297;
+        public const uint NetworkMessageContentMask_EnumValues = 17291;
 
         /// <summary>
         /// The identifier for the PubSubKeyServiceType_GetSecurityKeys_InputArguments Variable.
@@ -17372,22 +17392,22 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri Variable.
         /// </summary>
-        public const uint PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri = 17298;
+        public const uint PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri = 17292;
 
         /// <summary>
-        /// The identifier for the PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_SelectionValues Variable.
+        /// The identifier for the PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_Selections Variable.
         /// </summary>
-        public const uint PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_SelectionValues = 17299;
+        public const uint PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_Selections = 17706;
 
         /// <summary>
-        /// The identifier for the PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_SelectionValueDescriptions Variable.
+        /// The identifier for the PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_SelectionDescriptions Variable.
         /// </summary>
-        public const uint PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_SelectionValueDescriptions = 17300;
+        public const uint PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_SelectionDescriptions = 17707;
 
         /// <summary>
         /// The identifier for the PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_RestrictToList Variable.
         /// </summary>
-        public const uint PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_RestrictToList = 17301;
+        public const uint PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_RestrictToList = 17295;
 
         /// <summary>
         /// The identifier for the PublishSubscribeType_ConnectionName_Placeholder_Status_State Variable.
@@ -17402,7 +17422,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the PublishSubscribeType_SetSecurityKeys_InputArguments Variable.
         /// </summary>
-        public const uint PublishSubscribeType_SetSecurityKeys_InputArguments = 17303;
+        public const uint PublishSubscribeType_SetSecurityKeys_InputArguments = 17297;
 
         /// <summary>
         /// The identifier for the PublishSubscribeType_AddUadpConnection_InputArguments Variable.
@@ -17507,22 +17527,22 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri Variable.
         /// </summary>
-        public const uint PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri = 17306;
+        public const uint PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri = 17300;
 
         /// <summary>
-        /// The identifier for the PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_SelectionValues Variable.
+        /// The identifier for the PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_Selections Variable.
         /// </summary>
-        public const uint PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_SelectionValues = 17307;
+        public const uint PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_Selections = 17708;
 
         /// <summary>
-        /// The identifier for the PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_SelectionValueDescriptions Variable.
+        /// The identifier for the PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_SelectionDescriptions Variable.
         /// </summary>
-        public const uint PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_SelectionValueDescriptions = 17308;
+        public const uint PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_SelectionDescriptions = 17709;
 
         /// <summary>
         /// The identifier for the PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_RestrictToList Variable.
         /// </summary>
-        public const uint PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_RestrictToList = 17309;
+        public const uint PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_RestrictToList = 17303;
 
         /// <summary>
         /// The identifier for the PublishSubscribe_ConnectionName_Placeholder_Status_State Variable.
@@ -17537,7 +17557,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the PublishSubscribe_SetSecurityKeys_InputArguments Variable.
         /// </summary>
-        public const uint PublishSubscribe_SetSecurityKeys_InputArguments = 17311;
+        public const uint PublishSubscribe_SetSecurityKeys_InputArguments = 17305;
 
         /// <summary>
         /// The identifier for the PublishSubscribe_AddUadpConnection_InputArguments Variable.
@@ -17867,77 +17887,77 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the PubSubConnectionType_TransportProfileUri Variable.
         /// </summary>
-        public const uint PubSubConnectionType_TransportProfileUri = 17312;
+        public const uint PubSubConnectionType_TransportProfileUri = 17306;
 
         /// <summary>
-        /// The identifier for the PubSubConnectionType_TransportProfileUri_SelectionValues Variable.
+        /// The identifier for the PubSubConnectionType_TransportProfileUri_Selections Variable.
         /// </summary>
-        public const uint PubSubConnectionType_TransportProfileUri_SelectionValues = 17313;
+        public const uint PubSubConnectionType_TransportProfileUri_Selections = 17710;
 
         /// <summary>
-        /// The identifier for the PubSubConnectionType_TransportProfileUri_SelectionValueDescriptions Variable.
+        /// The identifier for the PubSubConnectionType_TransportProfileUri_SelectionDescriptions Variable.
         /// </summary>
-        public const uint PubSubConnectionType_TransportProfileUri_SelectionValueDescriptions = 17314;
+        public const uint PubSubConnectionType_TransportProfileUri_SelectionDescriptions = 17711;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_TransportProfileUri_RestrictToList Variable.
         /// </summary>
-        public const uint PubSubConnectionType_TransportProfileUri_RestrictToList = 17315;
+        public const uint PubSubConnectionType_TransportProfileUri_RestrictToList = 17309;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_WriterGroupName_Placeholder_SecurityMode Variable.
         /// </summary>
-        public const uint PubSubConnectionType_WriterGroupName_Placeholder_SecurityMode = 17317;
+        public const uint PubSubConnectionType_WriterGroupName_Placeholder_SecurityMode = 17311;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_WriterGroupName_Placeholder_Status_State Variable.
         /// </summary>
-        public const uint PubSubConnectionType_WriterGroupName_Placeholder_Status_State = 17321;
+        public const uint PubSubConnectionType_WriterGroupName_Placeholder_Status_State = 17315;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_WriterGroupName_Placeholder_PublishingInterval Variable.
         /// </summary>
-        public const uint PubSubConnectionType_WriterGroupName_Placeholder_PublishingInterval = 17324;
+        public const uint PubSubConnectionType_WriterGroupName_Placeholder_PublishingInterval = 17318;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_WriterGroupName_Placeholder_KeepAliveTime Variable.
         /// </summary>
-        public const uint PubSubConnectionType_WriterGroupName_Placeholder_KeepAliveTime = 17325;
+        public const uint PubSubConnectionType_WriterGroupName_Placeholder_KeepAliveTime = 17319;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_WriterGroupName_Placeholder_EncodingMimeType Variable.
         /// </summary>
-        public const uint PubSubConnectionType_WriterGroupName_Placeholder_EncodingMimeType = 17326;
+        public const uint PubSubConnectionType_WriterGroupName_Placeholder_EncodingMimeType = 17320;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_WriterGroupName_Placeholder_Priority Variable.
         /// </summary>
-        public const uint PubSubConnectionType_WriterGroupName_Placeholder_Priority = 17327;
+        public const uint PubSubConnectionType_WriterGroupName_Placeholder_Priority = 17321;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_WriterGroupName_Placeholder_LocaleIds Variable.
         /// </summary>
-        public const uint PubSubConnectionType_WriterGroupName_Placeholder_LocaleIds = 17328;
+        public const uint PubSubConnectionType_WriterGroupName_Placeholder_LocaleIds = 17322;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_WriterGroupName_Placeholder_RemoveDataSetWriter_InputArguments Variable.
         /// </summary>
-        public const uint PubSubConnectionType_WriterGroupName_Placeholder_RemoveDataSetWriter_InputArguments = 17330;
+        public const uint PubSubConnectionType_WriterGroupName_Placeholder_RemoveDataSetWriter_InputArguments = 17324;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_ReaderGroupName_Placeholder_SecurityMode Variable.
         /// </summary>
-        public const uint PubSubConnectionType_ReaderGroupName_Placeholder_SecurityMode = 17332;
+        public const uint PubSubConnectionType_ReaderGroupName_Placeholder_SecurityMode = 17326;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_ReaderGroupName_Placeholder_Status_State Variable.
         /// </summary>
-        public const uint PubSubConnectionType_ReaderGroupName_Placeholder_Status_State = 17336;
+        public const uint PubSubConnectionType_ReaderGroupName_Placeholder_Status_State = 17330;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_ReaderGroupName_Placeholder_RemoveDataSetReader_InputArguments Variable.
         /// </summary>
-        public const uint PubSubConnectionType_ReaderGroupName_Placeholder_RemoveDataSetReader_InputArguments = 17340;
+        public const uint PubSubConnectionType_ReaderGroupName_Placeholder_RemoveDataSetReader_InputArguments = 17334;
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_Status_State Variable.
@@ -17972,102 +17992,102 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the PubSubWriterGroupType_Status_State Variable.
         /// </summary>
-        public const uint PubSubWriterGroupType_Status_State = 17346;
+        public const uint PubSubWriterGroupType_Status_State = 17340;
 
         /// <summary>
         /// The identifier for the PubSubWriterGroupType_PublishingInterval Variable.
         /// </summary>
-        public const uint PubSubWriterGroupType_PublishingInterval = 17349;
+        public const uint PubSubWriterGroupType_PublishingInterval = 17343;
 
         /// <summary>
         /// The identifier for the PubSubWriterGroupType_KeepAliveTime Variable.
         /// </summary>
-        public const uint PubSubWriterGroupType_KeepAliveTime = 17350;
+        public const uint PubSubWriterGroupType_KeepAliveTime = 17344;
 
         /// <summary>
         /// The identifier for the PubSubWriterGroupType_EncodingMimeType Variable.
         /// </summary>
-        public const uint PubSubWriterGroupType_EncodingMimeType = 17351;
+        public const uint PubSubWriterGroupType_EncodingMimeType = 17345;
 
         /// <summary>
         /// The identifier for the PubSubWriterGroupType_Priority Variable.
         /// </summary>
-        public const uint PubSubWriterGroupType_Priority = 17352;
+        public const uint PubSubWriterGroupType_Priority = 17346;
 
         /// <summary>
         /// The identifier for the PubSubWriterGroupType_LocaleIds Variable.
         /// </summary>
-        public const uint PubSubWriterGroupType_LocaleIds = 17353;
+        public const uint PubSubWriterGroupType_LocaleIds = 17347;
 
         /// <summary>
         /// The identifier for the PubSubWriterGroupType_DataSetWriterName_Placeholder_Status_State Variable.
         /// </summary>
-        public const uint PubSubWriterGroupType_DataSetWriterName_Placeholder_Status_State = 17356;
+        public const uint PubSubWriterGroupType_DataSetWriterName_Placeholder_Status_State = 17350;
 
         /// <summary>
         /// The identifier for the PubSubWriterGroupType_DataSetWriterName_Placeholder_DataSetContentMask Variable.
         /// </summary>
-        public const uint PubSubWriterGroupType_DataSetWriterName_Placeholder_DataSetContentMask = 17361;
+        public const uint PubSubWriterGroupType_DataSetWriterName_Placeholder_DataSetContentMask = 17355;
 
         /// <summary>
         /// The identifier for the PubSubWriterGroupType_RemoveDataSetWriter_InputArguments Variable.
         /// </summary>
-        public const uint PubSubWriterGroupType_RemoveDataSetWriter_InputArguments = 17363;
+        public const uint PubSubWriterGroupType_RemoveDataSetWriter_InputArguments = 17357;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType_Status_State Variable.
         /// </summary>
-        public const uint PubSubReaderGroupType_Status_State = 17369;
+        public const uint PubSubReaderGroupType_Status_State = 17363;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType_DataSetReaderName_Placeholder_Status_State Variable.
         /// </summary>
-        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_Status_State = 17374;
+        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_Status_State = 17368;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType_DataSetReaderName_Placeholder_SecurityMode Variable.
         /// </summary>
-        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_SecurityMode = 17378;
+        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_SecurityMode = 17372;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType_DataSetReaderName_Placeholder_SecurityGroupId Variable.
         /// </summary>
-        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_SecurityGroupId = 17379;
+        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_SecurityGroupId = 17373;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_DataSetMetaData Variable.
         /// </summary>
-        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_DataSetMetaData = 17382;
+        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_DataSetMetaData = 17376;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_MessageReceiveTimeout Variable.
         /// </summary>
-        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_MessageReceiveTimeout = 17383;
+        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_MessageReceiveTimeout = 17377;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_InputArguments Variable.
         /// </summary>
-        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_InputArguments = 17385;
+        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_InputArguments = 17379;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_OutputArguments Variable.
         /// </summary>
-        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_OutputArguments = 17386;
+        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_OutputArguments = 17380;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_InputArguments Variable.
         /// </summary>
-        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_InputArguments = 17388;
+        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_InputArguments = 17382;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_OutputArguments Variable.
         /// </summary>
-        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_OutputArguments = 17389;
+        public const uint PubSubReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_OutputArguments = 17383;
 
         /// <summary>
         /// The identifier for the PubSubReaderGroupType_RemoveDataSetReader_InputArguments Variable.
         /// </summary>
-        public const uint PubSubReaderGroupType_RemoveDataSetReader_InputArguments = 17391;
+        public const uint PubSubReaderGroupType_RemoveDataSetReader_InputArguments = 17385;
 
         /// <summary>
         /// The identifier for the DataSetWriterType_Status_State Variable.
@@ -18117,22 +18137,22 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the DataSetReaderType_CreateConnectedVariables_InputArguments Variable.
         /// </summary>
-        public const uint DataSetReaderType_CreateConnectedVariables_InputArguments = 17393;
+        public const uint DataSetReaderType_CreateConnectedVariables_InputArguments = 17387;
 
         /// <summary>
         /// The identifier for the DataSetReaderType_CreateConnectedVariables_OutputArguments Variable.
         /// </summary>
-        public const uint DataSetReaderType_CreateConnectedVariables_OutputArguments = 17394;
+        public const uint DataSetReaderType_CreateConnectedVariables_OutputArguments = 17388;
 
         /// <summary>
         /// The identifier for the DataSetReaderType_CreateDataSetMirror_InputArguments Variable.
         /// </summary>
-        public const uint DataSetReaderType_CreateDataSetMirror_InputArguments = 17396;
+        public const uint DataSetReaderType_CreateDataSetMirror_InputArguments = 17390;
 
         /// <summary>
         /// The identifier for the DataSetReaderType_CreateDataSetMirror_OutputArguments Variable.
         /// </summary>
-        public const uint DataSetReaderType_CreateDataSetMirror_OutputArguments = 17397;
+        public const uint DataSetReaderType_CreateDataSetMirror_OutputArguments = 17391;
 
         /// <summary>
         /// The identifier for the SubscribedDataSetType_DataSetMetaData Variable.
@@ -18215,74 +18235,74 @@ namespace Opc.Ua
         public const uint PubSubCommunicationFailureEventType_Error = 15576;
 
         /// <summary>
-        /// The identifier for the UadpConnectionType_TransportProfileUri_SelectionValues Variable.
+        /// The identifier for the UadpConnectionType_TransportProfileUri_Selections Variable.
         /// </summary>
-        public const uint UadpConnectionType_TransportProfileUri_SelectionValues = 17405;
+        public const uint UadpConnectionType_TransportProfileUri_Selections = 17712;
 
         /// <summary>
-        /// The identifier for the UadpConnectionType_TransportProfileUri_SelectionValueDescriptions Variable.
+        /// The identifier for the UadpConnectionType_TransportProfileUri_SelectionDescriptions Variable.
         /// </summary>
-        public const uint UadpConnectionType_TransportProfileUri_SelectionValueDescriptions = 17406;
+        public const uint UadpConnectionType_TransportProfileUri_SelectionDescriptions = 17713;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_TransportProfileUri_RestrictToList Variable.
         /// </summary>
-        public const uint UadpConnectionType_TransportProfileUri_RestrictToList = 17407;
+        public const uint UadpConnectionType_TransportProfileUri_RestrictToList = 17401;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_WriterGroupName_Placeholder_SecurityMode Variable.
         /// </summary>
-        public const uint UadpConnectionType_WriterGroupName_Placeholder_SecurityMode = 17409;
+        public const uint UadpConnectionType_WriterGroupName_Placeholder_SecurityMode = 17403;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_WriterGroupName_Placeholder_Status_State Variable.
         /// </summary>
-        public const uint UadpConnectionType_WriterGroupName_Placeholder_Status_State = 17413;
+        public const uint UadpConnectionType_WriterGroupName_Placeholder_Status_State = 17407;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_WriterGroupName_Placeholder_PublishingInterval Variable.
         /// </summary>
-        public const uint UadpConnectionType_WriterGroupName_Placeholder_PublishingInterval = 17416;
+        public const uint UadpConnectionType_WriterGroupName_Placeholder_PublishingInterval = 17410;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_WriterGroupName_Placeholder_KeepAliveTime Variable.
         /// </summary>
-        public const uint UadpConnectionType_WriterGroupName_Placeholder_KeepAliveTime = 17417;
+        public const uint UadpConnectionType_WriterGroupName_Placeholder_KeepAliveTime = 17411;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_WriterGroupName_Placeholder_EncodingMimeType Variable.
         /// </summary>
-        public const uint UadpConnectionType_WriterGroupName_Placeholder_EncodingMimeType = 17418;
+        public const uint UadpConnectionType_WriterGroupName_Placeholder_EncodingMimeType = 17412;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_WriterGroupName_Placeholder_Priority Variable.
         /// </summary>
-        public const uint UadpConnectionType_WriterGroupName_Placeholder_Priority = 17419;
+        public const uint UadpConnectionType_WriterGroupName_Placeholder_Priority = 17413;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_WriterGroupName_Placeholder_LocaleIds Variable.
         /// </summary>
-        public const uint UadpConnectionType_WriterGroupName_Placeholder_LocaleIds = 17420;
+        public const uint UadpConnectionType_WriterGroupName_Placeholder_LocaleIds = 17414;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_WriterGroupName_Placeholder_RemoveDataSetWriter_InputArguments Variable.
         /// </summary>
-        public const uint UadpConnectionType_WriterGroupName_Placeholder_RemoveDataSetWriter_InputArguments = 17422;
+        public const uint UadpConnectionType_WriterGroupName_Placeholder_RemoveDataSetWriter_InputArguments = 17416;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_ReaderGroupName_Placeholder_SecurityMode Variable.
         /// </summary>
-        public const uint UadpConnectionType_ReaderGroupName_Placeholder_SecurityMode = 17424;
+        public const uint UadpConnectionType_ReaderGroupName_Placeholder_SecurityMode = 17418;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_ReaderGroupName_Placeholder_Status_State Variable.
         /// </summary>
-        public const uint UadpConnectionType_ReaderGroupName_Placeholder_Status_State = 17428;
+        public const uint UadpConnectionType_ReaderGroupName_Placeholder_Status_State = 17422;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_ReaderGroupName_Placeholder_RemoveDataSetReader_InputArguments Variable.
         /// </summary>
-        public const uint UadpConnectionType_ReaderGroupName_Placeholder_RemoveDataSetReader_InputArguments = 17432;
+        public const uint UadpConnectionType_ReaderGroupName_Placeholder_RemoveDataSetReader_InputArguments = 17426;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_Status_State Variable.
@@ -18300,19 +18320,19 @@ namespace Opc.Ua
         public const uint UadpConnectionType_NetworkInterface = 15330;
 
         /// <summary>
-        /// The identifier for the UadpConnectionType_NetworkInterface_SelectionValues Variable.
+        /// The identifier for the UadpConnectionType_NetworkInterface_Selections Variable.
         /// </summary>
-        public const uint UadpConnectionType_NetworkInterface_SelectionValues = 17433;
+        public const uint UadpConnectionType_NetworkInterface_Selections = 17714;
 
         /// <summary>
-        /// The identifier for the UadpConnectionType_NetworkInterface_SelectionValueDescriptions Variable.
+        /// The identifier for the UadpConnectionType_NetworkInterface_SelectionDescriptions Variable.
         /// </summary>
-        public const uint UadpConnectionType_NetworkInterface_SelectionValueDescriptions = 17434;
+        public const uint UadpConnectionType_NetworkInterface_SelectionDescriptions = 17715;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_NetworkInterface_RestrictToList Variable.
         /// </summary>
-        public const uint UadpConnectionType_NetworkInterface_RestrictToList = 17435;
+        public const uint UadpConnectionType_NetworkInterface_RestrictToList = 17429;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_TimeToLive Variable.
@@ -18322,152 +18342,152 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the UadpConnectionType_AddWriterGroup_InputArguments Variable.
         /// </summary>
-        public const uint UadpConnectionType_AddWriterGroup_InputArguments = 17437;
+        public const uint UadpConnectionType_AddWriterGroup_InputArguments = 17431;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_AddWriterGroup_OutputArguments Variable.
         /// </summary>
-        public const uint UadpConnectionType_AddWriterGroup_OutputArguments = 17438;
+        public const uint UadpConnectionType_AddWriterGroup_OutputArguments = 17432;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_AddReaderGroup_InputArguments Variable.
         /// </summary>
-        public const uint UadpConnectionType_AddReaderGroup_InputArguments = 17440;
+        public const uint UadpConnectionType_AddReaderGroup_InputArguments = 17434;
 
         /// <summary>
         /// The identifier for the UadpConnectionType_AddReaderGroup_OutputArguments Variable.
         /// </summary>
-        public const uint UadpConnectionType_AddReaderGroup_OutputArguments = 17441;
+        public const uint UadpConnectionType_AddReaderGroup_OutputArguments = 17435;
 
         /// <summary>
         /// The identifier for the UadpWriterGroupType_Status_State Variable.
         /// </summary>
-        public const uint UadpWriterGroupType_Status_State = 17447;
+        public const uint UadpWriterGroupType_Status_State = 17441;
 
         /// <summary>
         /// The identifier for the UadpWriterGroupType_DataSetWriterName_Placeholder_Status_State Variable.
         /// </summary>
-        public const uint UadpWriterGroupType_DataSetWriterName_Placeholder_Status_State = 17457;
+        public const uint UadpWriterGroupType_DataSetWriterName_Placeholder_Status_State = 17451;
 
         /// <summary>
         /// The identifier for the UadpWriterGroupType_DataSetWriterName_Placeholder_DataSetContentMask Variable.
         /// </summary>
-        public const uint UadpWriterGroupType_DataSetWriterName_Placeholder_DataSetContentMask = 17462;
+        public const uint UadpWriterGroupType_DataSetWriterName_Placeholder_DataSetContentMask = 17456;
 
         /// <summary>
         /// The identifier for the UadpWriterGroupType_RemoveDataSetWriter_InputArguments Variable.
         /// </summary>
-        public const uint UadpWriterGroupType_RemoveDataSetWriter_InputArguments = 17464;
+        public const uint UadpWriterGroupType_RemoveDataSetWriter_InputArguments = 17458;
 
         /// <summary>
         /// The identifier for the UadpWriterGroupType_MaxNetworkMessageSize Variable.
         /// </summary>
-        public const uint UadpWriterGroupType_MaxNetworkMessageSize = 17465;
+        public const uint UadpWriterGroupType_MaxNetworkMessageSize = 17459;
 
         /// <summary>
         /// The identifier for the UadpWriterGroupType_NetworkMessageContentMask Variable.
         /// </summary>
-        public const uint UadpWriterGroupType_NetworkMessageContentMask = 17466;
+        public const uint UadpWriterGroupType_NetworkMessageContentMask = 17460;
 
         /// <summary>
         /// The identifier for the UadpWriterGroupType_SamplingOffset Variable.
         /// </summary>
-        public const uint UadpWriterGroupType_SamplingOffset = 17467;
+        public const uint UadpWriterGroupType_SamplingOffset = 17461;
 
         /// <summary>
         /// The identifier for the UadpWriterGroupType_PublishingOffset Variable.
         /// </summary>
-        public const uint UadpWriterGroupType_PublishingOffset = 17468;
+        public const uint UadpWriterGroupType_PublishingOffset = 17462;
 
         /// <summary>
         /// The identifier for the UadpWriterGroupType_MessageRepeatCount Variable.
         /// </summary>
-        public const uint UadpWriterGroupType_MessageRepeatCount = 17469;
+        public const uint UadpWriterGroupType_MessageRepeatCount = 17463;
 
         /// <summary>
         /// The identifier for the UadpWriterGroupType_MessageRepeatDelay Variable.
         /// </summary>
-        public const uint UadpWriterGroupType_MessageRepeatDelay = 17470;
+        public const uint UadpWriterGroupType_MessageRepeatDelay = 17464;
 
         /// <summary>
         /// The identifier for the UadpWriterGroupType_UadpStreamAddress Variable.
         /// </summary>
-        public const uint UadpWriterGroupType_UadpStreamAddress = 17471;
+        public const uint UadpWriterGroupType_UadpStreamAddress = 17465;
 
         /// <summary>
         /// The identifier for the UadpWriterGroupType_AddDataSetWriter_InputArguments Variable.
         /// </summary>
-        public const uint UadpWriterGroupType_AddDataSetWriter_InputArguments = 17473;
+        public const uint UadpWriterGroupType_AddDataSetWriter_InputArguments = 17467;
 
         /// <summary>
         /// The identifier for the UadpWriterGroupType_AddDataSetWriter_OutputArguments Variable.
         /// </summary>
-        public const uint UadpWriterGroupType_AddDataSetWriter_OutputArguments = 17474;
+        public const uint UadpWriterGroupType_AddDataSetWriter_OutputArguments = 17468;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_Status_State Variable.
         /// </summary>
-        public const uint UadpReaderGroupType_Status_State = 17483;
+        public const uint UadpReaderGroupType_Status_State = 17477;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_DataSetReaderName_Placeholder_Status_State Variable.
         /// </summary>
-        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_Status_State = 17488;
+        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_Status_State = 17482;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_DataSetReaderName_Placeholder_SecurityMode Variable.
         /// </summary>
-        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_SecurityMode = 17492;
+        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_SecurityMode = 17486;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_DataSetReaderName_Placeholder_SecurityGroupId Variable.
         /// </summary>
-        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_SecurityGroupId = 17493;
+        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_SecurityGroupId = 17487;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_DataSetMetaData Variable.
         /// </summary>
-        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_DataSetMetaData = 17496;
+        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_DataSetMetaData = 17490;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_MessageReceiveTimeout Variable.
         /// </summary>
-        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_MessageReceiveTimeout = 17497;
+        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_MessageReceiveTimeout = 17491;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_InputArguments Variable.
         /// </summary>
-        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_InputArguments = 17499;
+        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_InputArguments = 17493;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_OutputArguments Variable.
         /// </summary>
-        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_OutputArguments = 17500;
+        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_OutputArguments = 17494;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_InputArguments Variable.
         /// </summary>
-        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_InputArguments = 17502;
+        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_InputArguments = 17496;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_OutputArguments Variable.
         /// </summary>
-        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_OutputArguments = 17503;
+        public const uint UadpReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_OutputArguments = 17497;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_RemoveDataSetReader_InputArguments Variable.
         /// </summary>
-        public const uint UadpReaderGroupType_RemoveDataSetReader_InputArguments = 17505;
+        public const uint UadpReaderGroupType_RemoveDataSetReader_InputArguments = 17499;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_AddDataSetReader_InputArguments Variable.
         /// </summary>
-        public const uint UadpReaderGroupType_AddDataSetReader_InputArguments = 17507;
+        public const uint UadpReaderGroupType_AddDataSetReader_InputArguments = 17501;
 
         /// <summary>
         /// The identifier for the UadpReaderGroupType_AddDataSetReader_OutputArguments Variable.
         /// </summary>
-        public const uint UadpReaderGroupType_AddDataSetReader_OutputArguments = 17508;
+        public const uint UadpReaderGroupType_AddDataSetReader_OutputArguments = 17502;
 
         /// <summary>
         /// The identifier for the UadpWriterTransportType_DataSetWriterId Variable.
@@ -18485,74 +18505,74 @@ namespace Opc.Ua
         public const uint UadpReaderTransportType_DataSetWriterId = 15156;
 
         /// <summary>
-        /// The identifier for the BrokerConnectionType_TransportProfileUri_SelectionValues Variable.
+        /// The identifier for the BrokerConnectionType_TransportProfileUri_Selections Variable.
         /// </summary>
-        public const uint BrokerConnectionType_TransportProfileUri_SelectionValues = 17513;
+        public const uint BrokerConnectionType_TransportProfileUri_Selections = 17716;
 
         /// <summary>
-        /// The identifier for the BrokerConnectionType_TransportProfileUri_SelectionValueDescriptions Variable.
+        /// The identifier for the BrokerConnectionType_TransportProfileUri_SelectionDescriptions Variable.
         /// </summary>
-        public const uint BrokerConnectionType_TransportProfileUri_SelectionValueDescriptions = 17514;
+        public const uint BrokerConnectionType_TransportProfileUri_SelectionDescriptions = 17717;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_TransportProfileUri_RestrictToList Variable.
         /// </summary>
-        public const uint BrokerConnectionType_TransportProfileUri_RestrictToList = 17515;
+        public const uint BrokerConnectionType_TransportProfileUri_RestrictToList = 17509;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_WriterGroupName_Placeholder_SecurityMode Variable.
         /// </summary>
-        public const uint BrokerConnectionType_WriterGroupName_Placeholder_SecurityMode = 17517;
+        public const uint BrokerConnectionType_WriterGroupName_Placeholder_SecurityMode = 17511;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_WriterGroupName_Placeholder_Status_State Variable.
         /// </summary>
-        public const uint BrokerConnectionType_WriterGroupName_Placeholder_Status_State = 17521;
+        public const uint BrokerConnectionType_WriterGroupName_Placeholder_Status_State = 17515;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_WriterGroupName_Placeholder_PublishingInterval Variable.
         /// </summary>
-        public const uint BrokerConnectionType_WriterGroupName_Placeholder_PublishingInterval = 17524;
+        public const uint BrokerConnectionType_WriterGroupName_Placeholder_PublishingInterval = 17518;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_WriterGroupName_Placeholder_KeepAliveTime Variable.
         /// </summary>
-        public const uint BrokerConnectionType_WriterGroupName_Placeholder_KeepAliveTime = 17525;
+        public const uint BrokerConnectionType_WriterGroupName_Placeholder_KeepAliveTime = 17519;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_WriterGroupName_Placeholder_EncodingMimeType Variable.
         /// </summary>
-        public const uint BrokerConnectionType_WriterGroupName_Placeholder_EncodingMimeType = 17526;
+        public const uint BrokerConnectionType_WriterGroupName_Placeholder_EncodingMimeType = 17520;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_WriterGroupName_Placeholder_Priority Variable.
         /// </summary>
-        public const uint BrokerConnectionType_WriterGroupName_Placeholder_Priority = 17527;
+        public const uint BrokerConnectionType_WriterGroupName_Placeholder_Priority = 17521;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_WriterGroupName_Placeholder_LocaleIds Variable.
         /// </summary>
-        public const uint BrokerConnectionType_WriterGroupName_Placeholder_LocaleIds = 17528;
+        public const uint BrokerConnectionType_WriterGroupName_Placeholder_LocaleIds = 17522;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_WriterGroupName_Placeholder_RemoveDataSetWriter_InputArguments Variable.
         /// </summary>
-        public const uint BrokerConnectionType_WriterGroupName_Placeholder_RemoveDataSetWriter_InputArguments = 17530;
+        public const uint BrokerConnectionType_WriterGroupName_Placeholder_RemoveDataSetWriter_InputArguments = 17524;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_ReaderGroupName_Placeholder_SecurityMode Variable.
         /// </summary>
-        public const uint BrokerConnectionType_ReaderGroupName_Placeholder_SecurityMode = 17532;
+        public const uint BrokerConnectionType_ReaderGroupName_Placeholder_SecurityMode = 17526;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_ReaderGroupName_Placeholder_Status_State Variable.
         /// </summary>
-        public const uint BrokerConnectionType_ReaderGroupName_Placeholder_Status_State = 17536;
+        public const uint BrokerConnectionType_ReaderGroupName_Placeholder_Status_State = 17530;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_ReaderGroupName_Placeholder_RemoveDataSetReader_InputArguments Variable.
         /// </summary>
-        public const uint BrokerConnectionType_ReaderGroupName_Placeholder_RemoveDataSetReader_InputArguments = 17540;
+        public const uint BrokerConnectionType_ReaderGroupName_Placeholder_RemoveDataSetReader_InputArguments = 17534;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_Status_State Variable.
@@ -18567,127 +18587,127 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the BrokerConnectionType_AddWriterGroup_InputArguments Variable.
         /// </summary>
-        public const uint BrokerConnectionType_AddWriterGroup_InputArguments = 17542;
+        public const uint BrokerConnectionType_AddWriterGroup_InputArguments = 17536;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_AddWriterGroup_OutputArguments Variable.
         /// </summary>
-        public const uint BrokerConnectionType_AddWriterGroup_OutputArguments = 17543;
+        public const uint BrokerConnectionType_AddWriterGroup_OutputArguments = 17537;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_AddReaderGroup_InputArguments Variable.
         /// </summary>
-        public const uint BrokerConnectionType_AddReaderGroup_InputArguments = 17545;
+        public const uint BrokerConnectionType_AddReaderGroup_InputArguments = 17539;
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_AddReaderGroup_OutputArguments Variable.
         /// </summary>
-        public const uint BrokerConnectionType_AddReaderGroup_OutputArguments = 17546;
+        public const uint BrokerConnectionType_AddReaderGroup_OutputArguments = 17540;
 
         /// <summary>
         /// The identifier for the BrokerWriterGroupType_Status_State Variable.
         /// </summary>
-        public const uint BrokerWriterGroupType_Status_State = 17552;
+        public const uint BrokerWriterGroupType_Status_State = 17546;
 
         /// <summary>
         /// The identifier for the BrokerWriterGroupType_DataSetWriterName_Placeholder_Status_State Variable.
         /// </summary>
-        public const uint BrokerWriterGroupType_DataSetWriterName_Placeholder_Status_State = 17562;
+        public const uint BrokerWriterGroupType_DataSetWriterName_Placeholder_Status_State = 17556;
 
         /// <summary>
         /// The identifier for the BrokerWriterGroupType_DataSetWriterName_Placeholder_DataSetContentMask Variable.
         /// </summary>
-        public const uint BrokerWriterGroupType_DataSetWriterName_Placeholder_DataSetContentMask = 17567;
+        public const uint BrokerWriterGroupType_DataSetWriterName_Placeholder_DataSetContentMask = 17561;
 
         /// <summary>
         /// The identifier for the BrokerWriterGroupType_RemoveDataSetWriter_InputArguments Variable.
         /// </summary>
-        public const uint BrokerWriterGroupType_RemoveDataSetWriter_InputArguments = 17569;
+        public const uint BrokerWriterGroupType_RemoveDataSetWriter_InputArguments = 17563;
 
         /// <summary>
         /// The identifier for the BrokerWriterGroupType_QueueName Variable.
         /// </summary>
-        public const uint BrokerWriterGroupType_QueueName = 17570;
+        public const uint BrokerWriterGroupType_QueueName = 17564;
 
         /// <summary>
         /// The identifier for the BrokerWriterGroupType_AddDataSetWriter_InputArguments Variable.
         /// </summary>
-        public const uint BrokerWriterGroupType_AddDataSetWriter_InputArguments = 17572;
+        public const uint BrokerWriterGroupType_AddDataSetWriter_InputArguments = 17566;
 
         /// <summary>
         /// The identifier for the BrokerWriterGroupType_AddDataSetWriter_OutputArguments Variable.
         /// </summary>
-        public const uint BrokerWriterGroupType_AddDataSetWriter_OutputArguments = 17573;
+        public const uint BrokerWriterGroupType_AddDataSetWriter_OutputArguments = 17567;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_Status_State Variable.
         /// </summary>
-        public const uint BrokerReaderGroupType_Status_State = 17582;
+        public const uint BrokerReaderGroupType_Status_State = 17576;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_DataSetReaderName_Placeholder_Status_State Variable.
         /// </summary>
-        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_Status_State = 17587;
+        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_Status_State = 17581;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_DataSetReaderName_Placeholder_SecurityMode Variable.
         /// </summary>
-        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_SecurityMode = 17591;
+        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_SecurityMode = 17585;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_DataSetReaderName_Placeholder_SecurityGroupId Variable.
         /// </summary>
-        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_SecurityGroupId = 17592;
+        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_SecurityGroupId = 17586;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_DataSetMetaData Variable.
         /// </summary>
-        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_DataSetMetaData = 17595;
+        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_DataSetMetaData = 17589;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_MessageReceiveTimeout Variable.
         /// </summary>
-        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_MessageReceiveTimeout = 17596;
+        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet_MessageReceiveTimeout = 17590;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_InputArguments Variable.
         /// </summary>
-        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_InputArguments = 17598;
+        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_InputArguments = 17592;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_OutputArguments Variable.
         /// </summary>
-        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_OutputArguments = 17599;
+        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_CreateConnectedVariables_OutputArguments = 17593;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_InputArguments Variable.
         /// </summary>
-        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_InputArguments = 17601;
+        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_InputArguments = 17595;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_OutputArguments Variable.
         /// </summary>
-        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_OutputArguments = 17602;
+        public const uint BrokerReaderGroupType_DataSetReaderName_Placeholder_CreateDataSetMirror_OutputArguments = 17596;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_RemoveDataSetReader_InputArguments Variable.
         /// </summary>
-        public const uint BrokerReaderGroupType_RemoveDataSetReader_InputArguments = 17604;
+        public const uint BrokerReaderGroupType_RemoveDataSetReader_InputArguments = 17598;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_QueueName Variable.
         /// </summary>
-        public const uint BrokerReaderGroupType_QueueName = 17605;
+        public const uint BrokerReaderGroupType_QueueName = 17599;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_AddDataSetReader_InputArguments Variable.
         /// </summary>
-        public const uint BrokerReaderGroupType_AddDataSetReader_InputArguments = 17607;
+        public const uint BrokerReaderGroupType_AddDataSetReader_InputArguments = 17601;
 
         /// <summary>
         /// The identifier for the BrokerReaderGroupType_AddDataSetReader_OutputArguments Variable.
         /// </summary>
-        public const uint BrokerReaderGroupType_AddDataSetReader_OutputArguments = 17608;
+        public const uint BrokerReaderGroupType_AddDataSetReader_OutputArguments = 17602;
 
         /// <summary>
         /// The identifier for the BrokerGroupTypeAddReaderType_InputArguments Variable.
@@ -18875,6 +18895,11 @@ namespace Opc.Ua
         public const uint OpcUa_XmlSchema_NamespaceUri = 8254;
 
         /// <summary>
+        /// The identifier for the OpcUa_XmlSchema_KeyValuePair Variable.
+        /// </summary>
+        public const uint OpcUa_XmlSchema_KeyValuePair = 14829;
+
+        /// <summary>
         /// The identifier for the OpcUa_XmlSchema_IdentityMappingRuleType Variable.
         /// </summary>
         public const uint OpcUa_XmlSchema_IdentityMappingRuleType = 15730;
@@ -18915,11 +18940,6 @@ namespace Opc.Ua
         public const uint OpcUa_XmlSchema_EnumDescription = 15594;
 
         /// <summary>
-        /// The identifier for the OpcUa_XmlSchema_KeyValuePair Variable.
-        /// </summary>
-        public const uint OpcUa_XmlSchema_KeyValuePair = 14829;
-
-        /// <summary>
         /// The identifier for the OpcUa_XmlSchema_PublishedVariableDataType Variable.
         /// </summary>
         public const uint OpcUa_XmlSchema_PublishedVariableDataType = 14320;
@@ -18933,26 +18953,6 @@ namespace Opc.Ua
         /// The identifier for the OpcUa_XmlSchema_RolePermissionType Variable.
         /// </summary>
         public const uint OpcUa_XmlSchema_RolePermissionType = 16127;
-
-        /// <summary>
-        /// The identifier for the OpcUa_XmlSchema_DataTypeDefinition Variable.
-        /// </summary>
-        public const uint OpcUa_XmlSchema_DataTypeDefinition = 14814;
-
-        /// <summary>
-        /// The identifier for the OpcUa_XmlSchema_StructureField Variable.
-        /// </summary>
-        public const uint OpcUa_XmlSchema_StructureField = 14823;
-
-        /// <summary>
-        /// The identifier for the OpcUa_XmlSchema_StructureDefinition Variable.
-        /// </summary>
-        public const uint OpcUa_XmlSchema_StructureDefinition = 14817;
-
-        /// <summary>
-        /// The identifier for the OpcUa_XmlSchema_EnumDefinition Variable.
-        /// </summary>
-        public const uint OpcUa_XmlSchema_EnumDefinition = 14820;
 
         /// <summary>
         /// The identifier for the OpcUa_XmlSchema_Argument Variable.
@@ -19265,6 +19265,11 @@ namespace Opc.Ua
         public const uint OpcUa_BinarySchema_NamespaceUri = 7619;
 
         /// <summary>
+        /// The identifier for the OpcUa_BinarySchema_KeyValuePair Variable.
+        /// </summary>
+        public const uint OpcUa_BinarySchema_KeyValuePair = 14873;
+
+        /// <summary>
         /// The identifier for the OpcUa_BinarySchema_IdentityMappingRuleType Variable.
         /// </summary>
         public const uint OpcUa_BinarySchema_IdentityMappingRuleType = 15738;
@@ -19305,11 +19310,6 @@ namespace Opc.Ua
         public const uint OpcUa_BinarySchema_EnumDescription = 15602;
 
         /// <summary>
-        /// The identifier for the OpcUa_BinarySchema_KeyValuePair Variable.
-        /// </summary>
-        public const uint OpcUa_BinarySchema_KeyValuePair = 14873;
-
-        /// <summary>
         /// The identifier for the OpcUa_BinarySchema_PublishedVariableDataType Variable.
         /// </summary>
         public const uint OpcUa_BinarySchema_PublishedVariableDataType = 14324;
@@ -19323,26 +19323,6 @@ namespace Opc.Ua
         /// The identifier for the OpcUa_BinarySchema_RolePermissionType Variable.
         /// </summary>
         public const uint OpcUa_BinarySchema_RolePermissionType = 16131;
-
-        /// <summary>
-        /// The identifier for the OpcUa_BinarySchema_DataTypeDefinition Variable.
-        /// </summary>
-        public const uint OpcUa_BinarySchema_DataTypeDefinition = 14858;
-
-        /// <summary>
-        /// The identifier for the OpcUa_BinarySchema_StructureField Variable.
-        /// </summary>
-        public const uint OpcUa_BinarySchema_StructureField = 14867;
-
-        /// <summary>
-        /// The identifier for the OpcUa_BinarySchema_StructureDefinition Variable.
-        /// </summary>
-        public const uint OpcUa_BinarySchema_StructureDefinition = 14861;
-
-        /// <summary>
-        /// The identifier for the OpcUa_BinarySchema_EnumDefinition Variable.
-        /// </summary>
-        public const uint OpcUa_BinarySchema_EnumDefinition = 14864;
 
         /// <summary>
         /// The identifier for the OpcUa_BinarySchema_Argument Variable.
@@ -19685,11 +19665,6 @@ namespace Opc.Ua
         public const uint ServerVendorCapabilityType = 2137;
 
         /// <summary>
-        /// The identifier for the SelectionListType VariableType.
-        /// </summary>
-        public const uint SelectionListType = 17292;
-
-        /// <summary>
         /// The identifier for the ServerStatusType VariableType.
         /// </summary>
         public const uint ServerStatusType = 2138;
@@ -19748,6 +19723,11 @@ namespace Opc.Ua
         /// The identifier for the OptionSetType VariableType.
         /// </summary>
         public const uint OptionSetType = 11487;
+
+        /// <summary>
+        /// The identifier for the SelectionListType VariableType.
+        /// </summary>
+        public const uint SelectionListType = 16309;
 
         /// <summary>
         /// The identifier for the StateVariableType VariableType.
@@ -19842,7 +19822,7 @@ namespace Opc.Ua
         /// <summary>
         /// The identifier for the AlarmRateVariableType VariableType.
         /// </summary>
-        public const uint AlarmRateVariableType = 17279;
+        public const uint AlarmRateVariableType = 17277;
 
         /// <summary>
         /// The identifier for the ProgramDiagnosticType VariableType.
@@ -20050,6 +20030,11 @@ namespace Opc.Ua
         public static readonly NodeId BitFieldMaskDataType = new NodeId(Opc.Ua.DataTypes.BitFieldMaskDataType);
 
         /// <summary>
+        /// The identifier for the KeyValuePair DataType.
+        /// </summary>
+        public static readonly NodeId KeyValuePair = new NodeId(Opc.Ua.DataTypes.KeyValuePair);
+
+        /// <summary>
         /// The identifier for the OpenFileMode DataType.
         /// </summary>
         public static readonly NodeId OpenFileMode = new NodeId(Opc.Ua.DataTypes.OpenFileMode);
@@ -20108,11 +20093,6 @@ namespace Opc.Ua
         /// The identifier for the EnumDescription DataType.
         /// </summary>
         public static readonly NodeId EnumDescription = new NodeId(Opc.Ua.DataTypes.EnumDescription);
-
-        /// <summary>
-        /// The identifier for the KeyValuePair DataType.
-        /// </summary>
-        public static readonly NodeId KeyValuePair = new NodeId(Opc.Ua.DataTypes.KeyValuePair);
 
         /// <summary>
         /// The identifier for the DataSetContentMask DataType.
@@ -21705,9 +21685,9 @@ namespace Opc.Ua
         public static readonly NodeId FileDirectoryType_FileDirectoryName_Placeholder_CreateFile = new NodeId(Opc.Ua.Methods.FileDirectoryType_FileDirectoryName_Placeholder_CreateFile);
 
         /// <summary>
-        /// The identifier for the FileDirectoryType_FileDirectoryName_Placeholder_DeleteFile Method.
+        /// The identifier for the FileDirectoryType_FileDirectoryName_Placeholder_DeleteFileSystemObject Method.
         /// </summary>
-        public static readonly NodeId FileDirectoryType_FileDirectoryName_Placeholder_DeleteFile = new NodeId(Opc.Ua.Methods.FileDirectoryType_FileDirectoryName_Placeholder_DeleteFile);
+        public static readonly NodeId FileDirectoryType_FileDirectoryName_Placeholder_DeleteFileSystemObject = new NodeId(Opc.Ua.Methods.FileDirectoryType_FileDirectoryName_Placeholder_DeleteFileSystemObject);
 
         /// <summary>
         /// The identifier for the FileDirectoryType_FileDirectoryName_Placeholder_MoveOrCopy Method.
@@ -21755,9 +21735,9 @@ namespace Opc.Ua
         public static readonly NodeId FileDirectoryType_CreateFile = new NodeId(Opc.Ua.Methods.FileDirectoryType_CreateFile);
 
         /// <summary>
-        /// The identifier for the FileDirectoryType_DeleteFile Method.
+        /// The identifier for the FileDirectoryType_DeleteFileSystemObject Method.
         /// </summary>
-        public static readonly NodeId FileDirectoryType_DeleteFile = new NodeId(Opc.Ua.Methods.FileDirectoryType_DeleteFile);
+        public static readonly NodeId FileDirectoryType_DeleteFileSystemObject = new NodeId(Opc.Ua.Methods.FileDirectoryType_DeleteFileSystemObject);
 
         /// <summary>
         /// The identifier for the FileDirectoryType_MoveOrCopy Method.
@@ -21775,9 +21755,9 @@ namespace Opc.Ua
         public static readonly NodeId FileSystem_FileDirectoryName_Placeholder_CreateFile = new NodeId(Opc.Ua.Methods.FileSystem_FileDirectoryName_Placeholder_CreateFile);
 
         /// <summary>
-        /// The identifier for the FileSystem_FileDirectoryName_Placeholder_DeleteFile Method.
+        /// The identifier for the FileSystem_FileDirectoryName_Placeholder_DeleteFileSystemObject Method.
         /// </summary>
-        public static readonly NodeId FileSystem_FileDirectoryName_Placeholder_DeleteFile = new NodeId(Opc.Ua.Methods.FileSystem_FileDirectoryName_Placeholder_DeleteFile);
+        public static readonly NodeId FileSystem_FileDirectoryName_Placeholder_DeleteFileSystemObject = new NodeId(Opc.Ua.Methods.FileSystem_FileDirectoryName_Placeholder_DeleteFileSystemObject);
 
         /// <summary>
         /// The identifier for the FileSystem_FileDirectoryName_Placeholder_MoveOrCopy Method.
@@ -21825,9 +21805,9 @@ namespace Opc.Ua
         public static readonly NodeId FileSystem_CreateFile = new NodeId(Opc.Ua.Methods.FileSystem_CreateFile);
 
         /// <summary>
-        /// The identifier for the FileSystem_DeleteFile Method.
+        /// The identifier for the FileSystem_DeleteFileSystemObject Method.
         /// </summary>
-        public static readonly NodeId FileSystem_DeleteFile = new NodeId(Opc.Ua.Methods.FileSystem_DeleteFile);
+        public static readonly NodeId FileSystem_DeleteFileSystemObject = new NodeId(Opc.Ua.Methods.FileSystem_DeleteFileSystemObject);
 
         /// <summary>
         /// The identifier for the FileSystem_MoveOrCopy Method.
@@ -24260,6 +24240,11 @@ namespace Opc.Ua
         public static readonly NodeId BrokerReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet = new NodeId(Opc.Ua.Objects.BrokerReaderGroupType_DataSetReaderName_Placeholder_SubscribedDataSet);
 
         /// <summary>
+        /// The identifier for the KeyValuePair_Encoding_DefaultXml Object.
+        /// </summary>
+        public static readonly NodeId KeyValuePair_Encoding_DefaultXml = new NodeId(Opc.Ua.Objects.KeyValuePair_Encoding_DefaultXml);
+
+        /// <summary>
         /// The identifier for the IdentityMappingRuleType_Encoding_DefaultXml Object.
         /// </summary>
         public static readonly NodeId IdentityMappingRuleType_Encoding_DefaultXml = new NodeId(Opc.Ua.Objects.IdentityMappingRuleType_Encoding_DefaultXml);
@@ -24298,11 +24283,6 @@ namespace Opc.Ua
         /// The identifier for the EnumDescription_Encoding_DefaultXml Object.
         /// </summary>
         public static readonly NodeId EnumDescription_Encoding_DefaultXml = new NodeId(Opc.Ua.Objects.EnumDescription_Encoding_DefaultXml);
-
-        /// <summary>
-        /// The identifier for the KeyValuePair_Encoding_DefaultXml Object.
-        /// </summary>
-        public static readonly NodeId KeyValuePair_Encoding_DefaultXml = new NodeId(Opc.Ua.Objects.KeyValuePair_Encoding_DefaultXml);
 
         /// <summary>
         /// The identifier for the PublishedVariableDataType_Encoding_DefaultXml Object.
@@ -25455,6 +25435,11 @@ namespace Opc.Ua
         public static readonly NodeId Annotation_Encoding_DefaultXml = new NodeId(Opc.Ua.Objects.Annotation_Encoding_DefaultXml);
 
         /// <summary>
+        /// The identifier for the KeyValuePair_Encoding_DefaultBinary Object.
+        /// </summary>
+        public static readonly NodeId KeyValuePair_Encoding_DefaultBinary = new NodeId(Opc.Ua.Objects.KeyValuePair_Encoding_DefaultBinary);
+
+        /// <summary>
         /// The identifier for the IdentityMappingRuleType_Encoding_DefaultBinary Object.
         /// </summary>
         public static readonly NodeId IdentityMappingRuleType_Encoding_DefaultBinary = new NodeId(Opc.Ua.Objects.IdentityMappingRuleType_Encoding_DefaultBinary);
@@ -25493,11 +25478,6 @@ namespace Opc.Ua
         /// The identifier for the EnumDescription_Encoding_DefaultBinary Object.
         /// </summary>
         public static readonly NodeId EnumDescription_Encoding_DefaultBinary = new NodeId(Opc.Ua.Objects.EnumDescription_Encoding_DefaultBinary);
-
-        /// <summary>
-        /// The identifier for the KeyValuePair_Encoding_DefaultBinary Object.
-        /// </summary>
-        public static readonly NodeId KeyValuePair_Encoding_DefaultBinary = new NodeId(Opc.Ua.Objects.KeyValuePair_Encoding_DefaultBinary);
 
         /// <summary>
         /// The identifier for the PublishedVariableDataType_Encoding_DefaultBinary Object.
@@ -26995,6 +26975,11 @@ namespace Opc.Ua
         public static readonly NodeId RoleType = new NodeId(Opc.Ua.ObjectTypes.RoleType);
 
         /// <summary>
+        /// The identifier for the RoleMappingRuleChangedAuditEventType ObjectType.
+        /// </summary>
+        public static readonly NodeId RoleMappingRuleChangedAuditEventType = new NodeId(Opc.Ua.ObjectTypes.RoleMappingRuleChangedAuditEventType);
+
+        /// <summary>
         /// The identifier for the ConditionType ObjectType.
         /// </summary>
         public static readonly NodeId ConditionType = new NodeId(Opc.Ua.ObjectTypes.ConditionType);
@@ -28060,9 +28045,9 @@ namespace Opc.Ua
         public static readonly NodeId ServerType_EstimatedReturnTime = new NodeId(Opc.Ua.Variables.ServerType_EstimatedReturnTime);
 
         /// <summary>
-        /// The identifier for the ServerType_CurrentTimeZone Variable.
+        /// The identifier for the ServerType_LocalTime Variable.
         /// </summary>
-        public static readonly NodeId ServerType_CurrentTimeZone = new NodeId(Opc.Ua.Variables.ServerType_CurrentTimeZone);
+        public static readonly NodeId ServerType_LocalTime = new NodeId(Opc.Ua.Variables.ServerType_LocalTime);
 
         /// <summary>
         /// The identifier for the ServerType_ServerCapabilities_ServerProfileArray Variable.
@@ -29440,6 +29425,11 @@ namespace Opc.Ua
         public static readonly NodeId AuditEventType_ClientUserId = new NodeId(Opc.Ua.Variables.AuditEventType_ClientUserId);
 
         /// <summary>
+        /// The identifier for the AuditSecurityEventType_StatusCodeId Variable.
+        /// </summary>
+        public static readonly NodeId AuditSecurityEventType_StatusCodeId = new NodeId(Opc.Ua.Variables.AuditSecurityEventType_StatusCodeId);
+
+        /// <summary>
         /// The identifier for the AuditChannelEventType_SecureChannelId Variable.
         /// </summary>
         public static readonly NodeId AuditChannelEventType_SecureChannelId = new NodeId(Opc.Ua.Variables.AuditChannelEventType_SecureChannelId);
@@ -29618,21 +29608,6 @@ namespace Opc.Ua
         /// The identifier for the ProgressEventType_Progress Variable.
         /// </summary>
         public static readonly NodeId ProgressEventType_Progress = new NodeId(Opc.Ua.Variables.ProgressEventType_Progress);
-
-        /// <summary>
-        /// The identifier for the SelectionListType_SelectionValues Variable.
-        /// </summary>
-        public static readonly NodeId SelectionListType_SelectionValues = new NodeId(Opc.Ua.Variables.SelectionListType_SelectionValues);
-
-        /// <summary>
-        /// The identifier for the SelectionListType_SelectionValueDescriptions Variable.
-        /// </summary>
-        public static readonly NodeId SelectionListType_SelectionValueDescriptions = new NodeId(Opc.Ua.Variables.SelectionListType_SelectionValueDescriptions);
-
-        /// <summary>
-        /// The identifier for the SelectionListType_RestrictToList Variable.
-        /// </summary>
-        public static readonly NodeId SelectionListType_RestrictToList = new NodeId(Opc.Ua.Variables.SelectionListType_RestrictToList);
 
         /// <summary>
         /// The identifier for the ServerStatusType_StartTime Variable.
@@ -30685,6 +30660,21 @@ namespace Opc.Ua
         public static readonly NodeId OptionSetType_BitMask = new NodeId(Opc.Ua.Variables.OptionSetType_BitMask);
 
         /// <summary>
+        /// The identifier for the SelectionListType_Selections Variable.
+        /// </summary>
+        public static readonly NodeId SelectionListType_Selections = new NodeId(Opc.Ua.Variables.SelectionListType_Selections);
+
+        /// <summary>
+        /// The identifier for the SelectionListType_SelectionDescriptions Variable.
+        /// </summary>
+        public static readonly NodeId SelectionListType_SelectionDescriptions = new NodeId(Opc.Ua.Variables.SelectionListType_SelectionDescriptions);
+
+        /// <summary>
+        /// The identifier for the SelectionListType_RestrictToList Variable.
+        /// </summary>
+        public static readonly NodeId SelectionListType_RestrictToList = new NodeId(Opc.Ua.Variables.SelectionListType_RestrictToList);
+
+        /// <summary>
         /// The identifier for the Server_ServerArray Variable.
         /// </summary>
         public static readonly NodeId Server_ServerArray = new NodeId(Opc.Ua.Variables.Server_ServerArray);
@@ -30773,11 +30763,6 @@ namespace Opc.Ua
         /// The identifier for the Server_EstimatedReturnTime Variable.
         /// </summary>
         public static readonly NodeId Server_EstimatedReturnTime = new NodeId(Opc.Ua.Variables.Server_EstimatedReturnTime);
-
-        /// <summary>
-        /// The identifier for the Server_CurrentTimeZone Variable.
-        /// </summary>
-        public static readonly NodeId Server_CurrentTimeZone = new NodeId(Opc.Ua.Variables.Server_CurrentTimeZone);
 
         /// <summary>
         /// The identifier for the Server_ServerCapabilities_ServerProfileArray Variable.
@@ -31030,6 +31015,11 @@ namespace Opc.Ua
         public static readonly NodeId Server_RequestServerStateChange_InputArguments = new NodeId(Opc.Ua.Variables.Server_RequestServerStateChange_InputArguments);
 
         /// <summary>
+        /// The identifier for the Server_CurrentTimeZone Variable.
+        /// </summary>
+        public static readonly NodeId Server_CurrentTimeZone = new NodeId(Opc.Ua.Variables.Server_CurrentTimeZone);
+
+        /// <summary>
         /// The identifier for the Server_ServerRedundancy_CurrentServerId Variable.
         /// </summary>
         public static readonly NodeId Server_ServerRedundancy_CurrentServerId = new NodeId(Opc.Ua.Variables.Server_ServerRedundancy_CurrentServerId);
@@ -31205,6 +31195,16 @@ namespace Opc.Ua
         public static readonly NodeId FiniteStateMachineType_LastTransition_Id = new NodeId(Opc.Ua.Variables.FiniteStateMachineType_LastTransition_Id);
 
         /// <summary>
+        /// The identifier for the FiniteStateMachineType_AvailableStates Variable.
+        /// </summary>
+        public static readonly NodeId FiniteStateMachineType_AvailableStates = new NodeId(Opc.Ua.Variables.FiniteStateMachineType_AvailableStates);
+
+        /// <summary>
+        /// The identifier for the FiniteStateMachineType_AvailableTransitions Variable.
+        /// </summary>
+        public static readonly NodeId FiniteStateMachineType_AvailableTransitions = new NodeId(Opc.Ua.Variables.FiniteStateMachineType_AvailableTransitions);
+
+        /// <summary>
         /// The identifier for the FiniteStateVariableType_Id Variable.
         /// </summary>
         public static readonly NodeId FiniteStateVariableType_Id = new NodeId(Opc.Ua.Variables.FiniteStateVariableType_Id);
@@ -31290,9 +31290,9 @@ namespace Opc.Ua
         public static readonly NodeId FileDirectoryType_FileDirectoryName_Placeholder_CreateFile_OutputArguments = new NodeId(Opc.Ua.Variables.FileDirectoryType_FileDirectoryName_Placeholder_CreateFile_OutputArguments);
 
         /// <summary>
-        /// The identifier for the FileDirectoryType_FileDirectoryName_Placeholder_DeleteFile_InputArguments Variable.
+        /// The identifier for the FileDirectoryType_FileDirectoryName_Placeholder_DeleteFileSystemObject_InputArguments Variable.
         /// </summary>
-        public static readonly NodeId FileDirectoryType_FileDirectoryName_Placeholder_DeleteFile_InputArguments = new NodeId(Opc.Ua.Variables.FileDirectoryType_FileDirectoryName_Placeholder_DeleteFile_InputArguments);
+        public static readonly NodeId FileDirectoryType_FileDirectoryName_Placeholder_DeleteFileSystemObject_InputArguments = new NodeId(Opc.Ua.Variables.FileDirectoryType_FileDirectoryName_Placeholder_DeleteFileSystemObject_InputArguments);
 
         /// <summary>
         /// The identifier for the FileDirectoryType_FileDirectoryName_Placeholder_MoveOrCopy_InputArguments Variable.
@@ -31390,9 +31390,9 @@ namespace Opc.Ua
         public static readonly NodeId FileDirectoryType_CreateFile_OutputArguments = new NodeId(Opc.Ua.Variables.FileDirectoryType_CreateFile_OutputArguments);
 
         /// <summary>
-        /// The identifier for the FileDirectoryType_DeleteFile_InputArguments Variable.
+        /// The identifier for the FileDirectoryType_DeleteFileSystemObject_InputArguments Variable.
         /// </summary>
-        public static readonly NodeId FileDirectoryType_DeleteFile_InputArguments = new NodeId(Opc.Ua.Variables.FileDirectoryType_DeleteFile_InputArguments);
+        public static readonly NodeId FileDirectoryType_DeleteFileSystemObject_InputArguments = new NodeId(Opc.Ua.Variables.FileDirectoryType_DeleteFileSystemObject_InputArguments);
 
         /// <summary>
         /// The identifier for the FileDirectoryType_MoveOrCopy_InputArguments Variable.
@@ -31425,9 +31425,9 @@ namespace Opc.Ua
         public static readonly NodeId FileSystem_FileDirectoryName_Placeholder_CreateFile_OutputArguments = new NodeId(Opc.Ua.Variables.FileSystem_FileDirectoryName_Placeholder_CreateFile_OutputArguments);
 
         /// <summary>
-        /// The identifier for the FileSystem_FileDirectoryName_Placeholder_DeleteFile_InputArguments Variable.
+        /// The identifier for the FileSystem_FileDirectoryName_Placeholder_DeleteFileSystemObject_InputArguments Variable.
         /// </summary>
-        public static readonly NodeId FileSystem_FileDirectoryName_Placeholder_DeleteFile_InputArguments = new NodeId(Opc.Ua.Variables.FileSystem_FileDirectoryName_Placeholder_DeleteFile_InputArguments);
+        public static readonly NodeId FileSystem_FileDirectoryName_Placeholder_DeleteFileSystemObject_InputArguments = new NodeId(Opc.Ua.Variables.FileSystem_FileDirectoryName_Placeholder_DeleteFileSystemObject_InputArguments);
 
         /// <summary>
         /// The identifier for the FileSystem_FileDirectoryName_Placeholder_MoveOrCopy_InputArguments Variable.
@@ -31525,9 +31525,9 @@ namespace Opc.Ua
         public static readonly NodeId FileSystem_CreateFile_OutputArguments = new NodeId(Opc.Ua.Variables.FileSystem_CreateFile_OutputArguments);
 
         /// <summary>
-        /// The identifier for the FileSystem_DeleteFile_InputArguments Variable.
+        /// The identifier for the FileSystem_DeleteFileSystemObject_InputArguments Variable.
         /// </summary>
-        public static readonly NodeId FileSystem_DeleteFile_InputArguments = new NodeId(Opc.Ua.Variables.FileSystem_DeleteFile_InputArguments);
+        public static readonly NodeId FileSystem_DeleteFileSystemObject_InputArguments = new NodeId(Opc.Ua.Variables.FileSystem_DeleteFileSystemObject_InputArguments);
 
         /// <summary>
         /// The identifier for the FileSystem_MoveOrCopy_InputArguments Variable.
@@ -37190,14 +37190,14 @@ namespace Opc.Ua
         public static readonly NodeId PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri = new NodeId(Opc.Ua.Variables.PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri);
 
         /// <summary>
-        /// The identifier for the PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_SelectionValues Variable.
+        /// The identifier for the PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_Selections Variable.
         /// </summary>
-        public static readonly NodeId PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_SelectionValues = new NodeId(Opc.Ua.Variables.PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_SelectionValues);
+        public static readonly NodeId PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_Selections = new NodeId(Opc.Ua.Variables.PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_Selections);
 
         /// <summary>
-        /// The identifier for the PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_SelectionValueDescriptions Variable.
+        /// The identifier for the PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_SelectionDescriptions Variable.
         /// </summary>
-        public static readonly NodeId PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_SelectionValueDescriptions = new NodeId(Opc.Ua.Variables.PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_SelectionValueDescriptions);
+        public static readonly NodeId PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_SelectionDescriptions = new NodeId(Opc.Ua.Variables.PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_SelectionDescriptions);
 
         /// <summary>
         /// The identifier for the PublishSubscribeType_ConnectionName_Placeholder_TransportProfileUri_RestrictToList Variable.
@@ -37325,14 +37325,14 @@ namespace Opc.Ua
         public static readonly NodeId PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri = new NodeId(Opc.Ua.Variables.PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri);
 
         /// <summary>
-        /// The identifier for the PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_SelectionValues Variable.
+        /// The identifier for the PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_Selections Variable.
         /// </summary>
-        public static readonly NodeId PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_SelectionValues = new NodeId(Opc.Ua.Variables.PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_SelectionValues);
+        public static readonly NodeId PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_Selections = new NodeId(Opc.Ua.Variables.PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_Selections);
 
         /// <summary>
-        /// The identifier for the PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_SelectionValueDescriptions Variable.
+        /// The identifier for the PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_SelectionDescriptions Variable.
         /// </summary>
-        public static readonly NodeId PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_SelectionValueDescriptions = new NodeId(Opc.Ua.Variables.PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_SelectionValueDescriptions);
+        public static readonly NodeId PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_SelectionDescriptions = new NodeId(Opc.Ua.Variables.PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_SelectionDescriptions);
 
         /// <summary>
         /// The identifier for the PublishSubscribe_ConnectionName_Placeholder_TransportProfileUri_RestrictToList Variable.
@@ -37685,14 +37685,14 @@ namespace Opc.Ua
         public static readonly NodeId PubSubConnectionType_TransportProfileUri = new NodeId(Opc.Ua.Variables.PubSubConnectionType_TransportProfileUri);
 
         /// <summary>
-        /// The identifier for the PubSubConnectionType_TransportProfileUri_SelectionValues Variable.
+        /// The identifier for the PubSubConnectionType_TransportProfileUri_Selections Variable.
         /// </summary>
-        public static readonly NodeId PubSubConnectionType_TransportProfileUri_SelectionValues = new NodeId(Opc.Ua.Variables.PubSubConnectionType_TransportProfileUri_SelectionValues);
+        public static readonly NodeId PubSubConnectionType_TransportProfileUri_Selections = new NodeId(Opc.Ua.Variables.PubSubConnectionType_TransportProfileUri_Selections);
 
         /// <summary>
-        /// The identifier for the PubSubConnectionType_TransportProfileUri_SelectionValueDescriptions Variable.
+        /// The identifier for the PubSubConnectionType_TransportProfileUri_SelectionDescriptions Variable.
         /// </summary>
-        public static readonly NodeId PubSubConnectionType_TransportProfileUri_SelectionValueDescriptions = new NodeId(Opc.Ua.Variables.PubSubConnectionType_TransportProfileUri_SelectionValueDescriptions);
+        public static readonly NodeId PubSubConnectionType_TransportProfileUri_SelectionDescriptions = new NodeId(Opc.Ua.Variables.PubSubConnectionType_TransportProfileUri_SelectionDescriptions);
 
         /// <summary>
         /// The identifier for the PubSubConnectionType_TransportProfileUri_RestrictToList Variable.
@@ -38030,14 +38030,14 @@ namespace Opc.Ua
         public static readonly NodeId PubSubCommunicationFailureEventType_Error = new NodeId(Opc.Ua.Variables.PubSubCommunicationFailureEventType_Error);
 
         /// <summary>
-        /// The identifier for the UadpConnectionType_TransportProfileUri_SelectionValues Variable.
+        /// The identifier for the UadpConnectionType_TransportProfileUri_Selections Variable.
         /// </summary>
-        public static readonly NodeId UadpConnectionType_TransportProfileUri_SelectionValues = new NodeId(Opc.Ua.Variables.UadpConnectionType_TransportProfileUri_SelectionValues);
+        public static readonly NodeId UadpConnectionType_TransportProfileUri_Selections = new NodeId(Opc.Ua.Variables.UadpConnectionType_TransportProfileUri_Selections);
 
         /// <summary>
-        /// The identifier for the UadpConnectionType_TransportProfileUri_SelectionValueDescriptions Variable.
+        /// The identifier for the UadpConnectionType_TransportProfileUri_SelectionDescriptions Variable.
         /// </summary>
-        public static readonly NodeId UadpConnectionType_TransportProfileUri_SelectionValueDescriptions = new NodeId(Opc.Ua.Variables.UadpConnectionType_TransportProfileUri_SelectionValueDescriptions);
+        public static readonly NodeId UadpConnectionType_TransportProfileUri_SelectionDescriptions = new NodeId(Opc.Ua.Variables.UadpConnectionType_TransportProfileUri_SelectionDescriptions);
 
         /// <summary>
         /// The identifier for the UadpConnectionType_TransportProfileUri_RestrictToList Variable.
@@ -38115,14 +38115,14 @@ namespace Opc.Ua
         public static readonly NodeId UadpConnectionType_NetworkInterface = new NodeId(Opc.Ua.Variables.UadpConnectionType_NetworkInterface);
 
         /// <summary>
-        /// The identifier for the UadpConnectionType_NetworkInterface_SelectionValues Variable.
+        /// The identifier for the UadpConnectionType_NetworkInterface_Selections Variable.
         /// </summary>
-        public static readonly NodeId UadpConnectionType_NetworkInterface_SelectionValues = new NodeId(Opc.Ua.Variables.UadpConnectionType_NetworkInterface_SelectionValues);
+        public static readonly NodeId UadpConnectionType_NetworkInterface_Selections = new NodeId(Opc.Ua.Variables.UadpConnectionType_NetworkInterface_Selections);
 
         /// <summary>
-        /// The identifier for the UadpConnectionType_NetworkInterface_SelectionValueDescriptions Variable.
+        /// The identifier for the UadpConnectionType_NetworkInterface_SelectionDescriptions Variable.
         /// </summary>
-        public static readonly NodeId UadpConnectionType_NetworkInterface_SelectionValueDescriptions = new NodeId(Opc.Ua.Variables.UadpConnectionType_NetworkInterface_SelectionValueDescriptions);
+        public static readonly NodeId UadpConnectionType_NetworkInterface_SelectionDescriptions = new NodeId(Opc.Ua.Variables.UadpConnectionType_NetworkInterface_SelectionDescriptions);
 
         /// <summary>
         /// The identifier for the UadpConnectionType_NetworkInterface_RestrictToList Variable.
@@ -38300,14 +38300,14 @@ namespace Opc.Ua
         public static readonly NodeId UadpReaderTransportType_DataSetWriterId = new NodeId(Opc.Ua.Variables.UadpReaderTransportType_DataSetWriterId);
 
         /// <summary>
-        /// The identifier for the BrokerConnectionType_TransportProfileUri_SelectionValues Variable.
+        /// The identifier for the BrokerConnectionType_TransportProfileUri_Selections Variable.
         /// </summary>
-        public static readonly NodeId BrokerConnectionType_TransportProfileUri_SelectionValues = new NodeId(Opc.Ua.Variables.BrokerConnectionType_TransportProfileUri_SelectionValues);
+        public static readonly NodeId BrokerConnectionType_TransportProfileUri_Selections = new NodeId(Opc.Ua.Variables.BrokerConnectionType_TransportProfileUri_Selections);
 
         /// <summary>
-        /// The identifier for the BrokerConnectionType_TransportProfileUri_SelectionValueDescriptions Variable.
+        /// The identifier for the BrokerConnectionType_TransportProfileUri_SelectionDescriptions Variable.
         /// </summary>
-        public static readonly NodeId BrokerConnectionType_TransportProfileUri_SelectionValueDescriptions = new NodeId(Opc.Ua.Variables.BrokerConnectionType_TransportProfileUri_SelectionValueDescriptions);
+        public static readonly NodeId BrokerConnectionType_TransportProfileUri_SelectionDescriptions = new NodeId(Opc.Ua.Variables.BrokerConnectionType_TransportProfileUri_SelectionDescriptions);
 
         /// <summary>
         /// The identifier for the BrokerConnectionType_TransportProfileUri_RestrictToList Variable.
@@ -38690,6 +38690,11 @@ namespace Opc.Ua
         public static readonly NodeId OpcUa_XmlSchema_NamespaceUri = new NodeId(Opc.Ua.Variables.OpcUa_XmlSchema_NamespaceUri);
 
         /// <summary>
+        /// The identifier for the OpcUa_XmlSchema_KeyValuePair Variable.
+        /// </summary>
+        public static readonly NodeId OpcUa_XmlSchema_KeyValuePair = new NodeId(Opc.Ua.Variables.OpcUa_XmlSchema_KeyValuePair);
+
+        /// <summary>
         /// The identifier for the OpcUa_XmlSchema_IdentityMappingRuleType Variable.
         /// </summary>
         public static readonly NodeId OpcUa_XmlSchema_IdentityMappingRuleType = new NodeId(Opc.Ua.Variables.OpcUa_XmlSchema_IdentityMappingRuleType);
@@ -38730,11 +38735,6 @@ namespace Opc.Ua
         public static readonly NodeId OpcUa_XmlSchema_EnumDescription = new NodeId(Opc.Ua.Variables.OpcUa_XmlSchema_EnumDescription);
 
         /// <summary>
-        /// The identifier for the OpcUa_XmlSchema_KeyValuePair Variable.
-        /// </summary>
-        public static readonly NodeId OpcUa_XmlSchema_KeyValuePair = new NodeId(Opc.Ua.Variables.OpcUa_XmlSchema_KeyValuePair);
-
-        /// <summary>
         /// The identifier for the OpcUa_XmlSchema_PublishedVariableDataType Variable.
         /// </summary>
         public static readonly NodeId OpcUa_XmlSchema_PublishedVariableDataType = new NodeId(Opc.Ua.Variables.OpcUa_XmlSchema_PublishedVariableDataType);
@@ -38748,26 +38748,6 @@ namespace Opc.Ua
         /// The identifier for the OpcUa_XmlSchema_RolePermissionType Variable.
         /// </summary>
         public static readonly NodeId OpcUa_XmlSchema_RolePermissionType = new NodeId(Opc.Ua.Variables.OpcUa_XmlSchema_RolePermissionType);
-
-        /// <summary>
-        /// The identifier for the OpcUa_XmlSchema_DataTypeDefinition Variable.
-        /// </summary>
-        public static readonly NodeId OpcUa_XmlSchema_DataTypeDefinition = new NodeId(Opc.Ua.Variables.OpcUa_XmlSchema_DataTypeDefinition);
-
-        /// <summary>
-        /// The identifier for the OpcUa_XmlSchema_StructureField Variable.
-        /// </summary>
-        public static readonly NodeId OpcUa_XmlSchema_StructureField = new NodeId(Opc.Ua.Variables.OpcUa_XmlSchema_StructureField);
-
-        /// <summary>
-        /// The identifier for the OpcUa_XmlSchema_StructureDefinition Variable.
-        /// </summary>
-        public static readonly NodeId OpcUa_XmlSchema_StructureDefinition = new NodeId(Opc.Ua.Variables.OpcUa_XmlSchema_StructureDefinition);
-
-        /// <summary>
-        /// The identifier for the OpcUa_XmlSchema_EnumDefinition Variable.
-        /// </summary>
-        public static readonly NodeId OpcUa_XmlSchema_EnumDefinition = new NodeId(Opc.Ua.Variables.OpcUa_XmlSchema_EnumDefinition);
 
         /// <summary>
         /// The identifier for the OpcUa_XmlSchema_Argument Variable.
@@ -39080,6 +39060,11 @@ namespace Opc.Ua
         public static readonly NodeId OpcUa_BinarySchema_NamespaceUri = new NodeId(Opc.Ua.Variables.OpcUa_BinarySchema_NamespaceUri);
 
         /// <summary>
+        /// The identifier for the OpcUa_BinarySchema_KeyValuePair Variable.
+        /// </summary>
+        public static readonly NodeId OpcUa_BinarySchema_KeyValuePair = new NodeId(Opc.Ua.Variables.OpcUa_BinarySchema_KeyValuePair);
+
+        /// <summary>
         /// The identifier for the OpcUa_BinarySchema_IdentityMappingRuleType Variable.
         /// </summary>
         public static readonly NodeId OpcUa_BinarySchema_IdentityMappingRuleType = new NodeId(Opc.Ua.Variables.OpcUa_BinarySchema_IdentityMappingRuleType);
@@ -39120,11 +39105,6 @@ namespace Opc.Ua
         public static readonly NodeId OpcUa_BinarySchema_EnumDescription = new NodeId(Opc.Ua.Variables.OpcUa_BinarySchema_EnumDescription);
 
         /// <summary>
-        /// The identifier for the OpcUa_BinarySchema_KeyValuePair Variable.
-        /// </summary>
-        public static readonly NodeId OpcUa_BinarySchema_KeyValuePair = new NodeId(Opc.Ua.Variables.OpcUa_BinarySchema_KeyValuePair);
-
-        /// <summary>
         /// The identifier for the OpcUa_BinarySchema_PublishedVariableDataType Variable.
         /// </summary>
         public static readonly NodeId OpcUa_BinarySchema_PublishedVariableDataType = new NodeId(Opc.Ua.Variables.OpcUa_BinarySchema_PublishedVariableDataType);
@@ -39138,26 +39118,6 @@ namespace Opc.Ua
         /// The identifier for the OpcUa_BinarySchema_RolePermissionType Variable.
         /// </summary>
         public static readonly NodeId OpcUa_BinarySchema_RolePermissionType = new NodeId(Opc.Ua.Variables.OpcUa_BinarySchema_RolePermissionType);
-
-        /// <summary>
-        /// The identifier for the OpcUa_BinarySchema_DataTypeDefinition Variable.
-        /// </summary>
-        public static readonly NodeId OpcUa_BinarySchema_DataTypeDefinition = new NodeId(Opc.Ua.Variables.OpcUa_BinarySchema_DataTypeDefinition);
-
-        /// <summary>
-        /// The identifier for the OpcUa_BinarySchema_StructureField Variable.
-        /// </summary>
-        public static readonly NodeId OpcUa_BinarySchema_StructureField = new NodeId(Opc.Ua.Variables.OpcUa_BinarySchema_StructureField);
-
-        /// <summary>
-        /// The identifier for the OpcUa_BinarySchema_StructureDefinition Variable.
-        /// </summary>
-        public static readonly NodeId OpcUa_BinarySchema_StructureDefinition = new NodeId(Opc.Ua.Variables.OpcUa_BinarySchema_StructureDefinition);
-
-        /// <summary>
-        /// The identifier for the OpcUa_BinarySchema_EnumDefinition Variable.
-        /// </summary>
-        public static readonly NodeId OpcUa_BinarySchema_EnumDefinition = new NodeId(Opc.Ua.Variables.OpcUa_BinarySchema_EnumDefinition);
 
         /// <summary>
         /// The identifier for the OpcUa_BinarySchema_Argument Variable.
@@ -39500,11 +39460,6 @@ namespace Opc.Ua
         public static readonly NodeId ServerVendorCapabilityType = new NodeId(Opc.Ua.VariableTypes.ServerVendorCapabilityType);
 
         /// <summary>
-        /// The identifier for the SelectionListType VariableType.
-        /// </summary>
-        public static readonly NodeId SelectionListType = new NodeId(Opc.Ua.VariableTypes.SelectionListType);
-
-        /// <summary>
         /// The identifier for the ServerStatusType VariableType.
         /// </summary>
         public static readonly NodeId ServerStatusType = new NodeId(Opc.Ua.VariableTypes.ServerStatusType);
@@ -39563,6 +39518,11 @@ namespace Opc.Ua
         /// The identifier for the OptionSetType VariableType.
         /// </summary>
         public static readonly NodeId OptionSetType = new NodeId(Opc.Ua.VariableTypes.OptionSetType);
+
+        /// <summary>
+        /// The identifier for the SelectionListType VariableType.
+        /// </summary>
+        public static readonly NodeId SelectionListType = new NodeId(Opc.Ua.VariableTypes.SelectionListType);
 
         /// <summary>
         /// The identifier for the StateVariableType VariableType.
@@ -40507,6 +40467,16 @@ namespace Opc.Ua
         /// The BrowseName for the AutoDelete component.
         /// </summary>
         public const string AutoDelete = "AutoDelete";
+
+        /// <summary>
+        /// The BrowseName for the AvailableStates component.
+        /// </summary>
+        public const string AvailableStates = "AvailableStates";
+
+        /// <summary>
+        /// The BrowseName for the AvailableTransitions component.
+        /// </summary>
+        public const string AvailableTransitions = "AvailableTransitions";
 
         /// <summary>
         /// The BrowseName for the AverageAlarmRate component.
@@ -41504,9 +41474,9 @@ namespace Opc.Ua
         public const string DeleteEventDetails = "DeleteEventDetails";
 
         /// <summary>
-        /// The BrowseName for the DeleteFile component.
+        /// The BrowseName for the DeleteFileSystemObject component.
         /// </summary>
-        public const string DeleteFile = "Delete";
+        public const string DeleteFileSystemObject = "Delete";
 
         /// <summary>
         /// The BrowseName for the DeleteMonitoredItemsCount component.
@@ -44374,6 +44344,11 @@ namespace Opc.Ua
         public const string RevisedSessionTimeout = "RevisedSessionTimeout";
 
         /// <summary>
+        /// The BrowseName for the RoleMappingRuleChangedAuditEventType component.
+        /// </summary>
+        public const string RoleMappingRuleChangedAuditEventType = "RoleMappingRuleChangedAuditEventType";
+
+        /// <summary>
         /// The BrowseName for the RoleName_Placeholder component.
         /// </summary>
         public const string RoleName_Placeholder = "<RoleName>";
@@ -44564,19 +44539,19 @@ namespace Opc.Ua
         public const string SelectedResponse = "SelectedResponse";
 
         /// <summary>
+        /// The BrowseName for the SelectionDescriptions component.
+        /// </summary>
+        public const string SelectionDescriptions = "SelectionDescriptions";
+
+        /// <summary>
         /// The BrowseName for the SelectionListType component.
         /// </summary>
         public const string SelectionListType = "SelectionListType";
 
         /// <summary>
-        /// The BrowseName for the SelectionValueDescriptions component.
+        /// The BrowseName for the Selections component.
         /// </summary>
-        public const string SelectionValueDescriptions = "SelectionValueDescriptions";
-
-        /// <summary>
-        /// The BrowseName for the SelectionValues component.
-        /// </summary>
-        public const string SelectionValues = "SelectionValues";
+        public const string Selections = "Selections";
 
         /// <summary>
         /// The BrowseName for the SemanticChangeEventType component.
@@ -45062,6 +45037,11 @@ namespace Opc.Ua
         /// The BrowseName for the StatusCode component.
         /// </summary>
         public const string StatusCode = "StatusCode";
+
+        /// <summary>
+        /// The BrowseName for the StatusCodeId component.
+        /// </summary>
+        public const string StatusCodeId = "StatusCodeId";
 
         /// <summary>
         /// The BrowseName for the StatusResult component.

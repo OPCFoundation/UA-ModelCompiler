@@ -1401,7 +1401,7 @@
       <Variable SymbolicName="tns:CurrentState" TypeDefinition="tns:FiniteStateVariableType" ModellingRule="Mandatory" />
       <Variable SymbolicName="tns:LastTransition" TypeDefinition="tns:FiniteTransitionVariableType" ModellingRule="Optional" />
       <Variable SymbolicName="tns:AvailableStates" ModellingRule="Optional" DataType="tns:NodeId" ValueRank="Array" />
-      <Variable SymbolicName="tns:PossibleTransitions" ModellingRule="Optional" DataType="tns:NodeId" ValueRank="Array" />
+      <Variable SymbolicName="tns:AvailableTransitions" ModellingRule="Optional" DataType="tns:NodeId" ValueRank="Array" />
     </Children>
   </ObjectType>
   <VariableType SymbolicName="tns:FiniteStateVariableType" PartNo="5" BaseType="tns:StateVariableType">
@@ -1502,7 +1502,7 @@
       </Object>
       <Method SymbolicName="tns:CreateDirectory" TypeDefinition="tns:CreateDirectoryMethodType" />
       <Method SymbolicName="tns:CreateFile" TypeDefinition="tns:CreateFileMethodType" />
-      <Method SymbolicName="tns:DeleteFile" TypeDefinition="tns:DeleteFileMethodType">
+      <Method SymbolicName="tns:DeleteFileSystemObject" TypeDefinition="tns:DeleteFileMethodType">
         <BrowseName>Delete</BrowseName>
       </Method>
       <Method SymbolicName="tns:MoveOrCopy" TypeDefinition="tns:MoveOrCopyMethodType" />

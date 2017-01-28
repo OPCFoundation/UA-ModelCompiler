@@ -1155,7 +1155,7 @@
       <opc:Variable SymbolicName="CurrentState" TypeDefinition="FiniteStateVariableType" ModellingRule="Mandatory" />
       <opc:Variable SymbolicName="LastTransition" TypeDefinition="FiniteTransitionVariableType" ModellingRule="Optional" />
       <opc:Variable SymbolicName="AvailableStates" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Optional" />
-      <opc:Variable SymbolicName="PossibleTransitions" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Optional" />
+      <opc:Variable SymbolicName="AvailableTransitions" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -1283,7 +1283,7 @@
       </opc:Method>
       <opc:Method SymbolicName="CreateFile" TypeDefinition="CreateFileMethodType">
       </opc:Method>
-      <opc:Method SymbolicName="DeleteFile" TypeDefinition="DeleteFileMethodType">
+      <opc:Method SymbolicName="DeleteFileSystemObject" TypeDefinition="DeleteFileMethodType">
         <opc:BrowseName>Delete</opc:BrowseName>
       </opc:Method>
       <opc:Method SymbolicName="MoveOrCopy" TypeDefinition="MoveOrCopyMethodType">
