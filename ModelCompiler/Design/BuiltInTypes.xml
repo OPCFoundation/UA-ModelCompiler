@@ -7,8 +7,8 @@
   xmlns="http://opcfoundation.org/UA/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
-  TargetVersion="1.03"
-  TargetPublicationDate="2013-12-02T00:00:00Z"
+  TargetVersion="1.04"
+  TargetPublicationDate="2016-12-31T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -144,7 +144,7 @@
     <opc:Description>Describes a value that is an image encoded as a string of bytes.</opc:Description>
   </opc:DataType>
   
-  <opc:DataType SymbolicName="Decimal128" BaseType="Number" PartNo="3">
+  <opc:DataType SymbolicName="Decimal" BaseType="Number" PartNo="3">
     <opc:Description>Describes a 128-bit decimal value.</opc:Description>
   </opc:DataType>
 
@@ -200,7 +200,7 @@
     <opc:InverseName>GeneratesEvent</opc:InverseName>
   </opc:ReferenceType>
 
-  <opc:ReferenceType SymbolicName="AlwaysGeneratesEvent" BaseType="NonHierarchicalReferences" PartNo="3">
+  <opc:ReferenceType SymbolicName="AlwaysGeneratesEvent" BaseType="GeneratesEvent" PartNo="3">
     <opc:Description>The type for references from a node to an event type that is always raised by node.</opc:Description>
     <opc:InverseName>AlwaysGeneratesEvent</opc:InverseName>
   </opc:ReferenceType>
@@ -530,5 +530,5 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
-
+   
 </opc:ModelDesign>

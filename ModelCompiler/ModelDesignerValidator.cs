@@ -914,16 +914,16 @@ namespace Opc.Ua.ModelCompiler
                 {
                     component = (ModelDesign)LoadInput(typeof(ModelDesign), designFilePaths[ii]);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     try
                     {
                         component = ImportTypeDictionary(designFilePaths[ii]);
                     }
-                    catch (Exception)
+                    catch (Exception e2)
                     {
                         // ignore exception - probably not a type dictionary.
-                        throw e;
+                        throw e2;
                     }
                 }
 
@@ -5573,6 +5573,7 @@ namespace Opc.Ua.ModelCompiler
             ViewState state = new ViewState();
             state.Handle = root;
             state.EventNotifier = ConstructEventNotifier(root.SupportsEvents);
+            state.ContainsNoLoops = root.ContainsNoLoops;
             return state;
         }
 

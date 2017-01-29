@@ -123,6 +123,7 @@ namespace Opc.Ua.ModelCompiler
 
             WriteTemplate_IdentifiersAnsiC(filePath, nodes);
             WriteTemplate_NamesAnsiC(filePath, nodes);
+            WriteTemplate_ExclusionsAnsiC(filePath, nodes);
         }
 
         /// <summary>
@@ -351,7 +352,102 @@ namespace Opc.Ua.ModelCompiler
             }
         }
 
+        /// <summary>
+        /// Creates a class that defines all types in the namespace.
+        /// </summary>
+        private void WriteTemplate_ExclusionsAnsiC(string filePath, List<NodeDesign> nodes)
+        {
+            string prefix = m_model.TargetNamespaceInfo.Name;
+
+            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}_exclusions.h", filePath, prefix.ToLower()), false);
+
+            try
+            {
+                string templateName = "Types.Identifiers.h";
+
+                Template template = new Template(writer, TemplatePath + templateName, Assembly.GetExecutingAssembly());
+
+                var identifiers = new Dictionary<string, List<string>>();
+
+                List<string> serviceNames = new List<string>();
+                List<string> datatypeNames = new List<string>();
+
+                for (int ii = 0; ii < nodes.Count; ii++)
+                {
+                    if (ii < nodes.Count - 1 && nodes[ii].SymbolicName.Name.EndsWith("Request") && nodes[ii+1].SymbolicName.Name.EndsWith("Response"))
+                    {
+                        serviceNames.Add(nodes[ii].SymbolicName.Name.Replace("Request", ""));
+                        continue;
+                    }
+
+                    if (ii > 0 && nodes[ii-1].SymbolicName.Name.EndsWith("Request") && nodes[ii].SymbolicName.Name.EndsWith("Response"))
+                    {
+                        continue;
+                    }
+
+                    var dt = nodes[ii] as DataTypeDesign;
+
+                    if (dt != null && dt.BasicDataType == BasicDataType.UserDefined)
+                    {
+                        datatypeNames.Add(dt.SymbolicName.Name);
+                    }
+                }
+
+                identifiers["Service"] = serviceNames;
+                identifiers["DataType"] = datatypeNames;
+
+                template.AddReplacement("_Date_", DateTime.Now.ToShortDateString());
+                template.AddReplacement("_FileName_", String.Format("{0}_Exclusions", prefix));
+
+                AddTemplate(
+                    template,
+                    "// ListOfIdentifiers",
+                    null,
+                    identifiers,
+                    new LoadTemplateEventHandler(LoadTemplate_ExclusionsAnsiC),
+                    null);
+
+                Context context = new Context();
+                context.BlankLine = true;
+                template.WriteTemplate(context);
+                template.WriteNextLine(String.Empty);
+            }
+            finally
+            {
+                writer.Close();
+            }
+        }
+
         #region ANSI C Identifier Generation
+        /// <summary>
+        /// Writes the code to define a exclusion macro for a type.
+        /// </summary>
+        private string LoadTemplate_ExclusionsAnsiC(Template template, Context context)
+        {
+            KeyValuePair<string, List<string>>? entry = context.Target as KeyValuePair<string, List<string>>?;
+
+            if (entry == null)
+            {
+                return null;
+            }
+
+            template.WriteNextLine(context.Prefix);
+            template.WriteNextLine(context.Prefix);
+            template.Write("/*============================================================================");
+            template.WriteNextLine(context.Prefix);
+            template.Write("* {0} Exclusions", entry.Value.Key);
+            template.WriteNextLine(context.Prefix);
+            template.Write(" *===========================================================================*/");
+
+            for (int ii = 0; ii < entry.Value.Value.Count; ii++)
+            {
+                template.WriteNextLine(context.Prefix);
+                template.Write("/* #define OPCUA_EXCLUDE_{0} */", entry.Value.Value[ii]);
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Writes the code to defined a identifier for a type.
         /// </summary>
@@ -622,7 +718,23 @@ namespace Opc.Ua.ModelCompiler
             // don't write built-in types.
             if (dataType.NumericId < 256 && dataType.SymbolicId.Namespace == DefaultNamespace)
             {
-                return null;
+                switch (dataType.NumericId)
+                {
+                    case DataTypes.RolePermissionType:
+                    case DataTypes.StructureDefinition:
+                    case DataTypes.StructureField:
+                    case DataTypes.StructureType:
+                    case DataTypes.EnumDefinition:
+                    case DataTypes.EnumField:
+                    {
+                        break;
+                    }
+
+                    default:
+                    {
+                        return null;
+                    }
+                }
             }
 
             BasicDataType basicType = dataType.BasicDataType;
@@ -1151,7 +1263,23 @@ namespace Opc.Ua.ModelCompiler
             // don't write built-in types.
             if (dataType.NumericId < 256 && dataType.SymbolicId.Namespace == DefaultNamespace)
             {
-                return null;
+                switch (dataType.NumericId)
+                {
+                    case DataTypes.RolePermissionType:
+                    case DataTypes.StructureDefinition:
+                    case DataTypes.StructureField:
+                    case DataTypes.StructureType:
+                    case DataTypes.EnumDefinition:
+                    case DataTypes.EnumField:
+                    {
+                        break;
+                    }
+
+                    default:
+                    {
+                        return null;
+                    }
+                }
             }
 
             BasicDataType basicType = dataType.BasicDataType;

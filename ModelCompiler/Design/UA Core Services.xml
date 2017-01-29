@@ -58,6 +58,67 @@
     </opc:Value>
   </opc:EnumeratedType>
 
+  <opc:EnumeratedType Name="PermissionType" PartNo="3">
+    <opc:Value Name="None" Value="0" />
+    <opc:Value Name="Browse" Value="1" />
+    <opc:Value Name="ReadRolePermissions" Value="2" />
+    <opc:Value Name="WriteAttribute" Value="4" />
+    <opc:Value Name="WriteRolePermissions" Value="8" />
+    <opc:Value Name="WriteHistorizing" Value="16" />
+    <opc:Value Name="Read" Value="32" />
+    <opc:Value Name="Write" Value="64" />
+    <opc:Value Name="ReadHistory" Value="128" />
+    <opc:Value Name="InsertHistory" Value="256" />
+    <opc:Value Name="ModifyHistory" Value="512" />
+    <opc:Value Name="DeleteHistory" Value="1024" />
+    <opc:Value Name="ReceiveEvents" Value="2048" />
+    <opc:Value Name="Call" Value="4096" />
+    <opc:Value Name="AddReference" Value="8192" />
+    <opc:Value Name="RemoveReference" Value="16384" />
+    <opc:Value Name="DeleteNode" Value="32768" />
+    <opc:Value Name="AddNode" Value="65536" />
+    <opc:Value Name="All" Value="131071" />
+  </opc:EnumeratedType>
+
+  <opc:EnumeratedType Name="AccessRestrictionType" PartNo="3">
+    <opc:Value Name="None" Value="0" />
+    <opc:Value Name="SigningRequired" Value="1" />
+    <opc:Value Name="EncryptionRequired" Value="2" />
+    <opc:Value Name="SessionRequired " Value="4" />
+  </opc:EnumeratedType>
+  
+  <opc:ComplexType Name="RolePermissionType" AllowArrays="true" PartNo="3">
+    <opc:Field Name="RoleId" DataType="s0:NodeId" />
+    <opc:Field Name="Permissions" DataType="s0:UInt32" />
+  </opc:ComplexType>
+
+  <opc:ComplexType Name="DataTypeDefinition" NotInAddressSpace="true" AllowArrays="true" PartNo="3" />
+
+  <opc:EnumeratedType Name="StructureType" NotInAddressSpace="true" PartNo="3">
+    <opc:Value Name="Structure" Value="0" />
+    <opc:Value Name="StructureWithOptionalFields" Value="1" />
+    <opc:Value Name="Union" Value="2" />
+  </opc:EnumeratedType>
+
+  <opc:ComplexType Name="StructureField" NotInAddressSpace="true" AllowArrays="true" PartNo="3">
+    <opc:Field Name="Name"  DataType="s0:String"></opc:Field>
+    <opc:Field Name="Description"  DataType="s0:LocalizedText"></opc:Field>
+    <opc:Field Name="DataType"  DataType="s0:NodeId"></opc:Field>
+    <opc:Field Name="ValueRank"  DataType="s0:Int32"></opc:Field>
+    <opc:Field Name="IsOptional"  DataType="s0:Boolean"></opc:Field>
+  </opc:ComplexType>
+
+  <opc:ComplexType Name="StructureDefinition" NotInAddressSpace="true" BaseType="DataTypeDefinition" PartNo="3">
+    <opc:Field Name="DefaultEncodingId" DataType="s0:NodeId"></opc:Field>
+    <opc:Field Name="BaseDataType" DataType="s0:NodeId"></opc:Field>
+    <opc:Field Name="StructureType" DataType="StructureType"></opc:Field>
+    <opc:Field Name="Fields" DataType="StructureField" ValueRank="0"></opc:Field>
+  </opc:ComplexType>
+
+  <opc:ComplexType Name="EnumDefinition" NotInAddressSpace="true" BaseType="DataTypeDefinition" PartNo="3">
+    <opc:Field Name="Fields" DataType="EnumField" ValueRank="0"></opc:Field>
+  </opc:ComplexType>
+
   <opc:ComplexType Name="Node" AllowArrays="true" NotInAddressSpace="true" PartNo="3">
     <opc:Documentation>Specifies the attributes which belong to all nodes.</opc:Documentation>
     <opc:Field Name="NodeId" DataType="s0:NodeId">
@@ -80,6 +141,15 @@
     </opc:Field>
     <opc:Field Name="UserWriteMask" DataType="s0:UInt32">
       <opc:Documentation>A mask indicating which attributes are writable by the current user.</opc:Documentation>
+    </opc:Field>
+    <opc:Field Name="RolePermissions" DataType="RolePermissionType" ValueRank="0">
+      <opc:Documentation>A list of permissions for the node assigned to roles.</opc:Documentation>
+    </opc:Field>
+    <opc:Field Name="UserRolePermissions" DataType="RolePermissionType" ValueRank="0">
+      <opc:Documentation>A list of permissions for the node assigned to roles which are available to the current session.</opc:Documentation>
+    </opc:Field>
+    <opc:Field Name="AccessRestrictions" DataType="s0:UInt16">
+      <opc:Documentation>A mask indicating any access restrictions that apply to the node.</opc:Documentation>
     </opc:Field>
     <opc:Field Name="References" DataType="ReferenceNode" ValueRank="0">
       <opc:Documentation>The references that belong to the node.</opc:Documentation>
@@ -129,6 +199,9 @@
     </opc:Field>
     <opc:Field Name="Historizing" DataType="s0:Boolean">
       <opc:Documentation>TRUE if the server is current storing the history of the value.</opc:Documentation>
+    </opc:Field>
+    <opc:Field Name="AccessLevelEx" DataType="s0:UInt32">
+      <opc:Documentation>A bit mask specifying how the value may be accessed.</opc:Documentation>
     </opc:Field>
   </opc:ComplexType>
 
@@ -186,6 +259,9 @@
   <opc:ComplexType Name="DataTypeNode" BaseType="TypeNode" NotInAddressSpace="true" PartNo="3">
     <opc:Field Name="IsAbstract" DataType="s0:Boolean">
       <opc:Documentation>If TRUE the type is abstract and only subtypes of it appear in the address space.</opc:Documentation>
+    </opc:Field>
+    <opc:Field Name="DataTypeDefinition" DataType="s0:ExtensionObject">
+      <opc:Documentation>Provides the metadata and encoding information for custom DataTypes.</opc:Documentation>
     </opc:Field>
   </opc:ComplexType>
 
@@ -387,7 +463,13 @@
       <opc:Documentation>A standard header included in all responses returned by servers.</opc:Documentation>
     </opc:Field>
   </opc:ComplexType>
-  
+
+  <opc:ComplexType Name="SessionLessServiceMessageType" NotInAddressSpace="true" PartNo="4">
+    <opc:Field Name="NamespaceUris" DataType="s0:String" ValueRank="0" />
+    <opc:Field Name="ServerUris" DataType="s0:String" ValueRank="0" />
+    <opc:Field Name="ServiceId" DataType="s0:UInt32" />
+  </opc:ComplexType>
+
   <opc:ServiceType Name="FindServers" InterfaceType="Discovery">
     <opc:Documentation>Finds the servers known to the discovery server.</opc:Documentation>
     <opc:Request>
@@ -468,9 +550,6 @@
     </opc:Value>
     <opc:Value Name="IssuedToken" Value="3">
       <opc:Documentation>A user identified by WS-Security XML token.</opc:Documentation>
-    </opc:Value>
-    <opc:Value Name="Kerberos" Value="4">
-      <opc:Documentation>A user identified by Kerberos ticket.</opc:Documentation>
     </opc:Value>
   </opc:EnumeratedType>
 
@@ -817,11 +896,6 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="KerberosIdentityToken" BaseType="UserIdentityToken" PartNo="4">
-    <opc:Field  Name="TicketData" DataType="s0:ByteString">
-    </opc:Field>
-  </opc:ComplexType>
-
   <opc:ComplexType Name="IssuedIdentityToken" BaseType="UserIdentityToken" PartNo="4">
     <opc:Documentation>A token representing a user identified by a WS-Security XML token.</opc:Documentation>
     <opc:Field  Name="TokenData" DataType="s0:ByteString">
@@ -978,31 +1052,40 @@
     <opc:Value Name="Value" Value="2097152">
       <opc:Documentation>The value attribute is specified.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="All" Value="4194303">
+    <opc:Value Name="DataTypeDefinition" Value="4194304">
+      <opc:Documentation>The write mask attribute is specified.</opc:Documentation>
+    </opc:Value>
+    <opc:Value Name="RolePermissions" Value="8388608">
+      <opc:Documentation>The write mask attribute is specified.</opc:Documentation>
+    </opc:Value>
+    <opc:Value Name="AccessRestrictions" Value="16777216">
+      <opc:Documentation>The write mask attribute is specified.</opc:Documentation>
+    </opc:Value>
+    <opc:Value Name="All" Value="33554431">
       <opc:Documentation>All attributes are specified.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="BaseNode" Value="1335396">
+    <opc:Value Name="BaseNode" Value="26501220">
       <opc:Documentation>All base attributes are specified.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="Object" Value="1335524">
+    <opc:Value Name="Object" Value="26501348">
       <opc:Documentation>All object attributes are specified.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="ObjectTypeOrDataType" Value="1337444">
-      <opc:Documentation>All object type or data type attributes are specified.</opc:Documentation>
+    <opc:Value Name="ObjectType" Value="26503268">
+      <opc:Documentation>All object type attributes are specified.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="Variable" Value="4026999">
+    <opc:Value Name="Variable" Value="26571383">
       <opc:Documentation>All variable attributes are specified.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="VariableType" Value="3958902">
+    <opc:Value Name="VariableType" Value="28600438">
       <opc:Documentation>All variable type attributes are specified.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="Method" Value="1466724">
+    <opc:Value Name="Method" Value="26632548">
       <opc:Documentation>All method attributes are specified.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="ReferenceType" Value="1371236">
+    <opc:Value Name="ReferenceType" Value="26537060">
       <opc:Documentation>All reference type attributes are specified.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="View" Value="1335532">
+    <opc:Value Name="View" Value="26501356">
       <opc:Documentation>All view attributes are specified.</opc:Documentation>
     </opc:Value>
   </opc:EnumeratedType>
@@ -1125,6 +1208,15 @@
     <opc:Field Name="EventNotifier" DataType="s0:Byte">
       <opc:Documentation>A mask indicating whether events are produced by the view.</opc:Documentation>
     </opc:Field>
+  </opc:ComplexType>
+
+  <opc:ComplexType Name="GenericAttributeValue" NotInAddressSpace="true" AllowArrays="true" PartNo="4">
+    <opc:Field Name="AttributeId" DataType="IntegerId" />
+    <opc:Field Name="Value" DataType="s0:Variant" />
+  </opc:ComplexType>
+
+  <opc:ComplexType Name="GenericAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" PartNo="4">
+    <opc:Field Name="AttributeValues" DataType="GenericAttributeValue" ValueRank="0" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="AddNodesItem" AllowArrays="true" PartNo="4">
@@ -1376,6 +1468,18 @@
     <opc:Value Name="ValueForVariableType" Value="2097152">
       <opc:Documentation>The value attribute is writable.</opc:Documentation>
     </opc:Value>
+    <opc:Value Name="DataTypeDefinition" Value="4194304">
+      <opc:Documentation>The DataTypeDefinition attribute is writable.</opc:Documentation>
+    </opc:Value>
+    <opc:Value Name="RolePermissions" Value="8388608">
+      <opc:Documentation>The RolePermissions attribute is writable.</opc:Documentation>
+    </opc:Value>
+    <opc:Value Name="AccessRestrictions" Value="16777216">
+      <opc:Documentation>The AccessRestrictions attribute is writable.</opc:Documentation>
+    </opc:Value>
+    <opc:Value Name="AccessLevelEx" Value="33554432">
+      <opc:Documentation>The AccessLevelEx attribute is writable.</opc:Documentation>
+    </opc:Value>
   </opc:EnumeratedType>
 
   <opc:EnumeratedType Name="BrowseDirection" NotInAddressSpace="true" PartNo="4">
@@ -1389,6 +1493,7 @@
     <opc:Value Name="Both" Value="2">
       <opc:Documentation>Return forward and inverse references.</opc:Documentation>
     </opc:Value>
+    <opc:Value Name="Invalid" Value="3" />
   </opc:EnumeratedType>
 
   <opc:ComplexType Name="ViewDescription" NotInAddressSpace="true" PartNo="4">
@@ -1698,35 +1803,6 @@
     <opc:Field  Name="SecurityTokenLifetime" DataType="s0:Int32" />
   </opc:ComplexType>
 
-  <opc:EnumeratedType Name="ComplianceLevel" PartNo="4">
-    <opc:Value Name="Untested" Value="0" />
-    <opc:Value Name="Partial" Value="1" />
-    <opc:Value Name="SelfTested" Value="2" />
-    <opc:Value Name="Certified" Value="3" />
-  </opc:EnumeratedType>
-
-  <opc:ComplexType Name="SupportedProfile" AllowArrays="true" PartNo="4">
-    <opc:Field Name="OrganizationUri" DataType="s0:String" />
-    <opc:Field Name="ProfileId" DataType="s0:String" />
-    <opc:Field Name="ComplianceTool" DataType="s0:String" />
-    <opc:Field Name="ComplianceDate" DataType="UtcTime" />
-    <opc:Field Name="ComplianceLevel" DataType="ComplianceLevel" />
-    <opc:Field Name="UnsupportedUnitIds" DataType="s0:String" ValueRank="0" />
-  </opc:ComplexType>
-
-  <opc:ComplexType Name="SoftwareCertificate" PartNo="4">
-    <opc:Field Name="ProductName" DataType="s0:String" />
-    <opc:Field Name="ProductUri" DataType="s0:String" />
-    <opc:Field Name="VendorName" DataType="s0:String" />
-    <opc:Field Name="VendorProductCertificate" DataType="s0:ByteString" />
-    <opc:Field Name="SoftwareVersion" DataType="s0:String" />
-    <opc:Field Name="BuildNumber" DataType="s0:String" />
-    <opc:Field Name="BuildDate" DataType="UtcTime" />
-    <opc:Field Name="IssuedBy" DataType="s0:String" />
-    <opc:Field Name="IssueDate" DataType="s0:DateTime" />
-    <opc:Field Name="SupportedProfiles" DataType="SupportedProfile" ValueRank="0" />
-  </opc:ComplexType>
-
   <opc:ComplexType Name="QueryDataDescription" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
     <opc:Field Name="RelativePath" DataType="RelativePath" />
     <opc:Field Name="AttributeId" DataType="IntegerId" />
@@ -1861,6 +1937,7 @@
     <opc:Value Name="Server" Value="1" />
     <opc:Value Name="Both" Value="2" />
     <opc:Value Name="Neither" Value="3" />
+    <opc:Value Name="Invalid" Value="4" />
   </opc:EnumeratedType>
 
   <opc:ComplexType Name="ReadValueId" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
@@ -2386,6 +2463,7 @@
     </opc:Response>
   </opc:ServiceType>
 
+  <!--
   <opc:EnumeratedType AllowArrays="true" Name="EnumeratedTestType" PartNo="999">
     <opc:Documentation>A simple enumerated type used for testing.</opc:Documentation>
     <opc:Value Name="Red" Value="1">
@@ -2399,7 +2477,6 @@
     </opc:Value>
   </opc:EnumeratedType>
 
-  <!--
   <opc:ComplexType AllowArrays="true" Name="ScalarTestType" PartNo="999">
     <opc:Documentation>A complex type containing all possible scalar types used for testing.</opc:Documentation>
     <opc:Field Name="Boolean" DataType="s0:Boolean"/>
@@ -2753,5 +2830,7 @@
     <opc:Value Name="PercentOfEURange" Value="3" />
     <opc:Value Name="Unknown" Value="4" />
   </opc:EnumeratedType>
+
+
 
 </opc:TypeDictionary>

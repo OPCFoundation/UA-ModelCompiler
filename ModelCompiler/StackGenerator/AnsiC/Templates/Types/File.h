@@ -31,10 +31,6 @@
 #ifndef __Prefix__Types_H_
 #define __Prefix__Types_H_ 1
 
-#ifndef OPCUA_FORCE_INT32_ENUMS
-# error OPCUA_FORCE_INT32_ENUMS must be defined!
-#endif /* OPCUA_FORCE_INT32_ENUMS */
-
 #include <opcua_builtintypes.h>
 
 OPCUA_BEGIN_EXTERN_C
