@@ -24,6 +24,7 @@ REM Leaving these fields empty will skip the operation
 
 set ANSIC_TARGET=
 set DOTNET_TARGET=
+set GDS_TARGET=
 set DI_TARGET=
 set ADI_TARGET=
 
@@ -84,6 +85,12 @@ IF NOT EXIST %OUTPUT%\FDI MKDIR %OUTPUT%\FDI
 %MODELCOMPILER% -d2 ".\ModelCompiler\Design\OpcUaFDIPart7Model.xml" -cg ".\ModelCompiler\Design\OpcUaFDIPart7Model.csv" -o2 "%OUTPUT%\FDI\"
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
 
+SET PARTNAME="DemoModel"
+ECHO Building %PARTNAME%
+IF NOT EXIST %OUTPUT%\DemoModel MKDIR %OUTPUT%\DemoModel
+%MODELCOMPILER% -d2 ".\ModelCompiler\Design\DemoModel.xml" -cg ".\ModelCompiler\Design\DemoModel.csv" -o2 "%OUTPUT%\DemoModel\"
+IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
+
 REM STEP 2) Copy the generated files to the OUTPUT directory which is how our nodeset files are created...
 
 ECHO Copying CSV files to %OUTPUT%\Schema\
@@ -93,6 +100,8 @@ COPY ".\ModelCompiler\Design\UA Attributes.csv" "%OUTPUT%\Schema\AttributeIds.cs
 COPY ".\Core\Schema\UANodeSet.xsd" "%OUTPUT%\Schema\UANodeSet.xsd"
 COPY ".\Core\Schema\SecuredApplication.xsd" "%OUTPUT%\Schema\SecuredApplication.xsd"
 COPY ".\Core\Types\Schemas\OPCBinarySchema.xsd" "%OUTPUT%\Schema\OPCBinarySchema.xsd"
+COPY ".\ModelCompiler\Design\rec20_latest.csv" "%OUTPUT%\Schema\rec20_latest.csv"
+COPY ".\ModelCompiler\Design\UNECE_to_OPCUA.csv" "%OUTPUT%\Schema\UNECE_to_OPCUA.csv"
 @ECHO OFF
 
 REM STEP 2a) Copy code to ANSIC
@@ -100,6 +109,7 @@ IF "%ANSIC_TARGET%" NEQ "" (
 	ECHO Copying ANSIC code to %ANSIC_TARGET%
 	ECHO ON
 	COPY "%OUTPUT%\AnsiC\opcua_statuscodes.h" "%ANSIC_TARGET%\core\"
+	COPY "%OUTPUT%\AnsiC\opcua_exclusions.h" "%ANSIC_TARGET%\core\"
 	COPY "%OUTPUT%\AnsiC\opcua_attributes.h" "%ANSIC_TARGET%\stackcore\"
 	COPY "%OUTPUT%\AnsiC\opcua_browsenames.h" "%ANSIC_TARGET%\stackcore\"
 	COPY "%OUTPUT%\AnsiC\opcua_identifiers.h" "%ANSIC_TARGET%\stackcore\"
@@ -137,6 +147,21 @@ IF "%DOTNET_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\Schema\Opc.Ua.DataTypes.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.DataTypes.cs"
 	COPY "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.uanodes" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.PredefinedNodes.uanodes"
 	COPY "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.xml" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.PredefinedNodes.xml"
+	ECHO ON
+)
+
+REM STEP 2b) Copy code to GDS 
+IF "%GDS_TARGET%" NEQ "" (
+	ECHO Copying GDS code to %GDS_TARGET%
+	@ECHO OFF
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Types.bsd" "%GDS_TARGET%\Stack\Core\Schema\Opc.Ua.Gds.Types.bsd"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Types.xsd" "%GDS_TARGET%\Stack\Core\Schema\Opc.Ua.Gds.Types.xsd"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.NodeSet2.xml" "%GDS_TARGET%\Stack\Core\Schema\Opc.Ua.Gds.NodeSet2.xml"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Constants.cs" "%GDS_TARGET%\Stack\Core\Stack\Generated\Opc.Ua.Gds.Constants.cs"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.DataTypes.cs" "%GDS_TARGET%\Stack\Core\Stack\Generated\Opc.Ua.Gds.DataTypes.cs"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Classes.cs" "%GDS_TARGET%\GDS\Server\Model\Opc.Ua.Gds.Classes.cs"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.PredefinedNodes.uanodes" "%GDS_TARGET%\GDS\Server\Model\Opc.Ua.Gds.PredefinedNodes.uanodes"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.PredefinedNodes.xml" "%GDS_TARGET%\GDS\Server\Model\Opc.Ua.Gds.PredefinedNodes.xml"
 	ECHO ON
 )
 

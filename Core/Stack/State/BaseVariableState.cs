@@ -650,6 +650,29 @@ namespace Opc.Ua
         {
             get
             {
+                return (byte)m_accessLevel;
+            }
+
+            set
+            {
+                if (m_accessLevel != value)
+                {
+                    ChangeMasks |= NodeStateChangeMasks.NonValue;
+                }
+
+                m_accessLevel = value;
+            }
+        }
+
+        /// <summary>
+        /// The type of access available for the variable.
+        /// </summary>
+        /// <value>The access level.</value>
+        [DataMember(Name = "AccessLevelEx", Order = 4, IsRequired = false, EmitDefaultValue = false)]
+        public uint AccessLevelEx
+        {
+            get
+            {
                 return m_accessLevel;
             }
 
@@ -789,6 +812,11 @@ namespace Opc.Ua
         /// Raised when the AccessLevel attribute is read.
         /// </summary>
         public NodeAttributeEventHandler<byte> OnReadAccessLevel;
+
+        /// <summary>
+        /// Raised when the AccessLevelEx attribute is read.
+        /// </summary>
+        public NodeAttributeEventHandler<uint> OnReadAccessLevelEx;
 
         /// <summary>
         /// Raised when the AccessLevel attribute is written.
@@ -1101,7 +1129,7 @@ namespace Opc.Ua
 
             if ((attributesToSave & AttributesToSave.AccessLevel) != 0)
             {
-                encoder.WriteByte(null, m_accessLevel);
+                encoder.WriteByte(null, (byte)m_accessLevel);
             }
 
             if ((attributesToSave & AttributesToSave.UserAccessLevel) != 0)
@@ -1343,11 +1371,28 @@ namespace Opc.Ua
 
                 case Attributes.AccessLevel:
                 {
-                    byte accessLevel = m_accessLevel;
+                    byte accessLevel = (byte)(m_accessLevel & 0xFF);
 
                     if (OnReadAccessLevel != null)
                     {
                         result = OnReadAccessLevel(context, this, ref accessLevel);
+                    }
+
+                    if (ServiceResult.IsGood(result))
+                    {
+                        value = accessLevel;
+                    }
+
+                    return result;
+                }
+
+                case Attributes.AccessLevelEx:
+                {
+                    uint accessLevel = m_accessLevel;
+
+                    if (OnReadAccessLevel != null)
+                    {
+                        result = OnReadAccessLevelEx(context, this, ref accessLevel);
                     }
 
                     if (ServiceResult.IsGood(result))
@@ -1928,7 +1973,7 @@ namespace Opc.Ua
         private NodeId m_dataType;
         private int m_valueRank;
         private ReadOnlyList<uint> m_arrayDimensions;
-        private byte m_accessLevel;
+        private uint m_accessLevel;
         private byte m_userAccessLevel;
         private double m_minimumSamplingInterval;
         private bool m_historizing;

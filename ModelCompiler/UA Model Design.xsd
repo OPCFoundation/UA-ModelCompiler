@@ -444,7 +444,7 @@
     <xs:annotation>
       <xs:documentation>
         <html:p>
-          A View Node (not supported by the validator at this time).
+          A View Node.
         </html:p>
       </xs:documentation>
     </xs:annotation>

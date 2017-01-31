@@ -79,6 +79,12 @@ public class _ClassName_State<T> : _ClassName_State
         DataType = TypeInfo.GetDataTypeId(typeof(T));
         ValueRank = TypeInfo.GetValueRank(typeof(T));
     }
+
+    protected override void Initialize(ISystemContext context, NodeState source)
+    {
+        InitializeOptionalChildren(context);
+        base.Initialize(context, source);
+    }
     #endregion
 
     #region Public Members

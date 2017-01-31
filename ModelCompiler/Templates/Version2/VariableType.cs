@@ -111,6 +111,12 @@ public partial class _ClassName_State : _BaseClassName_State<BaseT>
         InitializeOptionalChildren(context);
     }
 
+    protected override void Initialize(ISystemContext context, NodeState source)
+    {
+        InitializeOptionalChildren(context);
+        base.Initialize(context, source);
+    }
+
     /// <summary>
     /// Initializes the any option children defined for the instance.
     /// </summary>

@@ -51,6 +51,9 @@ namespace Opc.Ua.ModelCompiler
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
+                //ProcessEngineeringUnitFile(@".\rec20_latest.csv", @".\UNECE_to_OPCUA.csv");
+                //return;
+
                 if (!ProcessCommandLine())
                 {
                     StreamReader reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Opc.Ua.ModelCompiler.HelpFile.txt"));
@@ -68,6 +71,169 @@ namespace Opc.Ua.ModelCompiler
                 else
                 {
                     Application.Run(new ExceptionDlg(e));
+                }
+            }
+        }
+
+        static List<string> ParseRow(string[] columns, ref bool quoted)
+        {
+            var row = new List<string>();
+            StringBuilder column = new StringBuilder();
+
+            for (int ii = 0; ii < columns.Length; ii++)
+            {
+                if (!quoted && columns[ii].TrimStart().StartsWith("\""))
+                {
+                    if (columns[ii].TrimEnd().EndsWith("\""))
+                    {
+                        var text = columns[ii].Trim().Replace("\"\"", "\"");
+                        row.Add(text.Substring(1, text.Length - 2));
+                        continue;
+                    }
+
+                    column.Append(columns[ii].TrimStart().Substring(1));
+                    quoted = true;
+                    continue;
+                }
+
+                if (quoted)
+                {
+                    if (columns[ii].TrimEnd().EndsWith("\""))
+                    {
+                        column.Append(",");
+                        var text = columns[ii].TrimEnd().Replace("\"\"", "\"");
+                        column.Append(text.Substring(0, text.Length - 1));
+                        quoted = false;
+                        row.Add(column.ToString());
+                        column.Length = 0;
+                        continue;
+                    }
+
+                    column.Append(",");
+                    column.Append(columns[ii].Replace("\"\"", "\""));
+                    continue;
+                }
+
+                row.Add(columns[ii].Trim());
+            }
+
+            return row;
+        }
+
+        static void ProcessEngineeringUnitFile(string input, string output)
+        {
+            Dictionary<string, int> headers = null;
+            var table = new List<List<string>>();
+            Dictionary<string, int> uniqueRows = new Dictionary<string, int>();
+
+            using (StreamReader reader = new StreamReader(input, new UTF8Encoding(false)))
+            {
+                var line = reader.ReadLine();
+
+                while (line != null)
+                {
+                    line = line.Trim();
+
+                    if (String.IsNullOrEmpty(line) || line.StartsWith("\","))
+                    {
+                        line = reader.ReadLine();
+                        continue;
+                    }
+
+                    var columns = line.Split(',');
+
+                    if (headers == null)
+                    {
+                        headers = new Dictionary<string, int>();
+
+                        for (int ii = 0; ii < columns.Length; ii++)
+                        {
+                            headers[columns[ii]] = ii;
+                        }
+                    }
+                    else
+                    {
+                        bool quoted = false;
+                        var row = ParseRow(columns, ref quoted);
+
+                        while (quoted)
+                        {
+                            var next = reader.ReadLine();
+
+                            if (next == null)
+                            {
+                                break;
+                            }
+
+                            line += next;
+                            columns = line.Split(',');
+                            quoted = false;
+                            row = ParseRow(columns, ref quoted);
+                        }
+
+                        int code = headers["Common Code"];
+
+                        int index = 0;
+
+                        if (uniqueRows.TryGetValue(row[code], out index))
+                        {
+                            table[index] = row;
+                        }
+                        else
+                        {
+                            uniqueRows[row[code]] = table.Count;
+                            table.Add(row);
+                        }
+                    }
+
+                    line = reader.ReadLine();
+                }
+            }
+
+
+            using (StreamWriter writer = new StreamWriter(output, false, new UTF8Encoding(true)))
+            {
+                writer.WriteLine("UNECECode,UnitId,DisplayName,Description");
+
+                int code = headers["Common Code"];
+                int name = headers["Symbol"];
+                int text = headers["Name"];
+
+                for (int ii = 0; ii < table.Count; ii++)
+                {
+                    if (table[ii].Count < 12)
+                    {
+                        continue;
+                    }
+
+                    var column = table[ii][code].Trim();
+
+                    if (String.IsNullOrEmpty(column))
+                    {
+                        continue;
+                    }
+
+                    var bytes = new UTF8Encoding(false).GetBytes(column);
+
+                    uint unitId = 0;
+
+                    for (int jj = 0; jj < bytes.Length; jj++)
+                    {
+                        unitId <<= 8;
+                        unitId += bytes[jj];
+                    }
+
+                    writer.Write(column);
+                    writer.Write(",");
+                    writer.Write(unitId);
+                    writer.Write(",");
+                    writer.Write("\"");
+                    writer.Write(table[ii][name].Trim().Replace("\"", "\"\""));
+                    writer.Write("\",");
+                    writer.Write("\"");
+                    writer.Write(table[ii][text].Trim().Replace("\"", "\"\""));
+                    writer.Write("\"");
+                    writer.WriteLine();
                 }
             }
         }
