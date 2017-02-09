@@ -281,6 +281,9 @@
   <opc:Constant Name="Bad_NodeNotInView">
     <opc:Documentation>The node is not part of the view.</opc:Documentation>
   </opc:Constant>
+  <opc:Constant Name="Bad_NumericOverflow">
+    <opc:Documentation>The number was not accepted because of a numeric overflow.</opc:Documentation>
+  </opc:Constant>
 
   <!-- RegisterServer -->
   <opc:Constant Name="Bad_ServerUriInvalid">

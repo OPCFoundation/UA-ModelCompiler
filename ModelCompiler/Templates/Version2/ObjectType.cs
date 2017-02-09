@@ -95,6 +95,9 @@ public partial class _ClassName_State : _BaseClassName_State<BaseT>
         InitializeOptionalChildren(context);
     }
 
+    /// <summary>
+    /// Initializes the instance with a node.
+    /// </summary>
     protected override void Initialize(ISystemContext context, NodeState source)
     {
         InitializeOptionalChildren(context);

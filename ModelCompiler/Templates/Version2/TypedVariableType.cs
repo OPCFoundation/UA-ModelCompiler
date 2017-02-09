@@ -80,6 +80,9 @@ public class _ClassName_State<T> : _ClassName_State
         ValueRank = TypeInfo.GetValueRank(typeof(T));
     }
 
+    /// <summary>
+    /// Initializes the instance with a node.
+    /// </summary>
     protected override void Initialize(ISystemContext context, NodeState source)
     {
         InitializeOptionalChildren(context);

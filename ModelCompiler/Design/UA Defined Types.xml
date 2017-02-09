@@ -92,10 +92,10 @@
   <DataType SymbolicName="tns:Structure" NumericId="22" PartNo="3" BaseType="tns:BaseDataType" IsAbstract="true">
     <Description>Describes a value that is any type of structure that can be described with a data encoding.</Description>
   </DataType>
-  <DataType SymbolicName="tns:DataValue" NumericId="23" PartNo="4" BaseType="tns:BaseDataType">
+  <DataType SymbolicName="tns:DataValue" NumericId="23" PartNo="4" BaseType="tns:BaseDataType" NotInAddressSpace="true">
     <Description>Describes a value that is a structure containing a value, a status code and timestamps.</Description>
   </DataType>
-  <DataType SymbolicName="tns:DiagnosticInfo" PartNo="4" BaseType="tns:BaseDataType">
+  <DataType SymbolicName="tns:DiagnosticInfo" PartNo="4" BaseType="tns:BaseDataType" NotInAddressSpace="true">
     <Description>Describes a value that is a structure containing diagnostics associated with a StatusCode.</Description>
   </DataType>
   <DataType SymbolicName="tns:Image" PartNo="3" BaseType="tns:ByteString">
@@ -3364,14 +3364,87 @@
   </Object>
   <ObjectType SymbolicName="tns:NetworkServiceFolderType" BaseType="tns:FolderType">
     <Children>
-      <Object SymbolicName="tns:ServiceName_Placeholder" TypeDefinition="tns:NetworkServiceType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:ServiceName_Placeholder" TypeDefinition="tns:CredentialManagementType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;ServiceName&gt;</BrowseName>
         <ReferenceType>tns:Organizes</ReferenceType>
       </Object>
-      <Property SymbolicName="tns:CredentialSecurityPolicies" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Array" />
     </Children>
   </ObjectType>
-  <Object SymbolicName="tns:NetworkServices" TypeDefinition="tns:NetworkServiceFolderType">
+  <Object SymbolicName="tns:AuthorizationServices" TypeDefinition="tns:NetworkServiceFolderType" />
+  <ObjectType SymbolicName="tns:CredentialManagementType" BaseType="tns:BaseObjectType">
+    <Children>
+      <Method SymbolicName="tns:StartCredentialRequest" TypeDefinition="tns:StartCredentialRequestMethodType" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:FinishCredentialRequest" TypeDefinition="tns:FinishCredentialRequestMethodType" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RevokeCredential" TypeDefinition="tns:RevokeCredentialMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:StartCredentialRequestMethodType">
+    <InputArguments>
+      <Argument Name="Certificate" DataType="tns:ByteString" />
+      <Argument Name="SecurityPolicyUri" DataType="tns:String" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="RequestId" DataType="tns:NodeId" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:FinishCredentialRequestMethodType">
+    <InputArguments>
+      <Argument Name="RequestId" DataType="tns:NodeId" />
+      <Argument Name="CancelRequest" DataType="tns:Boolean" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="CredentialId" DataType="tns:String" />
+      <Argument Name="CredentialSecret" DataType="tns:ByteString" />
+      <Argument Name="CertificateThumbprint" DataType="tns:String" />
+      <Argument Name="SecurityPolicyUri" DataType="tns:String" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:RevokeCredentialMethodType">
+    <InputArguments>
+      <Argument Name="CredentialId" DataType="tns:String" />
+    </InputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:NetworkServiceType" BaseType="tns:BaseObjectType">
+    <Children>
+      <Property SymbolicName="tns:ServiceUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
+      <Property SymbolicName="tns:ServiceProfileUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
+      <Property SymbolicName="tns:ServiceEndpointUrls" ModellingRule="Optional" DataType="tns:String" ValueRank="Array" />
+      <Object SymbolicName="tns:CredentialManagement" TypeDefinition="tns:CredentialManagementType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:AuthorizationServiceType" BaseType="tns:NetworkServiceType">
+    <Children>
+      <Property SymbolicName="tns:UserTokenPolicies" ModellingRule="Mandatory" DataType="tns:UserTokenPolicy" ValueRank="Array" />
+      <Method SymbolicName="tns:RequestAccessToken" TypeDefinition="tns:RequestAccessTokenMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:RequestAccessTokenMethodType">
+    <InputArguments>
+      <Argument Name="Identity" DataType="tns:UserIdentityToken" />
+      <Argument Name="ResourceId" DataType="tns:String" />
+      <Argument Name="CreationTime" DataType="tns:UtcTime" />
+      <Argument Name="Signature" DataType="tns:ByteString" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="AccessToken" DataType="tns:String" />
+    </OutputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:CredentialRequestedAuditEventType" BaseType="tns:AuditUpdateMethodEventType" IsAbstract="true">
+    <Children>
+      <Property SymbolicName="tns:ServiceUri" ModellingRule="Mandatory" DataType="tns:String" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:CredentialDeliveredAuditEventType" BaseType="tns:AuditUpdateMethodEventType" IsAbstract="true">
+    <Children>
+      <Property SymbolicName="tns:ServiceUri" ModellingRule="Mandatory" DataType="tns:String" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:CredentialRevokedAuditEventType" BaseType="tns:AuditUpdateMethodEventType" IsAbstract="true">
+    <Children>
+      <Property SymbolicName="tns:ServiceUri" ModellingRule="Mandatory" DataType="tns:String" />
+    </Children>
+  </ObjectType>
+  <Object SymbolicName="tns:NetworkServices" TypeDefinition="tns:FolderType">
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
@@ -3379,13 +3452,13 @@
       </Reference>
     </References>
   </Object>
-  <ObjectType SymbolicName="tns:NetworkServiceType" BaseType="tns:BaseObjectType">
+  <ObjectType SymbolicName="tns:NetworkServiceConfigurationType" BaseType="tns:BaseObjectType">
     <Children>
       <Property SymbolicName="tns:ServiceUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
+      <Property SymbolicName="tns:ServiceProfileUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
+      <Property SymbolicName="tns:ServiceEndpointUrls" ModellingRule="Optional" DataType="tns:String" ValueRank="Array" />
       <Property SymbolicName="tns:Enabled" ModellingRule="Mandatory" DataType="tns:Boolean" ValueRank="Scalar" />
       <Property SymbolicName="tns:ServiceStatus" ModellingRule="Mandatory" DataType="tns:StatusCode" ValueRank="Scalar" />
-      <Property SymbolicName="tns:TransportProfiles" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Array" />
-      <Property SymbolicName="tns:Endpoints" ModellingRule="Mandatory" DataType="tns:EndpointDescription" ValueRank="Array" />
       <Method SymbolicName="tns:UpdateCredential" TypeDefinition="tns:UpdateCredentialMethodType" ModellingRule="Mandatory" />
     </Children>
   </ObjectType>
@@ -3397,9 +3470,9 @@
       <Argument Name="SecurityPolicyUri" DataType="tns:String" />
     </InputArguments>
   </Method>
-  <ObjectType SymbolicName="tns:CredentialUpdatedAuditEventType" BaseType="tns:AuditUpdateMethodEventType" IsAbstract="true">
+  <ObjectType SymbolicName="tns:AuthorizationServiceConfigurationType" BaseType="tns:NetworkServiceConfigurationType">
     <Children>
-      <Property SymbolicName="tns:ServiceUri" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:ServiceCertificate" ModellingRule="Mandatory" DataType="tns:ByteString" ValueRank="Scalar" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:AggregateConfigurationType" PartNo="13" BaseType="tns:BaseObjectType">
@@ -3558,6 +3631,12 @@
     <BrowseName>VariancePopulation</BrowseName>
     <Description>Retrieve the variance for the interval as calculated by the StandardDeviationPopulation which includes Simple Bounding Values.</Description>
   </Object>
+  <DataType SymbolicName="tns:DecimalDataType" PartNo="3" BaseType="tns:Structure" NoArraysAllowed="true" NotInAddressSpace="true">
+    <Fields>
+      <Field Name="Scale" DataType="tns:Int16" />
+      <Field Name="Value" DataType="tns:ByteString" />
+    </Fields>
+  </DataType>
   <DataType SymbolicName="tns:ConfigurationVersionDataType" PartNo="14" BaseType="tns:Structure">
     <Fields>
       <Field Name="MajorVersion" DataType="tns:UInt32" />
