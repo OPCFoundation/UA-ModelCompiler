@@ -1,6 +1,5 @@
 @ECHO off
 REM ****************************************************************************************************************
-REM ** Nathan Pocock (nathan.pocock@opcfoundation.org) https://opcfoundation.org/
 REM ** --
 REM ** This script demonstrates how to use the model compiler to generate source code from a variety
 REM ** of XML files that adhere to the 'Nodeset2.xml' format. Please refer to the UA Specifications Part 6
@@ -25,8 +24,6 @@ REM Leaving these fields empty will skip the operation
 set ANSIC_TARGET=
 set DOTNET_TARGET=
 set GDS_TARGET=
-set DI_TARGET=
-set ADI_TARGET=
 
 REM Make sure that all of our output locations exist..
 
@@ -39,57 +36,18 @@ IF NOT EXIST %OUTPUT%\AnsiC MKDIR %OUTPUT%\AnsiC
 REM STEP 1) Generate all of our files first...
 
 SET PARTNAME="StandardTypes"
-ECHO Building %PARTNAME%
+ECHO Building Model %PARTNAME%
 %MODELCOMPILER% -d2 ".\ModelCompiler\Design\StandardTypes.xml" -d2 ".\ModelCompiler\Design\UA Core Services.xml" -c ".\ModelCompiler\Design\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\"
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 1 )
 
-SET PARTNAME="GDS"
-ECHO Building %PARTNAME%
-IF NOT EXIST %OUTPUT%\GDS MKDIR %OUTPUT%\GDS
-%MODELCOMPILER% -d2 ".\ModelCompiler\Design\OpcUaGdsModel.xml" -cg ".\ModelCompiler\Design\OpcUaGdsModel.csv" -o2 "%OUTPUT%\GDS\"
-IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 2 )
-
-SET PARTNAME="DI"
-ECHO Building %PARTNAME%
-IF NOT EXIST %OUTPUT%\DI MKDIR %OUTPUT%\DI
-%MODELCOMPILER% -d2 ".\ModelCompiler\Design\OpcUaDiModel.xml" -cg ".\ModelCompiler\Design\OpcUaDiModel.csv" -o2 "%OUTPUT%\DI\"
-IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 3 )
-
-SET PARTNAME="ADI"
-ECHO Building %PARTNAME%
-IF NOT EXIST %OUTPUT%\ADI MKDIR %OUTPUT%\ADI
-%MODELCOMPILER% -d2 ".\ModelCompiler\Design\OpcUaAdiModel.xml" -cg ".\ModelCompiler\Design\OpcUaAdiModel.csv" -o2 "%OUTPUT%\ADI\"
-IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 4 )
-
-SET PARTNAME="PLCopen"
-ECHO Building %PARTNAME%
-IF NOT EXIST %OUTPUT%\PLCopen MKDIR %OUTPUT%\PLCopen
-%MODELCOMPILER% -d2 ".\ModelCompiler\Design\OpcUaPLCopenModel.xml" -cg ".\ModelCompiler\Design\OpcUaPLCopenModel.csv" -o2 "%OUTPUT%\PLCopen\"
-IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
-
-SET PARTNAME="MTConnect"
-ECHO Building %PARTNAME%
-IF NOT EXIST %OUTPUT%\MTConnect MKDIR %OUTPUT%\MTConnect
-%MODELCOMPILER% -d2 ".\ModelCompiler\Design\MTConnectModel.xml" -cg ".\ModelCompiler\Design\MTConnectModel.csv" -o2 "%OUTPUT%\MTConnect\"
-IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
-
-SET PARTNAME="FDIPart5"
-ECHO Building %PARTNAME%
-IF NOT EXIST %OUTPUT%\FDI MKDIR %OUTPUT%\FDI
-%MODELCOMPILER% -d2 ".\ModelCompiler\Design\OpcUaFdiPart5Model.xml" -cg ".\ModelCompiler\Design\OpcUaFdiPart5Model.csv" -o2 "%OUTPUT%\FDI\"
-IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
-
-SET PARTNAME="FDIPart7"
-ECHO Building %PARTNAME%
-IF NOT EXIST %OUTPUT%\FDI MKDIR %OUTPUT%\FDI
-%MODELCOMPILER% -d2 ".\ModelCompiler\Design\OpcUaFDIPart7Model.xml" -cg ".\ModelCompiler\Design\OpcUaFDIPart7Model.csv" -o2 "%OUTPUT%\FDI\"
-IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
-
-SET PARTNAME="Sercos"
-ECHO Building %PARTNAME%
-IF NOT EXIST %OUTPUT%\Sercos  MKDIR %OUTPUT%\Sercos
-%MODELCOMPILER% -d2 ".\ModelCompiler\Design\SecrosModel.xml" -cg ".\ModelCompiler\Design\SecrosModel.csv" -o2 "%OUTPUT%\Sercos\"
-IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
+CALL PublishModel OpcUaGdsModel GDS
+CALL PublishModel OpcUaDiModel DI
+CALL PublishModel OpcUaAdiModel ADI
+CALL PublishModel OpcUaPLCopenModel PLCopen
+CALL PublishModel MTConnectModel MTConnect
+CALL PublishModel OpcUaFDIPart5Model FDI
+CALL PublishModel OpcUaFDIPart7Model FDI
+CALL PublishModel SercosModel Sercos
 
 REM SET PARTNAME="DemoModel"
 REM ECHO Building %PARTNAME%

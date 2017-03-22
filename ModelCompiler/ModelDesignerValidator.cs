@@ -914,7 +914,7 @@ namespace Opc.Ua.ModelCompiler
                 {
                     component = (ModelDesign)LoadInput(typeof(ModelDesign), designFilePaths[ii]);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     try
                     {
@@ -922,8 +922,7 @@ namespace Opc.Ua.ModelCompiler
                     }
                     catch (Exception e2)
                     {
-                        // ignore exception - probably not a type dictionary.
-                        throw e2;
+                        throw new AggregateException("Error parsing file " + designFilePaths[ii], e, e2);
                     }
                 }
 
