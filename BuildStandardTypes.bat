@@ -85,11 +85,17 @@ IF NOT EXIST %OUTPUT%\FDI MKDIR %OUTPUT%\FDI
 %MODELCOMPILER% -d2 ".\ModelCompiler\Design\OpcUaFDIPart7Model.xml" -cg ".\ModelCompiler\Design\OpcUaFDIPart7Model.csv" -o2 "%OUTPUT%\FDI\"
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
 
-SET PARTNAME="DemoModel"
+SET PARTNAME="Sercos"
 ECHO Building %PARTNAME%
-IF NOT EXIST %OUTPUT%\DemoModel MKDIR %OUTPUT%\DemoModel
-%MODELCOMPILER% -d2 ".\ModelCompiler\Design\DemoModel.xml" -cg ".\ModelCompiler\Design\DemoModel.csv" -o2 "%OUTPUT%\DemoModel\"
+IF NOT EXIST %OUTPUT%\Sercos  MKDIR %OUTPUT%\Sercos
+%MODELCOMPILER% -d2 ".\ModelCompiler\Design\SecrosModel.xml" -cg ".\ModelCompiler\Design\SecrosModel.csv" -o2 "%OUTPUT%\Sercos\"
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
+
+REM SET PARTNAME="DemoModel"
+REM ECHO Building %PARTNAME%
+REM IF NOT EXIST %OUTPUT%\DemoModel MKDIR %OUTPUT%\DemoModel
+REM %MODELCOMPILER% -d2 ".\ModelCompiler\Design\DemoModel.xml" -cg ".\ModelCompiler\Design\DemoModel.csv" -o2 "%OUTPUT%\DemoModel\"
+REM IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
 
 REM STEP 2) Copy the generated files to the OUTPUT directory which is how our nodeset files are created...
 

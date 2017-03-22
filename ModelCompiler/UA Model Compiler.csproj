@@ -217,6 +217,7 @@
     <None Include="Design\OpcUaDiModelv10.csv" />
     <None Include="Design\OpcUaDiModel.csv" />
     <None Include="Design\OpcUaPLCopenModel.csv" />
+    <None Include="Design\SecrosModel.csv" />
     <None Include="StackGenerator\DataTypes\Templates\XmlSchema\BuiltInTypes.xsx">
       <DependentUpon>BuiltInTypes.xsd</DependentUpon>
     </None>
@@ -227,6 +228,7 @@
     <EmbeddedResource Include="Design\UA Defined Types.xml" />
     <EmbeddedResource Include="HelpFile.txt" />
     <Content Include="Design\MTConnectModel.xml" />
+    <Content Include="Design\SecrosModel.xml" />
     <Content Include="Design\OpcUaFdiPart7Model.xml" />
     <Content Include="Design\OpcUaFdiPart5Model.xml" />
     <Content Include="Design\OpcUaGdsModel.xml">
