@@ -1685,7 +1685,8 @@
   </Method>
   <ObjectType SymbolicName="tns:RoleMappingRuleChangedAuditEventType" PartNo="5" BaseType="tns:AuditUpdateMethodEventType" />
   <Object SymbolicName="tns:WellKnownRole_Anonymous" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>Anonymous</BrowseName>
+    <BrowseName>AnonymousRole</BrowseName>
+    <DisplayName>Anonymous</DisplayName>
     <Description>The Role has very limited access for use when a Session has anonymous credentials.</Description>
     <References>
       <Reference IsInverse="true">
@@ -1695,7 +1696,8 @@
     </References>
   </Object>
   <Object SymbolicName="tns:WellKnownRole_AuthenticatedUser" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>AuthenticatedUser</BrowseName>
+    <BrowseName>AuthenticatedUserRole</BrowseName>
+    <DisplayName>AuthenticatedUser</DisplayName>
     <Description>The Role has limited access for use when a Session has valid non-anonymous credentials but has not been explicity granted access to a Role.</Description>
     <References>
       <Reference IsInverse="true">
@@ -1705,7 +1707,8 @@
     </References>
   </Object>
   <Object SymbolicName="tns:WellKnownRole_Observer" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>Observer</BrowseName>
+    <BrowseName>ObserverRole</BrowseName>
+    <DisplayName>Observer</DisplayName>
     <Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</Description>
     <References>
       <Reference IsInverse="true">
@@ -1715,7 +1718,8 @@
     </References>
   </Object>
   <Object SymbolicName="tns:WellKnownRole_Operator" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>Operator</BrowseName>
+    <BrowseName>OperatorRole</BrowseName>
+    <DisplayName>Operator</DisplayName>
     <Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</Description>
     <References>
       <Reference IsInverse="true">
@@ -1725,7 +1729,8 @@
     </References>
   </Object>
   <Object SymbolicName="tns:WellKnownRole_Engineer" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>Engineer</BrowseName>
+    <BrowseName>EngineerRole</BrowseName>
+    <DisplayName>Engineer</DisplayName>
     <Description>The Role is allowed to browse, read live data, read and update historical data/events, call methods or subscribe to data/events.</Description>
     <References>
       <Reference IsInverse="true">
@@ -1735,7 +1740,8 @@
     </References>
   </Object>
   <Object SymbolicName="tns:WellKnownRole_Supervisor" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>Supervisor</BrowseName>
+    <BrowseName>SupervisorRole</BrowseName>
+    <DisplayName>Supervisor</DisplayName>
     <Description>The Role is allowed to browse, read live data, read and historical data/events, call methods or subscribe to data/events.</Description>
     <References>
       <Reference IsInverse="true">
@@ -1745,7 +1751,8 @@
     </References>
   </Object>
   <Object SymbolicName="tns:WellKnownRole_SecurityAdmin" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>SecurityAdmin</BrowseName>
+    <BrowseName>SecurityAdminRole</BrowseName>
+    <DisplayName>SecurityAdmin</DisplayName>
     <Description>The Role is allowed to change security related settings.</Description>
     <References>
       <Reference IsInverse="true">
@@ -1755,7 +1762,8 @@
     </References>
   </Object>
   <Object SymbolicName="tns:WellKnownRole_ConfigureAdmin" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>ConfigureAdmin</BrowseName>
+    <BrowseName>ConfigureAdminRole</BrowseName>
+    <DisplayName>ConfigureAdmin</DisplayName>
     <Description>The Role is allowed to change the non-security related configuration settings.</Description>
     <References>
       <Reference IsInverse="true">
@@ -1867,14 +1875,14 @@
     <InverseName>IsAlarmSuppressionGroupOf</InverseName>
   </ReferenceType>
   <ReferenceType SymbolicName="tns:AlarmGroupMember" PartNo="9" BaseType="tns:Organizes">
-    <InverseName>MemberOfAlarmGroup </InverseName>
+    <InverseName>MemberOfAlarmGroup</InverseName>
   </ReferenceType>
   <ObjectType SymbolicName="tns:ConditionType" PartNo="9" BaseType="tns:BaseEventType" IsAbstract="true">
     <Children>
       <Property SymbolicName="tns:ConditionClassId" ModellingRule="Mandatory" DataType="tns:NodeId" />
       <Property SymbolicName="tns:ConditionClassName" ModellingRule="Mandatory" DataType="tns:LocalizedText" />
-      <Property SymbolicName="tns:ConditionClassModifier" ModellingRule="Optional" DataType="tns:NodeId" />
-      <Property SymbolicName="tns:ConditionClassModifierName" ModellingRule="Optional" DataType="tns:LocalizedText" />
+      <Property SymbolicName="tns:ConditionSubClass" ModellingRule="Optional" DataType="tns:NodeId" ValueRank="Array" />
+      <Property SymbolicName="tns:ConditionSubClassName" ModellingRule="Optional" DataType="tns:LocalizedText" ValueRank="Array" />
       <Property SymbolicName="tns:ConditionName" ModellingRule="Mandatory" DataType="tns:String" />
       <Property SymbolicName="tns:BranchId" ModellingRule="Mandatory" DataType="tns:NodeId" />
       <Property SymbolicName="tns:Retain" ModellingRule="Mandatory" DataType="tns:Boolean" />
@@ -2199,6 +2207,19 @@
           </Property>
         </Children>
       </Variable>
+      <Object SymbolicName="tns:ShelvingState" TypeDefinition="tns:ShelvedStateMachineType" ModellingRule="Optional">
+        <Children>
+          <Variable SymbolicName="tns:LastTransition" TypeDefinition="tns:FiniteTransitionVariableType" ModellingRule="Optional">
+            <Children>
+              <Property SymbolicName="tns:TransitionTime" ModellingRule="Optional" DataType="tns:UtcTime" />
+            </Children>
+          </Variable>
+        </Children>
+      </Object>
+      <Property SymbolicName="tns:SuppressedOrShelved" ModellingRule="Mandatory" DataType="tns:Boolean" />
+      <Property SymbolicName="tns:MaxTimeShelved" ModellingRule="Optional" DataType="tns:Duration" />
+      <Property SymbolicName="tns:AudibleEnabled" ModellingRule="Optional" DataType="tns:Boolean" />
+      <Variable SymbolicName="tns:AudibleSound" TypeDefinition="tns:AudioVariableType" ModellingRule="Optional" DataType="tns:AudioData" />
       <Variable SymbolicName="tns:SilenceState" TypeDefinition="tns:TwoStateVariableType" ModellingRule="Optional">
         <Children>
           <Property SymbolicName="tns:TransitionTime" ModellingRule="Optional" DataType="tns:UtcTime" />
@@ -2214,29 +2235,12 @@
             <DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
-                <uax:Text>Normal</uax:Text>
+                <uax:Text>NotSilenced</uax:Text>
               </uax:LocalizedText>
             </DefaultValue>
           </Property>
         </Children>
       </Variable>
-      <Object SymbolicName="tns:ShelvingState" TypeDefinition="tns:ShelvedStateMachineType" ModellingRule="Optional">
-        <Children>
-          <Variable SymbolicName="tns:LastTransition" TypeDefinition="tns:FiniteTransitionVariableType" ModellingRule="Optional">
-            <Children>
-              <Property SymbolicName="tns:TransitionTime" ModellingRule="Optional" DataType="tns:UtcTime" />
-            </Children>
-          </Variable>
-        </Children>
-      </Object>
-      <Property SymbolicName="tns:SuppressedOrShelved" ModellingRule="Mandatory" DataType="tns:Boolean" />
-      <Property SymbolicName="tns:MaxTimeShelved" ModellingRule="Optional" DataType="tns:Duration" />
-      <Property SymbolicName="tns:AudibleEnabled" ModellingRule="Optional" DataType="tns:Boolean" />
-      <Property SymbolicName="tns:AudibleSound" ModellingRule="Optional" DataType="tns:AudioData" />
-      <Property SymbolicName="tns:AudibleSoundMIMEType" ModellingRule="Optional" DataType="tns:String" />
-      <Property SymbolicName="tns:AudibleSoundMIMEListId" ModellingRule="Optional" DataType="tns:String" />
-      <Property SymbolicName="tns:AudibleSoundMIMEListAgencyId" ModellingRule="Optional" DataType="tns:String" />
-      <Property SymbolicName="tns:AudibleSoundMIMEListVersionId" ModellingRule="Optional" DataType="tns:String" />
       <Property SymbolicName="tns:OnDelay" ModellingRule="Optional" DataType="tns:Duration" />
       <Property SymbolicName="tns:OffDelay" ModellingRule="Optional" DataType="tns:Duration" />
       <Property SymbolicName="tns:FirstInGroupFlag" ModellingRule="Optional" DataType="tns:Boolean" />
@@ -2259,11 +2263,27 @@
         <References>
           <Reference IsOneWay="true">
             <ReferenceType>tns:AlwaysGeneratesEvent</ReferenceType>
-            <TargetId>tns:AuditConditionSuppressionEventType</TargetId>
+            <TargetId>tns:AuditConditionSuppressEventType</TargetId>
           </Reference>
         </References>
       </Method>
-      <Method SymbolicName="tns:OutOfService" ModellingRule="Optional">
+      <Method SymbolicName="tns:UnSuppress" ModellingRule="Optional">
+        <References>
+          <Reference IsOneWay="true">
+            <ReferenceType>tns:AlwaysGeneratesEvent</ReferenceType>
+            <TargetId>tns:AuditConditionSuppressEventType</TargetId>
+          </Reference>
+        </References>
+      </Method>
+      <Method SymbolicName="tns:RemoveFromService" ModellingRule="Optional">
+        <References>
+          <Reference IsOneWay="true">
+            <ReferenceType>tns:AlwaysGeneratesEvent</ReferenceType>
+            <TargetId>tns:AuditConditionOutOfServiceEventType</TargetId>
+          </Reference>
+        </References>
+      </Method>
+      <Method SymbolicName="tns:PlaceInService" ModellingRule="Optional">
         <References>
           <Reference IsOneWay="true">
             <ReferenceType>tns:AlwaysGeneratesEvent</ReferenceType>
@@ -2407,6 +2427,14 @@
           </Reference>
         </References>
       </Object>
+      <Method SymbolicName="tns:TimedShelve" TypeDefinition="tns:TimedShelveMethodType" ModellingRule="Mandatory">
+        <References>
+          <Reference IsOneWay="true">
+            <ReferenceType>tns:AlwaysGeneratesEvent</ReferenceType>
+            <TargetId>tns:AuditConditionShelvingEventType</TargetId>
+          </Reference>
+        </References>
+      </Method>
       <Method SymbolicName="tns:Unshelve" ModellingRule="Mandatory">
         <References>
           <Reference IsOneWay="true">
@@ -2416,14 +2444,6 @@
         </References>
       </Method>
       <Method SymbolicName="tns:OneShotShelve" ModellingRule="Mandatory">
-        <References>
-          <Reference IsOneWay="true">
-            <ReferenceType>tns:AlwaysGeneratesEvent</ReferenceType>
-            <TargetId>tns:AuditConditionShelvingEventType</TargetId>
-          </Reference>
-        </References>
-      </Method>
-      <Method SymbolicName="tns:TimedShelve" TypeDefinition="tns:TimedShelveMethodType" ModellingRule="Mandatory">
         <References>
           <Reference IsOneWay="true">
             <ReferenceType>tns:AlwaysGeneratesEvent</ReferenceType>
@@ -2645,15 +2665,15 @@
       <Property SymbolicName="tns:BaseSetpointNode" ModellingRule="Optional" DataType="tns:NodeId" />
     </Children>
   </ObjectType>
+  <ObjectType SymbolicName="tns:NonExclusiveRateOfChangeAlarmType" PartNo="9" BaseType="tns:NonExclusiveLimitAlarmType">
+    <Children>
+      <Property SymbolicName="tns:EngineeringUnits" ModellingRule="Optional" DataType="tns:EUInformation" />
+    </Children>
+  </ObjectType>
   <ObjectType SymbolicName="tns:ExclusiveDeviationAlarmType" PartNo="9" BaseType="tns:ExclusiveLimitAlarmType">
     <Children>
       <Property SymbolicName="tns:SetpointNode" ModellingRule="Mandatory" DataType="tns:NodeId" />
       <Property SymbolicName="tns:BaseSetpointNode" ModellingRule="Optional" DataType="tns:NodeId" />
-    </Children>
-  </ObjectType>
-  <ObjectType SymbolicName="tns:NonExclusiveRateOfChangeAlarmType" PartNo="9" BaseType="tns:NonExclusiveLimitAlarmType">
-    <Children>
-      <Property SymbolicName="tns:EngineeringUnits" ModellingRule="Optional" DataType="tns:EUInformation" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:ExclusiveRateOfChangeAlarmType" PartNo="9" BaseType="tns:ExclusiveLimitAlarmType">
@@ -2680,8 +2700,8 @@
   <ObjectType SymbolicName="tns:DiscrepancyAlarmType" PartNo="9" BaseType="tns:AlarmConditionType">
     <Children>
       <Property SymbolicName="tns:TargetValueNode" ModellingRule="Mandatory" DataType="tns:NodeId" />
-      <Property SymbolicName="tns:ExpectedTime" ModellingRule="Optional" DataType="tns:Duration" />
-      <Property SymbolicName="tns:Tolerance" ModellingRule="Mandatory" DataType="tns:Double" />
+      <Property SymbolicName="tns:ExpectedTime" ModellingRule="Mandatory" DataType="tns:Duration" />
+      <Property SymbolicName="tns:Tolerance" ModellingRule="Optional" DataType="tns:Double" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:BaseConditionClassType" PartNo="9" BaseType="tns:BaseObjectType" />
@@ -2689,9 +2709,9 @@
   <ObjectType SymbolicName="tns:MaintenanceConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" />
   <ObjectType SymbolicName="tns:SystemConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" />
   <ObjectType SymbolicName="tns:SafetyConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" />
-  <ObjectType SymbolicName="tns:BaseConditionClassModifierType" PartNo="9" BaseType="tns:BaseObjectType" />
-  <ObjectType SymbolicName="tns:TrainingConditionClassModifierType" PartNo="9" BaseType="tns:BaseConditionClassModifierType" />
-  <ObjectType SymbolicName="tns:TestingConditionClassModifierType" PartNo="9" BaseType="tns:BaseConditionClassModifierType" />
+  <ObjectType SymbolicName="tns:HighlyManagedAlarmConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" />
+  <ObjectType SymbolicName="tns:TrainingConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" />
+  <ObjectType SymbolicName="tns:TestingConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" />
   <ObjectType SymbolicName="tns:AuditConditionEventType" PartNo="9" BaseType="tns:AuditUpdateMethodEventType" />
   <ObjectType SymbolicName="tns:AuditConditionEnableEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
   <ObjectType SymbolicName="tns:AuditConditionCommentEventType" PartNo="9" BaseType="tns:AuditConditionEventType">
@@ -2722,7 +2742,7 @@
       <Property SymbolicName="tns:ShelvingTime" ModellingRule="Mandatory" DataType="tns:Duration" />
     </Children>
   </ObjectType>
-  <ObjectType SymbolicName="tns:AuditConditionSuppressionEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
+  <ObjectType SymbolicName="tns:AuditConditionSuppressEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
   <ObjectType SymbolicName="tns:AuditConditionSilenceEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
   <ObjectType SymbolicName="tns:AuditConditionOutOfServiceEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
   <ObjectType SymbolicName="tns:RefreshStartEventType" PartNo="9" BaseType="tns:SystemEventType" />
@@ -2734,19 +2754,37 @@
   <ReferenceType SymbolicName="tns:HasEffectDisable" PartNo="9" BaseType="tns:HasEffect">
     <InverseName>MayBeDisabledBy</InverseName>
   </ReferenceType>
+  <ReferenceType SymbolicName="tns:HasEffectEnable" PartNo="9" BaseType="tns:HasEffect">
+    <InverseName>MayBeEnabledBy</InverseName>
+  </ReferenceType>
+  <ReferenceType SymbolicName="tns:HasEffectSuppressed" PartNo="9" BaseType="tns:HasEffect">
+    <InverseName>MayBeSuppressedBy</InverseName>
+  </ReferenceType>
+  <ReferenceType SymbolicName="tns:HasEffectUnSuppressed" PartNo="9" BaseType="tns:HasEffect">
+    <InverseName>MayBeUnSuppressedBy</InverseName>
+  </ReferenceType>
+  <VariableType SymbolicName="tns:AudioVariableType" PartNo="9" DataType="tns:AudioData" ValueRank="Scalar">
+    <Children>
+      <Property SymbolicName="tns:MIMEType" ModellingRule="Optional" DataType="tns:String" />
+      <Property SymbolicName="tns:MIMEListId" ModellingRule="Optional" DataType="tns:String" />
+      <Property SymbolicName="tns:MIMEListAgencyId" ModellingRule="Optional" DataType="tns:String" />
+      <Property SymbolicName="tns:MIMEListVersionId" ModellingRule="Optional" DataType="tns:String" />
+    </Children>
+  </VariableType>
   <VariableType SymbolicName="tns:AlarmRateVariableType" PartNo="9" DataType="tns:Double" ValueRank="Scalar">
     <Children>
       <Property SymbolicName="tns:Rate" DataType="tns:UInt16" />
     </Children>
   </VariableType>
-  <ObjectType SymbolicName="tns:AlarmDiagnosticsSummaryType" PartNo="9" BaseType="tns:BaseObjectType">
+  <ObjectType SymbolicName="tns:AlarmMetricsType" PartNo="9" BaseType="tns:BaseObjectType">
     <Children>
       <Property SymbolicName="tns:AlarmCount" DataType="tns:UInt32" />
+      <Property SymbolicName="tns:StartTime" DataType="tns:UtcTime" />
       <Property SymbolicName="tns:MaximumActiveState" DataType="tns:Duration" />
       <Property SymbolicName="tns:MaximumUnAck" DataType="tns:Duration" />
-      <Property SymbolicName="tns:MaximumReAlarmCount" DataType="tns:UInt32" />
       <Variable SymbolicName="tns:CurrentAlarmRate" TypeDefinition="tns:AlarmRateVariableType" DataType="tns:Double" />
       <Variable SymbolicName="tns:MaximumAlarmRate" TypeDefinition="tns:AlarmRateVariableType" DataType="tns:Double" />
+      <Property SymbolicName="tns:MaximumReAlarmCount" DataType="tns:UInt32" />
       <Variable SymbolicName="tns:AverageAlarmRate" TypeDefinition="tns:AlarmRateVariableType" DataType="tns:Double" />
     </Children>
   </ObjectType>
@@ -3362,116 +3400,63 @@
       </Reference>
     </References>
   </Object>
-  <ObjectType SymbolicName="tns:NetworkServiceFolderType" BaseType="tns:FolderType">
+  <Object SymbolicName="tns:KeyCredentialManagement" TypeDefinition="tns:FolderType">
     <Children>
-      <Object SymbolicName="tns:ServiceName_Placeholder" TypeDefinition="tns:CredentialManagementType" ModellingRule="OptionalPlaceholder">
+      <Object SymbolicName="tns:ServiceName_Placeholder" TypeDefinition="tns:KeyCredentialConfigurationType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;ServiceName&gt;</BrowseName>
         <ReferenceType>tns:Organizes</ReferenceType>
       </Object>
     </Children>
-  </ObjectType>
-  <Object SymbolicName="tns:AuthorizationServices" TypeDefinition="tns:NetworkServiceFolderType" />
-  <ObjectType SymbolicName="tns:CredentialManagementType" BaseType="tns:BaseObjectType">
-    <Children>
-      <Method SymbolicName="tns:StartCredentialRequest" TypeDefinition="tns:StartCredentialRequestMethodType" ModellingRule="Mandatory" />
-      <Method SymbolicName="tns:FinishCredentialRequest" TypeDefinition="tns:FinishCredentialRequestMethodType" ModellingRule="Mandatory" />
-      <Method SymbolicName="tns:RevokeCredential" TypeDefinition="tns:RevokeCredentialMethodType" ModellingRule="Optional" />
-    </Children>
-  </ObjectType>
-  <Method SymbolicName="tns:StartCredentialRequestMethodType">
-    <InputArguments>
-      <Argument Name="Certificate" DataType="tns:ByteString" />
-      <Argument Name="SecurityPolicyUri" DataType="tns:String" />
-    </InputArguments>
-    <OutputArguments>
-      <Argument Name="RequestId" DataType="tns:NodeId" />
-    </OutputArguments>
-  </Method>
-  <Method SymbolicName="tns:FinishCredentialRequestMethodType">
-    <InputArguments>
-      <Argument Name="RequestId" DataType="tns:NodeId" />
-      <Argument Name="CancelRequest" DataType="tns:Boolean" />
-    </InputArguments>
-    <OutputArguments>
-      <Argument Name="CredentialId" DataType="tns:String" />
-      <Argument Name="CredentialSecret" DataType="tns:ByteString" />
-      <Argument Name="CertificateThumbprint" DataType="tns:String" />
-      <Argument Name="SecurityPolicyUri" DataType="tns:String" />
-    </OutputArguments>
-  </Method>
-  <Method SymbolicName="tns:RevokeCredentialMethodType">
-    <InputArguments>
-      <Argument Name="CredentialId" DataType="tns:String" />
-    </InputArguments>
-  </Method>
-  <ObjectType SymbolicName="tns:NetworkServiceType" BaseType="tns:BaseObjectType">
-    <Children>
-      <Property SymbolicName="tns:ServiceUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
-      <Property SymbolicName="tns:ServiceProfileUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
-      <Property SymbolicName="tns:ServiceEndpointUrls" ModellingRule="Optional" DataType="tns:String" ValueRank="Array" />
-      <Object SymbolicName="tns:CredentialManagement" TypeDefinition="tns:CredentialManagementType" ModellingRule="Optional" />
-    </Children>
-  </ObjectType>
-  <ObjectType SymbolicName="tns:AuthorizationServiceType" BaseType="tns:NetworkServiceType">
-    <Children>
-      <Property SymbolicName="tns:UserTokenPolicies" ModellingRule="Mandatory" DataType="tns:UserTokenPolicy" ValueRank="Array" />
-      <Method SymbolicName="tns:RequestAccessToken" TypeDefinition="tns:RequestAccessTokenMethodType" ModellingRule="Optional" />
-    </Children>
-  </ObjectType>
-  <Method SymbolicName="tns:RequestAccessTokenMethodType">
-    <InputArguments>
-      <Argument Name="Identity" DataType="tns:UserIdentityToken" />
-      <Argument Name="ResourceId" DataType="tns:String" />
-      <Argument Name="CreationTime" DataType="tns:UtcTime" />
-      <Argument Name="Signature" DataType="tns:ByteString" />
-    </InputArguments>
-    <OutputArguments>
-      <Argument Name="AccessToken" DataType="tns:String" />
-    </OutputArguments>
-  </Method>
-  <ObjectType SymbolicName="tns:CredentialRequestedAuditEventType" BaseType="tns:AuditUpdateMethodEventType" IsAbstract="true">
-    <Children>
-      <Property SymbolicName="tns:ServiceUri" ModellingRule="Mandatory" DataType="tns:String" />
-    </Children>
-  </ObjectType>
-  <ObjectType SymbolicName="tns:CredentialDeliveredAuditEventType" BaseType="tns:AuditUpdateMethodEventType" IsAbstract="true">
-    <Children>
-      <Property SymbolicName="tns:ServiceUri" ModellingRule="Mandatory" DataType="tns:String" />
-    </Children>
-  </ObjectType>
-  <ObjectType SymbolicName="tns:CredentialRevokedAuditEventType" BaseType="tns:AuditUpdateMethodEventType" IsAbstract="true">
-    <Children>
-      <Property SymbolicName="tns:ServiceUri" ModellingRule="Mandatory" DataType="tns:String" />
-    </Children>
-  </ObjectType>
-  <Object SymbolicName="tns:NetworkServices" TypeDefinition="tns:FolderType">
     <References>
       <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
+        <ReferenceType>tns:HasComponent</ReferenceType>
         <TargetId>tns:ServerConfiguration</TargetId>
       </Reference>
     </References>
   </Object>
-  <ObjectType SymbolicName="tns:NetworkServiceConfigurationType" BaseType="tns:BaseObjectType">
+  <ObjectType SymbolicName="tns:KeyCredentialConfigurationType" BaseType="tns:BaseObjectType">
     <Children>
-      <Property SymbolicName="tns:ServiceUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
-      <Property SymbolicName="tns:ServiceProfileUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
-      <Property SymbolicName="tns:ServiceEndpointUrls" ModellingRule="Optional" DataType="tns:String" ValueRank="Array" />
-      <Property SymbolicName="tns:Enabled" ModellingRule="Mandatory" DataType="tns:Boolean" ValueRank="Scalar" />
-      <Property SymbolicName="tns:ServiceStatus" ModellingRule="Mandatory" DataType="tns:StatusCode" ValueRank="Scalar" />
-      <Method SymbolicName="tns:UpdateCredential" TypeDefinition="tns:UpdateCredentialMethodType" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:Uri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
+      <Property SymbolicName="tns:ProfileUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
+      <Property SymbolicName="tns:EndpointUrls" ModellingRule="Optional" DataType="tns:String" ValueRank="Array" />
+      <Property SymbolicName="tns:ServiceStatus" ModellingRule="Optional" DataType="tns:StatusCode" ValueRank="Scalar" />
+      <Method SymbolicName="tns:UpdateCredential" TypeDefinition="tns:KeyCredentialUpdateMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:DeleteCredential" ModellingRule="Optional" />
     </Children>
   </ObjectType>
-  <Method SymbolicName="tns:UpdateCredentialMethodType">
+  <Method SymbolicName="tns:KeyCredentialUpdateMethodType">
     <InputArguments>
       <Argument Name="CredentialId" DataType="tns:String" />
       <Argument Name="CredentialSecret" DataType="tns:ByteString" />
       <Argument Name="CertificateThumbprint" DataType="tns:String" />
       <Argument Name="SecurityPolicyUri" DataType="tns:String" />
+      <Argument Name="RequestTime" DataType="tns:DateTime" />
     </InputArguments>
   </Method>
-  <ObjectType SymbolicName="tns:AuthorizationServiceConfigurationType" BaseType="tns:NetworkServiceConfigurationType">
+  <ObjectType SymbolicName="tns:KeyCredentialAuditEventType" BaseType="tns:AuditUpdateMethodEventType" IsAbstract="true">
     <Children>
+      <Property SymbolicName="tns:ResourceUri" ModellingRule="Mandatory" DataType="tns:String" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:KeyCredentialUpdatedAuditEventType" BaseType="tns:KeyCredentialAuditEventType" />
+  <ObjectType SymbolicName="tns:KeyCredentialDeletedAuditEventType" BaseType="tns:KeyCredentialAuditEventType" />
+  <Object SymbolicName="tns:AuthorizationServices" TypeDefinition="tns:FolderType">
+    <Children>
+      <Object SymbolicName="tns:ServiceName_Placeholder" TypeDefinition="tns:AuthorizationServiceConfigurationType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;ServiceName&gt;</BrowseName>
+        <ReferenceType>tns:HasComponent</ReferenceType>
+      </Object>
+    </Children>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:HasComponent</ReferenceType>
+        <TargetId>tns:ServerConfiguration</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <ObjectType SymbolicName="tns:AuthorizationServiceConfigurationType" BaseType="tns:BaseObjectType">
+    <Children>
+      <Property SymbolicName="tns:Uri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
       <Property SymbolicName="tns:ServiceCertificate" ModellingRule="Mandatory" DataType="tns:ByteString" ValueRank="Scalar" />
     </Children>
   </ObjectType>

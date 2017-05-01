@@ -1685,7 +1685,6 @@
   <!-- EUInformation UA Core Services.xml -->
 
   <!-- Part 9 -->
-
   <opc:VariableType SymbolicName="TwoStateVariableType" BaseType="StateVariableType" PartNo="9">
     <opc:Children>
       <opc:Property SymbolicName="Id" DataType="ua:Boolean" ModellingRule="Mandatory" />
@@ -1715,15 +1714,15 @@
   </opc:ReferenceType>
 
   <opc:ReferenceType SymbolicName="AlarmGroupMember" BaseType="ua:Organizes" PartNo="9">
-    <opc:InverseName>MemberOfAlarmGroup </opc:InverseName>
+    <opc:InverseName>MemberOfAlarmGroup</opc:InverseName>
   </opc:ReferenceType>
 
   <opc:ObjectType SymbolicName="ConditionType" BaseType="BaseEventType" IsAbstract="true" PartNo="9">
     <opc:Children>
       <opc:Property SymbolicName="ConditionClassId" DataType="ua:NodeId" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ConditionClassName" DataType="ua:LocalizedText" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ConditionClassModifier" DataType="ua:NodeId" ModellingRule="Optional" />
-      <opc:Property SymbolicName="ConditionClassModifierName" DataType="ua:LocalizedText" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ConditionSubClass" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ConditionSubClassName" DataType="ua:LocalizedText" ValueRank="Array" ModellingRule="Optional" />
       <opc:Property SymbolicName="ConditionName" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="BranchId" DataType="ua:NodeId" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Retain" DataType="ua:Boolean" ModellingRule="Mandatory" />
@@ -1969,7 +1968,7 @@
       </opc:Method>
     </opc:Children>
   </opc:ObjectType>
-
+    
   <opc:ObjectType SymbolicName="AlarmConditionType" BaseType="AcknowledgeableConditionType" PartNo="9">
     <opc:Children>
       <opc:Variable SymbolicName="EnabledState" TypeDefinition="TwoStateVariableType" ModellingRule="Mandatory">
@@ -2055,6 +2054,19 @@
           </opc:Property>
         </opc:Children>
       </opc:Variable>
+      <opc:Object SymbolicName="ShelvingState" TypeDefinition="ShelvedStateMachineType" ModellingRule="Optional">
+        <opc:Children>
+          <opc:Variable SymbolicName="LastTransition" TypeDefinition="FiniteTransitionVariableType" ModellingRule="Optional">
+            <opc:Children>
+              <opc:Property SymbolicName="TransitionTime" DataType="ua:UtcTime" ModellingRule="Optional" />
+            </opc:Children>
+          </opc:Variable>
+        </opc:Children>
+      </opc:Object>
+      <opc:Property SymbolicName="SuppressedOrShelved" DataType="ua:Boolean" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MaxTimeShelved" DataType="Duration" ModellingRule="Optional" />
+      <opc:Property SymbolicName="AudibleEnabled" DataType="ua:Boolean" ModellingRule="Optional" />
+      <opc:Variable SymbolicName="AudibleSound" DataType="AudioData" TypeDefinition="AudioVariableType" ModellingRule="Optional" />
       <opc:Variable SymbolicName="SilenceState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
@@ -2070,29 +2082,12 @@
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
-                <uax:Text>Normal</uax:Text>
+                <uax:Text>NotSilenced</uax:Text>
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
         </opc:Children>
       </opc:Variable>
-      <opc:Object SymbolicName="ShelvingState" TypeDefinition="ShelvedStateMachineType" ModellingRule="Optional">
-        <opc:Children>
-          <opc:Variable SymbolicName="LastTransition" TypeDefinition="FiniteTransitionVariableType" ModellingRule="Optional">
-            <opc:Children>
-              <opc:Property SymbolicName="TransitionTime" DataType="ua:UtcTime" ModellingRule="Optional" />
-            </opc:Children>
-          </opc:Variable>
-        </opc:Children>
-      </opc:Object>
-      <opc:Property SymbolicName="SuppressedOrShelved" DataType="ua:Boolean" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="MaxTimeShelved" DataType="Duration" ModellingRule="Optional" />
-      <opc:Property SymbolicName="AudibleEnabled" DataType="ua:Boolean" ModellingRule="Optional" />
-      <opc:Property SymbolicName="AudibleSound" DataType="AudioData" ModellingRule="Optional" />
-      <opc:Property SymbolicName="AudibleSoundMIMEType" DataType="ua:String" ModellingRule="Optional" />
-      <opc:Property SymbolicName="AudibleSoundMIMEListId" DataType="ua:String" ModellingRule="Optional" />
-      <opc:Property SymbolicName="AudibleSoundMIMEListAgencyId" DataType="ua:String" ModellingRule="Optional" />
-      <opc:Property SymbolicName="AudibleSoundMIMEListVersionId" DataType="ua:String" ModellingRule="Optional" />
       <opc:Property SymbolicName="OnDelay" DataType="Duration" ModellingRule="Optional" />
       <opc:Property SymbolicName="OffDelay" DataType="Duration" ModellingRule="Optional" />
       <opc:Property SymbolicName="FirstInGroupFlag" DataType="ua:Boolean" ModellingRule="Optional" />
@@ -2115,11 +2110,27 @@
         <opc:References>
           <opc:Reference IsOneWay="true">
             <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
-            <opc:TargetId>AuditConditionSuppressionEventType</opc:TargetId>
+            <opc:TargetId>AuditConditionSuppressEventType</opc:TargetId>
           </opc:Reference>
         </opc:References>
       </opc:Method>
-      <opc:Method SymbolicName="OutOfService" ModellingRule="Optional">
+      <opc:Method SymbolicName="UnSuppress" ModellingRule="Optional">
+        <opc:References>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
+            <opc:TargetId>AuditConditionSuppressEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveFromService" ModellingRule="Optional">
+        <opc:References>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
+            <opc:TargetId>AuditConditionOutOfServiceEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Method>
+      <opc:Method SymbolicName="PlaceInService" ModellingRule="Optional">
         <opc:References>
           <opc:Reference IsOneWay="true">
             <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
@@ -2272,6 +2283,14 @@
         </opc:References>
       </opc:Object>
 
+      <opc:Method SymbolicName="TimedShelve" TypeDefinition="TimedShelveMethodType" ModellingRule="Mandatory">
+        <opc:References>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
+            <opc:TargetId>AuditConditionShelvingEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Method>
       <opc:Method SymbolicName="Unshelve" ModellingRule="Mandatory">
         <opc:References>
           <opc:Reference IsOneWay="true">
@@ -2281,14 +2300,6 @@
         </opc:References>
       </opc:Method>
       <opc:Method SymbolicName="OneShotShelve" ModellingRule="Mandatory">
-        <opc:References>
-          <opc:Reference IsOneWay="true">
-            <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
-            <opc:TargetId>AuditConditionShelvingEventType</opc:TargetId>
-          </opc:Reference>
-        </opc:References>
-      </opc:Method>
-      <opc:Method SymbolicName="TimedShelve" TypeDefinition="TimedShelveMethodType" ModellingRule="Mandatory">
         <opc:References>
           <opc:Reference IsOneWay="true">
             <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
@@ -2517,17 +2528,17 @@
       <opc:Property SymbolicName="BaseSetpointNode" DataType="ua:NodeId" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
-  
-  <opc:ObjectType SymbolicName="ExclusiveDeviationAlarmType" BaseType="ExclusiveLimitAlarmType" PartNo="9" >
-    <opc:Children>
-      <opc:Property SymbolicName="SetpointNode" DataType="ua:NodeId" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="BaseSetpointNode" DataType="ua:NodeId" ModellingRule="Optional" />
-    </opc:Children>
-  </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="NonExclusiveRateOfChangeAlarmType" BaseType="NonExclusiveLimitAlarmType" PartNo="9" >
     <opc:Children>
       <opc:Property SymbolicName="EngineeringUnits" DataType="EUInformation" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="ExclusiveDeviationAlarmType" BaseType="ExclusiveLimitAlarmType" PartNo="9" >
+    <opc:Children>
+      <opc:Property SymbolicName="SetpointNode" DataType="ua:NodeId" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="BaseSetpointNode" DataType="ua:NodeId" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
   
@@ -2560,8 +2571,8 @@
   <opc:ObjectType SymbolicName="DiscrepancyAlarmType" BaseType="AlarmConditionType" PartNo="9">
     <opc:Children>
       <opc:Property SymbolicName="TargetValueNode" DataType="ua:NodeId" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ExpectedTime" DataType="ua:Duration" ModellingRule="Optional" />
-      <opc:Property SymbolicName="Tolerance" DataType="ua:Double" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ExpectedTime" DataType="ua:Duration" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Tolerance" DataType="ua:Double" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -2570,10 +2581,10 @@
   <opc:ObjectType SymbolicName="MaintenanceConditionClassType" BaseType="BaseConditionClassType" PartNo="9" />
   <opc:ObjectType SymbolicName="SystemConditionClassType" BaseType="BaseConditionClassType" PartNo="9" />
   <opc:ObjectType SymbolicName="SafetyConditionClassType" BaseType="BaseConditionClassType" PartNo="9" />
+  <opc:ObjectType SymbolicName="HighlyManagedAlarmConditionClassType" BaseType="BaseConditionClassType" PartNo="9" />
 
-  <opc:ObjectType SymbolicName="BaseConditionClassModifierType" BaseType="ua:BaseObjectType" PartNo="9" />
-  <opc:ObjectType SymbolicName="TrainingConditionClassModifierType" BaseType="BaseConditionClassModifierType" PartNo="9" />
-  <opc:ObjectType SymbolicName="TestingConditionClassModifierType" BaseType="BaseConditionClassModifierType" PartNo="9" />
+  <opc:ObjectType SymbolicName="TrainingConditionClassType" BaseType="BaseConditionClassType" PartNo="9" />
+  <opc:ObjectType SymbolicName="TestingConditionClassType" BaseType="BaseConditionClassType" PartNo="9" />
   
   <opc:ObjectType SymbolicName="AuditConditionEventType" BaseType="AuditUpdateMethodEventType" PartNo="9" />
   <opc:ObjectType SymbolicName="AuditConditionEnableEventType" BaseType="AuditConditionEventType" PartNo="9" />
@@ -2611,7 +2622,7 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AuditConditionSuppressionEventType" BaseType="AuditConditionEventType" PartNo="9" />
+  <opc:ObjectType SymbolicName="AuditConditionSuppressEventType" BaseType="AuditConditionEventType" PartNo="9" />
   <opc:ObjectType SymbolicName="AuditConditionSilenceEventType" BaseType="AuditConditionEventType" PartNo="9" />
   <opc:ObjectType SymbolicName="AuditConditionOutOfServiceEventType" BaseType="AuditConditionEventType" PartNo="9" />
 
@@ -2623,40 +2634,30 @@
     <opc:InverseName>IsConditionOf</opc:InverseName>
   </opc:ReferenceType>
 
-  <!--
-  <opc:ObjectType SymbolicName="SystemStateStateMachineType" BaseType="FiniteStateMachineType" PartNo="9">
-    <opc:Children>
-      <opc:Object SymbolicName="Operating" TypeDefinition="InitialStateType" ModellingRule="None" />
-      <opc:Object SymbolicName="ShuttingDown" TypeDefinition="StateType" ModellingRule="None" />
-      <opc:Object SymbolicName="StartingUp" TypeDefinition="StateType" ModellingRule="None" />
-      <opc:Object SymbolicName="Shutdown" TypeDefinition="StateType" ModellingRule="None" />
-      <opc:Object SymbolicName="OutOfService" TypeDefinition="StateType" ModellingRule="None" />
-      <opc:Object SymbolicName="Maintenance" TypeDefinition="StateType" ModellingRule="None" />
-      <opc:Object SymbolicName="ShutdownToOperating" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="OperatingToShutdown" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="ShuttingDownToShutdown" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="OperatingToShuttingDown" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="StartingUpToOperating" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="ShutdownToStartingUp" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="OutOfServiceToShutdown" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="ShutdownToOutOfService" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="OutOfServiceToOperating" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="OperatingToOutOfService" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="MaintenanceToOutOfService" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="OutOfServiceToMaintenance" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Method SymbolicName="Start" ModellingRule="Optional" />
-      <opc:Method SymbolicName="Maintain" ModellingRule="Optional" />
-      <opc:Method SymbolicName="PlaceOutOfService" ModellingRule="Optional" />
-      <opc:Method SymbolicName="QuickShutdown" ModellingRule="Optional" />
-      <opc:Method SymbolicName="QuickStart" ModellingRule="Optional" />
-      <opc:Method SymbolicName="OutOfServiceShutdown" ModellingRule="Optional" />
-    </opc:Children>
-  </opc:ObjectType>
-  -->
-  
   <opc:ReferenceType SymbolicName="HasEffectDisable" BaseType="ua:HasEffect" PartNo="9">
     <opc:InverseName>MayBeDisabledBy</opc:InverseName>
   </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasEffectEnable" BaseType="ua:HasEffect" PartNo="9">
+    <opc:InverseName>MayBeEnabledBy</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasEffectSuppressed" BaseType="ua:HasEffect" PartNo="9">
+    <opc:InverseName>MayBeSuppressedBy</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasEffectUnSuppressed" BaseType="ua:HasEffect" PartNo="9">
+    <opc:InverseName>MayBeUnSuppressedBy</opc:InverseName>
+  </opc:ReferenceType>
+ 
+  <opc:VariableType SymbolicName="AudioVariableType" DataType="ua:AudioData" ValueRank="Scalar" PartNo="9">
+    <opc:Children>
+      <opc:Property SymbolicName="MIMEType" DataType="ua:String" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MIMEListId" DataType="ua:String" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MIMEListAgencyId" DataType="ua:String" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MIMEListVersionId" DataType="ua:String" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:VariableType>
 
   <opc:VariableType SymbolicName="AlarmRateVariableType" DataType="ua:Double" ValueRank="Scalar" PartNo="9">
     <opc:Children>
@@ -2664,14 +2665,15 @@
     </opc:Children>
   </opc:VariableType>
   
-  <opc:ObjectType SymbolicName="AlarmDiagnosticsSummaryType" BaseType="BaseObjectType" PartNo="9">
+  <opc:ObjectType SymbolicName="AlarmMetricsType" BaseType="BaseObjectType" PartNo="9">
     <opc:Children>
       <opc:Property SymbolicName="AlarmCount" DataType="ua:UInt32" />
+      <opc:Property SymbolicName="StartTime" DataType="ua:UtcTime" />
       <opc:Property SymbolicName="MaximumActiveState" DataType="ua:Duration" />
       <opc:Property SymbolicName="MaximumUnAck" DataType="ua:Duration" />
-      <opc:Property SymbolicName="MaximumReAlarmCount" DataType="ua:UInt32" />
       <opc:Variable SymbolicName="CurrentAlarmRate" DataType="ua:Double" TypeDefinition="AlarmRateVariableType" />
       <opc:Variable SymbolicName="MaximumAlarmRate" DataType="ua:Double" TypeDefinition="AlarmRateVariableType" />
+      <opc:Property SymbolicName="MaximumReAlarmCount" DataType="ua:UInt32" />
       <opc:Variable SymbolicName="AverageAlarmRate" DataType="ua:Double" TypeDefinition="AlarmRateVariableType" />
     </opc:Children>
   </opc:ObjectType>
@@ -3340,133 +3342,71 @@
     </opc:References>
   </opc:Object>
 
-  <opc:ObjectType SymbolicName="NetworkServiceFolderType" BaseType="ua:FolderType">
+  <opc:Object SymbolicName="KeyCredentialManagement" TypeDefinition="ua:FolderType">
     <opc:Children>
-      <opc:Object SymbolicName="ServiceName_Placeholder" TypeDefinition="CredentialManagementType"  ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="ServiceName_Placeholder" TypeDefinition="KeyCredentialConfigurationType"  ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ServiceName&gt;</opc:BrowseName>
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
     </opc:Children>
-  </opc:ObjectType>
-
-  <opc:Object SymbolicName="AuthorizationServices" TypeDefinition="NetworkServiceFolderType" />
-
-  <opc:ObjectType SymbolicName="CredentialManagementType" BaseType="ua:BaseObjectType">
-    <opc:Children>
-      <opc:Method SymbolicName="StartCredentialRequest" TypeDefinition="StartCredentialRequestMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="FinishCredentialRequest" TypeDefinition="FinishCredentialRequestMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="RevokeCredential" TypeDefinition="RevokeCredentialMethodType" ModellingRule="Optional" />
-    </opc:Children>
-  </opc:ObjectType>
-
-  <opc:Method SymbolicName="StartCredentialRequestMethodType">
-    <opc:InputArguments>
-      <opc:Argument Name="Certificate" DataType="ua:ByteString"></opc:Argument>
-      <opc:Argument Name="SecurityPolicyUri" DataType="ua:String" />
-    </opc:InputArguments>
-    <opc:OutputArguments>
-      <opc:Argument Name="RequestId" DataType="ua:NodeId"></opc:Argument>
-    </opc:OutputArguments>
-  </opc:Method>
-
-  <opc:Method SymbolicName="FinishCredentialRequestMethodType">
-    <opc:InputArguments>
-      <opc:Argument Name="RequestId" DataType="ua:NodeId"></opc:Argument>
-      <opc:Argument Name="CancelRequest" DataType="ua:Boolean"></opc:Argument>
-    </opc:InputArguments>
-    <opc:OutputArguments>
-      <opc:Argument Name="CredentialId" DataType="ua:String" />
-      <opc:Argument Name="CredentialSecret" DataType="ua:ByteString"></opc:Argument>
-      <opc:Argument Name="CertificateThumbprint" DataType="ua:String" />
-      <opc:Argument Name="SecurityPolicyUri" DataType="ua:String" />
-    </opc:OutputArguments>
-  </opc:Method>
-
-  <opc:Method SymbolicName="RevokeCredentialMethodType">
-    <opc:InputArguments>
-      <opc:Argument Name="CredentialId" DataType="ua:String" />
-    </opc:InputArguments>
-  </opc:Method>
-
-  <opc:ObjectType SymbolicName="NetworkServiceType" BaseType="ua:BaseObjectType">
-    <opc:Children>
-      <opc:Property SymbolicName="ServiceUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ServiceProfileUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ServiceEndpointUrls"  DataType="ua:String" ValueRank="Array" ModellingRule="Optional" />
-      <opc:Object SymbolicName="CredentialManagement" TypeDefinition="CredentialManagementType" ModellingRule="Optional" />
-    </opc:Children>
-  </opc:ObjectType>
-
-  <opc:ObjectType SymbolicName="AuthorizationServiceType" BaseType="NetworkServiceType">
-    <opc:Children>
-      <opc:Property SymbolicName="UserTokenPolicies"  DataType="ua:UserTokenPolicy" ValueRank="Array" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="RequestAccessToken" TypeDefinition="RequestAccessTokenMethodType" ModellingRule="Optional" />
-    </opc:Children>
-  </opc:ObjectType>
-
-  <opc:Method SymbolicName="RequestAccessTokenMethodType">
-    <opc:InputArguments>
-      <opc:Argument Name="Identity" DataType="ua:UserIdentityToken"></opc:Argument>
-      <opc:Argument Name="ResourceId" DataType="ua:String"></opc:Argument>
-      <opc:Argument Name="CreationTime" DataType="ua:UtcTime"></opc:Argument>
-      <opc:Argument Name="Signature" DataType="ua:ByteString"></opc:Argument>
-    </opc:InputArguments>
-    <opc:OutputArguments>
-      <opc:Argument Name="AccessToken" DataType="ua:String" />
-    </opc:OutputArguments>
-  </opc:Method>
-
-  <opc:ObjectType SymbolicName="CredentialRequestedAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true">
-    <opc:Children>
-      <opc:Property SymbolicName="ServiceUri" DataType="ua:String" ModellingRule="Mandatory" />
-    </opc:Children>
-  </opc:ObjectType>
-
-  <opc:ObjectType SymbolicName="CredentialDeliveredAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true">
-    <opc:Children>
-      <opc:Property SymbolicName="ServiceUri" DataType="ua:String" ModellingRule="Mandatory" />
-    </opc:Children>
-  </opc:ObjectType>
-
-  <opc:ObjectType SymbolicName="CredentialRevokedAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true">
-    <opc:Children>
-      <opc:Property SymbolicName="ServiceUri" DataType="ua:String" ModellingRule="Mandatory" />
-    </opc:Children>
-  </opc:ObjectType>
-
-  <opc:Object SymbolicName="NetworkServices" TypeDefinition="FolderType">
     <opc:References>
       <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
         <opc:TargetId>ua:ServerConfiguration</opc:TargetId>
       </opc:Reference>
     </opc:References>
   </opc:Object>
   
-  <opc:ObjectType SymbolicName="NetworkServiceConfigurationType" BaseType="ua:BaseObjectType">
+  <opc:ObjectType SymbolicName="KeyCredentialConfigurationType" BaseType="ua:BaseObjectType">
     <opc:Children>
-      <opc:Property SymbolicName="ServiceUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ServiceProfileUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ServiceEndpointUrls"  DataType="ua:String" ValueRank="Array" ModellingRule="Optional" />
-      <opc:Property SymbolicName="Enabled"  DataType="ua:Boolean" ValueRank="Scalar" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ServiceStatus"  DataType="ua:StatusCode" ValueRank="Scalar" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="UpdateCredential" TypeDefinition="UpdateCredentialMethodType" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Uri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ProfileUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="EndpointUrls"  DataType="ua:String" ValueRank="Array" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ServiceStatus"  DataType="ua:StatusCode" ValueRank="Scalar" ModellingRule="Optional" />
+      <opc:Method SymbolicName="UpdateCredential" TypeDefinition="KeyCredentialUpdateMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="DeleteCredential" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
-
-  <opc:Method SymbolicName="UpdateCredentialMethodType">
+  
+  <opc:Method SymbolicName="KeyCredentialUpdateMethodType">
     <opc:InputArguments>
       <opc:Argument Name="CredentialId" DataType="ua:String" />
       <opc:Argument Name="CredentialSecret" DataType="ua:ByteString"></opc:Argument>
       <opc:Argument Name="CertificateThumbprint" DataType="ua:String" />
       <opc:Argument Name="SecurityPolicyUri" DataType="ua:String" />
+      <opc:Argument Name="RequestTime" DataType="ua:DateTime" />
     </opc:InputArguments>
   </opc:Method>
 
-  <opc:ObjectType SymbolicName="AuthorizationServiceConfigurationType" BaseType="NetworkServiceConfigurationType">
+  <opc:ObjectType SymbolicName="KeyCredentialAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true">
     <opc:Children>
-      <opc:Property SymbolicName="ServiceCertificate"  DataType="ua:ByteString" ValueRank="Scalar" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ResourceUri" DataType="ua:String" ModellingRule="Mandatory" />
     </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="KeyCredentialUpdatedAuditEventType" BaseType="KeyCredentialAuditEventType" IsAbstract="false" />
+  <opc:ObjectType SymbolicName="KeyCredentialDeletedAuditEventType" BaseType="KeyCredentialAuditEventType" IsAbstract="false" />
+  
+  <opc:Object SymbolicName="AuthorizationServices" TypeDefinition="ua:FolderType">
+    <opc:Children>
+      <opc:Object SymbolicName="ServiceName_Placeholder" TypeDefinition="AuthorizationServiceConfigurationType"  ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;ServiceName&gt;</opc:BrowseName>
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+      </opc:Object>
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+        <opc:TargetId>ua:ServerConfiguration</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:ObjectType SymbolicName="AuthorizationServiceConfigurationType" BaseType="ua:BaseObjectType">
+    <opc:Children>
+      <opc:Property SymbolicName="Uri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ServiceCertificate"  DataType="ua:ByteString" ValueRank="Scalar" ModellingRule="Mandatory" />
+     </opc:Children>
   </opc:ObjectType>
   
   <!-- Part 13 -->
