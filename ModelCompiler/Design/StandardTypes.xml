@@ -3342,7 +3342,7 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Object SymbolicName="KeyCredentialManagement" TypeDefinition="ua:FolderType">
+  <opc:Object SymbolicName="KeyCredentialConfiguration" TypeDefinition="ua:FolderType">
     <opc:Children>
       <opc:Object SymbolicName="ServiceName_Placeholder" TypeDefinition="KeyCredentialConfigurationType"  ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ServiceName&gt;</opc:BrowseName>
@@ -3359,7 +3359,7 @@
   
   <opc:ObjectType SymbolicName="KeyCredentialConfigurationType" BaseType="ua:BaseObjectType">
     <opc:Children>
-      <opc:Property SymbolicName="Uri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ResourceUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ProfileUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EndpointUrls"  DataType="ua:String" ValueRank="Array" ModellingRule="Optional" />
       <opc:Property SymbolicName="ServiceStatus"  DataType="ua:StatusCode" ValueRank="Scalar" ModellingRule="Optional" />
@@ -3374,7 +3374,6 @@
       <opc:Argument Name="CredentialSecret" DataType="ua:ByteString"></opc:Argument>
       <opc:Argument Name="CertificateThumbprint" DataType="ua:String" />
       <opc:Argument Name="SecurityPolicyUri" DataType="ua:String" />
-      <opc:Argument Name="RequestTime" DataType="ua:DateTime" />
     </opc:InputArguments>
   </opc:Method>
 
@@ -3383,7 +3382,7 @@
       <opc:Property SymbolicName="ResourceUri" DataType="ua:String" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
-
+  
   <opc:ObjectType SymbolicName="KeyCredentialUpdatedAuditEventType" BaseType="KeyCredentialAuditEventType" IsAbstract="false" />
   <opc:ObjectType SymbolicName="KeyCredentialDeletedAuditEventType" BaseType="KeyCredentialAuditEventType" IsAbstract="false" />
   
@@ -3404,8 +3403,9 @@
 
   <opc:ObjectType SymbolicName="AuthorizationServiceConfigurationType" BaseType="ua:BaseObjectType">
     <opc:Children>
-      <opc:Property SymbolicName="Uri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ServiceUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ServiceCertificate"  DataType="ua:ByteString" ValueRank="Scalar" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="IssuerEndpointUrl"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
      </opc:Children>
   </opc:ObjectType>
   

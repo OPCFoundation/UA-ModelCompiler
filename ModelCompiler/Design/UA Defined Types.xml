@@ -3400,7 +3400,7 @@
       </Reference>
     </References>
   </Object>
-  <Object SymbolicName="tns:KeyCredentialManagement" TypeDefinition="tns:FolderType">
+  <Object SymbolicName="tns:KeyCredentialConfiguration" TypeDefinition="tns:FolderType">
     <Children>
       <Object SymbolicName="tns:ServiceName_Placeholder" TypeDefinition="tns:KeyCredentialConfigurationType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;ServiceName&gt;</BrowseName>
@@ -3416,7 +3416,7 @@
   </Object>
   <ObjectType SymbolicName="tns:KeyCredentialConfigurationType" BaseType="tns:BaseObjectType">
     <Children>
-      <Property SymbolicName="tns:Uri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
+      <Property SymbolicName="tns:ResourceUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
       <Property SymbolicName="tns:ProfileUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
       <Property SymbolicName="tns:EndpointUrls" ModellingRule="Optional" DataType="tns:String" ValueRank="Array" />
       <Property SymbolicName="tns:ServiceStatus" ModellingRule="Optional" DataType="tns:StatusCode" ValueRank="Scalar" />
@@ -3430,7 +3430,6 @@
       <Argument Name="CredentialSecret" DataType="tns:ByteString" />
       <Argument Name="CertificateThumbprint" DataType="tns:String" />
       <Argument Name="SecurityPolicyUri" DataType="tns:String" />
-      <Argument Name="RequestTime" DataType="tns:DateTime" />
     </InputArguments>
   </Method>
   <ObjectType SymbolicName="tns:KeyCredentialAuditEventType" BaseType="tns:AuditUpdateMethodEventType" IsAbstract="true">
@@ -3456,8 +3455,9 @@
   </Object>
   <ObjectType SymbolicName="tns:AuthorizationServiceConfigurationType" BaseType="tns:BaseObjectType">
     <Children>
-      <Property SymbolicName="tns:Uri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
+      <Property SymbolicName="tns:ServiceUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
       <Property SymbolicName="tns:ServiceCertificate" ModellingRule="Mandatory" DataType="tns:ByteString" ValueRank="Scalar" />
+      <Property SymbolicName="tns:IssuerEndpointUrl" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:AggregateConfigurationType" PartNo="13" BaseType="tns:BaseObjectType">
@@ -4434,15 +4434,15 @@
       <Field Name="Permissions" DataType="tns:UInt32" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:DataTypeDefinition" SymbolicId="tns:DataTypeDefinition" PartNo="3" BaseType="tns:Structure" NoClassGeneration="true" NotInAddressSpace="true" />
-  <DataType SymbolicName="tns:StructureType" SymbolicId="tns:StructureType" PartNo="3" BaseType="tns:Enumeration" NoClassGeneration="true" NoArraysAllowed="true" NotInAddressSpace="true">
+  <DataType SymbolicName="tns:DataTypeDefinition" SymbolicId="tns:DataTypeDefinition" PartNo="3" BaseType="tns:Structure" />
+  <DataType SymbolicName="tns:StructureType" SymbolicId="tns:StructureType" PartNo="3" BaseType="tns:Enumeration" NoArraysAllowed="true">
     <Fields>
       <Field Name="Structure" Identifier="0" />
       <Field Name="StructureWithOptionalFields" Identifier="1" />
       <Field Name="Union" Identifier="2" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:StructureField" SymbolicId="tns:StructureField" PartNo="3" BaseType="tns:Structure" NoClassGeneration="true" NotInAddressSpace="true">
+  <DataType SymbolicName="tns:StructureField" SymbolicId="tns:StructureField" PartNo="3" BaseType="tns:Structure">
     <Fields>
       <Field Name="Name" DataType="tns:String" />
       <Field Name="Description" DataType="tns:LocalizedText" />
@@ -4451,7 +4451,7 @@
       <Field Name="IsOptional" DataType="tns:Boolean" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:StructureDefinition" SymbolicId="tns:StructureDefinition" PartNo="3" BaseType="tns:DataTypeDefinition" NoClassGeneration="true" NoArraysAllowed="true" NotInAddressSpace="true">
+  <DataType SymbolicName="tns:StructureDefinition" SymbolicId="tns:StructureDefinition" PartNo="3" BaseType="tns:DataTypeDefinition" NoArraysAllowed="true">
     <Fields>
       <Field Name="DefaultEncodingId" DataType="tns:NodeId" />
       <Field Name="BaseDataType" DataType="tns:NodeId" />
@@ -4459,7 +4459,7 @@
       <Field Name="Fields" DataType="tns:StructureField" ValueRank="Array" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:EnumDefinition" SymbolicId="tns:EnumDefinition" PartNo="3" BaseType="tns:DataTypeDefinition" NoClassGeneration="true" NoArraysAllowed="true" NotInAddressSpace="true">
+  <DataType SymbolicName="tns:EnumDefinition" SymbolicId="tns:EnumDefinition" PartNo="3" BaseType="tns:DataTypeDefinition" NoArraysAllowed="true">
     <Fields>
       <Field Name="Fields" DataType="tns:EnumField" ValueRank="Array" />
     </Fields>

@@ -92,15 +92,15 @@
     <opc:Field Name="Permissions" DataType="s0:UInt32" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="DataTypeDefinition" NotInAddressSpace="true" AllowArrays="true" PartNo="3" />
+  <opc:ComplexType Name="DataTypeDefinition" NotInAddressSpace="false" AllowArrays="true" PartNo="3" />
 
-  <opc:EnumeratedType Name="StructureType" NotInAddressSpace="true" PartNo="3">
+  <opc:EnumeratedType Name="StructureType" NotInAddressSpace="false" PartNo="3">
     <opc:Value Name="Structure" Value="0" />
     <opc:Value Name="StructureWithOptionalFields" Value="1" />
     <opc:Value Name="Union" Value="2" />
   </opc:EnumeratedType>
 
-  <opc:ComplexType Name="StructureField" NotInAddressSpace="true" AllowArrays="true" PartNo="3">
+  <opc:ComplexType Name="StructureField" NotInAddressSpace="false" AllowArrays="true" PartNo="3">
     <opc:Field Name="Name"  DataType="s0:String"></opc:Field>
     <opc:Field Name="Description"  DataType="s0:LocalizedText"></opc:Field>
     <opc:Field Name="DataType"  DataType="s0:NodeId"></opc:Field>
@@ -108,14 +108,14 @@
     <opc:Field Name="IsOptional"  DataType="s0:Boolean"></opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="StructureDefinition" NotInAddressSpace="true" BaseType="DataTypeDefinition" PartNo="3">
+  <opc:ComplexType Name="StructureDefinition" NotInAddressSpace="false" BaseType="DataTypeDefinition" PartNo="3">
     <opc:Field Name="DefaultEncodingId" DataType="s0:NodeId"></opc:Field>
     <opc:Field Name="BaseDataType" DataType="s0:NodeId"></opc:Field>
     <opc:Field Name="StructureType" DataType="StructureType"></opc:Field>
     <opc:Field Name="Fields" DataType="StructureField" ValueRank="0"></opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="EnumDefinition" NotInAddressSpace="true" BaseType="DataTypeDefinition" PartNo="3">
+  <opc:ComplexType Name="EnumDefinition" NotInAddressSpace="false" BaseType="DataTypeDefinition" PartNo="3">
     <opc:Field Name="Fields" DataType="EnumField" ValueRank="0"></opc:Field>
   </opc:ComplexType>
 

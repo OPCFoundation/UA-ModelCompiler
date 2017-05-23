@@ -688,7 +688,10 @@
   <opc:Constant Name="Bad_RequestNotAllowed">
     <opc:Documentation>The request was rejected by the server because it did not meet the criteria set by the server.</opc:Documentation>
   </opc:Constant>
-
+  <opc:Constant Name="Bad_RequestNotComplete">
+    <opc:Documentation>The request has not been processed by the server yet.</opc:Documentation>
+  </opc:Constant>
+  
   <!-- FDI -->
   <opc:Constant Name="Good_Edited">
     <opc:Documentation>The value does not come from the real source and has been edited by the server.</opc:Documentation>
