@@ -393,6 +393,7 @@
           <xs:element name="Fields" type="ListOfFields" minOccurs="0" />
           <xs:element name="Encodings" type="ListOfEncodings" minOccurs="0" />
         </xs:sequence>
+        <xs:attribute name="IsOptionSet" type="xs:boolean" use="optional" default="false" />
         <xs:attribute name="NoArraysAllowed" type="xs:boolean" use="optional" default="false" />
         <xs:attribute name="NotInAddressSpace" type="xs:boolean" use="optional" default="false" />
       </xs:extension>
@@ -612,6 +613,7 @@
     </xs:sequence>
     <xs:attribute name="Name" type="xs:string" use="optional" />
     <xs:attribute name="Identifier" type="xs:int" use="optional" />
+    <xs:attribute name="BitMask" type="xs:string" use="optional" />
     <xs:attribute name="DataType" type="xs:QName" use="optional" />
     <xs:attribute name="ValueRank" type="ValueRank" use="optional" default="Scalar" />
     <xs:attribute name="ArrayDimensions" type="xs:string" use="optional" />

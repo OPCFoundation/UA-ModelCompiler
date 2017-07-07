@@ -53,7 +53,9 @@ namespace Opc.Ua.ModelCompiler
             buffer.Append("<html><body style='margin:0'>");
             buffer.Append("<font style='font:9pt/12pt verdana; color:black'>");
 
-            while (e != null)
+            var ae = e as AggregateException;
+
+            if (ae != null)
             {
                 string message = e.Message;
                 message = message.Replace("<", "&lt;");
@@ -63,7 +65,33 @@ namespace Opc.Ua.ModelCompiler
                 buffer.AppendFormat("<font color='red'><b>{0}</b></font><br>", message);
                 buffer.AppendFormat("{0}<p>", e.StackTrace);
 
-                e = e.InnerException;
+                for (int ii = 0; ii < ae.InnerExceptions.Count; ii++)
+                {
+                    e = ae.InnerExceptions[ii];
+
+                    message = e.Message;
+                    message = message.Replace("<", "&lt;");
+                    message = message.Replace(">", "&gt;");
+                    message = message.Replace("\r\n", "<br>");
+
+                    buffer.AppendFormat("<font color='red'><b>{0}</b></font><br>", message);
+                    buffer.AppendFormat("{0}<p>", e.StackTrace);
+                }
+            }
+            else
+            {
+                while (e != null)
+                {
+                    string message = e.Message;
+                    message = message.Replace("<", "&lt;");
+                    message = message.Replace(">", "&gt;");
+                    message = message.Replace("\r\n", "<br>");
+
+                    buffer.AppendFormat("<font color='red'><b>{0}</b></font><br>", message);
+                    buffer.AppendFormat("{0}<p>", e.StackTrace);
+
+                    e = e.InnerException;
+                }
             }
 
             buffer.Append("</font>");

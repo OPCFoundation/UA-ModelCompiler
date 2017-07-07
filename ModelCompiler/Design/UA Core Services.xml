@@ -6,8 +6,8 @@
   xmlns:opc="http://opcfoundation.org/UA/TypeDictionary/"
   xmlns="http://opcfoundation.org/UA/Core/"
   TargetNamespace="http://opcfoundation.org/UA/Core/"
-  TargetVersion="1.03"
-  TargetPublicationDate="2013-12-02T00:00:00Z"
+  TargetVersion="1.04"
+  TargetPublicationDate="2017-07-01T00:00:00Z"
 >
   <opc:Import Namespace="http://opcfoundation.org/UA/BuiltInTypes/" />
 
@@ -457,6 +457,8 @@
     </opc:Field>
   </opc:ComplexType>
 
+  <opc:TypeDeclaration Name="VersionTime" SourceType="s0:UInt32" PartNo="4" />
+
   <opc:ComplexType Name="ServiceFault" NotInAddressSpace="true" PartNo="4">
     <opc:Documentation>The response returned by all services when there is a service level error.</opc:Documentation>
     <opc:Field Name="ResponseHeader" DataType="ResponseHeader">
@@ -464,12 +466,20 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="SessionLessServiceMessageType" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="SessionlessInvokeRequestType" NotInAddressSpace="true" PartNo="4">
+    <opc:Field Name="UrisVersion" DataType="VersionTime" ValueRank="0" />
+    <opc:Field Name="NamespaceUris" DataType="s0:String" ValueRank="0" />
+    <opc:Field Name="ServerUris" DataType="s0:String" ValueRank="0" />
+    <opc:Field Name="LocaleIds" DataType="LocaleId" ValueRank="0" />
+    <opc:Field Name="ServiceId" DataType="s0:UInt32" />
+  </opc:ComplexType>
+
+  <opc:ComplexType Name="SessionlessInvokeResponseType" NotInAddressSpace="true" PartNo="4">
     <opc:Field Name="NamespaceUris" DataType="s0:String" ValueRank="0" />
     <opc:Field Name="ServerUris" DataType="s0:String" ValueRank="0" />
     <opc:Field Name="ServiceId" DataType="s0:UInt32" />
   </opc:ComplexType>
-
+  
   <opc:ServiceType Name="FindServers" InterfaceType="Discovery">
     <opc:Documentation>Finds the servers known to the discovery server.</opc:Documentation>
     <opc:Request>
