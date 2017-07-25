@@ -56,6 +56,19 @@ namespace Opc.Ua
         public DataTypeDefinition2 Definition { get; set; }
     }
 
+    /// <remarks />
+    public enum DataTypeModifier
+    {
+        /// <remarks />
+        None = 0,
+
+        /// <remarks />
+        Union = 1,
+
+        /// <remarks />
+        OptionSet = 2
+    }
+
     /// <summary>
     /// Defines an abstract description of a type.
     /// </summary>
@@ -65,6 +78,11 @@ namespace Opc.Ua
         /// The name of the type.
         /// </summary>
         public QualifiedName Name { get; set; }
+
+        /// <summary>
+        /// A modifier applied to the datatype.
+        /// </summary>
+        public DataTypeModifier DataTypeModifier { get; set; }
 
         /// <summary>
         /// The symbolic name (if the name can't be used as a program symbol).

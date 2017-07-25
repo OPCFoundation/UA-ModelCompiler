@@ -58,33 +58,53 @@
     </opc:Value>
   </opc:EnumeratedType>
 
-  <opc:EnumeratedType Name="PermissionType" PartNo="3">
-    <opc:Value Name="None" Value="0" />
-    <opc:Value Name="Browse" Value="1" />
-    <opc:Value Name="ReadRolePermissions" Value="2" />
-    <opc:Value Name="WriteAttribute" Value="4" />
-    <opc:Value Name="WriteRolePermissions" Value="8" />
-    <opc:Value Name="WriteHistorizing" Value="16" />
-    <opc:Value Name="Read" Value="32" />
-    <opc:Value Name="Write" Value="64" />
-    <opc:Value Name="ReadHistory" Value="128" />
-    <opc:Value Name="InsertHistory" Value="256" />
-    <opc:Value Name="ModifyHistory" Value="512" />
-    <opc:Value Name="DeleteHistory" Value="1024" />
-    <opc:Value Name="ReceiveEvents" Value="2048" />
-    <opc:Value Name="Call" Value="4096" />
-    <opc:Value Name="AddReference" Value="8192" />
-    <opc:Value Name="RemoveReference" Value="16384" />
-    <opc:Value Name="DeleteNode" Value="32768" />
-    <opc:Value Name="AddNode" Value="65536" />
-    <opc:Value Name="All" Value="131071" />
+  <opc:EnumeratedType Name="PermissionType" IsOptionSet="true" PartNo="3">
+    <opc:Value Name="None" BitMask="0000" />
+    <opc:Value Name="Browse" BitMask="0001" />
+    <opc:Value Name="ReadRolePermissions" BitMask="0002" />
+    <opc:Value Name="WriteAttribute" BitMask="0004" />
+    <opc:Value Name="WriteRolePermissions" BitMask="0008" />
+    <opc:Value Name="WriteHistorizing" BitMask="0010" />
+    <opc:Value Name="Read" BitMask="0020" />
+    <opc:Value Name="Write" BitMask="0040" />
+    <opc:Value Name="ReadHistory" BitMask="0080" />
+    <opc:Value Name="InsertHistory" BitMask="0100" />
+    <opc:Value Name="ModifyHistory" BitMask="0200" />
+    <opc:Value Name="DeleteHistory" BitMask="0400" />
+    <opc:Value Name="ReceiveEvents" BitMask="0800" />
+    <opc:Value Name="Call" BitMask="1000" />
+    <opc:Value Name="AddReference" BitMask="2000" />
+    <opc:Value Name="RemoveReference" BitMask="4000" />
+    <opc:Value Name="DeleteNode" BitMask="8000" />
+    <opc:Value Name="AddNode" BitMask="10000" />
+    <opc:Value Name="All" BitMask="1FFFF" />
   </opc:EnumeratedType>
 
-  <opc:EnumeratedType Name="AccessRestrictionType" PartNo="3">
-    <opc:Value Name="None" Value="0" />
-    <opc:Value Name="SigningRequired" Value="1" />
-    <opc:Value Name="EncryptionRequired" Value="2" />
-    <opc:Value Name="SessionRequired " Value="4" />
+  <opc:EnumeratedType Name="AccessLevelType" IsOptionSet="true" PartNo="3">
+    <opc:Value Name="None" BitMask="0000" />
+    <opc:Value Name="CurrentRead" BitMask="0001" />
+    <opc:Value Name="CurrentWrite" BitMask="0002" />
+    <opc:Value Name="HistoryRead" BitMask="0004" />
+    <opc:Value Name="HistoryWrite" BitMask="0010" />
+    <opc:Value Name="StatusWrite" BitMask="0020" />
+    <opc:Value Name="TimestampWrite" BitMask="0040" />
+    <opc:Value Name="NonatomicRead" BitMask="010000" />
+    <opc:Value Name="NonatomicWrite" BitMask="020000" />
+    <opc:Value Name="WriteFullArrayOnly" BitMask="040000" />
+  </opc:EnumeratedType>
+
+  <opc:EnumeratedType Name="EventNotifierType" IsOptionSet="true" PartNo="3">
+    <opc:Value Name="None" BitMask="0000" />
+    <opc:Value Name="SubscribeToEvents" BitMask="0001" />
+    <opc:Value Name="HistoryRead" BitMask="0004" />
+    <opc:Value Name="HistoryWrite" BitMask="0008" />
+  </opc:EnumeratedType>
+  
+  <opc:EnumeratedType Name="AccessRestrictionType" IsOptionSet="true" PartNo="3">
+    <opc:Value Name="None" BitMask="0000" />
+    <opc:Value Name="SigningRequired" BitMask="0001" />
+    <opc:Value Name="EncryptionRequired" BitMask="0002" />
+    <opc:Value Name="SessionRequired " BitMask="0004" />
   </opc:EnumeratedType>
   
   <opc:ComplexType Name="RolePermissionType" AllowArrays="true" PartNo="3">
@@ -310,7 +330,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="EnumField" BaseType="EnumValueType" AllowArrays="true" PartNo="14">
+  <opc:ComplexType Name="EnumField" BaseType="EnumValueType" AllowArrays="true" PartNo="3">
     <opc:Field Name="Name" DataType="s0:String" />
   </opc:ComplexType>
 
@@ -1407,87 +1427,87 @@
     </opc:Response>
   </opc:ServiceType>
 
-  <opc:EnumeratedType Name="AttributeWriteMask" PartNo="4">
+  <opc:EnumeratedType Name="AttributeWriteMask" PartNo="4" IsOptionSet="true">
     <opc:Documentation>Define bits used to indicate which attributes are writable.</opc:Documentation>
-    <opc:Value Name="None" Value="0">
+    <opc:Value Name="None" BitMask="0000">
       <opc:Documentation>No attributes are writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="AccessLevel" Value="1">
+    <opc:Value Name="AccessLevel" BitMask="0001">
       <opc:Documentation>The access level attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="ArrayDimensions" Value="2">
+    <opc:Value Name="ArrayDimensions" BitMask="0002">
       <opc:Documentation>The array dimensions attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="BrowseName" Value="4">
+    <opc:Value Name="BrowseName" BitMask="0004">
       <opc:Documentation>The browse name attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="ContainsNoLoops" Value="8">
+    <opc:Value Name="ContainsNoLoops" BitMask="0008">
       <opc:Documentation>The contains no loops attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="DataType" Value="16">
+    <opc:Value Name="DataType" BitMask="0010">
       <opc:Documentation>The data type attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="Description" Value="32">
+    <opc:Value Name="Description" BitMask="0020">
       <opc:Documentation>The description attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="DisplayName" Value="64">
+    <opc:Value Name="DisplayName" BitMask="0040">
       <opc:Documentation>The display name attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="EventNotifier" Value="128">
+    <opc:Value Name="EventNotifier" BitMask="0080">
       <opc:Documentation>The event notifier attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="Executable" Value="256">
+    <opc:Value Name="Executable" BitMask="0100">
       <opc:Documentation>The executable attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="Historizing" Value="512">
+    <opc:Value Name="Historizing" BitMask="0200">
       <opc:Documentation>The historizing attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="InverseName" Value="1024">
+    <opc:Value Name="InverseName" BitMask="0400">
       <opc:Documentation>The inverse name attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="IsAbstract" Value="2048">
+    <opc:Value Name="IsAbstract" BitMask="0800">
       <opc:Documentation>The is abstract attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="MinimumSamplingInterval" Value="4096">
+    <opc:Value Name="MinimumSamplingInterval" BitMask="1000">
       <opc:Documentation>The minimum sampling interval attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="NodeClass" Value="8192">
+    <opc:Value Name="NodeClass" BitMask="2000">
       <opc:Documentation>The node class attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="NodeId" Value="16384">
+    <opc:Value Name="NodeId" BitMask="4000">
       <opc:Documentation>The node id attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="Symmetric" Value="32768">
+    <opc:Value Name="Symmetric" BitMask="8000">
       <opc:Documentation>The symmetric attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="UserAccessLevel" Value="65536">
+    <opc:Value Name="UserAccessLevel" BitMask="00010000">
       <opc:Documentation>The user access level attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="UserExecutable" Value="131072">
+    <opc:Value Name="UserExecutable" BitMask="00020000">
       <opc:Documentation>The user executable attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="UserWriteMask" Value="262144">
+    <opc:Value Name="UserWriteMask" BitMask="00040000">
       <opc:Documentation>The user write mask attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="ValueRank" Value="524288">
+    <opc:Value Name="ValueRank" BitMask="00080000">
       <opc:Documentation>The value rank attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="WriteMask" Value="1048576">
+    <opc:Value Name="WriteMask" BitMask="00100000">
       <opc:Documentation>The write mask attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="ValueForVariableType" Value="2097152">
+    <opc:Value Name="ValueForVariableType" BitMask="00200000">
       <opc:Documentation>The value attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="DataTypeDefinition" Value="4194304">
+    <opc:Value Name="DataTypeDefinition" BitMask="00400000">
       <opc:Documentation>The DataTypeDefinition attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="RolePermissions" Value="8388608">
+    <opc:Value Name="RolePermissions" BitMask="00800000">
       <opc:Documentation>The RolePermissions attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="AccessRestrictions" Value="16777216">
+    <opc:Value Name="AccessRestrictions" BitMask="01000000">
       <opc:Documentation>The AccessRestrictions attribute is writable.</opc:Documentation>
     </opc:Value>
-    <opc:Value Name="AccessLevelEx" Value="33554432">
+    <opc:Value Name="AccessLevelEx" BitMask="02000000">
       <opc:Documentation>The AccessLevelEx attribute is writable.</opc:Documentation>
     </opc:Value>
   </opc:EnumeratedType>

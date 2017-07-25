@@ -102,7 +102,7 @@
     <Description>Describes a value that is an image encoded as a string of bytes.</Description>
   </DataType>
   <DataType SymbolicName="tns:Decimal" PartNo="3" BaseType="tns:Number">
-    <Description>Describes a 128-bit decimal value.</Description>
+    <Description>Describes an arbitrary precision decimal value.</Description>
   </DataType>
   <ReferenceType SymbolicName="tns:References" PartNo="3" IsAbstract="true" Symmetric="true">
     <Description>The abstract base type for all references.</Description>
@@ -231,6 +231,9 @@
       </Property>
       <Property SymbolicName="tns:NamespaceUri" ModellingRule="Optional" DataType="tns:String">
         <Description>A URI that uniquely identifies the dictionary.</Description>
+      </Property>
+      <Property SymbolicName="tns:Deprecated" ModellingRule="Optional" DataType="tns:Boolean">
+        <Description>Indicates that all of the definitions for the dictionary are available through a DataTypeDefinition Attribute.</Description>
       </Property>
     </Children>
   </VariableType>
@@ -509,7 +512,10 @@
     <Description>The string representation of the current value for a variable with an enumerated data type.</Description>
   </Property>
   <Property SymbolicName="tns:MaxStringLength" PartNo="3" DataType="tns:UInt32">
-    <Description>The maximum length for a string that can be stored in the owning variable.</Description>
+    <Description>The maximum number of bytes supported by the DataVariable.</Description>
+  </Property>
+  <Property SymbolicName="tns:MaxCharacters" PartNo="3" DataType="tns:UInt32">
+    <Description>The maximum number of Unicode characters supported by the DataVariable.</Description>
   </Property>
   <Property SymbolicName="tns:MaxByteStringLength" PartNo="3" DataType="tns:UInt32">
     <Description>The maximum length for a byte string that can be stored in the owning variable.</Description>
@@ -561,6 +567,9 @@
       </Property>
       <Property SymbolicName="tns:NamespaceArray" DataType="tns:String" ValueRank="Array" MinimumSamplingInterval="1000">
         <Description>The list of namespace URIs used by the server.</Description>
+      </Property>
+      <Property SymbolicName="tns:UrisVersion" ModellingRule="Optional" DataType="tns:VersionTime" MinimumSamplingInterval="1000">
+        <Description>Defines the version of the ServerArray and the NamespaceArray.</Description>
       </Property>
       <Variable SymbolicName="tns:ServerStatus" TypeDefinition="tns:ServerStatusType" MinimumSamplingInterval="1000">
         <Description>The current status of the server.</Description>
@@ -1251,8 +1260,8 @@
   <VariableType SymbolicName="tns:SelectionListType" PartNo="5" BaseType="tns:BaseDataVariableType" DataType="tns:ServerStatusDataType" ValueRank="ScalarOrArray" ExposesItsChildren="true">
     <Children>
       <Property SymbolicName="tns:Selections" DataType="tns:BaseDataType" ValueRank="Array" />
-      <Property SymbolicName="tns:SelectionDescriptions" DataType="tns:LocalizedText" ValueRank="Array" />
-      <Property SymbolicName="tns:RestrictToList" DataType="tns:Boolean" />
+      <Property SymbolicName="tns:SelectionDescriptions" ModellingRule="Optional" DataType="tns:LocalizedText" ValueRank="Array" />
+      <Property SymbolicName="tns:RestrictToList" ModellingRule="Optional" DataType="tns:Boolean" />
     </Children>
   </VariableType>
   <VariableType SymbolicName="tns:AudioVariableType" PartNo="5" DataType="tns:AudioDataType" ValueRank="Scalar">
@@ -1757,10 +1766,10 @@
       </Reference>
     </References>
   </Object>
-  <Object SymbolicName="tns:WellKnownRole_SecurityAdmin" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>SecurityAdminRole</BrowseName>
-    <DisplayName>SecurityAdmin</DisplayName>
-    <Description>The Role is allowed to change security related settings.</Description>
+  <Object SymbolicName="tns:WellKnownRole_ConfigureAdmin" PartNo="5" TypeDefinition="tns:RoleType">
+    <BrowseName>ConfigureAdminRole</BrowseName>
+    <DisplayName>ConfigureAdmin</DisplayName>
+    <Description>The Role is allowed to change the non-security related configuration settings.</Description>
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
@@ -1768,10 +1777,10 @@
       </Reference>
     </References>
   </Object>
-  <Object SymbolicName="tns:WellKnownRole_ConfigureAdmin" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>ConfigureAdminRole</BrowseName>
-    <DisplayName>ConfigureAdmin</DisplayName>
-    <Description>The Role is allowed to change the non-security related configuration settings.</Description>
+  <Object SymbolicName="tns:WellKnownRole_SecurityAdmin" PartNo="5" TypeDefinition="tns:RoleType">
+    <BrowseName>SecurityAdminRole</BrowseName>
+    <DisplayName>SecurityAdmin</DisplayName>
+    <Description>The Role is allowed to change security related settings.</Description>
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
@@ -2789,6 +2798,7 @@
   </ObjectType>
   <ObjectType SymbolicName="tns:AuditConditionSuppressEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
   <ObjectType SymbolicName="tns:AuditConditionSilenceEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
+  <ObjectType SymbolicName="tns:AuditConditionResetEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
   <ObjectType SymbolicName="tns:AuditConditionOutOfServiceEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
   <ObjectType SymbolicName="tns:RefreshStartEventType" PartNo="9" BaseType="tns:SystemEventType" />
   <ObjectType SymbolicName="tns:RefreshEndEventType" PartNo="9" BaseType="tns:SystemEventType" />
@@ -3712,7 +3722,7 @@
       <Field Name="EnumDefinition" DataType="tns:EnumDefinition" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:DataSetMessageContentMask" PartNo="14" BaseType="tns:Enumeration" IsOptionSet="true">
+  <DataType SymbolicName="tns:DataSetMessageContentMask" PartNo="14" BaseType="tns:UInt32" IsOptionSet="true">
     <Fields>
       <Field Name="FieldStatusCode" BitMask="0001" />
       <Field Name="FieldSourceTimestamp" BitMask="0002" />
@@ -3727,7 +3737,7 @@
       <Field Name="HeaderMinorVersion" BitMask="100000" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:NetworkMessageContentMask" PartNo="14" BaseType="tns:Enumeration" IsOptionSet="true">
+  <DataType SymbolicName="tns:NetworkMessageContentMask" PartNo="14" BaseType="tns:UInt32" IsOptionSet="true">
     <Fields>
       <Field Name="PublisherId" BitMask="0001" />
       <Field Name="GroupHeader" BitMask="0002" />
@@ -4972,35 +4982,57 @@
       </Field>
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:PermissionType" SymbolicId="tns:PermissionType" PartNo="3" BaseType="tns:Enumeration" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:PermissionType" SymbolicId="tns:PermissionType" PartNo="3" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
     <Fields>
-      <Field Name="None" Identifier="0" />
-      <Field Name="Browse" Identifier="1" />
-      <Field Name="ReadRolePermissions" Identifier="2" />
-      <Field Name="WriteAttribute" Identifier="4" />
-      <Field Name="WriteRolePermissions" Identifier="8" />
-      <Field Name="WriteHistorizing" Identifier="16" />
-      <Field Name="Read" Identifier="32" />
-      <Field Name="Write" Identifier="64" />
-      <Field Name="ReadHistory" Identifier="128" />
-      <Field Name="InsertHistory" Identifier="256" />
-      <Field Name="ModifyHistory" Identifier="512" />
-      <Field Name="DeleteHistory" Identifier="1024" />
-      <Field Name="ReceiveEvents" Identifier="2048" />
-      <Field Name="Call" Identifier="4096" />
-      <Field Name="AddReference" Identifier="8192" />
-      <Field Name="RemoveReference" Identifier="16384" />
-      <Field Name="DeleteNode" Identifier="32768" />
-      <Field Name="AddNode" Identifier="65536" />
-      <Field Name="All" Identifier="131071" />
+      <Field Name="None" BitMask="0000" />
+      <Field Name="Browse" BitMask="0001" />
+      <Field Name="ReadRolePermissions" BitMask="0002" />
+      <Field Name="WriteAttribute" BitMask="0004" />
+      <Field Name="WriteRolePermissions" BitMask="0008" />
+      <Field Name="WriteHistorizing" BitMask="0010" />
+      <Field Name="Read" BitMask="0020" />
+      <Field Name="Write" BitMask="0040" />
+      <Field Name="ReadHistory" BitMask="0080" />
+      <Field Name="InsertHistory" BitMask="0100" />
+      <Field Name="ModifyHistory" BitMask="0200" />
+      <Field Name="DeleteHistory" BitMask="0400" />
+      <Field Name="ReceiveEvents" BitMask="0800" />
+      <Field Name="Call" BitMask="1000" />
+      <Field Name="AddReference" BitMask="2000" />
+      <Field Name="RemoveReference" BitMask="4000" />
+      <Field Name="DeleteNode" BitMask="8000" />
+      <Field Name="AddNode" BitMask="10000" />
+      <Field Name="All" BitMask="1FFFF" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:AccessRestrictionType" SymbolicId="tns:AccessRestrictionType" PartNo="3" BaseType="tns:Enumeration" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:AccessLevelType" SymbolicId="tns:AccessLevelType" PartNo="3" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
     <Fields>
-      <Field Name="None" Identifier="0" />
-      <Field Name="SigningRequired" Identifier="1" />
-      <Field Name="EncryptionRequired" Identifier="2" />
-      <Field Name="SessionRequired " Identifier="4" />
+      <Field Name="None" BitMask="0000" />
+      <Field Name="CurrentRead" BitMask="0001" />
+      <Field Name="CurrentWrite" BitMask="0002" />
+      <Field Name="HistoryRead" BitMask="0004" />
+      <Field Name="HistoryWrite" BitMask="0010" />
+      <Field Name="StatusWrite" BitMask="0020" />
+      <Field Name="TimestampWrite" BitMask="0040" />
+      <Field Name="NonatomicRead" BitMask="010000" />
+      <Field Name="NonatomicWrite" BitMask="020000" />
+      <Field Name="WriteFullArrayOnly" BitMask="040000" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:EventNotifierType" SymbolicId="tns:EventNotifierType" PartNo="3" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
+    <Fields>
+      <Field Name="None" BitMask="0000" />
+      <Field Name="SubscribeToEvents" BitMask="0001" />
+      <Field Name="HistoryRead" BitMask="0004" />
+      <Field Name="HistoryWrite" BitMask="0008" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:AccessRestrictionType" SymbolicId="tns:AccessRestrictionType" PartNo="3" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
+    <Fields>
+      <Field Name="None" BitMask="0000" />
+      <Field Name="SigningRequired" BitMask="0001" />
+      <Field Name="EncryptionRequired" BitMask="0002" />
+      <Field Name="SessionRequired " BitMask="0004" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:RolePermissionType" SymbolicId="tns:RolePermissionType" PartNo="3" BaseType="tns:Structure">
@@ -5240,7 +5272,7 @@
       </Field>
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:EnumField" SymbolicId="tns:EnumField" PartNo="14" BaseType="tns:EnumValueType">
+  <DataType SymbolicName="tns:EnumField" SymbolicId="tns:EnumField" PartNo="3" BaseType="tns:EnumValueType">
     <Fields>
       <Field Name="Name" DataType="tns:String" />
     </Fields>
@@ -6392,88 +6424,88 @@
       </Field>
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:AttributeWriteMask" SymbolicId="tns:AttributeWriteMask" PartNo="4" BaseType="tns:Enumeration" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:AttributeWriteMask" SymbolicId="tns:AttributeWriteMask" PartNo="4" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
     <Description>Define bits used to indicate which attributes are writable.</Description>
     <Fields>
-      <Field Name="None" Identifier="0">
+      <Field Name="None" BitMask="0000">
         <Description>No attributes are writable.</Description>
       </Field>
-      <Field Name="AccessLevel" Identifier="1">
+      <Field Name="AccessLevel" BitMask="0001">
         <Description>The access level attribute is writable.</Description>
       </Field>
-      <Field Name="ArrayDimensions" Identifier="2">
+      <Field Name="ArrayDimensions" BitMask="0002">
         <Description>The array dimensions attribute is writable.</Description>
       </Field>
-      <Field Name="BrowseName" Identifier="4">
+      <Field Name="BrowseName" BitMask="0004">
         <Description>The browse name attribute is writable.</Description>
       </Field>
-      <Field Name="ContainsNoLoops" Identifier="8">
+      <Field Name="ContainsNoLoops" BitMask="0008">
         <Description>The contains no loops attribute is writable.</Description>
       </Field>
-      <Field Name="DataType" Identifier="16">
+      <Field Name="DataType" BitMask="0010">
         <Description>The data type attribute is writable.</Description>
       </Field>
-      <Field Name="Description" Identifier="32">
+      <Field Name="Description" BitMask="0020">
         <Description>The description attribute is writable.</Description>
       </Field>
-      <Field Name="DisplayName" Identifier="64">
+      <Field Name="DisplayName" BitMask="0040">
         <Description>The display name attribute is writable.</Description>
       </Field>
-      <Field Name="EventNotifier" Identifier="128">
+      <Field Name="EventNotifier" BitMask="0080">
         <Description>The event notifier attribute is writable.</Description>
       </Field>
-      <Field Name="Executable" Identifier="256">
+      <Field Name="Executable" BitMask="0100">
         <Description>The executable attribute is writable.</Description>
       </Field>
-      <Field Name="Historizing" Identifier="512">
+      <Field Name="Historizing" BitMask="0200">
         <Description>The historizing attribute is writable.</Description>
       </Field>
-      <Field Name="InverseName" Identifier="1024">
+      <Field Name="InverseName" BitMask="0400">
         <Description>The inverse name attribute is writable.</Description>
       </Field>
-      <Field Name="IsAbstract" Identifier="2048">
+      <Field Name="IsAbstract" BitMask="0800">
         <Description>The is abstract attribute is writable.</Description>
       </Field>
-      <Field Name="MinimumSamplingInterval" Identifier="4096">
+      <Field Name="MinimumSamplingInterval" BitMask="1000">
         <Description>The minimum sampling interval attribute is writable.</Description>
       </Field>
-      <Field Name="NodeClass" Identifier="8192">
+      <Field Name="NodeClass" BitMask="2000">
         <Description>The node class attribute is writable.</Description>
       </Field>
-      <Field Name="NodeId" Identifier="16384">
+      <Field Name="NodeId" BitMask="4000">
         <Description>The node id attribute is writable.</Description>
       </Field>
-      <Field Name="Symmetric" Identifier="32768">
+      <Field Name="Symmetric" BitMask="8000">
         <Description>The symmetric attribute is writable.</Description>
       </Field>
-      <Field Name="UserAccessLevel" Identifier="65536">
+      <Field Name="UserAccessLevel" BitMask="00010000">
         <Description>The user access level attribute is writable.</Description>
       </Field>
-      <Field Name="UserExecutable" Identifier="131072">
+      <Field Name="UserExecutable" BitMask="00020000">
         <Description>The user executable attribute is writable.</Description>
       </Field>
-      <Field Name="UserWriteMask" Identifier="262144">
+      <Field Name="UserWriteMask" BitMask="00040000">
         <Description>The user write mask attribute is writable.</Description>
       </Field>
-      <Field Name="ValueRank" Identifier="524288">
+      <Field Name="ValueRank" BitMask="00080000">
         <Description>The value rank attribute is writable.</Description>
       </Field>
-      <Field Name="WriteMask" Identifier="1048576">
+      <Field Name="WriteMask" BitMask="00100000">
         <Description>The write mask attribute is writable.</Description>
       </Field>
-      <Field Name="ValueForVariableType" Identifier="2097152">
+      <Field Name="ValueForVariableType" BitMask="00200000">
         <Description>The value attribute is writable.</Description>
       </Field>
-      <Field Name="DataTypeDefinition" Identifier="4194304">
+      <Field Name="DataTypeDefinition" BitMask="00400000">
         <Description>The DataTypeDefinition attribute is writable.</Description>
       </Field>
-      <Field Name="RolePermissions" Identifier="8388608">
+      <Field Name="RolePermissions" BitMask="00800000">
         <Description>The RolePermissions attribute is writable.</Description>
       </Field>
-      <Field Name="AccessRestrictions" Identifier="16777216">
+      <Field Name="AccessRestrictions" BitMask="01000000">
         <Description>The AccessRestrictions attribute is writable.</Description>
       </Field>
-      <Field Name="AccessLevelEx" Identifier="33554432">
+      <Field Name="AccessLevelEx" BitMask="02000000">
         <Description>The AccessLevelEx attribute is writable.</Description>
       </Field>
     </Fields>

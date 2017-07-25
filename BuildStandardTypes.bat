@@ -21,9 +21,9 @@ REM 	set ADI_TARGET=..\..\uastack\Source\Common\Core\Stack\Generated\
 REM
 REM Leaving these fields empty will skip the operation
 
-set ANSIC_TARGET=X:\Work\OPC\sparhawk-ansic\Stack\
-set DOTNET_TARGET=X:\Work\OPC\sparhawk-net\Stack\Core\
-set GDS_TARGET=X:\Work\OPC\sparhawk-net\
+set ANSIC_TARGET=
+set DOTNET_TARGET=
+set GDS_TARGET=
 set DI_TARGET=
 set ADI_TARGET=
 

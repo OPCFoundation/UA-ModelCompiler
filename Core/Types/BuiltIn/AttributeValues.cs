@@ -116,11 +116,6 @@ namespace Opc.Ua
         public const byte TimestampWrite = 0x40;
 
         /// <summary>
-        /// Indicates if Write of IndexRange is supported (0 means Write of IndexRange is supported).
-        /// </summary>
-        public const uint WriteFullArrayOnly = 0x80;
-
-        /// <summary>
         /// Indicates non-atomicity for Read access (0 means that atomicity is assured).
         /// </summary>
         public const uint NonatomicRead = 0x100;
@@ -129,6 +124,11 @@ namespace Opc.Ua
         /// Indicates non-atomicity for Write access (0 means that atomicity is assured).
         /// </summary>
         public const uint NonatomicWrite = 0x200;
+
+        /// <summary>
+        /// Indicates if Write of IndexRange is supported (0 means Write of IndexRange is supported).
+        /// </summary>
+        public const uint WriteFullArrayOnly = 0x400;
     }
 
     /// <summary>

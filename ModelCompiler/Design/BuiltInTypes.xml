@@ -145,7 +145,7 @@
   </opc:DataType>
   
   <opc:DataType SymbolicName="Decimal" BaseType="Number" PartNo="3">
-    <opc:Description>Describes a 128-bit decimal value.</opc:Description>
+    <opc:Description>Describes an arbitrary precision decimal value.</opc:Description>
   </opc:DataType>
 
   <opc:ReferenceType SymbolicName="References" IsAbstract="true" Symmetric="true" PartNo="3">
@@ -305,6 +305,9 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespaceUri" DataType="String" ModellingRule="Optional">
         <opc:Description>A URI that uniquely identifies the dictionary.</opc:Description>
+      </opc:Property>
+      <opc:Property SymbolicName="Deprecated" DataType="Boolean" ModellingRule="Optional">
+        <opc:Description>Indicates that all of the definitions for the dictionary are available through a DataTypeDefinition Attribute.</opc:Description>
       </opc:Property>
     </opc:Children>
   </opc:VariableType>

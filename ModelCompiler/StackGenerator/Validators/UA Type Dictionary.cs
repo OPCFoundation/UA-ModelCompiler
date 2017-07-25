@@ -480,6 +480,12 @@ namespace Opc.Ua.CodeGenerator {
         
         private EnumeratedValue[] valueField;
         
+        private bool isOptionSetField;
+        
+        public EnumeratedType() {
+            this.isOptionSetField = false;
+        }
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("Value")]
         public EnumeratedValue[] Value {
@@ -488,6 +494,18 @@ namespace Opc.Ua.CodeGenerator {
             }
             set {
                 this.valueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public bool IsOptionSet {
+            get {
+                return this.isOptionSetField;
+            }
+            set {
+                this.isOptionSetField = value;
             }
         }
     }

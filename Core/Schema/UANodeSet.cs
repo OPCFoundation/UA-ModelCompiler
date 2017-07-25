@@ -621,9 +621,12 @@ namespace Opc.Ua.Export {
         
         private bool isUnionField;
         
+        private bool isOptionSetField;
+        
         public DataTypeDefinition() {
             this.symbolicNameField = "";
             this.isUnionField = false;
+            this.isOptionSetField = false;
         }
         
         /// <remarks/>
@@ -669,6 +672,18 @@ namespace Opc.Ua.Export {
             }
             set {
                 this.isUnionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public bool IsOptionSet {
+            get {
+                return this.isOptionSetField;
+            }
+            set {
+                this.isOptionSetField = value;
             }
         }
     }
@@ -1264,10 +1279,13 @@ namespace Opc.Ua.Export {
         
         private bool executableField;
         
+        private bool userExecutableField;
+        
         private string methodDeclarationIdField;
         
         public UAMethod() {
             this.executableField = true;
+            this.userExecutableField = true;
         }
         
         /// <remarks/>
@@ -1290,6 +1308,18 @@ namespace Opc.Ua.Export {
             }
             set {
                 this.executableField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(true)]
+        public bool UserExecutable {
+            get {
+                return this.userExecutableField;
+            }
+            set {
+                this.userExecutableField = value;
             }
         }
         
@@ -1325,6 +1355,8 @@ namespace Opc.Ua.Export {
         
         private uint accessLevelField;
         
+        private uint userAccessLevelField;
+        
         private double minimumSamplingIntervalField;
         
         private bool historizingField;
@@ -1334,6 +1366,7 @@ namespace Opc.Ua.Export {
             this.valueRankField = -1;
             this.arrayDimensionsField = "";
             this.accessLevelField = ((uint)(1));
+            this.userAccessLevelField = ((uint)(1));
             this.minimumSamplingIntervalField = 0D;
             this.historizingField = false;
         }
@@ -1404,6 +1437,18 @@ namespace Opc.Ua.Export {
             }
             set {
                 this.accessLevelField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(typeof(uint), "1")]
+        public uint UserAccessLevel {
+            get {
+                return this.userAccessLevelField;
+            }
+            set {
+                this.userAccessLevelField = value;
             }
         }
         

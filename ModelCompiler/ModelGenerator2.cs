@@ -871,6 +871,11 @@ namespace Opc.Ua.ModelCompiler
 
                         if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
                         {
+                            if (dataType.IsOptionSet)
+                            {
+                                return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
+                            }
+
                             return String.Format("ua:ListOfInt32");
                         }
 
@@ -882,6 +887,11 @@ namespace Opc.Ua.ModelCompiler
                             {
                                 if (dataType.SymbolicName.Name == "Enumeration")
                                 {
+                                    if (dataType.IsOptionSet)
+                                    {
+                                        return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
+                                    }
+
                                     return String.Format("ua:ListOfInt32");
                                 }
 
@@ -939,6 +949,11 @@ namespace Opc.Ua.ModelCompiler
 
                     if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
                     {
+                        if (dataType.IsOptionSet)
+                        {
+                             return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
+                        }
+
                         return String.Format("ua:Int32");
                     }
 
@@ -950,6 +965,11 @@ namespace Opc.Ua.ModelCompiler
                         {
                             if (dataType.SymbolicName.Name == "Enumeration")
                             {
+                                if (dataType.IsOptionSet)
+                                {
+                                    return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
+                                }
+
                                 return String.Format("ua:Int32");
                             }
 
@@ -991,16 +1011,21 @@ namespace Opc.Ua.ModelCompiler
 
             if (basicType == BasicDataType.Enumeration)
             {
-                template.WriteNextLine(context.Prefix);
-
-                if (field.IdentifierInName)
+                if (!dataType.IsOptionSet)
                 {
-                    template.Write("<xs:enumeration value=\"{0}\" />", field.Name);
+                    template.WriteNextLine(context.Prefix);
+
+                    if (field.IdentifierInName)
+                    {
+                        template.Write("<xs:enumeration value=\"{0}\" />", field.Name);
+                        return null;
+                    }
+
+                    template.Write("<xs:enumeration value=\"{0}_{1}\" />", field.Name, field.Identifier);
                     return null;
                 }
 
-                template.Write("<xs:enumeration value=\"{0}_{1}\" />", field.Name, field.Identifier);
-                return null;
+                basicType = ((DataTypeDesign)dataType.BaseTypeNode).BasicDataType;
             }
 
             basicType = field.DataTypeNode.BasicDataType;
@@ -1438,6 +1463,11 @@ namespace Opc.Ua.ModelCompiler
 
                     if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
                     {
+                        if (dataType.IsOptionSet)
+                        {
+                            return GetBinaryDataType((DataTypeDesign)dataType.BaseTypeNode);
+                        }
+
                         return String.Format("ua:Int32");
                     }
 
@@ -2223,9 +2253,18 @@ namespace Opc.Ua.ModelCompiler
                     {
                         return TemplatePath + "Version2.DataTypes.Enumeration.cs";
                     }
+
+                    default:
+                    {
+                        if (datatype.IsOptionSet)
+                        {
+                            return TemplatePath + "Version2.DataTypes.Enumeration.cs";
+                        }
+
+                        return null;
+                    }
                 }
             }
-
 
             // do not produce built in types.
             if (node.NumericId < 256 && node.SymbolicId.Namespace == DefaultNamespace)
@@ -2346,6 +2385,11 @@ namespace Opc.Ua.ModelCompiler
 
             if (dataType != null)
             {
+                if (!dataType.IsOptionSet)
+                {
+                    template.AddReplacement("[Flags]", String.Empty);
+                }
+
                 AddTemplate(
                     template,
                     "// ListOfEncodedFields",

@@ -823,6 +823,12 @@ namespace Opc.Ua.Export
             definition.Name = Export(source.Name, namespaceUris);
             definition.SymbolicName = source.SymbolicName;
 
+            switch (source.DataTypeModifier)
+            {
+                case DataTypeModifier.Union: { definition.IsUnion = true; break; }
+                case DataTypeModifier.OptionSet: { definition.IsOptionSet = true; break; }
+            }
+
             if (source.Fields != null)
             {
                 List<Opc.Ua.Export.DataTypeField> fields = new List<DataTypeField>();
@@ -870,6 +876,16 @@ namespace Opc.Ua.Export
 
             definition.Name = ImportQualifiedName(source.Name, namespaceUris);
             definition.SymbolicName = source.SymbolicName;
+            definition.DataTypeModifier = DataTypeModifier.None;
+
+            if (source.IsOptionSet)
+            {
+                definition.DataTypeModifier = DataTypeModifier.OptionSet;
+            }
+            else if (source.IsUnion)
+            {
+                definition.DataTypeModifier = DataTypeModifier.Union;
+            }
 
             if (source.Field != null)
             {
