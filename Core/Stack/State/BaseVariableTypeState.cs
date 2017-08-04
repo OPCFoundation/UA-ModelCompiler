@@ -333,7 +333,7 @@ namespace Opc.Ua
                 attributesToSave |= AttributesToSave.DataType;
             }
 
-            if (m_valueRank != ValueRanks.Any)
+            if (m_valueRank != ValueRanks.OneOrMoreDimensions)
             {
                 attributesToSave |= AttributesToSave.ValueRank;
             }
