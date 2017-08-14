@@ -140,7 +140,7 @@
     <opc:Description>Describes a value that is a structure containing diagnostics associated with a StatusCode.</opc:Description>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="Image" BaseType="ByteString" PartNo="3">
+  <opc:DataType SymbolicName="Image" BaseType="ByteString" IsAbstract="true" PartNo="3">
     <opc:Description>Describes a value that is an image encoded as a string of bytes.</opc:Description>
   </opc:DataType>
   
@@ -160,7 +160,7 @@
     <opc:Description>The abstract base type for all hierarchical references.</opc:Description>
   </opc:ReferenceType>
 
-  <opc:ReferenceType SymbolicName="HasChild" BaseType="HierarchicalReferences" PartNo="3">
+  <opc:ReferenceType SymbolicName="HasChild" BaseType="HierarchicalReferences"  IsAbstract="true" PartNo="3">
     <opc:Description>The abstract base type for all non-looping hierarchical references.</opc:Description>
     <opc:InverseName>ChildOf</opc:InverseName>
   </opc:ReferenceType>
@@ -197,15 +197,15 @@
 
   <opc:ReferenceType SymbolicName="GeneratesEvent" BaseType="NonHierarchicalReferences" PartNo="3">
     <opc:Description>The type for references from a node to an event type that is raised by node.</opc:Description>
-    <opc:InverseName>GeneratesEvent</opc:InverseName>
+    <opc:InverseName>GeneratedBy</opc:InverseName>
   </opc:ReferenceType>
 
   <opc:ReferenceType SymbolicName="AlwaysGeneratesEvent" BaseType="GeneratesEvent" PartNo="3">
     <opc:Description>The type for references from a node to an event type that is always raised by node.</opc:Description>
-    <opc:InverseName>AlwaysGeneratesEvent</opc:InverseName>
+    <opc:InverseName>AlwaysGeneratedBy</opc:InverseName>
   </opc:ReferenceType>
 
-  <opc:ReferenceType SymbolicName="Aggregates" BaseType="HasChild" PartNo="3">
+  <opc:ReferenceType SymbolicName="Aggregates" BaseType="HasChild" IsAbstract="true" PartNo="3">
     <opc:Description>The type for non-looping hierarchical references that are used to aggregate nodes into complex types.</opc:Description>
     <opc:InverseName>AggregatedBy</opc:InverseName>
   </opc:ReferenceType>

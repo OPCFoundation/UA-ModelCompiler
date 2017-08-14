@@ -657,6 +657,7 @@ namespace Opc.Ua.ModelCompiler
                     }
 
                     ImportFields(design, complexType.Field);
+                    design.IsAbstract = complexType.IsAbstract;
                     nodes.Add(design);
                 }
 

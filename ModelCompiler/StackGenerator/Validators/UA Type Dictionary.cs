@@ -230,9 +230,12 @@ namespace Opc.Ua.CodeGenerator {
         
         private int binaryEncodingIdField;
         
+        private bool isAbstractField;
+        
         public ComplexType() {
             this.xmlEncodingIdField = 0;
             this.binaryEncodingIdField = 0;
+            this.isAbstractField = false;
         }
         
         /// <remarks/>
@@ -278,6 +281,18 @@ namespace Opc.Ua.CodeGenerator {
             }
             set {
                 this.binaryEncodingIdField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public bool IsAbstract {
+            get {
+                return this.isAbstractField;
+            }
+            set {
+                this.isAbstractField = value;
             }
         }
     }

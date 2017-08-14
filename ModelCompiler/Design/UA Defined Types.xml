@@ -98,7 +98,7 @@
   <DataType SymbolicName="tns:DiagnosticInfo" PartNo="4" BaseType="tns:BaseDataType" NotInAddressSpace="true">
     <Description>Describes a value that is a structure containing diagnostics associated with a StatusCode.</Description>
   </DataType>
-  <DataType SymbolicName="tns:Image" PartNo="3" BaseType="tns:ByteString">
+  <DataType SymbolicName="tns:Image" PartNo="3" BaseType="tns:ByteString" IsAbstract="true">
     <Description>Describes a value that is an image encoded as a string of bytes.</Description>
   </DataType>
   <DataType SymbolicName="tns:Decimal" PartNo="3" BaseType="tns:Number">
@@ -113,7 +113,7 @@
   <ReferenceType SymbolicName="tns:HierarchicalReferences" PartNo="3" BaseType="tns:References" IsAbstract="true">
     <Description>The abstract base type for all hierarchical references.</Description>
   </ReferenceType>
-  <ReferenceType SymbolicName="tns:HasChild" PartNo="3" BaseType="tns:HierarchicalReferences">
+  <ReferenceType SymbolicName="tns:HasChild" PartNo="3" BaseType="tns:HierarchicalReferences" IsAbstract="true">
     <Description>The abstract base type for all non-looping hierarchical references.</Description>
     <InverseName>ChildOf</InverseName>
   </ReferenceType>
@@ -143,13 +143,13 @@
   </ReferenceType>
   <ReferenceType SymbolicName="tns:GeneratesEvent" PartNo="3" BaseType="tns:NonHierarchicalReferences">
     <Description>The type for references from a node to an event type that is raised by node.</Description>
-    <InverseName>GeneratesEvent</InverseName>
+    <InverseName>GeneratedBy</InverseName>
   </ReferenceType>
   <ReferenceType SymbolicName="tns:AlwaysGeneratesEvent" PartNo="3" BaseType="tns:GeneratesEvent">
     <Description>The type for references from a node to an event type that is always raised by node.</Description>
-    <InverseName>AlwaysGeneratesEvent</InverseName>
+    <InverseName>AlwaysGeneratedBy</InverseName>
   </ReferenceType>
-  <ReferenceType SymbolicName="tns:Aggregates" PartNo="3" BaseType="tns:HasChild">
+  <ReferenceType SymbolicName="tns:Aggregates" PartNo="3" BaseType="tns:HasChild" IsAbstract="true">
     <Description>The type for non-looping hierarchical references that are used to aggregate nodes into complex types.</Description>
     <InverseName>AggregatedBy</InverseName>
   </ReferenceType>
@@ -1178,7 +1178,7 @@
       <Variable SymbolicName="tns:DisabledMonitoredItemCount" DataType="tns:UInt32" />
       <Variable SymbolicName="tns:MonitoringQueueOverflowCount" DataType="tns:UInt32" />
       <Variable SymbolicName="tns:NextSequenceNumber" DataType="tns:UInt32" />
-      <Variable SymbolicName="tns:EventQueueOverFlowCount" DataType="tns:UInt32" />
+      <Variable SymbolicName="tns:EventQueueOverflowCount" DataType="tns:UInt32" />
     </Children>
   </VariableType>
   <VariableType SymbolicName="tns:SessionDiagnosticsArrayType" PartNo="5" BaseType="tns:BaseDataVariableType" DataType="tns:SessionDiagnosticsDataType" ValueRank="Array">
@@ -1824,7 +1824,7 @@
       <Property SymbolicName="tns:EnumStrings" DataType="tns:LocalizedText" ValueRank="Array" />
     </Children>
   </VariableType>
-  <VariableType SymbolicName="tns:MultiStateValueDiscreteType" PartNo="8" BaseType="tns:DiscreteItemType" DataType="tns:Number">
+  <VariableType SymbolicName="tns:MultiStateValueDiscreteType" PartNo="8" BaseType="tns:DiscreteItemType" DataType="tns:Number" ValueRank="ScalarOrArray">
     <Children>
       <Property SymbolicName="tns:EnumValues" DataType="tns:EnumValueType" ValueRank="Array" />
       <Property SymbolicName="tns:ValueAsText" DataType="tns:LocalizedText" />
@@ -2757,15 +2757,15 @@
       <Property SymbolicName="tns:Tolerance" ModellingRule="Optional" DataType="tns:Double" />
     </Children>
   </ObjectType>
-  <ObjectType SymbolicName="tns:BaseConditionClassType" PartNo="9" BaseType="tns:BaseObjectType" />
-  <ObjectType SymbolicName="tns:ProcessConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" />
-  <ObjectType SymbolicName="tns:MaintenanceConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" />
-  <ObjectType SymbolicName="tns:SystemConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" />
-  <ObjectType SymbolicName="tns:SafetyConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" />
-  <ObjectType SymbolicName="tns:HighlyManagedAlarmConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" />
-  <ObjectType SymbolicName="tns:TrainingConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" />
-  <ObjectType SymbolicName="tns:StatisticalConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" />
-  <ObjectType SymbolicName="tns:TestingConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" />
+  <ObjectType SymbolicName="tns:BaseConditionClassType" PartNo="9" BaseType="tns:BaseObjectType" IsAbstract="true" />
+  <ObjectType SymbolicName="tns:ProcessConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" IsAbstract="true" />
+  <ObjectType SymbolicName="tns:MaintenanceConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" IsAbstract="true" />
+  <ObjectType SymbolicName="tns:SystemConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" IsAbstract="true" />
+  <ObjectType SymbolicName="tns:SafetyConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" IsAbstract="true" />
+  <ObjectType SymbolicName="tns:HighlyManagedAlarmConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" IsAbstract="true" />
+  <ObjectType SymbolicName="tns:TrainingConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" IsAbstract="true" />
+  <ObjectType SymbolicName="tns:StatisticalConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" IsAbstract="true" />
+  <ObjectType SymbolicName="tns:TestingConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" IsAbstract="true" />
   <ObjectType SymbolicName="tns:AuditConditionEventType" PartNo="9" BaseType="tns:AuditUpdateMethodEventType" />
   <ObjectType SymbolicName="tns:AuditConditionEnableEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
   <ObjectType SymbolicName="tns:AuditConditionCommentEventType" PartNo="9" BaseType="tns:AuditConditionEventType">
@@ -2800,9 +2800,9 @@
   <ObjectType SymbolicName="tns:AuditConditionSilenceEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
   <ObjectType SymbolicName="tns:AuditConditionResetEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
   <ObjectType SymbolicName="tns:AuditConditionOutOfServiceEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
-  <ObjectType SymbolicName="tns:RefreshStartEventType" PartNo="9" BaseType="tns:SystemEventType" />
-  <ObjectType SymbolicName="tns:RefreshEndEventType" PartNo="9" BaseType="tns:SystemEventType" />
-  <ObjectType SymbolicName="tns:RefreshRequiredEventType" PartNo="9" BaseType="tns:SystemEventType" />
+  <ObjectType SymbolicName="tns:RefreshStartEventType" PartNo="9" BaseType="tns:SystemEventType" IsAbstract="true" />
+  <ObjectType SymbolicName="tns:RefreshEndEventType" PartNo="9" BaseType="tns:SystemEventType" IsAbstract="true" />
+  <ObjectType SymbolicName="tns:RefreshRequiredEventType" PartNo="9" BaseType="tns:SystemEventType" IsAbstract="true" />
   <ReferenceType SymbolicName="tns:HasCondition" PartNo="9" BaseType="tns:NonHierarchicalReferences">
     <InverseName>IsConditionOf</InverseName>
   </ReferenceType>
@@ -5858,7 +5858,7 @@
       </Field>
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:UserIdentityToken" SymbolicId="tns:UserIdentityToken" PartNo="4" BaseType="tns:Structure" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:UserIdentityToken" SymbolicId="tns:UserIdentityToken" PartNo="4" BaseType="tns:Structure" IsAbstract="true" NoArraysAllowed="true">
     <Description>A base type for a user identity token.</Description>
     <Fields>
       <Field Name="PolicyId" DataType="tns:String">

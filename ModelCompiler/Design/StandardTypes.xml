@@ -846,7 +846,7 @@
       <opc:Variable SymbolicName="DisabledMonitoredItemCount" DataType="ua:UInt32" />
       <opc:Variable SymbolicName="MonitoringQueueOverflowCount" DataType="ua:UInt32" />
       <opc:Variable SymbolicName="NextSequenceNumber" DataType="ua:UInt32" />
-      <opc:Variable SymbolicName="EventQueueOverFlowCount" DataType="ua:UInt32" />
+      <opc:Variable SymbolicName="EventQueueOverflowCount" DataType="ua:UInt32" />
     </opc:Children>
   </opc:VariableType>
 
@@ -1646,7 +1646,7 @@
     </opc:Children>
   </opc:VariableType>
 
-  <opc:VariableType SymbolicName="MultiStateValueDiscreteType" BaseType="DiscreteItemType" DataType="ua:Number" PartNo="8">
+  <opc:VariableType SymbolicName="MultiStateValueDiscreteType" BaseType="DiscreteItemType" DataType="ua:Number" ValueRank="ScalarOrArray" PartNo="8">
     <opc:Children>
       <opc:Property SymbolicName="EnumValues" DataType="EnumValueType" ValueRank="Array" />
       <opc:Property SymbolicName="ValueAsText" DataType="ua:LocalizedText" />
@@ -2629,15 +2629,15 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="BaseConditionClassType" BaseType="ua:BaseObjectType" PartNo="9" />
-  <opc:ObjectType SymbolicName="ProcessConditionClassType" BaseType="BaseConditionClassType" PartNo="9" />
-  <opc:ObjectType SymbolicName="MaintenanceConditionClassType" BaseType="BaseConditionClassType" PartNo="9" />
-  <opc:ObjectType SymbolicName="SystemConditionClassType" BaseType="BaseConditionClassType" PartNo="9" />
-  <opc:ObjectType SymbolicName="SafetyConditionClassType" BaseType="BaseConditionClassType" PartNo="9" />
-  <opc:ObjectType SymbolicName="HighlyManagedAlarmConditionClassType" BaseType="BaseConditionClassType" PartNo="9" />
-  <opc:ObjectType SymbolicName="TrainingConditionClassType" BaseType="BaseConditionClassType" PartNo="9" />
-  <opc:ObjectType SymbolicName="StatisticalConditionClassType" BaseType="BaseConditionClassType" PartNo="9" />
-  <opc:ObjectType SymbolicName="TestingConditionClassType" BaseType="BaseConditionClassType" PartNo="9" />
+  <opc:ObjectType SymbolicName="BaseConditionClassType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="9" />
+  <opc:ObjectType SymbolicName="ProcessConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
+  <opc:ObjectType SymbolicName="MaintenanceConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
+  <opc:ObjectType SymbolicName="SystemConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
+  <opc:ObjectType SymbolicName="SafetyConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
+  <opc:ObjectType SymbolicName="HighlyManagedAlarmConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
+  <opc:ObjectType SymbolicName="TrainingConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
+  <opc:ObjectType SymbolicName="StatisticalConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
+  <opc:ObjectType SymbolicName="TestingConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
   
   <opc:ObjectType SymbolicName="AuditConditionEventType" BaseType="AuditUpdateMethodEventType" PartNo="9" />
   <opc:ObjectType SymbolicName="AuditConditionEnableEventType" BaseType="AuditConditionEventType" PartNo="9" />
@@ -2680,9 +2680,9 @@
   <opc:ObjectType SymbolicName="AuditConditionResetEventType" BaseType="AuditConditionEventType" PartNo="9" />
   <opc:ObjectType SymbolicName="AuditConditionOutOfServiceEventType" BaseType="AuditConditionEventType" PartNo="9" />
 
-  <opc:ObjectType SymbolicName="RefreshStartEventType" BaseType="SystemEventType" PartNo="9" />
-  <opc:ObjectType SymbolicName="RefreshEndEventType" BaseType="SystemEventType" PartNo="9" />
-  <opc:ObjectType SymbolicName="RefreshRequiredEventType" BaseType="SystemEventType" PartNo="9" />
+  <opc:ObjectType SymbolicName="RefreshStartEventType" BaseType="SystemEventType" IsAbstract="true" PartNo="9" />
+  <opc:ObjectType SymbolicName="RefreshEndEventType" BaseType="SystemEventType" IsAbstract="true" PartNo="9" />
+  <opc:ObjectType SymbolicName="RefreshRequiredEventType" BaseType="SystemEventType" IsAbstract="true" PartNo="9" />
 
   <opc:ReferenceType SymbolicName="HasCondition" BaseType="ua:NonHierarchicalReferences" PartNo="9">
     <opc:InverseName>IsConditionOf</opc:InverseName>
