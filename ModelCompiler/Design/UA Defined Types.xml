@@ -2851,20 +2851,30 @@
         </Children>
       </Variable>
       <Property SymbolicName="tns:Creatable" ModellingRule="None" DataType="tns:Boolean" />
-      <Property SymbolicName="tns:Deletable" DataType="tns:Boolean" />
+      <Property SymbolicName="tns:Deletable" ModellingRule="Mandatory" DataType="tns:Boolean" />
       <Property SymbolicName="tns:AutoDelete" ModellingRule="Mandatory" DataType="tns:Boolean" />
-      <Property SymbolicName="tns:RecycleCount" DataType="tns:Int32" />
+      <Property SymbolicName="tns:RecycleCount" ModellingRule="Mandatory" DataType="tns:Int32" />
       <Property SymbolicName="tns:InstanceCount" ModellingRule="None" DataType="tns:UInt32" />
       <Property SymbolicName="tns:MaxInstanceCount" ModellingRule="None" DataType="tns:UInt32" />
       <Property SymbolicName="tns:MaxRecycleCount" ModellingRule="None" DataType="tns:UInt32" />
-      <Variable SymbolicName="tns:ProgramDiagnostics" TypeDefinition="tns:ProgramDiagnosticType" ModellingRule="Optional" />
+      <Variable SymbolicName="tns:ProgramDiagnostics" TypeDefinition="tns:ProgramDiagnostic2Type" ModellingRule="Optional" />
       <Object SymbolicName="tns:FinalResultData" TypeDefinition="tns:BaseObjectType" ModellingRule="Optional" />
+      <Object SymbolicName="tns:Halted" TypeDefinition="tns:StateType" ModellingRule="None">
+        <Description>The Program is in a terminal or failed state, and it cannot be started or resumed without being reset.</Description>
+        <Children>
+          <Property SymbolicName="tns:StateNumber">
+            <DefaultValue>
+              <uax:UInt32>1</uax:UInt32>
+            </DefaultValue>
+          </Property>
+        </Children>
+      </Object>
       <Object SymbolicName="tns:Ready" TypeDefinition="tns:StateType" ModellingRule="None">
         <Description>The Program is properly initialized and may be started.</Description>
         <Children>
           <Property SymbolicName="tns:StateNumber">
             <DefaultValue>
-              <uax:UInt32>1</uax:UInt32>
+              <uax:UInt32>2</uax:UInt32>
             </DefaultValue>
           </Property>
         </Children>
@@ -2874,23 +2884,13 @@
         <Children>
           <Property SymbolicName="tns:StateNumber">
             <DefaultValue>
-              <uax:UInt32>2</uax:UInt32>
+              <uax:UInt32>3</uax:UInt32>
             </DefaultValue>
           </Property>
         </Children>
       </Object>
       <Object SymbolicName="tns:Suspended" TypeDefinition="tns:StateType" ModellingRule="None">
         <Description>The Program has been stopped prior to reaching a terminal state but may be resumed.</Description>
-        <Children>
-          <Property SymbolicName="tns:StateNumber">
-            <DefaultValue>
-              <uax:UInt32>3</uax:UInt32>
-            </DefaultValue>
-          </Property>
-        </Children>
-      </Object>
-      <Object SymbolicName="tns:Halted" TypeDefinition="tns:StateType" ModellingRule="None">
-        <Description>The Program is in a terminal or failed state, and it cannot be started or resumed without being reset.</Description>
         <Children>
           <Property SymbolicName="tns:StateNumber">
             <DefaultValue>
@@ -3134,19 +3134,19 @@
           </Reference>
         </References>
       </Object>
-      <Method SymbolicName="tns:Start" ModellingRule="Optional">
+      <Method SymbolicName="tns:Start" ModellingRule="OptionalPlaceholder">
         <Description>Causes the Program to transition from the Ready state to the Running state.</Description>
       </Method>
-      <Method SymbolicName="tns:Suspend" ModellingRule="Optional">
+      <Method SymbolicName="tns:Suspend" ModellingRule="OptionalPlaceholder">
         <Description>Causes the Program to transition from the Running state to the Suspended state.</Description>
       </Method>
-      <Method SymbolicName="tns:Resume" ModellingRule="Optional">
+      <Method SymbolicName="tns:Resume" ModellingRule="OptionalPlaceholder">
         <Description>Causes the Program to transition from the Suspended state to the Running state.</Description>
       </Method>
-      <Method SymbolicName="tns:Halt" ModellingRule="Optional">
+      <Method SymbolicName="tns:Halt" ModellingRule="OptionalPlaceholder">
         <Description>Causes the Program to transition from the Ready, Running or Suspended state to the Halted state.</Description>
       </Method>
-      <Method SymbolicName="tns:Reset" ModellingRule="Optional">
+      <Method SymbolicName="tns:Reset" ModellingRule="OptionalPlaceholder">
         <Description>Causes the Program to transition from the Halted state to the Ready state.</Description>
       </Method>
     </Children>
@@ -3176,6 +3176,22 @@
       <Property SymbolicName="tns:LastMethodSessionId" DataType="tns:NodeId" />
       <Property SymbolicName="tns:LastMethodInputArguments" DataType="tns:BaseDataType" ValueRank="Array" />
       <Property SymbolicName="tns:LastMethodOutputArguments" DataType="tns:BaseDataType" ValueRank="Array" />
+      <Property SymbolicName="tns:LastMethodCallTime" DataType="tns:UtcTime" />
+      <Property SymbolicName="tns:LastMethodReturnStatus" DataType="tns:StatusCode" />
+    </Children>
+  </VariableType>
+  <VariableType SymbolicName="tns:ProgramDiagnostic2Type" PartNo="10" BaseType="tns:BaseDataVariableType" DataType="tns:ProgramDiagnostic2DataType" ValueRank="Scalar">
+    <Children>
+      <Property SymbolicName="tns:CreateSessionId" DataType="tns:NodeId" />
+      <Property SymbolicName="tns:CreateClientName" DataType="tns:String" />
+      <Property SymbolicName="tns:InvocationCreationTime" DataType="tns:UtcTime" />
+      <Property SymbolicName="tns:LastTransitionTime" DataType="tns:UtcTime" />
+      <Property SymbolicName="tns:LastMethodCall" DataType="tns:String" />
+      <Property SymbolicName="tns:LastMethodSessionId" DataType="tns:NodeId" />
+      <Property SymbolicName="tns:LastMethodInputArguments" DataType="tns:Argument" ValueRank="Array" />
+      <Property SymbolicName="tns:LastMethodOutputArguments" DataType="tns:Argument" ValueRank="Array" />
+      <Property SymbolicName="tns:LastMethodInputValues" DataType="tns:BaseDataType" ValueRank="Array" />
+      <Property SymbolicName="tns:LastMethodOutputValues" DataType="tns:BaseDataType" ValueRank="Array" />
       <Property SymbolicName="tns:LastMethodCallTime" DataType="tns:UtcTime" />
       <Property SymbolicName="tns:LastMethodReturnStatus" DataType="tns:StatusCode" />
     </Children>
@@ -7854,6 +7870,22 @@
       <Field Name="LastMethodSessionId" DataType="tns:NodeId" />
       <Field Name="LastMethodInputArguments" DataType="tns:Argument" ValueRank="Array" />
       <Field Name="LastMethodOutputArguments" DataType="tns:Argument" ValueRank="Array" />
+      <Field Name="LastMethodCallTime" DataType="tns:UtcTime" />
+      <Field Name="LastMethodReturnStatus" DataType="tns:StatusResult" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:ProgramDiagnostic2DataType" SymbolicId="tns:ProgramDiagnostic2DataType" PartNo="10" BaseType="tns:Structure" NoArraysAllowed="true">
+    <Fields>
+      <Field Name="CreateSessionId" DataType="tns:NodeId" />
+      <Field Name="CreateClientName" DataType="tns:String" />
+      <Field Name="InvocationCreationTime" DataType="tns:UtcTime" />
+      <Field Name="LastTransitionTime" DataType="tns:UtcTime" />
+      <Field Name="LastMethodCall" DataType="tns:String" />
+      <Field Name="LastMethodSessionId" DataType="tns:NodeId" />
+      <Field Name="LastMethodInputArguments" DataType="tns:Argument" ValueRank="Array" />
+      <Field Name="LastMethodOutputArguments" DataType="tns:Argument" ValueRank="Array" />
+      <Field Name="LastMethodInputValues" DataType="tns:BaseDataType" ValueRank="Array" />
+      <Field Name="LastMethodOutputValues" DataType="tns:BaseDataType" ValueRank="Array" />
       <Field Name="LastMethodCallTime" DataType="tns:UtcTime" />
       <Field Name="LastMethodReturnStatus" DataType="tns:StatusResult" />
     </Fields>

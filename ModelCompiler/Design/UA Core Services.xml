@@ -2847,6 +2847,21 @@
     <opc:Field Name="LastMethodReturnStatus" DataType="StatusResult" />
   </opc:ComplexType>
 
+  <opc:ComplexType Name="ProgramDiagnostic2DataType" PartNo="10">
+    <opc:Field Name="CreateSessionId" DataType="s0:NodeId" />
+    <opc:Field Name="CreateClientName" DataType="s0:String" />
+    <opc:Field Name="InvocationCreationTime" DataType="UtcTime" />
+    <opc:Field Name="LastTransitionTime" DataType="UtcTime" />
+    <opc:Field Name="LastMethodCall" DataType="s0:String" />
+    <opc:Field Name="LastMethodSessionId" DataType="s0:NodeId" />
+    <opc:Field Name="LastMethodInputArguments" DataType="Argument" ValueRank="0" />
+    <opc:Field Name="LastMethodOutputArguments" DataType="Argument" ValueRank="0" />
+    <opc:Field Name="LastMethodInputValues" DataType="s0:Variant" ValueRank="0" />
+    <opc:Field Name="LastMethodOutputValues" DataType="s0:Variant" ValueRank="0" />
+    <opc:Field Name="LastMethodCallTime" DataType="UtcTime" />
+    <opc:Field Name="LastMethodReturnStatus" DataType="StatusResult" />
+  </opc:ComplexType>
+
   <opc:ComplexType Name="Annotation" PartNo="11">
     <opc:Field Name="Message" DataType="s0:String" />
     <opc:Field Name="UserName" DataType="s0:String" />

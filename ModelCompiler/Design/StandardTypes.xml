@@ -2742,21 +2742,31 @@
       </opc:Variable>
 
       <opc:Property SymbolicName="Creatable" DataType="ua:Boolean" ModellingRule="None" />
-      <opc:Property SymbolicName="Deletable" DataType="ua:Boolean" />
+      <opc:Property SymbolicName="Deletable" DataType="ua:Boolean" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="AutoDelete" DataType="ua:Boolean" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="RecycleCount" DataType="ua:Int32" />
+      <opc:Property SymbolicName="RecycleCount" DataType="ua:Int32" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="InstanceCount" DataType="ua:UInt32" ModellingRule="None" />
       <opc:Property SymbolicName="MaxInstanceCount" DataType="ua:UInt32" ModellingRule="None" />
       <opc:Property SymbolicName="MaxRecycleCount" DataType="ua:UInt32" ModellingRule="None" />
-      <opc:Variable SymbolicName="ProgramDiagnostics" TypeDefinition="ProgramDiagnosticType" ModellingRule="Optional" />
+      <opc:Variable SymbolicName="ProgramDiagnostics" TypeDefinition="ProgramDiagnostic2Type" ModellingRule="Optional" />
       <opc:Object SymbolicName="FinalResultData" TypeDefinition="BaseObjectType" ModellingRule="Optional" />
 
+      <opc:Object SymbolicName="Halted" TypeDefinition="StateType" ModellingRule="None">
+        <opc:Description>The Program is in a terminal or failed state, and it cannot be started or resumed without being reset.</opc:Description>
+        <opc:Children>
+          <opc:Property SymbolicName="StateNumber">
+            <opc:DefaultValue>
+              <uax:UInt32>1</uax:UInt32>
+            </opc:DefaultValue>
+          </opc:Property>
+        </opc:Children>
+      </opc:Object>
       <opc:Object SymbolicName="Ready" TypeDefinition="StateType" ModellingRule="None">
         <opc:Description>The Program is properly initialized and may be started.</opc:Description>
         <opc:Children>
           <opc:Property SymbolicName="StateNumber">
             <opc:DefaultValue>
-              <uax:UInt32>1</uax:UInt32>
+              <uax:UInt32>2</uax:UInt32>
             </opc:DefaultValue>
           </opc:Property>
         </opc:Children>
@@ -2766,23 +2776,13 @@
         <opc:Children>
           <opc:Property SymbolicName="StateNumber">
             <opc:DefaultValue>
-              <uax:UInt32>2</uax:UInt32>
+              <uax:UInt32>3</uax:UInt32>
             </opc:DefaultValue>
           </opc:Property>
         </opc:Children>
       </opc:Object>
       <opc:Object SymbolicName="Suspended" TypeDefinition="StateType" ModellingRule="None">
         <opc:Description>The Program has been stopped prior to reaching a terminal state but may be resumed.</opc:Description>
-        <opc:Children>
-          <opc:Property SymbolicName="StateNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>3</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
-      </opc:Object>
-      <opc:Object SymbolicName="Halted" TypeDefinition="StateType" ModellingRule="None">
-        <opc:Description>The Program is in a terminal or failed state, and it cannot be started or resumed without being reset.</opc:Description>
         <opc:Children>
           <opc:Property SymbolicName="StateNumber">
             <opc:DefaultValue>
@@ -3026,19 +3026,19 @@
           </opc:Reference>
         </opc:References>
       </opc:Object>
-      <opc:Method SymbolicName="Start" ModellingRule="Optional">
+      <opc:Method SymbolicName="Start" ModellingRule="OptionalPlaceholder">
         <opc:Description>Causes the Program to transition from the Ready state to the Running state.</opc:Description>
       </opc:Method>
-      <opc:Method SymbolicName="Suspend" ModellingRule="Optional">
+      <opc:Method SymbolicName="Suspend" ModellingRule="OptionalPlaceholder">
         <opc:Description>Causes the Program to transition from the Running state to the Suspended state.</opc:Description>
       </opc:Method>
-      <opc:Method SymbolicName="Resume" ModellingRule="Optional">
+      <opc:Method SymbolicName="Resume" ModellingRule="OptionalPlaceholder">
         <opc:Description>Causes the Program to transition from the Suspended state to the Running state.</opc:Description>
       </opc:Method>
-      <opc:Method SymbolicName="Halt" ModellingRule="Optional">
+      <opc:Method SymbolicName="Halt" ModellingRule="OptionalPlaceholder">
         <opc:Description>Causes the Program to transition from the Ready, Running or Suspended state to the Halted state.</opc:Description>
       </opc:Method>
-      <opc:Method SymbolicName="Reset" ModellingRule="Optional">
+      <opc:Method SymbolicName="Reset" ModellingRule="OptionalPlaceholder">
         <opc:Description>Causes the Program to transition from the Halted state to the Ready state.</opc:Description>
       </opc:Method>
     </opc:Children>
@@ -3072,6 +3072,23 @@
       <opc:Property SymbolicName="LastMethodSessionId" DataType="ua:NodeId" />
       <opc:Property SymbolicName="LastMethodInputArguments" DataType="ua:BaseDataType" ValueRank="Array" />
       <opc:Property SymbolicName="LastMethodOutputArguments" DataType="ua:BaseDataType" ValueRank="Array" />
+      <opc:Property SymbolicName="LastMethodCallTime" DataType="ua:UtcTime" />
+      <opc:Property SymbolicName="LastMethodReturnStatus" DataType="ua:StatusCode" />
+    </opc:Children>
+  </opc:VariableType>
+
+  <opc:VariableType SymbolicName="ProgramDiagnostic2Type" DataType="ProgramDiagnostic2DataType" ValueRank="Scalar" BaseType="ua:BaseDataVariableType" PartNo="10">
+    <opc:Children>
+      <opc:Property SymbolicName="CreateSessionId" DataType="ua:NodeId" />
+      <opc:Property SymbolicName="CreateClientName" DataType="ua:String" />
+      <opc:Property SymbolicName="InvocationCreationTime" DataType="ua:UtcTime" />
+      <opc:Property SymbolicName="LastTransitionTime" DataType="ua:UtcTime" />
+      <opc:Property SymbolicName="LastMethodCall" DataType="ua:String" />
+      <opc:Property SymbolicName="LastMethodSessionId" DataType="ua:NodeId" />
+      <opc:Property SymbolicName="LastMethodInputArguments" DataType="Argument" ValueRank="Array" />
+      <opc:Property SymbolicName="LastMethodOutputArguments" DataType="Argument" ValueRank="Array" />
+      <opc:Property SymbolicName="LastMethodInputValues" DataType="ua:BaseDataType" ValueRank="Array" />
+      <opc:Property SymbolicName="LastMethodOutputValues" DataType="ua:BaseDataType" ValueRank="Array" />
       <opc:Property SymbolicName="LastMethodCallTime" DataType="ua:UtcTime" />
       <opc:Property SymbolicName="LastMethodReturnStatus" DataType="ua:StatusCode" />
     </opc:Children>
