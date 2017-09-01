@@ -42,7 +42,7 @@ namespace Opc.Ua
 
             UpdateStateVariable(context, Objects.ProgramStateMachineType_Ready, CurrentState);
             UpdateTransitionVariable(context, 0, LastTransition);
-
+            /*
             Start.OnCallMethod = OnStart;
             Start.OnReadExecutable = IsStartExecutable;
             Start.OnReadUserExecutable = IsStartUserExecutable;
@@ -62,6 +62,7 @@ namespace Opc.Ua
             Reset.OnCallMethod = OnReset;
             Reset.OnReadExecutable = IsResetExecutable;
             Reset.OnReadUserExecutable = IsResetUserExecutable;
+            */
         }
         #endregion
 

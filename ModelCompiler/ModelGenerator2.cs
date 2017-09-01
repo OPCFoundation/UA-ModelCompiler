@@ -3736,7 +3736,7 @@ namespace Opc.Ua.ModelCompiler
 
                 if (!context.Token.EndsWith("ForType"))
                 {
-                    if (instance.ModellingRule == ModellingRule.None)
+                    if (instance.ModellingRule == ModellingRule.None || instance.ModellingRule == ModellingRule.OptionalPlaceholder || instance.ModellingRule == ModellingRule.MandatoryPlaceholder)
                     {
                         continue;
                     }
