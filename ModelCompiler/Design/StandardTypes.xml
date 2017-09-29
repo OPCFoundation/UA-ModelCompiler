@@ -1441,7 +1441,9 @@
     <opc:Children>
       <opc:Property SymbolicName="Identities" DataType="IdentityMappingRuleType" ValueRank="Array"></opc:Property>
       <opc:Property SymbolicName="Applications" DataType="ua:String" ValueRank="Array" ModellingRule="Optional"></opc:Property>
+      <opc:Property SymbolicName="ApplicationsExclude" DataType="ua:Boolean" ModellingRule="Optional"></opc:Property>
       <opc:Property SymbolicName="Endpoints" DataType="ua:String" ValueRank="Array" ModellingRule="Optional"></opc:Property>
+      <opc:Property SymbolicName="EndpointsExclude" DataType="ua:Boolean" ModellingRule="Optional"></opc:Property>
       <opc:Method SymbolicName="AddIdentity" TypeDefinition="AddIdentityMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveIdentity" TypeDefinition="RemoveIdentityMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddApplication" TypeDefinition="AddApplicationMethodType" ModellingRule="Optional" />
@@ -1511,6 +1513,18 @@
     <opc:BrowseName>AnonymousRole</opc:BrowseName>
     <opc:DisplayName>Anonymous</opc:DisplayName>
     <opc:Description>The Role has very limited access for use when a Session has anonymous credentials.</opc:Description>
+    <opc:Children> 
+      <opc:Property SymbolicName="Applications" />
+      <opc:Property SymbolicName="ApplicationsExclude" />
+      <opc:Property SymbolicName="Endpoints" />
+      <opc:Property SymbolicName="EndpointsExclude" />
+      <opc:Method SymbolicName="AddIdentity" />
+      <opc:Method SymbolicName="RemoveIdentity" />
+      <opc:Method SymbolicName="AddApplication" />
+      <opc:Method SymbolicName="RemoveApplication" />
+      <opc:Method SymbolicName="AddEndpoint" />
+      <opc:Method SymbolicName="RemoveEndpoint" />
+    </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
@@ -1523,6 +1537,18 @@
     <opc:BrowseName>AuthenticatedUserRole</opc:BrowseName>
     <opc:DisplayName>AuthenticatedUser</opc:DisplayName>
     <opc:Description>The Role has limited access for use when a Session has valid non-anonymous credentials but has not been explicity granted access to a Role.</opc:Description>
+    <opc:Children> 
+      <opc:Property SymbolicName="Applications" />
+      <opc:Property SymbolicName="ApplicationsExclude" />
+      <opc:Property SymbolicName="Endpoints" />
+      <opc:Property SymbolicName="EndpointsExclude" />
+      <opc:Method SymbolicName="AddIdentity" />
+      <opc:Method SymbolicName="RemoveIdentity" />
+      <opc:Method SymbolicName="AddApplication" />
+      <opc:Method SymbolicName="RemoveApplication" />
+      <opc:Method SymbolicName="AddEndpoint" />
+      <opc:Method SymbolicName="RemoveEndpoint" />
+    </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
@@ -1535,6 +1561,18 @@
     <opc:BrowseName>ObserverRole</opc:BrowseName>
     <opc:DisplayName>Observer</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
+    <opc:Children> 
+      <opc:Property SymbolicName="Applications" />
+      <opc:Property SymbolicName="ApplicationsExclude" />
+      <opc:Property SymbolicName="Endpoints" />
+      <opc:Property SymbolicName="EndpointsExclude" />
+      <opc:Method SymbolicName="AddIdentity" />
+      <opc:Method SymbolicName="RemoveIdentity" />
+      <opc:Method SymbolicName="AddApplication" />
+      <opc:Method SymbolicName="RemoveApplication" />
+      <opc:Method SymbolicName="AddEndpoint" />
+      <opc:Method SymbolicName="RemoveEndpoint" />
+    </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
@@ -1547,6 +1585,18 @@
     <opc:BrowseName>OperatorRole</opc:BrowseName>
     <opc:DisplayName>Operator</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
+    <opc:Children> 
+      <opc:Property SymbolicName="Applications" />
+      <opc:Property SymbolicName="ApplicationsExclude" />
+      <opc:Property SymbolicName="Endpoints" />
+      <opc:Property SymbolicName="EndpointsExclude" />
+      <opc:Method SymbolicName="AddIdentity" />
+      <opc:Method SymbolicName="RemoveIdentity" />
+      <opc:Method SymbolicName="AddApplication" />
+      <opc:Method SymbolicName="RemoveApplication" />
+      <opc:Method SymbolicName="AddEndpoint" />
+      <opc:Method SymbolicName="RemoveEndpoint" />
+    </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
@@ -1559,6 +1609,18 @@
     <opc:BrowseName>EngineerRole</opc:BrowseName>
     <opc:DisplayName>Engineer</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read and update historical data/events, call methods or subscribe to data/events.</opc:Description>
+    <opc:Children> 
+      <opc:Property SymbolicName="Applications" />
+      <opc:Property SymbolicName="ApplicationsExclude" />
+      <opc:Property SymbolicName="Endpoints" />
+      <opc:Property SymbolicName="EndpointsExclude" />
+      <opc:Method SymbolicName="AddIdentity" />
+      <opc:Method SymbolicName="RemoveIdentity" />
+      <opc:Method SymbolicName="AddApplication" />
+      <opc:Method SymbolicName="RemoveApplication" />
+      <opc:Method SymbolicName="AddEndpoint" />
+      <opc:Method SymbolicName="RemoveEndpoint" />
+    </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
@@ -1571,6 +1633,18 @@
     <opc:BrowseName>SupervisorRole</opc:BrowseName>
     <opc:DisplayName>Supervisor</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read and historical data/events, call methods or subscribe to data/events.</opc:Description>
+    <opc:Children> 
+      <opc:Property SymbolicName="Applications" />
+      <opc:Property SymbolicName="ApplicationsExclude" />
+      <opc:Property SymbolicName="Endpoints" />
+      <opc:Property SymbolicName="EndpointsExclude" />
+      <opc:Method SymbolicName="AddIdentity" />
+      <opc:Method SymbolicName="RemoveIdentity" />
+      <opc:Method SymbolicName="AddApplication" />
+      <opc:Method SymbolicName="RemoveApplication" />
+      <opc:Method SymbolicName="AddEndpoint" />
+      <opc:Method SymbolicName="RemoveEndpoint" />
+    </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
@@ -1583,6 +1657,18 @@
     <opc:BrowseName>ConfigureAdminRole</opc:BrowseName>
     <opc:DisplayName>ConfigureAdmin</opc:DisplayName>
     <opc:Description>The Role is allowed to change the non-security related configuration settings.</opc:Description>
+    <opc:Children> 
+      <opc:Property SymbolicName="Applications" />
+      <opc:Property SymbolicName="ApplicationsExclude" />
+      <opc:Property SymbolicName="Endpoints" />
+      <opc:Property SymbolicName="EndpointsExclude" />
+      <opc:Method SymbolicName="AddIdentity" />
+      <opc:Method SymbolicName="RemoveIdentity" />
+      <opc:Method SymbolicName="AddApplication" />
+      <opc:Method SymbolicName="RemoveApplication" />
+      <opc:Method SymbolicName="AddEndpoint" />
+      <opc:Method SymbolicName="RemoveEndpoint" />
+    </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
@@ -1595,6 +1681,18 @@
     <opc:BrowseName>SecurityAdminRole</opc:BrowseName>
     <opc:DisplayName>SecurityAdmin</opc:DisplayName>
     <opc:Description>The Role is allowed to change security related settings.</opc:Description>
+    <opc:Children> 
+      <opc:Property SymbolicName="Applications" />
+      <opc:Property SymbolicName="ApplicationsExclude" />
+      <opc:Property SymbolicName="Endpoints" />
+      <opc:Property SymbolicName="EndpointsExclude" />
+      <opc:Method SymbolicName="AddIdentity" />
+      <opc:Method SymbolicName="RemoveIdentity" />
+      <opc:Method SymbolicName="AddApplication" />
+      <opc:Method SymbolicName="RemoveApplication" />
+      <opc:Method SymbolicName="AddEndpoint" />
+      <opc:Method SymbolicName="RemoveEndpoint" />
+    </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
@@ -3711,6 +3809,7 @@
       <opc:Field Name="DataType"  DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="ValueRank"  DataType="ua:Int32" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="ArrayDimensions"  DataType="ua:UInt32" ValueRank="Array"></opc:Field>
+      <opc:Field Name="MaxStringLength"  DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetFieldId"  DataType="ua:Guid" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Properties"  DataType="KeyValuePair" ValueRank="Array"></opc:Field>      
     </opc:Fields>

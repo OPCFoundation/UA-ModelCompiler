@@ -1644,7 +1644,9 @@
     <Children>
       <Property SymbolicName="tns:Identities" DataType="tns:IdentityMappingRuleType" ValueRank="Array" />
       <Property SymbolicName="tns:Applications" ModellingRule="Optional" DataType="tns:String" ValueRank="Array" />
+      <Property SymbolicName="tns:ApplicationsExclude" ModellingRule="Optional" DataType="tns:Boolean" />
       <Property SymbolicName="tns:Endpoints" ModellingRule="Optional" DataType="tns:String" ValueRank="Array" />
+      <Property SymbolicName="tns:EndpointsExclude" ModellingRule="Optional" DataType="tns:Boolean" />
       <Method SymbolicName="tns:AddIdentity" TypeDefinition="tns:AddIdentityMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:RemoveIdentity" TypeDefinition="tns:RemoveIdentityMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:AddApplication" TypeDefinition="tns:AddApplicationMethodType" ModellingRule="Optional" />
@@ -1704,6 +1706,18 @@
     <BrowseName>AnonymousRole</BrowseName>
     <DisplayName>Anonymous</DisplayName>
     <Description>The Role has very limited access for use when a Session has anonymous credentials.</Description>
+    <Children>
+      <Property SymbolicName="tns:Applications" />
+      <Property SymbolicName="tns:ApplicationsExclude" />
+      <Property SymbolicName="tns:Endpoints" />
+      <Property SymbolicName="tns:EndpointsExclude" />
+      <Method SymbolicName="tns:AddIdentity" />
+      <Method SymbolicName="tns:RemoveIdentity" />
+      <Method SymbolicName="tns:AddApplication" />
+      <Method SymbolicName="tns:RemoveApplication" />
+      <Method SymbolicName="tns:AddEndpoint" />
+      <Method SymbolicName="tns:RemoveEndpoint" />
+    </Children>
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
@@ -1715,6 +1729,18 @@
     <BrowseName>AuthenticatedUserRole</BrowseName>
     <DisplayName>AuthenticatedUser</DisplayName>
     <Description>The Role has limited access for use when a Session has valid non-anonymous credentials but has not been explicity granted access to a Role.</Description>
+    <Children>
+      <Property SymbolicName="tns:Applications" />
+      <Property SymbolicName="tns:ApplicationsExclude" />
+      <Property SymbolicName="tns:Endpoints" />
+      <Property SymbolicName="tns:EndpointsExclude" />
+      <Method SymbolicName="tns:AddIdentity" />
+      <Method SymbolicName="tns:RemoveIdentity" />
+      <Method SymbolicName="tns:AddApplication" />
+      <Method SymbolicName="tns:RemoveApplication" />
+      <Method SymbolicName="tns:AddEndpoint" />
+      <Method SymbolicName="tns:RemoveEndpoint" />
+    </Children>
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
@@ -1726,6 +1752,18 @@
     <BrowseName>ObserverRole</BrowseName>
     <DisplayName>Observer</DisplayName>
     <Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</Description>
+    <Children>
+      <Property SymbolicName="tns:Applications" />
+      <Property SymbolicName="tns:ApplicationsExclude" />
+      <Property SymbolicName="tns:Endpoints" />
+      <Property SymbolicName="tns:EndpointsExclude" />
+      <Method SymbolicName="tns:AddIdentity" />
+      <Method SymbolicName="tns:RemoveIdentity" />
+      <Method SymbolicName="tns:AddApplication" />
+      <Method SymbolicName="tns:RemoveApplication" />
+      <Method SymbolicName="tns:AddEndpoint" />
+      <Method SymbolicName="tns:RemoveEndpoint" />
+    </Children>
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
@@ -1737,6 +1775,18 @@
     <BrowseName>OperatorRole</BrowseName>
     <DisplayName>Operator</DisplayName>
     <Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</Description>
+    <Children>
+      <Property SymbolicName="tns:Applications" />
+      <Property SymbolicName="tns:ApplicationsExclude" />
+      <Property SymbolicName="tns:Endpoints" />
+      <Property SymbolicName="tns:EndpointsExclude" />
+      <Method SymbolicName="tns:AddIdentity" />
+      <Method SymbolicName="tns:RemoveIdentity" />
+      <Method SymbolicName="tns:AddApplication" />
+      <Method SymbolicName="tns:RemoveApplication" />
+      <Method SymbolicName="tns:AddEndpoint" />
+      <Method SymbolicName="tns:RemoveEndpoint" />
+    </Children>
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
@@ -1748,6 +1798,18 @@
     <BrowseName>EngineerRole</BrowseName>
     <DisplayName>Engineer</DisplayName>
     <Description>The Role is allowed to browse, read live data, read and update historical data/events, call methods or subscribe to data/events.</Description>
+    <Children>
+      <Property SymbolicName="tns:Applications" />
+      <Property SymbolicName="tns:ApplicationsExclude" />
+      <Property SymbolicName="tns:Endpoints" />
+      <Property SymbolicName="tns:EndpointsExclude" />
+      <Method SymbolicName="tns:AddIdentity" />
+      <Method SymbolicName="tns:RemoveIdentity" />
+      <Method SymbolicName="tns:AddApplication" />
+      <Method SymbolicName="tns:RemoveApplication" />
+      <Method SymbolicName="tns:AddEndpoint" />
+      <Method SymbolicName="tns:RemoveEndpoint" />
+    </Children>
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
@@ -1759,6 +1821,18 @@
     <BrowseName>SupervisorRole</BrowseName>
     <DisplayName>Supervisor</DisplayName>
     <Description>The Role is allowed to browse, read live data, read and historical data/events, call methods or subscribe to data/events.</Description>
+    <Children>
+      <Property SymbolicName="tns:Applications" />
+      <Property SymbolicName="tns:ApplicationsExclude" />
+      <Property SymbolicName="tns:Endpoints" />
+      <Property SymbolicName="tns:EndpointsExclude" />
+      <Method SymbolicName="tns:AddIdentity" />
+      <Method SymbolicName="tns:RemoveIdentity" />
+      <Method SymbolicName="tns:AddApplication" />
+      <Method SymbolicName="tns:RemoveApplication" />
+      <Method SymbolicName="tns:AddEndpoint" />
+      <Method SymbolicName="tns:RemoveEndpoint" />
+    </Children>
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
@@ -1770,6 +1844,18 @@
     <BrowseName>ConfigureAdminRole</BrowseName>
     <DisplayName>ConfigureAdmin</DisplayName>
     <Description>The Role is allowed to change the non-security related configuration settings.</Description>
+    <Children>
+      <Property SymbolicName="tns:Applications" />
+      <Property SymbolicName="tns:ApplicationsExclude" />
+      <Property SymbolicName="tns:Endpoints" />
+      <Property SymbolicName="tns:EndpointsExclude" />
+      <Method SymbolicName="tns:AddIdentity" />
+      <Method SymbolicName="tns:RemoveIdentity" />
+      <Method SymbolicName="tns:AddApplication" />
+      <Method SymbolicName="tns:RemoveApplication" />
+      <Method SymbolicName="tns:AddEndpoint" />
+      <Method SymbolicName="tns:RemoveEndpoint" />
+    </Children>
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
@@ -1781,6 +1867,18 @@
     <BrowseName>SecurityAdminRole</BrowseName>
     <DisplayName>SecurityAdmin</DisplayName>
     <Description>The Role is allowed to change security related settings.</Description>
+    <Children>
+      <Property SymbolicName="tns:Applications" />
+      <Property SymbolicName="tns:ApplicationsExclude" />
+      <Property SymbolicName="tns:Endpoints" />
+      <Property SymbolicName="tns:EndpointsExclude" />
+      <Method SymbolicName="tns:AddIdentity" />
+      <Method SymbolicName="tns:RemoveIdentity" />
+      <Method SymbolicName="tns:AddApplication" />
+      <Method SymbolicName="tns:RemoveApplication" />
+      <Method SymbolicName="tns:AddEndpoint" />
+      <Method SymbolicName="tns:RemoveEndpoint" />
+    </Children>
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
@@ -3718,6 +3816,7 @@
       <Field Name="DataType" DataType="tns:NodeId" />
       <Field Name="ValueRank" DataType="tns:Int32" />
       <Field Name="ArrayDimensions" DataType="tns:UInt32" ValueRank="Array" />
+      <Field Name="MaxStringLength" DataType="tns:UInt32" />
       <Field Name="DataSetFieldId" DataType="tns:Guid" />
       <Field Name="Properties" DataType="tns:KeyValuePair" ValueRank="Array" />
     </Fields>
@@ -4998,7 +5097,7 @@
       </Field>
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:PermissionType" SymbolicId="tns:PermissionType" PartNo="3" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:PermissionType" SymbolicId="tns:PermissionType" PartNo="3" BaseType="tns:UInt16" IsOptionSet="true" NoArraysAllowed="true">
     <Fields>
       <Field Name="None" BitMask="0000" />
       <Field Name="Browse" BitMask="0001" />
@@ -5021,7 +5120,18 @@
       <Field Name="All" BitMask="1FFFF" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:AccessLevelType" SymbolicId="tns:AccessLevelType" PartNo="3" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:AccessLevelType" SymbolicId="tns:AccessLevelType" PartNo="3" BaseType="tns:Byte" IsOptionSet="true" NoArraysAllowed="true">
+    <Fields>
+      <Field Name="None" BitMask="0000" />
+      <Field Name="CurrentRead" BitMask="0001" />
+      <Field Name="CurrentWrite" BitMask="0002" />
+      <Field Name="HistoryRead" BitMask="0004" />
+      <Field Name="HistoryWrite" BitMask="0010" />
+      <Field Name="StatusWrite" BitMask="0020" />
+      <Field Name="TimestampWrite" BitMask="0040" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:AccessLevelExType" SymbolicId="tns:AccessLevelExType" PartNo="3" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
     <Fields>
       <Field Name="None" BitMask="0000" />
       <Field Name="CurrentRead" BitMask="0001" />
@@ -5071,6 +5181,8 @@
       <Field Name="Description" DataType="tns:LocalizedText" />
       <Field Name="DataType" DataType="tns:NodeId" />
       <Field Name="ValueRank" DataType="tns:Int32" />
+      <Field Name="ArrayDimensions" DataType="tns:UInt32" ValueRank="Array" />
+      <Field Name="MaxStringLength" DataType="tns:UInt32" />
       <Field Name="IsOptional" DataType="tns:Boolean" />
     </Fields>
   </DataType>

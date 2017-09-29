@@ -702,8 +702,16 @@ namespace Opc.Ua.ModelCompiler
 
                     if (enumeratedType.IsOptionSet)
                     {
-                        design.BaseType = new XmlQualifiedName("UInt32", DefaultNamespace);
                         design.IsOptionSet = true;
+
+                        if (enumeratedType.BaseType != null)
+                        {
+                            design.BaseType = ImportTypeName(enumeratedType.BaseType);
+                        }
+                        else
+                        {
+                            design.BaseType = new XmlQualifiedName("UInt32", DefaultNamespace);
+                        }
                     }
 
                     if (enumeratedType.Value != null && enumeratedType.Value.Length > 0)

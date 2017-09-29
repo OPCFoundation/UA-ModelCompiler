@@ -118,6 +118,7 @@
           <xs:element name="Value" type="EnumeratedValue" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="IsOptionSet" type="xs:boolean" default="false" />
+        <xs:attribute name="BaseType" type="xs:QName" use="optional" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

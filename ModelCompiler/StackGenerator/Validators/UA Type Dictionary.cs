@@ -497,6 +497,8 @@ namespace Opc.Ua.CodeGenerator {
         
         private bool isOptionSetField;
         
+        private System.Xml.XmlQualifiedName baseTypeField;
+        
         public EnumeratedType() {
             this.isOptionSetField = false;
         }
@@ -521,6 +523,17 @@ namespace Opc.Ua.CodeGenerator {
             }
             set {
                 this.isOptionSetField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public System.Xml.XmlQualifiedName BaseType {
+            get {
+                return this.baseTypeField;
+            }
+            set {
+                this.baseTypeField = value;
             }
         }
     }

@@ -1306,6 +1306,22 @@ namespace Opc.Ua.CodeGenerator
                     }
 
                     names.Add(name);
+
+                    if (enumeratedType.IsOptionSet)
+                    {
+                        if (!String.IsNullOrEmpty(value.BitMask))
+                        {
+                            ulong mask = 0;
+                            
+                            if (UInt64.TryParse(value.BitMask, System.Globalization.NumberStyles.AllowHexSpecifier, System.Globalization.CultureInfo.InvariantCulture, out mask))
+                            {
+                                var bytes = BitConverter.GetBytes(mask);
+                                value.Value = BitConverter.ToInt32(bytes, 0);
+                                value.ValueSpecified = true;
+                            }
+                        }
+                    }
+
                     values.Add(String.Format("= {0}", value.Value));
                 }
             }
