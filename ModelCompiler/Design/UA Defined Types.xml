@@ -92,10 +92,10 @@
   <DataType SymbolicName="tns:Structure" NumericId="22" PartNo="3" BaseType="tns:BaseDataType" IsAbstract="true">
     <Description>Describes a value that is any type of structure that can be described with a data encoding.</Description>
   </DataType>
-  <DataType SymbolicName="tns:DataValue" NumericId="23" PartNo="4" BaseType="tns:BaseDataType" NotInAddressSpace="true">
+  <DataType SymbolicName="tns:DataValue" NumericId="23" PartNo="4" BaseType="tns:BaseDataType">
     <Description>Describes a value that is a structure containing a value, a status code and timestamps.</Description>
   </DataType>
-  <DataType SymbolicName="tns:DiagnosticInfo" PartNo="4" BaseType="tns:BaseDataType" NotInAddressSpace="true">
+  <DataType SymbolicName="tns:DiagnosticInfo" PartNo="4" BaseType="tns:BaseDataType">
     <Description>Describes a value that is a structure containing diagnostics associated with a StatusCode.</Description>
   </DataType>
   <DataType SymbolicName="tns:Image" PartNo="3" BaseType="tns:ByteString" IsAbstract="true">

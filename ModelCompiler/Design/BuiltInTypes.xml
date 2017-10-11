@@ -132,11 +132,11 @@
     <opc:Description>Describes a value that is any type of structure that can be described with a data encoding.</opc:Description>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="DataValue" BaseType="BaseDataType" NumericId="23" PartNo="4" NotInAddressSpace="true">
+  <opc:DataType SymbolicName="DataValue" BaseType="BaseDataType" NumericId="23" PartNo="4">
     <opc:Description>Describes a value that is a structure containing a value, a status code and timestamps.</opc:Description>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="DiagnosticInfo" BaseType="BaseDataType" PartNo="4" NotInAddressSpace="true">
+  <opc:DataType SymbolicName="DiagnosticInfo" BaseType="BaseDataType" PartNo="4">
     <opc:Description>Describes a value that is a structure containing diagnostics associated with a StatusCode.</opc:Description>
   </opc:DataType>
 
