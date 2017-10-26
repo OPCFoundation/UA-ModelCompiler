@@ -74,9 +74,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HeaderUpdateTool.cs" />
     <Compile Include="Properties\AssemblyVersionInfo.cs" />
     <Compile Include="StackGenerator.cs" />
     <Compile Include="ModelGenerator2.cs" />
+    <EmbeddedResource Include="License\NONE.txt" />
+    <EmbeddedResource Include="License\UA_MIT.txt" />
+    <EmbeddedResource Include="License\UA_MIT_XML.txt" />
     <EmbeddedResource Include="Templates\Version2\ConstantsFile.cs" />
     <EmbeddedResource Include="Templates\Version2\TypesFile.cs" />
     <EmbeddedResource Include="Templates\Version2\InitializeOptionalChild.cs" />

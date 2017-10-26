@@ -144,6 +144,16 @@ IF "%PLCOPEN_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\ADI\*.*" "%PLCOPEN_TARGET%"
 )
 
+ECHO Updating License
+ECHO ON
+%MODELCOMPILER% -input %OUTPUT% -pattern *.xml -license MITXML -silent
+%MODELCOMPILER% -input %OUTPUT% -pattern *.xsd -license MITXML -silent
+%MODELCOMPILER% -input %OUTPUT% -pattern *.bsd -license MITXML -silent
+%MODELCOMPILER% -input %OUTPUT% -pattern *.cs -license MIT -silent
+%MODELCOMPILER% -input %OUTPUT% -pattern *.h -license MIT -silent
+%MODELCOMPILER% -input %OUTPUT% -pattern *.c -license MIT -silent
+@ECHO OFF
+
 GOTO theEnd
 
 :noModelCompiler
