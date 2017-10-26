@@ -75,6 +75,9 @@
   <opc:Constant Name="Bad_SecurityChecksFailed">
     <opc:Documentation>An error occurred verifying security.</opc:Documentation>
   </opc:Constant>
+  <opc:Constant Name="Bad_CertificatePolicyCheckFailed">
+    <opc:Documentation>The certificate does not meet the requirements of the security policy.</opc:Documentation>
+  </opc:Constant>
   <opc:Constant Name="Bad_CertificateTimeInvalid">
     <opc:Documentation>The certificate has expired or is not yet valid.</opc:Documentation>
   </opc:Constant>

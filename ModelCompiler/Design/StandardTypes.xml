@@ -5133,5 +5133,5 @@
       <opc:Property SymbolicName="DataSetWriterId" DataType="ua:UInt16" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
-  
+
 </opc:ModelDesign>
