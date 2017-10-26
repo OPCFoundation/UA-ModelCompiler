@@ -345,8 +345,76 @@ namespace Opc.Ua.ModelCompiler
                 bool generateMultiFile = false;
                 bool useXmlInitializers = false;
 
+                bool updateHeaders = false;
+                string inputDirectory = ".";
+                string filePattern = "*.xml";
+                var licenseType = HeaderUpdateTool.LicenseType.MITXML;
+                bool silent = false;
+
                 for (int ii = 1; ii < tokens.Count; ii++)
                 {
+                    if (tokens[ii] == "-input")
+                    {
+                        if (ii >= tokens.Count - 1)
+                        {
+                            throw new ArgumentException("Incorrect number of parameters specified with the -input option.");
+                        }
+
+                        inputDirectory = tokens[++ii];
+                        continue;
+                    }
+
+                    if (tokens[ii] == "-pattern")
+                    {
+                        if (ii >= tokens.Count - 1)
+                        {
+                            throw new ArgumentException("Incorrect number of parameters specified with the -pattern option.");
+                        }
+
+                        filePattern = tokens[++ii];
+                        continue;
+                    }
+
+                    if (tokens[ii] == "-silent")
+                    {
+                        silent = true;
+                        continue;
+                    }
+
+                    if (tokens[ii] == "-license")
+                    {
+                        if (ii >= tokens.Count - 1)
+                        {
+                            throw new ArgumentException("Incorrect number of parameters specified with the -license option.");
+                        }
+
+                        updateHeaders = true;
+                        licenseType = (HeaderUpdateTool.LicenseType)Enum.Parse(typeof(HeaderUpdateTool.LicenseType), tokens[++ii]);
+                        continue;
+                    }
+
+                    if (tokens[ii] == "-d2")
+                    {
+                        if (ii >= tokens.Count - 1)
+                        {
+                            throw new ArgumentException("Incorrect number of parameters specified with the -d2 option.");
+                        }
+
+                        designFiles.Add(tokens[++ii]);
+                        continue;
+                    }
+
+                    if (tokens[ii] == "-d2")
+                    {
+                        if (ii >= tokens.Count - 1)
+                        {
+                            throw new ArgumentException("Incorrect number of parameters specified with the -d2 option.");
+                        }
+
+                        designFiles.Add(tokens[++ii]);
+                        continue;
+                    }
+
                     if (tokens[ii] == "-d2")
                     {
                         if (ii >= tokens.Count - 1)
@@ -426,6 +494,12 @@ namespace Opc.Ua.ModelCompiler
                         stackRootDir = tokens[++ii];
                         continue;
                     }
+                }
+
+                if (updateHeaders)
+                {
+                    HeaderUpdateTool.ProcessDirectory(inputDirectory, filePattern, licenseType, silent);
+                    return true;
                 }
 
                 ModelGenerator2 generator = new ModelGenerator2();
