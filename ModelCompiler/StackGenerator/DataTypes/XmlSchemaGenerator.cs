@@ -394,6 +394,7 @@ namespace Opc.Ua.CodeGenerator
         /// </summary>
         private bool WriteTemplate_DataType(Template template, Context context)
         {
+
             DataType datatype = context.Target as DataType;
 
             if (datatype == null)
@@ -441,6 +442,7 @@ namespace Opc.Ua.CodeGenerator
 
             if (enumeratedType != null)
             {
+
                 AddTemplate(
                     template,
                     "<!-- ListOfValues -->",

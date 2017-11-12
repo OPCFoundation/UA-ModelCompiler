@@ -1136,6 +1136,15 @@
       <opc:Field Name="Value" DataType="ua:BaseDataType" />
     </opc:Fields>
   </opc:DataType>
+
+  <opc:DataType SymbolicName="EndpointType" BaseType="Structure" PartNo="5">
+    <opc:Fields>
+      <opc:Field Name="EndpointUrl" DataType="ua:String" />
+      <opc:Field Name="SecurityMode" DataType="ua:MessageSecurityMode" />
+      <opc:Field Name="SecurityPolicyUri" DataType="ua:String" />
+      <opc:Field Name="TransportProfileUri" DataType="ua:String" />
+    </opc:Fields>
+  </opc:DataType>
   
   <!-- Part 5 Annex B - State Machines -->
 
@@ -1442,7 +1451,7 @@
       <opc:Property SymbolicName="Identities" DataType="IdentityMappingRuleType" ValueRank="Array"></opc:Property>
       <opc:Property SymbolicName="Applications" DataType="ua:String" ValueRank="Array" ModellingRule="Optional"></opc:Property>
       <opc:Property SymbolicName="ApplicationsExclude" DataType="ua:Boolean" ModellingRule="Optional"></opc:Property>
-      <opc:Property SymbolicName="Endpoints" DataType="ua:String" ValueRank="Array" ModellingRule="Optional"></opc:Property>
+      <opc:Property SymbolicName="Endpoints" DataType="ua:EndpointType" ValueRank="Array" ModellingRule="Optional"></opc:Property>
       <opc:Property SymbolicName="EndpointsExclude" DataType="ua:Boolean" ModellingRule="Optional"></opc:Property>
       <opc:Method SymbolicName="AddIdentity" TypeDefinition="AddIdentityMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveIdentity" TypeDefinition="RemoveIdentityMethodType" ModellingRule="Optional" />
@@ -1457,7 +1466,7 @@
     <opc:Fields>
       <opc:Field Name="UserName" Identifier="1" />
       <opc:Field Name="Thumbprint" Identifier="2" />
-      <opc:Field Name="Scope" Identifier="3" />
+      <opc:Field Name="Role" Identifier="3" />
       <opc:Field Name="GroupId" Identifier="4" />
       <opc:Field Name="Anonymous" Identifier="5" />
       <opc:Field Name="AuthenticatedUser" Identifier="6" />
@@ -3774,29 +3783,50 @@
   </opc:DataType>
 
   <!-- Part 14 -->
-  <opc:DataType SymbolicName="ConfigurationVersionDataType" BaseType="ua:Structure" PartNo="14">
+  <opc:DataType SymbolicName="DataTypeSchemaHeader" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="MajorVersion"  DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="MinorVersion"  DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Namespaces"  DataType="ua:String" ValueRank="Array"></opc:Field>
+      <opc:Field Name="StructureDataTypes"  DataType="StructureDescription" ValueRank="Array"></opc:Field>
+      <opc:Field Name="EnumDataTypes"  DataType="EnumDescription" ValueRank="Array"></opc:Field>
+     </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="DataTypeDescription" BaseType="ua:Structure" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="DataTypeId"  DataType="ua:NodeId"></opc:Field>
+      <opc:Field Name="Name"  DataType="ua:QualifiedName"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="StructureDescription" BaseType="DataTypeDescription" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="StructureDefinition"  DataType="ua:StructureDefinition"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="EnumDescription" BaseType="DataTypeDescription" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="EnumDefinition"  DataType="ua:EnumDefinition"></opc:Field>
+      <opc:Field Name="BuiltInType"  DataType="ua:Byte"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="PubSubState" BaseType="Enumeration">
+    <opc:Fields>
+      <opc:Field Name="Disabled" Identifier="0"></opc:Field>
+      <opc:Field Name="Paused" Identifier="1"></opc:Field>
+      <opc:Field Name="Operational" Identifier="2"></opc:Field>
+      <opc:Field Name="Error" Identifier="3"></opc:Field>
     </opc:Fields>
   </opc:DataType>
   
-  <opc:DataType SymbolicName="DataSetMetaDataType" BaseType="ua:Structure" PartNo="14">
+  <opc:DataType SymbolicName="DataSetMetaDataType" BaseType="DataTypeSchemaHeader" PartNo="14">
     <opc:Fields>
       <opc:Field Name="Name"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Description"  DataType="ua:LocalizedText" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Fields"  DataType="FieldMetaData" ValueRank="Array"></opc:Field>
       <opc:Field Name="DataSetClassId"  DataType="ua:Guid" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="Namespaces"  DataType="ua:String" ValueRank="Array"></opc:Field>
-      <opc:Field Name="StructureDataTypes"  DataType="StructureDescription" ValueRank="Array"></opc:Field>
-      <opc:Field Name="EnumDataTypes"  DataType="EnumDescription" ValueRank="Array"></opc:Field>
       <opc:Field Name="ConfigurationVersion"  DataType="ua:ConfigurationVersionDataType" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="DataSetFieldFlags" BaseType="ua:Enumeration" NoArraysAllowed="true" PartNo="14">
-    <opc:Fields>
-      <opc:Field Name="PromotedField" Identifier="1"></opc:Field>
     </opc:Fields>
   </opc:DataType>
   
@@ -3815,42 +3845,223 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="DataTypeDescription" BaseType="ua:Structure" PartNo="3">
+  <opc:DataType SymbolicName="DataSetFieldFlags" BaseType="ua:UInt32" IsOptionSet="true" NoArraysAllowed="true" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="DataTypeId"  DataType="ua:NodeId"></opc:Field>
-      <opc:Field Name="Name"  DataType="ua:QualifiedName"></opc:Field>
+      <opc:Field Name="PromotedField" Identifier="1"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="StructureDescription" BaseType="DataTypeDescription" PartNo="3">
+  <opc:DataType SymbolicName="ConfigurationVersionDataType" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="StructureDefinition"  DataType="ua:StructureDefinition"></opc:Field>
+      <opc:Field Name="MajorVersion"  DataType="ua:VersionTime" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="MinorVersion"  DataType="ua:VersionTime" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="EnumDescription" BaseType="DataTypeDescription" PartNo="3">
+  <opc:DataType SymbolicName="PublishedDataSetDataType" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="EnumDefinition"  DataType="ua:EnumDefinition"></opc:Field>
+      <opc:Field Name="Name"  DataType="ua:VersionTime" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetFolder"  DataType="ua:VersionTime" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetMetaData"  DataType="DataSetMetaDataType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ExtensionFields"  DataType="KeyValuePair" ValueRank="Array"></opc:Field>
+      <opc:Field Name="DataSetSource"  DataType="ua:Structure" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="PublishedDataSetSourceDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14">
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="PublishedVariableDataType" BaseType="ua:Structure" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="PublishedVariable"  DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="AttributeId"  DataType="ua:IntegerId" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="SamplingIntervalHint"  DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DeadbandType"  DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DeadbandValue"  DataType="ua:Double" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="IndexRange"  DataType="ua:NumericRange" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="SubstituteValue"  DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="MetaDataProperties"  DataType="ua:QualifiedName" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
   
-  <opc:DataType SymbolicName="DataSetMessageContentMask" BaseType="UInt32" IsOptionSet="true" PartNo="14">
+  <opc:DataType SymbolicName="PublishedDataItemsDataType" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="FieldStatusCode" BitMask="0001"></opc:Field>
-      <opc:Field Name="FieldSourceTimestamp" BitMask="0002"></opc:Field>
-      <opc:Field Name="FieldServerTimestamp" BitMask="0004"></opc:Field>
-      <opc:Field Name="FieldSourcePicoSeconds" BitMask="0008"></opc:Field>
-      <opc:Field Name="FieldServerPicoSeconds" BitMask="0010"></opc:Field>
-      <opc:Field Name="FieldRawDataEncoding" BitMask="0020"></opc:Field>
-      <opc:Field Name="HeaderTimestamp" BitMask="010000"></opc:Field>
-      <opc:Field Name="HeaderPicoSeconds" BitMask="020000"></opc:Field>
-      <opc:Field Name="HeaderStatusCode" BitMask="040000"></opc:Field>
-      <opc:Field Name="HeaderMajorVersion" BitMask="080000"></opc:Field>
-      <opc:Field Name="HeaderMinorVersion" BitMask="100000"></opc:Field>
+      <opc:Field Name="PublishedData"  DataType="PublishedVariableDataType" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="NetworkMessageContentMask" BaseType="UInt32" IsOptionSet="true" PartNo="14">
+  <opc:DataType SymbolicName="PublishedEventsDataType" BaseType="ua:Structure" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="EventNotifier"  DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="SelectedFields"  DataType="ua:SimpleAttributeOperand" ValueRank="Array"></opc:Field>
+      <opc:Field Name="Filter"  DataType="ua:ContentFilter" ValueRank="Scalar"></opc:Field>
+    </opc:Fields> 
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="DataSetFieldContentMask" BaseType="UInt32" IsOptionSet="true" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="StatusCode" BitMask="0001"></opc:Field>
+      <opc:Field Name="SourceTimestamp" BitMask="0002"></opc:Field>
+      <opc:Field Name="ServerTimestamp" BitMask="0004"></opc:Field>
+      <opc:Field Name="SourcePicoSeconds" BitMask="0008"></opc:Field>
+      <opc:Field Name="ServerPicoSeconds" BitMask="0010"></opc:Field>
+      <opc:Field Name="RawDataEncoding" BitMask="0020"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="DataSetWriterDataType" BaseType="ua:Structure" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="Name"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="State"  DataType="PubSubState" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetWriterId"  DataType="ua:UInt16" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetFieldContentMask"  DataType="DataSetFieldContentMask" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="KeyFrameCount"  DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetName"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="TransportSettings"  DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="MessageSettings"  DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="DataSetWriterTransportDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14">
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="DataSetWriterMessageDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14">
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="PubSubGroupDataType" BaseType="ua:Structure" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="Name"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="State"  DataType="PubSubState" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="SecurityMode"  DataType="ua:MessageSecurityMode" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="SecurityGroupId"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="SecurityKeyServices"  DataType="ua:EndpointDescription" ValueRank="Array"></opc:Field>
+      <opc:Field Name="MaxNetworkMessageSize"  DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="PubSubWriterGroupDataType" BaseType="ua:Structure" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="WriterGroupId" DataType="ua:UInt16" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="PublishingInterval" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="KeepAliveTime" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="EncodingMimeType" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Priority" DataType="ua:Byte" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="LocaleIds" DataType="ua:String" ValueRank="Array"></opc:Field>
+      <opc:Field Name="TransportSettings" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="MessageSettings" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetWriters" DataType="DataSetWriterDataType" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="WriterGroupTransportDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14">
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="WriterGroupMessageDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14">
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="PubSubConnectionDataType" BaseType="ua:Structure" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="PublisherId" DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Address" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="TransportProfileUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="TransportSettings" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="WriterGroups" DataType="PubSubWriterGroupDataType" ValueRank="Array"></opc:Field>
+      <opc:Field Name="ReaderGroups" DataType="PubSubReaderGroupDataType" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="ConnectionTransportDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14">
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="PubSubReaderGroupDataType" BaseType="ua:Structure" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="TransportSettings" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="MessageSettings" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetWriters" DataType="DataSetReaderDataType" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="ReaderGroupTransportDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14">
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="ReaderGroupMessageDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14">
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="DataSetReaderDataType" BaseType="ua:Structure" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="Name"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="State"  DataType="PubSubState" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="SecurityMode"  DataType="ua:MessageSecurityMode" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="SecurityGroupId"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="SecurityKeyServices"  DataType="ua:EndpointDescription" ValueRank="Array"></opc:Field>
+      <opc:Field Name="PublisherId"  DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetWriterId"  DataType="ua:UInt16" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetFieldContentMask"  DataType="DataSetFieldContentMask" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="MessageReceiveTimeout"  DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="TransportSettings"  DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="MessageSettings"  DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="SubscribedDataSet"  DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="DataSetReaderTransportDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14">
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="DataSetReaderMessageDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14">
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="SubscribedDataSetDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14">
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="TargetVariablesDataType" BaseType="ua:Structure" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="TargetVariables"  DataType="FieldTargetDataType" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="FieldTargetDataType" BaseType="ua:Structure" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="DataSetFieldId" DataType="ua:Guid" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ReceiverIndexRange"  DataType="ua:NumericRange" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="TargetNodeId"  DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="AttributeId"  DataType="ua:IntegerId" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="WriteIndexRange"  DataType="ua:NumericRange" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="OverrideValueHandling"  DataType="OverrideValueHandling" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="OverrideValue"  DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="OverrideValueHandling" BaseType="Enumeration" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="Disabled" Identifier="0"></opc:Field>
+      <opc:Field Name="LastUseableValue" Identifier="1"></opc:Field>
+      <opc:Field Name="OverrideValue" Identifier="2"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="SubscribedDataSetMirrorDataType" BaseType="ua:Structure" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="ParentNodeName"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="RolePermissions"  DataType="ua:RolePermissionType" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="PublishSubscribeDataType" BaseType="ua:Structure" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="PublishedDataSets"  DataType="PublishedDataSetDataType" ValueRank="Array"></opc:Field>
+      <opc:Field Name="Connections"  DataType="PubSubConnectionDataType" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="DataSetOrderingType" BaseType="Enumeration">
+    <opc:Fields>
+      <opc:Field Name="Undefined" Identifier="0"></opc:Field>
+      <opc:Field Name="AscendingWriterId" Identifier="1"></opc:Field>
+      <opc:Field Name="AscendingWriterIdSingle" Identifier="2"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="UadpNetworkMessageContentMask" BaseType="UInt32" IsOptionSet="true" PartNo="14">
     <opc:Fields>
       <opc:Field Name="PublisherId" BitMask="0001"></opc:Field>
       <opc:Field Name="GroupHeader" BitMask="0002"></opc:Field>
@@ -3863,6 +4074,119 @@
       <opc:Field Name="Picoseconds" BitMask="0100"></opc:Field>
       <opc:Field Name="DataSetClassId" BitMask="0200"></opc:Field>
       <opc:Field Name="PromotedFields" BitMask="0400"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="UadpWriterGroupMessageDataType" BaseType="WriterGroupMessageDataType" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="GroupVersion" DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetOrdering" DataType="DataSetOrderingType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="NetworkMessageContentMask" DataType="UadpNetworkMessageContentMask" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="SamplingOffset" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="PublishingOffset" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UadpDataSetMessageContentMask" BaseType="UInt32" IsOptionSet="true" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="Timestamp" BitMask="0001"></opc:Field>
+      <opc:Field Name="Picoseconds" BitMask="0002"></opc:Field>
+      <opc:Field Name="Status" BitMask="0004"></opc:Field>
+      <opc:Field Name="MajorVersion" BitMask="0008"></opc:Field>
+      <opc:Field Name="MinorVersion" BitMask="0010"></opc:Field>
+      <opc:Field Name="SequenceNumber" BitMask="0020"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UadpDataSetWriterMessageDataType" BaseType="DataSetWriterMessageDataType" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="DataSetMessageContentMask" DataType="UadpDataSetMessageContentMask" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ConfiguredSize" DataType="ua:UInt16" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="NetworkMessageNumber" DataType="ua:UInt16" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetOffset" DataType="ua:UInt16" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UadpDataSetReaderMessageDataType" BaseType="DataSetReaderMessageDataType" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="GroupVersion" DataType="ua:VersionTime" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="NetworkMessageNumber" DataType="ua:UInt16" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetOffset" DataType="ua:UInt16" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetClassId" DataType="ua:Guid" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="NetworkMessageContentMask" DataType="UadpNetworkMessageContentMask" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetMessageContentMask" DataType="UadpDataSetMessageContentMask" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="PublishingInterval" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ReceiveOffset" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ProcessingOffset" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="JsonNetworkMessageContentMask" BaseType="UInt32" IsOptionSet="true" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="NetworkMessageHeader" BitMask="0001"></opc:Field>
+      <opc:Field Name="DataSetMessageHeader" BitMask="0002"></opc:Field>
+      <opc:Field Name="SingleDataSetMessage" BitMask="0004"></opc:Field>
+      <opc:Field Name="PublisherId" BitMask="0008"></opc:Field>
+      <opc:Field Name="DataSetClassId" BitMask="0010"></opc:Field>
+      <opc:Field Name="ReplyTo" BitMask="0020"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="JsonWriterGroupMessageDataType" BaseType="WriterGroupMessageDataType" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="NetworkMessageContentMask" DataType="JsonNetworkMessageContentMask" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="JsonDataSetMessageContentMask" BaseType="UInt32" IsOptionSet="true" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="DataSetWriterId" BitMask="0001"></opc:Field>
+      <opc:Field Name="MetaDataVersion" BitMask="0002"></opc:Field>
+      <opc:Field Name="MetaDataQueueName" BitMask="0004"></opc:Field>
+      <opc:Field Name="SequenceNumber" BitMask="0008"></opc:Field>
+      <opc:Field Name="Timestamp" BitMask="0010"></opc:Field>
+      <opc:Field Name="Status" BitMask="0020"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="JsonDataSetWriterMessageDataType" BaseType="DataSetWriterMessageDataType" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="DataSetMessageContentMask" DataType="JsonDataSetMessageContentMask" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="JsonDataSetReaderMessageDataType" BaseType="DataSetReaderMessageDataType" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="NetworkMessageContentMask" DataType="JsonNetworkMessageContentMask" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetMessageContentMask" DataType="JsonDataSetMessageContentMask" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UdpWriterGroupTransportDataType" BaseType="WriterGroupTransportDataType" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="MessageRepeatCount" DataType="ua:Byte" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="MessageRepeatDelay" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="BrokerWriterGroupTransportDataType" BaseType="WriterGroupTransportDataType" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="QueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="BrokerDataSetWriterTransportDataType" BaseType="DataSetWriterTransportDataType" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="QueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="MetaDataQueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="MetaDataUpdateTime" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="BrokerDataSetReaderTransportDataType" BaseType="DataSetReaderTransportDataType" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="QueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="MetaDataQueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -4063,20 +4387,7 @@
       <opc:Argument Name="RemoveResults" DataType="ua:StatusCode" ValueRank="Array" />
     </opc:OutputArguments>
   </opc:Method>
-
-  <opc:DataType SymbolicName="PublishedVariableDataType" BaseType="ua:Structure" PartNo="14">
-    <opc:Fields>
-      <opc:Field Name="PublishedVariable"  DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="AttributeId"  DataType="ua:IntegerId" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="SamplingIntervalHint"  DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="DeadbandType"  DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="DeadbandValue"  DataType="ua:Double" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="IndexRange"  DataType="ua:NumericRange" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="SubstituteValue"  DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="MetaDataProperties"  DataType="ua:QualifiedName" ValueRank="Array"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
+  
   <opc:ObjectType SymbolicName="PublishedEventsType" BaseType="PublishedDataSetType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="PubSubEventNotifier" DataType="ua:NodeId" ModellingRule="Mandatory">
@@ -4240,8 +4551,7 @@
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsDataSetWriterType" ModellingRule="Optional" />
       <opc:Object SymbolicName="TransportSettings" TypeDefinition="DataSetWriterTransportType" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="DataSetMessageContentMask" DataType="DataSetMessageContentMask" ModellingRule="Mandatory" />
-    </opc:Children>
+     </opc:Children>
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="DataSetWriterTransportType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14">
@@ -4322,26 +4632,6 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:DataType SymbolicName="FieldTargetDataType" BaseType="ua:Structure">
-    <opc:Fields>
-      <opc:Field Name="DataSetFieldId"  DataType="ua:Guid" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="ReceiverIndexRange"  DataType="ua:NumericRange" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="TargetNodeId"  DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="AttributeId"  DataType="ua:IntegerId" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="WriteIndexRange"  DataType="ua:NumericRange" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="OverrideValueHandling"  DataType="OverrideValueHandling" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="OverrideValue"  DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-  
-  <opc:DataType SymbolicName="OverrideValueHandling" BaseType="Enumeration" PartNo="14">
-    <opc:Fields>
-      <opc:Field Name="Disabled" Identifier="0"></opc:Field>
-      <opc:Field Name="LastUseableValue" Identifier="1"></opc:Field>
-      <opc:Field Name="OverrideValue" Identifier="2"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
   <opc:ObjectType SymbolicName="SubscribedDataSetMirrorType" BaseType="SubscribedDataSetType" IsAbstract="false" PartNo="14" />
 
   <opc:ObjectType SymbolicName="PubSubStatusType" BaseType="ua:BaseObjectType" PartNo="14">
@@ -4351,15 +4641,6 @@
       <opc:Method SymbolicName="Disable" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
-
-  <opc:DataType SymbolicName="PubSubState" BaseType="Enumeration">
-    <opc:Fields>
-      <opc:Field Name="Disabled" Identifier="0"></opc:Field>
-      <opc:Field Name="Paused" Identifier="1"></opc:Field>
-      <opc:Field Name="Operational" Identifier="2"></opc:Field>
-      <opc:Field Name="Error" Identifier="3"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
 
   <opc:ObjectType SymbolicName="PubSubDiagnosticsType" BaseType="ua:BaseObjectType" IsAbstract="false" PartNo="14">
     <opc:Children>
@@ -4923,7 +5204,7 @@
       <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
       <opc:Argument Name="WriterGroupId" DataType="ua:UInt16" />
       <opc:Argument Name="MaxNetworkMessageSize" DataType="ua:UInt16" />
-      <opc:Argument Name="NetworkMessageContentMask" DataType="NetworkMessageContentMask" />
+      <opc:Argument Name="NetworkMessageContentMask" DataType="UadpNetworkMessageContentMask" />
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="GroupId" DataType="ua:NodeId" />
@@ -4948,7 +5229,7 @@
       <opc:Property SymbolicName="GroupVersion" DataType="VersionTime" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetOrdering" DataType="DataSetOrderingType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MaxNetworkMessageSize" DataType="ua:UInt16" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="NetworkMessageContentMask" DataType="NetworkMessageContentMask" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="NetworkMessageContentMask" DataType="UadpNetworkMessageContentMask" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="SamplingOffset" DataType="ua:Duration" ModellingRule="Optional" />
       <opc:Property SymbolicName="PublishingOffset" DataType="ua:Duration" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MessageRepeatCount" DataType="ua:Byte" ModellingRule="Optional" />
@@ -4956,20 +5237,13 @@
       <opc:Method SymbolicName="AddDataSetWriter" TypeDefinition="UadpGroupTypeAddWriterMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
-  
-  <opc:DataType SymbolicName="DataSetOrderingType" BaseType="Enumeration">
-    <opc:Fields>
-      <opc:Field Name="Undefined" Identifier="1"></opc:Field>
-      <opc:Field Name="AscendingWriterId" Identifier="2"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
 
   <opc:Method SymbolicName="UadpGroupTypeAddWriterMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="DataSetWriterName" DataType="ua:String" />
       <opc:Argument Name="DataSetWriterId" DataType="ua:UInt16" />
       <opc:Argument Name="PublishedDataSetId" DataType="ua:NodeId" />
-      <opc:Argument Name="DataSetMessageContentMask" DataType="DataSetMessageContentMask" />
+      <opc:Argument Name="DataSetMessageContentMask" DataType="UadpDataSetMessageContentMask" />
       <opc:Argument Name="KeyFrameCount" DataType="ua:UInt32" />
     </opc:InputArguments>
     <opc:OutputArguments>
@@ -4992,8 +5266,8 @@
       <opc:Argument Name="DataSetWriterId" DataType="ua:UInt16" />
       <opc:Argument Name="DataSetMetaData" DataType="DataSetMetaDataType" />
       <opc:Argument Name="MessageReceiveTimeout" DataType="ua:Duration" />
-      <opc:Argument Name="NetworkMessageContentMask" DataType="NetworkMessageContentMask" />
-      <opc:Argument Name="DataSetMessageContentMask" DataType="DataSetMessageContentMask" />
+      <opc:Argument Name="NetworkMessageContentMask" DataType="UadpNetworkMessageContentMask" />
+      <opc:Argument Name="DataSetMessageContentMask" DataType="UadpDataSetMessageContentMask" />
       <opc:Argument Name="PublishingInterval" DataType="ua:Duration" />
     </opc:InputArguments>
     <opc:OutputArguments>
@@ -5020,8 +5294,8 @@
       <opc:Property SymbolicName="DataSetOffset" DataType="ua:UInt16" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetWriterId" DataType="ua:UInt16" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetClassId" DataType="ua:Guid" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="NetworkMessageContentMask" DataType="NetworkMessageContentMask" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="DataSetMessageContentMask" DataType="DataSetMessageContentMask" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="NetworkMessageContentMask" DataType="UadpNetworkMessageContentMask" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="DataSetMessageContentMask" DataType="UadpDataSetMessageContentMask" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="PublishingInterval" DataType="ua:Duration" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
@@ -5133,5 +5407,5 @@
       <opc:Property SymbolicName="DataSetWriterId" DataType="ua:UInt16" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
-
+  
 </opc:ModelDesign>

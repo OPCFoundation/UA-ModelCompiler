@@ -797,6 +797,11 @@ namespace Opc.Ua.ModelCompiler
 
             template.AddReplacement("_TypeName_", dataType.SymbolicName.Name);
 
+            if (dataType.BasicDataType == BasicDataType.Enumeration && dataType.IsOptionSet)
+            {
+                template.AddReplacement("<xs:restriction base=\"xs:string\">", String.Format("<xs:restriction base=\"{0}\">", GetXmlDataType(baseType, ValueRank.Scalar)));
+            }
+
             AddTemplate(
                 template,
                 "<!-- Documentation -->",
@@ -1011,21 +1016,21 @@ namespace Opc.Ua.ModelCompiler
 
             if (basicType == BasicDataType.Enumeration)
             {
-                if (!dataType.IsOptionSet)
+                if (dataType.IsOptionSet)
                 {
-                    template.WriteNextLine(context.Prefix);
-
-                    if (field.IdentifierInName)
-                    {
-                        template.Write("<xs:enumeration value=\"{0}\" />", field.Name);
-                        return null;
-                    }
-
-                    template.Write("<xs:enumeration value=\"{0}_{1}\" />", field.Name, field.Identifier);
                     return null;
                 }
 
-                basicType = ((DataTypeDesign)dataType.BaseTypeNode).BasicDataType;
+                template.WriteNextLine(context.Prefix);
+
+                if (field.IdentifierInName)
+                {
+                    template.Write("<xs:enumeration value=\"{0}\" />", field.Name);
+                    return null;
+                }
+
+                template.Write("<xs:enumeration value=\"{0}_{1}\" />", field.Name, field.Identifier);
+                return null;
             }
 
             basicType = field.DataTypeNode.BasicDataType;
