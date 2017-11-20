@@ -721,6 +721,7 @@ namespace Opc.Ua.ModelCompiler
                 switch (dataType.NumericId)
                 {
                     case DataTypes.RolePermissionType:
+                    case DataTypes.DataTypeDefinition:
                     case DataTypes.StructureDefinition:
                     case DataTypes.StructureField:
                     case DataTypes.StructureType:
