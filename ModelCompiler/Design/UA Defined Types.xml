@@ -3944,9 +3944,8 @@
     <Fields>
       <Field Name="Name" DataType="tns:String" />
       <Field Name="PublisherId" DataType="tns:BaseDataType" />
-      <Field Name="Address" DataType="tns:String" />
       <Field Name="TransportProfileUri" DataType="tns:String" />
-      <Field Name="NetworkAddress" DataType="tns:Structure" />
+      <Field Name="Address" DataType="tns:Structure" />
       <Field Name="TransportSettings" DataType="tns:Structure" />
       <Field Name="WriterGroups" DataType="tns:WriterGroupDataType" ValueRank="Array" />
       <Field Name="ReaderGroups" DataType="tns:ReaderGroupDataType" ValueRank="Array" />

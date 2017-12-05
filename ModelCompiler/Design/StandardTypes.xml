@@ -3955,9 +3955,8 @@
     <opc:Fields>
       <opc:Field Name="Name" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="PublisherId" DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="Address" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="TransportProfileUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="NetworkAddress" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Address" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="TransportSettings" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="WriterGroups" DataType="WriterGroupDataType" ValueRank="Array"></opc:Field>
       <opc:Field Name="ReaderGroups" DataType="ReaderGroupDataType" ValueRank="Array"></opc:Field>
