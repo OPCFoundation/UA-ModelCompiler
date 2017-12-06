@@ -3783,7 +3783,6 @@
   </opc:DataType>
 
   <!-- Part 14 -->
-  <!--
   <opc:DataType SymbolicName="DataTypeSchemaHeader" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
       <opc:Field Name="Namespaces"  DataType="ua:String" ValueRank="Array"></opc:Field>
@@ -5370,6 +5369,5 @@
       <opc:Variable SymbolicName="Url" DataType="ua:String" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
-  -->
   
 </opc:ModelDesign>
