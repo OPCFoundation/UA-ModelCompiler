@@ -5,8 +5,8 @@
   xmlns:opc="http://opcfoundation.org/UA/TypeDictionary/"
   xmlns="http://opcfoundation.org/UA/StatusCodes/"
   TargetNamespace="http://opcfoundation.org/UA/StatusCodes/"
-  TargetVersion="1.03"
-  TargetPublicationDate="2013-12-02T00:00:00Z"
+  TargetVersion="1.04"
+  TargetPublicationDate="2017-11-22T00:00:00Z"
 >
   <!-- Common Service Level Codes -->
   <opc:Constant Name="Bad_UnexpectedError">

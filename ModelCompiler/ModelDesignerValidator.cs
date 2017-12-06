@@ -995,6 +995,25 @@ namespace Opc.Ua.ModelCompiler
                 {
                     Namespace ns = dictionary.Namespaces[ii];
 
+                    // override the publication date.
+                    if (ns.PublicationDate != null || ns.Version != null)
+                    {
+                        Export.ModelTableEntry modelInfo = null;
+
+                        if (dictionary.Dependencies.TryGetValue(ns.Value, out modelInfo))
+                        {
+                            if (!String.IsNullOrWhiteSpace(ns.Version))
+                            {
+                                modelInfo.Version = ns.Version;
+                            }
+
+                            if (!String.IsNullOrWhiteSpace(ns.PublicationDate))
+                            {
+                                modelInfo.PublicationDate = XmlConvert.ToDateTime(ns.PublicationDate, XmlDateTimeSerializationMode.Utc);
+                            }
+                        }
+                    }
+
                     if (m_designLocations.ContainsKey(ns.Value))
                     {
                         continue;

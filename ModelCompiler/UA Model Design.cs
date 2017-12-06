@@ -176,6 +176,10 @@ namespace Opc.Ua.ModelCompiler {
         
         private string filePathField;
         
+        private string versionField;
+        
+        private string publicationDateField;
+        
         private string valueField;
         
         /// <remarks/>
@@ -241,6 +245,28 @@ namespace Opc.Ua.ModelCompiler {
             }
             set {
                 this.filePathField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Version {
+            get {
+                return this.versionField;
+            }
+            set {
+                this.versionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string PublicationDate {
+            get {
+                return this.publicationDateField;
+            }
+            set {
+                this.publicationDateField = value;
             }
         }
         

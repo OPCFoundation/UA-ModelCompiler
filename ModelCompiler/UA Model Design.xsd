@@ -142,6 +142,8 @@
             </xs:documentation>
           </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="Version" type="xs:string" use="optional" />
+        <xs:attribute name="PublicationDate" type="xs:string" use="optional" />
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>
