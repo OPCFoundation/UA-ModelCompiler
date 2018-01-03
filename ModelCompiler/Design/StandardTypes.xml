@@ -3785,9 +3785,10 @@
   <!-- Part 14 -->
   <opc:DataType SymbolicName="DataTypeSchemaHeader" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="Namespaces"  DataType="ua:String" ValueRank="Array"></opc:Field>
-      <opc:Field Name="StructureDataTypes"  DataType="StructureDescription" ValueRank="Array"></opc:Field>
-      <opc:Field Name="EnumDataTypes"  DataType="EnumDescription" ValueRank="Array"></opc:Field>
+      <opc:Field Name="Namespaces" DataType="ua:String" ValueRank="Array"></opc:Field>
+      <opc:Field Name="StructureDataTypes" DataType="StructureDescription" ValueRank="Array"></opc:Field>
+      <opc:Field Name="EnumDataTypes" DataType="EnumDescription" ValueRank="Array"></opc:Field>
+      <opc:Field Name="SimpleDataTypes" DataType="SimpleTypeDescription" ValueRank="Array"></opc:Field>
      </opc:Fields>
   </opc:DataType>
 
@@ -3808,6 +3809,21 @@
     <opc:Fields>
       <opc:Field Name="EnumDefinition"  DataType="ua:EnumDefinition"></opc:Field>
       <opc:Field Name="BuiltInType"  DataType="ua:Byte"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="SimpleTypeDescription" BaseType="DataTypeDescription" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="BaseDataType"  DataType="ua:NodeId"></opc:Field>
+      <opc:Field Name="BuiltInType"  DataType="ua:Byte"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UABinaryFileDataType" BaseType="ua:Structure" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="SchemaLocation"  DataType="ua:String"></opc:Field>
+      <opc:Field Name="FileHeader"  DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
+      <opc:Field Name="Body"  DataType="ua:Structure" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -4142,10 +4158,9 @@
     <opc:Fields>
       <opc:Field Name="DataSetWriterId" BitMask="0001"></opc:Field>
       <opc:Field Name="MetaDataVersion" BitMask="0002"></opc:Field>
-      <opc:Field Name="MetaDataQueueName" BitMask="0004"></opc:Field>
-      <opc:Field Name="SequenceNumber" BitMask="0008"></opc:Field>
-      <opc:Field Name="Timestamp" BitMask="0010"></opc:Field>
-      <opc:Field Name="Status" BitMask="0020"></opc:Field>
+      <opc:Field Name="SequenceNumber" BitMask="0004"></opc:Field>
+      <opc:Field Name="Timestamp" BitMask="0008"></opc:Field>
+      <opc:Field Name="Status" BitMask="0010"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -4169,15 +4184,40 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="BrokerWriterGroupTransportDataType" BaseType="WriterGroupTransportDataType" PartNo="14">
+  <opc:DataType SymbolicName="BrokerConnectionTransportDataType" BaseType="DataSetWriterTransportDataType" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="QueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ResourceUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="AuthenticationProfileUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ConnectionProperties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="BrokerDataSetWriterTransportDataType" BaseType="DataSetWriterTransportDataType" PartNo="14">
+  <opc:DataType SymbolicName="BrokerTransportQualityOfService" BaseType="ua:Enumeration" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="NotSpecified" Identifier="0"></opc:Field>
+      <opc:Field Name="BestEffort" Identifier="1"></opc:Field>
+      <opc:Field Name="AtLeastOnce" Identifier="2"></opc:Field>
+      <opc:Field Name="AtMostOnce" Identifier="3"></opc:Field>
+      <opc:Field Name="ExactlyOnce" Identifier="4"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="BrokerWriterGroupTransportDataType" BaseType="WriterGroupTransportDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="QueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ResourceUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="AuthenticationProfileUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="WriterGroupProperties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
+      <opc:Field Name="RequestedDeliveryGuarantee" DataType="BrokerTransportQualityOfService" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="BrokerDataSetWriterTransportDataType" BaseType="WriterGroupTransportDataType" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="QueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ResourceUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="AuthenticationProfileUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetWriterProperties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
       <opc:Field Name="MetaDataQueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="MetaDataUpdateTime" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
@@ -4186,6 +4226,9 @@
   <opc:DataType SymbolicName="BrokerDataSetReaderTransportDataType" BaseType="DataSetReaderTransportDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="QueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ResourceUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="AuthenticationProfileUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="RequestedDeliveryGuarantee" DataType="BrokerTransportQualityOfService" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="MetaDataQueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
@@ -4201,13 +4244,13 @@
   <opc:Method SymbolicName="GetSecurityKeysMethodType">
     <opc:InputArguments>
       <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
-      <opc:Argument Name="FutureKeyCount" DataType="ua:UInt32" />
+      <opc:Argument Name="StartingTokenId" DataType="ua:IntegerId"></opc:Argument>
+      <opc:Argument Name="RequestedKeyCount" DataType="ua:UInt32" />
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="SecurityPolicyUri" DataType="ua:String"></opc:Argument>
-      <opc:Argument Name="CurrentTokenId" DataType="ua:IntegerId"></opc:Argument>
-      <opc:Argument Name="CurrentKey" DataType="ua:ByteString"></opc:Argument>
-      <opc:Argument Name="FutureKeys" DataType="ua:ByteString" ValueRank="Array"></opc:Argument>
+      <opc:Argument Name="FirstTokenId" DataType="ua:IntegerId"></opc:Argument>
+      <opc:Argument Name="Keys" DataType="ua:ByteString" ValueRank="Array"></opc:Argument>
       <opc:Argument Name="TimeToNextKey" DataType="ua:Duration"></opc:Argument>
       <opc:Argument Name="KeyLifetime" DataType="ua:Duration"></opc:Argument>
     </opc:OutputArguments>
@@ -4225,6 +4268,10 @@
   <opc:Method SymbolicName="AddSecurityGroupMethodType">
     <opc:InputArguments>
       <opc:Argument Name="SecurityGroupName" DataType="ua:String" />
+      <opc:Argument Name="KeyLifetime" DataType="ua:Duration" />
+      <opc:Argument Name="SecurityPolicyUri" DataType="ua:String" />
+      <opc:Argument Name="MaxFutureKeyCount" DataType="ua:UInt32" />
+      <opc:Argument Name="MaxPastKeyCount" DataType="ua:UInt32" />
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
@@ -4255,6 +4302,10 @@
   <opc:ObjectType SymbolicName="SecurityGroupType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="SecurityGroupId" DataType="String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="KeyLifetime" DataType="Duration" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="SecurityPolicyUri" DataType="String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MaxFutureKeyCount" DataType="UInt32" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MaxPastKeyCount" DataType="UInt32" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
   
@@ -5329,6 +5380,12 @@
       <opc:Property SymbolicName="DataSetMessageContentMask" DataType="JsonDataSetMessageContentMask" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="DatagramConnectionTransportType" BaseType="ConnectionTransportType" PartNo="14">
+    <opc:Children>
+      <opc:Object SymbolicName="DiscoveryAddress" TypeDefinition="NetworkAddressType" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
   
   <opc:ObjectType SymbolicName="DatagramWriterGroupTransportType" BaseType="WriterGroupTransportType" PartNo="14">
     <opc:Children>
@@ -5337,9 +5394,21 @@
     </opc:Children>
   </opc:ObjectType>
 
+  <opc:ObjectType SymbolicName="BrokerConnectionTransportType" BaseType="WriterGroupTransportType" PartNo="14">
+    <opc:Children>
+      <opc:Property SymbolicName="ResourceUri" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="AuthenticationProfileUri" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ConnectionProperties" DataType="ua:KeyValuePair" ValueRank="Array" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+
   <opc:ObjectType SymbolicName="BrokerWriterGroupTransportType" BaseType="WriterGroupTransportType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="QueueName" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ResourceUri" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="AuthenticationProfileUri" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="WriterGroupProperties" DataType="ua:KeyValuePair" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="RequestedDeliveryGuarantee" DataType="BrokerTransportQualityOfService" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -5347,6 +5416,10 @@
     <opc:Children>
       <opc:Property SymbolicName="QueueName" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MetaDataQueueName" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ResourceUri" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="AuthenticationProfileUri" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="DataSetWriterProperties" DataType="ua:KeyValuePair" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="RequestedDeliveryGuarantee" DataType="BrokerTransportQualityOfService" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MetaDataUpdateTime" DataType="ua:Duration" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
@@ -5354,6 +5427,9 @@
   <opc:ObjectType SymbolicName="BrokerDataSetReaderTransportType" BaseType="DataSetReaderTransportType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="QueueName" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ResourceUri" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="AuthenticationProfileUri" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="RequestedDeliveryGuarantee" DataType="BrokerTransportQualityOfService" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MetaDataQueueName" DataType="ua:String" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>

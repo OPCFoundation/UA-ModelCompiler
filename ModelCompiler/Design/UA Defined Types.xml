@@ -3797,6 +3797,7 @@
       <Field Name="Namespaces" DataType="tns:String" ValueRank="Array" />
       <Field Name="StructureDataTypes" DataType="tns:StructureDescription" ValueRank="Array" />
       <Field Name="EnumDataTypes" DataType="tns:EnumDescription" ValueRank="Array" />
+      <Field Name="SimpleDataTypes" DataType="tns:SimpleTypeDescription" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:DataTypeDescription" PartNo="14" BaseType="tns:Structure">
@@ -3814,6 +3815,19 @@
     <Fields>
       <Field Name="EnumDefinition" DataType="tns:EnumDefinition" />
       <Field Name="BuiltInType" DataType="tns:Byte" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:SimpleTypeDescription" PartNo="14" BaseType="tns:DataTypeDescription">
+    <Fields>
+      <Field Name="BaseDataType" DataType="tns:NodeId" />
+      <Field Name="BuiltInType" DataType="tns:Byte" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:UABinaryFileDataType" PartNo="14" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="SchemaLocation" DataType="tns:String" />
+      <Field Name="FileHeader" DataType="tns:KeyValuePair" ValueRank="Array" />
+      <Field Name="Body" DataType="tns:Structure" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:PubSubState" BaseType="tns:Enumeration">
@@ -4109,10 +4123,9 @@
     <Fields>
       <Field Name="DataSetWriterId" BitMask="0001" />
       <Field Name="MetaDataVersion" BitMask="0002" />
-      <Field Name="MetaDataQueueName" BitMask="0004" />
-      <Field Name="SequenceNumber" BitMask="0008" />
-      <Field Name="Timestamp" BitMask="0010" />
-      <Field Name="Status" BitMask="0020" />
+      <Field Name="SequenceNumber" BitMask="0004" />
+      <Field Name="Timestamp" BitMask="0008" />
+      <Field Name="Status" BitMask="0010" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:JsonDataSetWriterMessageDataType" PartNo="14" BaseType="tns:DataSetWriterMessageDataType">
@@ -4132,14 +4145,37 @@
       <Field Name="MessageRepeatDelay" DataType="tns:Duration" />
     </Fields>
   </DataType>
+  <DataType SymbolicName="tns:BrokerConnectionTransportDataType" PartNo="14" BaseType="tns:DataSetWriterTransportDataType">
+    <Fields>
+      <Field Name="ResourceUri" DataType="tns:String" />
+      <Field Name="AuthenticationProfileUri" DataType="tns:String" />
+      <Field Name="ConnectionProperties" DataType="tns:KeyValuePair" ValueRank="Array" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:BrokerTransportQualityOfService" PartNo="14" BaseType="tns:Enumeration">
+    <Fields>
+      <Field Name="NotSpecified" Identifier="0" />
+      <Field Name="BestEffort" Identifier="1" />
+      <Field Name="AtLeastOnce" Identifier="2" />
+      <Field Name="AtMostOnce" Identifier="3" />
+      <Field Name="ExactlyOnce" Identifier="4" />
+    </Fields>
+  </DataType>
   <DataType SymbolicName="tns:BrokerWriterGroupTransportDataType" PartNo="14" BaseType="tns:WriterGroupTransportDataType">
     <Fields>
       <Field Name="QueueName" DataType="tns:String" />
+      <Field Name="ResourceUri" DataType="tns:String" />
+      <Field Name="AuthenticationProfileUri" DataType="tns:String" />
+      <Field Name="WriterGroupProperties" DataType="tns:KeyValuePair" ValueRank="Array" />
+      <Field Name="RequestedDeliveryGuarantee" DataType="tns:BrokerTransportQualityOfService" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:BrokerDataSetWriterTransportDataType" PartNo="14" BaseType="tns:DataSetWriterTransportDataType">
+  <DataType SymbolicName="tns:BrokerDataSetWriterTransportDataType" PartNo="14" BaseType="tns:WriterGroupTransportDataType">
     <Fields>
       <Field Name="QueueName" DataType="tns:String" />
+      <Field Name="ResourceUri" DataType="tns:String" />
+      <Field Name="AuthenticationProfileUri" DataType="tns:String" />
+      <Field Name="DataSetWriterProperties" DataType="tns:KeyValuePair" ValueRank="Array" />
       <Field Name="MetaDataQueueName" DataType="tns:String" />
       <Field Name="MetaDataUpdateTime" DataType="tns:Duration" />
     </Fields>
@@ -4147,6 +4183,9 @@
   <DataType SymbolicName="tns:BrokerDataSetReaderTransportDataType" PartNo="14" BaseType="tns:DataSetReaderTransportDataType">
     <Fields>
       <Field Name="QueueName" DataType="tns:String" />
+      <Field Name="ResourceUri" DataType="tns:String" />
+      <Field Name="AuthenticationProfileUri" DataType="tns:String" />
+      <Field Name="RequestedDeliveryGuarantee" DataType="tns:BrokerTransportQualityOfService" />
       <Field Name="MetaDataQueueName" DataType="tns:String" />
     </Fields>
   </DataType>
@@ -4160,13 +4199,13 @@
   <Method SymbolicName="tns:GetSecurityKeysMethodType">
     <InputArguments>
       <Argument Name="SecurityGroupId" DataType="tns:String" />
-      <Argument Name="FutureKeyCount" DataType="tns:UInt32" />
+      <Argument Name="StartingTokenId" DataType="tns:IntegerId" />
+      <Argument Name="RequestedKeyCount" DataType="tns:UInt32" />
     </InputArguments>
     <OutputArguments>
       <Argument Name="SecurityPolicyUri" DataType="tns:String" />
-      <Argument Name="CurrentTokenId" DataType="tns:IntegerId" />
-      <Argument Name="CurrentKey" DataType="tns:ByteString" />
-      <Argument Name="FutureKeys" DataType="tns:ByteString" ValueRank="Array" />
+      <Argument Name="FirstTokenId" DataType="tns:IntegerId" />
+      <Argument Name="Keys" DataType="tns:ByteString" ValueRank="Array" />
       <Argument Name="TimeToNextKey" DataType="tns:Duration" />
       <Argument Name="KeyLifetime" DataType="tns:Duration" />
     </OutputArguments>
@@ -4182,6 +4221,10 @@
   <Method SymbolicName="tns:AddSecurityGroupMethodType">
     <InputArguments>
       <Argument Name="SecurityGroupName" DataType="tns:String" />
+      <Argument Name="KeyLifetime" DataType="tns:Duration" />
+      <Argument Name="SecurityPolicyUri" DataType="tns:String" />
+      <Argument Name="MaxFutureKeyCount" DataType="tns:UInt32" />
+      <Argument Name="MaxPastKeyCount" DataType="tns:UInt32" />
     </InputArguments>
     <OutputArguments>
       <Argument Name="SecurityGroupId" DataType="tns:String" />
@@ -4209,6 +4252,10 @@
   <ObjectType SymbolicName="tns:SecurityGroupType" PartNo="14" BaseType="tns:BaseObjectType">
     <Children>
       <Property SymbolicName="tns:SecurityGroupId" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:KeyLifetime" ModellingRule="Mandatory" DataType="tns:Duration" />
+      <Property SymbolicName="tns:SecurityPolicyUri" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:MaxFutureKeyCount" ModellingRule="Mandatory" DataType="tns:UInt32" />
+      <Property SymbolicName="tns:MaxPastKeyCount" ModellingRule="Mandatory" DataType="tns:UInt32" />
     </Children>
   </ObjectType>
   <Object SymbolicName="tns:PublishSubscribe" PartNo="14" TypeDefinition="tns:PubSubKeyServiceType">
@@ -5212,27 +5259,50 @@
       <Property SymbolicName="tns:DataSetMessageContentMask" ModellingRule="Mandatory" DataType="tns:JsonDataSetMessageContentMask" />
     </Children>
   </ObjectType>
+  <ObjectType SymbolicName="tns:DatagramConnectionTransportType" PartNo="14" BaseType="tns:ConnectionTransportType">
+    <Children>
+      <Object SymbolicName="tns:DiscoveryAddress" TypeDefinition="tns:NetworkAddressType" ModellingRule="Mandatory" />
+    </Children>
+  </ObjectType>
   <ObjectType SymbolicName="tns:DatagramWriterGroupTransportType" PartNo="14" BaseType="tns:WriterGroupTransportType">
     <Children>
       <Property SymbolicName="tns:MessageRepeatCount" ModellingRule="Mandatory" DataType="tns:Byte" />
       <Property SymbolicName="tns:MessageRepeatDelay" ModellingRule="Mandatory" DataType="tns:Duration" />
     </Children>
   </ObjectType>
+  <ObjectType SymbolicName="tns:BrokerConnectionTransportType" PartNo="14" BaseType="tns:WriterGroupTransportType">
+    <Children>
+      <Property SymbolicName="tns:ResourceUri" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:AuthenticationProfileUri" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:ConnectionProperties" ModellingRule="Mandatory" DataType="tns:KeyValuePair" ValueRank="Array" />
+    </Children>
+  </ObjectType>
   <ObjectType SymbolicName="tns:BrokerWriterGroupTransportType" PartNo="14" BaseType="tns:WriterGroupTransportType">
     <Children>
       <Property SymbolicName="tns:QueueName" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:ResourceUri" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:AuthenticationProfileUri" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:WriterGroupProperties" ModellingRule="Mandatory" DataType="tns:KeyValuePair" ValueRank="Array" />
+      <Property SymbolicName="tns:RequestedDeliveryGuarantee" ModellingRule="Mandatory" DataType="tns:BrokerTransportQualityOfService" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:BrokerDataSetWriterTransportType" PartNo="14" BaseType="tns:DataSetWriterTransportType">
     <Children>
       <Property SymbolicName="tns:QueueName" ModellingRule="Mandatory" DataType="tns:String" />
       <Property SymbolicName="tns:MetaDataQueueName" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:ResourceUri" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:AuthenticationProfileUri" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:DataSetWriterProperties" ModellingRule="Mandatory" DataType="tns:KeyValuePair" ValueRank="Array" />
+      <Property SymbolicName="tns:RequestedDeliveryGuarantee" ModellingRule="Mandatory" DataType="tns:BrokerTransportQualityOfService" />
       <Property SymbolicName="tns:MetaDataUpdateTime" ModellingRule="Mandatory" DataType="tns:Duration" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:BrokerDataSetReaderTransportType" PartNo="14" BaseType="tns:DataSetReaderTransportType">
     <Children>
       <Property SymbolicName="tns:QueueName" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:ResourceUri" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:AuthenticationProfileUri" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:RequestedDeliveryGuarantee" ModellingRule="Mandatory" DataType="tns:BrokerTransportQualityOfService" />
       <Property SymbolicName="tns:MetaDataQueueName" ModellingRule="Mandatory" DataType="tns:String" />
     </Children>
   </ObjectType>
