@@ -3919,7 +3919,7 @@
   <DataType SymbolicName="tns:DataSetWriterDataType" PartNo="14" BaseType="tns:Structure">
     <Fields>
       <Field Name="Name" DataType="tns:String" />
-      <Field Name="State" DataType="tns:PubSubState" />
+      <Field Name="Enabled" DataType="tns:Boolean" />
       <Field Name="DataSetWriterId" DataType="tns:UInt16" />
       <Field Name="DataSetFieldContentMask" DataType="tns:DataSetFieldContentMask" />
       <Field Name="KeyFrameCount" DataType="tns:UInt32" />
@@ -3940,7 +3940,7 @@
       <Field Name="MaxNetworkMessageSize" DataType="tns:UInt32" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:WriterGroupDataType" PartNo="14" BaseType="tns:Structure">
+  <DataType SymbolicName="tns:WriterGroupDataType" PartNo="14" BaseType="tns:PubSubGroupDataType">
     <Fields>
       <Field Name="WriterGroupId" DataType="tns:UInt16" />
       <Field Name="PublishingInterval" DataType="tns:Duration" />
@@ -3957,6 +3957,7 @@
   <DataType SymbolicName="tns:PubSubConnectionDataType" PartNo="14" BaseType="tns:Structure">
     <Fields>
       <Field Name="Name" DataType="tns:String" />
+      <Field Name="Enabled" DataType="tns:Boolean" />
       <Field Name="PublisherId" DataType="tns:BaseDataType" />
       <Field Name="TransportProfileUri" DataType="tns:String" />
       <Field Name="Address" DataType="tns:Structure" />
@@ -3976,7 +3977,7 @@
       <Field Name="Url" DataType="tns:String" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:ReaderGroupDataType" PartNo="14" BaseType="tns:Structure">
+  <DataType SymbolicName="tns:ReaderGroupDataType" PartNo="14" BaseType="tns:PubSubGroupDataType">
     <Fields>
       <Field Name="TransportSettings" DataType="tns:Structure" />
       <Field Name="MessageSettings" DataType="tns:Structure" />

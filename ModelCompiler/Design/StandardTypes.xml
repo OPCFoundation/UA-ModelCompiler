@@ -3927,7 +3927,7 @@
   <opc:DataType SymbolicName="DataSetWriterDataType" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
       <opc:Field Name="Name"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="State"  DataType="PubSubState" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Enabled"  DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetWriterId"  DataType="ua:UInt16" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetFieldContentMask"  DataType="DataSetFieldContentMask" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="KeyFrameCount"  DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
@@ -3951,7 +3951,7 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="WriterGroupDataType" BaseType="ua:Structure" PartNo="14">
+  <opc:DataType SymbolicName="WriterGroupDataType" BaseType="PubSubGroupDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="WriterGroupId" DataType="ua:UInt16" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="PublishingInterval" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
@@ -3970,6 +3970,7 @@
   <opc:DataType SymbolicName="PubSubConnectionDataType" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
       <opc:Field Name="Name" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Enabled"  DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="PublisherId" DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="TransportProfileUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Address" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
@@ -3993,7 +3994,7 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="ReaderGroupDataType" BaseType="ua:Structure" PartNo="14">
+  <opc:DataType SymbolicName="ReaderGroupDataType" BaseType="PubSubGroupDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="TransportSettings" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="MessageSettings" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
