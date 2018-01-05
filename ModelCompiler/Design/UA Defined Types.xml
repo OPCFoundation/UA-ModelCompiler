@@ -3878,7 +3878,7 @@
       <Field Name="DataSetFolder" DataType="tns:VersionTime" />
       <Field Name="DataSetMetaData" DataType="tns:DataSetMetaDataType" />
       <Field Name="ExtensionFields" DataType="tns:KeyValuePair" ValueRank="Array" />
-      <Field Name="DataSetSource" DataType="tns:Structure" ValueRank="Array" />
+      <Field Name="DataSetSource" DataType="tns:Structure" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:PublishedDataSetSourceDataType" PartNo="14" BaseType="tns:Structure" IsAbstract="true" />
@@ -3981,7 +3981,7 @@
     <Fields>
       <Field Name="TransportSettings" DataType="tns:Structure" />
       <Field Name="MessageSettings" DataType="tns:Structure" />
-      <Field Name="DataSetWriters" DataType="tns:DataSetReaderDataType" ValueRank="Array" />
+      <Field Name="DataSetReaders" DataType="tns:DataSetReaderDataType" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ReaderGroupTransportDataType" PartNo="14" BaseType="tns:Structure" IsAbstract="true" />

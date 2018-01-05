@@ -3880,7 +3880,7 @@
       <opc:Field Name="DataSetFolder"  DataType="ua:VersionTime" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetMetaData"  DataType="DataSetMetaDataType" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="ExtensionFields"  DataType="KeyValuePair" ValueRank="Array"></opc:Field>
-      <opc:Field Name="DataSetSource"  DataType="ua:Structure" ValueRank="Array"></opc:Field>
+      <opc:Field Name="DataSetSource"  DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -3998,7 +3998,7 @@
     <opc:Fields>
       <opc:Field Name="TransportSettings" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="MessageSettings" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="DataSetWriters" DataType="DataSetReaderDataType" ValueRank="Array"></opc:Field>
+      <opc:Field Name="DataSetReaders" DataType="DataSetReaderDataType" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
