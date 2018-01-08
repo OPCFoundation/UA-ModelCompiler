@@ -3874,8 +3874,8 @@
   </DataType>
   <DataType SymbolicName="tns:PublishedDataSetDataType" PartNo="14" BaseType="tns:Structure">
     <Fields>
-      <Field Name="Name" DataType="tns:VersionTime" />
-      <Field Name="DataSetFolder" DataType="tns:VersionTime" />
+      <Field Name="Name" DataType="tns:String" />
+      <Field Name="DataSetFolder" DataType="tns:String" ValueRank="Array" />
       <Field Name="DataSetMetaData" DataType="tns:DataSetMetaDataType" />
       <Field Name="ExtensionFields" DataType="tns:KeyValuePair" ValueRank="Array" />
       <Field Name="DataSetSource" DataType="tns:Structure" />
@@ -4259,19 +4259,6 @@
       <Property SymbolicName="tns:MaxPastKeyCount" ModellingRule="Mandatory" DataType="tns:UInt32" />
     </Children>
   </ObjectType>
-  <Object SymbolicName="tns:PublishSubscribe" PartNo="14" TypeDefinition="tns:PubSubKeyServiceType">
-    <Children>
-      <Method SymbolicName="tns:GetSecurityKeys" ModellingRule="Mandatory" />
-      <Method SymbolicName="tns:GetSecurityGroup" ModellingRule="Mandatory" />
-      <Object SymbolicName="tns:SecurityGroups" ModellingRule="Mandatory" />
-    </Children>
-    <References>
-      <Reference IsInverse="true">
-        <ReferenceType>tns:HasComponent</ReferenceType>
-        <TargetId>tns:Server</TargetId>
-      </Reference>
-    </References>
-  </Object>
   <ObjectType SymbolicName="tns:PublishSubscribeType" PartNo="14" BaseType="tns:PubSubKeyServiceType">
     <Children>
       <Object SymbolicName="tns:ConnectionName_Placeholder" TypeDefinition="tns:PubSubConnectionType" ModellingRule="OptionalPlaceholder">
@@ -4286,6 +4273,24 @@
       <Object SymbolicName="tns:Diagnostics" TypeDefinition="tns:PubSubDiagnosticsRootType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
+  <Object SymbolicName="tns:PublishSubscribe" PartNo="14" TypeDefinition="tns:PublishSubscribeType">
+    <Children>
+      <Method SymbolicName="tns:GetSecurityKeys" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:GetSecurityGroup" ModellingRule="Mandatory" />
+      <Object SymbolicName="tns:SecurityGroups" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddConnection" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveConnection" ModellingRule="Mandatory" />
+      <Object SymbolicName="tns:PublishedDataSets" ModellingRule="Mandatory" />
+      <Object SymbolicName="tns:Status" ModellingRule="Mandatory" />
+      <Object SymbolicName="tns:Diagnostics" ModellingRule="Mandatory" />
+    </Children>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:HasComponent</ReferenceType>
+        <TargetId>tns:Server</TargetId>
+      </Reference>
+    </References>
+  </Object>
   <Method SymbolicName="tns:SetSecurityKeysMethodType" PartNo="14">
     <InputArguments>
       <Argument Name="SecurityGroupId" DataType="tns:String" />

@@ -3876,11 +3876,11 @@
 
   <opc:DataType SymbolicName="PublishedDataSetDataType" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="Name"  DataType="ua:VersionTime" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="DataSetFolder"  DataType="ua:VersionTime" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="DataSetMetaData"  DataType="DataSetMetaDataType" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="ExtensionFields"  DataType="KeyValuePair" ValueRank="Array"></opc:Field>
-      <opc:Field Name="DataSetSource"  DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Name" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetFolder" DataType="ua:String" ValueRank="Array"></opc:Field>
+      <opc:Field Name="DataSetMetaData" DataType="DataSetMetaDataType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ExtensionFields" DataType="KeyValuePair" ValueRank="Array"></opc:Field>
+      <opc:Field Name="DataSetSource" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -4309,20 +4309,6 @@
       <opc:Property SymbolicName="MaxPastKeyCount" DataType="UInt32" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
-  
-  <opc:Object SymbolicName="PublishSubscribe" TypeDefinition="PubSubKeyServiceType" PartNo="14">
-    <opc:Children>
-      <opc:Method SymbolicName="GetSecurityKeys" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="GetSecurityGroup" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="SecurityGroups" ModellingRule="Mandatory" />
-    </opc:Children>
-    <opc:References>
-      <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
-        <opc:TargetId>ua:Server</opc:TargetId>
-      </opc:Reference>
-    </opc:References>
-  </opc:Object>
 
   <opc:ObjectType SymbolicName="PublishSubscribeType" BaseType="PubSubKeyServiceType" PartNo="14">
     <opc:Children>
@@ -4338,6 +4324,25 @@
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsRootType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
+  
+  <opc:Object SymbolicName="PublishSubscribe" TypeDefinition="PublishSubscribeType" PartNo="14">
+    <opc:Children>
+      <opc:Method SymbolicName="GetSecurityKeys" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="GetSecurityGroup" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="SecurityGroups" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddConnection" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveConnection" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="PublishedDataSets" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="Status" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="Diagnostics" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+        <opc:TargetId>ua:Server</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
 
   <opc:Method SymbolicName="SetSecurityKeysMethodType" PartNo="14">
     <opc:InputArguments>
