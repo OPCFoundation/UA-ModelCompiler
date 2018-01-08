@@ -1715,16 +1715,16 @@
     <DisplayName>Anonymous</DisplayName>
     <Description>The Role has very limited access for use when a Session has anonymous credentials.</Description>
     <Children>
-      <Property SymbolicName="tns:Applications" />
-      <Property SymbolicName="tns:ApplicationsExclude" />
-      <Property SymbolicName="tns:Endpoints" />
-      <Property SymbolicName="tns:EndpointsExclude" />
-      <Method SymbolicName="tns:AddIdentity" />
-      <Method SymbolicName="tns:RemoveIdentity" />
-      <Method SymbolicName="tns:AddApplication" />
-      <Method SymbolicName="tns:RemoveApplication" />
-      <Method SymbolicName="tns:AddEndpoint" />
-      <Method SymbolicName="tns:RemoveEndpoint" />
+      <Property SymbolicName="tns:Applications" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:ApplicationsExclude" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:Endpoints" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:EndpointsExclude" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddIdentity" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveIdentity" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddApplication" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveApplication" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddEndpoint" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveEndpoint" ModellingRule="Mandatory" />
     </Children>
     <References>
       <Reference IsInverse="true">
@@ -1738,16 +1738,16 @@
     <DisplayName>AuthenticatedUser</DisplayName>
     <Description>The Role has limited access for use when a Session has valid non-anonymous credentials but has not been explicity granted access to a Role.</Description>
     <Children>
-      <Property SymbolicName="tns:Applications" />
-      <Property SymbolicName="tns:ApplicationsExclude" />
-      <Property SymbolicName="tns:Endpoints" />
-      <Property SymbolicName="tns:EndpointsExclude" />
-      <Method SymbolicName="tns:AddIdentity" />
-      <Method SymbolicName="tns:RemoveIdentity" />
-      <Method SymbolicName="tns:AddApplication" />
-      <Method SymbolicName="tns:RemoveApplication" />
-      <Method SymbolicName="tns:AddEndpoint" />
-      <Method SymbolicName="tns:RemoveEndpoint" />
+      <Property SymbolicName="tns:Applications" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:ApplicationsExclude" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:Endpoints" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:EndpointsExclude" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddIdentity" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveIdentity" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddApplication" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveApplication" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddEndpoint" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveEndpoint" ModellingRule="Mandatory" />
     </Children>
     <References>
       <Reference IsInverse="true">
@@ -1761,16 +1761,16 @@
     <DisplayName>Observer</DisplayName>
     <Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</Description>
     <Children>
-      <Property SymbolicName="tns:Applications" />
-      <Property SymbolicName="tns:ApplicationsExclude" />
-      <Property SymbolicName="tns:Endpoints" />
-      <Property SymbolicName="tns:EndpointsExclude" />
-      <Method SymbolicName="tns:AddIdentity" />
-      <Method SymbolicName="tns:RemoveIdentity" />
-      <Method SymbolicName="tns:AddApplication" />
-      <Method SymbolicName="tns:RemoveApplication" />
-      <Method SymbolicName="tns:AddEndpoint" />
-      <Method SymbolicName="tns:RemoveEndpoint" />
+      <Property SymbolicName="tns:Applications" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:ApplicationsExclude" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:Endpoints" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:EndpointsExclude" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddIdentity" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveIdentity" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddApplication" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveApplication" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddEndpoint" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveEndpoint" ModellingRule="Mandatory" />
     </Children>
     <References>
       <Reference IsInverse="true">
@@ -1784,16 +1784,16 @@
     <DisplayName>Operator</DisplayName>
     <Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</Description>
     <Children>
-      <Property SymbolicName="tns:Applications" />
-      <Property SymbolicName="tns:ApplicationsExclude" />
-      <Property SymbolicName="tns:Endpoints" />
-      <Property SymbolicName="tns:EndpointsExclude" />
-      <Method SymbolicName="tns:AddIdentity" />
-      <Method SymbolicName="tns:RemoveIdentity" />
-      <Method SymbolicName="tns:AddApplication" />
-      <Method SymbolicName="tns:RemoveApplication" />
-      <Method SymbolicName="tns:AddEndpoint" />
-      <Method SymbolicName="tns:RemoveEndpoint" />
+      <Property SymbolicName="tns:Applications" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:ApplicationsExclude" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:Endpoints" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:EndpointsExclude" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddIdentity" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveIdentity" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddApplication" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveApplication" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddEndpoint" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveEndpoint" ModellingRule="Mandatory" />
     </Children>
     <References>
       <Reference IsInverse="true">
@@ -1807,16 +1807,16 @@
     <DisplayName>Engineer</DisplayName>
     <Description>The Role is allowed to browse, read live data, read and update historical data/events, call methods or subscribe to data/events.</Description>
     <Children>
-      <Property SymbolicName="tns:Applications" />
-      <Property SymbolicName="tns:ApplicationsExclude" />
-      <Property SymbolicName="tns:Endpoints" />
-      <Property SymbolicName="tns:EndpointsExclude" />
-      <Method SymbolicName="tns:AddIdentity" />
-      <Method SymbolicName="tns:RemoveIdentity" />
-      <Method SymbolicName="tns:AddApplication" />
-      <Method SymbolicName="tns:RemoveApplication" />
-      <Method SymbolicName="tns:AddEndpoint" />
-      <Method SymbolicName="tns:RemoveEndpoint" />
+      <Property SymbolicName="tns:Applications" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:ApplicationsExclude" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:Endpoints" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:EndpointsExclude" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddIdentity" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveIdentity" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddApplication" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveApplication" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddEndpoint" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveEndpoint" ModellingRule="Mandatory" />
     </Children>
     <References>
       <Reference IsInverse="true">
@@ -1830,16 +1830,16 @@
     <DisplayName>Supervisor</DisplayName>
     <Description>The Role is allowed to browse, read live data, read and historical data/events, call methods or subscribe to data/events.</Description>
     <Children>
-      <Property SymbolicName="tns:Applications" />
-      <Property SymbolicName="tns:ApplicationsExclude" />
-      <Property SymbolicName="tns:Endpoints" />
-      <Property SymbolicName="tns:EndpointsExclude" />
-      <Method SymbolicName="tns:AddIdentity" />
-      <Method SymbolicName="tns:RemoveIdentity" />
-      <Method SymbolicName="tns:AddApplication" />
-      <Method SymbolicName="tns:RemoveApplication" />
-      <Method SymbolicName="tns:AddEndpoint" />
-      <Method SymbolicName="tns:RemoveEndpoint" />
+      <Property SymbolicName="tns:Applications" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:ApplicationsExclude" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:Endpoints" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:EndpointsExclude" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddIdentity" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveIdentity" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddApplication" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveApplication" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddEndpoint" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveEndpoint" ModellingRule="Mandatory" />
     </Children>
     <References>
       <Reference IsInverse="true">
@@ -1853,16 +1853,16 @@
     <DisplayName>ConfigureAdmin</DisplayName>
     <Description>The Role is allowed to change the non-security related configuration settings.</Description>
     <Children>
-      <Property SymbolicName="tns:Applications" />
-      <Property SymbolicName="tns:ApplicationsExclude" />
-      <Property SymbolicName="tns:Endpoints" />
-      <Property SymbolicName="tns:EndpointsExclude" />
-      <Method SymbolicName="tns:AddIdentity" />
-      <Method SymbolicName="tns:RemoveIdentity" />
-      <Method SymbolicName="tns:AddApplication" />
-      <Method SymbolicName="tns:RemoveApplication" />
-      <Method SymbolicName="tns:AddEndpoint" />
-      <Method SymbolicName="tns:RemoveEndpoint" />
+      <Property SymbolicName="tns:Applications" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:ApplicationsExclude" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:Endpoints" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:EndpointsExclude" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddIdentity" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveIdentity" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddApplication" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveApplication" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddEndpoint" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveEndpoint" ModellingRule="Mandatory" />
     </Children>
     <References>
       <Reference IsInverse="true">
@@ -1876,16 +1876,16 @@
     <DisplayName>SecurityAdmin</DisplayName>
     <Description>The Role is allowed to change security related settings.</Description>
     <Children>
-      <Property SymbolicName="tns:Applications" />
-      <Property SymbolicName="tns:ApplicationsExclude" />
-      <Property SymbolicName="tns:Endpoints" />
-      <Property SymbolicName="tns:EndpointsExclude" />
-      <Method SymbolicName="tns:AddIdentity" />
-      <Method SymbolicName="tns:RemoveIdentity" />
-      <Method SymbolicName="tns:AddApplication" />
-      <Method SymbolicName="tns:RemoveApplication" />
-      <Method SymbolicName="tns:AddEndpoint" />
-      <Method SymbolicName="tns:RemoveEndpoint" />
+      <Property SymbolicName="tns:Applications" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:ApplicationsExclude" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:Endpoints" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:EndpointsExclude" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddIdentity" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveIdentity" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddApplication" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveApplication" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:AddEndpoint" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:RemoveEndpoint" ModellingRule="Mandatory" />
     </Children>
     <References>
       <Reference IsInverse="true">
@@ -4267,7 +4267,7 @@
       </Object>
       <Method SymbolicName="tns:SetSecurityKeys" TypeDefinition="tns:SetSecurityKeysMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:AddConnection" TypeDefinition="tns:AddConnectionMethodType" ModellingRule="Optional" />
-      <Method SymbolicName="tns:RemoveConnection" TypeDefinition="tns:RemoveConnectionMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:RemoveConnection" TypeDefinition="tns:RemoveConnectionMethodType" />
       <Object SymbolicName="tns:PublishedDataSets" TypeDefinition="tns:DataSetFolderType" ModellingRule="Mandatory" />
       <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
       <Object SymbolicName="tns:Diagnostics" TypeDefinition="tns:PubSubDiagnosticsRootType" ModellingRule="Optional" />

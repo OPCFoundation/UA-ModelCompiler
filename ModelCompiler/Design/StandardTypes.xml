@@ -1522,17 +1522,17 @@
     <opc:BrowseName>AnonymousRole</opc:BrowseName>
     <opc:DisplayName>Anonymous</opc:DisplayName>
     <opc:Description>The Role has very limited access for use when a Session has anonymous credentials.</opc:Description>
-    <opc:Children> 
-      <opc:Property SymbolicName="Applications" />
-      <opc:Property SymbolicName="ApplicationsExclude" />
-      <opc:Property SymbolicName="Endpoints" />
-      <opc:Property SymbolicName="EndpointsExclude" />
-      <opc:Method SymbolicName="AddIdentity" />
-      <opc:Method SymbolicName="RemoveIdentity" />
-      <opc:Method SymbolicName="AddApplication" />
-      <opc:Method SymbolicName="RemoveApplication" />
-      <opc:Method SymbolicName="AddEndpoint" />
-      <opc:Method SymbolicName="RemoveEndpoint" />
+    <opc:Children>
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveEndpoint" ModellingRule="Mandatory" />
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -1546,17 +1546,17 @@
     <opc:BrowseName>AuthenticatedUserRole</opc:BrowseName>
     <opc:DisplayName>AuthenticatedUser</opc:DisplayName>
     <opc:Description>The Role has limited access for use when a Session has valid non-anonymous credentials but has not been explicity granted access to a Role.</opc:Description>
-    <opc:Children> 
-      <opc:Property SymbolicName="Applications" />
-      <opc:Property SymbolicName="ApplicationsExclude" />
-      <opc:Property SymbolicName="Endpoints" />
-      <opc:Property SymbolicName="EndpointsExclude" />
-      <opc:Method SymbolicName="AddIdentity" />
-      <opc:Method SymbolicName="RemoveIdentity" />
-      <opc:Method SymbolicName="AddApplication" />
-      <opc:Method SymbolicName="RemoveApplication" />
-      <opc:Method SymbolicName="AddEndpoint" />
-      <opc:Method SymbolicName="RemoveEndpoint" />
+    <opc:Children>
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveEndpoint" ModellingRule="Mandatory" />
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -1571,16 +1571,16 @@
     <opc:DisplayName>Observer</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
     <opc:Children> 
-      <opc:Property SymbolicName="Applications" />
-      <opc:Property SymbolicName="ApplicationsExclude" />
-      <opc:Property SymbolicName="Endpoints" />
-      <opc:Property SymbolicName="EndpointsExclude" />
-      <opc:Method SymbolicName="AddIdentity" />
-      <opc:Method SymbolicName="RemoveIdentity" />
-      <opc:Method SymbolicName="AddApplication" />
-      <opc:Method SymbolicName="RemoveApplication" />
-      <opc:Method SymbolicName="AddEndpoint" />
-      <opc:Method SymbolicName="RemoveEndpoint" />
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveEndpoint" ModellingRule="Mandatory" />
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -1594,17 +1594,17 @@
     <opc:BrowseName>OperatorRole</opc:BrowseName>
     <opc:DisplayName>Operator</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
-    <opc:Children> 
-      <opc:Property SymbolicName="Applications" />
-      <opc:Property SymbolicName="ApplicationsExclude" />
-      <opc:Property SymbolicName="Endpoints" />
-      <opc:Property SymbolicName="EndpointsExclude" />
-      <opc:Method SymbolicName="AddIdentity" />
-      <opc:Method SymbolicName="RemoveIdentity" />
-      <opc:Method SymbolicName="AddApplication" />
-      <opc:Method SymbolicName="RemoveApplication" />
-      <opc:Method SymbolicName="AddEndpoint" />
-      <opc:Method SymbolicName="RemoveEndpoint" />
+    <opc:Children>
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveEndpoint" ModellingRule="Mandatory" />
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -1618,17 +1618,17 @@
     <opc:BrowseName>EngineerRole</opc:BrowseName>
     <opc:DisplayName>Engineer</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read and update historical data/events, call methods or subscribe to data/events.</opc:Description>
-    <opc:Children> 
-      <opc:Property SymbolicName="Applications" />
-      <opc:Property SymbolicName="ApplicationsExclude" />
-      <opc:Property SymbolicName="Endpoints" />
-      <opc:Property SymbolicName="EndpointsExclude" />
-      <opc:Method SymbolicName="AddIdentity" />
-      <opc:Method SymbolicName="RemoveIdentity" />
-      <opc:Method SymbolicName="AddApplication" />
-      <opc:Method SymbolicName="RemoveApplication" />
-      <opc:Method SymbolicName="AddEndpoint" />
-      <opc:Method SymbolicName="RemoveEndpoint" />
+    <opc:Children>
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveEndpoint" ModellingRule="Mandatory" />
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -1642,17 +1642,17 @@
     <opc:BrowseName>SupervisorRole</opc:BrowseName>
     <opc:DisplayName>Supervisor</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read and historical data/events, call methods or subscribe to data/events.</opc:Description>
-    <opc:Children> 
-      <opc:Property SymbolicName="Applications" />
-      <opc:Property SymbolicName="ApplicationsExclude" />
-      <opc:Property SymbolicName="Endpoints" />
-      <opc:Property SymbolicName="EndpointsExclude" />
-      <opc:Method SymbolicName="AddIdentity" />
-      <opc:Method SymbolicName="RemoveIdentity" />
-      <opc:Method SymbolicName="AddApplication" />
-      <opc:Method SymbolicName="RemoveApplication" />
-      <opc:Method SymbolicName="AddEndpoint" />
-      <opc:Method SymbolicName="RemoveEndpoint" />
+    <opc:Children>
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveEndpoint" ModellingRule="Mandatory" />
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -1666,17 +1666,17 @@
     <opc:BrowseName>ConfigureAdminRole</opc:BrowseName>
     <opc:DisplayName>ConfigureAdmin</opc:DisplayName>
     <opc:Description>The Role is allowed to change the non-security related configuration settings.</opc:Description>
-    <opc:Children> 
-      <opc:Property SymbolicName="Applications" />
-      <opc:Property SymbolicName="ApplicationsExclude" />
-      <opc:Property SymbolicName="Endpoints" />
-      <opc:Property SymbolicName="EndpointsExclude" />
-      <opc:Method SymbolicName="AddIdentity" />
-      <opc:Method SymbolicName="RemoveIdentity" />
-      <opc:Method SymbolicName="AddApplication" />
-      <opc:Method SymbolicName="RemoveApplication" />
-      <opc:Method SymbolicName="AddEndpoint" />
-      <opc:Method SymbolicName="RemoveEndpoint" />
+    <opc:Children>
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveEndpoint" ModellingRule="Mandatory" />
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -1690,17 +1690,17 @@
     <opc:BrowseName>SecurityAdminRole</opc:BrowseName>
     <opc:DisplayName>SecurityAdmin</opc:DisplayName>
     <opc:Description>The Role is allowed to change security related settings.</opc:Description>
-    <opc:Children> 
-      <opc:Property SymbolicName="Applications" />
-      <opc:Property SymbolicName="ApplicationsExclude" />
-      <opc:Property SymbolicName="Endpoints" />
-      <opc:Property SymbolicName="EndpointsExclude" />
-      <opc:Method SymbolicName="AddIdentity" />
-      <opc:Method SymbolicName="RemoveIdentity" />
-      <opc:Method SymbolicName="AddApplication" />
-      <opc:Method SymbolicName="RemoveApplication" />
-      <opc:Method SymbolicName="AddEndpoint" />
-      <opc:Method SymbolicName="RemoveEndpoint" />
+    <opc:Children>
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveEndpoint" ModellingRule="Mandatory" />
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -4318,7 +4318,7 @@
       </opc:Object>
       <opc:Method SymbolicName="SetSecurityKeys" TypeDefinition="SetSecurityKeysMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddConnection" TypeDefinition="AddConnectionMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveConnection" TypeDefinition="RemoveConnectionMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="RemoveConnection" TypeDefinition="RemoveConnectionMethodType" ModellingRuleell="Optional" />
       <opc:Object SymbolicName="PublishedDataSets" TypeDefinition="DataSetFolderType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsRootType" ModellingRule="Optional" />
