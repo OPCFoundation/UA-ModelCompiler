@@ -3823,7 +3823,7 @@
     <opc:Fields>
       <opc:Field Name="SchemaLocation"  DataType="ua:String"></opc:Field>
       <opc:Field Name="FileHeader"  DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
-      <opc:Field Name="Body"  DataType="ua:Structure" ValueRank="Array"></opc:Field>
+      <opc:Field Name="Body"  DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 

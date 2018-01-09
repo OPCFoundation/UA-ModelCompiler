@@ -3827,7 +3827,7 @@
     <Fields>
       <Field Name="SchemaLocation" DataType="tns:String" />
       <Field Name="FileHeader" DataType="tns:KeyValuePair" ValueRank="Array" />
-      <Field Name="Body" DataType="tns:Structure" ValueRank="Array" />
+      <Field Name="Body" DataType="tns:BaseDataType" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:PubSubState" BaseType="tns:Enumeration">
