@@ -4624,7 +4624,7 @@
       <opc:Property SymbolicName="SecurityMode" DataType="MessageSecurityMode" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="SecurityGroupId" DataType="ua:String" ModellingRule="Optional" />
       <opc:Property SymbolicName="SecurityKeyServices" DataType="EndpointDescription" ValueRank="Array" ModellingRule="Optional" />
-      <opc:Property SymbolicName="MaxNetworkMessageSize" DataType="ua:UInt16" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MaxNetworkMessageSize" DataType="ua:UInt32" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
