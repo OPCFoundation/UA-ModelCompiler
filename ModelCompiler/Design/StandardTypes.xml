@@ -4178,6 +4178,12 @@
     </opc:Fields>
   </opc:DataType>
 
+  <opc:DataType SymbolicName="DatagramConnectionTransportDataType" BaseType="ConnectionTransportDataType" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="DiscoveryAddress" DataType="NetworkAddressDataType" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
   <opc:DataType SymbolicName="DatagramWriterGroupTransportDataType" BaseType="WriterGroupTransportDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="MessageRepeatCount" DataType="ua:Byte" ValueRank="Scalar"></opc:Field>
@@ -4185,7 +4191,7 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="BrokerConnectionTransportDataType" BaseType="DataSetWriterTransportDataType" PartNo="14">
+  <opc:DataType SymbolicName="BrokerConnectionTransportDataType" BaseType="ConnectionTransportDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="ResourceUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="AuthenticationProfileUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
@@ -4213,7 +4219,7 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="BrokerDataSetWriterTransportDataType" BaseType="WriterGroupTransportDataType" PartNo="14">
+  <opc:DataType SymbolicName="BrokerDataSetWriterTransportDataType" BaseType="DataSetWriterTransportDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="QueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="ResourceUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>

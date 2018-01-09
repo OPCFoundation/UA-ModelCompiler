@@ -4140,13 +4140,18 @@
       <Field Name="DataSetMessageContentMask" DataType="tns:JsonDataSetMessageContentMask" />
     </Fields>
   </DataType>
+  <DataType SymbolicName="tns:DatagramConnectionTransportDataType" PartNo="14" BaseType="tns:ConnectionTransportDataType">
+    <Fields>
+      <Field Name="DiscoveryAddress" DataType="tns:NetworkAddressDataType" />
+    </Fields>
+  </DataType>
   <DataType SymbolicName="tns:DatagramWriterGroupTransportDataType" PartNo="14" BaseType="tns:WriterGroupTransportDataType">
     <Fields>
       <Field Name="MessageRepeatCount" DataType="tns:Byte" />
       <Field Name="MessageRepeatDelay" DataType="tns:Duration" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:BrokerConnectionTransportDataType" PartNo="14" BaseType="tns:DataSetWriterTransportDataType">
+  <DataType SymbolicName="tns:BrokerConnectionTransportDataType" PartNo="14" BaseType="tns:ConnectionTransportDataType">
     <Fields>
       <Field Name="ResourceUri" DataType="tns:String" />
       <Field Name="AuthenticationProfileUri" DataType="tns:String" />
@@ -4171,7 +4176,7 @@
       <Field Name="RequestedDeliveryGuarantee" DataType="tns:BrokerTransportQualityOfService" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:BrokerDataSetWriterTransportDataType" PartNo="14" BaseType="tns:WriterGroupTransportDataType">
+  <DataType SymbolicName="tns:BrokerDataSetWriterTransportDataType" PartNo="14" BaseType="tns:DataSetWriterTransportDataType">
     <Fields>
       <Field Name="QueueName" DataType="tns:String" />
       <Field Name="ResourceUri" DataType="tns:String" />
