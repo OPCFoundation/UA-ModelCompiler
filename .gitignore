@@ -1,0 +1,8 @@
+/ModelCompiler Solution.sln.GhostDoc.xml
+/Bin
+/.vs
+/ModelCompiler/obj
+/ModelCompiler/bin
+/Core/*.user
+/Core/obj
+/Core/bin
