@@ -4070,8 +4070,8 @@
       <Field Name="GroupVersion" DataType="tns:UInt32" />
       <Field Name="DataSetOrdering" DataType="tns:DataSetOrderingType" />
       <Field Name="NetworkMessageContentMask" DataType="tns:UadpNetworkMessageContentMask" />
-      <Field Name="ProcessingOffset" DataType="tns:Duration" />
-      <Field Name="ReceiveOffset" DataType="tns:Duration" ValueRank="Array" />
+      <Field Name="SamplingOffset" DataType="tns:Duration" />
+      <Field Name="PublishingOffset" DataType="tns:Duration" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:UadpDataSetMessageContentMask" PartNo="14" BaseType="tns:UInt32" IsOptionSet="true">
@@ -5229,8 +5229,8 @@
       <Property SymbolicName="tns:GroupVersion" ModellingRule="Mandatory" DataType="tns:VersionTime" />
       <Property SymbolicName="tns:DataSetOrdering" ModellingRule="Mandatory" DataType="tns:DataSetOrderingType" />
       <Property SymbolicName="tns:NetworkMessageContentMask" ModellingRule="Mandatory" DataType="tns:UadpNetworkMessageContentMask" />
-      <Property SymbolicName="tns:ProcessingOffset" ModellingRule="Optional" DataType="tns:Duration" />
-      <Property SymbolicName="tns:ReceiveOffset" ModellingRule="Mandatory" DataType="tns:Duration" />
+      <Property SymbolicName="tns:SamplingOffset" ModellingRule="Optional" DataType="tns:Duration" />
+      <Property SymbolicName="tns:PublishingOffset" ModellingRule="Mandatory" DataType="tns:Duration" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:UadpDataSetWriterMessageType" PartNo="14" BaseType="tns:DataSetWriterMessageType">

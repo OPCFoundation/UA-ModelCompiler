@@ -4099,8 +4099,8 @@
       <opc:Field Name="GroupVersion" DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetOrdering" DataType="DataSetOrderingType" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="NetworkMessageContentMask" DataType="UadpNetworkMessageContentMask" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="ProcessingOffset" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="ReceiveOffset" DataType="ua:Duration" ValueRank="Array"></opc:Field>
+      <opc:Field Name="SamplingOffset" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="PublishingOffset" DataType="ua:Duration" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -5346,8 +5346,8 @@
       <opc:Property SymbolicName="GroupVersion" DataType="VersionTime" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetOrdering" DataType="DataSetOrderingType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="NetworkMessageContentMask" DataType="UadpNetworkMessageContentMask" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ProcessingOffset" DataType="ua:Duration" ModellingRule="Optional" />
-      <opc:Property SymbolicName="ReceiveOffset" DataType="ua:Duration" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="SamplingOffset" DataType="ua:Duration" ModellingRule="Optional" />
+      <opc:Property SymbolicName="PublishingOffset" DataType="ua:Duration" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
