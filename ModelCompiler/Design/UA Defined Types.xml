@@ -4142,7 +4142,7 @@
   </DataType>
   <DataType SymbolicName="tns:DatagramConnectionTransportDataType" PartNo="14" BaseType="tns:ConnectionTransportDataType">
     <Fields>
-      <Field Name="DiscoveryAddress" DataType="tns:NetworkAddressDataType" />
+      <Field Name="DiscoveryAddress" DataType="tns:Structure" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:DatagramWriterGroupTransportDataType" PartNo="14" BaseType="tns:WriterGroupTransportDataType">

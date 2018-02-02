@@ -4180,7 +4180,7 @@
 
   <opc:DataType SymbolicName="DatagramConnectionTransportDataType" BaseType="ConnectionTransportDataType" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="DiscoveryAddress" DataType="NetworkAddressDataType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DiscoveryAddress" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
   
