@@ -3932,6 +3932,7 @@
       <opc:Field Name="DataSetFieldContentMask"  DataType="DataSetFieldContentMask" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="KeyFrameCount"  DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetName"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetWriterProperties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
       <opc:Field Name="TransportSettings"  DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="MessageSettings"  DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
@@ -3948,6 +3949,7 @@
       <opc:Field Name="SecurityGroupId"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="SecurityKeyServices"  DataType="ua:EndpointDescription" ValueRank="Array"></opc:Field>
       <opc:Field Name="MaxNetworkMessageSize"  DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="GroupProperties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -3974,6 +3976,7 @@
       <opc:Field Name="PublisherId" DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="TransportProfileUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Address" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ConnectionProperties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
       <opc:Field Name="TransportSettings" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="WriterGroups" DataType="WriterGroupDataType" ValueRank="Array"></opc:Field>
       <opc:Field Name="ReaderGroups" DataType="ReaderGroupDataType" ValueRank="Array"></opc:Field>
@@ -4018,6 +4021,7 @@
       <opc:Field Name="SecurityMode"  DataType="ua:MessageSecurityMode" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="SecurityGroupId"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="SecurityKeyServices"  DataType="ua:EndpointDescription" ValueRank="Array"></opc:Field>
+      <opc:Field Name="DataSetReaderProperties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
       <opc:Field Name="TransportSettings"  DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="MessageSettings"  DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="SubscribedDataSet"  DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
@@ -4195,7 +4199,6 @@
     <opc:Fields>
       <opc:Field Name="ResourceUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="AuthenticationProfileUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="ConnectionProperties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -4214,7 +4217,6 @@
       <opc:Field Name="QueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="ResourceUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="AuthenticationProfileUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="WriterGroupProperties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
       <opc:Field Name="RequestedDeliveryGuarantee" DataType="BrokerTransportQualityOfService" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
@@ -4224,7 +4226,6 @@
       <opc:Field Name="QueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="ResourceUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="AuthenticationProfileUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="DataSetWriterProperties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
       <opc:Field Name="MetaDataQueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="MetaDataUpdateTime" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
@@ -4324,10 +4325,11 @@
       </opc:Object>
       <opc:Method SymbolicName="SetSecurityKeys" TypeDefinition="SetSecurityKeysMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddConnection" TypeDefinition="AddConnectionMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveConnection" TypeDefinition="RemoveConnectionMethodType" ModellingRuleell="Optional" />
+      <opc:Method SymbolicName="RemoveConnection" TypeDefinition="RemoveConnectionMethodType" ModellingRule="Optional" />
       <opc:Object SymbolicName="PublishedDataSets" TypeDefinition="DataSetFolderType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsRootType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="SupportedTransportProfiles" DataType="String" ValueRank="Array" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
   
@@ -4577,6 +4579,7 @@
     <opc:Children>
       <opc:Property SymbolicName="PublisherId" DataType="ua:BaseDataType" ModellingRule="Mandatory" />
       <opc:Variable SymbolicName="TransportProfileUri" DataType="ua:String" TypeDefinition="SelectionListType" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ConnectionProperties" DataType="KeyValuePair" ValueRank="Array" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Address" TypeDefinition="NetworkAddressType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="TransportSettings" TypeDefinition="ConnectionTransportType" ModellingRule="Optional" />
       <opc:Object SymbolicName="WriterGroupName_Placeholder" TypeDefinition="WriterGroupType" ModellingRule="OptionalPlaceholder">
@@ -4625,6 +4628,7 @@
       <opc:Property SymbolicName="SecurityGroupId" DataType="ua:String" ModellingRule="Optional" />
       <opc:Property SymbolicName="SecurityKeyServices" DataType="EndpointDescription" ValueRank="Array" ModellingRule="Optional" />
       <opc:Property SymbolicName="MaxNetworkMessageSize" DataType="ua:UInt32" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="GroupProperties" DataType="KeyValuePair" ValueRank="Array" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
@@ -4711,6 +4715,7 @@
       <opc:Property SymbolicName="DataSetWriterId" DataType="ua:UInt16" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetFieldContentMask" DataType="DataSetFieldContentMask" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="KeyFrameCount" DataType="ua:UInt32" ModellingRule="Optional" />
+      <opc:Property SymbolicName="DataSetWriterProperties" DataType="KeyValuePair" ValueRank="Array" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="TransportSettings" TypeDefinition="DataSetWriterTransportType" ModellingRule="Optional" />
       <opc:Object SymbolicName="MessageSettings" TypeDefinition="DataSetWriterMessageType" ModellingRule="Optional" />
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
@@ -4732,6 +4737,7 @@
       <opc:Property SymbolicName="SecurityMode" DataType="MessageSecurityMode" ModellingRule="Optional" />
       <opc:Property SymbolicName="SecurityGroupId" DataType="ua:String" ModellingRule="Optional" />
       <opc:Property SymbolicName="SecurityKeyServices" DataType="EndpointDescription" ValueRank="Array" ModellingRule="Optional" />
+      <opc:Property SymbolicName="DataSetReaderProperties" DataType="KeyValuePair" ValueRank="Array" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="TransportSettings" TypeDefinition="DataSetReaderTransportType" ModellingRule="Optional" />
       <opc:Object SymbolicName="MessageSettings" TypeDefinition="DataSetReaderMessageType" ModellingRule="Optional" />
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
@@ -5411,7 +5417,6 @@
     <opc:Children>
       <opc:Property SymbolicName="ResourceUri" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="AuthenticationProfileUri" DataType="ua:String" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ConnectionProperties" DataType="ua:KeyValuePair" ValueRank="Array" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -5420,7 +5425,6 @@
       <opc:Property SymbolicName="QueueName" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ResourceUri" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="AuthenticationProfileUri" DataType="ua:String" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="WriterGroupProperties" DataType="ua:KeyValuePair" ValueRank="Array" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="RequestedDeliveryGuarantee" DataType="BrokerTransportQualityOfService" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
@@ -5431,7 +5435,6 @@
       <opc:Property SymbolicName="MetaDataQueueName" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ResourceUri" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="AuthenticationProfileUri" DataType="ua:String" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="DataSetWriterProperties" DataType="ua:KeyValuePair" ValueRank="Array" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="RequestedDeliveryGuarantee" DataType="BrokerTransportQualityOfService" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MetaDataUpdateTime" DataType="ua:Duration" ModellingRule="Mandatory" />
     </opc:Children>

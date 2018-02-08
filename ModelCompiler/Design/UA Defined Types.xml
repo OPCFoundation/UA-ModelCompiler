@@ -3924,6 +3924,7 @@
       <Field Name="DataSetFieldContentMask" DataType="tns:DataSetFieldContentMask" />
       <Field Name="KeyFrameCount" DataType="tns:UInt32" />
       <Field Name="DataSetName" DataType="tns:String" />
+      <Field Name="DataSetWriterProperties" DataType="tns:KeyValuePair" ValueRank="Array" />
       <Field Name="TransportSettings" DataType="tns:Structure" />
       <Field Name="MessageSettings" DataType="tns:Structure" />
     </Fields>
@@ -3938,6 +3939,7 @@
       <Field Name="SecurityGroupId" DataType="tns:String" />
       <Field Name="SecurityKeyServices" DataType="tns:EndpointDescription" ValueRank="Array" />
       <Field Name="MaxNetworkMessageSize" DataType="tns:UInt32" />
+      <Field Name="GroupProperties" DataType="tns:KeyValuePair" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:WriterGroupDataType" PartNo="14" BaseType="tns:PubSubGroupDataType">
@@ -3961,6 +3963,7 @@
       <Field Name="PublisherId" DataType="tns:BaseDataType" />
       <Field Name="TransportProfileUri" DataType="tns:String" />
       <Field Name="Address" DataType="tns:Structure" />
+      <Field Name="ConnectionProperties" DataType="tns:KeyValuePair" ValueRank="Array" />
       <Field Name="TransportSettings" DataType="tns:Structure" />
       <Field Name="WriterGroups" DataType="tns:WriterGroupDataType" ValueRank="Array" />
       <Field Name="ReaderGroups" DataType="tns:ReaderGroupDataType" ValueRank="Array" />
@@ -3999,6 +4002,7 @@
       <Field Name="SecurityMode" DataType="tns:MessageSecurityMode" />
       <Field Name="SecurityGroupId" DataType="tns:String" />
       <Field Name="SecurityKeyServices" DataType="tns:EndpointDescription" ValueRank="Array" />
+      <Field Name="DataSetReaderProperties" DataType="tns:KeyValuePair" ValueRank="Array" />
       <Field Name="TransportSettings" DataType="tns:Structure" />
       <Field Name="MessageSettings" DataType="tns:Structure" />
       <Field Name="SubscribedDataSet" DataType="tns:Structure" />
@@ -4155,7 +4159,6 @@
     <Fields>
       <Field Name="ResourceUri" DataType="tns:String" />
       <Field Name="AuthenticationProfileUri" DataType="tns:String" />
-      <Field Name="ConnectionProperties" DataType="tns:KeyValuePair" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:BrokerTransportQualityOfService" PartNo="14" BaseType="tns:Enumeration">
@@ -4172,7 +4175,6 @@
       <Field Name="QueueName" DataType="tns:String" />
       <Field Name="ResourceUri" DataType="tns:String" />
       <Field Name="AuthenticationProfileUri" DataType="tns:String" />
-      <Field Name="WriterGroupProperties" DataType="tns:KeyValuePair" ValueRank="Array" />
       <Field Name="RequestedDeliveryGuarantee" DataType="tns:BrokerTransportQualityOfService" />
     </Fields>
   </DataType>
@@ -4181,7 +4183,6 @@
       <Field Name="QueueName" DataType="tns:String" />
       <Field Name="ResourceUri" DataType="tns:String" />
       <Field Name="AuthenticationProfileUri" DataType="tns:String" />
-      <Field Name="DataSetWriterProperties" DataType="tns:KeyValuePair" ValueRank="Array" />
       <Field Name="MetaDataQueueName" DataType="tns:String" />
       <Field Name="MetaDataUpdateTime" DataType="tns:Duration" />
     </Fields>
@@ -4272,10 +4273,11 @@
       </Object>
       <Method SymbolicName="tns:SetSecurityKeys" TypeDefinition="tns:SetSecurityKeysMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:AddConnection" TypeDefinition="tns:AddConnectionMethodType" ModellingRule="Optional" />
-      <Method SymbolicName="tns:RemoveConnection" TypeDefinition="tns:RemoveConnectionMethodType" />
+      <Method SymbolicName="tns:RemoveConnection" TypeDefinition="tns:RemoveConnectionMethodType" ModellingRule="Optional" />
       <Object SymbolicName="tns:PublishedDataSets" TypeDefinition="tns:DataSetFolderType" ModellingRule="Mandatory" />
       <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
       <Object SymbolicName="tns:Diagnostics" TypeDefinition="tns:PubSubDiagnosticsRootType" ModellingRule="Optional" />
+      <Property SymbolicName="tns:SupportedTransportProfiles" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Array" />
     </Children>
   </ObjectType>
   <Object SymbolicName="tns:PublishSubscribe" PartNo="14" TypeDefinition="tns:PublishSubscribeType">
@@ -4501,6 +4503,7 @@
     <Children>
       <Property SymbolicName="tns:PublisherId" ModellingRule="Mandatory" DataType="tns:BaseDataType" />
       <Variable SymbolicName="tns:TransportProfileUri" TypeDefinition="tns:SelectionListType" ModellingRule="Mandatory" DataType="tns:String" />
+      <Property SymbolicName="tns:ConnectionProperties" ModellingRule="Mandatory" DataType="tns:KeyValuePair" ValueRank="Array" />
       <Object SymbolicName="tns:Address" TypeDefinition="tns:NetworkAddressType" ModellingRule="Mandatory" />
       <Object SymbolicName="tns:TransportSettings" TypeDefinition="tns:ConnectionTransportType" ModellingRule="Optional" />
       <Object SymbolicName="tns:WriterGroupName_Placeholder" TypeDefinition="tns:WriterGroupType" ModellingRule="OptionalPlaceholder">
@@ -4544,6 +4547,7 @@
       <Property SymbolicName="tns:SecurityGroupId" ModellingRule="Optional" DataType="tns:String" />
       <Property SymbolicName="tns:SecurityKeyServices" ModellingRule="Optional" DataType="tns:EndpointDescription" ValueRank="Array" />
       <Property SymbolicName="tns:MaxNetworkMessageSize" ModellingRule="Mandatory" DataType="tns:UInt32" />
+      <Property SymbolicName="tns:GroupProperties" ModellingRule="Mandatory" DataType="tns:KeyValuePair" ValueRank="Array" />
       <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
     </Children>
   </ObjectType>
@@ -4619,6 +4623,7 @@
       <Property SymbolicName="tns:DataSetWriterId" ModellingRule="Mandatory" DataType="tns:UInt16" />
       <Property SymbolicName="tns:DataSetFieldContentMask" ModellingRule="Mandatory" DataType="tns:DataSetFieldContentMask" />
       <Property SymbolicName="tns:KeyFrameCount" ModellingRule="Optional" DataType="tns:UInt32" />
+      <Property SymbolicName="tns:DataSetWriterProperties" ModellingRule="Mandatory" DataType="tns:KeyValuePair" ValueRank="Array" />
       <Object SymbolicName="tns:TransportSettings" TypeDefinition="tns:DataSetWriterTransportType" ModellingRule="Optional" />
       <Object SymbolicName="tns:MessageSettings" TypeDefinition="tns:DataSetWriterMessageType" ModellingRule="Optional" />
       <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
@@ -4638,6 +4643,7 @@
       <Property SymbolicName="tns:SecurityMode" ModellingRule="Optional" DataType="tns:MessageSecurityMode" />
       <Property SymbolicName="tns:SecurityGroupId" ModellingRule="Optional" DataType="tns:String" />
       <Property SymbolicName="tns:SecurityKeyServices" ModellingRule="Optional" DataType="tns:EndpointDescription" ValueRank="Array" />
+      <Property SymbolicName="tns:DataSetReaderProperties" ModellingRule="Mandatory" DataType="tns:KeyValuePair" ValueRank="Array" />
       <Object SymbolicName="tns:TransportSettings" TypeDefinition="tns:DataSetReaderTransportType" ModellingRule="Optional" />
       <Object SymbolicName="tns:MessageSettings" TypeDefinition="tns:DataSetReaderMessageType" ModellingRule="Optional" />
       <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
@@ -5286,7 +5292,6 @@
     <Children>
       <Property SymbolicName="tns:ResourceUri" ModellingRule="Mandatory" DataType="tns:String" />
       <Property SymbolicName="tns:AuthenticationProfileUri" ModellingRule="Mandatory" DataType="tns:String" />
-      <Property SymbolicName="tns:ConnectionProperties" ModellingRule="Mandatory" DataType="tns:KeyValuePair" ValueRank="Array" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:BrokerWriterGroupTransportType" PartNo="14" BaseType="tns:WriterGroupTransportType">
@@ -5294,7 +5299,6 @@
       <Property SymbolicName="tns:QueueName" ModellingRule="Mandatory" DataType="tns:String" />
       <Property SymbolicName="tns:ResourceUri" ModellingRule="Mandatory" DataType="tns:String" />
       <Property SymbolicName="tns:AuthenticationProfileUri" ModellingRule="Mandatory" DataType="tns:String" />
-      <Property SymbolicName="tns:WriterGroupProperties" ModellingRule="Mandatory" DataType="tns:KeyValuePair" ValueRank="Array" />
       <Property SymbolicName="tns:RequestedDeliveryGuarantee" ModellingRule="Mandatory" DataType="tns:BrokerTransportQualityOfService" />
     </Children>
   </ObjectType>
@@ -5304,7 +5308,6 @@
       <Property SymbolicName="tns:MetaDataQueueName" ModellingRule="Mandatory" DataType="tns:String" />
       <Property SymbolicName="tns:ResourceUri" ModellingRule="Mandatory" DataType="tns:String" />
       <Property SymbolicName="tns:AuthenticationProfileUri" ModellingRule="Mandatory" DataType="tns:String" />
-      <Property SymbolicName="tns:DataSetWriterProperties" ModellingRule="Mandatory" DataType="tns:KeyValuePair" ValueRank="Array" />
       <Property SymbolicName="tns:RequestedDeliveryGuarantee" ModellingRule="Mandatory" DataType="tns:BrokerTransportQualityOfService" />
       <Property SymbolicName="tns:MetaDataUpdateTime" ModellingRule="Mandatory" DataType="tns:Duration" />
     </Children>
