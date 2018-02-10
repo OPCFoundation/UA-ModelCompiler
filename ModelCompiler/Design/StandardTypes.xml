@@ -3899,13 +3899,13 @@
     </opc:Fields>
   </opc:DataType>
   
-  <opc:DataType SymbolicName="PublishedDataItemsDataType" BaseType="ua:Structure" PartNo="14">
+  <opc:DataType SymbolicName="PublishedDataItemsDataType" BaseType="PublishedDataSetSourceDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="PublishedData"  DataType="PublishedVariableDataType" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="PublishedEventsDataType" BaseType="ua:Structure" PartNo="14">
+  <opc:DataType SymbolicName="PublishedEventsDataType" BaseType="PublishedDataSetSourceDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="EventNotifier"  DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="SelectedFields"  DataType="ua:SimpleAttributeOperand" ValueRank="Array"></opc:Field>
@@ -4033,7 +4033,7 @@
   <opc:DataType SymbolicName="SubscribedDataSetDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14" />
 
 
-  <opc:DataType SymbolicName="TargetVariablesDataType" BaseType="ua:Structure" PartNo="14">
+  <opc:DataType SymbolicName="TargetVariablesDataType" BaseType="SubscribedDataSetDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="TargetVariables"  DataType="FieldTargetDataType" ValueRank="Array"></opc:Field>
     </opc:Fields>
@@ -4059,7 +4059,7 @@
     </opc:Fields>
   </opc:DataType>
   
-  <opc:DataType SymbolicName="SubscribedDataSetMirrorDataType" BaseType="ua:Structure" PartNo="14">
+  <opc:DataType SymbolicName="SubscribedDataSetMirrorDataType" BaseType="SubscribedDataSetDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="ParentNodeName"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="RolePermissions"  DataType="ua:RolePermissionType" ValueRank="Array"></opc:Field>

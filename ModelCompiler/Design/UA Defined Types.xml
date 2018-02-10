@@ -3894,12 +3894,12 @@
       <Field Name="MetaDataProperties" DataType="tns:QualifiedName" ValueRank="Array" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:PublishedDataItemsDataType" PartNo="14" BaseType="tns:Structure">
+  <DataType SymbolicName="tns:PublishedDataItemsDataType" PartNo="14" BaseType="tns:PublishedDataSetSourceDataType">
     <Fields>
       <Field Name="PublishedData" DataType="tns:PublishedVariableDataType" ValueRank="Array" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:PublishedEventsDataType" PartNo="14" BaseType="tns:Structure">
+  <DataType SymbolicName="tns:PublishedEventsDataType" PartNo="14" BaseType="tns:PublishedDataSetSourceDataType">
     <Fields>
       <Field Name="EventNotifier" DataType="tns:NodeId" />
       <Field Name="SelectedFields" DataType="tns:SimpleAttributeOperand" ValueRank="Array" />
@@ -4011,7 +4011,7 @@
   <DataType SymbolicName="tns:DataSetReaderTransportDataType" PartNo="14" BaseType="tns:Structure" IsAbstract="true" />
   <DataType SymbolicName="tns:DataSetReaderMessageDataType" PartNo="14" BaseType="tns:Structure" IsAbstract="true" />
   <DataType SymbolicName="tns:SubscribedDataSetDataType" PartNo="14" BaseType="tns:Structure" IsAbstract="true" />
-  <DataType SymbolicName="tns:TargetVariablesDataType" PartNo="14" BaseType="tns:Structure">
+  <DataType SymbolicName="tns:TargetVariablesDataType" PartNo="14" BaseType="tns:SubscribedDataSetDataType">
     <Fields>
       <Field Name="TargetVariables" DataType="tns:FieldTargetDataType" ValueRank="Array" />
     </Fields>
@@ -4034,7 +4034,7 @@
       <Field Name="OverrideValue" Identifier="2" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:SubscribedDataSetMirrorDataType" PartNo="14" BaseType="tns:Structure">
+  <DataType SymbolicName="tns:SubscribedDataSetMirrorDataType" PartNo="14" BaseType="tns:SubscribedDataSetDataType">
     <Fields>
       <Field Name="ParentNodeName" DataType="tns:String" />
       <Field Name="RolePermissions" DataType="tns:RolePermissionType" ValueRank="Array" />
