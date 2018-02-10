@@ -3819,7 +3819,7 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="UABinaryFileDataType" BaseType="ua:Structure" PartNo="14">
+  <opc:DataType SymbolicName="UABinaryFileDataType" BaseType="DataTypeSchemaHeader" PartNo="14">
     <opc:Fields>
       <opc:Field Name="SchemaLocation"  DataType="ua:String"></opc:Field>
       <opc:Field Name="FileHeader"  DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>

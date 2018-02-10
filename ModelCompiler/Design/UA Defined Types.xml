@@ -3823,7 +3823,7 @@
       <Field Name="BuiltInType" DataType="tns:Byte" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:UABinaryFileDataType" PartNo="14" BaseType="tns:Structure">
+  <DataType SymbolicName="tns:UABinaryFileDataType" PartNo="14" BaseType="tns:DataTypeSchemaHeader">
     <Fields>
       <Field Name="SchemaLocation" DataType="tns:String" />
       <Field Name="FileHeader" DataType="tns:KeyValuePair" ValueRank="Array" />
