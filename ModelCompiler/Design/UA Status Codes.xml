@@ -6,7 +6,7 @@
   xmlns="http://opcfoundation.org/UA/StatusCodes/"
   TargetNamespace="http://opcfoundation.org/UA/StatusCodes/"
   TargetVersion="1.04"
-  TargetPublicationDate="2017-11-22T00:00:00Z"
+  TargetPublicationDate="2018-02-09T00:00:00Z"
 >
   <!-- Common Service Level Codes -->
   <opc:Constant Name="Bad_UnexpectedError">
@@ -504,7 +504,10 @@
   <opc:Constant Name="Bad_StateNotActive">
     <opc:Documentation>The sub-state machine is not currently active.</opc:Documentation>
   </opc:Constant>
-
+  <opc:Constant Name="Bad_AlreadyExists">
+    <opc:Documentation>An equivalent rule already exists.</opc:Documentation>
+  </opc:Constant>
+  
   <!-- Part 6 -->
   <opc:Constant Name="Bad_TcpServerTooBusy">
     <opc:Documentation>The server cannot process the request because it is too busy.</opc:Documentation>
