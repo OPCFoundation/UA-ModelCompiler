@@ -504,7 +504,10 @@
   <opc:Constant Name="Bad_StateNotActive">
     <opc:Documentation>The sub-state machine is not currently active.</opc:Documentation>
   </opc:Constant>
-
+  <opc:Constant Name="Bad_AlreadyExists">
+    <opc:Documentation>An equivalent rule already exists.</opc:Documentation>
+  </opc:Constant>
+  
   <!-- Part 6 -->
   <opc:Constant Name="Bad_TcpServerTooBusy">
     <opc:Documentation>The server cannot process the request because it is too busy.</opc:Documentation>

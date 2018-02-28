@@ -66,6 +66,7 @@ COPY ".\ModelCompiler\Design\UA Attributes.csv" "%OUTPUT%\Schema\AttributeIds.cs
 COPY ".\Core\Schema\UANodeSet.xsd" "%OUTPUT%\Schema\UANodeSet.xsd"
 COPY ".\Core\Schema\SecuredApplication.xsd" "%OUTPUT%\Schema\SecuredApplication.xsd"
 COPY ".\Core\Types\Schemas\OPCBinarySchema.xsd" "%OUTPUT%\Schema\OPCBinarySchema.xsd"
+COPY ".\Core\Schema\ServerCapabilities.csv" "%OUTPUT%\Schema\ServerCapabilities.csv"
 COPY ".\ModelCompiler\Design\rec20_latest.csv" "%OUTPUT%\Schema\rec20_latest.csv"
 COPY ".\ModelCompiler\Design\UNECE_to_OPCUA.csv" "%OUTPUT%\Schema\UNECE_to_OPCUA.csv"
 @ECHO OFF
@@ -94,6 +95,7 @@ IF "%DOTNET_TARGET%" NEQ "" (
 	@ECHO OFF
 	COPY "%OUTPUT%\Schema\AttributeIds.csv" "%DOTNET_TARGET%\Schema\AttributeIds.csv"
 	COPY "%OUTPUT%\Schema\NodeIds.csv" "%DOTNET_TARGET%\Schema\NodeIds.csv"
+	COPY "%OUTPUT%\Schema\ServerCapabilities.csv" "%DOTNET_TARGET%\Schema\ServerCapabilities.csv"
 	COPY "%OUTPUT%\Schema\Opc.Ua.NodeSet.xml" "%DOTNET_TARGET%\Schema\Opc.Ua.NodeSet.xml"
 	COPY "%OUTPUT%\Schema\Opc.Ua.NodeSet2.xml" "%DOTNET_TARGET%\Schema\Opc.Ua.NodeSet2.xml"
 	COPY "%OUTPUT%\Schema\Opc.Ua.Types.bsd" "%DOTNET_TARGET%\Schema\Opc.Ua.Types.bsd"

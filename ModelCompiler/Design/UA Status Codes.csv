@@ -232,3 +232,4 @@ Bad_NotExecutable,273
 Bad_NumericOverflow,274
 Bad_RequestNotComplete,275
 Bad_CertificatePolicyCheckFailed,276
+Bad_AlreadyExists,277
