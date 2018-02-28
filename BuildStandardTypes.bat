@@ -63,7 +63,7 @@ ECHO Copying CSV files to %OUTPUT%\Schema\
 ECHO ON
 COPY ".\ModelCompiler\Design\StandardTypes.csv" "%OUTPUT%\Schema\NodeIds.csv"
 COPY ".\ModelCompiler\Design\UA Attributes.csv" "%OUTPUT%\Schema\AttributeIds.csv"
-COPY ".\ModelCompiler\Design\UA Status Codes.csv" "%OUTPUT%\Schema\StatusCode.csv"
+COPY "%OUTPUT%\DotNet\Opc.Ua.StatusCodes.csv" "%OUTPUT%\Schema\StatusCode.csv"
 COPY ".\Core\Schema\UANodeSet.xsd" "%OUTPUT%\Schema\UANodeSet.xsd"
 COPY ".\Core\Schema\SecuredApplication.xsd" "%OUTPUT%\Schema\SecuredApplication.xsd"
 COPY ".\Core\Types\Schemas\OPCBinarySchema.xsd" "%OUTPUT%\Schema\OPCBinarySchema.xsd"
