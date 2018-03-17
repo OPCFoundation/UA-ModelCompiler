@@ -3388,9 +3388,9 @@
   <opc:ObjectType SymbolicName="CertificateType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="12"></opc:ObjectType>
   <opc:ObjectType SymbolicName="ApplicationCertificateType" BaseType="CertificateType" IsAbstract="true" PartNo="12"></opc:ObjectType>
   <opc:ObjectType SymbolicName="HttpsCertificateType" BaseType="CertificateType" PartNo="12"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="UserCredentialCertificateType" BaseType="CertificateType" PartNo="12"></opc:ObjectType>
   <opc:ObjectType SymbolicName="RsaMinApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12"></opc:ObjectType>
   <opc:ObjectType SymbolicName="RsaSha256ApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="UserCredentialCertificateType" BaseType="ApplicationCertificateType" PartNo="12"></opc:ObjectType>
   
   <opc:ObjectType SymbolicName="TrustListUpdatedAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true" PartNo="12">
   </opc:ObjectType>
