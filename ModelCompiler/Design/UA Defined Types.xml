@@ -3464,6 +3464,7 @@
   <ObjectType SymbolicName="tns:HttpsCertificateType" PartNo="12" BaseType="tns:CertificateType" />
   <ObjectType SymbolicName="tns:RsaMinApplicationCertificateType" PartNo="12" BaseType="tns:ApplicationCertificateType" />
   <ObjectType SymbolicName="tns:RsaSha256ApplicationCertificateType" PartNo="12" BaseType="tns:ApplicationCertificateType" />
+  <ObjectType SymbolicName="tns:UserCredentialCertificateType" PartNo="12" BaseType="tns:ApplicationCertificateType" />
   <ObjectType SymbolicName="tns:TrustListUpdatedAuditEventType" PartNo="12" BaseType="tns:AuditUpdateMethodEventType" IsAbstract="true" />
   <Method SymbolicName="tns:UpdateCertificateMethodType">
     <InputArguments>
