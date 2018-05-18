@@ -1365,6 +1365,28 @@ namespace Opc.Ua.ModelCompiler
                 template.AddReplacement("_BaseType_", GetBinaryDataType(dataType.BaseTypeNode as DataTypeDesign));
             }
 
+            if (dataType.BasicDataType == BasicDataType.Enumeration)
+            {
+                uint lengthInBits = 32;
+
+                if (dataType.IsOptionSet)
+                {
+                    switch (dataType.BaseType.Name)
+                    {
+                        case "SByte": { lengthInBits = 8; break; }
+                        case "Byte": { lengthInBits = 8; break; }
+                        case "Int16": { lengthInBits = 16; break; }
+                        case "UInt16": { lengthInBits = 16; break; }
+                        case "Int32": { lengthInBits = 32; break; }
+                        case "UInt32": { lengthInBits = 32; break; }
+                        case "Int64": { lengthInBits = 64; break; }
+                        case "UInt64": { lengthInBits = 64; break; }
+                    }
+                }
+
+                template.AddReplacement("_LengthInBits_", lengthInBits);
+            }
+
             List<Parameter> fields = new List<Parameter>();
             Stack<DataTypeDesign> parents = new Stack<DataTypeDesign>();
 

@@ -58,7 +58,7 @@
     </opc:Value>
   </opc:EnumeratedType>
 
-  <opc:EnumeratedType Name="PermissionType" BaseType="s0:UInt16" IsOptionSet="true" PartNo="3">
+  <opc:EnumeratedType Name="PermissionType" BaseType="s0:UInt32" IsOptionSet="true" PartNo="3">
     <opc:Value Name="None" BitMask="0000" />
     <opc:Value Name="Browse" BitMask="0001" />
     <opc:Value Name="ReadRolePermissions" BitMask="0002" />
@@ -98,12 +98,12 @@
     <opc:Value Name="HistoryWrite" BitMask="0010" />
     <opc:Value Name="StatusWrite" BitMask="0020" />
     <opc:Value Name="TimestampWrite" BitMask="0040" />
-    <opc:Value Name="NonatomicRead" BitMask="010000" />
-    <opc:Value Name="NonatomicWrite" BitMask="020000" />
-    <opc:Value Name="WriteFullArrayOnly" BitMask="040000" />
+    <opc:Value Name="NonatomicRead" BitMask="000100" />
+    <opc:Value Name="NonatomicWrite" BitMask="000200" />
+    <opc:Value Name="WriteFullArrayOnly" BitMask="000400" />
   </opc:EnumeratedType>
 
-  <opc:EnumeratedType Name="EventNotifierType" IsOptionSet="true" PartNo="3">
+  <opc:EnumeratedType Name="EventNotifierType" BaseType="s0:Byte" IsOptionSet="true" PartNo="3">
     <opc:Value Name="None" BitMask="0000" />
     <opc:Value Name="SubscribeToEvents" BitMask="0001" />
     <opc:Value Name="HistoryRead" BitMask="0004" />
@@ -114,12 +114,12 @@
     <opc:Value Name="None" BitMask="0000" />
     <opc:Value Name="SigningRequired" BitMask="0001" />
     <opc:Value Name="EncryptionRequired" BitMask="0002" />
-    <opc:Value Name="SessionRequired " BitMask="0004" />
+    <opc:Value Name="SessionRequired" BitMask="0004" />
   </opc:EnumeratedType>
   
   <opc:ComplexType Name="RolePermissionType" AllowArrays="true" PartNo="3">
     <opc:Field Name="RoleId" DataType="s0:NodeId" />
-    <opc:Field Name="Permissions" DataType="s0:UInt32" />
+    <opc:Field Name="Permissions" DataType="PermissionType" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="DataTypeDefinition" NotInAddressSpace="false" AllowArrays="true" IsAbstract="true" PartNo="3" />

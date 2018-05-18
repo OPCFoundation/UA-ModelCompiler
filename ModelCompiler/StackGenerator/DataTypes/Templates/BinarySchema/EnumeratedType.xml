@@ -2,7 +2,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:opc="http://opcfoundation.org/OPCBinary/2.0/">
 <!--***START***-->
-<opc:EnumeratedType Name="_TypeName_" LengthInBits="32">
+<opc:EnumeratedType Name="_TypeName_" LengthInBits="_LengthInBits_">
   <opc:Documentation>_Description_</opc:Documentation>
   <!-- ListOfValues -->
 </opc:EnumeratedType>

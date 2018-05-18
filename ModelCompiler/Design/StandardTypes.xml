@@ -8,7 +8,7 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
   TargetVersion="1.04"
-  TargetPublicationDate="2018-02-09T00:00:00Z"
+  TargetPublicationDate="2018-05-15T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -29,7 +29,7 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:String>2017-11-22</uax:String>
+          <uax:String>2018-05-15</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -62,7 +62,7 @@
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
         <opc:TargetId>ua:Server_Namespaces</opc:TargetId>
       </opc:Reference>
     </opc:References>
@@ -1404,15 +1404,150 @@
       <opc:Object SymbolicName="ReadTransfer" TypeDefinition="StateType" ModellingRule="None" />
       <opc:Object SymbolicName="ApplyWrite" TypeDefinition="StateType" ModellingRule="None" />
       <opc:Object SymbolicName="Error" TypeDefinition="StateType" ModellingRule="None" />
-      <opc:Object SymbolicName="IdleToReadPrepare" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="ReadPrepareToReadTransfer" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="ReadTransferToIdle" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="IdleToApplyWrite" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="ApplyWriteToIdle" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="ReadPrepareToError" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="ReadTransferToError" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="ApplyWriteToError" TypeDefinition="TransitionType" ModellingRule="None" />
-      <opc:Object SymbolicName="ErrorToIdle" TypeDefinition="TransitionType" ModellingRule="None" />
+      <opc:Object SymbolicName="IdleToReadPrepare" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_Idle</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_ReadPrepare</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>HasEffect</opc:ReferenceType>
+            <opc:TargetId>TransitionEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      <opc:Object SymbolicName="ReadPrepareToReadTransfer" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_ReadPrepare</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_ReadTransfer</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>HasEffect</opc:ReferenceType>
+            <opc:TargetId>TransitionEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      <opc:Object SymbolicName="ReadTransferToIdle" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_ReadTransfer</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_Idle</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>HasEffect</opc:ReferenceType>
+            <opc:TargetId>TransitionEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      <opc:Object SymbolicName="IdleToApplyWrite" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_Idle</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_ApplyWrite</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>HasEffect</opc:ReferenceType>
+            <opc:TargetId>TransitionEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      <opc:Object SymbolicName="ApplyWriteToIdle" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_ApplyWrite</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_Idle</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>HasEffect</opc:ReferenceType>
+            <opc:TargetId>TransitionEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      <opc:Object SymbolicName="ReadPrepareToError" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_ReadPrepare</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_Error</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>HasEffect</opc:ReferenceType>
+            <opc:TargetId>TransitionEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      <opc:Object SymbolicName="ReadTransferToError" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_ReadTransfer</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_Error</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>HasEffect</opc:ReferenceType>
+            <opc:TargetId>TransitionEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      <opc:Object SymbolicName="ApplyWriteToError" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_ApplyWrite</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_Error</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>HasEffect</opc:ReferenceType>
+            <opc:TargetId>TransitionEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      <opc:Object SymbolicName="ErrorToIdle" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_Error</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>FileTransferStateMachineType_Idle</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>HasEffect</opc:ReferenceType>
+            <opc:TargetId>TransitionEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
       <opc:Method SymbolicName="Reset" />
     </opc:Children>
   </opc:ObjectType>

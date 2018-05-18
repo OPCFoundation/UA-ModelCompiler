@@ -461,6 +461,10 @@ namespace Opc.Ua.Export {
         
         private int valueRankField;
         
+        private string arrayDimensionsField;
+        
+        private uint maxStringLengthField;
+        
         private int valueField;
         
         private bool isOptionalField;
@@ -468,6 +472,8 @@ namespace Opc.Ua.Export {
         public DataTypeField() {
             this.dataTypeField = "i=24";
             this.valueRankField = -1;
+            this.arrayDimensionsField = "";
+            this.maxStringLengthField = ((uint)(0));
             this.valueField = -1;
             this.isOptionalField = false;
         }
@@ -537,6 +543,30 @@ namespace Opc.Ua.Export {
             }
             set {
                 this.valueRankField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute("")]
+        public string ArrayDimensions {
+            get {
+                return this.arrayDimensionsField;
+            }
+            set {
+                this.arrayDimensionsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(typeof(uint), "0")]
+        public uint MaxStringLength {
+            get {
+                return this.maxStringLengthField;
+            }
+            set {
+                this.maxStringLengthField = value;
             }
         }
         
@@ -623,10 +653,13 @@ namespace Opc.Ua.Export {
         
         private bool isOptionSetField;
         
+        private string baseTypeField;
+        
         public DataTypeDefinition() {
             this.symbolicNameField = "";
             this.isUnionField = false;
             this.isOptionSetField = false;
+            this.baseTypeField = "";
         }
         
         /// <remarks/>
@@ -684,6 +717,18 @@ namespace Opc.Ua.Export {
             }
             set {
                 this.isOptionSetField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute("")]
+        public string BaseType {
+            get {
+                return this.baseTypeField;
+            }
+            set {
+                this.baseTypeField = value;
             }
         }
     }

@@ -455,7 +455,7 @@
       </Property>
       <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
         <DefaultValue>
-          <uax:String>2017-11-22</uax:String>
+          <uax:String>2018-05-15</uax:String>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
@@ -488,7 +488,7 @@
     </Children>
     <References>
       <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
+        <ReferenceType>tns:HasComponent</ReferenceType>
         <TargetId>tns:Server_Namespaces</TargetId>
       </Reference>
     </References>
@@ -1612,15 +1612,150 @@
       <Object SymbolicName="tns:ReadTransfer" TypeDefinition="tns:StateType" ModellingRule="None" />
       <Object SymbolicName="tns:ApplyWrite" TypeDefinition="tns:StateType" ModellingRule="None" />
       <Object SymbolicName="tns:Error" TypeDefinition="tns:StateType" ModellingRule="None" />
-      <Object SymbolicName="tns:IdleToReadPrepare" TypeDefinition="tns:TransitionType" ModellingRule="None" />
-      <Object SymbolicName="tns:ReadPrepareToReadTransfer" TypeDefinition="tns:TransitionType" ModellingRule="None" />
-      <Object SymbolicName="tns:ReadTransferToIdle" TypeDefinition="tns:TransitionType" ModellingRule="None" />
-      <Object SymbolicName="tns:IdleToApplyWrite" TypeDefinition="tns:TransitionType" ModellingRule="None" />
-      <Object SymbolicName="tns:ApplyWriteToIdle" TypeDefinition="tns:TransitionType" ModellingRule="None" />
-      <Object SymbolicName="tns:ReadPrepareToError" TypeDefinition="tns:TransitionType" ModellingRule="None" />
-      <Object SymbolicName="tns:ReadTransferToError" TypeDefinition="tns:TransitionType" ModellingRule="None" />
-      <Object SymbolicName="tns:ApplyWriteToError" TypeDefinition="tns:TransitionType" ModellingRule="None" />
-      <Object SymbolicName="tns:ErrorToIdle" TypeDefinition="tns:TransitionType" ModellingRule="None" />
+      <Object SymbolicName="tns:IdleToReadPrepare" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_Idle</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_ReadPrepare</TargetId>
+          </Reference>
+          <Reference IsOneWay="true">
+            <ReferenceType>tns:HasEffect</ReferenceType>
+            <TargetId>tns:TransitionEventType</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:ReadPrepareToReadTransfer" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_ReadPrepare</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_ReadTransfer</TargetId>
+          </Reference>
+          <Reference IsOneWay="true">
+            <ReferenceType>tns:HasEffect</ReferenceType>
+            <TargetId>tns:TransitionEventType</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:ReadTransferToIdle" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_ReadTransfer</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_Idle</TargetId>
+          </Reference>
+          <Reference IsOneWay="true">
+            <ReferenceType>tns:HasEffect</ReferenceType>
+            <TargetId>tns:TransitionEventType</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:IdleToApplyWrite" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_Idle</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_ApplyWrite</TargetId>
+          </Reference>
+          <Reference IsOneWay="true">
+            <ReferenceType>tns:HasEffect</ReferenceType>
+            <TargetId>tns:TransitionEventType</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:ApplyWriteToIdle" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_ApplyWrite</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_Idle</TargetId>
+          </Reference>
+          <Reference IsOneWay="true">
+            <ReferenceType>tns:HasEffect</ReferenceType>
+            <TargetId>tns:TransitionEventType</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:ReadPrepareToError" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_ReadPrepare</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_Error</TargetId>
+          </Reference>
+          <Reference IsOneWay="true">
+            <ReferenceType>tns:HasEffect</ReferenceType>
+            <TargetId>tns:TransitionEventType</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:ReadTransferToError" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_ReadTransfer</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_Error</TargetId>
+          </Reference>
+          <Reference IsOneWay="true">
+            <ReferenceType>tns:HasEffect</ReferenceType>
+            <TargetId>tns:TransitionEventType</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:ApplyWriteToError" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_ApplyWrite</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_Error</TargetId>
+          </Reference>
+          <Reference IsOneWay="true">
+            <ReferenceType>tns:HasEffect</ReferenceType>
+            <TargetId>tns:TransitionEventType</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:ErrorToIdle" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_Error</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:FileTransferStateMachineType_Idle</TargetId>
+          </Reference>
+          <Reference IsOneWay="true">
+            <ReferenceType>tns:HasEffect</ReferenceType>
+            <TargetId>tns:TransitionEventType</TargetId>
+          </Reference>
+        </References>
+      </Object>
       <Method SymbolicName="tns:Reset" />
     </Children>
   </ObjectType>
@@ -5381,7 +5516,7 @@
       </Field>
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:PermissionType" SymbolicId="tns:PermissionType" PartNo="3" BaseType="tns:UInt16" IsOptionSet="true" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:PermissionType" SymbolicId="tns:PermissionType" PartNo="3" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
     <Fields>
       <Field Name="None" BitMask="0000" />
       <Field Name="Browse" BitMask="0001" />
@@ -5424,12 +5559,12 @@
       <Field Name="HistoryWrite" BitMask="0010" />
       <Field Name="StatusWrite" BitMask="0020" />
       <Field Name="TimestampWrite" BitMask="0040" />
-      <Field Name="NonatomicRead" BitMask="010000" />
-      <Field Name="NonatomicWrite" BitMask="020000" />
-      <Field Name="WriteFullArrayOnly" BitMask="040000" />
+      <Field Name="NonatomicRead" BitMask="000100" />
+      <Field Name="NonatomicWrite" BitMask="000200" />
+      <Field Name="WriteFullArrayOnly" BitMask="000400" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:EventNotifierType" SymbolicId="tns:EventNotifierType" PartNo="3" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:EventNotifierType" SymbolicId="tns:EventNotifierType" PartNo="3" BaseType="tns:Byte" IsOptionSet="true" NoArraysAllowed="true">
     <Fields>
       <Field Name="None" BitMask="0000" />
       <Field Name="SubscribeToEvents" BitMask="0001" />
@@ -5442,13 +5577,13 @@
       <Field Name="None" BitMask="0000" />
       <Field Name="SigningRequired" BitMask="0001" />
       <Field Name="EncryptionRequired" BitMask="0002" />
-      <Field Name="SessionRequired " BitMask="0004" />
+      <Field Name="SessionRequired" BitMask="0004" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:RolePermissionType" SymbolicId="tns:RolePermissionType" PartNo="3" BaseType="tns:Structure">
     <Fields>
       <Field Name="RoleId" DataType="tns:NodeId" />
-      <Field Name="Permissions" DataType="tns:UInt32" />
+      <Field Name="Permissions" DataType="tns:PermissionType" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:DataTypeDefinition" SymbolicId="tns:DataTypeDefinition" PartNo="3" BaseType="tns:Structure" IsAbstract="true" />

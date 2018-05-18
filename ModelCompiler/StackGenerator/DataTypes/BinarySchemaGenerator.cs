@@ -261,6 +261,30 @@ namespace Opc.Ua.CodeGenerator
 
             if (enumeratedType != null)
             {
+                uint lengthInBits = 32;
+
+                if (enumeratedType.IsOptionSet)
+                {
+                    var baseType = Validator.ResolveType(enumeratedType.BaseType);
+
+                    if (baseType != null)
+                    {
+                        switch (baseType.Name)
+                        {
+                            case "SByte": { lengthInBits = 8; break; }
+                            case "Byte": { lengthInBits = 8; break; }
+                            case "Int16": { lengthInBits = 16; break; }
+                            case "UInt16": { lengthInBits = 16; break; }
+                            case "Int32": { lengthInBits = 32; break; }
+                            case "UInt32": { lengthInBits = 32; break; }
+                            case "Int64": { lengthInBits = 64; break; }
+                            case "UInt64": { lengthInBits = 64; break; }
+                        }
+                    }
+                }
+
+                template.AddReplacement("_LengthInBits_", lengthInBits);
+
                 AddTemplate(
                     template,
                     "<!-- ListOfValues -->",

@@ -471,7 +471,7 @@ namespace Opc.Ua.ModelCompiler
                     {
                         if (ii >= tokens.Count - 1)
                         {
-                            throw new ArgumentException("Incorrect number of parameters specified with the -stack option.");
+                            throw new ArgumentException("Incorrect number of parameters specified with the -ansic option.");
                         }
 
                         ansicRootDir = tokens[++ii];
@@ -548,7 +548,7 @@ namespace Opc.Ua.ModelCompiler
                 {
                     if (!new DirectoryInfo(ansicRootDir).Exists)
                     {
-                        throw new ArgumentException("The directory does not exist: " + stackRootDir);
+                        throw new ArgumentException("The directory does not exist: " + ansicRootDir);
                     }
 
                     StackGenerator.GenerateAnsiC(ansicRootDir);
