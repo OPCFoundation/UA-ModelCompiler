@@ -5635,13 +5635,40 @@ namespace Opc.Ua.ModelCompiler
 
                     if (root.BasicDataType == BasicDataType.Enumeration)
                     {
-                        exportedField = new DataTypeDefinitionField()
+                        if (root.IsOptionSet)
                         {
-                            Name = field.Name,
-                            DataType = NodeId.Null,
-                            ValueRank = ValueRanks.Scalar,
-                            Value = field.Identifier
-                        };
+                            long bit = 1;
+                            int value = 0;
+
+                            while (field.Identifier > 0 && bit <= UInt32.MaxValue)
+                            {
+                                if ((bit & (long)field.Identifier) != 0)
+                                {
+                                    break;
+                                }
+
+                                bit <<= 1;
+                                value++;
+                            }
+
+                            exportedField = new DataTypeDefinitionField()
+                            {
+                                Name = field.Name,
+                                DataType = NodeId.Null,
+                                ValueRank = ValueRanks.Scalar,
+                                Value = value
+                            };
+                        }
+                        else
+                        {
+                            exportedField = new DataTypeDefinitionField()
+                            {
+                                Name = field.Name,
+                                DataType = NodeId.Null,
+                                ValueRank = ValueRanks.Scalar,
+                                Value = field.Identifier
+                            };
+                        }
                     }
                     else
                     {
