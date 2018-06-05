@@ -59,7 +59,6 @@
   </opc:EnumeratedType>
 
   <opc:EnumeratedType Name="PermissionType" BaseType="s0:UInt32" IsOptionSet="true" PartNo="3">
-    <opc:Value Name="None" BitMask="0000" />
     <opc:Value Name="Browse" BitMask="0001" />
     <opc:Value Name="ReadRolePermissions" BitMask="0002" />
     <opc:Value Name="WriteAttribute" BitMask="0004" />
@@ -77,11 +76,9 @@
     <opc:Value Name="RemoveReference" BitMask="4000" />
     <opc:Value Name="DeleteNode" BitMask="8000" />
     <opc:Value Name="AddNode" BitMask="10000" />
-    <opc:Value Name="All" BitMask="1FFFF" />
   </opc:EnumeratedType>
   
   <opc:EnumeratedType Name="AccessLevelType" BaseType="s0:Byte" IsOptionSet="true" PartNo="3">
-    <opc:Value Name="None" BitMask="0000" />
     <opc:Value Name="CurrentRead" BitMask="0001" />
     <opc:Value Name="CurrentWrite" BitMask="0002" />
     <opc:Value Name="HistoryRead" BitMask="0004" />
@@ -91,7 +88,6 @@
   </opc:EnumeratedType>
 
   <opc:EnumeratedType Name="AccessLevelExType" IsOptionSet="true" PartNo="3">
-    <opc:Value Name="None" BitMask="0000" />
     <opc:Value Name="CurrentRead" BitMask="0001" />
     <opc:Value Name="CurrentWrite" BitMask="0002" />
     <opc:Value Name="HistoryRead" BitMask="0004" />
@@ -104,14 +100,12 @@
   </opc:EnumeratedType>
 
   <opc:EnumeratedType Name="EventNotifierType" BaseType="s0:Byte" IsOptionSet="true" PartNo="3">
-    <opc:Value Name="None" BitMask="0000" />
     <opc:Value Name="SubscribeToEvents" BitMask="0001" />
     <opc:Value Name="HistoryRead" BitMask="0004" />
     <opc:Value Name="HistoryWrite" BitMask="0008" />
   </opc:EnumeratedType>
   
   <opc:EnumeratedType Name="AccessRestrictionType" IsOptionSet="true" PartNo="3">
-    <opc:Value Name="None" BitMask="0000" />
     <opc:Value Name="SigningRequired" BitMask="0001" />
     <opc:Value Name="EncryptionRequired" BitMask="0002" />
     <opc:Value Name="SessionRequired" BitMask="0004" />
@@ -1441,9 +1435,6 @@
 
   <opc:EnumeratedType Name="AttributeWriteMask" PartNo="4" IsOptionSet="true">
     <opc:Documentation>Define bits used to indicate which attributes are writable.</opc:Documentation>
-    <opc:Value Name="None" BitMask="0000">
-      <opc:Documentation>No attributes are writable.</opc:Documentation>
-    </opc:Value>
     <opc:Value Name="AccessLevel" BitMask="0001">
       <opc:Documentation>The access level attribute is writable.</opc:Documentation>
     </opc:Value>

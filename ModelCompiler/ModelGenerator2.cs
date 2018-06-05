@@ -1366,28 +1366,6 @@ namespace Opc.Ua.ModelCompiler
                 template.AddReplacement("_BaseType_", GetBinaryDataType(dataType.BaseTypeNode as DataTypeDesign));
             }
 
-            if (dataType.BasicDataType == BasicDataType.Enumeration)
-            {
-                uint lengthInBits = 32;
-
-                if (dataType.IsOptionSet)
-                {
-                    switch (dataType.BaseType.Name)
-                    {
-                        case "SByte": { lengthInBits = 8; break; }
-                        case "Byte": { lengthInBits = 8; break; }
-                        case "Int16": { lengthInBits = 16; break; }
-                        case "UInt16": { lengthInBits = 16; break; }
-                        case "Int32": { lengthInBits = 32; break; }
-                        case "UInt32": { lengthInBits = 32; break; }
-                        case "Int64": { lengthInBits = 64; break; }
-                        case "UInt64": { lengthInBits = 64; break; }
-                    }
-                }
-
-                template.AddReplacement("_LengthInBits_", lengthInBits);
-            }
-
             List<Parameter> fields = new List<Parameter>();
             Stack<DataTypeDesign> parents = new Stack<DataTypeDesign>();
 
@@ -1425,6 +1403,42 @@ namespace Opc.Ua.ModelCompiler
                         ValueRank = field.ValueRank
                     });
                 }
+            }
+
+            if (dataType.BasicDataType == BasicDataType.Enumeration)
+            {
+                uint lengthInBits = 32;
+                bool isOptionSet = false;
+
+                if (dataType.IsOptionSet)
+                {
+                    isOptionSet = true;
+
+                    switch (dataType.BaseType.Name)
+                    {
+                        case "SByte": { lengthInBits = 8; break; }
+                        case "Byte": { lengthInBits = 8; break; }
+                        case "Int16": { lengthInBits = 16; break; }
+                        case "UInt16": { lengthInBits = 16; break; }
+                        case "Int32": { lengthInBits = 32; break; }
+                        case "UInt32": { lengthInBits = 32; break; }
+                        case "Int64": { lengthInBits = 64; break; }
+                        case "UInt64": { lengthInBits = 64; break; }
+                    }
+
+                    fields.Insert(0, new Parameter()
+                    {
+                        Name = "None",
+                        Identifier = 0,
+                        IdentifierSpecified = true,
+                        DataType = fields[0].DataType,
+                        DataTypeNode = fields[0].DataTypeNode,
+                        Parent = fields[0].Parent
+                    });
+                }
+
+                template.AddReplacement("_LengthInBits_", lengthInBits);
+                template.AddReplacement("_IsOptionSet_", (isOptionSet) ? " IsOptionSet=\"true\"" : "");
             }
 
             AddTemplate(
@@ -2417,6 +2431,29 @@ namespace Opc.Ua.ModelCompiler
                 if (!dataType.IsOptionSet)
                 {
                     template.AddReplacement("[Flags]", String.Empty);
+                }
+                else
+                {
+                    var first = (Parameter)children.GetValue(0);
+                    List<Parameter> clone = new List<Parameter>();
+
+                    clone.Add(new Parameter()
+                    {
+                        Name = "None",
+                        Identifier = 0,
+                        IdentifierSpecified = true,
+                        DataTypeNode = first.DataTypeNode,
+                        DataType = first.DataType,
+                        Parent = first.Parent,
+                        Description = new LocalizedText() {  Value = "No value specified." }
+                    });
+
+                    foreach (Parameter parameter in children)
+                    {
+                        clone.Add(parameter);
+                    }
+
+                    children = clone.ToArray();
                 }
 
                 AddTemplate(
@@ -4782,6 +4819,11 @@ namespace Opc.Ua.ModelCompiler
                     if (dataType.SymbolicId == new XmlQualifiedName("Enumeration", DefaultNamespace))
                     {
                         return "0";
+                    }
+
+                    if (dataType.IsOptionSet)
+                    {
+                        return Utils.Format("{0}.None", dataType.SymbolicName.Name);
                     }
 
                     return Utils.Format("{0}.{1}", dataType.SymbolicName.Name, dataType.Fields[0].Name);

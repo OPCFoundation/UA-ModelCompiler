@@ -1054,7 +1054,20 @@ namespace Opc.Ua.CodeGenerator
 
             if (enumeratedType != null)
             {
-                if (enumeratedType.Value != null && enumeratedType.Value.Length > 0)
+                List<EnumeratedValue> values = new List<EnumeratedValue>(enumeratedType.Value);
+
+                if (enumeratedType.IsOptionSet)
+                {
+                    template.AddReplacement("_DEFAULT_", String.Format("OpcUa_{0}_None", enumeratedType.Name));
+
+                    values.Insert(0, new EnumeratedValue()
+                    {
+                        Name = "None",
+                        Value = 0,
+                        ValueSpecified = true
+                    });
+                }
+                else if (enumeratedType.Value != null && enumeratedType.Value.Length > 0)
                 {
                     template.AddReplacement("_DEFAULT_", String.Format("OpcUa_{0}_{1}", enumeratedType.Name, enumeratedType.Value[0].Name));
                 }
@@ -1071,7 +1084,7 @@ namespace Opc.Ua.CodeGenerator
                     template,
                     "// _ValueStringList_",
                     TemplatePath + "Types.EnumeratedValue.c",
-                    enumeratedType.Value,
+                    values,
                     null,
                     new WriteTemplateEventHandler(WriteTemplate_EnumerationValue));
             }
@@ -1296,6 +1309,13 @@ namespace Opc.Ua.CodeGenerator
 
             if (enumeratedType.Value != null)
             {
+                if (enumeratedType.IsOptionSet)
+                {
+                    string name = String.Format("{0}_None", typeName);
+                    names.Add(name);
+                    values.Add("= 0");
+                }
+
                 foreach (EnumeratedValue value in enumeratedType.Value)
                 {
                     string name = String.Format("{0}_{1}", typeName, value.Name);

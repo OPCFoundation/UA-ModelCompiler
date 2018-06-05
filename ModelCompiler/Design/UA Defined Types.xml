@@ -5518,7 +5518,6 @@
   </DataType>
   <DataType SymbolicName="tns:PermissionType" SymbolicId="tns:PermissionType" PartNo="3" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
     <Fields>
-      <Field Name="None" BitMask="0000" />
       <Field Name="Browse" BitMask="0001" />
       <Field Name="ReadRolePermissions" BitMask="0002" />
       <Field Name="WriteAttribute" BitMask="0004" />
@@ -5536,12 +5535,10 @@
       <Field Name="RemoveReference" BitMask="4000" />
       <Field Name="DeleteNode" BitMask="8000" />
       <Field Name="AddNode" BitMask="10000" />
-      <Field Name="All" BitMask="1FFFF" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:AccessLevelType" SymbolicId="tns:AccessLevelType" PartNo="3" BaseType="tns:Byte" IsOptionSet="true" NoArraysAllowed="true">
     <Fields>
-      <Field Name="None" BitMask="0000" />
       <Field Name="CurrentRead" BitMask="0001" />
       <Field Name="CurrentWrite" BitMask="0002" />
       <Field Name="HistoryRead" BitMask="0004" />
@@ -5552,7 +5549,6 @@
   </DataType>
   <DataType SymbolicName="tns:AccessLevelExType" SymbolicId="tns:AccessLevelExType" PartNo="3" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
     <Fields>
-      <Field Name="None" BitMask="0000" />
       <Field Name="CurrentRead" BitMask="0001" />
       <Field Name="CurrentWrite" BitMask="0002" />
       <Field Name="HistoryRead" BitMask="0004" />
@@ -5566,7 +5562,6 @@
   </DataType>
   <DataType SymbolicName="tns:EventNotifierType" SymbolicId="tns:EventNotifierType" PartNo="3" BaseType="tns:Byte" IsOptionSet="true" NoArraysAllowed="true">
     <Fields>
-      <Field Name="None" BitMask="0000" />
       <Field Name="SubscribeToEvents" BitMask="0001" />
       <Field Name="HistoryRead" BitMask="0004" />
       <Field Name="HistoryWrite" BitMask="0008" />
@@ -5574,7 +5569,6 @@
   </DataType>
   <DataType SymbolicName="tns:AccessRestrictionType" SymbolicId="tns:AccessRestrictionType" PartNo="3" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
     <Fields>
-      <Field Name="None" BitMask="0000" />
       <Field Name="SigningRequired" BitMask="0001" />
       <Field Name="EncryptionRequired" BitMask="0002" />
       <Field Name="SessionRequired" BitMask="0004" />
@@ -6974,9 +6968,6 @@
   <DataType SymbolicName="tns:AttributeWriteMask" SymbolicId="tns:AttributeWriteMask" PartNo="4" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
     <Description>Define bits used to indicate which attributes are writable.</Description>
     <Fields>
-      <Field Name="None" BitMask="0000">
-        <Description>No attributes are writable.</Description>
-      </Field>
       <Field Name="AccessLevel" BitMask="0001">
         <Description>The access level attribute is writable.</Description>
       </Field>

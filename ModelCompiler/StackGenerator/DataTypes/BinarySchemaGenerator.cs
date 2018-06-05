@@ -262,9 +262,13 @@ namespace Opc.Ua.CodeGenerator
             if (enumeratedType != null)
             {
                 uint lengthInBits = 32;
+                bool isOptionSet = false;
+                List<EnumeratedValue> values = new List<EnumeratedValue>(enumeratedType.Value);
 
                 if (enumeratedType.IsOptionSet)
                 {
+                    isOptionSet = true;
+
                     var baseType = Validator.ResolveType(enumeratedType.BaseType);
 
                     if (baseType != null)
@@ -281,15 +285,23 @@ namespace Opc.Ua.CodeGenerator
                             case "UInt64": { lengthInBits = 64; break; }
                         }
                     }
+
+                    values.Add(new EnumeratedValue()
+                    {
+                        Name = "None",
+                        Value = 0,
+                        ValueSpecified = true
+                    });
                 }
 
                 template.AddReplacement("_LengthInBits_", lengthInBits);
+                template.AddReplacement("_IsOptionSet_", (isOptionSet) ? " IsOptionSet=\"true\"" : "");
 
                 AddTemplate(
                     template,
                     "<!-- ListOfValues -->",
                     TemplatePath + "EnumeratedValue.xml",
-                    enumeratedType.Value,
+                    values,
                     new LoadTemplateEventHandler(LoadTemplate_EnumeratedValue),
                     null);
             }
