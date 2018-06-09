@@ -720,6 +720,7 @@ namespace Opc.Ua.ModelCompiler
             {
                 switch (dataType.NumericId)
                 {
+                    case DataTypes.PermissionType:
                     case DataTypes.RolePermissionType:
                     case DataTypes.DataTypeDefinition:
                     case DataTypes.StructureDefinition:
