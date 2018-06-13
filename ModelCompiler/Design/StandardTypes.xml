@@ -8,7 +8,7 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
   TargetVersion="1.04"
-  TargetPublicationDate="2018-06-04T00:00:00Z"
+  TargetPublicationDate="2018-06-12T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -29,7 +29,7 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:String>2018-06-04</uax:String>
+          <uax:String>2018-06-12</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -263,7 +263,7 @@
       <opc:Variable SymbolicName="VendorCapability_Placeholder" TypeDefinition="ServerVendorCapabilityType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;VendorCapability&gt;</opc:BrowseName>
       </opc:Variable>
-      <opc:Object SymbolicName="Roles" TypeDefinition="RoleSetType" ModellingRule="Optional">
+      <opc:Object SymbolicName="RoleSet" TypeDefinition="RoleSetType" ModellingRule="Optional">
         <opc:Description>Describes the roles supported by the server.</opc:Description>
       </opc:Object>
     </opc:Children>
@@ -999,7 +999,7 @@
               <opc:Property SymbolicName="MaxMonitoredItemsPerCall" ModellingRule="Mandatory" />
             </opc:Children>
           </opc:Object>
-          <opc:Object SymbolicName="Roles" ModellingRule="Mandatory" />
+          <opc:Object SymbolicName="RoleSet" ModellingRule="Mandatory" />
         </opc:Children>
       </opc:Object>
       <opc:Object SymbolicName="ServerDiagnostics">
@@ -1659,7 +1659,7 @@
     <opc:Description>The Role has very limited access for use when a Session has anonymous credentials.</opc:Description>
     <opc:Children>
       <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />Server_ServerCapabilities_RoleSet
       <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
@@ -1672,7 +1672,7 @@
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:Server_ServerCapabilities_Roles</opc:TargetId>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
   </opc:Object>
@@ -1696,7 +1696,7 @@
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:Server_ServerCapabilities_Roles</opc:TargetId>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
   </opc:Object>
@@ -1720,7 +1720,7 @@
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:Server_ServerCapabilities_Roles</opc:TargetId>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
   </opc:Object>
@@ -1744,7 +1744,7 @@
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:Server_ServerCapabilities_Roles</opc:TargetId>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
   </opc:Object>
@@ -1768,7 +1768,7 @@
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:Server_ServerCapabilities_Roles</opc:TargetId>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
   </opc:Object>
@@ -1792,7 +1792,7 @@
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:Server_ServerCapabilities_Roles</opc:TargetId>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
   </opc:Object>
@@ -1816,7 +1816,7 @@
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:Server_ServerCapabilities_Roles</opc:TargetId>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
   </opc:Object>
@@ -1840,7 +1840,7 @@
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:Server_ServerCapabilities_Roles</opc:TargetId>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
   </opc:Object>
@@ -1870,6 +1870,22 @@
       <opc:Property SymbolicName="InstrumentRange" DataType="Range" ModellingRule="Optional" />
       <opc:Property SymbolicName="EURange" DataType="Range" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EngineeringUnits" DataType="EUInformation" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:VariableType>
+
+  <opc:VariableType SymbolicName="EUItemType" BaseType="DataItemType" DataType="ua:Number" PartNo="8">
+    <opc:Children>
+      <opc:Property SymbolicName="InstrumentRange" DataType="Range" ModellingRule="Optional" />
+      <opc:Property SymbolicName="EURange" DataType="Range" ModellingRule="Optional" />
+      <opc:Property SymbolicName="EngineeringUnits" DataType="EUInformation" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:VariableType>
+
+  <opc:VariableType SymbolicName="AnalogUnitItemType" BaseType="DataItemType" DataType="ua:Number" PartNo="8">
+    <opc:Children>
+      <opc:Property SymbolicName="InstrumentRange" DataType="Range" ModellingRule="Optional" />
+      <opc:Property SymbolicName="EURange" DataType="Range" ModellingRule="Optional" />
+      <opc:Property SymbolicName="EngineeringUnits" DataType="EUInformation" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:VariableType>
 
@@ -4095,7 +4111,7 @@
       <opc:Field Name="PublishingInterval" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="KeepAliveTime" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Priority" DataType="ua:Byte" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="LocaleIds" DataType="ua:String" ValueRank="Array"></opc:Field>
+      <opc:Field Name="LocaleIds" DataType="ua:LocaleId" ValueRank="Array"></opc:Field>
       <opc:Field Name="TransportSettings" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="MessageSettings" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetWriters" DataType="DataSetWriterDataType" ValueRank="Array"></opc:Field>

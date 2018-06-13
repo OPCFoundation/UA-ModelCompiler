@@ -64871,7 +64871,7 @@ namespace Opc.Ua
         /// <summary>
         /// The BrowseName for the Roles component.
         /// </summary>
-        public const string Roles = "Roles";
+        public const string RoleSet = "RoleSet";
 
         /// <summary>
         /// The BrowseName for the RoleSetType component.

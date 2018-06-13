@@ -1972,7 +1972,7 @@ namespace Opc.Ua
                     break;
                 }
 
-                case Opc.Ua.BrowseNames.Roles:
+                case Opc.Ua.BrowseNames.RoleSet:
                 {
                     if (createOrReplace)
                     {

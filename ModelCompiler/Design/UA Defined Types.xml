@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04" TargetPublicationDate="2018-06-04T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04" TargetPublicationDate="2018-06-12T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -440,6 +440,18 @@
       </Reference>
     </References>
   </Object>
+  <ReferenceType SymbolicName="tns:DescribesArgument" PartNo="3" BaseType="tns:HasComponent">
+    <InverseName>ArgumentDescriptionFor</InverseName>
+  </ReferenceType>
+  <ReferenceType SymbolicName="tns:DescribesInputArgument" PartNo="3" BaseType="tns:DescribesArgument">
+    <InverseName>InputArgumentDescriptionFor</InverseName>
+  </ReferenceType>
+  <ReferenceType SymbolicName="tns:DescribesOptionalInputArgument" PartNo="3" BaseType="tns:DescribesArgument">
+    <InverseName>OptionalInputArgumentDescriptionFor</InverseName>
+  </ReferenceType>
+  <ReferenceType SymbolicName="tns:DescribesOutputArgument" PartNo="3" BaseType="tns:DescribesArgument">
+    <InverseName>OutputArgumentDescriptionFor</InverseName>
+  </ReferenceType>
   <Object SymbolicName="tns:OPCUANamespaceMetadata" PartNo="5" TypeDefinition="tns:NamespaceMetadataType">
     <BrowseName>http://opcfoundation.org/UA/</BrowseName>
     <Children>
@@ -455,7 +467,7 @@
       </Property>
       <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
         <DefaultValue>
-          <uax:String>2018-06-04</uax:String>
+          <uax:String>2018-06-12</uax:String>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
@@ -661,7 +673,7 @@
       <Variable SymbolicName="tns:VendorCapability_Placeholder" TypeDefinition="tns:ServerVendorCapabilityType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;VendorCapability&gt;</BrowseName>
       </Variable>
-      <Object SymbolicName="tns:Roles" TypeDefinition="tns:RoleSetType" ModellingRule="Optional">
+      <Object SymbolicName="tns:RoleSet" TypeDefinition="tns:RoleSetType" ModellingRule="Optional">
         <Description>Describes the roles supported by the server.</Description>
       </Object>
     </Children>
@@ -1309,7 +1321,7 @@
               <Property SymbolicName="tns:MaxMonitoredItemsPerCall" ModellingRule="Mandatory" />
             </Children>
           </Object>
-          <Object SymbolicName="tns:Roles" ModellingRule="Mandatory" />
+          <Object SymbolicName="tns:RoleSet" ModellingRule="Mandatory" />
         </Children>
       </Object>
       <Object SymbolicName="tns:ServerDiagnostics">
@@ -1864,7 +1876,7 @@
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
-        <TargetId>tns:Server_ServerCapabilities_Roles</TargetId>
+        <TargetId>tns:Server_ServerCapabilities_RoleSet</TargetId>
       </Reference>
     </References>
   </Object>
@@ -1887,7 +1899,7 @@
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
-        <TargetId>tns:Server_ServerCapabilities_Roles</TargetId>
+        <TargetId>tns:Server_ServerCapabilities_RoleSet</TargetId>
       </Reference>
     </References>
   </Object>
@@ -1910,7 +1922,7 @@
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
-        <TargetId>tns:Server_ServerCapabilities_Roles</TargetId>
+        <TargetId>tns:Server_ServerCapabilities_RoleSet</TargetId>
       </Reference>
     </References>
   </Object>
@@ -1933,7 +1945,7 @@
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
-        <TargetId>tns:Server_ServerCapabilities_Roles</TargetId>
+        <TargetId>tns:Server_ServerCapabilities_RoleSet</TargetId>
       </Reference>
     </References>
   </Object>
@@ -1956,7 +1968,7 @@
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
-        <TargetId>tns:Server_ServerCapabilities_Roles</TargetId>
+        <TargetId>tns:Server_ServerCapabilities_RoleSet</TargetId>
       </Reference>
     </References>
   </Object>
@@ -1979,7 +1991,7 @@
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
-        <TargetId>tns:Server_ServerCapabilities_Roles</TargetId>
+        <TargetId>tns:Server_ServerCapabilities_RoleSet</TargetId>
       </Reference>
     </References>
   </Object>
@@ -2002,7 +2014,7 @@
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
-        <TargetId>tns:Server_ServerCapabilities_Roles</TargetId>
+        <TargetId>tns:Server_ServerCapabilities_RoleSet</TargetId>
       </Reference>
     </References>
   </Object>
@@ -2025,7 +2037,7 @@
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
-        <TargetId>tns:Server_ServerCapabilities_Roles</TargetId>
+        <TargetId>tns:Server_ServerCapabilities_RoleSet</TargetId>
       </Reference>
     </References>
   </Object>
@@ -2051,6 +2063,20 @@
       <Property SymbolicName="tns:InstrumentRange" ModellingRule="Optional" DataType="tns:Range" />
       <Property SymbolicName="tns:EURange" ModellingRule="Mandatory" DataType="tns:Range" />
       <Property SymbolicName="tns:EngineeringUnits" ModellingRule="Optional" DataType="tns:EUInformation" />
+    </Children>
+  </VariableType>
+  <VariableType SymbolicName="tns:EUItemType" PartNo="8" BaseType="tns:DataItemType" DataType="tns:Number">
+    <Children>
+      <Property SymbolicName="tns:InstrumentRange" ModellingRule="Optional" DataType="tns:Range" />
+      <Property SymbolicName="tns:EURange" ModellingRule="Optional" DataType="tns:Range" />
+      <Property SymbolicName="tns:EngineeringUnits" ModellingRule="Optional" DataType="tns:EUInformation" />
+    </Children>
+  </VariableType>
+  <VariableType SymbolicName="tns:AnalogUnitItemType" PartNo="8" BaseType="tns:DataItemType" DataType="tns:Number">
+    <Children>
+      <Property SymbolicName="tns:InstrumentRange" ModellingRule="Optional" DataType="tns:Range" />
+      <Property SymbolicName="tns:EURange" ModellingRule="Optional" DataType="tns:Range" />
+      <Property SymbolicName="tns:EngineeringUnits" ModellingRule="Mandatory" DataType="tns:EUInformation" />
     </Children>
   </VariableType>
   <VariableType SymbolicName="tns:DiscreteItemType" PartNo="8" BaseType="tns:DataItemType" IsAbstract="true" />
@@ -4084,7 +4110,7 @@
       <Field Name="PublishingInterval" DataType="tns:Duration" />
       <Field Name="KeepAliveTime" DataType="tns:Duration" />
       <Field Name="Priority" DataType="tns:Byte" />
-      <Field Name="LocaleIds" DataType="tns:String" ValueRank="Array" />
+      <Field Name="LocaleIds" DataType="tns:LocaleId" ValueRank="Array" />
       <Field Name="TransportSettings" DataType="tns:Structure" />
       <Field Name="MessageSettings" DataType="tns:Structure" />
       <Field Name="DataSetWriters" DataType="tns:DataSetWriterDataType" ValueRank="Array" />
