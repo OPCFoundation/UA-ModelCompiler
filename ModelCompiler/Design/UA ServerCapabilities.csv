@@ -29,5 +29,5 @@ MIMOSA,Supports the MIMOSA information model.
 WITSML,Supports the WITSML information model.
 DEXPI,Supports the DEXPI information model.
 IOLINK,Supports the IOLINK information model.
-ROBOT,Supports the VDMA ROBOTICS information model.
+VROBOT,Supports the VDMA ROBOTICS information model.
 PNO,Supports the ProfiNET information model.
