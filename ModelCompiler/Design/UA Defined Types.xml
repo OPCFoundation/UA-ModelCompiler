@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04" TargetPublicationDate="2018-06-12T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04" TargetPublicationDate="2018-06-20T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -446,7 +446,7 @@
   <ReferenceType SymbolicName="tns:DescribesInputArgument" PartNo="3" BaseType="tns:DescribesArgument">
     <InverseName>InputArgumentDescriptionFor</InverseName>
   </ReferenceType>
-  <ReferenceType SymbolicName="tns:DescribesOptionalInputArgument" PartNo="3" BaseType="tns:DescribesArgument">
+  <ReferenceType SymbolicName="tns:DescribesOptionalInputArgument" PartNo="3" BaseType="tns:DescribesInputArgument">
     <InverseName>OptionalInputArgumentDescriptionFor</InverseName>
   </ReferenceType>
   <ReferenceType SymbolicName="tns:DescribesOutputArgument" PartNo="3" BaseType="tns:DescribesArgument">
@@ -3732,13 +3732,25 @@
       </Reference>
     </References>
   </Object>
-  <Object SymbolicName="tns:KeyCredentialConfiguration" TypeDefinition="tns:FolderType">
+  <Method SymbolicName="tns:CreateCredentialMethodType">
+    <InputArguments>
+      <Argument Name="ResourceUri" DataType="tns:String" />
+      <Argument Name="ProfileUri" DataType="tns:String" />
+      <Argument Name="EndpointUrls" DataType="tns:String" ValueRank="Array" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="ObjectId" DataType="tns:NodeId" />
+    </OutputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:KeyCredentialConfigurationFolderType" BaseType="tns:FolderType">
     <Children>
       <Object SymbolicName="tns:ServiceName_Placeholder" TypeDefinition="tns:KeyCredentialConfigurationType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;ServiceName&gt;</BrowseName>
-        <ReferenceType>tns:Organizes</ReferenceType>
       </Object>
+      <Method SymbolicName="tns:CreateCredential" TypeDefinition="tns:CreateCredentialMethodType" ModellingRule="Optional" />
     </Children>
+  </ObjectType>
+  <Object SymbolicName="tns:KeyCredentialConfiguration" TypeDefinition="tns:KeyCredentialConfigurationFolderType">
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:HasComponent</ReferenceType>
@@ -3746,12 +3758,23 @@
       </Reference>
     </References>
   </Object>
+  <Method SymbolicName="tns:GetEncryptingKeyMethodType">
+    <InputArguments>
+      <Argument Name="CredentialId" DataType="tns:String" />
+      <Argument Name="RequestedSecurityPolicyUri" DataType="tns:String" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="PublicKey" DataType="tns:ByteString" />
+      <Argument Name="RevisedSecurityPolicyUri" DataType="tns:NodeId" />
+    </OutputArguments>
+  </Method>
   <ObjectType SymbolicName="tns:KeyCredentialConfigurationType" BaseType="tns:BaseObjectType">
     <Children>
       <Property SymbolicName="tns:ResourceUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
       <Property SymbolicName="tns:ProfileUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
       <Property SymbolicName="tns:EndpointUrls" ModellingRule="Optional" DataType="tns:String" ValueRank="Array" />
       <Property SymbolicName="tns:ServiceStatus" ModellingRule="Optional" DataType="tns:StatusCode" ValueRank="Scalar" />
+      <Method SymbolicName="tns:GetEncryptingKey" TypeDefinition="tns:GetEncryptingKeyMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:UpdateCredential" TypeDefinition="tns:KeyCredentialUpdateMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:DeleteCredential" ModellingRule="Optional" />
     </Children>

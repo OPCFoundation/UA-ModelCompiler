@@ -8,7 +8,7 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
   TargetVersion="1.04"
-  TargetPublicationDate="2018-06-12T00:00:00Z"
+  TargetPublicationDate="2018-06-20T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -3663,14 +3663,28 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
+  
+  <opc:Method SymbolicName="CreateCredentialMethodType">
+    <opc:InputArguments>
+      <opc:Argument Name="ResourceUri" DataType="ua:String" />
+      <opc:Argument Name="ProfileUri" DataType="ua:String" />
+      <opc:Argument Name="EndpointUrls" DataType="ua:String" ValueRank="Array"></opc:Argument>
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="ObjectId" DataType="ua:NodeId"></opc:Argument>
+    </opc:OutputArguments>
+  </opc:Method>
 
-  <opc:Object SymbolicName="KeyCredentialConfiguration" TypeDefinition="ua:FolderType">
+  <opc:ObjectType SymbolicName="KeyCredentialConfigurationFolderType" BaseType="ua:FolderType">
     <opc:Children>
       <opc:Object SymbolicName="ServiceName_Placeholder" TypeDefinition="KeyCredentialConfigurationType"  ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ServiceName&gt;</opc:BrowseName>
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
+      <opc:Method SymbolicName="CreateCredential" TypeDefinition="CreateCredentialMethodType" ModellingRule="Optional" />
     </opc:Children>
+  </opc:ObjectType>
+
+  <opc:Object SymbolicName="KeyCredentialConfiguration" TypeDefinition="KeyCredentialConfigurationFolderType">
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
@@ -3678,13 +3692,25 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
-  
+
+  <opc:Method SymbolicName="GetEncryptingKeyMethodType">
+    <opc:InputArguments>
+      <opc:Argument Name="CredentialId" DataType="ua:String" />
+      <opc:Argument Name="RequestedSecurityPolicyUri" DataType="ua:String" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="PublicKey" DataType="ua:ByteString"></opc:Argument>
+      <opc:Argument Name="RevisedSecurityPolicyUri" DataType="ua:NodeId"></opc:Argument>
+    </opc:OutputArguments>
+  </opc:Method>
+
   <opc:ObjectType SymbolicName="KeyCredentialConfigurationType" BaseType="ua:BaseObjectType">
     <opc:Children>
       <opc:Property SymbolicName="ResourceUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ProfileUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EndpointUrls"  DataType="ua:String" ValueRank="Array" ModellingRule="Optional" />
       <opc:Property SymbolicName="ServiceStatus"  DataType="ua:StatusCode" ValueRank="Scalar" ModellingRule="Optional" />
+      <opc:Method SymbolicName="GetEncryptingKey" TypeDefinition="GetEncryptingKeyMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="UpdateCredential" TypeDefinition="KeyCredentialUpdateMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="DeleteCredential" ModellingRule="Optional" />
     </opc:Children>

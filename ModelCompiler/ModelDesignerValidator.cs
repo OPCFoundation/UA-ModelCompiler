@@ -347,7 +347,7 @@ namespace Opc.Ua.ModelCompiler
             }
             else
             {
-                if (!modelInfo.PublicationDateSpecified || (dictionary.TargetPublicationDateSpecified && modelInfo.PublicationDate < dictionary.TargetPublicationDate))
+                if (!modelInfo.PublicationDateSpecified)
                 {
                     modelInfo.Version = dictionary.TargetVersion;
                     modelInfo.PublicationDate = dictionary.TargetPublicationDate;
