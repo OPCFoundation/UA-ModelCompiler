@@ -277,12 +277,12 @@ namespace Opc.Ua.ModelCompiler
 
             if (!File.Exists(designFilePath))
             {
-                designFilePath = Utils.Format("{0}\\{1}", targetFile.DirectoryName, designFileName);
+                designFilePath = Path.Combine(targetFile.DirectoryName, designFileName);
                 Console.WriteLine("Trying file: " + designFilePath);
 
                 if (!File.Exists(designFilePath))
                 {
-                    designFilePath = Utils.Format(".\\Design\\{0}", designFileName);
+                    designFilePath = Path.Combine(".", "Design", designFileName);
                     Console.WriteLine("Trying file: " + designFilePath);
 
                     if (!File.Exists(designFilePath))
@@ -408,12 +408,12 @@ namespace Opc.Ua.ModelCompiler
 
             if (!File.Exists(identifiersFilePath))
             {
-                identifiersFilePath = Utils.Format("{0}\\{1}", targetFile.DirectoryName, identifiersFileName);
+                identifiersFilePath = Path.Combine(targetFile.DirectoryName, identifiersFileName);
                 Console.WriteLine("Trying file: " + identifiersFilePath);
 
                 if (!File.Exists(identifiersFilePath))
                 {
-                    identifiersFilePath = Utils.Format(".\\Design\\{0}", identifiersFileName);
+                    identifiersFilePath = Path.Combine(".", "Design", identifiersFileName);
                     Console.WriteLine("Trying file: " + identifiersFilePath);
 
                     if (!File.Exists(identifiersFilePath))
