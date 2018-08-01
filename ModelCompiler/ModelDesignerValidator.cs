@@ -263,7 +263,7 @@ namespace Opc.Ua.ModelCompiler
         /// </summary>
         /// <param name="targetFile">The type file being loaded.</param>
         /// <param name="ns">The namespace being reference.</param>
-        private void LoadIncludedDesignFile(ModelDesign parent, FileInfo targetFile, string designFileName)
+        private void LoadIncludedDesignFile(ModelDesign parent, FileInfo targetFile, string designFileName, string publicationDate)
         {
             // determine the file location.
             bool isResource = false;
@@ -355,6 +355,12 @@ namespace Opc.Ua.ModelCompiler
                 }
             }
 
+            if (!String.IsNullOrEmpty(publicationDate))
+            {
+                modelInfo.PublicationDate = XmlConvert.ToDateTime(publicationDate, XmlDateTimeSerializationMode.Utc);
+                modelInfo.PublicationDateSpecified = true;
+            }
+
             // load any included design files.
             if (dictionary.Namespaces != null)
             {
@@ -372,7 +378,7 @@ namespace Opc.Ua.ModelCompiler
                         continue;
                     }
 
-                    LoadIncludedDesignFile(dictionary, new FileInfo(designFilePath), ns.FilePath);
+                    LoadIncludedDesignFile(dictionary, new FileInfo(designFilePath), ns.FilePath, ns.PublicationDate);
                 }
             }
 
@@ -1024,7 +1030,7 @@ namespace Opc.Ua.ModelCompiler
                         continue;
                     }
 
-                    LoadIncludedDesignFile(dictionary, new FileInfo(inputPath), ns.FilePath);
+                    LoadIncludedDesignFile(dictionary, new FileInfo(inputPath), ns.FilePath, ns.PublicationDate);
                 }
             }
 

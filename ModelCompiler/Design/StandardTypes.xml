@@ -8,7 +8,7 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
   TargetVersion="1.04"
-  TargetPublicationDate="2018-06-20T00:00:00Z"
+  TargetPublicationDate="2018-07-31T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -29,7 +29,7 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:String>2018-06-12</uax:String>
+          <uax:DateTime>2018-07-31</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -1659,7 +1659,7 @@
     <opc:Description>The Role has very limited access for use when a Session has anonymous credentials.</opc:Description>
     <opc:Children>
       <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />Server_ServerCapabilities_RoleSet
+      <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
@@ -4041,7 +4041,7 @@
 
   <opc:DataType SymbolicName="DataSetFieldFlags" BaseType="ua:UInt16" IsOptionSet="true" NoArraysAllowed="true" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="PromotedField" Identifier="1"></opc:Field>
+      <opc:Field Name="PromotedField" BitMask="0001"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -4404,6 +4404,7 @@
       <opc:Field Name="QueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="ResourceUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="AuthenticationProfileUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="RequestedDeliveryGuarantee" DataType="BrokerTransportQualityOfService" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="MetaDataQueueName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="MetaDataUpdateTime" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
     </opc:Fields>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04" TargetPublicationDate="2018-06-20T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04" TargetPublicationDate="2018-07-31T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -467,7 +467,7 @@
       </Property>
       <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
         <DefaultValue>
-          <uax:String>2018-06-12</uax:String>
+          <uax:DateTime>2018-07-31</uax:DateTime>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
@@ -4048,7 +4048,7 @@
   </DataType>
   <DataType SymbolicName="tns:DataSetFieldFlags" PartNo="14" BaseType="tns:UInt16" IsOptionSet="true" NoArraysAllowed="true">
     <Fields>
-      <Field Name="PromotedField" Identifier="1" />
+      <Field Name="PromotedField" BitMask="0001" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ConfigurationVersionDataType" PartNo="14" BaseType="tns:Structure">
@@ -4368,6 +4368,7 @@
       <Field Name="QueueName" DataType="tns:String" />
       <Field Name="ResourceUri" DataType="tns:String" />
       <Field Name="AuthenticationProfileUri" DataType="tns:String" />
+      <Field Name="RequestedDeliveryGuarantee" DataType="tns:BrokerTransportQualityOfService" />
       <Field Name="MetaDataQueueName" DataType="tns:String" />
       <Field Name="MetaDataUpdateTime" DataType="tns:Duration" />
     </Fields>
