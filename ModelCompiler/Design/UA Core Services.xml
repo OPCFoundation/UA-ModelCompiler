@@ -82,7 +82,8 @@
     <opc:Value Name="CurrentRead" BitMask="0001" />
     <opc:Value Name="CurrentWrite" BitMask="0002" />
     <opc:Value Name="HistoryRead" BitMask="0004" />
-    <opc:Value Name="HistoryWrite" BitMask="0010" />
+    <opc:Value Name="HistoryWrite" BitMask="0008" />
+    <opc:Value Name="SemanticChange" BitMask="0010" />
     <opc:Value Name="StatusWrite" BitMask="0020" />
     <opc:Value Name="TimestampWrite" BitMask="0040" />
   </opc:EnumeratedType>
@@ -91,7 +92,8 @@
     <opc:Value Name="CurrentRead" BitMask="0001" />
     <opc:Value Name="CurrentWrite" BitMask="0002" />
     <opc:Value Name="HistoryRead" BitMask="0004" />
-    <opc:Value Name="HistoryWrite" BitMask="0010" />
+    <opc:Value Name="HistoryWrite" BitMask="0008" />
+    <opc:Value Name="SemanticChange" BitMask="0010" />
     <opc:Value Name="StatusWrite" BitMask="0020" />
     <opc:Value Name="TimestampWrite" BitMask="0040" />
     <opc:Value Name="NonatomicRead" BitMask="000100" />
