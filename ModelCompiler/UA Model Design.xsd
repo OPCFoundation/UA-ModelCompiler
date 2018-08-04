@@ -287,6 +287,18 @@
       </xs:annotation>
     </xs:attribute>
 
+    <xs:attribute name="Category" type="xs:string" use="optional" default="">
+      <xs:annotation>
+        <xs:documentation>
+          <html:p>
+            A comment seperated list of categories assigned to the node (e.g. Part4/Services or Part5/StateMachines).
+          </html:p>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+
+    <xs:attribute name="NotInAddressSpace" type="xs:boolean" use="optional" default="false" />
+
   </xs:complexType>
 
   <xs:complexType name="TypeDesign">
@@ -397,7 +409,6 @@
         </xs:sequence>
         <xs:attribute name="IsOptionSet" type="xs:boolean" use="optional" default="false" />
         <xs:attribute name="NoArraysAllowed" type="xs:boolean" use="optional" default="false" />
-        <xs:attribute name="NotInAddressSpace" type="xs:boolean" use="optional" default="false" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

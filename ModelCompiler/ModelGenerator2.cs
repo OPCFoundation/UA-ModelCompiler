@@ -140,21 +140,11 @@ namespace Opc.Ua.ModelCompiler
 
             for (int ii = 0; ii < m_model.Items.Length; ii++)
             {
-                DataTypeDesign design = m_model.Items[ii] as DataTypeDesign;
-
-                if (design != null)
-                {
-                    if (design.NotInAddressSpace)
-                    {
-                        continue;
-                    }
-                }
-
                 InstanceDesign design2 = m_model.Items[ii] as InstanceDesign;
 
                 if (design2 != null)
                 {
-                    if (design2.NotInAddressSpace)
+                    if (design2.NotInAddressSpace && design2.TypeDefinition.Name != "DataTypeEncodingType")
                     {
                         continue;
                     }
@@ -235,7 +225,7 @@ namespace Opc.Ua.ModelCompiler
                         new Export.ModelTableEntry() 
                         { 
                             ModelUri = Namespaces.OpcUa,
-                            Version = "1.02",
+                            Version = m_model.TargetVersion,
                             PublicationDate = m_model.TargetPublicationDate,
                             PublicationDateSpecified = m_model.TargetPublicationDateSpecified
                         },

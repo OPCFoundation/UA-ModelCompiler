@@ -399,6 +399,11 @@ namespace Opc.Ua
                 m_userWriteMask = value;
             }
         }
+
+        /// <summary>
+        /// The categories assigned to the node.
+        /// </summary>
+        public IList<string> Categories { get; set; }
         #endregion
 
         #region Serialization Methods

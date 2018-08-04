@@ -287,6 +287,7 @@ namespace Opc.Ua.Export
             exportedNode.BrowseName = Export(node.BrowseName, context.NamespaceUris);
             exportedNode.DisplayName = Export(new Opc.Ua.LocalizedText[] { node.DisplayName });
             exportedNode.Description = Export(new Opc.Ua.LocalizedText[] { node.Description });
+            exportedNode.Category = (node.Categories != null) ? new List<string>(node.Categories).ToArray() : null;
             exportedNode.WriteMask = (uint)node.WriteMask;
             exportedNode.UserWriteMask = (uint)node.UserWriteMask;
 
@@ -591,6 +592,7 @@ namespace Opc.Ua.Export
             importedNode.BrowseName = ImportQualifiedName(node.BrowseName, context.NamespaceUris);
             importedNode.DisplayName = Import(node.DisplayName);
             importedNode.Description = Import(node.Description);
+            importedNode.Categories = node.Category;
             importedNode.WriteMask = (AttributeWriteMask)node.WriteMask;
             importedNode.UserWriteMask = (AttributeWriteMask)node.UserWriteMask;
 

@@ -931,7 +931,7 @@
     </opc:Children>
   </opc:VariableType>
 
-  <opc:VariableType SymbolicName="SelectionListType" BaseType="ua:BaseDataVariableType" DataType="ServerStatusDataType" ValueRank="ScalarOrArray" ExposesItsChildren="true" PartNo="5">
+  <opc:VariableType SymbolicName="SelectionListType" BaseType="ua:BaseDataVariableType" DataType="BaseDataType" ValueRank="ScalarOrArray" ExposesItsChildren="true" PartNo="5">
     <opc:Children>
       <opc:Property SymbolicName="Selections" DataType="ua:BaseDataType" ValueRank="Array" />
       <opc:Property SymbolicName="SelectionDescriptions" DataType="ua:LocalizedText" ValueRank="Array" ModellingRule="Optional" />
@@ -1238,7 +1238,7 @@
   
   <!-- FileType eariler in the document -->
 
-  <opc:DataType SymbolicName="OpenFileMode" BaseType="Enumeration">
+  <opc:DataType SymbolicName="OpenFileMode" BaseType="Enumeration" PartNo="5">
     <opc:Fields>
       <opc:Field Name="Read" Identifier="1"></opc:Field>
       <opc:Field Name="Write" Identifier="2"></opc:Field>
@@ -3664,7 +3664,7 @@
     </opc:References>
   </opc:Object>
   
-  <opc:Method SymbolicName="CreateCredentialMethodType">
+  <opc:Method SymbolicName="CreateCredentialMethodType" PartNo="12">
     <opc:InputArguments>
       <opc:Argument Name="ResourceUri" DataType="ua:String" />
       <opc:Argument Name="ProfileUri" DataType="ua:String" />
@@ -3675,7 +3675,7 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:ObjectType SymbolicName="KeyCredentialConfigurationFolderType" BaseType="ua:FolderType">
+  <opc:ObjectType SymbolicName="KeyCredentialConfigurationFolderType" BaseType="ua:FolderType" PartNo="12">
     <opc:Children>
       <opc:Object SymbolicName="ServiceName_Placeholder" TypeDefinition="KeyCredentialConfigurationType"  ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ServiceName&gt;</opc:BrowseName>
@@ -3684,7 +3684,7 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Object SymbolicName="KeyCredentialConfiguration" TypeDefinition="KeyCredentialConfigurationFolderType">
+  <opc:Object SymbolicName="KeyCredentialConfiguration" TypeDefinition="KeyCredentialConfigurationFolderType" PartNo="12">
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
@@ -3693,7 +3693,7 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Method SymbolicName="GetEncryptingKeyMethodType">
+  <opc:Method SymbolicName="GetEncryptingKeyMethodType" PartNo="12">
     <opc:InputArguments>
       <opc:Argument Name="CredentialId" DataType="ua:String" />
       <opc:Argument Name="RequestedSecurityPolicyUri" DataType="ua:String" />
@@ -3704,7 +3704,7 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:ObjectType SymbolicName="KeyCredentialConfigurationType" BaseType="ua:BaseObjectType">
+  <opc:ObjectType SymbolicName="KeyCredentialConfigurationType" BaseType="ua:BaseObjectType" PartNo="12">
     <opc:Children>
       <opc:Property SymbolicName="ResourceUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ProfileUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
@@ -3716,7 +3716,7 @@
     </opc:Children>
   </opc:ObjectType>
   
-  <opc:Method SymbolicName="KeyCredentialUpdateMethodType">
+  <opc:Method SymbolicName="KeyCredentialUpdateMethodType" PartNo="12">
     <opc:InputArguments>
       <opc:Argument Name="CredentialId" DataType="ua:String" />
       <opc:Argument Name="CredentialSecret" DataType="ua:ByteString"></opc:Argument>
@@ -3725,16 +3725,16 @@
     </opc:InputArguments>
   </opc:Method>
 
-  <opc:ObjectType SymbolicName="KeyCredentialAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true">
+  <opc:ObjectType SymbolicName="KeyCredentialAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true" PartNo="12">
     <opc:Children>
       <opc:Property SymbolicName="ResourceUri" DataType="ua:String" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
   
-  <opc:ObjectType SymbolicName="KeyCredentialUpdatedAuditEventType" BaseType="KeyCredentialAuditEventType" IsAbstract="false" />
-  <opc:ObjectType SymbolicName="KeyCredentialDeletedAuditEventType" BaseType="KeyCredentialAuditEventType" IsAbstract="false" />
+  <opc:ObjectType SymbolicName="KeyCredentialUpdatedAuditEventType" BaseType="KeyCredentialAuditEventType" IsAbstract="false" PartNo="12" />
+  <opc:ObjectType SymbolicName="KeyCredentialDeletedAuditEventType" BaseType="KeyCredentialAuditEventType" IsAbstract="false" PartNo="12" />
   
-  <opc:Object SymbolicName="AuthorizationServices" TypeDefinition="ua:FolderType">
+  <opc:Object SymbolicName="AuthorizationServices" TypeDefinition="ua:FolderType" PartNo="12">
     <opc:Children>
       <opc:Object SymbolicName="ServiceName_Placeholder" TypeDefinition="AuthorizationServiceConfigurationType"  ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ServiceName&gt;</opc:BrowseName>
@@ -3749,7 +3749,7 @@
     </opc:References>
   </opc:Object>
 
-  <opc:ObjectType SymbolicName="AuthorizationServiceConfigurationType" BaseType="ua:BaseObjectType">
+  <opc:ObjectType SymbolicName="AuthorizationServiceConfigurationType" BaseType="ua:BaseObjectType" PartNo="12">
     <opc:Children>
       <opc:Property SymbolicName="ServiceUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ServiceCertificate"  DataType="ua:ByteString" ValueRank="Scalar" ModellingRule="Mandatory" />
@@ -4005,7 +4005,7 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="PubSubState" BaseType="Enumeration">
+  <opc:DataType SymbolicName="PubSubState" BaseType="Enumeration" PartNo="14">
     <opc:Fields>
       <opc:Field Name="Disabled" Identifier="0"></opc:Field>
       <opc:Field Name="Paused" Identifier="1"></opc:Field>
@@ -4252,7 +4252,7 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="DataSetOrderingType" BaseType="Enumeration">
+  <opc:DataType SymbolicName="DataSetOrderingType" BaseType="Enumeration" PartNo="14">
     <opc:Fields>
       <opc:Field Name="Undefined" Identifier="0"></opc:Field>
       <opc:Field Name="AscendingWriterId" Identifier="1"></opc:Field>
@@ -5094,7 +5094,7 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:DataType SymbolicName="DiagnosticsLevel" BaseType="Enumeration">
+  <opc:DataType SymbolicName="DiagnosticsLevel" BaseType="Enumeration" PartNo="14">
     <opc:Fields>
       <opc:Field Name="Basic" Identifier="0"></opc:Field>
       <opc:Field Name="Advanced" Identifier="1"></opc:Field>
@@ -5113,7 +5113,7 @@
     </opc:Children>
   </opc:VariableType>
 
-  <opc:DataType SymbolicName="PubSubDiagnosticsCounterClassification" BaseType="Enumeration">
+  <opc:DataType SymbolicName="PubSubDiagnosticsCounterClassification" BaseType="Enumeration" PartNo="14">
     <opc:Fields>
       <opc:Field Name="Information" Identifier="0"></opc:Field>
       <opc:Field Name="Error" Identifier="1"></opc:Field>
@@ -5592,7 +5592,7 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="BrokerConnectionTransportType" BaseType="WriterGroupTransportType" PartNo="14">
+  <opc:ObjectType SymbolicName="BrokerConnectionTransportType" BaseType="ConnectionTransportType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="ResourceUri" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="AuthenticationProfileUri" DataType="ua:String" ModellingRule="Mandatory" />

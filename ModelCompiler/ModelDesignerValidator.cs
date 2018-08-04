@@ -674,6 +674,7 @@ namespace Opc.Ua.ModelCompiler
                     design.SymbolicId = new XmlQualifiedName(dataType.Name + "Request", namespaceUri);
                     design.SymbolicName = design.SymbolicId;
                     design.BaseType = new XmlQualifiedName("Structure", DefaultNamespace);
+                    design.BasicDataType = GetBasicDataType(design);
                     design.NoArraysAllowed = true;
                     design.NoClassGeneration = false;
                     design.NotInAddressSpace = true;
@@ -682,6 +683,7 @@ namespace Opc.Ua.ModelCompiler
                     design.PartNo = 4;
 
                     ImportFields(design, serviceType.Request);
+
                     nodes.Add(design);
 
                     DataTypeDesign design2 = new DataTypeDesign();
@@ -689,6 +691,7 @@ namespace Opc.Ua.ModelCompiler
                     design2.SymbolicId = new XmlQualifiedName(dataType.Name + "Response", namespaceUri);
                     design2.SymbolicName = design2.SymbolicId;
                     design2.BaseType = new XmlQualifiedName("Structure", DefaultNamespace);
+                    design2.BasicDataType = GetBasicDataType(design);
                     design2.NoArraysAllowed = true;
                     design2.NoClassGeneration = false;
                     design2.NotInAddressSpace = true;
@@ -697,6 +700,7 @@ namespace Opc.Ua.ModelCompiler
                     design2.PartNo = 4;
 
                     ImportFields(design2, serviceType.Response);
+
                     nodes.Add(design2);
                 }
 
@@ -1630,7 +1634,7 @@ namespace Opc.Ua.ModelCompiler
         {
             VariableDesign description = null;
 
-            if (encodingType != EncodingType.Json)
+            if (encodingType != EncodingType.Json && !dataType.NotInAddressSpace)
             {
                 description = new VariableDesign();
 
@@ -1738,33 +1742,31 @@ namespace Opc.Ua.ModelCompiler
             encoding.SupportsEventsSpecified = true;
             encoding.PartNo = dataType.PartNo;
             encoding.NotInAddressSpace = dataType.NotInAddressSpace;
+            encoding.Category = dataType.Category;
 
-            if (!dataType.NotInAddressSpace)
+            Reference reference1 = new Reference();
+
+            reference1.ReferenceType = new XmlQualifiedName("HasEncoding", DefaultNamespace);
+            reference1.IsInverse = true;
+            reference1.IsOneWay = false;
+            reference1.TargetId = dataType.SymbolicId;
+            reference1.TargetNode = dataType;
+
+            if (description != null && !dataType.NotInAddressSpace)
             {
-                Reference reference1 = new Reference();
+                Reference reference2 = new Reference();
 
-                reference1.ReferenceType = new XmlQualifiedName("HasEncoding", DefaultNamespace);
-                reference1.IsInverse = true;
-                reference1.IsOneWay = false;
-                reference1.TargetId = dataType.SymbolicId;
-                reference1.TargetNode = dataType;
+                reference2.ReferenceType = new XmlQualifiedName("HasDescription", DefaultNamespace);
+                reference2.IsInverse = false;
+                reference2.IsOneWay = false;
+                reference2.TargetId = description.SymbolicId;
+                reference2.TargetNode = description;
 
-                if (description != null)
-                {
-                    Reference reference2 = new Reference();
-
-                    reference2.ReferenceType = new XmlQualifiedName("HasDescription", DefaultNamespace);
-                    reference2.IsInverse = false;
-                    reference2.IsOneWay = false;
-                    reference2.TargetId = description.SymbolicId;
-                    reference2.TargetNode = description;
-
-                    encoding.References = new Reference[] { reference1, reference2 };
-                }
-                else
-                {
-                    encoding.References = new Reference[] { reference1 };
-                }
+                encoding.References = new Reference[] { reference1, reference2 };
+            }
+            else
+            {
+                encoding.References = new Reference[] { reference1 };
             }
 
             m_nodes[encoding.SymbolicId] = encoding;
@@ -2561,8 +2563,6 @@ namespace Opc.Ua.ModelCompiler
                         objectType.SymbolicId.Name,
                         "BaseType");
                 }
-                /*
-                */
 
                 if (!objectType.SupportsEvents)
                 {
@@ -2611,8 +2611,6 @@ namespace Opc.Ua.ModelCompiler
                         }
                     }
                 }
-                /*
-                */
 
                 if (variableType.DataType == null)
                 {
@@ -2665,8 +2663,6 @@ namespace Opc.Ua.ModelCompiler
                         dataType.SymbolicId.Name,
                         "BaseType");
                 }
-                /*
-                */
 
                 dataType.IsStructure = (dataType.BaseType == new XmlQualifiedName("Structure", DefaultNamespace));
                 dataType.IsEnumeration = (dataType.BaseType == new XmlQualifiedName("Enumeration", DefaultNamespace) || dataType.IsOptionSet);
@@ -2708,8 +2704,6 @@ namespace Opc.Ua.ModelCompiler
                         referenceType.SymbolicId.Name,
                         "BaseType");
                 }
-                /*
-                */
             }
         }
 
@@ -5104,6 +5098,8 @@ namespace Opc.Ua.ModelCompiler
                     true,
                     true,
                     namespaceUris);
+
+                SetCategory(root, root.State);
             }
 
             if (root.Hierarchy != null && root is TypeDesign)
@@ -5421,6 +5417,20 @@ namespace Opc.Ua.ModelCompiler
            }
 
            return state;
+        }
+
+        private void SetCategory(NodeDesign node, NodeState state)
+        {
+            if (!String.IsNullOrEmpty(node.Category))
+            {
+                state.Categories = node.Category.Split(',');
+            }
+
+            if (state.Categories == null && node.PartNo != 0)
+            {
+                var suffix = (node.NotInAddressSpace) ? "/Services" : "";
+                state.Categories = new string[] { $"Part{node.PartNo}{suffix}" };
+            }
         }
 
         private void CreateChildNodeStates(

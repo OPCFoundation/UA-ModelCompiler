@@ -286,9 +286,6 @@ namespace Opc.Ua.ModelCompiler
 
         [XmlIgnore()]
         public bool IdentifierRequired;
-
-        [XmlIgnore()]
-        public bool NotInAddressSpace;
     }
 
     /// <summary>

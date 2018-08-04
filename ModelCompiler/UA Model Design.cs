@@ -816,10 +816,16 @@ namespace Opc.Ua.ModelCompiler {
         
         private uint partNoField;
         
+        private string categoryField;
+        
+        private bool notInAddressSpaceField;
+        
         public NodeDesign() {
             this.isDeclarationField = false;
             this.writeAccessField = ((uint)(0));
             this.partNoField = ((uint)(0));
+            this.categoryField = "";
+            this.notInAddressSpaceField = false;
         }
         
         /// <remarks/>
@@ -963,6 +969,30 @@ namespace Opc.Ua.ModelCompiler {
                 this.partNoField = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute("")]
+        public string Category {
+            get {
+                return this.categoryField;
+            }
+            set {
+                this.categoryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public bool NotInAddressSpace {
+            get {
+                return this.notInAddressSpaceField;
+            }
+            set {
+                this.notInAddressSpaceField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -1099,12 +1129,9 @@ namespace Opc.Ua.ModelCompiler {
         
         private bool noArraysAllowedField;
         
-        private bool notInAddressSpaceField;
-        
         public DataTypeDesign() {
             this.isOptionSetField = false;
             this.noArraysAllowedField = false;
-            this.notInAddressSpaceField = false;
         }
         
         /// <remarks/>
@@ -1150,18 +1177,6 @@ namespace Opc.Ua.ModelCompiler {
             }
             set {
                 this.noArraysAllowedField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute(false)]
-        public bool NotInAddressSpace {
-            get {
-                return this.notInAddressSpaceField;
-            }
-            set {
-                this.notInAddressSpaceField = value;
             }
         }
     }
