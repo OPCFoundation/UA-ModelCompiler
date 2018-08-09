@@ -2419,12 +2419,16 @@ namespace Opc.Ua.ModelCompiler
 
             if (dataType != null)
             {
+
                 if (!dataType.IsOptionSet)
                 {
                     template.AddReplacement("[Flags]", String.Empty);
+                    template.AddReplacement(" : _BasicType_", String.Empty);
                 }
                 else
                 {
+                    template.AddReplacement("_BasicType_", dataType.BaseType.Name);
+
                     var first = (Parameter)children.GetValue(0);
                     List<Parameter> clone = new List<Parameter>();
 
@@ -3110,6 +3114,12 @@ namespace Opc.Ua.ModelCompiler
                         break;
                     }
 
+                    if (field.DataTypeNode.IsOptionSet)
+                    {
+                        functionName = ((DataTypeDesign)field.DataTypeNode.BaseTypeNode).BasicDataType.ToString();
+                        break;
+                    }
+
                     functionName = "Enumerated";
 
                     if (field.ValueRank == ValueRank.Array)
@@ -3198,6 +3208,13 @@ namespace Opc.Ua.ModelCompiler
                     if (field.DataType == new XmlQualifiedName("Enumeration", DefaultNamespace))
                     {
                         functionName = "Int32";
+                        break;
+                    }
+
+
+                    if (field.DataTypeNode.IsOptionSet)
+                    {
+                        functionName = ((DataTypeDesign)field.DataTypeNode.BaseTypeNode).BasicDataType.ToString();
                         break;
                     }
 
@@ -4814,6 +4831,11 @@ namespace Opc.Ua.ModelCompiler
 
                     if (dataType.IsOptionSet)
                     {
+                        return "0";
+                    }
+
+                    if (dataType.IsOptionSet)
+                    {
                         return Utils.Format("{0}.None", dataType.SymbolicName.Name);
                     }
 
@@ -4948,6 +4970,11 @@ namespace Opc.Ua.ModelCompiler
                         return "int";
                     }
 
+                    if (datatype.IsOptionSet)
+                    {
+                        return GetSystemTypeName((DataTypeDesign)datatype.BaseTypeNode);
+                    }
+
                     return datatype.SymbolicName.Name;
                 }
 
@@ -5033,6 +5060,11 @@ namespace Opc.Ua.ModelCompiler
                         if (datatype.SymbolicId == new XmlQualifiedName("Enumeration", DefaultNamespace))
                         {
                             return "Int32Collection";
+                        }
+
+                        if (datatype.IsOptionSet || datatype.BaseType != new XmlQualifiedName("Enumeration", DefaultNamespace))
+                        {
+                            return GetSystemTypeName((DataTypeDesign)datatype.BaseTypeNode, valueRank);
                         }
 
                         return datatype.SymbolicName.Name + "Collection";

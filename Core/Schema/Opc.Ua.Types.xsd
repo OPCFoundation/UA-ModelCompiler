@@ -1588,6 +1588,7 @@
           <xs:element name="QueueName" type="xs:string" minOccurs="0" nillable="true" />
           <xs:element name="ResourceUri" type="xs:string" minOccurs="0" nillable="true" />
           <xs:element name="AuthenticationProfileUri" type="xs:string" minOccurs="0" nillable="true" />
+          <xs:element name="RequestedDeliveryGuarantee" type="tns:BrokerTransportQualityOfService" minOccurs="0" />
           <xs:element name="MetaDataQueueName" type="xs:string" minOccurs="0" nillable="true" />
           <xs:element name="MetaDataUpdateTime" type="xs:double" minOccurs="0" />
         </xs:sequence>
@@ -1695,6 +1696,12 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="NodeClass" type="tns:NodeClass" />
+
+  <xs:simpleType  name="PermissionType">
+    <xs:restriction base="xs:unsignedInt">
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="PermissionType" type="tns:PermissionType" />
 
   <xs:simpleType  name="AccessLevelType">
     <xs:restriction base="xs:unsignedByte">

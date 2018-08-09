@@ -5130,6 +5130,8 @@ namespace Opc.Ua.ModelCompiler
                         false,
                         namespaceUris);
 
+                    SetCategory(root, root.InstanceState);
+
                     ClearModellingRules(hierarchyNode.Instance.State as BaseInstanceState);
                 }
             }
@@ -5499,6 +5501,8 @@ namespace Opc.Ua.ModelCompiler
                     false,
                     isTypeDefinition,
                     namespaceUris);
+
+                current.Instance.State.Categories = state.Categories;
 
                 BaseInstanceState child = current.Instance.State as BaseInstanceState;
 

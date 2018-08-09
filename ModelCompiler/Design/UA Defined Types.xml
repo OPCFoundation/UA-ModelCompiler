@@ -3739,7 +3739,7 @@
       <Argument Name="EndpointUrls" DataType="tns:String" ValueRank="Array" />
     </InputArguments>
     <OutputArguments>
-      <Argument Name="ObjectId" DataType="tns:NodeId" />
+      <Argument Name="CredentialNodeId" DataType="tns:NodeId" />
     </OutputArguments>
   </Method>
   <ObjectType SymbolicName="tns:KeyCredentialConfigurationFolderType" PartNo="12" BaseType="tns:FolderType">

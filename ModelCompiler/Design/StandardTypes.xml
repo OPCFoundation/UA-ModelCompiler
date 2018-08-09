@@ -3671,7 +3671,7 @@
       <opc:Argument Name="EndpointUrls" DataType="ua:String" ValueRank="Array"></opc:Argument>
     </opc:InputArguments>
     <opc:OutputArguments>
-      <opc:Argument Name="ObjectId" DataType="ua:NodeId"></opc:Argument>
+      <opc:Argument Name="CredentialNodeId" DataType="ua:NodeId"></opc:Argument>
     </opc:OutputArguments>
   </opc:Method>
 
