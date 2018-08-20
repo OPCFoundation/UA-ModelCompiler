@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs/ModelCompiler Solution/v15/Server/sqlite3
+/ModelCompiler/obj/Debug
+/Core/obj/Debug
+/.vs/ModelCompiler Solution/v15
