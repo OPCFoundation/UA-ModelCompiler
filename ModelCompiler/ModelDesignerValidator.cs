@@ -629,6 +629,7 @@ namespace Opc.Ua.ModelCompiler
                 design.IsAbstract = false;
                 design.Description = ImportDocumentation(dataType.Documentation);
                 design.PartNo = dataType.PartNo;
+                design.Category = dataType.Category;
 
                 if (design.PartNo == 0)
                 {
@@ -681,6 +682,7 @@ namespace Opc.Ua.ModelCompiler
                     design.IsAbstract = false;
                     design.Description = ImportDocumentation(dataType.Documentation);
                     design.PartNo = 4;
+                    design.Category = dataType.Category;
 
                     ImportFields(design, serviceType.Request);
 
@@ -698,6 +700,7 @@ namespace Opc.Ua.ModelCompiler
                     design2.IsAbstract = false;
                     design2.Description = ImportDocumentation(dataType.Documentation);
                     design2.PartNo = 4;
+                    design.Category = dataType.Category;
 
                     ImportFields(design2, serviceType.Response);
 

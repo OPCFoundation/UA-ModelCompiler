@@ -157,7 +157,6 @@
   </opc:DataType>
   
   <!-- Part 5 - Standard Object Types -->
-
   <!-- BaseObjectType BuiltInTypes.xml -->
 
   <opc:ObjectType SymbolicName="ServerType" BaseType="ua:BaseObjectType" PartNo="5">
@@ -974,10 +973,10 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Object SymbolicName="Server" TypeDefinition="ServerType" ModellingRule="None" SupportsEvents="true" PartNo="5">
+  <opc:Object SymbolicName="Server" TypeDefinition="ServerType" ModellingRule="None" SupportsEvents="true" PartNo="5" Category="Part5">
     <opc:Children>
       <opc:Property SymbolicName="EstimatedReturnTime" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="CurrentTimeZone" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="LocalTime" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="ServerCapabilities">
         <opc:Children>
           <opc:Property SymbolicName="MaxArrayLength" ModellingRule="Mandatory" />
@@ -1873,7 +1872,7 @@
     </opc:Children>
   </opc:VariableType>
 
-  <opc:VariableType SymbolicName="EUItemType" BaseType="DataItemType" DataType="ua:Number" PartNo="8">
+  <opc:VariableType SymbolicName="EUItemType" BaseType="DataItemType" DataType="ua:Number" PartNo="8" Category="Part8,1.05">
     <opc:Children>
       <opc:Property SymbolicName="InstrumentRange" DataType="Range" ModellingRule="Optional" />
       <opc:Property SymbolicName="EURange" DataType="Range" ModellingRule="Optional" />
@@ -1881,7 +1880,7 @@
     </opc:Children>
   </opc:VariableType>
 
-  <opc:VariableType SymbolicName="AnalogUnitItemType" BaseType="DataItemType" DataType="ua:Number" PartNo="8">
+  <opc:VariableType SymbolicName="AnalogUnitItemType" BaseType="DataItemType" DataType="ua:Number" PartNo="8" Category="Part8,1.05">
     <opc:Children>
       <opc:Property SymbolicName="InstrumentRange" DataType="Range" ModellingRule="Optional" />
       <opc:Property SymbolicName="EURange" DataType="Range" ModellingRule="Optional" />
@@ -3953,7 +3952,7 @@
   </opc:Object>
 
   <!-- Part 3 - Additional Types -->
-  <opc:DataType SymbolicName="DecimalDataType" BaseType="ua:Structure" NotInAddressSpace="true" NoArraysAllowed="true" PartNo="3">
+  <opc:DataType SymbolicName="DecimalDataType" BaseType="ua:Structure" NotInAddressSpace="true" NoArraysAllowed="true" PartNo="3" Category="Part3/Internal">
     <opc:Fields>
       <opc:Field Name="Scale"  DataType="ua:Int16" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Value"  DataType="ua:ByteString" ValueRank="Scalar"></opc:Field>

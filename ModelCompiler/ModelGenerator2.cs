@@ -83,7 +83,7 @@ namespace Opc.Ua.ModelCompiler
         /// <summary>
         /// Generates a single file containing all of the classes.
         /// </summary>
-        public virtual void GenerateInternalSingleFile(string filePath, bool useXmlInitializers)
+        public virtual void GenerateInternalSingleFile(string filePath, bool useXmlInitializers, string[] excludedCategories)
         {
             m_useXmlInitializers = useXmlInitializers;
 
@@ -91,7 +91,7 @@ namespace Opc.Ua.ModelCompiler
             List<NodeDesign> nodes = GetNodeList();
 
             WriteTemplate_InternalSingleFile(filePath, nodes);
-            WriteTemplate_XmlExport(filePath);
+            WriteTemplate_XmlExport(filePath, excludedCategories);
             WriteTemplate_XmlSchema(filePath, nodes);
             WriteTemplate_BinarySchema(filePath, nodes);
         }
@@ -99,7 +99,7 @@ namespace Opc.Ua.ModelCompiler
         /// <summary>
         /// Generates a single file containing all of the classes.
         /// </summary>
-        public virtual void GenerateMultipleFiles(string filePath, bool useXmlInitializers)
+        public virtual void GenerateMultipleFiles(string filePath, bool useXmlInitializers, string[] excludedCategories)
         {
             m_useXmlInitializers = useXmlInitializers;
 
@@ -111,7 +111,7 @@ namespace Opc.Ua.ModelCompiler
             WriteTemplate_NonDataTypesSingleFile(filePath, nodes);
             WriteTemplate_XmlSchema(filePath, nodes);
             WriteTemplate_BinarySchema(filePath, nodes);
-            WriteTemplate_XmlExport(filePath);
+            WriteTemplate_XmlExport(filePath, excludedCategories);
         }
 
         /// <summary>
@@ -129,24 +129,49 @@ namespace Opc.Ua.ModelCompiler
         /// <summary>
         /// Writes the schema information to a static XML export file.
         /// </summary>
-        private void WriteTemplate_XmlExport(string filePath)
+        private void WriteTemplate_XmlExport(string filePath, string[] excludedCategories)
         {
             SystemContext context = new SystemContext();
             context.NamespaceUris = m_model.NamespaceUris;
 
             // collect the nodes to write.
             NodeStateCollection collection = new NodeStateCollection();
+            NodeStateCollection collectionWithServices = new NodeStateCollection();
             Dictionary<uint, NodeStateCollection> subsets = new Dictionary<uint, NodeStateCollection>();
 
             for (int ii = 0; ii < m_model.Items.Length; ii++)
             {
+                bool exclude = false;
+
+                if (m_model.Items[ii].Category != null)
+                { 
+                    if (excludedCategories != null && excludedCategories.Length > 0)
+                    {
+                        foreach (var jj in excludedCategories)
+                        {
+                            if (m_model.Items[ii].Category.Contains(jj))
+                            {
+                                exclude = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (exclude)
+                {
+                    continue;
+                }
+
+                bool isInAddressSpace = !m_model.Items[ii].NotInAddressSpace;
+
                 InstanceDesign design2 = m_model.Items[ii] as InstanceDesign;
 
                 if (design2 != null)
                 {
-                    if (design2.NotInAddressSpace && design2.TypeDefinition.Name != "DataTypeEncodingType")
+                    if (design2.TypeDefinition != null && design2.TypeDefinition.Name == "DataTypeEncodingType")
                     {
-                        continue;
+                        isInAddressSpace = true;
                     }
                 }
 
@@ -154,7 +179,7 @@ namespace Opc.Ua.ModelCompiler
 
                 if (design3 != null)
                 {
-                    if (design3.NotInAddressSpace || design3.SymbolicName.Name.EndsWith("MethodType"))
+                    if (design3.SymbolicName.Name.EndsWith("MethodType"))
                     {
                         continue;
                     }
@@ -164,7 +189,12 @@ namespace Opc.Ua.ModelCompiler
 
                 if (state != null)
                 {
-                    collection.Add(state);
+                    collectionWithServices.Add(state);
+
+                    if (isInAddressSpace)
+                    {
+                        collection.Add(state);
+                    }
 
                     if (m_model.Items[ii].PartNo != 0)
                     {
@@ -283,6 +313,16 @@ namespace Opc.Ua.ModelCompiler
                 }
 
                 collection.SaveAsNodeSet2(context, ostrm, model, (m_model.TargetPublicationDate != DateTime.MinValue)? m_model.TargetPublicationDate:DateTime.MinValue);
+
+                if (m_model.TargetNamespace == Namespaces.OpcUa)
+                {
+                    var servicesFilePath = String.Format(@"{0}\{1}.NodeSet2.Services.xml", filePath, m_model.TargetNamespaceInfo.Prefix);
+
+                    using (Stream servicesOstrm = File.Open(servicesFilePath, FileMode.Create))
+                    {
+                        collectionWithServices.SaveAsNodeSet2(context, servicesOstrm, model, (m_model.TargetPublicationDate != DateTime.MinValue) ? m_model.TargetPublicationDate : DateTime.MinValue);
+                    }
+                }
             }
 
             // load as node set.

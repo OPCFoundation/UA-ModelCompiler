@@ -48,6 +48,7 @@
     <xs:attribute name="NotInAddressSpace" type="xs:boolean" default="false" />
     <xs:attribute name="Identifier" type="xs:int" use="optional" />
     <xs:attribute name="PartNo" type="xs:unsignedInt" use="optional" default="0" />
+    <xs:attribute name="Category" type="xs:string" use="optional" default="" />
   </xs:complexType>
 
   <xs:complexType name="TypeDeclaration">

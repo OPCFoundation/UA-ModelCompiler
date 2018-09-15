@@ -534,19 +534,19 @@
     </opc:References>
   </opc:Object>
   
-  <opc:ReferenceType SymbolicName="DescribesArgument" BaseType="ua:HasComponent" PartNo="3">
+  <opc:ReferenceType SymbolicName="DescribesArgument" BaseType="ua:HasComponent" PartNo="3" Category="Part3,1.05">
     <opc:InverseName>ArgumentDescriptionFor</opc:InverseName>
   </opc:ReferenceType>
   
-  <opc:ReferenceType SymbolicName="DescribesInputArgument" BaseType="ua:DescribesArgument" PartNo="3">
+  <opc:ReferenceType SymbolicName="DescribesInputArgument" BaseType="ua:DescribesArgument" PartNo="3" Category="Part3,1.05">
     <opc:InverseName>InputArgumentDescriptionFor</opc:InverseName>
   </opc:ReferenceType>
   
-  <opc:ReferenceType SymbolicName="DescribesOptionalInputArgument" BaseType="ua:DescribesInputArgument" PartNo="3">
+  <opc:ReferenceType SymbolicName="DescribesOptionalInputArgument" BaseType="ua:DescribesInputArgument" PartNo="3" Category="Part3,1.05">
     <opc:InverseName>OptionalInputArgumentDescriptionFor</opc:InverseName>
   </opc:ReferenceType>
   
-  <opc:ReferenceType SymbolicName="DescribesOutputArgument" BaseType="ua:DescribesArgument" PartNo="3">
+  <opc:ReferenceType SymbolicName="DescribesOutputArgument" BaseType="ua:DescribesArgument" PartNo="3" Category="Part3,1.05">
     <opc:InverseName>OutputArgumentDescriptionFor</opc:InverseName>
   </opc:ReferenceType>
 

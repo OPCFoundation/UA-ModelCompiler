@@ -54,6 +54,8 @@ namespace Opc.Ua.ModelCompiler
                 //ProcessEngineeringUnitFile(@".\rec20_latest.csv", @".\UNECE_to_OPCUA.csv");
                 //return;
 
+                ServiceMessageContext context = ServiceMessageContext.GlobalContext;
+
                 if (!ProcessCommandLine())
                 {
                     StreamReader reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Opc.Ua.ModelCompiler.HelpFile.txt"));
@@ -344,6 +346,7 @@ namespace Opc.Ua.ModelCompiler
                 string ansicRootDir = null;
                 bool generateMultiFile = false;
                 bool useXmlInitializers = false;
+                string[] excludeCategories = null;
 
                 bool updateHeaders = false;
                 string inputDirectory = ".";
@@ -494,6 +497,17 @@ namespace Opc.Ua.ModelCompiler
                         stackRootDir = tokens[++ii];
                         continue;
                     }
+
+                    if (tokens[ii] == "-exclude")
+                    {
+                        if (ii >= tokens.Count - 1)
+                        {
+                            throw new ArgumentException("Incorrect number of parameters specified with the -exclude option.");
+                        }
+
+                        excludeCategories = tokens[++ii].Split(',');
+                        continue;
+                    }
                 }
 
                 if (updateHeaders)
@@ -559,11 +573,11 @@ namespace Opc.Ua.ModelCompiler
                 {
                     if (generateMultiFile)
                     {
-                        generator.GenerateMultipleFiles(outputDir, useXmlInitializers);
+                        generator.GenerateMultipleFiles(outputDir, useXmlInitializers, excludeCategories);
                     }
                     else
                     {
-                        generator.GenerateInternalSingleFile(outputDir, useXmlInitializers);
+                        generator.GenerateInternalSingleFile(outputDir, useXmlInitializers, excludeCategories);
                     }
                 }
             }

@@ -324,10 +324,13 @@ namespace Opc.Ua.CodeGenerator {
         
         private uint partNoField;
         
+        private string categoryField;
+        
         public DataType() {
             this.allowArraysField = false;
             this.notInAddressSpaceField = false;
             this.partNoField = ((uint)(0));
+            this.categoryField = "";
         }
         
         /// <remarks/>
@@ -406,6 +409,18 @@ namespace Opc.Ua.CodeGenerator {
             }
             set {
                 this.partNoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute("")]
+        public string Category {
+            get {
+                return this.categoryField;
+            }
+            set {
+                this.categoryField = value;
             }
         }
     }

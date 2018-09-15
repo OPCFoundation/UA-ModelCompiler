@@ -440,16 +440,16 @@
       </Reference>
     </References>
   </Object>
-  <ReferenceType SymbolicName="tns:DescribesArgument" PartNo="3" BaseType="tns:HasComponent">
+  <ReferenceType SymbolicName="tns:DescribesArgument" PartNo="3" Category="Part3,1.05" BaseType="tns:HasComponent">
     <InverseName>ArgumentDescriptionFor</InverseName>
   </ReferenceType>
-  <ReferenceType SymbolicName="tns:DescribesInputArgument" PartNo="3" BaseType="tns:DescribesArgument">
+  <ReferenceType SymbolicName="tns:DescribesInputArgument" PartNo="3" Category="Part3,1.05" BaseType="tns:DescribesArgument">
     <InverseName>InputArgumentDescriptionFor</InverseName>
   </ReferenceType>
-  <ReferenceType SymbolicName="tns:DescribesOptionalInputArgument" PartNo="3" BaseType="tns:DescribesInputArgument">
+  <ReferenceType SymbolicName="tns:DescribesOptionalInputArgument" PartNo="3" Category="Part3,1.05" BaseType="tns:DescribesInputArgument">
     <InverseName>OptionalInputArgumentDescriptionFor</InverseName>
   </ReferenceType>
-  <ReferenceType SymbolicName="tns:DescribesOutputArgument" PartNo="3" BaseType="tns:DescribesArgument">
+  <ReferenceType SymbolicName="tns:DescribesOutputArgument" PartNo="3" Category="Part3,1.05" BaseType="tns:DescribesArgument">
     <InverseName>OutputArgumentDescriptionFor</InverseName>
   </ReferenceType>
   <Object SymbolicName="tns:OPCUANamespaceMetadata" PartNo="5" TypeDefinition="tns:NamespaceMetadataType">
@@ -1296,10 +1296,10 @@
       </Reference>
     </References>
   </Object>
-  <Object SymbolicName="tns:Server" PartNo="5" TypeDefinition="tns:ServerType" ModellingRule="None" SupportsEvents="true">
+  <Object SymbolicName="tns:Server" PartNo="5" Category="Part5" TypeDefinition="tns:ServerType" ModellingRule="None" SupportsEvents="true">
     <Children>
       <Property SymbolicName="tns:EstimatedReturnTime" ModellingRule="Mandatory" />
-      <Property SymbolicName="tns:CurrentTimeZone" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:LocalTime" ModellingRule="Mandatory" />
       <Object SymbolicName="tns:ServerCapabilities">
         <Children>
           <Property SymbolicName="tns:MaxArrayLength" ModellingRule="Mandatory" />
@@ -2065,14 +2065,14 @@
       <Property SymbolicName="tns:EngineeringUnits" ModellingRule="Optional" DataType="tns:EUInformation" />
     </Children>
   </VariableType>
-  <VariableType SymbolicName="tns:EUItemType" PartNo="8" BaseType="tns:DataItemType" DataType="tns:Number">
+  <VariableType SymbolicName="tns:EUItemType" PartNo="8" Category="Part8,1.05" BaseType="tns:DataItemType" DataType="tns:Number">
     <Children>
       <Property SymbolicName="tns:InstrumentRange" ModellingRule="Optional" DataType="tns:Range" />
       <Property SymbolicName="tns:EURange" ModellingRule="Optional" DataType="tns:Range" />
       <Property SymbolicName="tns:EngineeringUnits" ModellingRule="Optional" DataType="tns:EUInformation" />
     </Children>
   </VariableType>
-  <VariableType SymbolicName="tns:AnalogUnitItemType" PartNo="8" BaseType="tns:DataItemType" DataType="tns:Number">
+  <VariableType SymbolicName="tns:AnalogUnitItemType" PartNo="8" Category="Part8,1.05" BaseType="tns:DataItemType" DataType="tns:Number">
     <Children>
       <Property SymbolicName="tns:InstrumentRange" ModellingRule="Optional" DataType="tns:Range" />
       <Property SymbolicName="tns:EURange" ModellingRule="Optional" DataType="tns:Range" />
@@ -3971,7 +3971,7 @@
     <BrowseName>VariancePopulation</BrowseName>
     <Description>Retrieve the variance for the interval as calculated by the StandardDeviationPopulation which includes Simple Bounding Values.</Description>
   </Object>
-  <DataType SymbolicName="tns:DecimalDataType" PartNo="3" NotInAddressSpace="true" BaseType="tns:Structure" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:DecimalDataType" PartNo="3" Category="Part3/Internal" NotInAddressSpace="true" BaseType="tns:Structure" NoArraysAllowed="true">
     <Fields>
       <Field Name="Scale" DataType="tns:Int16" />
       <Field Name="Value" DataType="tns:ByteString" />
@@ -5664,7 +5664,7 @@
       <Field Name="Fields" DataType="tns:EnumField" ValueRank="Array" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:Node" SymbolicId="tns:Node" PartNo="3" NotInAddressSpace="true" BaseType="tns:Structure" NoClassGeneration="true">
+  <DataType SymbolicName="tns:Node" SymbolicId="tns:Node" PartNo="3" Category="Part3/Internal" NotInAddressSpace="true" BaseType="tns:Structure" NoClassGeneration="true">
     <Description>Specifies the attributes which belong to all nodes.</Description>
     <Fields>
       <Field Name="NodeId" DataType="tns:NodeId">
@@ -5702,9 +5702,9 @@
       </Field>
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:InstanceNode" SymbolicId="tns:InstanceNode" PartNo="3" NotInAddressSpace="true" BaseType="tns:Node" NoClassGeneration="true" NoArraysAllowed="true" />
-  <DataType SymbolicName="tns:TypeNode" SymbolicId="tns:TypeNode" PartNo="3" NotInAddressSpace="true" BaseType="tns:Node" NoClassGeneration="true" NoArraysAllowed="true" />
-  <DataType SymbolicName="tns:ObjectNode" SymbolicId="tns:ObjectNode" PartNo="3" NotInAddressSpace="true" BaseType="tns:InstanceNode" NoClassGeneration="true" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:InstanceNode" SymbolicId="tns:InstanceNode" PartNo="3" Category="Part3/Internal" NotInAddressSpace="true" BaseType="tns:Node" NoClassGeneration="true" NoArraysAllowed="true" />
+  <DataType SymbolicName="tns:TypeNode" SymbolicId="tns:TypeNode" PartNo="3" Category="Part3/Internal" NotInAddressSpace="true" BaseType="tns:Node" NoClassGeneration="true" NoArraysAllowed="true" />
+  <DataType SymbolicName="tns:ObjectNode" SymbolicId="tns:ObjectNode" PartNo="3" Category="Part3/Internal" NotInAddressSpace="true" BaseType="tns:InstanceNode" NoClassGeneration="true" NoArraysAllowed="true">
     <Description>Specifies the attributes which belong to object nodes.</Description>
     <Fields>
       <Field Name="EventNotifier" DataType="tns:Byte">
@@ -5712,7 +5712,7 @@
       </Field>
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:ObjectTypeNode" SymbolicId="tns:ObjectTypeNode" PartNo="3" NotInAddressSpace="true" BaseType="tns:TypeNode" NoClassGeneration="true" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:ObjectTypeNode" SymbolicId="tns:ObjectTypeNode" PartNo="3" Category="Part3/Internal" NotInAddressSpace="true" BaseType="tns:TypeNode" NoClassGeneration="true" NoArraysAllowed="true">
     <Description>Specifies the attributes which belong to object type nodes.</Description>
     <Fields>
       <Field Name="IsAbstract" DataType="tns:Boolean">
@@ -5720,7 +5720,7 @@
       </Field>
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:VariableNode" SymbolicId="tns:VariableNode" PartNo="3" NotInAddressSpace="true" BaseType="tns:InstanceNode" NoClassGeneration="true" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:VariableNode" SymbolicId="tns:VariableNode" PartNo="3" Category="Part3/Internal" NotInAddressSpace="true" BaseType="tns:InstanceNode" NoClassGeneration="true" NoArraysAllowed="true">
     <Description>Specifies the attributes which belong to variable nodes.</Description>
     <Fields>
       <Field Name="Value" DataType="tns:BaseDataType">
@@ -5752,7 +5752,7 @@
       </Field>
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:VariableTypeNode" SymbolicId="tns:VariableTypeNode" PartNo="3" NotInAddressSpace="true" BaseType="tns:TypeNode" NoClassGeneration="true" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:VariableTypeNode" SymbolicId="tns:VariableTypeNode" PartNo="3" Category="Part3/Internal" NotInAddressSpace="true" BaseType="tns:TypeNode" NoClassGeneration="true" NoArraysAllowed="true">
     <Description>Specifies the attributes which belong to variable type nodes.</Description>
     <Fields>
       <Field Name="Value" DataType="tns:BaseDataType">
@@ -5772,7 +5772,7 @@
       </Field>
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:ReferenceTypeNode" SymbolicId="tns:ReferenceTypeNode" PartNo="3" NotInAddressSpace="true" BaseType="tns:TypeNode" NoClassGeneration="true" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:ReferenceTypeNode" SymbolicId="tns:ReferenceTypeNode" PartNo="3" Category="Part3/Internal" NotInAddressSpace="true" BaseType="tns:TypeNode" NoClassGeneration="true" NoArraysAllowed="true">
     <Description>Specifies the attributes which belong to reference type nodes.</Description>
     <Fields>
       <Field Name="IsAbstract" DataType="tns:Boolean">
@@ -5786,7 +5786,7 @@
       </Field>
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:MethodNode" SymbolicId="tns:MethodNode" PartNo="3" NotInAddressSpace="true" BaseType="tns:InstanceNode" NoClassGeneration="true" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:MethodNode" SymbolicId="tns:MethodNode" PartNo="3" Category="Part3/Internal" NotInAddressSpace="true" BaseType="tns:InstanceNode" NoClassGeneration="true" NoArraysAllowed="true">
     <Description>Specifies the attributes which belong to method nodes.</Description>
     <Fields>
       <Field Name="Executable" DataType="tns:Boolean">
@@ -5797,7 +5797,7 @@
       </Field>
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:ViewNode" SymbolicId="tns:ViewNode" PartNo="3" NotInAddressSpace="true" BaseType="tns:InstanceNode" NoClassGeneration="true" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:ViewNode" SymbolicId="tns:ViewNode" PartNo="3" Category="Part3/Internal" NotInAddressSpace="true" BaseType="tns:InstanceNode" NoClassGeneration="true" NoArraysAllowed="true">
     <Fields>
       <Field Name="ContainsNoLoops" DataType="tns:Boolean">
         <Description>If TRUE the view contains a tree of non-looping hierarchical references.</Description>
@@ -5807,7 +5807,7 @@
       </Field>
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:DataTypeNode" SymbolicId="tns:DataTypeNode" PartNo="3" NotInAddressSpace="true" BaseType="tns:TypeNode" NoClassGeneration="true" NoArraysAllowed="true">
+  <DataType SymbolicName="tns:DataTypeNode" SymbolicId="tns:DataTypeNode" PartNo="3" Category="Part3/Internal" NotInAddressSpace="true" BaseType="tns:TypeNode" NoClassGeneration="true" NoArraysAllowed="true">
     <Fields>
       <Field Name="IsAbstract" DataType="tns:Boolean">
         <Description>If TRUE the type is abstract and only subtypes of it appear in the address space.</Description>
@@ -5817,7 +5817,7 @@
       </Field>
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:ReferenceNode" SymbolicId="tns:ReferenceNode" PartNo="3" NotInAddressSpace="true" BaseType="tns:Structure" NoClassGeneration="true">
+  <DataType SymbolicName="tns:ReferenceNode" SymbolicId="tns:ReferenceNode" PartNo="3" Category="Part3/Internal" NotInAddressSpace="true" BaseType="tns:Structure" NoClassGeneration="true">
     <Description>Specifies a reference which belongs to a node.</Description>
     <Fields>
       <Field Name="ReferenceTypeId" DataType="tns:NodeId">
@@ -5881,7 +5881,7 @@
       </Field>
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:Union" SymbolicId="tns:Union" PartNo="3" BaseType="tns:Structure">
+  <DataType SymbolicName="tns:Union" SymbolicId="tns:Union" PartNo="3" BaseType="tns:Structure" IsAbstract="true">
     <Description>This abstract DataType is the base DataType for all union DataTypes.</Description>
   </DataType>
   <DataType SymbolicName="tns:NormalizedString" SymbolicId="tns:NormalizedString" PartNo="3" BaseType="tns:String" NoArraysAllowed="true">
@@ -6495,6 +6495,8 @@
       </Field>
     </Fields>
   </DataType>
+  <DataType SymbolicName="tns:RsaEncryptedSecret" SymbolicId="tns:RsaEncryptedSecret" PartNo="4" Category="Part4/Services,1.04" NotInAddressSpace="true" BaseType="tns:BaseDataType" NoClassGeneration="true" NoArraysAllowed="true" />
+  <DataType SymbolicName="tns:EccEncryptedSecret" SymbolicId="tns:EccEncryptedSecret" PartNo="4" Category="Part4/Services,1.05" NotInAddressSpace="true" BaseType="tns:BaseDataType" NoClassGeneration="true" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:ActivateSessionRequest" SymbolicId="tns:ActivateSessionRequest" PartNo="4" NotInAddressSpace="true" BaseType="tns:Structure" NoArraysAllowed="true">
     <Description>Activates a session with the server.</Description>
     <Fields>

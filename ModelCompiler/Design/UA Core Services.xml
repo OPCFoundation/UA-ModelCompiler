@@ -147,7 +147,7 @@
     <opc:Field Name="Fields" DataType="EnumField" ValueRank="0"></opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="Node" AllowArrays="true" NotInAddressSpace="true" PartNo="3">
+  <opc:ComplexType Name="Node" AllowArrays="true" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
     <opc:Documentation>Specifies the attributes which belong to all nodes.</opc:Documentation>
     <opc:Field Name="NodeId" DataType="s0:NodeId">
       <opc:Documentation>A unique identifier for the node.</opc:Documentation>
@@ -184,25 +184,25 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="InstanceNode" BaseType="Node" NotInAddressSpace="true" PartNo="3"></opc:ComplexType>
+  <opc:ComplexType Name="InstanceNode" BaseType="Node" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal"></opc:ComplexType>
 
-  <opc:ComplexType Name="TypeNode" BaseType="Node" NotInAddressSpace="true" PartNo="3"></opc:ComplexType>
+  <opc:ComplexType Name="TypeNode" BaseType="Node" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal"></opc:ComplexType>
 
-  <opc:ComplexType Name="ObjectNode" BaseType="InstanceNode" NotInAddressSpace="true" PartNo="3">
+  <opc:ComplexType Name="ObjectNode" BaseType="InstanceNode" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
     <opc:Documentation>Specifies the attributes which belong to object nodes.</opc:Documentation>
     <opc:Field Name="EventNotifier" DataType="s0:Byte">
       <opc:Documentation>A mask indicating whether events are produced by the object.</opc:Documentation>
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ObjectTypeNode" BaseType="TypeNode" NotInAddressSpace="true" PartNo="3">
+  <opc:ComplexType Name="ObjectTypeNode" BaseType="TypeNode" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
     <opc:Documentation>Specifies the attributes which belong to object type nodes.</opc:Documentation>
     <opc:Field Name="IsAbstract" DataType="s0:Boolean">
       <opc:Documentation>If TRUE the type is abstract and only subtypes of it appear in the address space.</opc:Documentation>
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="VariableNode" BaseType="InstanceNode" NotInAddressSpace="true" PartNo="3">
+  <opc:ComplexType Name="VariableNode" BaseType="InstanceNode" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
     <opc:Documentation>Specifies the attributes which belong to variable nodes.</opc:Documentation>
     <opc:Field Name="Value" DataType="s0:Variant">
       <opc:Documentation>The current value.</opc:Documentation>
@@ -233,7 +233,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="VariableTypeNode" BaseType="TypeNode" NotInAddressSpace="true" PartNo="3">
+  <opc:ComplexType Name="VariableTypeNode" BaseType="TypeNode" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
     <opc:Documentation>Specifies the attributes which belong to variable type nodes.</opc:Documentation>
     <opc:Field Name="Value" DataType="s0:Variant">
       <opc:Documentation>The default value when creating new instances.</opc:Documentation>
@@ -252,7 +252,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ReferenceTypeNode" BaseType="TypeNode" NotInAddressSpace="true" PartNo="3">
+  <opc:ComplexType Name="ReferenceTypeNode" BaseType="TypeNode" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
     <opc:Documentation>Specifies the attributes which belong to reference type nodes.</opc:Documentation>
     <opc:Field Name="IsAbstract" DataType="s0:Boolean">
       <opc:Documentation>If TRUE the type is abstract and only subtypes of it appear in the address space.</opc:Documentation>
@@ -265,7 +265,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="MethodNode" BaseType="InstanceNode" NotInAddressSpace="true" PartNo="3">
+  <opc:ComplexType Name="MethodNode" BaseType="InstanceNode" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
     <opc:Documentation>Specifies the attributes which belong to method nodes.</opc:Documentation>
     <opc:Field Name="Executable" DataType="s0:Boolean">
       <opc:Documentation>If TRUE the method can be called.</opc:Documentation>
@@ -275,7 +275,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ViewNode" BaseType="InstanceNode" NotInAddressSpace="true" PartNo="3">
+  <opc:ComplexType Name="ViewNode" BaseType="InstanceNode" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
     <opc:Field Name="ContainsNoLoops" DataType="s0:Boolean">
       <opc:Documentation>If TRUE the view contains a tree of non-looping hierarchical references.</opc:Documentation>
     </opc:Field>
@@ -284,7 +284,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="DataTypeNode" BaseType="TypeNode" NotInAddressSpace="true" PartNo="3">
+  <opc:ComplexType Name="DataTypeNode" BaseType="TypeNode" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
     <opc:Field Name="IsAbstract" DataType="s0:Boolean">
       <opc:Documentation>If TRUE the type is abstract and only subtypes of it appear in the address space.</opc:Documentation>
     </opc:Field>
@@ -293,7 +293,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ReferenceNode" AllowArrays="true" NotInAddressSpace="true" PartNo="3">
+  <opc:ComplexType Name="ReferenceNode" AllowArrays="true" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
     <opc:Documentation>Specifies a reference which belongs to a node.</opc:Documentation>
     <opc:Field Name="ReferenceTypeId" DataType="s0:NodeId">
       <opc:Documentation>The node id of the reference type for the reference.</opc:Documentation>
@@ -352,7 +352,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="Union" AllowArrays="true" PartNo="3">
+  <opc:ComplexType Name="Union" AllowArrays="true" IsAbstract="true" PartNo="3">
     <opc:Documentation>This abstract DataType is the base DataType for all union DataTypes.</opc:Documentation>
   </opc:ComplexType>
 
@@ -944,6 +944,12 @@
     </opc:Field>
   </opc:ComplexType>
 
+  <opc:TypeDeclaration Name="RsaEncryptedSecret" SourceType="s0:Variant" PartNo="4" NotInAddressSpace="true" Category="Part4/Services,1.04">
+  </opc:TypeDeclaration>
+
+  <opc:TypeDeclaration Name="EccEncryptedSecret" SourceType="s0:Variant" PartNo="4" NotInAddressSpace="true" Category="Part4/Services,1.05">
+  </opc:TypeDeclaration>
+  
   <opc:ServiceType Name="ActivateSession">
     <opc:Documentation>Activates a session with the server.</opc:Documentation>
     <opc:Request>

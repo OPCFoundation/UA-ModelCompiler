@@ -10,6 +10,7 @@ SETLOCAL
 
 set MODELCOMPILER=.\Bin\Release\Opc.Ua.ModelCompiler.exe
 set OUTPUT=.\Published
+set EXCLUDE=-exclude nothing
 
 REM Set the following values to automatically copy the generated source code to your relevant stack locations
 REM
@@ -39,7 +40,7 @@ REM STEP 1) Generate all of our files first...
 
 SET PARTNAME="StandardTypes"
 ECHO Building Model %PARTNAME%
-%MODELCOMPILER% -d2 ".\ModelCompiler\Design\StandardTypes.xml" -d2 ".\ModelCompiler\Design\UA Core Services.xml" -c ".\ModelCompiler\Design\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\"
+%MODELCOMPILER% -d2 ".\ModelCompiler\Design\StandardTypes.xml" %EXCLUDE% -d2 ".\ModelCompiler\Design\UA Core Services.xml" -c ".\ModelCompiler\Design\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\"
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 1 )
 
 CALL PublishModel OpcUaGdsModel GDS
