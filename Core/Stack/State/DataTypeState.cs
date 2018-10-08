@@ -54,6 +54,11 @@ namespace Opc.Ua
         /// The abstract definition of the data type.
         /// </summary>
         public DataTypeDefinition2 Definition { get; set; }
+
+        /// <summary>
+        /// The purpose of the data type.
+        /// </summary>
+        public Opc.Ua.Export.DataTypePurpose Purpose { get; set; }
     }
 
     /// <remarks />

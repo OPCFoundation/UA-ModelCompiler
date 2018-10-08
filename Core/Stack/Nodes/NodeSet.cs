@@ -692,6 +692,11 @@ namespace Opc.Ua
             {
                 string uri = sourceNamespaceUris.GetString(nodeId.NamespaceIndex);
 
+                if (String.IsNullOrEmpty(uri))
+                {
+                    return nodeId;
+                }
+
                 int index = targetNamespaceUris.GetIndex(uri);
 
                 if (index == -1)

@@ -40,6 +40,7 @@ REM STEP 1) Generate all of our files first...
 
 SET PARTNAME="StandardTypes"
 ECHO Building Model %PARTNAME%
+ECHO %MODELCOMPILER% -d2 ".\ModelCompiler\Design\StandardTypes.xml" %EXCLUDE% -d2 ".\ModelCompiler\Design\UA Core Services.xml" -c ".\ModelCompiler\Design\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\"
 %MODELCOMPILER% -d2 ".\ModelCompiler\Design\StandardTypes.xml" %EXCLUDE% -d2 ".\ModelCompiler\Design\UA Core Services.xml" -c ".\ModelCompiler\Design\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\"
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 1 )
 

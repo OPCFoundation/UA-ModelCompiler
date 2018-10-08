@@ -60,6 +60,7 @@ namespace Opc.Ua.ModelCompiler
         private ModelCompilerValidator m_validator;
         private ModelDesign m_model;
         private bool m_useXmlInitializers;
+        private string[] m_excludedCategories;
         #endregion
 
         /// <summary>
@@ -86,12 +87,13 @@ namespace Opc.Ua.ModelCompiler
         public virtual void GenerateInternalSingleFile(string filePath, bool useXmlInitializers, string[] excludedCategories)
         {
             m_useXmlInitializers = useXmlInitializers;
+            m_excludedCategories = excludedCategories;
 
             // write type and object definitions.
             List<NodeDesign> nodes = GetNodeList();
 
             WriteTemplate_InternalSingleFile(filePath, nodes);
-            WriteTemplate_XmlExport(filePath, excludedCategories);
+            WriteTemplate_XmlExport(filePath);
             WriteTemplate_XmlSchema(filePath, nodes);
             WriteTemplate_BinarySchema(filePath, nodes);
         }
@@ -102,6 +104,7 @@ namespace Opc.Ua.ModelCompiler
         public virtual void GenerateMultipleFiles(string filePath, bool useXmlInitializers, string[] excludedCategories)
         {
             m_useXmlInitializers = useXmlInitializers;
+            m_excludedCategories = excludedCategories;
 
             // write type and object definitions.
             List<NodeDesign> nodes = GetNodeList();
@@ -111,14 +114,16 @@ namespace Opc.Ua.ModelCompiler
             WriteTemplate_NonDataTypesSingleFile(filePath, nodes);
             WriteTemplate_XmlSchema(filePath, nodes);
             WriteTemplate_BinarySchema(filePath, nodes);
-            WriteTemplate_XmlExport(filePath, excludedCategories);
+            WriteTemplate_XmlExport(filePath);
         }
 
         /// <summary>
         /// Generates the ANSI C identifiers.
         /// </summary>
-        public virtual void GenerateIdentifiersAndNamesForAnsiC(string filePath)
+        public virtual void GenerateIdentifiersAndNamesForAnsiC(string filePath, string[] excludedCategories)
         {
+            m_excludedCategories = excludedCategories;
+
             List<NodeDesign> nodes = GetNodeList();
 
             WriteTemplate_IdentifiersAnsiC(filePath, nodes);
@@ -129,7 +134,7 @@ namespace Opc.Ua.ModelCompiler
         /// <summary>
         /// Writes the schema information to a static XML export file.
         /// </summary>
-        private void WriteTemplate_XmlExport(string filePath, string[] excludedCategories)
+        private void WriteTemplate_XmlExport(string filePath)
         {
             SystemContext context = new SystemContext();
             context.NamespaceUris = m_model.NamespaceUris;
@@ -141,24 +146,7 @@ namespace Opc.Ua.ModelCompiler
 
             for (int ii = 0; ii < m_model.Items.Length; ii++)
             {
-                bool exclude = false;
-
-                if (m_model.Items[ii].Category != null)
-                { 
-                    if (excludedCategories != null && excludedCategories.Length > 0)
-                    {
-                        foreach (var jj in excludedCategories)
-                        {
-                            if (m_model.Items[ii].Category.Contains(jj))
-                            {
-                                exclude = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if (exclude)
+                if (IsExcluded(m_model.Items[ii]))
                 {
                     continue;
                 }
@@ -189,6 +177,17 @@ namespace Opc.Ua.ModelCompiler
 
                 if (state != null)
                 {
+                    List<BaseInstanceState> children = new List<BaseInstanceState>();
+                    state.GetChildren(context, children);
+
+                    foreach (var child in children)
+                    {
+                        if (IsExcluded(child))
+                        {
+                            state.RemoveChild(child);
+                        }
+                    }
+
                     collectionWithServices.Add(state);
 
                     if (isInAddressSpace)
@@ -2030,6 +2029,11 @@ namespace Opc.Ua.ModelCompiler
             {
                 NodeDesign node = m_model.Items[ii];
 
+                if (IsExcluded(node))
+                {
+                    continue;
+                }
+
                 if (IsMethodTypeNode(node))
                 {
                     continue;
@@ -2062,6 +2066,11 @@ namespace Opc.Ua.ModelCompiler
                 foreach (KeyValuePair<string, HierarchyNode> current in node.Hierarchy.Nodes)
                 {
                     if (String.IsNullOrEmpty(current.Key))
+                    {
+                        continue;
+                    }
+
+                    if (IsExcluded(current.Value.Instance))
                     {
                         continue;
                     }
@@ -5182,6 +5191,52 @@ namespace Opc.Ua.ModelCompiler
             return null;
         }
 
+        private bool IsExcluded(NodeState node)
+        {
+            if (m_excludedCategories != null)
+            {
+                foreach (var jj in m_excludedCategories)
+                {
+                    if (jj == node.ReleaseStatus.ToString())
+                    {
+                        return true;
+                    }
+
+                    if (node.Categories != null)
+                    {
+                        if (node.Categories.Contains(jj))
+                        {
+                            return true;
+                        }
+                    }
+
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsExcluded(NodeDesign node)
+        {
+            if (m_excludedCategories != null)
+            {
+                foreach (var jj in m_excludedCategories)
+                {
+                    if (jj == node.ReleaseStatus.ToString())
+                    {
+                        return true;
+                    }
+
+                    if (node.Category != null && node.Category.Contains(jj))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Returns a list of nodes to process.
         /// </summary>
@@ -5191,7 +5246,8 @@ namespace Opc.Ua.ModelCompiler
 
             foreach (NodeDesign node in m_model.Items)
             {
-                if (!node.IsDeclaration)
+
+                if (!IsExcluded(node) && !node.IsDeclaration)
                 {
                     nodes.Add(node);
                 }

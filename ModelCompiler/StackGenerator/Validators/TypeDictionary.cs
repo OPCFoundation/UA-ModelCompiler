@@ -47,6 +47,17 @@ namespace Opc.Ua.CodeGenerator
             set { m_qname = value; }
         }
 
+
+        public override string ToString()
+        {
+            if (m_qname != null)
+            {
+                return m_qname.Name;
+            }
+
+            return base.ToString();
+        }
+
         private XmlQualifiedName m_qname;
     }
 }

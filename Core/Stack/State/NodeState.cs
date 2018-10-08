@@ -404,6 +404,11 @@ namespace Opc.Ua
         /// The categories assigned to the node.
         /// </summary>
         public IList<string> Categories { get; set; }
+
+        /// <summary>
+        /// The release status for the node.
+        /// </summary>
+        public Opc.Ua.Export.ReleaseStatus ReleaseStatus { get; set; }
         #endregion
 
         #region Serialization Methods

@@ -18,7 +18,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
@@ -49,6 +49,7 @@
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -59,8 +60,22 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Csv, Version=1.0.35.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Csv.1.0.35\lib\net40\Csv.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CsvHelper, Version=7.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.7.1.1\lib\net45\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="QuantityTypes, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b660bd244d5e1bf2, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuantityTypes.4.0.0\lib\net45\QuantityTypes.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -75,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HeaderUpdateTool.cs" />
+    <Compile Include="MeasurementUnits.cs" />
     <Compile Include="Properties\AssemblyVersionInfo.cs" />
     <Compile Include="StackGenerator.cs" />
     <Compile Include="ModelGenerator2.cs" />
@@ -222,6 +238,7 @@
     <None Include="Design\OpcUaDiModel.csv" />
     <None Include="Design\OpcUaPLCopenModel.csv" />
     <None Include="Design\SercosModel.csv" />
+    <None Include="packages.config" />
     <None Include="StackGenerator\DataTypes\Templates\XmlSchema\BuiltInTypes.xsx">
       <DependentUpon>BuiltInTypes.xsd</DependentUpon>
     </None>

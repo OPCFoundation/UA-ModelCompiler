@@ -262,6 +262,7 @@ namespace Opc.Ua.Export
                     UADataType value = new UADataType();
                     value.IsAbstract = o.IsAbstract;
                     value.Definition = Export(o.Definition, context.NamespaceUris);
+                    value.Purpose = o.Purpose;
                     exportedNode = value;
                     break;
                 }
@@ -287,7 +288,8 @@ namespace Opc.Ua.Export
             exportedNode.BrowseName = Export(node.BrowseName, context.NamespaceUris);
             exportedNode.DisplayName = Export(new Opc.Ua.LocalizedText[] { node.DisplayName });
             exportedNode.Description = Export(new Opc.Ua.LocalizedText[] { node.Description });
-            exportedNode.Category = (node.Categories != null) ? new List<string>(node.Categories).ToArray() : null;
+            exportedNode.Category = (node.Categories != null && node.Categories.Count > 0) ? new List<string>(node.Categories).ToArray() : null;
+            exportedNode.ReleaseStatus = node.ReleaseStatus;
             exportedNode.WriteMask = (uint)node.WriteMask;
             exportedNode.UserWriteMask = (uint)node.UserWriteMask;
 
@@ -572,6 +574,7 @@ namespace Opc.Ua.Export
                     DataTypeState value = new DataTypeState();
                     value.IsAbstract = o.IsAbstract;
                     value.Definition = Import(o.Definition, context.NamespaceUris);
+                    value.Purpose = o.Purpose;
                     importedNode = value;
                     break;
                 }
@@ -592,7 +595,8 @@ namespace Opc.Ua.Export
             importedNode.BrowseName = ImportQualifiedName(node.BrowseName, context.NamespaceUris);
             importedNode.DisplayName = Import(node.DisplayName);
             importedNode.Description = Import(node.Description);
-            importedNode.Categories = node.Category;
+            importedNode.Categories = (node.Category != null && node.Category.Length > 0) ? node.Category : null;
+            importedNode.ReleaseStatus = node.ReleaseStatus;
             importedNode.WriteMask = (AttributeWriteMask)node.WriteMask;
             importedNode.UserWriteMask = (AttributeWriteMask)node.UserWriteMask;
 

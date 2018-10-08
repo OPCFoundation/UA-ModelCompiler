@@ -8,7 +8,7 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
   TargetVersion="1.04"
-  TargetPublicationDate="2018-07-31T00:00:00Z"
+  TargetPublicationDate="2018-09-15T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -534,19 +534,19 @@
     </opc:References>
   </opc:Object>
   
-  <opc:ReferenceType SymbolicName="DescribesArgument" BaseType="ua:HasComponent" PartNo="3" Category="Part3,1.05">
-    <opc:InverseName>ArgumentDescriptionFor</opc:InverseName>
+  <opc:ReferenceType SymbolicName="HasArgumentDescription" BaseType="ua:HasComponent" PartNo="3" ReleaseStatus="Draft">
+    <opc:InverseName>ArgumentDescriptionOf</opc:InverseName>
   </opc:ReferenceType>
   
-  <opc:ReferenceType SymbolicName="DescribesInputArgument" BaseType="ua:DescribesArgument" PartNo="3" Category="Part3,1.05">
-    <opc:InverseName>InputArgumentDescriptionFor</opc:InverseName>
+  <opc:ReferenceType SymbolicName="HasInputArgumentDescription" BaseType="ua:HasArgumentDescription" PartNo="3" ReleaseStatus="Draft">
+    <opc:InverseName>InputArgumentDescriptionOf</opc:InverseName>
   </opc:ReferenceType>
   
-  <opc:ReferenceType SymbolicName="DescribesOptionalInputArgument" BaseType="ua:DescribesInputArgument" PartNo="3" Category="Part3,1.05">
-    <opc:InverseName>OptionalInputArgumentDescriptionFor</opc:InverseName>
+  <opc:ReferenceType SymbolicName="HasOptionalInputArgumentDescription" BaseType="ua:HasInputArgumentDescription" PartNo="3" ReleaseStatus="Draft">
+    <opc:InverseName>OptionalInputArgumentDescriptionOf</opc:InverseName>
   </opc:ReferenceType>
   
-  <opc:ReferenceType SymbolicName="DescribesOutputArgument" BaseType="ua:DescribesArgument" PartNo="3" Category="Part3,1.05">
+  <opc:ReferenceType SymbolicName="HasOutputArgumentDescription" BaseType="ua:HasArgumentDescription" PartNo="3" ReleaseStatus="Draft">
     <opc:InverseName>OutputArgumentDescriptionFor</opc:InverseName>
   </opc:ReferenceType>
 

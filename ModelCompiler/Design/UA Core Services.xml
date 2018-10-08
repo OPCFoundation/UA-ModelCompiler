@@ -7,7 +7,7 @@
   xmlns="http://opcfoundation.org/UA/Core/"
   TargetNamespace="http://opcfoundation.org/UA/Core/"
   TargetVersion="1.04"
-  TargetPublicationDate="2018-07-31T00:00:00Z"
+  TargetPublicationDate="2018-09-15T00:00:00Z"
 >
   <opc:Import Namespace="http://opcfoundation.org/UA/BuiltInTypes/" />
 
@@ -147,7 +147,7 @@
     <opc:Field Name="Fields" DataType="EnumField" ValueRank="0"></opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="Node" AllowArrays="true" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
+  <opc:ComplexType Name="Node" AllowArrays="true" NotInAddressSpace="true" Purpose="CodeGenerator" PartNo="3">
     <opc:Documentation>Specifies the attributes which belong to all nodes.</opc:Documentation>
     <opc:Field Name="NodeId" DataType="s0:NodeId">
       <opc:Documentation>A unique identifier for the node.</opc:Documentation>
@@ -184,25 +184,25 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="InstanceNode" BaseType="Node" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal"></opc:ComplexType>
+  <opc:ComplexType Name="InstanceNode" BaseType="Node" NotInAddressSpace="true" Purpose="CodeGenerator" PartNo="3"></opc:ComplexType>
 
-  <opc:ComplexType Name="TypeNode" BaseType="Node" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal"></opc:ComplexType>
+  <opc:ComplexType Name="TypeNode" BaseType="Node" NotInAddressSpace="true" Purpose="CodeGenerator" PartNo="3"></opc:ComplexType>
 
-  <opc:ComplexType Name="ObjectNode" BaseType="InstanceNode" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
+  <opc:ComplexType Name="ObjectNode" BaseType="InstanceNode" NotInAddressSpace="true" Purpose="CodeGenerator" PartNo="3">
     <opc:Documentation>Specifies the attributes which belong to object nodes.</opc:Documentation>
     <opc:Field Name="EventNotifier" DataType="s0:Byte">
       <opc:Documentation>A mask indicating whether events are produced by the object.</opc:Documentation>
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ObjectTypeNode" BaseType="TypeNode" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
+  <opc:ComplexType Name="ObjectTypeNode" BaseType="TypeNode" NotInAddressSpace="true" Purpose="CodeGenerator" PartNo="3">
     <opc:Documentation>Specifies the attributes which belong to object type nodes.</opc:Documentation>
     <opc:Field Name="IsAbstract" DataType="s0:Boolean">
       <opc:Documentation>If TRUE the type is abstract and only subtypes of it appear in the address space.</opc:Documentation>
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="VariableNode" BaseType="InstanceNode" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
+  <opc:ComplexType Name="VariableNode" BaseType="InstanceNode" NotInAddressSpace="true" Purpose="CodeGenerator" PartNo="3">
     <opc:Documentation>Specifies the attributes which belong to variable nodes.</opc:Documentation>
     <opc:Field Name="Value" DataType="s0:Variant">
       <opc:Documentation>The current value.</opc:Documentation>
@@ -233,7 +233,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="VariableTypeNode" BaseType="TypeNode" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
+  <opc:ComplexType Name="VariableTypeNode" BaseType="TypeNode" NotInAddressSpace="true" Purpose="CodeGenerator" PartNo="3">
     <opc:Documentation>Specifies the attributes which belong to variable type nodes.</opc:Documentation>
     <opc:Field Name="Value" DataType="s0:Variant">
       <opc:Documentation>The default value when creating new instances.</opc:Documentation>
@@ -252,7 +252,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ReferenceTypeNode" BaseType="TypeNode" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
+  <opc:ComplexType Name="ReferenceTypeNode" BaseType="TypeNode" NotInAddressSpace="true" Purpose="CodeGenerator" PartNo="3">
     <opc:Documentation>Specifies the attributes which belong to reference type nodes.</opc:Documentation>
     <opc:Field Name="IsAbstract" DataType="s0:Boolean">
       <opc:Documentation>If TRUE the type is abstract and only subtypes of it appear in the address space.</opc:Documentation>
@@ -265,7 +265,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="MethodNode" BaseType="InstanceNode" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
+  <opc:ComplexType Name="MethodNode" BaseType="InstanceNode" NotInAddressSpace="true" Purpose="CodeGenerator" PartNo="3">
     <opc:Documentation>Specifies the attributes which belong to method nodes.</opc:Documentation>
     <opc:Field Name="Executable" DataType="s0:Boolean">
       <opc:Documentation>If TRUE the method can be called.</opc:Documentation>
@@ -275,7 +275,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ViewNode" BaseType="InstanceNode" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
+  <opc:ComplexType Name="ViewNode" BaseType="InstanceNode" NotInAddressSpace="true" Purpose="CodeGenerator" PartNo="3">
     <opc:Field Name="ContainsNoLoops" DataType="s0:Boolean">
       <opc:Documentation>If TRUE the view contains a tree of non-looping hierarchical references.</opc:Documentation>
     </opc:Field>
@@ -284,7 +284,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="DataTypeNode" BaseType="TypeNode" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
+  <opc:ComplexType Name="DataTypeNode" BaseType="TypeNode" NotInAddressSpace="true" Purpose="CodeGenerator" PartNo="3">
     <opc:Field Name="IsAbstract" DataType="s0:Boolean">
       <opc:Documentation>If TRUE the type is abstract and only subtypes of it appear in the address space.</opc:Documentation>
     </opc:Field>
@@ -293,7 +293,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ReferenceNode" AllowArrays="true" NotInAddressSpace="true" PartNo="3" Category="Part3/Internal">
+  <opc:ComplexType Name="ReferenceNode" AllowArrays="true" NotInAddressSpace="true" Purpose="CodeGenerator" PartNo="3">
     <opc:Documentation>Specifies a reference which belongs to a node.</opc:Documentation>
     <opc:Field Name="ReferenceTypeId" DataType="s0:NodeId">
       <opc:Documentation>The node id of the reference type for the reference.</opc:Documentation>
@@ -392,7 +392,6 @@
     <opc:Field Name="Offset" DataType="s0:Int16" />
     <opc:Field Name="DaylightSavingInOffset" DataType="s0:Boolean" />
   </opc:ComplexType>
-
   <opc:TypeDeclaration Name="IntegerId" SourceType="s0:UInt32" PartNo="4">
     <opc:Documentation>A numeric identifier for an object.</opc:Documentation>
   </opc:TypeDeclaration>
@@ -438,7 +437,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="RequestHeader" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="RequestHeader" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The header passed with every server request.</opc:Documentation>
     <opc:Field Name="AuthenticationToken" DataType="SessionAuthenticationToken">
       <opc:Documentation>The authentication token for the current session.</opc:Documentation>
@@ -463,7 +462,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ResponseHeader" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ResponseHeader" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The header passed with every server response.</opc:Documentation>
     <opc:Field Name="Timestamp" DataType="UtcTime">
       <opc:Documentation>When the response was sent by the server.</opc:Documentation>
@@ -487,14 +486,14 @@
 
   <opc:TypeDeclaration Name="VersionTime" SourceType="s0:UInt32" PartNo="4" />
 
-  <opc:ComplexType Name="ServiceFault" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ServiceFault" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The response returned by all services when there is a service level error.</opc:Documentation>
     <opc:Field Name="ResponseHeader" DataType="ResponseHeader">
       <opc:Documentation>A standard header included in all responses returned by servers.</opc:Documentation>
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="SessionlessInvokeRequestType" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="SessionlessInvokeRequestType" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="UrisVersion" DataType="VersionTime" ValueRank="0" />
     <opc:Field Name="NamespaceUris" DataType="s0:String" ValueRank="0" />
     <opc:Field Name="ServerUris" DataType="s0:String" ValueRank="0" />
@@ -502,7 +501,7 @@
     <opc:Field Name="ServiceId" DataType="s0:UInt32" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="SessionlessInvokeResponseType" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="SessionlessInvokeResponseType" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="NamespaceUris" DataType="s0:String" ValueRank="0" />
     <opc:Field Name="ServerUris" DataType="s0:String" ValueRank="0" />
     <opc:Field Name="ServiceId" DataType="s0:UInt32" />
@@ -746,7 +745,7 @@
     </opc:Value>
   </opc:EnumeratedType>
 
-  <opc:ComplexType Name="ChannelSecurityToken" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ChannelSecurityToken" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The token that identifies a set of keys for an active secure channel.</opc:Documentation>
     <opc:Field Name="ChannelId" DataType="s0:UInt32">
       <opc:Documentation>A unique identifier for the channel.</opc:Documentation>
@@ -828,7 +827,7 @@
     <opc:Documentation>A unique identifier for a session used to authenticate requests.</opc:Documentation>
   </opc:TypeDeclaration>
 
-  <opc:ComplexType Name="SignatureData" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="SignatureData" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>A digital signature.</opc:Documentation>
     <opc:Field Name="Algorithm" DataType="s0:String">
       <opc:Documentation>The cryptography algorithm used to create the signature.</opc:Documentation>
@@ -944,10 +943,10 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:TypeDeclaration Name="RsaEncryptedSecret" SourceType="s0:Variant" PartNo="4" NotInAddressSpace="true" Category="Part4/Services,1.04">
+  <opc:TypeDeclaration Name="RsaEncryptedSecret" SourceType="s0:Variant" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly">
   </opc:TypeDeclaration>
 
-  <opc:TypeDeclaration Name="EccEncryptedSecret" SourceType="s0:Variant" PartNo="4" NotInAddressSpace="true" Category="Part4/Services,1.05">
+  <opc:TypeDeclaration Name="EccEncryptedSecret" SourceType="s0:Variant" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" ReleaseStatus="Draft">
   </opc:TypeDeclaration>
   
   <opc:ServiceType Name="ActivateSession">
@@ -1134,7 +1133,7 @@
     </opc:Value>
   </opc:EnumeratedType>
 
-  <opc:ComplexType Name="NodeAttributes" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="NodeAttributes" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The base attributes for all nodes.</opc:Documentation>
     <opc:Field Name="SpecifiedAttributes" DataType="s0:UInt32">
       <opc:Documentation>A mask indicating which attributes have been provided.</opc:Documentation>
@@ -1153,14 +1152,14 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ObjectAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ObjectAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The attributes for an object node.</opc:Documentation>
     <opc:Field Name="EventNotifier" DataType="s0:Byte">
       <opc:Documentation>A mask indicating what events are produced by the object.</opc:Documentation>
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="VariableAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="VariableAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The attributes for a variable node.</opc:Documentation>
     <opc:Field Name="Value" DataType="s0:Variant">
       <opc:Documentation>The value of the variable.</opc:Documentation>
@@ -1188,7 +1187,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="MethodAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="MethodAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The attributes for a method node.</opc:Documentation>
     <opc:Field Name="Executable" DataType="s0:Boolean">
       <opc:Documentation>If TRUE the method can be called.</opc:Documentation>
@@ -1198,14 +1197,14 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ObjectTypeAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ObjectTypeAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The attributes for an object type node.</opc:Documentation>
     <opc:Field Name="IsAbstract" DataType="s0:Boolean">
       <opc:Documentation>If TRUE the type is abstract and only subtypes of it appear in the address space.</opc:Documentation>
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="VariableTypeAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="VariableTypeAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The attributes for a variable type node.</opc:Documentation>
     <opc:Field Name="Value" DataType="s0:Variant">
       <opc:Documentation>The default value when creating new instances.</opc:Documentation>
@@ -1224,7 +1223,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ReferenceTypeAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ReferenceTypeAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The attributes for a reference type node.</opc:Documentation>
     <opc:Field Name="IsAbstract" DataType="s0:Boolean">
       <opc:Documentation>If TRUE the type is abstract and only subtypes of it appear in the address space.</opc:Documentation>
@@ -1237,14 +1236,14 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="DataTypeAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="DataTypeAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The attributes for a data type node.</opc:Documentation>
     <opc:Field Name="IsAbstract" DataType="s0:Boolean">
       <opc:Documentation>If TRUE the type is abstract and only subtypes of it appear in the address space.</opc:Documentation>
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ViewAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ViewAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The attributes for a view node.</opc:Documentation>
     <opc:Field Name="ContainsNoLoops" DataType="s0:Boolean">
       <opc:Documentation>If TRUE the view contains a tree of non-looping hierarchical references.</opc:Documentation>
@@ -1254,12 +1253,12 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="GenericAttributeValue" NotInAddressSpace="true" AllowArrays="true" PartNo="4">
+  <opc:ComplexType Name="GenericAttributeValue" NotInAddressSpace="true" Purpose="ServicesOnly" AllowArrays="true" PartNo="4">
     <opc:Field Name="AttributeId" DataType="IntegerId" />
     <opc:Field Name="Value" DataType="s0:Variant" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="GenericAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="GenericAttributes" BaseType="NodeAttributes" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="AttributeValues" DataType="GenericAttributeValue" ValueRank="0" />
   </opc:ComplexType>
 
@@ -1288,7 +1287,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="AddNodesResult" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="AddNodesResult" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>A result of an add node operation.</opc:Documentation>
     <opc:Field Name="StatusCode" DataType="s0:StatusCode">
       <opc:Documentation>A code indicating any error during the operation.</opc:Documentation>
@@ -1523,7 +1522,7 @@
     </opc:Value>
   </opc:EnumeratedType>
 
-  <opc:EnumeratedType Name="BrowseDirection" NotInAddressSpace="true" PartNo="4">
+  <opc:EnumeratedType Name="BrowseDirection" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The directions of the references to return.</opc:Documentation>
     <opc:Value Name="Forward" Value="0">
       <opc:Documentation>Return forward references.</opc:Documentation>
@@ -1537,7 +1536,7 @@
     <opc:Value Name="Invalid" Value="3" />
   </opc:EnumeratedType>
 
-  <opc:ComplexType Name="ViewDescription" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ViewDescription" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The view to browse.</opc:Documentation>
     <opc:Field Name="ViewId" DataType="s0:NodeId">
       <opc:Documentation>The node id of the view.</opc:Documentation>
@@ -1550,7 +1549,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="BrowseDescription" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="BrowseDescription" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>A request to browse the the references from a node.</opc:Documentation>
     <opc:Field Name="NodeId" DataType="s0:NodeId">
       <opc:Documentation>The id of the node to browse.</opc:Documentation>
@@ -1572,7 +1571,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:EnumeratedType Name="BrowseResultMask" NotInAddressSpace="true" PartNo="4">
+  <opc:EnumeratedType Name="BrowseResultMask" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>A bit mask which specifies what should be returned in a browse response.</opc:Documentation>
     <opc:Value Name="None" Value="0">
       <opc:Documentation>Return only the node id.</opc:Documentation>
@@ -1606,7 +1605,7 @@
     </opc:Value>
   </opc:EnumeratedType>
 
-  <opc:ComplexType Name="ReferenceDescription" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ReferenceDescription" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The description of a reference.</opc:Documentation>
     <opc:Field Name="ReferenceTypeId" DataType="s0:NodeId">
       <opc:Documentation>The type of references.</opc:Documentation>
@@ -1635,7 +1634,7 @@
     <opc:Documentation>An identifier for a suspended query or browse operation.</opc:Documentation>
   </opc:TypeDeclaration>
 
-  <opc:ComplexType Name="BrowseResult" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="BrowseResult" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The result of a browse operation.</opc:Documentation>
     <opc:Field Name="StatusCode" DataType="s0:StatusCode">
       <opc:Documentation>A code indicating any error during the operation.</opc:Documentation>
@@ -1726,7 +1725,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="BrowsePath" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="BrowsePath" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>A request to translate a path into a node id.</opc:Documentation>
     <opc:Field Name="StartingNode" DataType="s0:NodeId">
       <opc:Documentation>The starting point for the search.</opc:Documentation>
@@ -1736,7 +1735,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="BrowsePathTarget" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="BrowsePathTarget" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The target of the translated path.</opc:Documentation>
     <opc:Field Name="TargetId" DataType="s0:ExpandedNodeId">
       <opc:Documentation>The id of the target node.</opc:Documentation>
@@ -1746,7 +1745,7 @@
     </opc:Field>
   </opc:ComplexType>
 
-  <opc:ComplexType Name="BrowsePathResult" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="BrowsePathResult" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Documentation>The result of a translate opearation.</opc:Documentation>
     <opc:Field Name="StatusCode" DataType="s0:StatusCode">
       <opc:Documentation>A code indicating any error during the operation.</opc:Documentation>
@@ -1844,13 +1843,13 @@
     <opc:Field  Name="SecurityTokenLifetime" DataType="s0:Int32" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="QueryDataDescription" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="QueryDataDescription" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="RelativePath" DataType="RelativePath" />
     <opc:Field Name="AttributeId" DataType="IntegerId" />
     <opc:Field Name="IndexRange" DataType="NumericRange" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="NodeTypeDescription" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="NodeTypeDescription" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="TypeDefinitionNode" DataType="s0:ExpandedNodeId" />
     <opc:Field Name="IncludeSubTypes" DataType="s0:Boolean" />
     <opc:Field Name="DataToReturn" DataType="QueryDataDescription" ValueRank="0" />
@@ -1877,13 +1876,13 @@
     <opc:Value Name="BitwiseOr" Value="17" />
   </opc:EnumeratedType>
 
-  <opc:ComplexType Name="QueryDataSet" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="QueryDataSet" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="NodeId" DataType="s0:ExpandedNodeId" />
     <opc:Field Name="TypeDefinitionNode" DataType="s0:ExpandedNodeId" />
     <opc:Field Name="Values" DataType="s0:Variant" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="NodeReference" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="NodeReference" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="ReferenceTypeId" DataType="s0:NodeId" />
     <opc:Field Name="IsForward" DataType="s0:Boolean" />
@@ -1924,18 +1923,18 @@
     <opc:Field Name="IndexRange" DataType="NumericRange" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ContentFilterElementResult" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ContentFilterElementResult" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="StatusCode" DataType="s0:StatusCode" />
     <opc:Field Name="OperandStatusCodes" DataType="s0:StatusCode" ValueRank="0" />
     <opc:Field Name="OperandDiagnosticInfos" DataType="s0:DiagnosticInfo" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ContentFilterResult" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ContentFilterResult" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="ElementResults" DataType="ContentFilterElementResult" ValueRank="0" />
     <opc:Field Name="ElementDiagnosticInfos" DataType="s0:DiagnosticInfo" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ParsingResult" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ParsingResult" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="StatusCode" DataType="s0:StatusCode" />
     <opc:Field Name="DataStatusCodes" DataType="s0:StatusCode" ValueRank="0" />
     <opc:Field Name="DataDiagnosticInfos" DataType="s0:DiagnosticInfo" ValueRank="0" />
@@ -1973,7 +1972,7 @@
     </opc:Response>
   </opc:ServiceType>
 
-  <opc:EnumeratedType Name="TimestampsToReturn" NotInAddressSpace="true" PartNo="4">
+  <opc:EnumeratedType Name="TimestampsToReturn" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Value Name="Source" Value="0" />
     <opc:Value Name="Server" Value="1" />
     <opc:Value Name="Both" Value="2" />
@@ -1981,7 +1980,7 @@
     <opc:Value Name="Invalid" Value="4" />
   </opc:EnumeratedType>
 
-  <opc:ComplexType Name="ReadValueId" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ReadValueId" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="AttributeId" DataType="IntegerId" />
     <opc:Field Name="IndexRange" DataType="NumericRange" />
@@ -2002,30 +2001,30 @@
     </opc:Response>
   </opc:ServiceType>
 
-  <opc:ComplexType Name="HistoryReadValueId" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="HistoryReadValueId" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="IndexRange" DataType="NumericRange" />
     <opc:Field Name="DataEncoding" DataType="s0:QualifiedName" />
     <opc:Field Name="ContinuationPoint" DataType="s0:ByteString" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="HistoryReadResult" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="HistoryReadResult" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="StatusCode" DataType="s0:StatusCode" />
     <opc:Field Name="ContinuationPoint" DataType="s0:ByteString" />
     <opc:Field Name="HistoryData" DataType="s0:ExtensionObject" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="HistoryReadDetails" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="HistoryReadDetails" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ReadEventDetails" BaseType="HistoryReadDetails" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ReadEventDetails" BaseType="HistoryReadDetails" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="NumValuesPerNode" DataType="Counter" />
     <opc:Field Name="StartTime" DataType="UtcTime" />
     <opc:Field Name="EndTime" DataType="UtcTime" />
     <opc:Field Name="Filter" DataType="EventFilter" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ReadRawModifiedDetails" BaseType="HistoryReadDetails" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ReadRawModifiedDetails" BaseType="HistoryReadDetails" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="IsReadModified" DataType="s0:Boolean" />
     <opc:Field Name="StartTime" DataType="UtcTime" />
     <opc:Field Name="EndTime" DataType="UtcTime" />
@@ -2033,7 +2032,7 @@
     <opc:Field Name="ReturnBounds" DataType="s0:Boolean" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ReadProcessedDetails" BaseType="HistoryReadDetails" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ReadProcessedDetails" BaseType="HistoryReadDetails" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="StartTime" DataType="UtcTime" />
     <opc:Field Name="EndTime" DataType="UtcTime" />
     <opc:Field Name="ProcessingInterval" DataType="Duration" />
@@ -2041,22 +2040,22 @@
     <opc:Field Name="AggregateConfiguration" DataType="AggregateConfiguration" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ReadAtTimeDetails" BaseType="HistoryReadDetails" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ReadAtTimeDetails" BaseType="HistoryReadDetails" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="ReqTimes" DataType="UtcTime" ValueRank="0" />
     <opc:Field Name="UseSimpleBounds" DataType="s0:Boolean" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="HistoryData" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="HistoryData" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="DataValues" DataType="s0:DataValue" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ModificationInfo" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="ModificationInfo" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="ModificationTime" DataType="UtcTime" />
     <opc:Field Name="UpdateType" DataType="HistoryUpdateType" />
     <opc:Field Name="UserName" DataType="s0:String" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="HistoryModifiedData" BaseType="HistoryData" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="HistoryModifiedData" BaseType="HistoryData" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="ModificationInfos" DataType="ModificationInfo" ValueRank="0" />
   </opc:ComplexType>
 
@@ -2079,7 +2078,7 @@
     </opc:Response>
   </opc:ServiceType>
 
-  <opc:ComplexType Name="WriteValue" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="WriteValue" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="AttributeId" DataType="IntegerId" />
     <opc:Field Name="IndexRange" DataType="NumericRange" />
@@ -2098,7 +2097,7 @@
     </opc:Response>
   </opc:ServiceType>
 
-  <opc:ComplexType Name="HistoryUpdateDetails" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="HistoryUpdateDetails" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="NodeId" DataType="s0:NodeId" />
   </opc:ComplexType>
 
@@ -2116,37 +2115,37 @@
     <opc:Value Name="Remove" Value="4" />
   </opc:EnumeratedType>
 
-  <opc:ComplexType Name="UpdateDataDetails" BaseType="HistoryUpdateDetails" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="UpdateDataDetails" BaseType="HistoryUpdateDetails" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="PerformInsertReplace" DataType="PerformUpdateType" />
     <opc:Field Name="UpdateValues" DataType="s0:DataValue" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="UpdateStructureDataDetails" BaseType="HistoryUpdateDetails" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="UpdateStructureDataDetails" BaseType="HistoryUpdateDetails" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="PerformInsertReplace" DataType="PerformUpdateType" />
     <opc:Field Name="UpdateValues" DataType="s0:DataValue" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="UpdateEventDetails" BaseType="HistoryUpdateDetails" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="UpdateEventDetails" BaseType="HistoryUpdateDetails" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="PerformInsertReplace" DataType="PerformUpdateType" />
     <opc:Field Name="Filter" DataType="EventFilter" />
     <opc:Field Name="EventData" DataType="HistoryEventFieldList" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="DeleteRawModifiedDetails" BaseType="HistoryUpdateDetails" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="DeleteRawModifiedDetails" BaseType="HistoryUpdateDetails" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="IsDeleteModified" DataType="s0:Boolean" />
     <opc:Field Name="StartTime" DataType="UtcTime" />
     <opc:Field Name="EndTime" DataType="UtcTime" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="DeleteAtTimeDetails" BaseType="HistoryUpdateDetails" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="DeleteAtTimeDetails" BaseType="HistoryUpdateDetails" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="ReqTimes" DataType="UtcTime" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="DeleteEventDetails" BaseType="HistoryUpdateDetails" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="DeleteEventDetails" BaseType="HistoryUpdateDetails" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="EventIds" DataType="s0:ByteString" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="HistoryUpdateResult" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="HistoryUpdateResult" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="StatusCode" DataType="s0:StatusCode" />
     <opc:Field Name="OperationResults" DataType="s0:StatusCode" ValueRank="0" />
     <opc:Field Name="DiagnosticInfos" DataType="s0:DiagnosticInfo" ValueRank="0" />
@@ -2164,13 +2163,13 @@
     </opc:Response>
   </opc:ServiceType>
 
-  <opc:ComplexType Name="CallMethodRequest" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="CallMethodRequest" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="ObjectId" DataType="s0:NodeId" />
     <opc:Field Name="MethodId" DataType="s0:NodeId" />
     <opc:Field Name="InputArguments" DataType="s0:Variant" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="CallMethodResult" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="CallMethodResult" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="StatusCode" DataType="s0:StatusCode" />
     <opc:Field Name="InputArgumentResults" DataType="s0:StatusCode" ValueRank="0" />
     <opc:Field Name="InputArgumentDiagnosticInfos" DataType="s0:DiagnosticInfo" ValueRank="0" />
@@ -2189,19 +2188,19 @@
     </opc:Response>
   </opc:ServiceType>
 
-  <opc:EnumeratedType Name="MonitoringMode" NotInAddressSpace="true" PartNo="4">
+  <opc:EnumeratedType Name="MonitoringMode" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Value Name="Disabled" Value="0" />
     <opc:Value Name="Sampling" Value="1" />
     <opc:Value Name="Reporting" Value="2" />
   </opc:EnumeratedType>
 
-  <opc:EnumeratedType Name="DataChangeTrigger" NotInAddressSpace="true" PartNo="4">
+  <opc:EnumeratedType Name="DataChangeTrigger" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Value Name="Status" Value="0" />
     <opc:Value Name="StatusValue" Value="1" />
     <opc:Value Name="StatusValueTimestamp" Value="2" />
   </opc:EnumeratedType>
 
-  <opc:EnumeratedType Name="DeadbandType" NotInAddressSpace="true" PartNo="4">
+  <opc:EnumeratedType Name="DeadbandType" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Value Name="None" Value="0" />
     <opc:Value Name="Absolute" Value="1" />
     <opc:Value Name="Percent" Value="2" />
@@ -2209,7 +2208,7 @@
 
   <opc:ComplexType Name="MonitoringFilter" />
 
-  <opc:ComplexType Name="DataChangeFilter" BaseType="MonitoringFilter" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="DataChangeFilter" BaseType="MonitoringFilter" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="Trigger" DataType="DataChangeTrigger" />
     <opc:Field Name="DeadbandType" DataType="s0:UInt32" />
     <opc:Field Name="DeadbandValue" DataType="s0:Double" />
@@ -2228,28 +2227,28 @@
     <opc:Field Name="UseSlopedExtrapolation" DataType="s0:Boolean" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="AggregateFilter" BaseType="MonitoringFilter" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="AggregateFilter" BaseType="MonitoringFilter" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="StartTime" DataType="UtcTime" />
     <opc:Field Name="AggregateType" DataType="s0:NodeId" />
     <opc:Field Name="ProcessingInterval" DataType="Duration" />
     <opc:Field Name="AggregateConfiguration" DataType="AggregateConfiguration" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="MonitoringFilterResult" NotInAddressSpace="true"  PartNo="4" />
+  <opc:ComplexType Name="MonitoringFilterResult" NotInAddressSpace="true" Purpose="ServicesOnly"  PartNo="4" />
 
-  <opc:ComplexType Name="EventFilterResult" BaseType="MonitoringFilterResult" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="EventFilterResult" BaseType="MonitoringFilterResult" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="SelectClauseResults" DataType="s0:StatusCode" ValueRank="0" />
     <opc:Field Name="SelectClauseDiagnosticInfos" DataType="s0:DiagnosticInfo" ValueRank="0" />
     <opc:Field Name="WhereClauseResult" DataType="ContentFilterResult" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="AggregateFilterResult" BaseType="MonitoringFilterResult" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="AggregateFilterResult" BaseType="MonitoringFilterResult" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="RevisedStartTime" DataType="UtcTime" />
     <opc:Field Name="RevisedProcessingInterval" DataType="Duration" />
     <opc:Field Name="RevisedAggregateConfiguration" DataType="AggregateConfiguration" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="MonitoringParameters" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="MonitoringParameters" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="ClientHandle" DataType="IntegerId" />
     <opc:Field Name="SamplingInterval" DataType="Duration" />
     <opc:Field Name="Filter" DataType="s0:ExtensionObject" />
@@ -2257,13 +2256,13 @@
     <opc:Field Name="DiscardOldest" DataType="s0:Boolean" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="MonitoredItemCreateRequest" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="MonitoredItemCreateRequest" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="ItemToMonitor" DataType="ReadValueId" />
     <opc:Field Name="MonitoringMode" DataType="MonitoringMode" />
     <opc:Field Name="RequestedParameters" DataType="MonitoringParameters" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="MonitoredItemCreateResult" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="MonitoredItemCreateResult" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="StatusCode" DataType="s0:StatusCode" />
     <opc:Field Name="MonitoredItemId" DataType="IntegerId" />
     <opc:Field Name="RevisedSamplingInterval" DataType="Duration" />
@@ -2285,12 +2284,12 @@
     </opc:Response>
   </opc:ServiceType>
 
-  <opc:ComplexType Name="MonitoredItemModifyRequest" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="MonitoredItemModifyRequest" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="MonitoredItemId" DataType="IntegerId" />
     <opc:Field Name="RequestedParameters" DataType="MonitoringParameters" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="MonitoredItemModifyResult" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="MonitoredItemModifyResult" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="StatusCode" DataType="s0:StatusCode" />
     <opc:Field Name="RevisedSamplingInterval" DataType="Duration" />
     <opc:Field Name="RevisedQueueSize" DataType="Counter" />
@@ -2405,29 +2404,29 @@
     </opc:Response>
   </opc:ServiceType>
 
-  <opc:ComplexType Name="NotificationMessage" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="NotificationMessage" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="SequenceNumber" DataType="Counter" />
     <opc:Field Name="PublishTime" DataType="UtcTime" />
     <opc:Field Name="NotificationData" DataType="s0:ExtensionObject" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="NotificationData" NotInAddressSpace="true"  PartNo="4" />
+  <opc:ComplexType Name="NotificationData" NotInAddressSpace="true" Purpose="ServicesOnly"  PartNo="4" />
 
-  <opc:ComplexType Name="DataChangeNotification" BaseType="NotificationData" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="DataChangeNotification" BaseType="NotificationData" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="MonitoredItems" DataType="MonitoredItemNotification" ValueRank="0" />
     <opc:Field Name="DiagnosticInfos" DataType="s0:DiagnosticInfo" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="MonitoredItemNotification" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="MonitoredItemNotification" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="ClientHandle" DataType="IntegerId" />
     <opc:Field Name="Value" DataType="s0:DataValue" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="EventNotificationList" BaseType="NotificationData" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="EventNotificationList" BaseType="NotificationData" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="Events" DataType="EventFieldList" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="EventFieldList" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="EventFieldList" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="ClientHandle" DataType="IntegerId" />
     <opc:Field Name="EventFields" DataType="s0:Variant" ValueRank="0" />
   </opc:ComplexType>
@@ -2436,12 +2435,12 @@
     <opc:Field Name="EventFields" DataType="s0:Variant" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="StatusChangeNotification" BaseType="NotificationData" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="StatusChangeNotification" BaseType="NotificationData" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="Status" DataType="s0:StatusCode" />
     <opc:Field Name="DiagnosticInfo" DataType="s0:DiagnosticInfo" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="SubscriptionAcknowledgement" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="SubscriptionAcknowledgement" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="SubscriptionId" DataType="IntegerId" />
     <opc:Field Name="SequenceNumber" DataType="Counter" />
   </opc:ComplexType>
@@ -2474,7 +2473,7 @@
     </opc:Response>
   </opc:ServiceType>
 
-  <opc:ComplexType Name="TransferResult" AllowArrays="true" NotInAddressSpace="true" PartNo="4">
+  <opc:ComplexType Name="TransferResult" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="StatusCode" DataType="s0:StatusCode" />
     <opc:Field Name="AvailableSequenceNumbers" DataType="Counter" ValueRank="0" />
   </opc:ComplexType>
@@ -2785,7 +2784,7 @@
     <opc:Field Name="EventQueueOverFlowCount" DataType="s0:UInt32" />
   </opc:ComplexType>
 
-  <opc:EnumeratedType Name="ModelChangeStructureVerbMask" NotInAddressSpace="true" PartNo="5">
+  <opc:EnumeratedType Name="ModelChangeStructureVerbMask" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="5">
     <opc:Value Name="NodeAdded" Value="1" />
     <opc:Value Name="NodeDeleted" Value="2" />
     <opc:Value Name="ReferenceAdded" Value="4" />

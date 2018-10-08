@@ -8,7 +8,7 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
   TargetVersion="1.04"
-  TargetPublicationDate="2018-07-31T00:00:00Z"
+  TargetPublicationDate="2018-09-15T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -973,7 +973,7 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Object SymbolicName="Server" TypeDefinition="ServerType" ModellingRule="None" SupportsEvents="true" PartNo="5" Category="Part5">
+  <opc:Object SymbolicName="Server" TypeDefinition="ServerType" ModellingRule="None" SupportsEvents="true" PartNo="5">
     <opc:Children>
       <opc:Property SymbolicName="EstimatedReturnTime" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="LocalTime" ModellingRule="Mandatory" />
@@ -1133,6 +1133,19 @@
     <opc:Fields>
       <opc:Field Name="Key" DataType="ua:QualifiedName" />
       <opc:Field Name="Value" DataType="ua:BaseDataType" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="AdditionalParametersType" BaseType="Structure" NoArraysAllowed="true" PartNo="5" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="Parameters" DataType="KeyValuePair" ValueRank="Array" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="EphemeralKeyType" BaseType="Structure" NoArraysAllowed="true" PartNo="5" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="PublicKey" DataType="ua:ByteString" />
+      <opc:Field Name="Signature" DataType="ua:ByteString" />
     </opc:Fields>
   </opc:DataType>
 
@@ -1616,19 +1629,19 @@
 
   <opc:Method SymbolicName="AddIdentityMethodType" PartNo="5">
     <opc:InputArguments>
-      <opc:Argument Name="RuleToAdd" DataType="IdentityMappingRuleType" />
+      <opc:Argument Name="Rule" DataType="IdentityMappingRuleType" />
     </opc:InputArguments>
   </opc:Method>
 
   <opc:Method SymbolicName="RemoveIdentityMethodType" PartNo="5">
     <opc:InputArguments>
-      <opc:Argument Name="RuleToRemove" DataType="IdentityMappingRuleType" />
+      <opc:Argument Name="Rule" DataType="IdentityMappingRuleType" />
     </opc:InputArguments>
   </opc:Method>
 
   <opc:Method SymbolicName="AddApplicationMethodType" PartNo="5">
     <opc:InputArguments>
-      <opc:Argument Name="RuleToAdd" DataType="ua:String" />
+      <opc:Argument Name="ApplicationUri" DataType="ua:String" />
     </opc:InputArguments>
   </opc:Method>
 
@@ -1640,13 +1653,13 @@
 
   <opc:Method SymbolicName="AddEndpointMethodType" PartNo="5">
     <opc:InputArguments>
-      <opc:Argument Name="RuleToAdd" DataType="ua:String" />
+      <opc:Argument Name="Endpoint" DataType="ua:String" />
     </opc:InputArguments>
   </opc:Method>
 
   <opc:Method SymbolicName="RemoveEndpointMethodType" PartNo="5">
     <opc:InputArguments>
-      <opc:Argument Name="RuleToRemove" DataType="ua:String" />
+      <opc:Argument Name="Endpoint" DataType="ua:String" />
     </opc:InputArguments>
   </opc:Method>
 
@@ -1872,7 +1885,7 @@
     </opc:Children>
   </opc:VariableType>
 
-  <opc:VariableType SymbolicName="EUItemType" BaseType="DataItemType" DataType="ua:Number" PartNo="8" Category="Part8,1.05">
+  <opc:VariableType SymbolicName="EUItemType" BaseType="DataItemType" DataType="ua:Number" PartNo="8" ReleaseStatus="Draft">
     <opc:Children>
       <opc:Property SymbolicName="InstrumentRange" DataType="Range" ModellingRule="Optional" />
       <opc:Property SymbolicName="EURange" DataType="Range" ModellingRule="Optional" />
@@ -1880,7 +1893,7 @@
     </opc:Children>
   </opc:VariableType>
 
-  <opc:VariableType SymbolicName="AnalogUnitItemType" BaseType="DataItemType" DataType="ua:Number" PartNo="8" Category="Part8,1.05">
+  <opc:VariableType SymbolicName="AnalogUnitItemType" BaseType="DataItemType" DataType="ua:Number" PartNo="8" ReleaseStatus="Draft">
     <opc:Children>
       <opc:Property SymbolicName="InstrumentRange" DataType="Range" ModellingRule="Optional" />
       <opc:Property SymbolicName="EURange" DataType="Range" ModellingRule="Optional" />
@@ -3952,7 +3965,7 @@
   </opc:Object>
 
   <!-- Part 3 - Additional Types -->
-  <opc:DataType SymbolicName="DecimalDataType" BaseType="ua:Structure" NotInAddressSpace="true" NoArraysAllowed="true" PartNo="3" Category="Part3/Internal">
+  <opc:DataType SymbolicName="DecimalDataType" BaseType="ua:Structure" NotInAddressSpace="true" Purpose="CodeGenerator" NoArraysAllowed="true" PartNo="3">
     <opc:Fields>
       <opc:Field Name="Scale"  DataType="ua:Int16" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Value"  DataType="ua:ByteString" ValueRank="Scalar"></opc:Field>
@@ -4114,7 +4127,7 @@
       <opc:Field Name="MessageSettings"  DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
-
+WriterGroupDataType
   <opc:DataType SymbolicName="DataSetWriterTransportDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14" />
   <opc:DataType SymbolicName="DataSetWriterMessageDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14" />
 
@@ -4137,6 +4150,7 @@
       <opc:Field Name="KeepAliveTime" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Priority" DataType="ua:Byte" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="LocaleIds" DataType="ua:LocaleId" ValueRank="Array"></opc:Field>
+      <opc:Field Name="HeaderLayoutUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="TransportSettings" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="MessageSettings" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetWriters" DataType="DataSetWriterDataType" ValueRank="Array"></opc:Field>
@@ -4195,6 +4209,8 @@
       <opc:Field Name="DataSetMetaData"  DataType="DataSetMetaDataType" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetFieldContentMask"  DataType="DataSetFieldContentMask" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="MessageReceiveTimeout"  DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="KeyFrameCount"  DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="HeaderLayoutUri"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="SecurityMode"  DataType="ua:MessageSecurityMode" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="SecurityGroupId"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="SecurityKeyServices"  DataType="ua:EndpointDescription" ValueRank="Array"></opc:Field>
@@ -4818,6 +4834,7 @@
       <opc:Property SymbolicName="KeepAliveTime" DataType="ua:Duration" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Priority" DataType="ua:Byte" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="LocaleIds" DataType="ua:LocaleId" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="HeaderLayoutUri" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="TransportSettings" TypeDefinition="WriterGroupTransportType" ModellingRule="Optional" />
       <opc:Object SymbolicName="MessageSettings" TypeDefinition="WriterGroupMessageType" ModellingRule="Optional" />
       <opc:Object SymbolicName="DataSetWriterName_Placeholder" TypeDefinition="DataSetWriterType" ModellingRule="OptionalPlaceholder">
@@ -4911,7 +4928,9 @@
       <opc:Property SymbolicName="DataSetWriterId" DataType="ua:UInt16" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetMetaData" DataType="DataSetMetaDataType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetFieldContentMask" DataType="DataSetFieldContentMask" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="MessageReceiveTimeout" DataType="ua:UInt16" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MessageReceiveTimeout" DataType="ua:Duration" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="KeyFrameCount" DataType="ua:UInt32" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="HeaderLayoutUri" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="SecurityMode" DataType="MessageSecurityMode" ModellingRule="Optional" />
       <opc:Property SymbolicName="SecurityGroupId" DataType="ua:String" ModellingRule="Optional" />
       <opc:Property SymbolicName="SecurityKeyServices" DataType="EndpointDescription" ValueRank="Array" ModellingRule="Optional" />
