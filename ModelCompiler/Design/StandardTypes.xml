@@ -1647,7 +1647,7 @@
 
   <opc:Method SymbolicName="RemoveApplicationMethodType" PartNo="5">
     <opc:InputArguments>
-      <opc:Argument Name="RuleToRemove" DataType="ua:String" />
+      <opc:Argument Name="ApplicationUri" DataType="ua:String" />
     </opc:InputArguments>
   </opc:Method>
 

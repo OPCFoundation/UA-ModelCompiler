@@ -1037,9 +1037,9 @@ namespace Opc.Ua.ModelCompiler {
         
         /// <remarks/>
         Draft,
-        
+
         /// <remarks/>
-        Depreciated,
+        Deprecated,
     }
     
     /// <remarks/>

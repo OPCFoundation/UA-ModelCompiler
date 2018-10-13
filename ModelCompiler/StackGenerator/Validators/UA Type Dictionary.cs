@@ -467,9 +467,9 @@ namespace Opc.Ua.CodeGenerator {
         
         /// <remarks/>
         Draft,
-        
+
         /// <remarks/>
-        Depreciated,
+        Deprecated,
     }
     
     /// <remarks/>
