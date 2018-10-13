@@ -1099,9 +1099,9 @@ namespace Opc.Ua.Export {
         
         /// <remarks/>
         Draft,
-        
+
         /// <remarks/>
-        Depreciated,
+        Deprecated,
     }
     
     /// <remarks/>
