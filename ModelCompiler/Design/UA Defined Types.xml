@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04" TargetPublicationDate="2018-09-15T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04" TargetPublicationDate="2018-10-15T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -1854,7 +1854,7 @@
   </Method>
   <Method SymbolicName="tns:RemoveApplicationMethodType" PartNo="5">
     <InputArguments>
-      <Argument Name="RuleToRemove" DataType="tns:String" />
+      <Argument Name="ApplicationUri" DataType="tns:String" />
     </InputArguments>
   </Method>
   <Method SymbolicName="tns:AddEndpointMethodType" PartNo="5">
@@ -4876,12 +4876,7 @@
       <Argument Name="ParentNodeId" DataType="tns:NodeId" />
     </OutputArguments>
   </Method>
-  <ObjectType SymbolicName="tns:SubscribedDataSetType" PartNo="14" BaseType="tns:BaseObjectType">
-    <Children>
-      <Property SymbolicName="tns:DataSetMetaData" ModellingRule="Mandatory" DataType="tns:DataSetMetaDataType" />
-      <Property SymbolicName="tns:MessageReceiveTimeout" ModellingRule="Mandatory" DataType="tns:Duration" />
-    </Children>
-  </ObjectType>
+  <ObjectType SymbolicName="tns:SubscribedDataSetType" PartNo="14" BaseType="tns:BaseObjectType" />
   <ObjectType SymbolicName="tns:TargetVariablesType" PartNo="14" BaseType="tns:SubscribedDataSetType">
     <Children>
       <Property SymbolicName="tns:TargetVariables" ModellingRule="Mandatory" DataType="tns:FieldTargetDataType" ValueRank="Array" />
