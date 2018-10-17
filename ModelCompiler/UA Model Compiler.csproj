@@ -19,6 +19,7 @@
     </UpgradeBackupLocation>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <IntermediateOutputPath>$(SolutionDir)build\obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
@@ -43,7 +44,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Bin\Debug\</OutputPath>
+    <OutputPath>$(SolutionDir)Bin\$(Configuration)</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -54,7 +55,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Bin\Release\</OutputPath>
+    <OutputPath>$(SolutionDir)Bin\$(Configuration)</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
