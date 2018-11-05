@@ -159,7 +159,7 @@ namespace Opc.Ua.ModelCompiler
                 {
                     if (design2.TypeDefinition != null && design2.TypeDefinition.Name == "DataTypeEncodingType")
                     {
-                        isInAddressSpace = true;
+                        isInAddressSpace = design2.Parent == null || !design2.Parent.NotInAddressSpace;
                     }
                 }
 

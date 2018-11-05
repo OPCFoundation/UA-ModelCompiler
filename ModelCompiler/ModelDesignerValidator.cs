@@ -1756,6 +1756,7 @@ namespace Opc.Ua.ModelCompiler
             encoding.Category = dataType.Category;
             encoding.ReleaseStatus = dataType.ReleaseStatus;
             encoding.Purpose = dataType.Purpose;
+            encoding.Parent = dataType;
 
             Reference reference1 = new Reference();
 
