@@ -8,7 +8,7 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
   TargetVersion="1.04"
-  TargetPublicationDate="2018-10-15T00:00:00Z"
+  TargetPublicationDate="2018-11-15T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -534,20 +534,12 @@
     </opc:References>
   </opc:Object>
   
-  <opc:ReferenceType SymbolicName="HasArgumentDescription" BaseType="ua:HasComponent" PartNo="3" ReleaseStatus="Draft">
+  <opc:ReferenceType SymbolicName="HasArgumentDescription" BaseType="ua:HasComponent" PartNo="3" ReleaseStatus="Released">
     <opc:InverseName>ArgumentDescriptionOf</opc:InverseName>
   </opc:ReferenceType>
-  
-  <opc:ReferenceType SymbolicName="HasInputArgumentDescription" BaseType="ua:HasArgumentDescription" PartNo="3" ReleaseStatus="Draft">
-    <opc:InverseName>InputArgumentDescriptionOf</opc:InverseName>
-  </opc:ReferenceType>
-  
-  <opc:ReferenceType SymbolicName="HasOptionalInputArgumentDescription" BaseType="ua:HasInputArgumentDescription" PartNo="3" ReleaseStatus="Draft">
+    
+  <opc:ReferenceType SymbolicName="HasOptionalInputArgumentDescription" BaseType="ua:HasArgumentDescription" PartNo="3" ReleaseStatus="Released">
     <opc:InverseName>OptionalInputArgumentDescriptionOf</opc:InverseName>
   </opc:ReferenceType>
   
-  <opc:ReferenceType SymbolicName="HasOutputArgumentDescription" BaseType="ua:HasArgumentDescription" PartNo="3" ReleaseStatus="Draft">
-    <opc:InverseName>OutputArgumentDescriptionFor</opc:InverseName>
-  </opc:ReferenceType>
-
 </opc:ModelDesign>

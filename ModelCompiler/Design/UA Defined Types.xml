@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04" TargetPublicationDate="2018-10-15T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04" TargetPublicationDate="2018-11-15T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -440,17 +440,11 @@
       </Reference>
     </References>
   </Object>
-  <ReferenceType SymbolicName="tns:HasArgumentDescription" PartNo="3" ReleaseStatus="Draft" BaseType="tns:HasComponent">
+  <ReferenceType SymbolicName="tns:HasArgumentDescription" PartNo="3" BaseType="tns:HasComponent">
     <InverseName>ArgumentDescriptionOf</InverseName>
   </ReferenceType>
-  <ReferenceType SymbolicName="tns:HasInputArgumentDescription" PartNo="3" ReleaseStatus="Draft" BaseType="tns:HasArgumentDescription">
-    <InverseName>InputArgumentDescriptionOf</InverseName>
-  </ReferenceType>
-  <ReferenceType SymbolicName="tns:HasOptionalInputArgumentDescription" PartNo="3" ReleaseStatus="Draft" BaseType="tns:HasInputArgumentDescription">
+  <ReferenceType SymbolicName="tns:HasOptionalInputArgumentDescription" PartNo="3" BaseType="tns:HasArgumentDescription">
     <InverseName>OptionalInputArgumentDescriptionOf</InverseName>
-  </ReferenceType>
-  <ReferenceType SymbolicName="tns:HasOutputArgumentDescription" PartNo="3" ReleaseStatus="Draft" BaseType="tns:HasArgumentDescription">
-    <InverseName>OutputArgumentDescriptionFor</InverseName>
   </ReferenceType>
   <Object SymbolicName="tns:OPCUANamespaceMetadata" PartNo="5" TypeDefinition="tns:NamespaceMetadataType">
     <BrowseName>http://opcfoundation.org/UA/</BrowseName>
@@ -467,7 +461,7 @@
       </Property>
       <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
         <DefaultValue>
-          <uax:DateTime>2018-07-31</uax:DateTime>
+          <uax:DateTime>2018-11-15</uax:DateTime>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
@@ -1476,6 +1470,19 @@
     </Children>
     <ClassName>StateMachineTransition</ClassName>
   </ObjectType>
+  <ObjectType SymbolicName="tns:ChoiceStateType" PartNo="5" BaseType="tns:StateType">
+    <ClassName>StateMachineChoiceStateType</ClassName>
+  </ObjectType>
+  <ReferenceType SymbolicName="tns:HasGuard" PartNo="5" BaseType="tns:HasComponent">
+    <InverseName>GuardOf</InverseName>
+  </ReferenceType>
+  <VariableType SymbolicName="tns:GuardVariableType" PartNo="5" BaseType="tns:BaseDataVariableType" DataType="tns:LocalizedText" />
+  <VariableType SymbolicName="tns:ExpressionGuardVariableType" PartNo="5" BaseType="tns:GuardVariableType" DataType="tns:LocalizedText">
+    <Children>
+      <Property SymbolicName="tns:Expression" ModellingRule="Mandatory" DataType="tns:ContentFilter" />
+    </Children>
+  </VariableType>
+  <VariableType SymbolicName="tns:ElseGuardVariableType" PartNo="5" BaseType="tns:GuardVariableType" DataType="tns:LocalizedText" />
   <ObjectType SymbolicName="tns:TransitionEventType" PartNo="5" BaseType="tns:BaseEventType">
     <Children>
       <Variable SymbolicName="tns:Transition" TypeDefinition="tns:TransitionVariableType" DataType="tns:LocalizedText" />
@@ -2069,24 +2076,25 @@
       </Property>
     </Children>
   </VariableType>
-  <VariableType SymbolicName="tns:AnalogItemType" PartNo="8" BaseType="tns:DataItemType" DataType="tns:Number">
+  <VariableType SymbolicName="tns:BaseAnalogType" PartNo="8" BaseType="tns:DataItemType" DataType="tns:Number">
     <Children>
       <Property SymbolicName="tns:InstrumentRange" ModellingRule="Optional" DataType="tns:Range" />
+      <Property SymbolicName="tns:EURange" ModellingRule="Optional" DataType="tns:Range" />
+      <Property SymbolicName="tns:EngineeringUnits" ModellingRule="Optional" DataType="tns:EUInformation" />
+    </Children>
+  </VariableType>
+  <VariableType SymbolicName="tns:AnalogItemType" PartNo="8" BaseType="tns:BaseAnalogType" DataType="tns:Number">
+    <Children>
       <Property SymbolicName="tns:EURange" ModellingRule="Mandatory" DataType="tns:Range" />
-      <Property SymbolicName="tns:EngineeringUnits" ModellingRule="Optional" DataType="tns:EUInformation" />
     </Children>
   </VariableType>
-  <VariableType SymbolicName="tns:EUItemType" PartNo="8" ReleaseStatus="Draft" BaseType="tns:DataItemType" DataType="tns:Number">
+  <VariableType SymbolicName="tns:AnalogUnitType" PartNo="8" BaseType="tns:BaseAnalogType" DataType="tns:Number">
     <Children>
-      <Property SymbolicName="tns:InstrumentRange" ModellingRule="Optional" DataType="tns:Range" />
-      <Property SymbolicName="tns:EURange" ModellingRule="Optional" DataType="tns:Range" />
-      <Property SymbolicName="tns:EngineeringUnits" ModellingRule="Optional" DataType="tns:EUInformation" />
+      <Property SymbolicName="tns:EngineeringUnits" ModellingRule="Mandatory" DataType="tns:EUInformation" />
     </Children>
   </VariableType>
-  <VariableType SymbolicName="tns:AnalogUnitItemType" PartNo="8" ReleaseStatus="Draft" BaseType="tns:DataItemType" DataType="tns:Number">
+  <VariableType SymbolicName="tns:AnalogUnitRangeType" PartNo="8" BaseType="tns:AnalogItemType" DataType="tns:Number">
     <Children>
-      <Property SymbolicName="tns:InstrumentRange" ModellingRule="Optional" DataType="tns:Range" />
-      <Property SymbolicName="tns:EURange" ModellingRule="Optional" DataType="tns:Range" />
       <Property SymbolicName="tns:EngineeringUnits" ModellingRule="Mandatory" DataType="tns:EUInformation" />
     </Children>
   </VariableType>
@@ -3988,7 +3996,7 @@
       <Field Name="Value" DataType="tns:ByteString" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:DataTypeSchemaHeader" PartNo="14" BaseType="tns:Structure">
+  <DataType SymbolicName="tns:DataTypeSchemaHeader" PartNo="14" BaseType="tns:Structure" IsAbstract="true">
     <Fields>
       <Field Name="Namespaces" DataType="tns:String" ValueRank="Array" />
       <Field Name="StructureDataTypes" DataType="tns:StructureDescription" ValueRank="Array" />
@@ -3996,7 +4004,7 @@
       <Field Name="SimpleDataTypes" DataType="tns:SimpleTypeDescription" ValueRank="Array" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:DataTypeDescription" PartNo="14" BaseType="tns:Structure">
+  <DataType SymbolicName="tns:DataTypeDescription" PartNo="14" BaseType="tns:Structure" IsAbstract="true">
     <Fields>
       <Field Name="DataTypeId" DataType="tns:NodeId" />
       <Field Name="Name" DataType="tns:QualifiedName" />
@@ -4127,7 +4135,7 @@
   </DataType>
   <DataType SymbolicName="tns:DataSetWriterTransportDataType" PartNo="14" BaseType="tns:Structure" IsAbstract="true" />
   <DataType SymbolicName="tns:DataSetWriterMessageDataType" PartNo="14" BaseType="tns:Structure" IsAbstract="true" />
-  <DataType SymbolicName="tns:PubSubGroupDataType" PartNo="14" BaseType="tns:Structure">
+  <DataType SymbolicName="tns:PubSubGroupDataType" PartNo="14" BaseType="tns:Structure" IsAbstract="true">
     <Fields>
       <Field Name="Name" DataType="tns:String" />
       <Field Name="Enabled" DataType="tns:Boolean" />
@@ -4334,6 +4342,7 @@
   </DataType>
   <DataType SymbolicName="tns:JsonDataSetWriterMessageDataType" PartNo="14" BaseType="tns:DataSetWriterMessageDataType">
     <Fields>
+      <Field Name="NetworkMessageContentMask" DataType="tns:JsonNetworkMessageContentMask" />
       <Field Name="DataSetMessageContentMask" DataType="tns:JsonDataSetMessageContentMask" />
     </Fields>
   </DataType>

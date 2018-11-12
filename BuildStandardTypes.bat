@@ -71,8 +71,6 @@ COPY ".\Core\Schema\UANodeSet.xsd" "%OUTPUT%\Schema\UANodeSet.xsd"
 COPY ".\Core\Schema\SecuredApplication.xsd" "%OUTPUT%\Schema\SecuredApplication.xsd"
 COPY ".\Core\Types\Schemas\OPCBinarySchema.xsd" "%OUTPUT%\Schema\OPCBinarySchema.xsd"
 COPY ".\Core\Schema\ServerCapabilities.csv" "%OUTPUT%\Schema\ServerCapabilities.csv"
-COPY ".\ModelCompiler\Design\rec20_latest.csv" "%OUTPUT%\Schema\rec20_latest.csv"
-COPY ".\ModelCompiler\Design\UNECE_to_OPCUA.csv" "%OUTPUT%\Schema\UNECE_to_OPCUA.csv"
 @ECHO OFF
 
 REM STEP 2a) Copy code to ANSIC

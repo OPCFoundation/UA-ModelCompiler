@@ -8,7 +8,7 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
   TargetVersion="1.04"
-  TargetPublicationDate="2018-10-15T00:00:00Z"
+  TargetPublicationDate="2018-11-15T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -29,7 +29,7 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2018-07-31</uax:DateTime>
+          <uax:DateTime>2018-11-15</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -1217,13 +1217,33 @@
   <opc:ObjectType SymbolicName="InitialStateType" BaseType="StateType" PartNo="5">
     <opc:ClassName>StateMachineInitialState</opc:ClassName>
   </opc:ObjectType>
-
+  
   <opc:ObjectType SymbolicName="TransitionType" PartNo="5">
     <opc:Children>
       <opc:Property SymbolicName="TransitionNumber" DataType="ua:UInt32" ModellingRule="Mandatory"></opc:Property>
     </opc:Children>
     <opc:ClassName>StateMachineTransition</opc:ClassName>
   </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="ChoiceStateType" BaseType="StateType" PartNo="5">
+    <opc:ClassName>StateMachineChoiceStateType</opc:ClassName>
+  </opc:ObjectType>
+
+  <opc:ReferenceType SymbolicName="HasGuard" BaseType="ua:HasComponent" PartNo="5">
+    <opc:InverseName>GuardOf</opc:InverseName>
+  </opc:ReferenceType>
+  
+  <opc:VariableType SymbolicName="GuardVariableType" DataType="LocalizedText" BaseType="BaseDataVariableType" PartNo="5">
+  </opc:VariableType>
+
+  <opc:VariableType SymbolicName="ExpressionGuardVariableType" DataType="LocalizedText" BaseType="GuardVariableType" PartNo="5">
+    <opc:Children>
+      <opc:Property SymbolicName="Expression" DataType="ua:ContentFilter" ModellingRule="Mandatory"></opc:Property>
+    </opc:Children>
+  </opc:VariableType>
+
+  <opc:VariableType SymbolicName="ElseGuardVariableType" DataType="LocalizedText" BaseType="GuardVariableType" PartNo="5">
+  </opc:VariableType>
 
   <!-- FromState BuiltInTypes.xml -->
   <!-- ToState BuiltInTypes.xml -->
@@ -1877,26 +1897,28 @@
     </opc:Children>
   </opc:VariableType>
 
-  <opc:VariableType SymbolicName="AnalogItemType" BaseType="DataItemType" DataType="ua:Number" PartNo="8">
+  <opc:VariableType SymbolicName="BaseAnalogType" BaseType="DataItemType" DataType="ua:Number" PartNo="8">
     <opc:Children>
       <opc:Property SymbolicName="InstrumentRange" DataType="Range" ModellingRule="Optional" />
+      <opc:Property SymbolicName="EURange" DataType="Range" ModellingRule="Optional" />
+      <opc:Property SymbolicName="EngineeringUnits" DataType="EUInformation" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:VariableType>
+
+  <opc:VariableType SymbolicName="AnalogItemType" BaseType="BaseAnalogType" DataType="ua:Number" PartNo="8">
+    <opc:Children>
       <opc:Property SymbolicName="EURange" DataType="Range" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="EngineeringUnits" DataType="EUInformation" ModellingRule="Optional" />
     </opc:Children>
   </opc:VariableType>
 
-  <opc:VariableType SymbolicName="EUItemType" BaseType="DataItemType" DataType="ua:Number" PartNo="8" ReleaseStatus="Draft">
+  <opc:VariableType SymbolicName="AnalogUnitType" BaseType="BaseAnalogType" DataType="ua:Number" PartNo="8">
     <opc:Children>
-      <opc:Property SymbolicName="InstrumentRange" DataType="Range" ModellingRule="Optional" />
-      <opc:Property SymbolicName="EURange" DataType="Range" ModellingRule="Optional" />
-      <opc:Property SymbolicName="EngineeringUnits" DataType="EUInformation" ModellingRule="Optional" />
+      <opc:Property SymbolicName="EngineeringUnits" DataType="EUInformation" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:VariableType>
-
-  <opc:VariableType SymbolicName="AnalogUnitItemType" BaseType="DataItemType" DataType="ua:Number" PartNo="8" ReleaseStatus="Draft">
+  
+  <opc:VariableType SymbolicName="AnalogUnitRangeType" BaseType="AnalogItemType" DataType="ua:Number" PartNo="8">
     <opc:Children>
-      <opc:Property SymbolicName="InstrumentRange" DataType="Range" ModellingRule="Optional" />
-      <opc:Property SymbolicName="EURange" DataType="Range" ModellingRule="Optional" />
       <opc:Property SymbolicName="EngineeringUnits" DataType="EUInformation" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:VariableType>
@@ -3973,7 +3995,7 @@
   </opc:DataType>
 
   <!-- Part 14 -->
-  <opc:DataType SymbolicName="DataTypeSchemaHeader" BaseType="ua:Structure" PartNo="14">
+  <opc:DataType SymbolicName="DataTypeSchemaHeader" BaseType="ua:Structure" IsAbstract="true" PartNo="14">
     <opc:Fields>
       <opc:Field Name="Namespaces" DataType="ua:String" ValueRank="Array"></opc:Field>
       <opc:Field Name="StructureDataTypes" DataType="StructureDescription" ValueRank="Array"></opc:Field>
@@ -3982,7 +4004,7 @@
      </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="DataTypeDescription" BaseType="ua:Structure" PartNo="14">
+  <opc:DataType SymbolicName="DataTypeDescription" BaseType="ua:Structure" IsAbstract="true" PartNo="14">
     <opc:Fields>
       <opc:Field Name="DataTypeId"  DataType="ua:NodeId"></opc:Field>
       <opc:Field Name="Name"  DataType="ua:QualifiedName"></opc:Field>
@@ -4127,11 +4149,11 @@
       <opc:Field Name="MessageSettings"  DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
-WriterGroupDataType
+
   <opc:DataType SymbolicName="DataSetWriterTransportDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14" />
   <opc:DataType SymbolicName="DataSetWriterMessageDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14" />
 
-  <opc:DataType SymbolicName="PubSubGroupDataType" BaseType="ua:Structure" PartNo="14">
+  <opc:DataType SymbolicName="PubSubGroupDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14">
     <opc:Fields>
       <opc:Field Name="Name"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Enabled"  DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
@@ -4364,6 +4386,7 @@ WriterGroupDataType
 
   <opc:DataType SymbolicName="JsonDataSetWriterMessageDataType" BaseType="DataSetWriterMessageDataType" PartNo="14">
     <opc:Fields>
+      <opc:Field Name="NetworkMessageContentMask" DataType="JsonNetworkMessageContentMask" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetMessageContentMask" DataType="JsonDataSetMessageContentMask" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
