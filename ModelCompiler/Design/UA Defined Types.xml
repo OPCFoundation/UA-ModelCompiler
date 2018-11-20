@@ -4117,7 +4117,7 @@
       <Field Name="ServerTimestamp" BitMask="0004" />
       <Field Name="SourcePicoSeconds" BitMask="0008" />
       <Field Name="ServerPicoSeconds" BitMask="0010" />
-      <Field Name="RawDataEncoding" BitMask="0020" />
+      <Field Name="RawData" BitMask="0020" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:DataSetWriterDataType" PartNo="14" BaseType="tns:Structure">
@@ -4237,7 +4237,7 @@
   <DataType SymbolicName="tns:OverrideValueHandling" PartNo="14" BaseType="tns:Enumeration">
     <Fields>
       <Field Name="Disabled" Identifier="0" />
-      <Field Name="LastUseableValue" Identifier="1" />
+      <Field Name="LastUsableValue" Identifier="1" />
       <Field Name="OverrideValue" Identifier="2" />
     </Fields>
   </DataType>
@@ -4271,7 +4271,7 @@
       <Field Name="SequenceNumber" BitMask="0020" />
       <Field Name="PayloadHeader" BitMask="0040" />
       <Field Name="Timestamp" BitMask="0080" />
-      <Field Name="Picoseconds" BitMask="0100" />
+      <Field Name="PicoSeconds" BitMask="0100" />
       <Field Name="DataSetClassId" BitMask="0200" />
       <Field Name="PromotedFields" BitMask="0400" />
     </Fields>

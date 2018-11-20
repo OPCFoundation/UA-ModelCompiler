@@ -744,8 +744,6 @@ namespace Opc.Ua.Export {
         
         private LocalizedText[] descriptionField;
         
-        private string documentationField;
-        
         /// <remarks/>
         public string Name {
             get {
@@ -764,16 +762,6 @@ namespace Opc.Ua.Export {
             }
             set {
                 this.descriptionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Documentation {
-            get {
-                return this.documentationField;
-            }
-            set {
-                this.documentationField = value;
             }
         }
     }
@@ -917,6 +905,8 @@ namespace Opc.Ua.Export {
         
         private RolePermission[] rolePermissionsField;
         
+        private string documentationField;
+        
         private System.Xml.XmlElement[] extensionsField;
         
         private string nodeIdField;
@@ -992,6 +982,16 @@ namespace Opc.Ua.Export {
             }
             set {
                 this.rolePermissionsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Documentation {
+            get {
+                return this.documentationField;
+            }
+            set {
+                this.documentationField = value;
             }
         }
         
@@ -1099,7 +1099,7 @@ namespace Opc.Ua.Export {
         
         /// <remarks/>
         Draft,
-
+        
         /// <remarks/>
         Deprecated,
     }
