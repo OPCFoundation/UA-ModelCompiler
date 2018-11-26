@@ -7,7 +7,7 @@
   xmlns="http://opcfoundation.org/UA/Core/"
   TargetNamespace="http://opcfoundation.org/UA/Core/"
   TargetVersion="1.04"
-  TargetPublicationDate="2018-11-15T00:00:00Z"
+  TargetPublicationDate="2018-12-01T00:00:00Z"
 >
   <opc:Import Namespace="http://opcfoundation.org/UA/BuiltInTypes/" />
 
@@ -2754,7 +2754,7 @@
     <opc:Field Name="SessionId" DataType="s0:NodeId" />
     <opc:Field Name="SubscriptionId" DataType="s0:UInt32" />
     <opc:Field Name="Priority" DataType="s0:Byte" />
-    <opc:Field Name="PublishingInterval" DataType="s0:Double" />
+    <opc:Field Name="PublishingInterval" DataType="Duration" />
     <opc:Field Name="MaxKeepAliveCount" DataType="s0:UInt32" />
     <opc:Field Name="MaxLifetimeCount" DataType="s0:UInt32" />
     <opc:Field Name="MaxNotificationsPerPublish" DataType="s0:UInt32" />

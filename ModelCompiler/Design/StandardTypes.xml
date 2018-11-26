@@ -8,7 +8,7 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
   TargetVersion="1.04"
-  TargetPublicationDate="2018-11-15T00:00:00Z"
+  TargetPublicationDate="2018-12-01T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -29,7 +29,7 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2018-11-15</uax:DateTime>
+          <uax:DateTime>2018-12-01</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -513,7 +513,7 @@
       <opc:Property SymbolicName="ReceiveTime" DataType="UtcTime">
         <opc:Description>When the server received the event from the underlying system.</opc:Description>
       </opc:Property>
-      <opc:Property SymbolicName="LocalTime" DataType="ua:TimeZoneDataType">
+      <opc:Property SymbolicName="LocalTime" DataType="ua:TimeZoneDataType" ModellingRule="Optional">
         <opc:Description>Information about the local time where the event originated.</opc:Description>
       </opc:Property>
       <opc:Property SymbolicName="Message" DataType="ua:LocalizedText">
@@ -719,7 +719,7 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="SemanticChangeEventType" BaseType="BaseModelChangeEventType" IsAbstract="true" PartNo="5">
+  <opc:ObjectType SymbolicName="SemanticChangeEventType" BaseType="BaseEventType" IsAbstract="true" PartNo="5">
     <opc:Children>
       <opc:Property SymbolicName="Changes" DataType="SemanticChangeStructureDataType" ValueRank="Array" />
     </opc:Children>
@@ -818,7 +818,7 @@
       <opc:Variable SymbolicName="SessionId" DataType="ua:NodeId" />
       <opc:Variable SymbolicName="SubscriptionId" DataType="ua:UInt32" />
       <opc:Variable SymbolicName="Priority" DataType="ua:Byte" />
-      <opc:Variable SymbolicName="PublishingInterval" DataType="ua:Double" />
+      <opc:Variable SymbolicName="PublishingInterval" DataType="ua:Duration" />
       <opc:Variable SymbolicName="MaxKeepAliveCount" DataType="ua:UInt32" />
       <opc:Variable SymbolicName="MaxLifetimeCount" DataType="ua:UInt32" />
       <opc:Variable SymbolicName="MaxNotificationsPerPublish" DataType="ua:UInt32" />
@@ -1251,7 +1251,7 @@
   <!-- HasEffect BuiltInTypes.xml -->
   <!-- HasSubStateMachine BuiltInTypes.xml -->
 
-  <opc:ObjectType SymbolicName="TransitionEventType" BaseType="BaseEventType" PartNo="5">
+  <opc:ObjectType SymbolicName="TransitionEventType" BaseType="BaseEventType" IsAbstract="true" PartNo="5">
     <opc:Children>
       <opc:Variable SymbolicName="Transition" TypeDefinition="TransitionVariableType" DataType="ua:LocalizedText" />
       <opc:Variable SymbolicName="FromState" TypeDefinition="StateVariableType" DataType="ua:LocalizedText" />
@@ -1673,20 +1673,19 @@
 
   <opc:Method SymbolicName="AddEndpointMethodType" PartNo="5">
     <opc:InputArguments>
-      <opc:Argument Name="Endpoint" DataType="ua:String" />
+      <opc:Argument Name="Endpoint" DataType="EndpointType" />
     </opc:InputArguments>
   </opc:Method>
 
   <opc:Method SymbolicName="RemoveEndpointMethodType" PartNo="5">
     <opc:InputArguments>
-      <opc:Argument Name="Endpoint" DataType="ua:String" />
+      <opc:Argument Name="Endpoint" DataType="EndpointType" />
     </opc:InputArguments>
   </opc:Method>
 
-  <opc:ObjectType SymbolicName="RoleMappingRuleChangedAuditEventType" BaseType="AuditUpdateMethodEventType" PartNo="5" />  
+  <opc:ObjectType SymbolicName="RoleMappingRuleChangedAuditEventType" BaseType="AuditUpdateMethodEventType" IsAbstract="true"  PartNo="5" />  
 
   <opc:Object SymbolicName="WellKnownRole_Anonymous" TypeDefinition="RoleType" PartNo="5">
-    <opc:BrowseName>AnonymousRole</opc:BrowseName>
     <opc:DisplayName>Anonymous</opc:DisplayName>
     <opc:Description>The Role has very limited access for use when a Session has anonymous credentials.</opc:Description>
     <opc:Children>
@@ -1710,7 +1709,6 @@
   </opc:Object>
 
   <opc:Object SymbolicName="WellKnownRole_AuthenticatedUser" TypeDefinition="RoleType" PartNo="5">
-    <opc:BrowseName>AuthenticatedUserRole</opc:BrowseName>
     <opc:DisplayName>AuthenticatedUser</opc:DisplayName>
     <opc:Description>The Role has limited access for use when a Session has valid non-anonymous credentials but has not been explicity granted access to a Role.</opc:Description>
     <opc:Children>
@@ -1734,7 +1732,6 @@
   </opc:Object>
 
   <opc:Object SymbolicName="WellKnownRole_Observer" TypeDefinition="RoleType" PartNo="5">
-    <opc:BrowseName>ObserverRole</opc:BrowseName>
     <opc:DisplayName>Observer</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
     <opc:Children> 
@@ -1758,7 +1755,6 @@
   </opc:Object>
 
   <opc:Object SymbolicName="WellKnownRole_Operator" TypeDefinition="RoleType" PartNo="5">
-    <opc:BrowseName>OperatorRole</opc:BrowseName>
     <opc:DisplayName>Operator</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
     <opc:Children>
@@ -1782,7 +1778,6 @@
   </opc:Object>
 
   <opc:Object SymbolicName="WellKnownRole_Engineer" TypeDefinition="RoleType" PartNo="5">
-    <opc:BrowseName>EngineerRole</opc:BrowseName>
     <opc:DisplayName>Engineer</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read and update historical data/events, call methods or subscribe to data/events.</opc:Description>
     <opc:Children>
@@ -1806,7 +1801,6 @@
   </opc:Object>
 
   <opc:Object SymbolicName="WellKnownRole_Supervisor" TypeDefinition="RoleType" PartNo="5">
-    <opc:BrowseName>SupervisorRole</opc:BrowseName>
     <opc:DisplayName>Supervisor</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read and historical data/events, call methods or subscribe to data/events.</opc:Description>
     <opc:Children>
@@ -1830,7 +1824,6 @@
   </opc:Object>
 
   <opc:Object SymbolicName="WellKnownRole_ConfigureAdmin" TypeDefinition="RoleType" PartNo="5">
-    <opc:BrowseName>ConfigureAdminRole</opc:BrowseName>
     <opc:DisplayName>ConfigureAdmin</opc:DisplayName>
     <opc:Description>The Role is allowed to change the non-security related configuration settings.</opc:Description>
     <opc:Children>
@@ -1854,7 +1847,6 @@
   </opc:Object>
 
   <opc:Object SymbolicName="WellKnownRole_SecurityAdmin" TypeDefinition="RoleType" PartNo="5">
-    <opc:BrowseName>SecurityAdminRole</opc:BrowseName>
     <opc:DisplayName>SecurityAdmin</opc:DisplayName>
     <opc:Description>The Role is allowed to change security related settings.</opc:Description>
     <opc:Children>
@@ -2373,7 +2365,7 @@
       <opc:Property SymbolicName="SuppressedOrShelved" DataType="ua:Boolean" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MaxTimeShelved" DataType="Duration" ModellingRule="Optional" />
       <opc:Property SymbolicName="AudibleEnabled" DataType="ua:Boolean" ModellingRule="Optional" />
-      <opc:Variable SymbolicName="AudibleSound" DataType="AudioDataType" TypeDefinition="AudioVariableType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="AudibleSound" DataType="AudioDataType" TypeDefinition="AudioVariableType" ModellingRule="Optional" />
       <opc:Variable SymbolicName="SilenceState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
@@ -2397,7 +2389,7 @@
       </opc:Variable>
       <opc:Property SymbolicName="OnDelay" DataType="Duration" ModellingRule="Optional" />
       <opc:Property SymbolicName="OffDelay" DataType="Duration" ModellingRule="Optional" />
-      <opc:Property SymbolicName="FirstInGroupFlag" DataType="ua:Boolean" ModellingRule="Optional" />
+      <opc:Variable SymbolicName="FirstInGroupFlag" DataType="ua:Boolean" ModellingRule="Optional" />
       <opc:Object SymbolicName="FirstInGroup" TypeDefinition="AlarmGroupType" ModellingRule="Optional" />
       <opc:Variable SymbolicName="LatchedState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
@@ -2425,7 +2417,7 @@
         <opc:ReferenceType>ua:HasAlarmSuppressionGroup</opc:ReferenceType>        
       </opc:Object>
       <opc:Property SymbolicName="ReAlarmTime" DataType="Duration" ModellingRule="Optional" />
-      <opc:Property SymbolicName="ReAlarmRepeatCount" DataType="ua:Int16" ModellingRule="Optional" />
+      <opc:Variable SymbolicName="ReAlarmRepeatCount" DataType="ua:Int16" ModellingRule="Optional" />
       <opc:Method SymbolicName="Silence" ModellingRule="Optional">
         <opc:References>
           <opc:Reference IsOneWay="true">
@@ -2438,7 +2430,7 @@
         <opc:References>
           <opc:Reference IsOneWay="true">
             <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
-            <opc:TargetId>AuditConditionSuppressEventType</opc:TargetId>
+            <opc:TargetId>AuditConditionSuppressionEventType</opc:TargetId>
           </opc:Reference>
         </opc:References>
       </opc:Method>
@@ -2446,7 +2438,7 @@
         <opc:References>
           <opc:Reference IsOneWay="true">
             <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
-            <opc:TargetId>AuditConditionSuppressEventType</opc:TargetId>
+            <opc:TargetId>AuditConditionSuppressionEventType</opc:TargetId>
           </opc:Reference>
         </opc:References>
       </opc:Method>
@@ -2470,7 +2462,7 @@
         <opc:References>
           <opc:Reference IsOneWay="true">
             <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
-            <opc:TargetId>AuditConditionOutOfServiceEventType</opc:TargetId>
+            <opc:TargetId>AuditConditionResetEventType</opc:TargetId>
           </opc:Reference>
         </opc:References>
       </opc:Method>
@@ -2899,7 +2891,7 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="SystemOffNormalAlarmType" BaseType="OffNormalAlarmType" PartNo="9" />
+  <opc:ObjectType SymbolicName="SystemOffNormalAlarmType" BaseType="OffNormalAlarmType" IsAbstract="true" PartNo="9" />
   <opc:ObjectType SymbolicName="TripAlarmType" BaseType="OffNormalAlarmType" PartNo="9" />
   <opc:ObjectType SymbolicName="InstrumentDiagnosticAlarmType" BaseType="OffNormalAlarmType" PartNo="9" />
   <opc:ObjectType SymbolicName="SystemDiagnosticAlarmType" BaseType="OffNormalAlarmType" PartNo="9" />
@@ -2929,7 +2921,7 @@
   <opc:ObjectType SymbolicName="HighlyManagedAlarmConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
   <opc:ObjectType SymbolicName="TrainingConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
   <opc:ObjectType SymbolicName="StatisticalConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
-  <opc:ObjectType SymbolicName="TestingConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
+  <opc:ObjectType SymbolicName="TestingConditionSubClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
   
   <opc:ObjectType SymbolicName="AuditConditionEventType" BaseType="AuditUpdateMethodEventType" PartNo="9" />
   <opc:ObjectType SymbolicName="AuditConditionEnableEventType" BaseType="AuditConditionEventType" PartNo="9" />
@@ -2943,7 +2935,7 @@
 
   <opc:ObjectType SymbolicName="AuditConditionRespondEventType" BaseType="AuditConditionEventType" PartNo="9">
     <opc:Children>
-      <opc:Property SymbolicName="SelectedResponse" DataType="ua:Int32" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="SelectedResponse" DataType="ua:UInt32" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -2963,13 +2955,15 @@
 
   <opc:ObjectType SymbolicName="AuditConditionShelvingEventType" BaseType="AuditConditionEventType" PartNo="9">
     <opc:Children>
-      <opc:Property SymbolicName="ShelvingTime" DataType="Duration" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ShelvingTime" DataType="Duration" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AuditConditionSuppressEventType" BaseType="AuditConditionEventType" PartNo="9" />
+  <opc:ObjectType SymbolicName="AuditConditionSuppressionEventType" BaseType="AuditConditionEventType" PartNo="9" />
   <opc:ObjectType SymbolicName="AuditConditionSilenceEventType" BaseType="AuditConditionEventType" PartNo="9" />
-  <opc:ObjectType SymbolicName="AuditConditionResetEventType" BaseType="AuditConditionEventType" PartNo="9" />
+  <opc:ObjectType SymbolicName="AuditConditionResetEventType" BaseType="AuditConditionEventType" PartNo="9">
+    
+  </opc:ObjectType>
   <opc:ObjectType SymbolicName="AuditConditionOutOfServiceEventType" BaseType="AuditConditionEventType" PartNo="9" />
 
   <opc:ObjectType SymbolicName="RefreshStartEventType" BaseType="SystemEventType" IsAbstract="true" PartNo="9" />
@@ -2998,15 +2992,22 @@
 
   <opc:ObjectType SymbolicName="AlarmMetricsType" BaseType="BaseObjectType" PartNo="9">
     <opc:Children>
-      <opc:Property SymbolicName="AlarmCount" DataType="ua:UInt32" />
-      <opc:Property SymbolicName="StartTime" DataType="ua:UtcTime" />
-      <opc:Property SymbolicName="MaximumActiveState" DataType="ua:Duration" />
-      <opc:Property SymbolicName="MaximumUnAck" DataType="ua:Duration" />
+      <opc:Variable SymbolicName="AlarmCount" DataType="ua:UInt32" />
+      <opc:Variable SymbolicName="StartTime" DataType="ua:UtcTime" />
+      <opc:Variable SymbolicName="MaximumActiveState" DataType="ua:Duration" />
+      <opc:Variable SymbolicName="MaximumUnAck" DataType="ua:Duration" />
       <opc:Variable SymbolicName="CurrentAlarmRate" DataType="ua:Double" TypeDefinition="AlarmRateVariableType" />
       <opc:Variable SymbolicName="MaximumAlarmRate" DataType="ua:Double" TypeDefinition="AlarmRateVariableType" />
-      <opc:Property SymbolicName="MaximumReAlarmCount" DataType="ua:UInt32" />
+      <opc:Variable SymbolicName="MaximumReAlarmCount" DataType="ua:UInt32" />
       <opc:Variable SymbolicName="AverageAlarmRate" DataType="ua:Double" TypeDefinition="AlarmRateVariableType" />
-      <opc:Method SymbolicName="Reset" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="Reset" ModellingRule="Mandatory">
+        <opc:References>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
+            <opc:TargetId>AuditUpdateMethodEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>        
+      </opc:Method>
     </opc:Children>
   </opc:ObjectType>
 
@@ -3016,6 +3017,218 @@
     </opc:Children>
   </opc:VariableType>
 
+  <opc:ObjectType SymbolicName="SystemStateStateMachineType" BaseType="FiniteStateMachineType" PartNo="9">
+    <opc:Children>
+      <opc:Object SymbolicName="Operating" TypeDefinition="StateType" ModellingRule="None" />
+      <opc:Object SymbolicName="ShuttingDown" TypeDefinition="StateType" ModellingRule="None" />
+      <opc:Object SymbolicName="StartingUp" TypeDefinition="StateType" ModellingRule="None" />
+      <opc:Object SymbolicName="Shutdown" TypeDefinition="StateType" ModellingRule="None" />
+      <opc:Object SymbolicName="OutOfService" TypeDefinition="StateType" ModellingRule="None" />
+      <opc:Object SymbolicName="Maintenance" TypeDefinition="StateType" ModellingRule="None" />
+
+      <opc:Object SymbolicName="ShutdownToOperating" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Shutdown</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Operating</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>HasCause</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_QuickStart</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      
+      <opc:Object SymbolicName="OperatingToShutdown" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Operating</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Shutdown</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>HasCause</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_QuickShutdown</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      
+      <opc:Object SymbolicName="ShuttingDownToShutdown" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_ShuttingDown</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Shutdown</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      
+      <opc:Object SymbolicName="OperatingToShuttingDown" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Operating</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_ShuttingDown</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>HasCause</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Stop</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      
+      <opc:Object SymbolicName="StartingUpToOperating" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_StartingUp</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Operating</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      
+      <opc:Object SymbolicName="ShutdownToStartingUp" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Shutdown</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_StartingUp</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>HasCause</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Start</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      
+      <opc:Object SymbolicName="OutOfServiceToShutdown" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_OutOfService</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Shutdown</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      
+      <opc:Object SymbolicName="ShutdownToOutOfService" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Shutdown</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_OutOfService</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>HasCause</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_OutOfServiceShutdown</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      
+      <opc:Object SymbolicName="OutOfServiceToOperating" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_OutOfService</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Operating</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>HasCause</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_PlaceOutOfService</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      
+      <opc:Object SymbolicName="OperatingToOutOfService" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Operating</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_OutOfService</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>HasCause</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_PlaceOutOfService</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      
+      <opc:Object SymbolicName="MaintenanceToOutOfService" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Maintenance</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_OutOfService</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>HasCause</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Maintain</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+      
+      <opc:Object SymbolicName="OutOfServiceToMaintenance" TypeDefinition="TransitionType" ModellingRule="None">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>FromState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_OutOfService</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>ToState</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Maintenance</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>HasCause</opc:ReferenceType>
+            <opc:TargetId>SystemStateStateMachineType_Maintain</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Object>
+
+      <opc:Method SymbolicName="Start" ModellingRule="Optional" />
+      <opc:Method SymbolicName="Maintain" ModellingRule="Optional" />
+      <opc:Method SymbolicName="Stop" ModellingRule="Optional" />
+      <opc:Method SymbolicName="PlaceOutOfService" ModellingRule="Optional" />
+      <opc:Method SymbolicName="QuickShutdown" ModellingRule="Optional" />
+      <opc:Method SymbolicName="QuickStart" ModellingRule="Optional" />
+      <opc:Method SymbolicName="OutOfServiceShutdown" ModellingRule="Optional" />
+      
+    </opc:Children>
+  </opc:ObjectType>
+    
   <!-- Part 10 -->
 
   <opc:ObjectType SymbolicName="ProgramStateMachineType" BaseType="FiniteStateMachineType" PartNo="10">
@@ -3040,7 +3253,7 @@
       <opc:Property SymbolicName="InstanceCount" DataType="ua:UInt32" ModellingRule="None" />
       <opc:Property SymbolicName="MaxInstanceCount" DataType="ua:UInt32" ModellingRule="None" />
       <opc:Property SymbolicName="MaxRecycleCount" DataType="ua:UInt32" ModellingRule="None" />
-      <opc:Variable SymbolicName="ProgramDiagnostics" TypeDefinition="ProgramDiagnostic2Type" ModellingRule="Optional" />
+      <opc:Variable SymbolicName="ProgramDiagnostic" TypeDefinition="ProgramDiagnostic2Type" ModellingRule="Optional" />
       <opc:Object SymbolicName="FinalResultData" TypeDefinition="BaseObjectType" ModellingRule="Optional" />
 
       <opc:Object SymbolicName="Halted" TypeDefinition="StateType" ModellingRule="None">
@@ -3336,13 +3549,13 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="ProgramTransitionEventType" BaseType="TransitionEventType" PartNo="10">
+  <opc:ObjectType SymbolicName="ProgramTransitionEventType" BaseType="TransitionEventType" IsAbstract="true" PartNo="10">
     <opc:Children>
-      <opc:Property SymbolicName="IntermediateResult" DataType="ua:BaseDataType" />
+      <opc:Variable SymbolicName="IntermediateResult" DataType="ua:BaseDataType" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AuditProgramTransitionEventType" BaseType="AuditUpdateStateEventType" PartNo="10">
+  <opc:ObjectType SymbolicName="AuditProgramTransitionEventType" BaseType="AuditUpdateStateEventType" IsAbstract="true" PartNo="10">
     <opc:Children>
       <opc:Property SymbolicName="TransitionNumber" DataType="ua:UInt32" />
     </opc:Children>
@@ -3371,18 +3584,18 @@
 
   <opc:VariableType SymbolicName="ProgramDiagnostic2Type" DataType="ProgramDiagnostic2DataType" ValueRank="Scalar" BaseType="ua:BaseDataVariableType" PartNo="10">
     <opc:Children>
-      <opc:Property SymbolicName="CreateSessionId" DataType="ua:NodeId" />
-      <opc:Property SymbolicName="CreateClientName" DataType="ua:String" />
-      <opc:Property SymbolicName="InvocationCreationTime" DataType="ua:UtcTime" />
+      <opc:Variable SymbolicName="CreateSessionId" DataType="ua:NodeId" />
+      <opc:Variable SymbolicName="CreateClientName" DataType="ua:String" />
+      <opc:Variable SymbolicName="InvocationCreationTime" DataType="ua:UtcTime" />
       <opc:Property SymbolicName="LastTransitionTime" DataType="ua:UtcTime" />
-      <opc:Property SymbolicName="LastMethodCall" DataType="ua:String" />
-      <opc:Property SymbolicName="LastMethodSessionId" DataType="ua:NodeId" />
-      <opc:Property SymbolicName="LastMethodInputArguments" DataType="Argument" ValueRank="Array" />
-      <opc:Property SymbolicName="LastMethodOutputArguments" DataType="Argument" ValueRank="Array" />
-      <opc:Property SymbolicName="LastMethodInputValues" DataType="ua:BaseDataType" ValueRank="Array" />
-      <opc:Property SymbolicName="LastMethodOutputValues" DataType="ua:BaseDataType" ValueRank="Array" />
-      <opc:Property SymbolicName="LastMethodCallTime" DataType="ua:UtcTime" />
-      <opc:Property SymbolicName="LastMethodReturnStatus" DataType="ua:StatusCode" />
+      <opc:Variable SymbolicName="LastMethodCall" DataType="ua:String" />
+      <opc:Variable SymbolicName="LastMethodSessionId" DataType="ua:NodeId" />
+      <opc:Variable SymbolicName="LastMethodInputArguments" DataType="Argument" ValueRank="Array" />
+      <opc:Variable SymbolicName="LastMethodOutputArguments" DataType="Argument" ValueRank="Array" />
+      <opc:Variable SymbolicName="LastMethodInputValues" DataType="ua:BaseDataType" ValueRank="Array" />
+      <opc:Variable SymbolicName="LastMethodOutputValues" DataType="ua:BaseDataType" ValueRank="Array" />
+      <opc:Variable SymbolicName="LastMethodCallTime" DataType="ua:UtcTime" />
+      <opc:Variable SymbolicName="LastMethodReturnStatus" DataType="ua:StatusCode" />
     </opc:Children>
   </opc:VariableType>
 
@@ -4386,7 +4599,6 @@
 
   <opc:DataType SymbolicName="JsonDataSetWriterMessageDataType" BaseType="DataSetWriterMessageDataType" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="NetworkMessageContentMask" DataType="JsonNetworkMessageContentMask" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetMessageContentMask" DataType="JsonDataSetMessageContentMask" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
@@ -4839,7 +5051,7 @@
 
   <opc:ObjectType SymbolicName="ConnectionTransportType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14" />
 
-  <opc:ObjectType SymbolicName="PubSubGroupType" BaseType="ua:BaseObjectType" PartNo="14">
+  <opc:ObjectType SymbolicName="PubSubGroupType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="SecurityMode" DataType="MessageSecurityMode" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="SecurityGroupId" DataType="ua:String" ModellingRule="Optional" />
@@ -4944,7 +5156,7 @@
   <opc:ObjectType SymbolicName="DataSetWriterTransportType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14" />
   <opc:ObjectType SymbolicName="DataSetWriterMessageType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14" />
   
-  <opc:ObjectType SymbolicName="DataSetReaderType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14">
+  <opc:ObjectType SymbolicName="DataSetReaderType" BaseType="ua:BaseObjectType" IsAbstract="false" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="PublisherId" DataType="ua:BaseDataType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="WriterGroupId" DataType="ua:UInt16" ModellingRule="Mandatory" />
@@ -5032,7 +5244,7 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="PubSubDiagnosticsType" BaseType="ua:BaseObjectType" IsAbstract="false" PartNo="14">
+  <opc:ObjectType SymbolicName="PubSubDiagnosticsType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14">
     <opc:Children>
       <opc:Variable SymbolicName="DiagnosticsLevel" DataType="DiagnosticsLevel" ModellingRule="Mandatory" />
       <opc:Variable SymbolicName="TotalInformation" DataType="ua:UInt32" TypeDefinition="PubSubDiagnosticsCounterType" ModellingRule="Mandatory" />
@@ -5146,7 +5358,7 @@
       <opc:Property SymbolicName="Active" DataType="ua:Boolean" />
       <opc:Property SymbolicName="Classification" DataType="PubSubDiagnosticsCounterClassification" />
       <opc:Property SymbolicName="DiagnosticsLevel" DataType="DiagnosticsLevel" />
-      <opc:Property SymbolicName="TimeFirstChange" DataType="ua:DateTime" />
+      <opc:Property SymbolicName="TimeFirstChange" DataType="ua:DateTime" ModellingRule="Optional" />
     </opc:Children>
   </opc:VariableType>
 
@@ -5585,7 +5797,6 @@
   <opc:ObjectType SymbolicName="UadpDataSetReaderMessageType" BaseType="DataSetReaderMessageType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="GroupVersion" DataType="VersionTime" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="DataSetOrdering" DataType="DataSetOrderingType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="NetworkMessageNumber" DataType="ua:UInt16" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetOffset" DataType="ua:UInt16" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetClassId" DataType="ua:Guid" ModellingRule="Mandatory" />
@@ -5624,8 +5835,8 @@
   
   <opc:ObjectType SymbolicName="DatagramWriterGroupTransportType" BaseType="WriterGroupTransportType" PartNo="14">
     <opc:Children>
-      <opc:Property SymbolicName="MessageRepeatCount" DataType="ua:Byte" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="MessageRepeatDelay" DataType="ua:Duration" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MessageRepeatCount" DataType="ua:Byte" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MessageRepeatDelay" DataType="ua:Duration" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -5668,7 +5879,7 @@
 
   <opc:ObjectType SymbolicName="NetworkAddressType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14">
     <opc:Children>
-      <opc:Variable SymbolicName="NetworkInterface" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Variable SymbolicName="NetworkInterface" DataType="ua:String" TypeDefinition="SelectionListType" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 

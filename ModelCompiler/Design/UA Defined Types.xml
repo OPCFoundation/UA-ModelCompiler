@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04" TargetPublicationDate="2018-11-15T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04" TargetPublicationDate="2018-12-01T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -107,7 +107,7 @@
   <ReferenceType SymbolicName="tns:References" PartNo="3" IsAbstract="true" Symmetric="true">
     <Description>The abstract base type for all references.</Description>
   </ReferenceType>
-  <ReferenceType SymbolicName="tns:NonHierarchicalReferences" PartNo="3" BaseType="tns:References" IsAbstract="true">
+  <ReferenceType SymbolicName="tns:NonHierarchicalReferences" PartNo="3" BaseType="tns:References" IsAbstract="true" Symmetric="true">
     <Description>The abstract base type for all non-hierarchical references.</Description>
   </ReferenceType>
   <ReferenceType SymbolicName="tns:HierarchicalReferences" PartNo="3" BaseType="tns:References" IsAbstract="true">
@@ -461,7 +461,7 @@
       </Property>
       <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
         <DefaultValue>
-          <uax:DateTime>2018-11-15</uax:DateTime>
+          <uax:DateTime>2018-12-01</uax:DateTime>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
@@ -903,7 +903,7 @@
       <Property SymbolicName="tns:ReceiveTime" DataType="tns:UtcTime">
         <Description>When the server received the event from the underlying system.</Description>
       </Property>
-      <Property SymbolicName="tns:LocalTime" DataType="tns:TimeZoneDataType">
+      <Property SymbolicName="tns:LocalTime" ModellingRule="Optional" DataType="tns:TimeZoneDataType">
         <Description>Information about the local time where the event originated.</Description>
       </Property>
       <Property SymbolicName="tns:Message" DataType="tns:LocalizedText">
@@ -1083,7 +1083,7 @@
       <Property SymbolicName="tns:Changes" DataType="tns:ModelChangeStructureDataType" ValueRank="Array" />
     </Children>
   </ObjectType>
-  <ObjectType SymbolicName="tns:SemanticChangeEventType" PartNo="5" BaseType="tns:BaseModelChangeEventType" IsAbstract="true">
+  <ObjectType SymbolicName="tns:SemanticChangeEventType" PartNo="5" BaseType="tns:BaseEventType" IsAbstract="true">
     <Children>
       <Property SymbolicName="tns:Changes" DataType="tns:SemanticChangeStructureDataType" ValueRank="Array" />
     </Children>
@@ -1157,7 +1157,7 @@
       <Variable SymbolicName="tns:SessionId" DataType="tns:NodeId" />
       <Variable SymbolicName="tns:SubscriptionId" DataType="tns:UInt32" />
       <Variable SymbolicName="tns:Priority" DataType="tns:Byte" />
-      <Variable SymbolicName="tns:PublishingInterval" DataType="tns:Double" />
+      <Variable SymbolicName="tns:PublishingInterval" DataType="tns:Duration" />
       <Variable SymbolicName="tns:MaxKeepAliveCount" DataType="tns:UInt32" />
       <Variable SymbolicName="tns:MaxLifetimeCount" DataType="tns:UInt32" />
       <Variable SymbolicName="tns:MaxNotificationsPerPublish" DataType="tns:UInt32" />
@@ -1483,7 +1483,7 @@
     </Children>
   </VariableType>
   <VariableType SymbolicName="tns:ElseGuardVariableType" PartNo="5" BaseType="tns:GuardVariableType" DataType="tns:LocalizedText" />
-  <ObjectType SymbolicName="tns:TransitionEventType" PartNo="5" BaseType="tns:BaseEventType">
+  <ObjectType SymbolicName="tns:TransitionEventType" PartNo="5" BaseType="tns:BaseEventType" IsAbstract="true">
     <Children>
       <Variable SymbolicName="tns:Transition" TypeDefinition="tns:TransitionVariableType" DataType="tns:LocalizedText" />
       <Variable SymbolicName="tns:FromState" TypeDefinition="tns:StateVariableType" DataType="tns:LocalizedText" />
@@ -1866,17 +1866,16 @@
   </Method>
   <Method SymbolicName="tns:AddEndpointMethodType" PartNo="5">
     <InputArguments>
-      <Argument Name="Endpoint" DataType="tns:String" />
+      <Argument Name="Endpoint" DataType="tns:EndpointType" />
     </InputArguments>
   </Method>
   <Method SymbolicName="tns:RemoveEndpointMethodType" PartNo="5">
     <InputArguments>
-      <Argument Name="Endpoint" DataType="tns:String" />
+      <Argument Name="Endpoint" DataType="tns:EndpointType" />
     </InputArguments>
   </Method>
-  <ObjectType SymbolicName="tns:RoleMappingRuleChangedAuditEventType" PartNo="5" BaseType="tns:AuditUpdateMethodEventType" />
+  <ObjectType SymbolicName="tns:RoleMappingRuleChangedAuditEventType" PartNo="5" BaseType="tns:AuditUpdateMethodEventType" IsAbstract="true" />
   <Object SymbolicName="tns:WellKnownRole_Anonymous" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>AnonymousRole</BrowseName>
     <DisplayName>Anonymous</DisplayName>
     <Description>The Role has very limited access for use when a Session has anonymous credentials.</Description>
     <Children>
@@ -1899,7 +1898,6 @@
     </References>
   </Object>
   <Object SymbolicName="tns:WellKnownRole_AuthenticatedUser" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>AuthenticatedUserRole</BrowseName>
     <DisplayName>AuthenticatedUser</DisplayName>
     <Description>The Role has limited access for use when a Session has valid non-anonymous credentials but has not been explicity granted access to a Role.</Description>
     <Children>
@@ -1922,7 +1920,6 @@
     </References>
   </Object>
   <Object SymbolicName="tns:WellKnownRole_Observer" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>ObserverRole</BrowseName>
     <DisplayName>Observer</DisplayName>
     <Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</Description>
     <Children>
@@ -1945,7 +1942,6 @@
     </References>
   </Object>
   <Object SymbolicName="tns:WellKnownRole_Operator" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>OperatorRole</BrowseName>
     <DisplayName>Operator</DisplayName>
     <Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</Description>
     <Children>
@@ -1968,7 +1964,6 @@
     </References>
   </Object>
   <Object SymbolicName="tns:WellKnownRole_Engineer" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>EngineerRole</BrowseName>
     <DisplayName>Engineer</DisplayName>
     <Description>The Role is allowed to browse, read live data, read and update historical data/events, call methods or subscribe to data/events.</Description>
     <Children>
@@ -1991,7 +1986,6 @@
     </References>
   </Object>
   <Object SymbolicName="tns:WellKnownRole_Supervisor" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>SupervisorRole</BrowseName>
     <DisplayName>Supervisor</DisplayName>
     <Description>The Role is allowed to browse, read live data, read and historical data/events, call methods or subscribe to data/events.</Description>
     <Children>
@@ -2014,7 +2008,6 @@
     </References>
   </Object>
   <Object SymbolicName="tns:WellKnownRole_ConfigureAdmin" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>ConfigureAdminRole</BrowseName>
     <DisplayName>ConfigureAdmin</DisplayName>
     <Description>The Role is allowed to change the non-security related configuration settings.</Description>
     <Children>
@@ -2037,7 +2030,6 @@
     </References>
   </Object>
   <Object SymbolicName="tns:WellKnownRole_SecurityAdmin" PartNo="5" TypeDefinition="tns:RoleType">
-    <BrowseName>SecurityAdminRole</BrowseName>
     <DisplayName>SecurityAdmin</DisplayName>
     <Description>The Role is allowed to change security related settings.</Description>
     <Children>
@@ -2521,7 +2513,7 @@
       <Property SymbolicName="tns:SuppressedOrShelved" ModellingRule="Mandatory" DataType="tns:Boolean" />
       <Property SymbolicName="tns:MaxTimeShelved" ModellingRule="Optional" DataType="tns:Duration" />
       <Property SymbolicName="tns:AudibleEnabled" ModellingRule="Optional" DataType="tns:Boolean" />
-      <Variable SymbolicName="tns:AudibleSound" TypeDefinition="tns:AudioVariableType" ModellingRule="Optional" DataType="tns:AudioDataType" />
+      <Property SymbolicName="tns:AudibleSound" TypeDefinition="tns:AudioVariableType" ModellingRule="Optional" DataType="tns:AudioDataType" />
       <Variable SymbolicName="tns:SilenceState" TypeDefinition="tns:TwoStateVariableType" ModellingRule="Optional">
         <Children>
           <Property SymbolicName="tns:TransitionTime" ModellingRule="Optional" DataType="tns:UtcTime" />
@@ -2545,7 +2537,7 @@
       </Variable>
       <Property SymbolicName="tns:OnDelay" ModellingRule="Optional" DataType="tns:Duration" />
       <Property SymbolicName="tns:OffDelay" ModellingRule="Optional" DataType="tns:Duration" />
-      <Property SymbolicName="tns:FirstInGroupFlag" ModellingRule="Optional" DataType="tns:Boolean" />
+      <Variable SymbolicName="tns:FirstInGroupFlag" ModellingRule="Optional" DataType="tns:Boolean" />
       <Object SymbolicName="tns:FirstInGroup" TypeDefinition="tns:AlarmGroupType" ModellingRule="Optional" />
       <Variable SymbolicName="tns:LatchedState" TypeDefinition="tns:TwoStateVariableType" ModellingRule="Optional">
         <Children>
@@ -2573,7 +2565,7 @@
         <ReferenceType>tns:HasAlarmSuppressionGroup</ReferenceType>
       </Object>
       <Property SymbolicName="tns:ReAlarmTime" ModellingRule="Optional" DataType="tns:Duration" />
-      <Property SymbolicName="tns:ReAlarmRepeatCount" ModellingRule="Optional" DataType="tns:Int16" />
+      <Variable SymbolicName="tns:ReAlarmRepeatCount" ModellingRule="Optional" DataType="tns:Int16" />
       <Method SymbolicName="tns:Silence" ModellingRule="Optional">
         <References>
           <Reference IsOneWay="true">
@@ -2586,7 +2578,7 @@
         <References>
           <Reference IsOneWay="true">
             <ReferenceType>tns:AlwaysGeneratesEvent</ReferenceType>
-            <TargetId>tns:AuditConditionSuppressEventType</TargetId>
+            <TargetId>tns:AuditConditionSuppressionEventType</TargetId>
           </Reference>
         </References>
       </Method>
@@ -2594,7 +2586,7 @@
         <References>
           <Reference IsOneWay="true">
             <ReferenceType>tns:AlwaysGeneratesEvent</ReferenceType>
-            <TargetId>tns:AuditConditionSuppressEventType</TargetId>
+            <TargetId>tns:AuditConditionSuppressionEventType</TargetId>
           </Reference>
         </References>
       </Method>
@@ -2618,7 +2610,7 @@
         <References>
           <Reference IsOneWay="true">
             <ReferenceType>tns:AlwaysGeneratesEvent</ReferenceType>
-            <TargetId>tns:AuditConditionOutOfServiceEventType</TargetId>
+            <TargetId>tns:AuditConditionResetEventType</TargetId>
           </Reference>
         </References>
       </Method>
@@ -3024,7 +3016,7 @@
       <Property SymbolicName="tns:NormalState" ModellingRule="Mandatory" DataType="tns:NodeId" />
     </Children>
   </ObjectType>
-  <ObjectType SymbolicName="tns:SystemOffNormalAlarmType" PartNo="9" BaseType="tns:OffNormalAlarmType" />
+  <ObjectType SymbolicName="tns:SystemOffNormalAlarmType" PartNo="9" BaseType="tns:OffNormalAlarmType" IsAbstract="true" />
   <ObjectType SymbolicName="tns:TripAlarmType" PartNo="9" BaseType="tns:OffNormalAlarmType" />
   <ObjectType SymbolicName="tns:InstrumentDiagnosticAlarmType" PartNo="9" BaseType="tns:OffNormalAlarmType" />
   <ObjectType SymbolicName="tns:SystemDiagnosticAlarmType" PartNo="9" BaseType="tns:OffNormalAlarmType" />
@@ -3051,7 +3043,7 @@
   <ObjectType SymbolicName="tns:HighlyManagedAlarmConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" IsAbstract="true" />
   <ObjectType SymbolicName="tns:TrainingConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" IsAbstract="true" />
   <ObjectType SymbolicName="tns:StatisticalConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" IsAbstract="true" />
-  <ObjectType SymbolicName="tns:TestingConditionClassType" PartNo="9" BaseType="tns:BaseConditionClassType" IsAbstract="true" />
+  <ObjectType SymbolicName="tns:TestingConditionSubClassType" PartNo="9" BaseType="tns:BaseConditionClassType" IsAbstract="true" />
   <ObjectType SymbolicName="tns:AuditConditionEventType" PartNo="9" BaseType="tns:AuditUpdateMethodEventType" />
   <ObjectType SymbolicName="tns:AuditConditionEnableEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
   <ObjectType SymbolicName="tns:AuditConditionCommentEventType" PartNo="9" BaseType="tns:AuditConditionEventType">
@@ -3062,7 +3054,7 @@
   </ObjectType>
   <ObjectType SymbolicName="tns:AuditConditionRespondEventType" PartNo="9" BaseType="tns:AuditConditionEventType">
     <Children>
-      <Property SymbolicName="tns:SelectedResponse" ModellingRule="Mandatory" DataType="tns:Int32" />
+      <Property SymbolicName="tns:SelectedResponse" ModellingRule="Mandatory" DataType="tns:UInt32" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:AuditConditionAcknowledgeEventType" PartNo="9" BaseType="tns:AuditConditionEventType">
@@ -3079,10 +3071,10 @@
   </ObjectType>
   <ObjectType SymbolicName="tns:AuditConditionShelvingEventType" PartNo="9" BaseType="tns:AuditConditionEventType">
     <Children>
-      <Property SymbolicName="tns:ShelvingTime" ModellingRule="Mandatory" DataType="tns:Duration" />
+      <Property SymbolicName="tns:ShelvingTime" ModellingRule="Optional" DataType="tns:Duration" />
     </Children>
   </ObjectType>
-  <ObjectType SymbolicName="tns:AuditConditionSuppressEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
+  <ObjectType SymbolicName="tns:AuditConditionSuppressionEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
   <ObjectType SymbolicName="tns:AuditConditionSilenceEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
   <ObjectType SymbolicName="tns:AuditConditionResetEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
   <ObjectType SymbolicName="tns:AuditConditionOutOfServiceEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
@@ -3106,15 +3098,22 @@
   </ReferenceType>
   <ObjectType SymbolicName="tns:AlarmMetricsType" PartNo="9" BaseType="tns:BaseObjectType">
     <Children>
-      <Property SymbolicName="tns:AlarmCount" DataType="tns:UInt32" />
-      <Property SymbolicName="tns:StartTime" DataType="tns:UtcTime" />
-      <Property SymbolicName="tns:MaximumActiveState" DataType="tns:Duration" />
-      <Property SymbolicName="tns:MaximumUnAck" DataType="tns:Duration" />
+      <Variable SymbolicName="tns:AlarmCount" DataType="tns:UInt32" />
+      <Variable SymbolicName="tns:StartTime" DataType="tns:UtcTime" />
+      <Variable SymbolicName="tns:MaximumActiveState" DataType="tns:Duration" />
+      <Variable SymbolicName="tns:MaximumUnAck" DataType="tns:Duration" />
       <Variable SymbolicName="tns:CurrentAlarmRate" TypeDefinition="tns:AlarmRateVariableType" DataType="tns:Double" />
       <Variable SymbolicName="tns:MaximumAlarmRate" TypeDefinition="tns:AlarmRateVariableType" DataType="tns:Double" />
-      <Property SymbolicName="tns:MaximumReAlarmCount" DataType="tns:UInt32" />
+      <Variable SymbolicName="tns:MaximumReAlarmCount" DataType="tns:UInt32" />
       <Variable SymbolicName="tns:AverageAlarmRate" TypeDefinition="tns:AlarmRateVariableType" DataType="tns:Double" />
-      <Method SymbolicName="tns:Reset" ModellingRule="Mandatory" />
+      <Method SymbolicName="tns:Reset" ModellingRule="Mandatory">
+        <References>
+          <Reference IsOneWay="true">
+            <ReferenceType>tns:AlwaysGeneratesEvent</ReferenceType>
+            <TargetId>tns:AuditUpdateMethodEventType</TargetId>
+          </Reference>
+        </References>
+      </Method>
     </Children>
   </ObjectType>
   <VariableType SymbolicName="tns:AlarmRateVariableType" PartNo="9" DataType="tns:Double" ValueRank="Scalar">
@@ -3122,6 +3121,203 @@
       <Property SymbolicName="tns:Rate" DataType="tns:UInt16" />
     </Children>
   </VariableType>
+  <ObjectType SymbolicName="tns:SystemStateStateMachineType" PartNo="9" BaseType="tns:FiniteStateMachineType">
+    <Children>
+      <Object SymbolicName="tns:Operating" TypeDefinition="tns:StateType" ModellingRule="None" />
+      <Object SymbolicName="tns:ShuttingDown" TypeDefinition="tns:StateType" ModellingRule="None" />
+      <Object SymbolicName="tns:StartingUp" TypeDefinition="tns:StateType" ModellingRule="None" />
+      <Object SymbolicName="tns:Shutdown" TypeDefinition="tns:StateType" ModellingRule="None" />
+      <Object SymbolicName="tns:OutOfService" TypeDefinition="tns:StateType" ModellingRule="None" />
+      <Object SymbolicName="tns:Maintenance" TypeDefinition="tns:StateType" ModellingRule="None" />
+      <Object SymbolicName="tns:ShutdownToOperating" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Shutdown</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Operating</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:HasCause</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_QuickStart</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:OperatingToShutdown" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Operating</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Shutdown</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:HasCause</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_QuickShutdown</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:ShuttingDownToShutdown" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_ShuttingDown</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Shutdown</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:OperatingToShuttingDown" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Operating</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_ShuttingDown</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:HasCause</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Stop</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:StartingUpToOperating" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_StartingUp</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Operating</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:ShutdownToStartingUp" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Shutdown</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_StartingUp</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:HasCause</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Start</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:OutOfServiceToShutdown" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_OutOfService</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Shutdown</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:ShutdownToOutOfService" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Shutdown</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_OutOfService</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:HasCause</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_OutOfServiceShutdown</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:OutOfServiceToOperating" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_OutOfService</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Operating</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:HasCause</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_PlaceOutOfService</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:OperatingToOutOfService" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Operating</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_OutOfService</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:HasCause</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_PlaceOutOfService</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:MaintenanceToOutOfService" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Maintenance</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_OutOfService</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:HasCause</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Maintain</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Object SymbolicName="tns:OutOfServiceToMaintenance" TypeDefinition="tns:TransitionType" ModellingRule="None">
+        <References>
+          <Reference>
+            <ReferenceType>tns:FromState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_OutOfService</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:ToState</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Maintenance</TargetId>
+          </Reference>
+          <Reference>
+            <ReferenceType>tns:HasCause</ReferenceType>
+            <TargetId>tns:SystemStateStateMachineType_Maintain</TargetId>
+          </Reference>
+        </References>
+      </Object>
+      <Method SymbolicName="tns:Start" ModellingRule="Optional" />
+      <Method SymbolicName="tns:Maintain" ModellingRule="Optional" />
+      <Method SymbolicName="tns:Stop" ModellingRule="Optional" />
+      <Method SymbolicName="tns:PlaceOutOfService" ModellingRule="Optional" />
+      <Method SymbolicName="tns:QuickShutdown" ModellingRule="Optional" />
+      <Method SymbolicName="tns:QuickStart" ModellingRule="Optional" />
+      <Method SymbolicName="tns:OutOfServiceShutdown" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
   <ObjectType SymbolicName="tns:ProgramStateMachineType" PartNo="10" BaseType="tns:FiniteStateMachineType">
     <Description>A state machine for a program.</Description>
     <Children>
@@ -3143,7 +3339,7 @@
       <Property SymbolicName="tns:InstanceCount" ModellingRule="None" DataType="tns:UInt32" />
       <Property SymbolicName="tns:MaxInstanceCount" ModellingRule="None" DataType="tns:UInt32" />
       <Property SymbolicName="tns:MaxRecycleCount" ModellingRule="None" DataType="tns:UInt32" />
-      <Variable SymbolicName="tns:ProgramDiagnostics" TypeDefinition="tns:ProgramDiagnostic2Type" ModellingRule="Optional" />
+      <Variable SymbolicName="tns:ProgramDiagnostic" TypeDefinition="tns:ProgramDiagnostic2Type" ModellingRule="Optional" />
       <Object SymbolicName="tns:FinalResultData" TypeDefinition="tns:BaseObjectType" ModellingRule="Optional" />
       <Object SymbolicName="tns:Halted" TypeDefinition="tns:StateType" ModellingRule="None">
         <Description>The Program is in a terminal or failed state, and it cannot be started or resumed without being reset.</Description>
@@ -3437,12 +3633,12 @@
       </Method>
     </Children>
   </ObjectType>
-  <ObjectType SymbolicName="tns:ProgramTransitionEventType" PartNo="10" BaseType="tns:TransitionEventType">
+  <ObjectType SymbolicName="tns:ProgramTransitionEventType" PartNo="10" BaseType="tns:TransitionEventType" IsAbstract="true">
     <Children>
-      <Property SymbolicName="tns:IntermediateResult" DataType="tns:BaseDataType" />
+      <Variable SymbolicName="tns:IntermediateResult" DataType="tns:BaseDataType" />
     </Children>
   </ObjectType>
-  <ObjectType SymbolicName="tns:AuditProgramTransitionEventType" PartNo="10" BaseType="tns:AuditUpdateStateEventType">
+  <ObjectType SymbolicName="tns:AuditProgramTransitionEventType" PartNo="10" BaseType="tns:AuditUpdateStateEventType" IsAbstract="true">
     <Children>
       <Property SymbolicName="tns:TransitionNumber" DataType="tns:UInt32" />
     </Children>
@@ -3468,18 +3664,18 @@
   </VariableType>
   <VariableType SymbolicName="tns:ProgramDiagnostic2Type" PartNo="10" BaseType="tns:BaseDataVariableType" DataType="tns:ProgramDiagnostic2DataType" ValueRank="Scalar">
     <Children>
-      <Property SymbolicName="tns:CreateSessionId" DataType="tns:NodeId" />
-      <Property SymbolicName="tns:CreateClientName" DataType="tns:String" />
-      <Property SymbolicName="tns:InvocationCreationTime" DataType="tns:UtcTime" />
+      <Variable SymbolicName="tns:CreateSessionId" DataType="tns:NodeId" />
+      <Variable SymbolicName="tns:CreateClientName" DataType="tns:String" />
+      <Variable SymbolicName="tns:InvocationCreationTime" DataType="tns:UtcTime" />
       <Property SymbolicName="tns:LastTransitionTime" DataType="tns:UtcTime" />
-      <Property SymbolicName="tns:LastMethodCall" DataType="tns:String" />
-      <Property SymbolicName="tns:LastMethodSessionId" DataType="tns:NodeId" />
-      <Property SymbolicName="tns:LastMethodInputArguments" DataType="tns:Argument" ValueRank="Array" />
-      <Property SymbolicName="tns:LastMethodOutputArguments" DataType="tns:Argument" ValueRank="Array" />
-      <Property SymbolicName="tns:LastMethodInputValues" DataType="tns:BaseDataType" ValueRank="Array" />
-      <Property SymbolicName="tns:LastMethodOutputValues" DataType="tns:BaseDataType" ValueRank="Array" />
-      <Property SymbolicName="tns:LastMethodCallTime" DataType="tns:UtcTime" />
-      <Property SymbolicName="tns:LastMethodReturnStatus" DataType="tns:StatusCode" />
+      <Variable SymbolicName="tns:LastMethodCall" DataType="tns:String" />
+      <Variable SymbolicName="tns:LastMethodSessionId" DataType="tns:NodeId" />
+      <Variable SymbolicName="tns:LastMethodInputArguments" DataType="tns:Argument" ValueRank="Array" />
+      <Variable SymbolicName="tns:LastMethodOutputArguments" DataType="tns:Argument" ValueRank="Array" />
+      <Variable SymbolicName="tns:LastMethodInputValues" DataType="tns:BaseDataType" ValueRank="Array" />
+      <Variable SymbolicName="tns:LastMethodOutputValues" DataType="tns:BaseDataType" ValueRank="Array" />
+      <Variable SymbolicName="tns:LastMethodCallTime" DataType="tns:UtcTime" />
+      <Variable SymbolicName="tns:LastMethodReturnStatus" DataType="tns:StatusCode" />
     </Children>
   </VariableType>
   <Variable SymbolicName="tns:Annotations" PartNo="11" TypeDefinition="tns:PropertyType" ModellingRule="None" DataType="tns:Annotation">
@@ -4342,7 +4538,6 @@
   </DataType>
   <DataType SymbolicName="tns:JsonDataSetWriterMessageDataType" PartNo="14" BaseType="tns:DataSetWriterMessageDataType">
     <Fields>
-      <Field Name="NetworkMessageContentMask" DataType="tns:JsonNetworkMessageContentMask" />
       <Field Name="DataSetMessageContentMask" DataType="tns:JsonDataSetMessageContentMask" />
     </Fields>
   </DataType>
@@ -4750,7 +4945,7 @@
     </InputArguments>
   </Method>
   <ObjectType SymbolicName="tns:ConnectionTransportType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true" />
-  <ObjectType SymbolicName="tns:PubSubGroupType" PartNo="14" BaseType="tns:BaseObjectType">
+  <ObjectType SymbolicName="tns:PubSubGroupType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true">
     <Children>
       <Property SymbolicName="tns:SecurityMode" ModellingRule="Mandatory" DataType="tns:MessageSecurityMode" />
       <Property SymbolicName="tns:SecurityGroupId" ModellingRule="Optional" DataType="tns:String" />
@@ -4842,7 +5037,7 @@
   </ObjectType>
   <ObjectType SymbolicName="tns:DataSetWriterTransportType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true" />
   <ObjectType SymbolicName="tns:DataSetWriterMessageType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true" />
-  <ObjectType SymbolicName="tns:DataSetReaderType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true">
+  <ObjectType SymbolicName="tns:DataSetReaderType" PartNo="14" BaseType="tns:BaseObjectType">
     <Children>
       <Property SymbolicName="tns:PublisherId" ModellingRule="Mandatory" DataType="tns:BaseDataType" />
       <Property SymbolicName="tns:WriterGroupId" ModellingRule="Mandatory" DataType="tns:UInt16" />
@@ -4919,7 +5114,7 @@
       <Method SymbolicName="tns:Disable" ModellingRule="Optional" />
     </Children>
   </ObjectType>
-  <ObjectType SymbolicName="tns:PubSubDiagnosticsType" PartNo="14" BaseType="tns:BaseObjectType">
+  <ObjectType SymbolicName="tns:PubSubDiagnosticsType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true">
     <Children>
       <Variable SymbolicName="tns:DiagnosticsLevel" ModellingRule="Mandatory" DataType="tns:DiagnosticsLevel" />
       <Variable SymbolicName="tns:TotalInformation" TypeDefinition="tns:PubSubDiagnosticsCounterType" ModellingRule="Mandatory" DataType="tns:UInt32" />
@@ -5031,7 +5226,7 @@
       <Property SymbolicName="tns:Active" DataType="tns:Boolean" />
       <Property SymbolicName="tns:Classification" DataType="tns:PubSubDiagnosticsCounterClassification" />
       <Property SymbolicName="tns:DiagnosticsLevel" DataType="tns:DiagnosticsLevel" />
-      <Property SymbolicName="tns:TimeFirstChange" DataType="tns:DateTime" />
+      <Property SymbolicName="tns:TimeFirstChange" ModellingRule="Optional" DataType="tns:DateTime" />
     </Children>
   </VariableType>
   <DataType SymbolicName="tns:PubSubDiagnosticsCounterClassification" PartNo="14" BaseType="tns:Enumeration">
@@ -5457,7 +5652,6 @@
   <ObjectType SymbolicName="tns:UadpDataSetReaderMessageType" PartNo="14" BaseType="tns:DataSetReaderMessageType">
     <Children>
       <Property SymbolicName="tns:GroupVersion" ModellingRule="Mandatory" DataType="tns:VersionTime" />
-      <Property SymbolicName="tns:DataSetOrdering" ModellingRule="Mandatory" DataType="tns:DataSetOrderingType" />
       <Property SymbolicName="tns:NetworkMessageNumber" ModellingRule="Mandatory" DataType="tns:UInt16" />
       <Property SymbolicName="tns:DataSetOffset" ModellingRule="Mandatory" DataType="tns:UInt16" />
       <Property SymbolicName="tns:DataSetClassId" ModellingRule="Mandatory" DataType="tns:Guid" />
@@ -5491,8 +5685,8 @@
   </ObjectType>
   <ObjectType SymbolicName="tns:DatagramWriterGroupTransportType" PartNo="14" BaseType="tns:WriterGroupTransportType">
     <Children>
-      <Property SymbolicName="tns:MessageRepeatCount" ModellingRule="Mandatory" DataType="tns:Byte" />
-      <Property SymbolicName="tns:MessageRepeatDelay" ModellingRule="Mandatory" DataType="tns:Duration" />
+      <Property SymbolicName="tns:MessageRepeatCount" ModellingRule="Optional" DataType="tns:Byte" />
+      <Property SymbolicName="tns:MessageRepeatDelay" ModellingRule="Optional" DataType="tns:Duration" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:BrokerConnectionTransportType" PartNo="14" BaseType="tns:ConnectionTransportType">
@@ -5530,7 +5724,7 @@
   </ObjectType>
   <ObjectType SymbolicName="tns:NetworkAddressType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true">
     <Children>
-      <Variable SymbolicName="tns:NetworkInterface" ModellingRule="Mandatory" DataType="tns:String" />
+      <Variable SymbolicName="tns:NetworkInterface" TypeDefinition="tns:SelectionListType" ModellingRule="Mandatory" DataType="tns:String" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:NetworkAddressUrlType" PartNo="14" BaseType="tns:NetworkAddressType">
@@ -8357,7 +8551,7 @@
       <Field Name="SessionId" DataType="tns:NodeId" />
       <Field Name="SubscriptionId" DataType="tns:UInt32" />
       <Field Name="Priority" DataType="tns:Byte" />
-      <Field Name="PublishingInterval" DataType="tns:Double" />
+      <Field Name="PublishingInterval" DataType="tns:Duration" />
       <Field Name="MaxKeepAliveCount" DataType="tns:UInt32" />
       <Field Name="MaxLifetimeCount" DataType="tns:UInt32" />
       <Field Name="MaxNotificationsPerPublish" DataType="tns:UInt32" />
