@@ -911,7 +911,7 @@ namespace Opc.Ua
                 encoder.WriteNodeId("DataType", DataType);
             }
 
-            if (ValueRank != ValueRanks.Any)
+            if (ValueRank != ValueRanks.OneOrMoreDimensions)
             {
                 encoder.WriteInt32("ValueRank", ValueRank);
             }
@@ -1059,7 +1059,7 @@ namespace Opc.Ua
                 attributesToSave |= AttributesToSave.DataType;
             }
 
-            if (m_valueRank != ValueRanks.Any)
+            if (m_valueRank != ValueRanks.OneOrMoreDimensions)
             {
                 attributesToSave |= AttributesToSave.ValueRank;
             }
