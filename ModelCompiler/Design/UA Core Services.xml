@@ -29,7 +29,7 @@
 
   <opc:EnumeratedType Name="NodeClass" PartNo="3">
     <opc:Documentation>A mask specifying the class of the node.</opc:Documentation>
-    <opc:Value Name="Unspecified" Value="0">
+    <opc:Value Name="Unspecified" Value="0">TranslateBrowsePathsToNodeIds
       <opc:Documentation>No classes are selected.</opc:Documentation>
     </opc:Value>
     <opc:Value Name="Object" Value="1">
@@ -392,6 +392,11 @@
     <opc:Field Name="Offset" DataType="s0:Int16" />
     <opc:Field Name="DaylightSavingInOffset" DataType="s0:Boolean" />
   </opc:ComplexType>
+
+  <opc:TypeDeclaration Name="Index" SourceType="s0:UInt32" PartNo="4">
+    <opc:Documentation>This primitive data type is a UInt32 that identifies an element of an array.</opc:Documentation>
+  </opc:TypeDeclaration>
+  
   <opc:TypeDeclaration Name="IntegerId" SourceType="s0:UInt32" PartNo="4">
     <opc:Documentation>A numeric identifier for an object.</opc:Documentation>
   </opc:TypeDeclaration>
@@ -1740,7 +1745,7 @@
     <opc:Field Name="TargetId" DataType="s0:ExpandedNodeId">
       <opc:Documentation>The id of the target node.</opc:Documentation>
     </opc:Field>
-    <opc:Field Name="RemainingPathIndex" DataType="s0:UInt32">
+    <opc:Field Name="RemainingPathIndex" DataType="Index">
       <opc:Documentation>The index of the target in the relative path. UInt32.MaxValue if the entire path was processed.</opc:Documentation>
     </opc:Field>
   </opc:ComplexType>
@@ -2005,12 +2010,12 @@
     <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="IndexRange" DataType="NumericRange" />
     <opc:Field Name="DataEncoding" DataType="s0:QualifiedName" />
-    <opc:Field Name="ContinuationPoint" DataType="s0:ByteString" />
+    <opc:Field Name="ContinuationPoint" DataType="ContinuationPoint" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="HistoryReadResult" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="StatusCode" DataType="s0:StatusCode" />
-    <opc:Field Name="ContinuationPoint" DataType="s0:ByteString" />
+    <opc:Field Name="ContinuationPoint" DataType="ContinuationPoint" />
     <opc:Field Name="HistoryData" DataType="s0:ExtensionObject" />
   </opc:ComplexType>
 

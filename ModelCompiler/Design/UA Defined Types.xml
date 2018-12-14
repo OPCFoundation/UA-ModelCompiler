@@ -871,7 +871,7 @@
       </Object>
       <Property SymbolicName="tns:DefaultRolePermissions" ModellingRule="Optional" DataType="tns:RolePermissionType" ValueRank="Array" />
       <Property SymbolicName="tns:DefaultUserRolePermissions" ModellingRule="Optional" DataType="tns:RolePermissionType" ValueRank="Array" />
-      <Property SymbolicName="tns:DefaultAccessRestrictions" ModellingRule="Optional" DataType="tns:UInt16" />
+      <Property SymbolicName="tns:DefaultAccessRestrictions" ModellingRule="Optional" DataType="tns:AccessRestrictionType" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:NamespacesType" PartNo="5" BaseType="tns:BaseObjectType">
@@ -1457,7 +1457,7 @@
   </VariableType>
   <ObjectType SymbolicName="tns:StateType" PartNo="5">
     <Children>
-      <Property SymbolicName="tns:StateNumber" ModellingRule="Mandatory" DataType="tns:UInt32" />
+      <Property SymbolicName="tns:StateNumber" ModellingRule="Optional" DataType="tns:UInt32" />
     </Children>
     <ClassName>StateMachineState</ClassName>
   </ObjectType>
@@ -1550,9 +1550,11 @@
     <Children>
       <Object SymbolicName="tns:FileDirectoryName_Placeholder" TypeDefinition="tns:FileDirectoryType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;FileDirectoryName&gt;</BrowseName>
+        <ReferenceType>tns:Organizes</ReferenceType>
       </Object>
       <Object SymbolicName="tns:FileName_Placeholder" TypeDefinition="tns:FileType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;FileName&gt;</BrowseName>
+        <ReferenceType>tns:Organizes</ReferenceType>
       </Object>
       <Method SymbolicName="tns:CreateDirectory" TypeDefinition="tns:CreateDirectoryMethodType" />
       <Method SymbolicName="tns:CreateFile" TypeDefinition="tns:CreateFileMethodType" />
@@ -5932,6 +5934,9 @@
       <Field Name="DaylightSavingInOffset" DataType="tns:Boolean" />
     </Fields>
   </DataType>
+  <DataType SymbolicName="tns:Index" SymbolicId="tns:Index" PartNo="4" BaseType="tns:UInt32" NoArraysAllowed="true">
+    <Description>This primitive data type is a UInt32 that identifies an element of an array.</Description>
+  </DataType>
   <DataType SymbolicName="tns:IntegerId" SymbolicId="tns:IntegerId" PartNo="4" BaseType="tns:UInt32" NoArraysAllowed="true">
     <Description>A numeric identifier for an object.</Description>
   </DataType>
@@ -7351,7 +7356,7 @@
       <Field Name="TargetId" DataType="tns:ExpandedNodeId">
         <Description>The id of the target node.</Description>
       </Field>
-      <Field Name="RemainingPathIndex" DataType="tns:UInt32">
+      <Field Name="RemainingPathIndex" DataType="tns:Index">
         <Description>The index of the target in the relative path. UInt32.MaxValue if the entire path was processed.</Description>
       </Field>
     </Fields>
@@ -7639,13 +7644,13 @@
       <Field Name="NodeId" DataType="tns:NodeId" />
       <Field Name="IndexRange" DataType="tns:NumericRange" />
       <Field Name="DataEncoding" DataType="tns:QualifiedName" />
-      <Field Name="ContinuationPoint" DataType="tns:ByteString" />
+      <Field Name="ContinuationPoint" DataType="tns:ContinuationPoint" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:HistoryReadResult" SymbolicId="tns:HistoryReadResult" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true">
     <Fields>
       <Field Name="StatusCode" DataType="tns:StatusCode" />
-      <Field Name="ContinuationPoint" DataType="tns:ByteString" />
+      <Field Name="ContinuationPoint" DataType="tns:ContinuationPoint" />
       <Field Name="HistoryData" DataType="tns:Structure" />
     </Fields>
   </DataType>

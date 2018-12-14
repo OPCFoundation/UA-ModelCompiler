@@ -479,7 +479,7 @@
       </opc:Object>
       <opc:Property SymbolicName="DefaultRolePermissions" DataType="ua:RolePermissionType" ValueRank="Array" ModellingRule="Optional" />
       <opc:Property SymbolicName="DefaultUserRolePermissions" DataType="ua:RolePermissionType" ValueRank="Array" ModellingRule="Optional" />
-      <opc:Property SymbolicName="DefaultAccessRestrictions" DataType="ua:UInt16" ModellingRule="Optional" />
+      <opc:Property SymbolicName="DefaultAccessRestrictions" DataType="ua:AccessRestrictionType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -1209,7 +1209,7 @@
 
   <opc:ObjectType SymbolicName="StateType" PartNo="5">
     <opc:Children>
-      <opc:Property SymbolicName="StateNumber" DataType="ua:UInt32" ModellingRule="Mandatory"></opc:Property>
+      <opc:Property SymbolicName="StateNumber" DataType="ua:UInt32" ModellingRule="Optional"></opc:Property>
     </opc:Children>
     <opc:ClassName>StateMachineState</opc:ClassName>
   </opc:ObjectType>
@@ -1331,9 +1331,11 @@
     <opc:Children>
       <opc:Object SymbolicName="FileDirectoryName_Placeholder" TypeDefinition="FileDirectoryType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;FileDirectoryName&gt;</opc:BrowseName>
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
       <opc:Object SymbolicName="FileName_Placeholder" TypeDefinition="FileType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;FileName&gt;</opc:BrowseName>
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
       <opc:Method SymbolicName="CreateDirectory" TypeDefinition="CreateDirectoryMethodType">
       </opc:Method>
@@ -3016,7 +3018,7 @@
       <opc:Property SymbolicName="Rate" DataType="ua:UInt16" />
     </opc:Children>
   </opc:VariableType>
-    
+
   <!-- Part 10 -->
 
   <opc:ObjectType SymbolicName="ProgramStateMachineType" BaseType="FiniteStateMachineType" PartNo="10">
@@ -5624,7 +5626,7 @@
   <opc:ObjectType SymbolicName="DatagramWriterGroupTransportType" BaseType="WriterGroupTransportType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="MessageRepeatCount" DataType="ua:Byte" ModellingRule="Optional" />
-      <opc:Property SymbolicName="MessageRepeatDelay" DataType="ua:Duration" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MessageRepeatDelay" DataType="ua:Duration" ModellingRule="Optional" /> 
     </opc:Children>
   </opc:ObjectType>
 
