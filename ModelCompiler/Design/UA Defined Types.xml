@@ -550,6 +550,9 @@
   <Property SymbolicName="tns:DefaultInputValues" PartNo="3" DataType="tns:BaseDataType" ValueRank="Array">
     <Description>Specifies the default values for optional input arguments.</Description>
   </Property>
+  <Property SymbolicName="tns:DefaultInstanceBrowseName" PartNo="3" DataType="tns:QualifiedName" ValueRank="Scalar">
+    <Description>Allows the definition of BrowseName on an ObjectType that all instances should use by default.</Description>
+  </Property>
   <DataType SymbolicName="tns:ImageBMP" PartNo="3" BaseType="tns:Image">
     <Description>An image encoded in BMP format.</Description>
   </DataType>

@@ -136,6 +136,10 @@
     <opc:Description>Specifies the default values for optional input arguments.</opc:Description>
   </opc:Property>
 
+  <opc:Property SymbolicName="DefaultInstanceBrowseName" DataType="QualifiedName" ValueRank="Scalar" PartNo="3">
+    <opc:Description>Allows the definition of BrowseName on an ObjectType that all instances should use by default.</opc:Description>
+  </opc:Property>
+  
   <opc:DataType SymbolicName="ImageBMP" BaseType="Image" PartNo="3">
     <opc:Description>An image encoded in BMP format.</opc:Description>
   </opc:DataType>
