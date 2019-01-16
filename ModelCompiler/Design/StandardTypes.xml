@@ -8,7 +8,7 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
   TargetVersion="1.04"
-  TargetPublicationDate="2018-12-01T00:00:00Z"
+  TargetPublicationDate="2019-01-15T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -1267,7 +1267,6 @@
   </opc:ObjectType>
 
   <!-- Part 5 Annex C - File Transfer -->
-  
   <!-- FileType eariler in the document -->
 
   <opc:DataType SymbolicName="OpenFileMode" BaseType="Enumeration" PartNo="5">
@@ -1870,7 +1869,58 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
+
+  <!-- Part 5 Annex G - Dictionary Reference -->
+
+  <opc:ObjectType SymbolicName="DictionaryEntryType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="5" ReleaseStatus="Draft">
+    <opc:Children>
+      <opc:Object SymbolicName="DictionaryEntryName_Placeholder" TypeDefinition="DictionaryEntryType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;DictionaryEntryName&gt;</opc:BrowseName>
+      </opc:Object>
+    </opc:Children>
+  </opc:ObjectType>
   
+  <opc:ObjectType SymbolicName="DictionaryFolderType" BaseType="ua:FolderType" PartNo="5" ReleaseStatus="Draft">
+    <opc:Children>
+      <opc:Object SymbolicName="DictionaryFolderName_Placeholder" TypeDefinition="DictionaryFolderType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;DictionaryFolderName&gt;</opc:BrowseName>
+      </opc:Object>
+      <opc:Object SymbolicName="DictionaryEntryName_Placeholder" TypeDefinition="DictionaryEntryType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;DictionaryEntryName&gt;</opc:BrowseName>
+      </opc:Object>
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:Object SymbolicName="Dictionaries" TypeDefinition="DictionaryFolderType" ModellingRule="None" PartNo="5" ReleaseStatus="Draft">
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+        <opc:TargetId>ua:Server</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:ReferenceType SymbolicName="HasDictionaryEntry" BaseType="ua:NonHierarchicalReferences" PartNo="5" ReleaseStatus="Draft">
+    <opc:InverseName>DictionaryEntryOf</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ObjectType SymbolicName="IrdiDictionaryEntryType" BaseType="ua:DictionaryEntryType" PartNo="5" ReleaseStatus="Draft">
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="UriDictionaryEntryType" BaseType="ua:DictionaryEntryType" PartNo="5" ReleaseStatus="Draft">
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="BaseInterfaceType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="5" ReleaseStatus="Draft">
+  </opc:ObjectType>
+
+  <opc:ReferenceType SymbolicName="HasInterface" BaseType="ua:NonHierarchicalReferences" PartNo="5" ReleaseStatus="Draft">
+    <opc:InverseName>InterfaceOf</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasAddIn" BaseType="ua:NonHierarchicalReferences" PartNo="5" ReleaseStatus="Draft">
+    <opc:InverseName>AddInOf</opc:InverseName>
+  </opc:ReferenceType>
+
   <!-- Part 8 -->
 
   <opc:VariableType SymbolicName="DataItemType" BaseType="ua:BaseDataVariableType" DataType="ua:BaseDataType" ValueRank="ScalarOrArray" PartNo="8">

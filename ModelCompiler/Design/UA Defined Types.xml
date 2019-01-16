@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04" TargetPublicationDate="2018-12-01T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04" TargetPublicationDate="2019-01-15T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -2053,6 +2053,43 @@
       </Reference>
     </References>
   </Object>
+  <ObjectType SymbolicName="tns:DictionaryEntryType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:BaseObjectType" IsAbstract="true">
+    <Children>
+      <Object SymbolicName="tns:DictionaryEntryName_Placeholder" TypeDefinition="tns:DictionaryEntryType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;DictionaryEntryName&gt;</BrowseName>
+      </Object>
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:DictionaryFolderType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:FolderType">
+    <Children>
+      <Object SymbolicName="tns:DictionaryFolderName_Placeholder" TypeDefinition="tns:DictionaryFolderType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;DictionaryFolderName&gt;</BrowseName>
+      </Object>
+      <Object SymbolicName="tns:DictionaryEntryName_Placeholder" TypeDefinition="tns:DictionaryEntryType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;DictionaryEntryName&gt;</BrowseName>
+      </Object>
+    </Children>
+  </ObjectType>
+  <Object SymbolicName="tns:Dictionaries" PartNo="5" ReleaseStatus="Draft" TypeDefinition="tns:DictionaryFolderType" ModellingRule="None">
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:HasComponent</ReferenceType>
+        <TargetId>tns:Server</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <ReferenceType SymbolicName="tns:HasDictionaryEntry" PartNo="5" ReleaseStatus="Draft" BaseType="tns:NonHierarchicalReferences">
+    <InverseName>DictionaryEntryOf</InverseName>
+  </ReferenceType>
+  <ObjectType SymbolicName="tns:IrdiDictionaryEntryType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:DictionaryEntryType" />
+  <ObjectType SymbolicName="tns:UriDictionaryEntryType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:DictionaryEntryType" />
+  <ObjectType SymbolicName="tns:BaseInterfaceType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:BaseObjectType" IsAbstract="true" />
+  <ReferenceType SymbolicName="tns:HasInterface" PartNo="5" ReleaseStatus="Draft" BaseType="tns:NonHierarchicalReferences">
+    <InverseName>InterfaceOf</InverseName>
+  </ReferenceType>
+  <ReferenceType SymbolicName="tns:HasAddIn" PartNo="5" ReleaseStatus="Draft" BaseType="tns:NonHierarchicalReferences">
+    <InverseName>AddInOf</InverseName>
+  </ReferenceType>
   <VariableType SymbolicName="tns:DataItemType" PartNo="8" BaseType="tns:BaseDataVariableType" DataType="tns:BaseDataType" ValueRank="ScalarOrArray">
     <Description>
       A variable that contains live automation data.
