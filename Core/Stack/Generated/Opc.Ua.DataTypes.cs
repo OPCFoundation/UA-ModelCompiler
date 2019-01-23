@@ -6125,10 +6125,10 @@ namespace Opc.Ua
         ServerPicoSeconds = 16,
 
         /// <summary>
-        /// A description for the RawDataEncoding field.
+        /// A description for the RawData field.
         /// </summary>
-        [EnumMember(Value = "RawDataEncoding_32")]
-        RawDataEncoding = 32,
+        [EnumMember(Value = "RawData_32")]
+        RawData = 32,
     }
 
     #region DataSetFieldContentMaskCollection Class
@@ -11505,10 +11505,10 @@ namespace Opc.Ua
         Disabled = 0,
 
         /// <summary>
-        /// A description for the LastUseableValue field.
+        /// A description for the LastUsableValue field.
         /// </summary>
-        [EnumMember(Value = "LastUseableValue_1")]
-        LastUseableValue = 1,
+        [EnumMember(Value = "LastUsableValue_1")]
+        LastUsableValue = 1,
 
         /// <summary>
         /// A description for the OverrideValue field.
@@ -12312,10 +12312,10 @@ namespace Opc.Ua
         Timestamp = 128,
 
         /// <summary>
-        /// A description for the Picoseconds field.
+        /// A description for the PicoSeconds field.
         /// </summary>
-        [EnumMember(Value = "Picoseconds_256")]
-        Picoseconds = 256,
+        [EnumMember(Value = "PicoSeconds_256")]
+        PicoSeconds = 256,
 
         /// <summary>
         /// A description for the DataSetClassId field.
@@ -14012,26 +14012,15 @@ namespace Opc.Ua
         /// </summary>
         private void Initialize()
         {
-            m_networkMessageContentMask = 0;
             m_dataSetMessageContentMask = 0;
         }
         #endregion
 
         #region Public Properties
         /// <summary>
-        /// A description for the NetworkMessageContentMask field.
-        /// </summary>
-        [DataMember(Name = "NetworkMessageContentMask", IsRequired = false, Order = 1)]
-        public uint NetworkMessageContentMask
-        {
-            get { return m_networkMessageContentMask;  }
-            set { m_networkMessageContentMask = value; }
-        }
-
-        /// <summary>
         /// A description for the DataSetMessageContentMask field.
         /// </summary>
-        [DataMember(Name = "DataSetMessageContentMask", IsRequired = false, Order = 2)]
+        [DataMember(Name = "DataSetMessageContentMask", IsRequired = false, Order = 1)]
         public uint DataSetMessageContentMask
         {
             get { return m_dataSetMessageContentMask;  }
@@ -14065,7 +14054,6 @@ namespace Opc.Ua
 
             encoder.PushNamespace(Opc.Ua.Namespaces.OpcUaXsd);
 
-            encoder.WriteUInt32("NetworkMessageContentMask", NetworkMessageContentMask);
             encoder.WriteUInt32("DataSetMessageContentMask", DataSetMessageContentMask);
 
             encoder.PopNamespace();
@@ -14078,7 +14066,6 @@ namespace Opc.Ua
 
             decoder.PushNamespace(Opc.Ua.Namespaces.OpcUaXsd);
 
-            NetworkMessageContentMask = decoder.ReadUInt32("NetworkMessageContentMask");
             DataSetMessageContentMask = decoder.ReadUInt32("DataSetMessageContentMask");
 
             decoder.PopNamespace();
@@ -14100,7 +14087,6 @@ namespace Opc.Ua
             }
 
             if (!base.IsEqual(encodeable)) return false;
-            if (!Utils.IsEqual(m_networkMessageContentMask, value.m_networkMessageContentMask)) return false;
             if (!Utils.IsEqual(m_dataSetMessageContentMask, value.m_dataSetMessageContentMask)) return false;
 
             return true;
@@ -14119,7 +14105,6 @@ namespace Opc.Ua
         {
             JsonDataSetWriterMessageDataType clone = (JsonDataSetWriterMessageDataType)base.MemberwiseClone();
 
-            clone.m_networkMessageContentMask = (uint)Utils.Clone(this.m_networkMessageContentMask);
             clone.m_dataSetMessageContentMask = (uint)Utils.Clone(this.m_dataSetMessageContentMask);
 
             return clone;
@@ -14127,7 +14112,6 @@ namespace Opc.Ua
         #endregion
 
         #region Private Fields
-        private uint m_networkMessageContentMask;
         private uint m_dataSetMessageContentMask;
         #endregion
     }

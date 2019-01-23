@@ -4716,7 +4716,7 @@ namespace Opc.Ua.ModelCompiler
                 }
             }
 
-            TranslateReferences(basePath, type, references, suppressInverseHierarchicalAtTypeLevel);
+            TranslateReferences(basePath, type, references, suppressInverseHierarchicalAtTypeLevel, inherited);
 
             if (type.Children != null && type.Children.Items != null)
             {
@@ -4771,7 +4771,7 @@ namespace Opc.Ua.ModelCompiler
                 }
             }
 
-            TranslateReferences(basePath, parent, references, false);
+            TranslateReferences(basePath, parent, references, false, false);
 
             if (parent.Children != null && parent.Children.Items != null)
             {
@@ -4798,7 +4798,8 @@ namespace Opc.Ua.ModelCompiler
             string currentPath,
             NodeDesign source,
             List<HierarchyReference> references,
-            bool suppressInverseHierarchicalAtTypeLevel)
+            bool suppressInverseHierarchicalAtTypeLevel,
+            bool inherited)
         {
             if (source.References == null || source.References.Length == 0)
             {
@@ -4810,6 +4811,35 @@ namespace Opc.Ua.ModelCompiler
                 if (source.References[ii].ReferenceType == new XmlQualifiedName("HasModelParent", DefaultNamespace))
                 {
                     continue;
+                }
+
+                // suppress inhierited non-hierarchial references.
+                if (inherited)
+                {
+                    NodeDesign target = null;
+
+                    if (m_nodes.TryGetValue(source.References[ii].ReferenceType, out target))
+                    {
+                        ReferenceTypeDesign referenceType = target as ReferenceTypeDesign;
+
+                        bool found = false;
+
+                        while (referenceType != null)
+                        {
+                            if (referenceType.SymbolicName == new XmlQualifiedName("NonHierarchicalReferences", DefaultNamespace))
+                            {
+                                found = true;
+                                break;
+                            }
+
+                            referenceType = referenceType.BaseTypeNode as ReferenceTypeDesign;
+                        }
+
+                        if (found)
+                        {
+                            continue;
+                        }
+                    }
                 }
 
                 if (suppressInverseHierarchicalAtTypeLevel && source.References[ii].IsInverse && source.References[ii].ReferenceType == new XmlQualifiedName("Organizes", DefaultNamespace))

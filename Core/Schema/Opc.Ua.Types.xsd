@@ -1264,7 +1264,7 @@
   <xs:simpleType  name="OverrideValueHandling">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Disabled_0" />
-      <xs:enumeration value="LastUseableValue_1" />
+      <xs:enumeration value="LastUsableValue_1" />
       <xs:enumeration value="OverrideValue_2" />
     </xs:restriction>
   </xs:simpleType>
@@ -1471,7 +1471,6 @@
     <xs:complexContent mixed="false">
       <xs:extension base="tns:DataSetWriterMessageDataType">
         <xs:sequence>
-          <xs:element name="NetworkMessageContentMask" type="tns:JsonNetworkMessageContentMask" minOccurs="0" />
           <xs:element name="DataSetMessageContentMask" type="tns:JsonDataSetMessageContentMask" minOccurs="0" />
         </xs:sequence>
       </xs:extension>
@@ -2147,6 +2146,8 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ListOfTimeZoneDataType" type="tns:ListOfTimeZoneDataType" nillable="true"></xs:element>
+
+  <xs:element name="Index" type="xs:unsignedInt" />
 
   <xs:element name="IntegerId" type="xs:unsignedInt" />
 
