@@ -8,7 +8,7 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
   TargetVersion="1.04"
-  TargetPublicationDate="2019-01-15T00:00:00Z"
+  TargetPublicationDate="2019-01-31T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -29,7 +29,7 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2018-12-01</uax:DateTime>
+          <uax:DateTime>2019-01-31</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -1213,7 +1213,7 @@
 
   <opc:ObjectType SymbolicName="StateType" PartNo="5">
     <opc:Children>
-      <opc:Property SymbolicName="StateNumber" DataType="ua:UInt32" ModellingRule="Optional"></opc:Property>
+      <opc:Property SymbolicName="StateNumber" DataType="ua:UInt32" ModellingRule="Mandatory"></opc:Property>
     </opc:Children>
     <opc:ClassName>StateMachineState</opc:ClassName>
   </opc:ObjectType>
@@ -1691,6 +1691,7 @@
   <opc:ObjectType SymbolicName="RoleMappingRuleChangedAuditEventType" BaseType="AuditUpdateMethodEventType" IsAbstract="true"  PartNo="5" />  
 
   <opc:Object SymbolicName="WellKnownRole_Anonymous" TypeDefinition="RoleType" PartNo="5">
+    <opc:BrowseName>Anonymous</opc:BrowseName>
     <opc:DisplayName>Anonymous</opc:DisplayName>
     <opc:Description>The Role has very limited access for use when a Session has anonymous credentials.</opc:Description>
     <opc:Children>
@@ -1714,6 +1715,7 @@
   </opc:Object>
 
   <opc:Object SymbolicName="WellKnownRole_AuthenticatedUser" TypeDefinition="RoleType" PartNo="5">
+    <opc:BrowseName>AuthenticatedUser</opc:BrowseName>
     <opc:DisplayName>AuthenticatedUser</opc:DisplayName>
     <opc:Description>The Role has limited access for use when a Session has valid non-anonymous credentials but has not been explicity granted access to a Role.</opc:Description>
     <opc:Children>
@@ -1737,6 +1739,7 @@
   </opc:Object>
 
   <opc:Object SymbolicName="WellKnownRole_Observer" TypeDefinition="RoleType" PartNo="5">
+    <opc:BrowseName>Observer</opc:BrowseName>
     <opc:DisplayName>Observer</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
     <opc:Children> 
@@ -1760,6 +1763,7 @@
   </opc:Object>
 
   <opc:Object SymbolicName="WellKnownRole_Operator" TypeDefinition="RoleType" PartNo="5">
+    <opc:BrowseName>Operator</opc:BrowseName>
     <opc:DisplayName>Operator</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
     <opc:Children>
@@ -1783,6 +1787,7 @@
   </opc:Object>
 
   <opc:Object SymbolicName="WellKnownRole_Engineer" TypeDefinition="RoleType" PartNo="5">
+    <opc:BrowseName>Engineer</opc:BrowseName>
     <opc:DisplayName>Engineer</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read and update historical data/events, call methods or subscribe to data/events.</opc:Description>
     <opc:Children>
@@ -1806,6 +1811,7 @@
   </opc:Object>
 
   <opc:Object SymbolicName="WellKnownRole_Supervisor" TypeDefinition="RoleType" PartNo="5">
+    <opc:BrowseName>Supervisor</opc:BrowseName>
     <opc:DisplayName>Supervisor</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read and historical data/events, call methods or subscribe to data/events.</opc:Description>
     <opc:Children>
@@ -1829,6 +1835,7 @@
   </opc:Object>
 
   <opc:Object SymbolicName="WellKnownRole_ConfigureAdmin" TypeDefinition="RoleType" PartNo="5">
+    <opc:BrowseName>ConfigureAdmin</opc:BrowseName>
     <opc:DisplayName>ConfigureAdmin</opc:DisplayName>
     <opc:Description>The Role is allowed to change the non-security related configuration settings.</opc:Description>
     <opc:Children>
@@ -1852,6 +1859,7 @@
   </opc:Object>
 
   <opc:Object SymbolicName="WellKnownRole_SecurityAdmin" TypeDefinition="RoleType" PartNo="5">
+    <opc:BrowseName>SecurityAdmin</opc:BrowseName>
     <opc:DisplayName>SecurityAdmin</opc:DisplayName>
     <opc:Description>The Role is allowed to change security related settings.</opc:Description>
     <opc:Children>
