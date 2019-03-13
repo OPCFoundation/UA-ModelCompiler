@@ -75,7 +75,11 @@ public partial class _BrowseName_ : IEncodeable
     {
         decoder.PushNamespace(_XmlNamespaceUri_);
 
-        // ListOfDecodedFields
+        try
+        {
+            // ListOfDecodedFields
+        }
+        catch (System.IO.EndOfStreamException) { }
 
         decoder.PopNamespace();
     }
