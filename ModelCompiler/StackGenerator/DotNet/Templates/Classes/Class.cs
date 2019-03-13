@@ -81,7 +81,11 @@ public partial class _NAME_ : _BASETYPE_
         base.Decode(decoder);
 
         decoder.PushNamespace(Namespaces._TypesNamespace_);
-        // _DECODELIST_
+        try
+        {
+            // _DECODELIST_
+        }
+        catch (System.IO.EndOfStreamException) { }
         decoder.PopNamespace();
     }
 
