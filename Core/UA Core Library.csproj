@@ -324,8 +324,6 @@
     <Content Include="Schema\BuildSchema.bat" />
     <Content Include="Schema\SecuredApplication.xsd" />
     <EmbeddedResource Include="Stack\Server\ClientAccessPolicy.xml" />
-    <EmbeddedResource Include="Types\Schemas\BuiltInTypes.xml" />
-    <EmbeddedResource Include="Types\Schemas\BuiltInTypes.bsd" />
     <EmbeddedResource Include="Stack\Generated\Opc.Ua.PredefinedNodes.uanodes" />
     <None Include="Schema\AttributeIds.csv" />
     <None Include="Schema\NodeIds.csv" />

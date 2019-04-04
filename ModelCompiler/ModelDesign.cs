@@ -58,6 +58,7 @@ namespace Opc.Ua.ModelCompiler
         public NodeDesign Instance;
         public List<NodeDesign> OverriddenNodes;
         public bool ExplicitlyDefined;
+        public bool AdHocInstance;
         public bool Inherited;
         public object Identifier;
 

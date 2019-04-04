@@ -5586,52 +5586,24 @@
     </Children>
   </ObjectType>
   <DataType SymbolicName="tns:IdType" SymbolicId="tns:IdType" PartNo="3" BaseType="tns:Enumeration">
-    <Description>The type of identifier used in a node id.</Description>
     <Fields>
-      <Field Name="Numeric" Identifier="0">
-        <Description>The identifier is a numeric value. 0 is a null value.</Description>
-      </Field>
-      <Field Name="String" Identifier="1">
-        <Description>The identifier is a string value. An empty string is a null value.</Description>
-      </Field>
-      <Field Name="Guid" Identifier="2">
-        <Description>The identifier is a 16 byte structure. 16 zero bytes is a null value.</Description>
-      </Field>
-      <Field Name="Opaque" Identifier="3">
-        <Description>The identifier is an array of bytes. A zero length array is a null value.</Description>
-      </Field>
+      <Field Name="Numeric" Identifier="0" />
+      <Field Name="String" Identifier="1" />
+      <Field Name="Guid" Identifier="2" />
+      <Field Name="Opaque" Identifier="3" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:NodeClass" SymbolicId="tns:NodeClass" PartNo="3" BaseType="tns:Enumeration" NoArraysAllowed="true">
-    <Description>A mask specifying the class of the node.</Description>
     <Fields>
-      <Field Name="Unspecified" Identifier="0">
-        <Description>No classes are selected.</Description>
-      </Field>
-      <Field Name="Object" Identifier="1">
-        <Description>The node is an object.</Description>
-      </Field>
-      <Field Name="Variable" Identifier="2">
-        <Description>The node is a variable.</Description>
-      </Field>
-      <Field Name="Method" Identifier="4">
-        <Description>The node is a method.</Description>
-      </Field>
-      <Field Name="ObjectType" Identifier="8">
-        <Description>The node is an object type.</Description>
-      </Field>
-      <Field Name="VariableType" Identifier="16">
-        <Description>The node is an variable type.</Description>
-      </Field>
-      <Field Name="ReferenceType" Identifier="32">
-        <Description>The node is a reference type.</Description>
-      </Field>
-      <Field Name="DataType" Identifier="64">
-        <Description>The node is a data type.</Description>
-      </Field>
-      <Field Name="View" Identifier="128">
-        <Description>The node is a view.</Description>
-      </Field>
+      <Field Name="Unspecified" Identifier="0" />
+      <Field Name="Object" Identifier="1" />
+      <Field Name="Variable" Identifier="2" />
+      <Field Name="Method" Identifier="4" />
+      <Field Name="ObjectType" Identifier="8" />
+      <Field Name="VariableType" Identifier="16" />
+      <Field Name="ReferenceType" Identifier="32" />
+      <Field Name="DataType" Identifier="64" />
+      <Field Name="View" Identifier="128" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:PermissionType" SymbolicId="tns:PermissionType" PartNo="3" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
@@ -5733,204 +5705,100 @@
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:Node" SymbolicId="tns:Node" PartNo="3" NotInAddressSpace="true" Purpose="CodeGenerator" BaseType="tns:Structure" NoClassGeneration="true">
-    <Description>Specifies the attributes which belong to all nodes.</Description>
     <Fields>
-      <Field Name="NodeId" DataType="tns:NodeId">
-        <Description>A unique identifier for the node.</Description>
-      </Field>
-      <Field Name="NodeClass" DataType="tns:NodeClass">
-        <Description>The class of the node.</Description>
-      </Field>
-      <Field Name="BrowseName" DataType="tns:QualifiedName">
-        <Description>The browse name of the node.</Description>
-      </Field>
-      <Field Name="DisplayName" DataType="tns:LocalizedText">
-        <Description>The display name of the node.</Description>
-      </Field>
-      <Field Name="Description" DataType="tns:LocalizedText">
-        <Description>The description of the node.</Description>
-      </Field>
-      <Field Name="WriteMask" DataType="tns:UInt32">
-        <Description>A mask indicating which attributes are writable.</Description>
-      </Field>
-      <Field Name="UserWriteMask" DataType="tns:UInt32">
-        <Description>A mask indicating which attributes are writable by the current user.</Description>
-      </Field>
-      <Field Name="RolePermissions" DataType="tns:RolePermissionType" ValueRank="Array">
-        <Description>A list of permissions for the node assigned to roles.</Description>
-      </Field>
-      <Field Name="UserRolePermissions" DataType="tns:RolePermissionType" ValueRank="Array">
-        <Description>A list of permissions for the node assigned to roles which are available to the current session.</Description>
-      </Field>
-      <Field Name="AccessRestrictions" DataType="tns:UInt16">
-        <Description>A mask indicating any access restrictions that apply to the node.</Description>
-      </Field>
-      <Field Name="References" DataType="tns:ReferenceNode" ValueRank="Array">
-        <Description>The references that belong to the node.</Description>
-      </Field>
+      <Field Name="NodeId" DataType="tns:NodeId" />
+      <Field Name="NodeClass" DataType="tns:NodeClass" />
+      <Field Name="BrowseName" DataType="tns:QualifiedName" />
+      <Field Name="DisplayName" DataType="tns:LocalizedText" />
+      <Field Name="Description" DataType="tns:LocalizedText" />
+      <Field Name="WriteMask" DataType="tns:UInt32" />
+      <Field Name="UserWriteMask" DataType="tns:UInt32" />
+      <Field Name="RolePermissions" DataType="tns:RolePermissionType" ValueRank="Array" />
+      <Field Name="UserRolePermissions" DataType="tns:RolePermissionType" ValueRank="Array" />
+      <Field Name="AccessRestrictions" DataType="tns:UInt16" />
+      <Field Name="References" DataType="tns:ReferenceNode" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:InstanceNode" SymbolicId="tns:InstanceNode" PartNo="3" NotInAddressSpace="true" Purpose="CodeGenerator" BaseType="tns:Node" NoClassGeneration="true" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:TypeNode" SymbolicId="tns:TypeNode" PartNo="3" NotInAddressSpace="true" Purpose="CodeGenerator" BaseType="tns:Node" NoClassGeneration="true" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:ObjectNode" SymbolicId="tns:ObjectNode" PartNo="3" NotInAddressSpace="true" Purpose="CodeGenerator" BaseType="tns:InstanceNode" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>Specifies the attributes which belong to object nodes.</Description>
     <Fields>
-      <Field Name="EventNotifier" DataType="tns:Byte">
-        <Description>A mask indicating whether events are produced by the object.</Description>
-      </Field>
+      <Field Name="EventNotifier" DataType="tns:Byte" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ObjectTypeNode" SymbolicId="tns:ObjectTypeNode" PartNo="3" NotInAddressSpace="true" Purpose="CodeGenerator" BaseType="tns:TypeNode" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>Specifies the attributes which belong to object type nodes.</Description>
     <Fields>
-      <Field Name="IsAbstract" DataType="tns:Boolean">
-        <Description>If TRUE the type is abstract and only subtypes of it appear in the address space.</Description>
-      </Field>
+      <Field Name="IsAbstract" DataType="tns:Boolean" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:VariableNode" SymbolicId="tns:VariableNode" PartNo="3" NotInAddressSpace="true" Purpose="CodeGenerator" BaseType="tns:InstanceNode" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>Specifies the attributes which belong to variable nodes.</Description>
     <Fields>
-      <Field Name="Value" DataType="tns:BaseDataType">
-        <Description>The current value.</Description>
-      </Field>
-      <Field Name="DataType" DataType="tns:NodeId">
-        <Description>The data type of the value.</Description>
-      </Field>
-      <Field Name="ValueRank" DataType="tns:Int32">
-        <Description>Whether the value is an array type and the rank of the array if it is.</Description>
-      </Field>
-      <Field Name="ArrayDimensions" DataType="tns:UInt32" ValueRank="Array">
-        <Description>The number of dimensions if the value is an array type and one or more dimensions have a fixed length.</Description>
-      </Field>
-      <Field Name="AccessLevel" DataType="tns:Byte">
-        <Description>A bit mask specifying how the value may be accessed.</Description>
-      </Field>
-      <Field Name="UserAccessLevel" DataType="tns:Byte">
-        <Description>A bit mask specifying how the value may be accessed by the current user.</Description>
-      </Field>
-      <Field Name="MinimumSamplingInterval" DataType="tns:Duration">
-        <Description>The minimum possible sampling interval for the value.</Description>
-      </Field>
-      <Field Name="Historizing" DataType="tns:Boolean">
-        <Description>TRUE if the server is current storing the history of the value.</Description>
-      </Field>
-      <Field Name="AccessLevelEx" DataType="tns:UInt32">
-        <Description>A bit mask specifying how the value may be accessed.</Description>
-      </Field>
+      <Field Name="Value" DataType="tns:BaseDataType" />
+      <Field Name="DataType" DataType="tns:NodeId" />
+      <Field Name="ValueRank" DataType="tns:Int32" />
+      <Field Name="ArrayDimensions" DataType="tns:UInt32" ValueRank="Array" />
+      <Field Name="AccessLevel" DataType="tns:Byte" />
+      <Field Name="UserAccessLevel" DataType="tns:Byte" />
+      <Field Name="MinimumSamplingInterval" DataType="tns:Duration" />
+      <Field Name="Historizing" DataType="tns:Boolean" />
+      <Field Name="AccessLevelEx" DataType="tns:UInt32" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:VariableTypeNode" SymbolicId="tns:VariableTypeNode" PartNo="3" NotInAddressSpace="true" Purpose="CodeGenerator" BaseType="tns:TypeNode" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>Specifies the attributes which belong to variable type nodes.</Description>
     <Fields>
-      <Field Name="Value" DataType="tns:BaseDataType">
-        <Description>The default value when creating new instances.</Description>
-      </Field>
-      <Field Name="DataType" DataType="tns:NodeId">
-        <Description>The data type of the value.</Description>
-      </Field>
-      <Field Name="ValueRank" DataType="tns:Int32">
-        <Description>Whether the value is an array type and the rank of the array if it is.</Description>
-      </Field>
-      <Field Name="ArrayDimensions" DataType="tns:UInt32" ValueRank="Array">
-        <Description>The number of dimensions if the value is an array type and one or more dimensions have a fixed length.</Description>
-      </Field>
-      <Field Name="IsAbstract" DataType="tns:Boolean">
-        <Description>If TRUE the type is abstract and only subtypes of it appear in the address space.</Description>
-      </Field>
+      <Field Name="Value" DataType="tns:BaseDataType" />
+      <Field Name="DataType" DataType="tns:NodeId" />
+      <Field Name="ValueRank" DataType="tns:Int32" />
+      <Field Name="ArrayDimensions" DataType="tns:UInt32" ValueRank="Array" />
+      <Field Name="IsAbstract" DataType="tns:Boolean" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ReferenceTypeNode" SymbolicId="tns:ReferenceTypeNode" PartNo="3" NotInAddressSpace="true" Purpose="CodeGenerator" BaseType="tns:TypeNode" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>Specifies the attributes which belong to reference type nodes.</Description>
     <Fields>
-      <Field Name="IsAbstract" DataType="tns:Boolean">
-        <Description>If TRUE the type is abstract and only subtypes of it appear in the address space.</Description>
-      </Field>
-      <Field Name="Symmetric" DataType="tns:Boolean">
-        <Description>If TRUE the reference type has the same semantics in both directions.</Description>
-      </Field>
-      <Field Name="InverseName" DataType="tns:LocalizedText">
-        <Description>The display name for the reference when following it from target to source.</Description>
-      </Field>
+      <Field Name="IsAbstract" DataType="tns:Boolean" />
+      <Field Name="Symmetric" DataType="tns:Boolean" />
+      <Field Name="InverseName" DataType="tns:LocalizedText" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:MethodNode" SymbolicId="tns:MethodNode" PartNo="3" NotInAddressSpace="true" Purpose="CodeGenerator" BaseType="tns:InstanceNode" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>Specifies the attributes which belong to method nodes.</Description>
     <Fields>
-      <Field Name="Executable" DataType="tns:Boolean">
-        <Description>If TRUE the method can be called.</Description>
-      </Field>
-      <Field Name="UserExecutable" DataType="tns:Boolean">
-        <Description>If TRUE the method can be called by the current user.</Description>
-      </Field>
+      <Field Name="Executable" DataType="tns:Boolean" />
+      <Field Name="UserExecutable" DataType="tns:Boolean" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ViewNode" SymbolicId="tns:ViewNode" PartNo="3" NotInAddressSpace="true" Purpose="CodeGenerator" BaseType="tns:InstanceNode" NoClassGeneration="true" NoArraysAllowed="true">
     <Fields>
-      <Field Name="ContainsNoLoops" DataType="tns:Boolean">
-        <Description>If TRUE the view contains a tree of non-looping hierarchical references.</Description>
-      </Field>
-      <Field Name="EventNotifier" DataType="tns:Byte">
-        <Description>A mask indicating whether events are produced by the view.</Description>
-      </Field>
+      <Field Name="ContainsNoLoops" DataType="tns:Boolean" />
+      <Field Name="EventNotifier" DataType="tns:Byte" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:DataTypeNode" SymbolicId="tns:DataTypeNode" PartNo="3" NotInAddressSpace="true" Purpose="CodeGenerator" BaseType="tns:TypeNode" NoClassGeneration="true" NoArraysAllowed="true">
     <Fields>
-      <Field Name="IsAbstract" DataType="tns:Boolean">
-        <Description>If TRUE the type is abstract and only subtypes of it appear in the address space.</Description>
-      </Field>
-      <Field Name="DataTypeDefinition" DataType="tns:Structure">
-        <Description>Provides the metadata and encoding information for custom DataTypes.</Description>
-      </Field>
+      <Field Name="IsAbstract" DataType="tns:Boolean" />
+      <Field Name="DataTypeDefinition" DataType="tns:Structure" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ReferenceNode" SymbolicId="tns:ReferenceNode" PartNo="3" NotInAddressSpace="true" Purpose="CodeGenerator" BaseType="tns:Structure" NoClassGeneration="true">
-    <Description>Specifies a reference which belongs to a node.</Description>
     <Fields>
-      <Field Name="ReferenceTypeId" DataType="tns:NodeId">
-        <Description>The node id of the reference type for the reference.</Description>
-      </Field>
-      <Field Name="IsInverse" DataType="tns:Boolean">
-        <Description>The reference is an inverse reference.</Description>
-      </Field>
-      <Field Name="TargetId" DataType="tns:ExpandedNodeId">
-        <Description>The node id for the target of the reference.</Description>
-      </Field>
+      <Field Name="ReferenceTypeId" DataType="tns:NodeId" />
+      <Field Name="IsInverse" DataType="tns:Boolean" />
+      <Field Name="TargetId" DataType="tns:ExpandedNodeId" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:Argument" SymbolicId="tns:Argument" PartNo="3" BaseType="tns:Structure">
-    <Description>An argument for a method.</Description>
     <Fields>
-      <Field Name="Name" DataType="tns:String">
-        <Description>The name of the argument.</Description>
-      </Field>
-      <Field Name="DataType" DataType="tns:NodeId">
-        <Description>The data type of the argument.</Description>
-      </Field>
-      <Field Name="ValueRank" DataType="tns:Int32">
-        <Description>Whether the argument is an array type and the rank of the array if it is.</Description>
-      </Field>
-      <Field Name="ArrayDimensions" DataType="tns:UInt32" ValueRank="Array">
-        <Description>The number of dimensions if the argument is an array type and one or more dimensions have a fixed length.</Description>
-      </Field>
-      <Field Name="Description" DataType="tns:LocalizedText">
-        <Description>The description for the argument.</Description>
-      </Field>
+      <Field Name="Name" DataType="tns:String" />
+      <Field Name="DataType" DataType="tns:NodeId" />
+      <Field Name="ValueRank" DataType="tns:Int32" />
+      <Field Name="ArrayDimensions" DataType="tns:UInt32" ValueRank="Array" />
+      <Field Name="Description" DataType="tns:LocalizedText" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:EnumValueType" SymbolicId="tns:EnumValueType" PartNo="3" BaseType="tns:Structure">
-    <Description>A mapping between a value of an enumerated type and a name and description.</Description>
     <Fields>
-      <Field Name="Value" DataType="tns:Int64">
-        <Description>The value of the enumeration.</Description>
-      </Field>
-      <Field Name="DisplayName" DataType="tns:LocalizedText">
-        <Description>Human readable name for the value.</Description>
-      </Field>
-      <Field Name="Description" DataType="tns:LocalizedText">
-        <Description>A description of the value.</Description>
-      </Field>
+      <Field Name="Value" DataType="tns:Int64" />
+      <Field Name="DisplayName" DataType="tns:LocalizedText" />
+      <Field Name="Description" DataType="tns:LocalizedText" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:EnumField" SymbolicId="tns:EnumField" PartNo="3" BaseType="tns:EnumValueType">
@@ -5939,154 +5807,72 @@
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:OptionSet" SymbolicId="tns:OptionSet" PartNo="3" BaseType="tns:Structure">
-    <Description>This abstract Structured DataType is the base DataType for all DataTypes representing a bit mask.</Description>
     <Fields>
-      <Field Name="Value" DataType="tns:ByteString">
-        <Description>Array of bytes representing the bits in the option set.</Description>
-      </Field>
-      <Field Name="ValidBits" DataType="tns:ByteString">
-        <Description>Array of bytes with same size as value representing the valid bits in the value parameter.</Description>
-      </Field>
+      <Field Name="Value" DataType="tns:ByteString" />
+      <Field Name="ValidBits" DataType="tns:ByteString" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:Union" SymbolicId="tns:Union" PartNo="3" BaseType="tns:Structure" IsAbstract="true">
-    <Description>This abstract DataType is the base DataType for all union DataTypes.</Description>
-  </DataType>
-  <DataType SymbolicName="tns:NormalizedString" SymbolicId="tns:NormalizedString" PartNo="3" BaseType="tns:String" NoArraysAllowed="true">
-    <Description>A string normalized based on the rules in the unicode specification.</Description>
-  </DataType>
-  <DataType SymbolicName="tns:DecimalString" SymbolicId="tns:DecimalString" PartNo="3" BaseType="tns:String" NoArraysAllowed="true">
-    <Description>An arbitraty numeric value.</Description>
-  </DataType>
-  <DataType SymbolicName="tns:DurationString" SymbolicId="tns:DurationString" PartNo="3" BaseType="tns:String" NoArraysAllowed="true">
-    <Description>A period of time formatted as defined in ISO 8601-2000.</Description>
-  </DataType>
-  <DataType SymbolicName="tns:TimeString" SymbolicId="tns:TimeString" PartNo="3" BaseType="tns:String" NoArraysAllowed="true">
-    <Description>A time formatted as defined in ISO 8601-2000.</Description>
-  </DataType>
-  <DataType SymbolicName="tns:DateString" SymbolicId="tns:DateString" PartNo="3" BaseType="tns:String" NoArraysAllowed="true">
-    <Description>A date formatted as defined in ISO 8601-2000.</Description>
-  </DataType>
-  <DataType SymbolicName="tns:Duration" SymbolicId="tns:Duration" PartNo="3" BaseType="tns:Double" NoArraysAllowed="true">
-    <Description>A period of time measured in milliseconds.</Description>
-  </DataType>
-  <DataType SymbolicName="tns:UtcTime" SymbolicId="tns:UtcTime" PartNo="3" BaseType="tns:DateTime" NoArraysAllowed="true">
-    <Description>A date/time value specified in Universal Coordinated Time (UTC).</Description>
-  </DataType>
-  <DataType SymbolicName="tns:LocaleId" SymbolicId="tns:LocaleId" PartNo="3" BaseType="tns:String" NoArraysAllowed="true">
-    <Description>An identifier for a user locale.</Description>
-  </DataType>
+  <DataType SymbolicName="tns:Union" SymbolicId="tns:Union" PartNo="3" BaseType="tns:Structure" IsAbstract="true" />
+  <DataType SymbolicName="tns:NormalizedString" SymbolicId="tns:NormalizedString" PartNo="3" BaseType="tns:String" NoArraysAllowed="true" />
+  <DataType SymbolicName="tns:DecimalString" SymbolicId="tns:DecimalString" PartNo="3" BaseType="tns:String" NoArraysAllowed="true" />
+  <DataType SymbolicName="tns:DurationString" SymbolicId="tns:DurationString" PartNo="3" BaseType="tns:String" NoArraysAllowed="true" />
+  <DataType SymbolicName="tns:TimeString" SymbolicId="tns:TimeString" PartNo="3" BaseType="tns:String" NoArraysAllowed="true" />
+  <DataType SymbolicName="tns:DateString" SymbolicId="tns:DateString" PartNo="3" BaseType="tns:String" NoArraysAllowed="true" />
+  <DataType SymbolicName="tns:Duration" SymbolicId="tns:Duration" PartNo="3" BaseType="tns:Double" NoArraysAllowed="true" />
+  <DataType SymbolicName="tns:UtcTime" SymbolicId="tns:UtcTime" PartNo="3" BaseType="tns:DateTime" NoArraysAllowed="true" />
+  <DataType SymbolicName="tns:LocaleId" SymbolicId="tns:LocaleId" PartNo="3" BaseType="tns:String" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:TimeZoneDataType" SymbolicId="tns:TimeZoneDataType" PartNo="3" BaseType="tns:Structure">
     <Fields>
       <Field Name="Offset" DataType="tns:Int16" />
       <Field Name="DaylightSavingInOffset" DataType="tns:Boolean" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:Index" SymbolicId="tns:Index" PartNo="4" BaseType="tns:UInt32" NoArraysAllowed="true">
-    <Description>This primitive data type is a UInt32 that identifies an element of an array.</Description>
-  </DataType>
-  <DataType SymbolicName="tns:IntegerId" SymbolicId="tns:IntegerId" PartNo="4" BaseType="tns:UInt32" NoArraysAllowed="true">
-    <Description>A numeric identifier for an object.</Description>
-  </DataType>
+  <DataType SymbolicName="tns:Index" SymbolicId="tns:Index" PartNo="4" BaseType="tns:UInt32" NoArraysAllowed="true" />
+  <DataType SymbolicName="tns:IntegerId" SymbolicId="tns:IntegerId" PartNo="4" BaseType="tns:UInt32" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:ApplicationType" SymbolicId="tns:ApplicationType" PartNo="4" BaseType="tns:Enumeration" NoArraysAllowed="true">
-    <Description>The types of applications.</Description>
     <Fields>
-      <Field Name="Server" Identifier="0">
-        <Description>The application is a server.</Description>
-      </Field>
-      <Field Name="Client" Identifier="1">
-        <Description>The application is a client.</Description>
-      </Field>
-      <Field Name="ClientAndServer" Identifier="2">
-        <Description>The application is a client and a server.</Description>
-      </Field>
-      <Field Name="DiscoveryServer" Identifier="3">
-        <Description>The application is a discovery server.</Description>
-      </Field>
+      <Field Name="Server" Identifier="0" />
+      <Field Name="Client" Identifier="1" />
+      <Field Name="ClientAndServer" Identifier="2" />
+      <Field Name="DiscoveryServer" Identifier="3" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ApplicationDescription" SymbolicId="tns:ApplicationDescription" PartNo="4" BaseType="tns:Structure">
-    <Description>Describes an application and how to find it.</Description>
     <Fields>
-      <Field Name="ApplicationUri" DataType="tns:String">
-        <Description>The globally unique identifier for the application.</Description>
-      </Field>
-      <Field Name="ProductUri" DataType="tns:String">
-        <Description>The globally unique identifier for the product.</Description>
-      </Field>
-      <Field Name="ApplicationName" DataType="tns:LocalizedText">
-        <Description>The name of application.</Description>
-      </Field>
-      <Field Name="ApplicationType" DataType="tns:ApplicationType">
-        <Description>The type of application.</Description>
-      </Field>
-      <Field Name="GatewayServerUri" DataType="tns:String">
-        <Description>The globally unique identifier for the server that is acting as a gateway for the server.</Description>
-      </Field>
-      <Field Name="DiscoveryProfileUri" DataType="tns:String">
-        <Description>The globally unique identifier for the discovery profile supported by the server.</Description>
-      </Field>
-      <Field Name="DiscoveryUrls" DataType="tns:String" ValueRank="Array">
-        <Description>The URLs for the server's discovery endpoints.</Description>
-      </Field>
+      <Field Name="ApplicationUri" DataType="tns:String" />
+      <Field Name="ProductUri" DataType="tns:String" />
+      <Field Name="ApplicationName" DataType="tns:LocalizedText" />
+      <Field Name="ApplicationType" DataType="tns:ApplicationType" />
+      <Field Name="GatewayServerUri" DataType="tns:String" />
+      <Field Name="DiscoveryProfileUri" DataType="tns:String" />
+      <Field Name="DiscoveryUrls" DataType="tns:String" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:RequestHeader" SymbolicId="tns:RequestHeader" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>The header passed with every server request.</Description>
     <Fields>
-      <Field Name="AuthenticationToken" DataType="tns:SessionAuthenticationToken">
-        <Description>The authentication token for the current session.</Description>
-      </Field>
-      <Field Name="Timestamp" DataType="tns:UtcTime">
-        <Description>When the request was sent by the client.</Description>
-      </Field>
-      <Field Name="RequestHandle" DataType="tns:IntegerId">
-        <Description>A handle assigned by the client to the request. It is returned in the response.</Description>
-      </Field>
-      <Field Name="ReturnDiagnostics" DataType="tns:UInt32">
-        <Description>A mask indicating what diagnostic information should be returned in the response.</Description>
-      </Field>
-      <Field Name="AuditEntryId" DataType="tns:String">
-        <Description>Identifies an entry in the client audit log.</Description>
-      </Field>
-      <Field Name="TimeoutHint" DataType="tns:UInt32">
-        <Description>The timeout for the operation specified by the client.</Description>
-      </Field>
-      <Field Name="AdditionalHeader" DataType="tns:Structure">
-        <Description>Allows vendor specific information to be included in the header.</Description>
-      </Field>
+      <Field Name="AuthenticationToken" DataType="tns:SessionAuthenticationToken" />
+      <Field Name="Timestamp" DataType="tns:UtcTime" />
+      <Field Name="RequestHandle" DataType="tns:IntegerId" />
+      <Field Name="ReturnDiagnostics" DataType="tns:UInt32" />
+      <Field Name="AuditEntryId" DataType="tns:String" />
+      <Field Name="TimeoutHint" DataType="tns:UInt32" />
+      <Field Name="AdditionalHeader" DataType="tns:Structure" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ResponseHeader" SymbolicId="tns:ResponseHeader" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>The header passed with every server response.</Description>
     <Fields>
-      <Field Name="Timestamp" DataType="tns:UtcTime">
-        <Description>When the response was sent by the server.</Description>
-      </Field>
-      <Field Name="RequestHandle" DataType="tns:IntegerId">
-        <Description>The handle passed by the client in the request.</Description>
-      </Field>
-      <Field Name="ServiceResult" DataType="tns:StatusCode">
-        <Description>The result of the operation. If Bad there are no parameters returned.</Description>
-      </Field>
-      <Field Name="ServiceDiagnostics" DataType="tns:DiagnosticInfo">
-        <Description>The diagnostics associated with the ServiceResult.</Description>
-      </Field>
-      <Field Name="StringTable" DataType="tns:String" ValueRank="Array">
-        <Description>A table of strings referenced by the diagnotics structures included in the request.</Description>
-      </Field>
-      <Field Name="AdditionalHeader" DataType="tns:Structure">
-        <Description>Allows vendor specific information to be included in the header.</Description>
-      </Field>
+      <Field Name="Timestamp" DataType="tns:UtcTime" />
+      <Field Name="RequestHandle" DataType="tns:IntegerId" />
+      <Field Name="ServiceResult" DataType="tns:StatusCode" />
+      <Field Name="ServiceDiagnostics" DataType="tns:DiagnosticInfo" />
+      <Field Name="StringTable" DataType="tns:String" ValueRank="Array" />
+      <Field Name="AdditionalHeader" DataType="tns:Structure" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:VersionTime" SymbolicId="tns:VersionTime" PartNo="4" BaseType="tns:UInt32" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:ServiceFault" SymbolicId="tns:ServiceFault" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>The response returned by all services when there is a service level error.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:SessionlessInvokeRequestType" SymbolicId="tns:SessionlessInvokeRequestType" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true" NoArraysAllowed="true">
@@ -6106,31 +5892,17 @@
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:FindServersRequest" SymbolicId="tns:FindServersRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Finds the servers known to the discovery server.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="EndpointUrl" DataType="tns:String">
-        <Description>The URL used by the client to send the request.</Description>
-      </Field>
-      <Field Name="LocaleIds" DataType="tns:LocaleId" ValueRank="Array">
-        <Description>The locales to use when constructing a response.</Description>
-      </Field>
-      <Field Name="ServerUris" DataType="tns:String" ValueRank="Array">
-        <Description>The URIs of the servers to return (all servers returned if none specified).</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="EndpointUrl" DataType="tns:String" />
+      <Field Name="LocaleIds" DataType="tns:LocaleId" ValueRank="Array" />
+      <Field Name="ServerUris" DataType="tns:String" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:FindServersResponse" SymbolicId="tns:FindServersResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Finds the servers known to the discovery server.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
-      <Field Name="Servers" DataType="tns:ApplicationDescription" ValueRank="Array">
-        <Description>The servers that met the criteria specified in the request.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
+      <Field Name="Servers" DataType="tns:ApplicationDescription" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ServerOnNetwork" SymbolicId="tns:ServerOnNetwork" PartNo="4" BaseType="tns:Structure">
@@ -6156,180 +5928,86 @@
       <Field Name="Servers" DataType="tns:ServerOnNetwork" ValueRank="Array" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:ApplicationInstanceCertificate" SymbolicId="tns:ApplicationInstanceCertificate" PartNo="4" BaseType="tns:ByteString" NoArraysAllowed="true">
-    <Description>A certificate for an instance of an application.</Description>
-  </DataType>
+  <DataType SymbolicName="tns:ApplicationInstanceCertificate" SymbolicId="tns:ApplicationInstanceCertificate" PartNo="4" BaseType="tns:ByteString" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:MessageSecurityMode" SymbolicId="tns:MessageSecurityMode" PartNo="4" BaseType="tns:Enumeration" NoArraysAllowed="true">
-    <Description>The type of security to use on a message.</Description>
     <Fields>
-      <Field Name="Invalid" Identifier="0">
-        <Description>An invalid mode.</Description>
-      </Field>
-      <Field Name="None" Identifier="1">
-        <Description>No security is used.</Description>
-      </Field>
-      <Field Name="Sign" Identifier="2">
-        <Description>The message is signed.</Description>
-      </Field>
-      <Field Name="SignAndEncrypt" Identifier="3">
-        <Description>The message is signed and encrypted.</Description>
-      </Field>
+      <Field Name="Invalid" Identifier="0" />
+      <Field Name="None" Identifier="1" />
+      <Field Name="Sign" Identifier="2" />
+      <Field Name="SignAndEncrypt" Identifier="3" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:UserTokenType" SymbolicId="tns:UserTokenType" PartNo="4" BaseType="tns:Enumeration" NoArraysAllowed="true">
-    <Description>The possible user token types.</Description>
     <Fields>
-      <Field Name="Anonymous" Identifier="0">
-        <Description>An anonymous user.</Description>
-      </Field>
-      <Field Name="UserName" Identifier="1">
-        <Description>A user identified by a user name and password.</Description>
-      </Field>
-      <Field Name="Certificate" Identifier="2">
-        <Description>A user identified by an X509 certificate.</Description>
-      </Field>
-      <Field Name="IssuedToken" Identifier="3">
-        <Description>A user identified by WS-Security XML token.</Description>
-      </Field>
+      <Field Name="Anonymous" Identifier="0" />
+      <Field Name="UserName" Identifier="1" />
+      <Field Name="Certificate" Identifier="2" />
+      <Field Name="IssuedToken" Identifier="3" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:UserTokenPolicy" SymbolicId="tns:UserTokenPolicy" PartNo="4" BaseType="tns:Structure">
-    <Description>Describes a user token that can be used with a server.</Description>
     <Fields>
-      <Field Name="PolicyId" DataType="tns:String">
-        <Description>A identifier for the policy assigned by the server.</Description>
-      </Field>
-      <Field Name="TokenType" DataType="tns:UserTokenType">
-        <Description>The type of user token.</Description>
-      </Field>
-      <Field Name="IssuedTokenType" DataType="tns:String">
-        <Description>The type of issued token.</Description>
-      </Field>
-      <Field Name="IssuerEndpointUrl" DataType="tns:String">
-        <Description>The endpoint or any other information need to contruct an issued token URL.</Description>
-      </Field>
-      <Field Name="SecurityPolicyUri" DataType="tns:String">
-        <Description>The security policy to use when encrypting or signing the user token.</Description>
-      </Field>
+      <Field Name="PolicyId" DataType="tns:String" />
+      <Field Name="TokenType" DataType="tns:UserTokenType" />
+      <Field Name="IssuedTokenType" DataType="tns:String" />
+      <Field Name="IssuerEndpointUrl" DataType="tns:String" />
+      <Field Name="SecurityPolicyUri" DataType="tns:String" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:EndpointDescription" SymbolicId="tns:EndpointDescription" PartNo="4" BaseType="tns:Structure">
-    <Description>The description of a endpoint that can be used to access a server.</Description>
     <Fields>
-      <Field Name="EndpointUrl" DataType="tns:String">
-        <Description>The network endpoint to use when connecting to the server.</Description>
-      </Field>
-      <Field Name="Server" DataType="tns:ApplicationDescription">
-        <Description>The description of the server.</Description>
-      </Field>
-      <Field Name="ServerCertificate" DataType="tns:ApplicationInstanceCertificate">
-        <Description>The server's application certificate.</Description>
-      </Field>
-      <Field Name="SecurityMode" DataType="tns:MessageSecurityMode">
-        <Description>The security mode that must be used when connecting to the endpoint.</Description>
-      </Field>
-      <Field Name="SecurityPolicyUri" DataType="tns:String">
-        <Description>The security policy to use when connecting to the endpoint.</Description>
-      </Field>
-      <Field Name="UserIdentityTokens" DataType="tns:UserTokenPolicy" ValueRank="Array">
-        <Description>The user identity tokens that can be used with this endpoint.</Description>
-      </Field>
-      <Field Name="TransportProfileUri" DataType="tns:String">
-        <Description>The transport profile to use when connecting to the endpoint.</Description>
-      </Field>
-      <Field Name="SecurityLevel" DataType="tns:Byte">
-        <Description>A server assigned value that indicates how secure the endpoint is relative to other server endpoints.</Description>
-      </Field>
+      <Field Name="EndpointUrl" DataType="tns:String" />
+      <Field Name="Server" DataType="tns:ApplicationDescription" />
+      <Field Name="ServerCertificate" DataType="tns:ApplicationInstanceCertificate" />
+      <Field Name="SecurityMode" DataType="tns:MessageSecurityMode" />
+      <Field Name="SecurityPolicyUri" DataType="tns:String" />
+      <Field Name="UserIdentityTokens" DataType="tns:UserTokenPolicy" ValueRank="Array" />
+      <Field Name="TransportProfileUri" DataType="tns:String" />
+      <Field Name="SecurityLevel" DataType="tns:Byte" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:GetEndpointsRequest" SymbolicId="tns:GetEndpointsRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Gets the endpoints used by the server.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="EndpointUrl" DataType="tns:String">
-        <Description>The URL used by the client to send the request.</Description>
-      </Field>
-      <Field Name="LocaleIds" DataType="tns:LocaleId" ValueRank="Array">
-        <Description>The locales to use when constructing a response.</Description>
-      </Field>
-      <Field Name="ProfileUris" DataType="tns:String" ValueRank="Array">
-        <Description>The URIs of the transport profiles for the endpoints to return (all endpoints returned if none specified).</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="EndpointUrl" DataType="tns:String" />
+      <Field Name="LocaleIds" DataType="tns:LocaleId" ValueRank="Array" />
+      <Field Name="ProfileUris" DataType="tns:String" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:GetEndpointsResponse" SymbolicId="tns:GetEndpointsResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Gets the endpoints used by the server.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
-      <Field Name="Endpoints" DataType="tns:EndpointDescription" ValueRank="Array">
-        <Description>The endpoints that met the criteria specified in the request.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
+      <Field Name="Endpoints" DataType="tns:EndpointDescription" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:RegisteredServer" SymbolicId="tns:RegisteredServer" PartNo="4" BaseType="tns:Structure">
-    <Description>The information required to register a server with a discovery server.</Description>
     <Fields>
-      <Field Name="ServerUri" DataType="tns:String">
-        <Description>The globally unique identifier for the server.</Description>
-      </Field>
-      <Field Name="ProductUri" DataType="tns:String">
-        <Description>The globally unique identifier for the product.</Description>
-      </Field>
-      <Field Name="ServerNames" DataType="tns:LocalizedText" ValueRank="Array">
-        <Description>The name of server in multiple lcoales.</Description>
-      </Field>
-      <Field Name="ServerType" DataType="tns:ApplicationType">
-        <Description>The type of server.</Description>
-      </Field>
-      <Field Name="GatewayServerUri" DataType="tns:String">
-        <Description>The globally unique identifier for the server that is acting as a gateway for the server.</Description>
-      </Field>
-      <Field Name="DiscoveryUrls" DataType="tns:String" ValueRank="Array">
-        <Description>The URLs for the server's discovery endpoints.</Description>
-      </Field>
-      <Field Name="SemaphoreFilePath" DataType="tns:String">
-        <Description>A path to a file that is deleted when the server is no longer accepting connections.</Description>
-      </Field>
-      <Field Name="IsOnline" DataType="tns:Boolean">
-        <Description>If FALSE the server will save the registration information to a persistent datastore.</Description>
-      </Field>
+      <Field Name="ServerUri" DataType="tns:String" />
+      <Field Name="ProductUri" DataType="tns:String" />
+      <Field Name="ServerNames" DataType="tns:LocalizedText" ValueRank="Array" />
+      <Field Name="ServerType" DataType="tns:ApplicationType" />
+      <Field Name="GatewayServerUri" DataType="tns:String" />
+      <Field Name="DiscoveryUrls" DataType="tns:String" ValueRank="Array" />
+      <Field Name="SemaphoreFilePath" DataType="tns:String" />
+      <Field Name="IsOnline" DataType="tns:Boolean" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:RegisterServerRequest" SymbolicId="tns:RegisterServerRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Registers a server with the discovery server.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="Server" DataType="tns:RegisteredServer">
-        <Description>The server to register.</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="Server" DataType="tns:RegisteredServer" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:RegisterServerResponse" SymbolicId="tns:RegisterServerResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Registers a server with the discovery server.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:DiscoveryConfiguration" SymbolicId="tns:DiscoveryConfiguration" PartNo="4" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>A base type for discovery configuration information.</Description>
-  </DataType>
+  <DataType SymbolicName="tns:DiscoveryConfiguration" SymbolicId="tns:DiscoveryConfiguration" PartNo="4" BaseType="tns:Structure" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:MdnsDiscoveryConfiguration" SymbolicId="tns:MdnsDiscoveryConfiguration" PartNo="4" BaseType="tns:DiscoveryConfiguration" NoArraysAllowed="true">
-    <Description>The discovery information needed for mDNS registration.</Description>
     <Fields>
-      <Field Name="MdnsServerName" DataType="tns:String">
-        <Description>The name for server that is broadcast via mDNS.</Description>
-      </Field>
-      <Field Name="ServerCapabilities" DataType="tns:String" ValueRank="Array">
-        <Description>The server capabilities that are broadcast via mDNS.</Description>
-      </Field>
+      <Field Name="MdnsServerName" DataType="tns:String" />
+      <Field Name="ServerCapabilities" DataType="tns:String" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:RegisterServer2Request" SymbolicId="tns:RegisterServer2Request" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
@@ -6347,545 +6025,255 @@
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:SecurityTokenRequestType" SymbolicId="tns:SecurityTokenRequestType" PartNo="4" BaseType="tns:Enumeration" NoArraysAllowed="true">
-    <Description>Indicates whether a token if being created or renewed.</Description>
     <Fields>
-      <Field Name="Issue" Identifier="0">
-        <Description>The channel is being created.</Description>
-      </Field>
-      <Field Name="Renew" Identifier="1">
-        <Description>The channel is being renewed.</Description>
-      </Field>
+      <Field Name="Issue" Identifier="0" />
+      <Field Name="Renew" Identifier="1" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ChannelSecurityToken" SymbolicId="tns:ChannelSecurityToken" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>The token that identifies a set of keys for an active secure channel.</Description>
     <Fields>
-      <Field Name="ChannelId" DataType="tns:UInt32">
-        <Description>A unique identifier for the channel.</Description>
-      </Field>
-      <Field Name="TokenId" DataType="tns:UInt32">
-        <Description>A unique identifier for the current token.</Description>
-      </Field>
-      <Field Name="CreatedAt" DataType="tns:UtcTime">
-        <Description>When the channel was created.</Description>
-      </Field>
-      <Field Name="RevisedLifetime" DataType="tns:UInt32">
-        <Description>When the channel will expiry.</Description>
-      </Field>
+      <Field Name="ChannelId" DataType="tns:UInt32" />
+      <Field Name="TokenId" DataType="tns:UInt32" />
+      <Field Name="CreatedAt" DataType="tns:UtcTime" />
+      <Field Name="RevisedLifetime" DataType="tns:UInt32" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:OpenSecureChannelRequest" SymbolicId="tns:OpenSecureChannelRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Creates a secure channel with a server.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="ClientProtocolVersion" DataType="tns:UInt32">
-        <Description>The version of protocol used by the client.</Description>
-      </Field>
-      <Field Name="RequestType" DataType="tns:SecurityTokenRequestType">
-        <Description>Whether the channel is being created or renewed.</Description>
-      </Field>
-      <Field Name="SecurityMode" DataType="tns:MessageSecurityMode">
-        <Description>The security mode to use with the channel.</Description>
-      </Field>
-      <Field Name="ClientNonce" DataType="tns:ByteString">
-        <Description>A random number generated by the client.</Description>
-      </Field>
-      <Field Name="RequestedLifetime" DataType="tns:UInt32">
-        <Description>The channel lifetime in milliseconds.</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="ClientProtocolVersion" DataType="tns:UInt32" />
+      <Field Name="RequestType" DataType="tns:SecurityTokenRequestType" />
+      <Field Name="SecurityMode" DataType="tns:MessageSecurityMode" />
+      <Field Name="ClientNonce" DataType="tns:ByteString" />
+      <Field Name="RequestedLifetime" DataType="tns:UInt32" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:OpenSecureChannelResponse" SymbolicId="tns:OpenSecureChannelResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Creates a secure channel with a server.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
-      <Field Name="ServerProtocolVersion" DataType="tns:UInt32">
-        <Description>The version of protocol used by the server.</Description>
-      </Field>
-      <Field Name="SecurityToken" DataType="tns:ChannelSecurityToken">
-        <Description>The token that identifies the new secure channel.</Description>
-      </Field>
-      <Field Name="ServerNonce" DataType="tns:ByteString">
-        <Description>A random number generated by the server.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
+      <Field Name="ServerProtocolVersion" DataType="tns:UInt32" />
+      <Field Name="SecurityToken" DataType="tns:ChannelSecurityToken" />
+      <Field Name="ServerNonce" DataType="tns:ByteString" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:CloseSecureChannelRequest" SymbolicId="tns:CloseSecureChannelRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Closes a secure channel.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:CloseSecureChannelResponse" SymbolicId="tns:CloseSecureChannelResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Closes a secure channel.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:SignedSoftwareCertificate" SymbolicId="tns:SignedSoftwareCertificate" PartNo="4" BaseType="tns:Structure">
-    <Description>A software certificate with a digital signature.</Description>
     <Fields>
-      <Field Name="CertificateData" DataType="tns:ByteString">
-        <Description>The data of the certificate.</Description>
-      </Field>
-      <Field Name="Signature" DataType="tns:ByteString">
-        <Description>The digital signature.</Description>
-      </Field>
+      <Field Name="CertificateData" DataType="tns:ByteString" />
+      <Field Name="Signature" DataType="tns:ByteString" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:SessionAuthenticationToken" SymbolicId="tns:SessionAuthenticationToken" PartNo="4" BaseType="tns:NodeId" NoArraysAllowed="true">
-    <Description>A unique identifier for a session used to authenticate requests.</Description>
-  </DataType>
+  <DataType SymbolicName="tns:SessionAuthenticationToken" SymbolicId="tns:SessionAuthenticationToken" PartNo="4" BaseType="tns:NodeId" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:SignatureData" SymbolicId="tns:SignatureData" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>A digital signature.</Description>
     <Fields>
-      <Field Name="Algorithm" DataType="tns:String">
-        <Description>The cryptography algorithm used to create the signature.</Description>
-      </Field>
-      <Field Name="Signature" DataType="tns:ByteString">
-        <Description>The signature.</Description>
-      </Field>
+      <Field Name="Algorithm" DataType="tns:String" />
+      <Field Name="Signature" DataType="tns:ByteString" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:CreateSessionRequest" SymbolicId="tns:CreateSessionRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Creates a new session with the server.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="ClientDescription" DataType="tns:ApplicationDescription">
-        <Description>Describes the client application.</Description>
-      </Field>
-      <Field Name="ServerUri" DataType="tns:String">
-        <Description>The URI of the server that the client wants to create a session with.</Description>
-      </Field>
-      <Field Name="EndpointUrl" DataType="tns:String">
-        <Description>The URL that the client used to connect to the server.</Description>
-      </Field>
-      <Field Name="SessionName" DataType="tns:String">
-        <Description>A name for the session provided by the client.</Description>
-      </Field>
-      <Field Name="ClientNonce" DataType="tns:ByteString">
-        <Description>A random number generated by the client.</Description>
-      </Field>
-      <Field Name="ClientCertificate" DataType="tns:ApplicationInstanceCertificate">
-        <Description>The application certificate for the client.</Description>
-      </Field>
-      <Field Name="RequestedSessionTimeout" DataType="tns:Duration">
-        <Description>The requested session timeout in milliseconds.</Description>
-      </Field>
-      <Field Name="MaxResponseMessageSize" DataType="tns:UInt32">
-        <Description>The maximum message size accepted by the client.</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="ClientDescription" DataType="tns:ApplicationDescription" />
+      <Field Name="ServerUri" DataType="tns:String" />
+      <Field Name="EndpointUrl" DataType="tns:String" />
+      <Field Name="SessionName" DataType="tns:String" />
+      <Field Name="ClientNonce" DataType="tns:ByteString" />
+      <Field Name="ClientCertificate" DataType="tns:ApplicationInstanceCertificate" />
+      <Field Name="RequestedSessionTimeout" DataType="tns:Duration" />
+      <Field Name="MaxResponseMessageSize" DataType="tns:UInt32" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:CreateSessionResponse" SymbolicId="tns:CreateSessionResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Creates a new session with the server.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
-      <Field Name="SessionId" DataType="tns:NodeId">
-        <Description>A identifier which uniquely identifies the session.</Description>
-      </Field>
-      <Field Name="AuthenticationToken" DataType="tns:SessionAuthenticationToken">
-        <Description>The token used to authenticate the client in subsequent requests.</Description>
-      </Field>
-      <Field Name="RevisedSessionTimeout" DataType="tns:Duration">
-        <Description>The session timeout in milliseconds.</Description>
-      </Field>
-      <Field Name="ServerNonce" DataType="tns:ByteString">
-        <Description>A random number generated by the server.</Description>
-      </Field>
-      <Field Name="ServerCertificate" DataType="tns:ApplicationInstanceCertificate">
-        <Description>The application certificate for the server.</Description>
-      </Field>
-      <Field Name="ServerEndpoints" DataType="tns:EndpointDescription" ValueRank="Array">
-        <Description>The endpoints provided by the server.</Description>
-      </Field>
-      <Field Name="ServerSoftwareCertificates" DataType="tns:SignedSoftwareCertificate" ValueRank="Array">
-        <Description>The software certificates owned by the server.</Description>
-      </Field>
-      <Field Name="ServerSignature" DataType="tns:SignatureData">
-        <Description>A signature created with the server certificate.</Description>
-      </Field>
-      <Field Name="MaxRequestMessageSize" DataType="tns:UInt32">
-        <Description>The maximum message size accepted by the server.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
+      <Field Name="SessionId" DataType="tns:NodeId" />
+      <Field Name="AuthenticationToken" DataType="tns:SessionAuthenticationToken" />
+      <Field Name="RevisedSessionTimeout" DataType="tns:Duration" />
+      <Field Name="ServerNonce" DataType="tns:ByteString" />
+      <Field Name="ServerCertificate" DataType="tns:ApplicationInstanceCertificate" />
+      <Field Name="ServerEndpoints" DataType="tns:EndpointDescription" ValueRank="Array" />
+      <Field Name="ServerSoftwareCertificates" DataType="tns:SignedSoftwareCertificate" ValueRank="Array" />
+      <Field Name="ServerSignature" DataType="tns:SignatureData" />
+      <Field Name="MaxRequestMessageSize" DataType="tns:UInt32" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:UserIdentityToken" SymbolicId="tns:UserIdentityToken" PartNo="4" BaseType="tns:Structure" IsAbstract="true" NoArraysAllowed="true">
-    <Description>A base type for a user identity token.</Description>
     <Fields>
-      <Field Name="PolicyId" DataType="tns:String">
-        <Description>The policy id specified in a user token policy for the endpoint being used.</Description>
-      </Field>
+      <Field Name="PolicyId" DataType="tns:String" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:AnonymousIdentityToken" SymbolicId="tns:AnonymousIdentityToken" PartNo="4" BaseType="tns:UserIdentityToken" NoArraysAllowed="true">
-    <Description>A token representing an anonymous user.</Description>
-  </DataType>
+  <DataType SymbolicName="tns:AnonymousIdentityToken" SymbolicId="tns:AnonymousIdentityToken" PartNo="4" BaseType="tns:UserIdentityToken" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:UserNameIdentityToken" SymbolicId="tns:UserNameIdentityToken" PartNo="4" BaseType="tns:UserIdentityToken" NoArraysAllowed="true">
-    <Description>A token representing a user identified by a user name and password.</Description>
     <Fields>
-      <Field Name="UserName" DataType="tns:String">
-        <Description>The user name.</Description>
-      </Field>
-      <Field Name="Password" DataType="tns:ByteString">
-        <Description>The password encrypted with the server certificate.</Description>
-      </Field>
-      <Field Name="EncryptionAlgorithm" DataType="tns:String">
-        <Description>The algorithm used to encrypt the password.</Description>
-      </Field>
+      <Field Name="UserName" DataType="tns:String" />
+      <Field Name="Password" DataType="tns:ByteString" />
+      <Field Name="EncryptionAlgorithm" DataType="tns:String" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:X509IdentityToken" SymbolicId="tns:X509IdentityToken" PartNo="4" BaseType="tns:UserIdentityToken" NoArraysAllowed="true">
-    <Description>A token representing a user identified by an X509 certificate.</Description>
     <Fields>
-      <Field Name="CertificateData" DataType="tns:ByteString">
-        <Description>The certificate.</Description>
-      </Field>
+      <Field Name="CertificateData" DataType="tns:ByteString" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:IssuedIdentityToken" SymbolicId="tns:IssuedIdentityToken" PartNo="4" BaseType="tns:UserIdentityToken" NoArraysAllowed="true">
-    <Description>A token representing a user identified by a WS-Security XML token.</Description>
     <Fields>
-      <Field Name="TokenData" DataType="tns:ByteString">
-        <Description>The XML token encrypted with the server certificate.</Description>
-      </Field>
-      <Field Name="EncryptionAlgorithm" DataType="tns:String">
-        <Description>The algorithm used to encrypt the certificate.</Description>
-      </Field>
+      <Field Name="TokenData" DataType="tns:ByteString" />
+      <Field Name="EncryptionAlgorithm" DataType="tns:String" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:RsaEncryptedSecret" SymbolicId="tns:RsaEncryptedSecret" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:BaseDataType" NoClassGeneration="true" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:EccEncryptedSecret" SymbolicId="tns:EccEncryptedSecret" PartNo="4" NotInAddressSpace="true" ReleaseStatus="Draft" Purpose="ServicesOnly" BaseType="tns:BaseDataType" NoClassGeneration="true" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:ActivateSessionRequest" SymbolicId="tns:ActivateSessionRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Activates a session with the server.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="ClientSignature" DataType="tns:SignatureData">
-        <Description>A signature created with the client certificate from the last server nonce returned by the server.</Description>
-      </Field>
-      <Field Name="ClientSoftwareCertificates" DataType="tns:SignedSoftwareCertificate" ValueRank="Array">
-        <Description>The software certificates owned by the client.</Description>
-      </Field>
-      <Field Name="LocaleIds" DataType="tns:LocaleId" ValueRank="Array">
-        <Description>The locales to use with the session.</Description>
-      </Field>
-      <Field Name="UserIdentityToken" DataType="tns:Structure">
-        <Description>The user identity to use with the session.</Description>
-      </Field>
-      <Field Name="UserTokenSignature" DataType="tns:SignatureData">
-        <Description>A digital signature created with the user identity token.</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="ClientSignature" DataType="tns:SignatureData" />
+      <Field Name="ClientSoftwareCertificates" DataType="tns:SignedSoftwareCertificate" ValueRank="Array" />
+      <Field Name="LocaleIds" DataType="tns:LocaleId" ValueRank="Array" />
+      <Field Name="UserIdentityToken" DataType="tns:Structure" />
+      <Field Name="UserTokenSignature" DataType="tns:SignatureData" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ActivateSessionResponse" SymbolicId="tns:ActivateSessionResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Activates a session with the server.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
-      <Field Name="ServerNonce" DataType="tns:ByteString">
-        <Description>A random number generated by the server.</Description>
-      </Field>
-      <Field Name="Results" DataType="tns:StatusCode" ValueRank="Array">
-        <Description>Any errors during validation of the software certificates.</Description>
-      </Field>
-      <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array">
-        <Description>The diagnostics associated with the software certificates results.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
+      <Field Name="ServerNonce" DataType="tns:ByteString" />
+      <Field Name="Results" DataType="tns:StatusCode" ValueRank="Array" />
+      <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:CloseSessionRequest" SymbolicId="tns:CloseSessionRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Closes a session with the server.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="DeleteSubscriptions" DataType="tns:Boolean">
-        <Description>If TRUE all subscriptions are deleted when the session is closed.</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="DeleteSubscriptions" DataType="tns:Boolean" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:CloseSessionResponse" SymbolicId="tns:CloseSessionResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Closes a session with the server.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:CancelRequest" SymbolicId="tns:CancelRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Cancels an outstanding request.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="RequestHandle" DataType="tns:IntegerId">
-        <Description>The handle assigned by the client to the requests being cancelled.</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="RequestHandle" DataType="tns:IntegerId" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:CancelResponse" SymbolicId="tns:CancelResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Cancels an outstanding request.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
-      <Field Name="CancelCount" DataType="tns:UInt32">
-        <Description>The number of requests successfully cancelled.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
+      <Field Name="CancelCount" DataType="tns:UInt32" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:NodeAttributesMask" SymbolicId="tns:NodeAttributesMask" PartNo="4" BaseType="tns:Enumeration" NoArraysAllowed="true">
-    <Description>The bits used to specify default attributes for a new node.</Description>
     <Fields>
-      <Field Name="None" Identifier="0">
-        <Description>No attribuites provided.</Description>
-      </Field>
-      <Field Name="AccessLevel" Identifier="1">
-        <Description>The access level attribute is specified.</Description>
-      </Field>
-      <Field Name="ArrayDimensions" Identifier="2">
-        <Description>The array dimensions attribute is specified.</Description>
-      </Field>
-      <Field Name="BrowseName" Identifier="4">
-        <Description>The browse name attribute is specified.</Description>
-      </Field>
-      <Field Name="ContainsNoLoops" Identifier="8">
-        <Description>The contains no loops attribute is specified.</Description>
-      </Field>
-      <Field Name="DataType" Identifier="16">
-        <Description>The data type attribute is specified.</Description>
-      </Field>
-      <Field Name="Description" Identifier="32">
-        <Description>The description attribute is specified.</Description>
-      </Field>
-      <Field Name="DisplayName" Identifier="64">
-        <Description>The display name attribute is specified.</Description>
-      </Field>
-      <Field Name="EventNotifier" Identifier="128">
-        <Description>The event notifier attribute is specified.</Description>
-      </Field>
-      <Field Name="Executable" Identifier="256">
-        <Description>The executable attribute is specified.</Description>
-      </Field>
-      <Field Name="Historizing" Identifier="512">
-        <Description>The historizing attribute is specified.</Description>
-      </Field>
-      <Field Name="InverseName" Identifier="1024">
-        <Description>The inverse name attribute is specified.</Description>
-      </Field>
-      <Field Name="IsAbstract" Identifier="2048">
-        <Description>The is abstract attribute is specified.</Description>
-      </Field>
-      <Field Name="MinimumSamplingInterval" Identifier="4096">
-        <Description>The minimum sampling interval attribute is specified.</Description>
-      </Field>
-      <Field Name="NodeClass" Identifier="8192">
-        <Description>The node class attribute is specified.</Description>
-      </Field>
-      <Field Name="NodeId" Identifier="16384">
-        <Description>The node id attribute is specified.</Description>
-      </Field>
-      <Field Name="Symmetric" Identifier="32768">
-        <Description>The symmetric attribute is specified.</Description>
-      </Field>
-      <Field Name="UserAccessLevel" Identifier="65536">
-        <Description>The user access level attribute is specified.</Description>
-      </Field>
-      <Field Name="UserExecutable" Identifier="131072">
-        <Description>The user executable attribute is specified.</Description>
-      </Field>
-      <Field Name="UserWriteMask" Identifier="262144">
-        <Description>The user write mask attribute is specified.</Description>
-      </Field>
-      <Field Name="ValueRank" Identifier="524288">
-        <Description>The value rank attribute is specified.</Description>
-      </Field>
-      <Field Name="WriteMask" Identifier="1048576">
-        <Description>The write mask attribute is specified.</Description>
-      </Field>
-      <Field Name="Value" Identifier="2097152">
-        <Description>The value attribute is specified.</Description>
-      </Field>
-      <Field Name="DataTypeDefinition" Identifier="4194304">
-        <Description>The write mask attribute is specified.</Description>
-      </Field>
-      <Field Name="RolePermissions" Identifier="8388608">
-        <Description>The write mask attribute is specified.</Description>
-      </Field>
-      <Field Name="AccessRestrictions" Identifier="16777216">
-        <Description>The write mask attribute is specified.</Description>
-      </Field>
-      <Field Name="All" Identifier="33554431">
-        <Description>All attributes are specified.</Description>
-      </Field>
-      <Field Name="BaseNode" Identifier="26501220">
-        <Description>All base attributes are specified.</Description>
-      </Field>
-      <Field Name="Object" Identifier="26501348">
-        <Description>All object attributes are specified.</Description>
-      </Field>
-      <Field Name="ObjectType" Identifier="26503268">
-        <Description>All object type attributes are specified.</Description>
-      </Field>
-      <Field Name="Variable" Identifier="26571383">
-        <Description>All variable attributes are specified.</Description>
-      </Field>
-      <Field Name="VariableType" Identifier="28600438">
-        <Description>All variable type attributes are specified.</Description>
-      </Field>
-      <Field Name="Method" Identifier="26632548">
-        <Description>All method attributes are specified.</Description>
-      </Field>
-      <Field Name="ReferenceType" Identifier="26537060">
-        <Description>All reference type attributes are specified.</Description>
-      </Field>
-      <Field Name="View" Identifier="26501356">
-        <Description>All view attributes are specified.</Description>
-      </Field>
+      <Field Name="None" Identifier="0" />
+      <Field Name="AccessLevel" Identifier="1" />
+      <Field Name="ArrayDimensions" Identifier="2" />
+      <Field Name="BrowseName" Identifier="4" />
+      <Field Name="ContainsNoLoops" Identifier="8" />
+      <Field Name="DataType" Identifier="16" />
+      <Field Name="Description" Identifier="32" />
+      <Field Name="DisplayName" Identifier="64" />
+      <Field Name="EventNotifier" Identifier="128" />
+      <Field Name="Executable" Identifier="256" />
+      <Field Name="Historizing" Identifier="512" />
+      <Field Name="InverseName" Identifier="1024" />
+      <Field Name="IsAbstract" Identifier="2048" />
+      <Field Name="MinimumSamplingInterval" Identifier="4096" />
+      <Field Name="NodeClass" Identifier="8192" />
+      <Field Name="NodeId" Identifier="16384" />
+      <Field Name="Symmetric" Identifier="32768" />
+      <Field Name="UserAccessLevel" Identifier="65536" />
+      <Field Name="UserExecutable" Identifier="131072" />
+      <Field Name="UserWriteMask" Identifier="262144" />
+      <Field Name="ValueRank" Identifier="524288" />
+      <Field Name="WriteMask" Identifier="1048576" />
+      <Field Name="Value" Identifier="2097152" />
+      <Field Name="DataTypeDefinition" Identifier="4194304" />
+      <Field Name="RolePermissions" Identifier="8388608" />
+      <Field Name="AccessRestrictions" Identifier="16777216" />
+      <Field Name="All" Identifier="33554431" />
+      <Field Name="BaseNode" Identifier="26501220" />
+      <Field Name="Object" Identifier="26501348" />
+      <Field Name="ObjectType" Identifier="26503268" />
+      <Field Name="Variable" Identifier="26571383" />
+      <Field Name="VariableType" Identifier="28600438" />
+      <Field Name="Method" Identifier="26632548" />
+      <Field Name="ReferenceType" Identifier="26537060" />
+      <Field Name="View" Identifier="26501356" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:NodeAttributes" SymbolicId="tns:NodeAttributes" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>The base attributes for all nodes.</Description>
     <Fields>
-      <Field Name="SpecifiedAttributes" DataType="tns:UInt32">
-        <Description>A mask indicating which attributes have been provided.</Description>
-      </Field>
-      <Field Name="DisplayName" DataType="tns:LocalizedText">
-        <Description>A human readable name for the node.</Description>
-      </Field>
-      <Field Name="Description" DataType="tns:LocalizedText">
-        <Description>A description for the node.</Description>
-      </Field>
-      <Field Name="WriteMask" DataType="tns:UInt32">
-        <Description>A mask which specifies which attributes are writable.</Description>
-      </Field>
-      <Field Name="UserWriteMask" DataType="tns:UInt32">
-        <Description>A mask which specifies which attributes are writable by the current user.</Description>
-      </Field>
+      <Field Name="SpecifiedAttributes" DataType="tns:UInt32" />
+      <Field Name="DisplayName" DataType="tns:LocalizedText" />
+      <Field Name="Description" DataType="tns:LocalizedText" />
+      <Field Name="WriteMask" DataType="tns:UInt32" />
+      <Field Name="UserWriteMask" DataType="tns:UInt32" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ObjectAttributes" SymbolicId="tns:ObjectAttributes" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:NodeAttributes" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>The attributes for an object node.</Description>
     <Fields>
-      <Field Name="EventNotifier" DataType="tns:Byte">
-        <Description>A mask indicating what events are produced by the object.</Description>
-      </Field>
+      <Field Name="EventNotifier" DataType="tns:Byte" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:VariableAttributes" SymbolicId="tns:VariableAttributes" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:NodeAttributes" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>The attributes for a variable node.</Description>
     <Fields>
-      <Field Name="Value" DataType="tns:BaseDataType">
-        <Description>The value of the variable.</Description>
-      </Field>
-      <Field Name="DataType" DataType="tns:NodeId">
-        <Description>The data type of the value.</Description>
-      </Field>
-      <Field Name="ValueRank" DataType="tns:Int32">
-        <Description>Whether the value is an array type and the rank of the array if it is.</Description>
-      </Field>
-      <Field Name="ArrayDimensions" DataType="tns:UInt32" ValueRank="Array">
-        <Description>The number of dimensions if the value is an array type and one or more dimensions have a fixed length.</Description>
-      </Field>
-      <Field Name="AccessLevel" DataType="tns:Byte">
-        <Description>A bit mask specifying how the value may be accessed.</Description>
-      </Field>
-      <Field Name="UserAccessLevel" DataType="tns:Byte">
-        <Description>A bit mask specifying how the value may be accessed by the current user.</Description>
-      </Field>
-      <Field Name="MinimumSamplingInterval" DataType="tns:Duration">
-        <Description>The minimum possible sampling interval for the value.</Description>
-      </Field>
-      <Field Name="Historizing" DataType="tns:Boolean">
-        <Description>TRUE if the server is current storing the history of the value.</Description>
-      </Field>
+      <Field Name="Value" DataType="tns:BaseDataType" />
+      <Field Name="DataType" DataType="tns:NodeId" />
+      <Field Name="ValueRank" DataType="tns:Int32" />
+      <Field Name="ArrayDimensions" DataType="tns:UInt32" ValueRank="Array" />
+      <Field Name="AccessLevel" DataType="tns:Byte" />
+      <Field Name="UserAccessLevel" DataType="tns:Byte" />
+      <Field Name="MinimumSamplingInterval" DataType="tns:Duration" />
+      <Field Name="Historizing" DataType="tns:Boolean" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:MethodAttributes" SymbolicId="tns:MethodAttributes" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:NodeAttributes" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>The attributes for a method node.</Description>
     <Fields>
-      <Field Name="Executable" DataType="tns:Boolean">
-        <Description>If TRUE the method can be called.</Description>
-      </Field>
-      <Field Name="UserExecutable" DataType="tns:Boolean">
-        <Description>If TRUE the method can be called by the current user.</Description>
-      </Field>
+      <Field Name="Executable" DataType="tns:Boolean" />
+      <Field Name="UserExecutable" DataType="tns:Boolean" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ObjectTypeAttributes" SymbolicId="tns:ObjectTypeAttributes" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:NodeAttributes" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>The attributes for an object type node.</Description>
     <Fields>
-      <Field Name="IsAbstract" DataType="tns:Boolean">
-        <Description>If TRUE the type is abstract and only subtypes of it appear in the address space.</Description>
-      </Field>
+      <Field Name="IsAbstract" DataType="tns:Boolean" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:VariableTypeAttributes" SymbolicId="tns:VariableTypeAttributes" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:NodeAttributes" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>The attributes for a variable type node.</Description>
     <Fields>
-      <Field Name="Value" DataType="tns:BaseDataType">
-        <Description>The default value when creating new instances.</Description>
-      </Field>
-      <Field Name="DataType" DataType="tns:NodeId">
-        <Description>The data type of the value.</Description>
-      </Field>
-      <Field Name="ValueRank" DataType="tns:Int32">
-        <Description>Whether the value is an array type and the rank of the array if it is.</Description>
-      </Field>
-      <Field Name="ArrayDimensions" DataType="tns:UInt32" ValueRank="Array">
-        <Description>The number of dimensions if the value is an array type and one or more dimensions have a fixed length.</Description>
-      </Field>
-      <Field Name="IsAbstract" DataType="tns:Boolean">
-        <Description>If TRUE the type is abstract and only subtypes of it appear in the address space.</Description>
-      </Field>
+      <Field Name="Value" DataType="tns:BaseDataType" />
+      <Field Name="DataType" DataType="tns:NodeId" />
+      <Field Name="ValueRank" DataType="tns:Int32" />
+      <Field Name="ArrayDimensions" DataType="tns:UInt32" ValueRank="Array" />
+      <Field Name="IsAbstract" DataType="tns:Boolean" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ReferenceTypeAttributes" SymbolicId="tns:ReferenceTypeAttributes" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:NodeAttributes" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>The attributes for a reference type node.</Description>
     <Fields>
-      <Field Name="IsAbstract" DataType="tns:Boolean">
-        <Description>If TRUE the type is abstract and only subtypes of it appear in the address space.</Description>
-      </Field>
-      <Field Name="Symmetric" DataType="tns:Boolean">
-        <Description>If TRUE the reference type has the same semantics in both directions.</Description>
-      </Field>
-      <Field Name="InverseName" DataType="tns:LocalizedText">
-        <Description>The display name for the reference when following it from target to source.</Description>
-      </Field>
+      <Field Name="IsAbstract" DataType="tns:Boolean" />
+      <Field Name="Symmetric" DataType="tns:Boolean" />
+      <Field Name="InverseName" DataType="tns:LocalizedText" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:DataTypeAttributes" SymbolicId="tns:DataTypeAttributes" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:NodeAttributes" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>The attributes for a data type node.</Description>
     <Fields>
-      <Field Name="IsAbstract" DataType="tns:Boolean">
-        <Description>If TRUE the type is abstract and only subtypes of it appear in the address space.</Description>
-      </Field>
+      <Field Name="IsAbstract" DataType="tns:Boolean" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ViewAttributes" SymbolicId="tns:ViewAttributes" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:NodeAttributes" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>The attributes for a view node.</Description>
     <Fields>
-      <Field Name="ContainsNoLoops" DataType="tns:Boolean">
-        <Description>If TRUE the view contains a tree of non-looping hierarchical references.</Description>
-      </Field>
-      <Field Name="EventNotifier" DataType="tns:Byte">
-        <Description>A mask indicating whether events are produced by the view.</Description>
-      </Field>
+      <Field Name="ContainsNoLoops" DataType="tns:Boolean" />
+      <Field Name="EventNotifier" DataType="tns:Byte" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:GenericAttributeValue" SymbolicId="tns:GenericAttributeValue" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true">
@@ -6900,604 +6288,287 @@
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:AddNodesItem" SymbolicId="tns:AddNodesItem" PartNo="4" BaseType="tns:Structure">
-    <Description>A request to add a node to the server address space.</Description>
     <Fields>
-      <Field Name="ParentNodeId" DataType="tns:ExpandedNodeId">
-        <Description>The node id for the parent node.</Description>
-      </Field>
-      <Field Name="ReferenceTypeId" DataType="tns:NodeId">
-        <Description>The type of reference from the parent to the new node.</Description>
-      </Field>
-      <Field Name="RequestedNewNodeId" DataType="tns:ExpandedNodeId">
-        <Description>The node id requested by the client. If null the server must provide one.</Description>
-      </Field>
-      <Field Name="BrowseName" DataType="tns:QualifiedName">
-        <Description>The browse name for the new node.</Description>
-      </Field>
-      <Field Name="NodeClass" DataType="tns:NodeClass">
-        <Description>The class of the new node.</Description>
-      </Field>
-      <Field Name="NodeAttributes" DataType="tns:Structure">
-        <Description>The default attributes for the new node.</Description>
-      </Field>
-      <Field Name="TypeDefinition" DataType="tns:ExpandedNodeId">
-        <Description>The type definition for the new node.</Description>
-      </Field>
+      <Field Name="ParentNodeId" DataType="tns:ExpandedNodeId" />
+      <Field Name="ReferenceTypeId" DataType="tns:NodeId" />
+      <Field Name="RequestedNewNodeId" DataType="tns:ExpandedNodeId" />
+      <Field Name="BrowseName" DataType="tns:QualifiedName" />
+      <Field Name="NodeClass" DataType="tns:NodeClass" />
+      <Field Name="NodeAttributes" DataType="tns:Structure" />
+      <Field Name="TypeDefinition" DataType="tns:ExpandedNodeId" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:AddNodesResult" SymbolicId="tns:AddNodesResult" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true">
-    <Description>A result of an add node operation.</Description>
     <Fields>
-      <Field Name="StatusCode" DataType="tns:StatusCode">
-        <Description>A code indicating any error during the operation.</Description>
-      </Field>
-      <Field Name="AddedNodeId" DataType="tns:NodeId">
-        <Description>The id of the new node.</Description>
-      </Field>
+      <Field Name="StatusCode" DataType="tns:StatusCode" />
+      <Field Name="AddedNodeId" DataType="tns:NodeId" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:AddNodesRequest" SymbolicId="tns:AddNodesRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Adds one or more nodes to the server address space.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="NodesToAdd" DataType="tns:AddNodesItem" ValueRank="Array">
-        <Description>The list of nodes to add.</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="NodesToAdd" DataType="tns:AddNodesItem" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:AddNodesResponse" SymbolicId="tns:AddNodesResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Adds one or more nodes to the server address space.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
-      <Field Name="Results" DataType="tns:AddNodesResult" ValueRank="Array">
-        <Description>The results for the add node operations.</Description>
-      </Field>
-      <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array">
-        <Description>The diagnostics associated with the results returned.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
+      <Field Name="Results" DataType="tns:AddNodesResult" ValueRank="Array" />
+      <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:AddReferencesItem" SymbolicId="tns:AddReferencesItem" PartNo="4" BaseType="tns:Structure">
-    <Description>A request to add a reference to the server address space.</Description>
     <Fields>
-      <Field Name="SourceNodeId" DataType="tns:NodeId">
-        <Description>The source of the reference.</Description>
-      </Field>
-      <Field Name="ReferenceTypeId" DataType="tns:NodeId">
-        <Description>The type of reference.</Description>
-      </Field>
-      <Field Name="IsForward" DataType="tns:Boolean">
-        <Description>If TRUE the reference is a forward reference.</Description>
-      </Field>
-      <Field Name="TargetServerUri" DataType="tns:String">
-        <Description>The URI of the server containing the target (if in another server).</Description>
-      </Field>
-      <Field Name="TargetNodeId" DataType="tns:ExpandedNodeId">
-        <Description>The target of the reference.</Description>
-      </Field>
-      <Field Name="TargetNodeClass" DataType="tns:NodeClass">
-        <Description>The node class of the target (if known).</Description>
-      </Field>
+      <Field Name="SourceNodeId" DataType="tns:NodeId" />
+      <Field Name="ReferenceTypeId" DataType="tns:NodeId" />
+      <Field Name="IsForward" DataType="tns:Boolean" />
+      <Field Name="TargetServerUri" DataType="tns:String" />
+      <Field Name="TargetNodeId" DataType="tns:ExpandedNodeId" />
+      <Field Name="TargetNodeClass" DataType="tns:NodeClass" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:AddReferencesRequest" SymbolicId="tns:AddReferencesRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Adds one or more references to the server address space.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="ReferencesToAdd" DataType="tns:AddReferencesItem" ValueRank="Array">
-        <Description>The list of references to add.</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="ReferencesToAdd" DataType="tns:AddReferencesItem" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:AddReferencesResponse" SymbolicId="tns:AddReferencesResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Adds one or more references to the server address space.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
-      <Field Name="Results" DataType="tns:StatusCode" ValueRank="Array">
-        <Description>The results for the add reference operations.</Description>
-      </Field>
-      <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array">
-        <Description>The diagnostics associated with the results returned.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
+      <Field Name="Results" DataType="tns:StatusCode" ValueRank="Array" />
+      <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:DeleteNodesItem" SymbolicId="tns:DeleteNodesItem" PartNo="4" BaseType="tns:Structure">
-    <Description>A request to delete a node to the server address space.</Description>
     <Fields>
-      <Field Name="NodeId" DataType="tns:NodeId">
-        <Description>The id of the node to delete.</Description>
-      </Field>
-      <Field Name="DeleteTargetReferences" DataType="tns:Boolean">
-        <Description>If TRUE all references to the are deleted as well.</Description>
-      </Field>
+      <Field Name="NodeId" DataType="tns:NodeId" />
+      <Field Name="DeleteTargetReferences" DataType="tns:Boolean" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:DeleteNodesRequest" SymbolicId="tns:DeleteNodesRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Delete one or more nodes from the server address space.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="NodesToDelete" DataType="tns:DeleteNodesItem" ValueRank="Array">
-        <Description>The list of nodes to delete.</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="NodesToDelete" DataType="tns:DeleteNodesItem" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:DeleteNodesResponse" SymbolicId="tns:DeleteNodesResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Delete one or more nodes from the server address space.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
-      <Field Name="Results" DataType="tns:StatusCode" ValueRank="Array">
-        <Description>The results for the delete nodes operations.</Description>
-      </Field>
-      <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array">
-        <Description>The diagnostics associated with the results returned.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
+      <Field Name="Results" DataType="tns:StatusCode" ValueRank="Array" />
+      <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:DeleteReferencesItem" SymbolicId="tns:DeleteReferencesItem" PartNo="4" BaseType="tns:Structure">
-    <Description>A request to delete a node from the server address space.</Description>
     <Fields>
-      <Field Name="SourceNodeId" DataType="tns:NodeId">
-        <Description>The source of the reference to delete.</Description>
-      </Field>
-      <Field Name="ReferenceTypeId" DataType="tns:NodeId">
-        <Description>The type of reference to delete.</Description>
-      </Field>
-      <Field Name="IsForward" DataType="tns:Boolean">
-        <Description>If TRUE the a forward reference is deleted.</Description>
-      </Field>
-      <Field Name="TargetNodeId" DataType="tns:ExpandedNodeId">
-        <Description>The target of the reference to delete.</Description>
-      </Field>
-      <Field Name="DeleteBidirectional" DataType="tns:Boolean">
-        <Description>If TRUE the reference is deleted in both directions.</Description>
-      </Field>
+      <Field Name="SourceNodeId" DataType="tns:NodeId" />
+      <Field Name="ReferenceTypeId" DataType="tns:NodeId" />
+      <Field Name="IsForward" DataType="tns:Boolean" />
+      <Field Name="TargetNodeId" DataType="tns:ExpandedNodeId" />
+      <Field Name="DeleteBidirectional" DataType="tns:Boolean" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:DeleteReferencesRequest" SymbolicId="tns:DeleteReferencesRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Delete one or more references from the server address space.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="ReferencesToDelete" DataType="tns:DeleteReferencesItem" ValueRank="Array">
-        <Description>The list of references to delete.</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="ReferencesToDelete" DataType="tns:DeleteReferencesItem" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:DeleteReferencesResponse" SymbolicId="tns:DeleteReferencesResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Delete one or more references from the server address space.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
-      <Field Name="Results" DataType="tns:StatusCode" ValueRank="Array">
-        <Description>The results for the delete reference operations.</Description>
-      </Field>
-      <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array">
-        <Description>The diagnostics associated with the results returned.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
+      <Field Name="Results" DataType="tns:StatusCode" ValueRank="Array" />
+      <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:AttributeWriteMask" SymbolicId="tns:AttributeWriteMask" PartNo="4" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
-    <Description>Define bits used to indicate which attributes are writable.</Description>
     <Fields>
-      <Field Name="AccessLevel" BitMask="0001">
-        <Description>The access level attribute is writable.</Description>
-      </Field>
-      <Field Name="ArrayDimensions" BitMask="0002">
-        <Description>The array dimensions attribute is writable.</Description>
-      </Field>
-      <Field Name="BrowseName" BitMask="0004">
-        <Description>The browse name attribute is writable.</Description>
-      </Field>
-      <Field Name="ContainsNoLoops" BitMask="0008">
-        <Description>The contains no loops attribute is writable.</Description>
-      </Field>
-      <Field Name="DataType" BitMask="0010">
-        <Description>The data type attribute is writable.</Description>
-      </Field>
-      <Field Name="Description" BitMask="0020">
-        <Description>The description attribute is writable.</Description>
-      </Field>
-      <Field Name="DisplayName" BitMask="0040">
-        <Description>The display name attribute is writable.</Description>
-      </Field>
-      <Field Name="EventNotifier" BitMask="0080">
-        <Description>The event notifier attribute is writable.</Description>
-      </Field>
-      <Field Name="Executable" BitMask="0100">
-        <Description>The executable attribute is writable.</Description>
-      </Field>
-      <Field Name="Historizing" BitMask="0200">
-        <Description>The historizing attribute is writable.</Description>
-      </Field>
-      <Field Name="InverseName" BitMask="0400">
-        <Description>The inverse name attribute is writable.</Description>
-      </Field>
-      <Field Name="IsAbstract" BitMask="0800">
-        <Description>The is abstract attribute is writable.</Description>
-      </Field>
-      <Field Name="MinimumSamplingInterval" BitMask="1000">
-        <Description>The minimum sampling interval attribute is writable.</Description>
-      </Field>
-      <Field Name="NodeClass" BitMask="2000">
-        <Description>The node class attribute is writable.</Description>
-      </Field>
-      <Field Name="NodeId" BitMask="4000">
-        <Description>The node id attribute is writable.</Description>
-      </Field>
-      <Field Name="Symmetric" BitMask="8000">
-        <Description>The symmetric attribute is writable.</Description>
-      </Field>
-      <Field Name="UserAccessLevel" BitMask="00010000">
-        <Description>The user access level attribute is writable.</Description>
-      </Field>
-      <Field Name="UserExecutable" BitMask="00020000">
-        <Description>The user executable attribute is writable.</Description>
-      </Field>
-      <Field Name="UserWriteMask" BitMask="00040000">
-        <Description>The user write mask attribute is writable.</Description>
-      </Field>
-      <Field Name="ValueRank" BitMask="00080000">
-        <Description>The value rank attribute is writable.</Description>
-      </Field>
-      <Field Name="WriteMask" BitMask="00100000">
-        <Description>The write mask attribute is writable.</Description>
-      </Field>
-      <Field Name="ValueForVariableType" BitMask="00200000">
-        <Description>The value attribute is writable.</Description>
-      </Field>
-      <Field Name="DataTypeDefinition" BitMask="00400000">
-        <Description>The DataTypeDefinition attribute is writable.</Description>
-      </Field>
-      <Field Name="RolePermissions" BitMask="00800000">
-        <Description>The RolePermissions attribute is writable.</Description>
-      </Field>
-      <Field Name="AccessRestrictions" BitMask="01000000">
-        <Description>The AccessRestrictions attribute is writable.</Description>
-      </Field>
-      <Field Name="AccessLevelEx" BitMask="02000000">
-        <Description>The AccessLevelEx attribute is writable.</Description>
-      </Field>
+      <Field Name="AccessLevel" BitMask="0001" />
+      <Field Name="ArrayDimensions" BitMask="0002" />
+      <Field Name="BrowseName" BitMask="0004" />
+      <Field Name="ContainsNoLoops" BitMask="0008" />
+      <Field Name="DataType" BitMask="0010" />
+      <Field Name="Description" BitMask="0020" />
+      <Field Name="DisplayName" BitMask="0040" />
+      <Field Name="EventNotifier" BitMask="0080" />
+      <Field Name="Executable" BitMask="0100" />
+      <Field Name="Historizing" BitMask="0200" />
+      <Field Name="InverseName" BitMask="0400" />
+      <Field Name="IsAbstract" BitMask="0800" />
+      <Field Name="MinimumSamplingInterval" BitMask="1000" />
+      <Field Name="NodeClass" BitMask="2000" />
+      <Field Name="NodeId" BitMask="4000" />
+      <Field Name="Symmetric" BitMask="8000" />
+      <Field Name="UserAccessLevel" BitMask="00010000" />
+      <Field Name="UserExecutable" BitMask="00020000" />
+      <Field Name="UserWriteMask" BitMask="00040000" />
+      <Field Name="ValueRank" BitMask="00080000" />
+      <Field Name="WriteMask" BitMask="00100000" />
+      <Field Name="ValueForVariableType" BitMask="00200000" />
+      <Field Name="DataTypeDefinition" BitMask="00400000" />
+      <Field Name="RolePermissions" BitMask="00800000" />
+      <Field Name="AccessRestrictions" BitMask="01000000" />
+      <Field Name="AccessLevelEx" BitMask="02000000" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:BrowseDirection" SymbolicId="tns:BrowseDirection" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Enumeration" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>The directions of the references to return.</Description>
     <Fields>
-      <Field Name="Forward" Identifier="0">
-        <Description>Return forward references.</Description>
-      </Field>
-      <Field Name="Inverse" Identifier="1">
-        <Description>Return inverse references.</Description>
-      </Field>
-      <Field Name="Both" Identifier="2">
-        <Description>Return forward and inverse references.</Description>
-      </Field>
+      <Field Name="Forward" Identifier="0" />
+      <Field Name="Inverse" Identifier="1" />
+      <Field Name="Both" Identifier="2" />
       <Field Name="Invalid" Identifier="3" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ViewDescription" SymbolicId="tns:ViewDescription" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>The view to browse.</Description>
     <Fields>
-      <Field Name="ViewId" DataType="tns:NodeId">
-        <Description>The node id of the view.</Description>
-      </Field>
-      <Field Name="Timestamp" DataType="tns:UtcTime">
-        <Description>Browses the view at or before this time.</Description>
-      </Field>
-      <Field Name="ViewVersion" DataType="tns:UInt32">
-        <Description>Browses a specific version of the view .</Description>
-      </Field>
+      <Field Name="ViewId" DataType="tns:NodeId" />
+      <Field Name="Timestamp" DataType="tns:UtcTime" />
+      <Field Name="ViewVersion" DataType="tns:UInt32" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:BrowseDescription" SymbolicId="tns:BrowseDescription" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true">
-    <Description>A request to browse the the references from a node.</Description>
     <Fields>
-      <Field Name="NodeId" DataType="tns:NodeId">
-        <Description>The id of the node to browse.</Description>
-      </Field>
-      <Field Name="BrowseDirection" DataType="tns:BrowseDirection">
-        <Description>The direction of the references to return.</Description>
-      </Field>
-      <Field Name="ReferenceTypeId" DataType="tns:NodeId">
-        <Description>The type of references to return.</Description>
-      </Field>
-      <Field Name="IncludeSubtypes" DataType="tns:Boolean">
-        <Description>Includes subtypes of the reference type.</Description>
-      </Field>
-      <Field Name="NodeClassMask" DataType="tns:UInt32">
-        <Description>A mask indicating which node classes to return. 0 means return all nodes.</Description>
-      </Field>
-      <Field Name="ResultMask" DataType="tns:UInt32">
-        <Description>A mask indicating which fields should be returned in the results.</Description>
-      </Field>
+      <Field Name="NodeId" DataType="tns:NodeId" />
+      <Field Name="BrowseDirection" DataType="tns:BrowseDirection" />
+      <Field Name="ReferenceTypeId" DataType="tns:NodeId" />
+      <Field Name="IncludeSubtypes" DataType="tns:Boolean" />
+      <Field Name="NodeClassMask" DataType="tns:UInt32" />
+      <Field Name="ResultMask" DataType="tns:UInt32" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:BrowseResultMask" SymbolicId="tns:BrowseResultMask" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Enumeration" NoClassGeneration="true" NoArraysAllowed="true">
-    <Description>A bit mask which specifies what should be returned in a browse response.</Description>
     <Fields>
-      <Field Name="None" Identifier="0">
-        <Description>Return only the node id.</Description>
-      </Field>
-      <Field Name="ReferenceTypeId" Identifier="1">
-        <Description>Return the reference type id.</Description>
-      </Field>
-      <Field Name="IsForward" Identifier="2">
-        <Description>Return the flag indicating whether the reference is a forward reference.</Description>
-      </Field>
-      <Field Name="NodeClass" Identifier="4">
-        <Description>Return the node class.</Description>
-      </Field>
-      <Field Name="BrowseName" Identifier="8">
-        <Description>Return the browse name.</Description>
-      </Field>
-      <Field Name="DisplayName" Identifier="16">
-        <Description>Return the display name.</Description>
-      </Field>
-      <Field Name="TypeDefinition" Identifier="32">
-        <Description>Return the type definition.</Description>
-      </Field>
-      <Field Name="All" Identifier="63">
-        <Description>Return all fields.</Description>
-      </Field>
-      <Field Name="ReferenceTypeInfo" Identifier="3">
-        <Description>Return the reference type information.</Description>
-      </Field>
-      <Field Name="TargetInfo" Identifier="60">
-        <Description>Return the information about the target node.</Description>
-      </Field>
+      <Field Name="None" Identifier="0" />
+      <Field Name="ReferenceTypeId" Identifier="1" />
+      <Field Name="IsForward" Identifier="2" />
+      <Field Name="NodeClass" Identifier="4" />
+      <Field Name="BrowseName" Identifier="8" />
+      <Field Name="DisplayName" Identifier="16" />
+      <Field Name="TypeDefinition" Identifier="32" />
+      <Field Name="All" Identifier="63" />
+      <Field Name="ReferenceTypeInfo" Identifier="3" />
+      <Field Name="TargetInfo" Identifier="60" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ReferenceDescription" SymbolicId="tns:ReferenceDescription" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true">
-    <Description>The description of a reference.</Description>
     <Fields>
-      <Field Name="ReferenceTypeId" DataType="tns:NodeId">
-        <Description>The type of references.</Description>
-      </Field>
-      <Field Name="IsForward" DataType="tns:Boolean">
-        <Description>TRUE if the reference is a forward reference.</Description>
-      </Field>
-      <Field Name="NodeId" DataType="tns:ExpandedNodeId">
-        <Description>The id of the target node.</Description>
-      </Field>
-      <Field Name="BrowseName" DataType="tns:QualifiedName">
-        <Description>The browse name of the target node.</Description>
-      </Field>
-      <Field Name="DisplayName" DataType="tns:LocalizedText">
-        <Description>The display name of the target node.</Description>
-      </Field>
-      <Field Name="NodeClass" DataType="tns:NodeClass">
-        <Description>The node class of the target node.</Description>
-      </Field>
-      <Field Name="TypeDefinition" DataType="tns:ExpandedNodeId">
-        <Description>The type definition of the target node.</Description>
-      </Field>
+      <Field Name="ReferenceTypeId" DataType="tns:NodeId" />
+      <Field Name="IsForward" DataType="tns:Boolean" />
+      <Field Name="NodeId" DataType="tns:ExpandedNodeId" />
+      <Field Name="BrowseName" DataType="tns:QualifiedName" />
+      <Field Name="DisplayName" DataType="tns:LocalizedText" />
+      <Field Name="NodeClass" DataType="tns:NodeClass" />
+      <Field Name="TypeDefinition" DataType="tns:ExpandedNodeId" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:ContinuationPoint" SymbolicId="tns:ContinuationPoint" PartNo="4" BaseType="tns:ByteString" NoArraysAllowed="true">
-    <Description>An identifier for a suspended query or browse operation.</Description>
-  </DataType>
+  <DataType SymbolicName="tns:ContinuationPoint" SymbolicId="tns:ContinuationPoint" PartNo="4" BaseType="tns:ByteString" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:BrowseResult" SymbolicId="tns:BrowseResult" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true">
-    <Description>The result of a browse operation.</Description>
     <Fields>
-      <Field Name="StatusCode" DataType="tns:StatusCode">
-        <Description>A code indicating any error during the operation.</Description>
-      </Field>
-      <Field Name="ContinuationPoint" DataType="tns:ContinuationPoint">
-        <Description>A value that indicates the operation is incomplete and can be continued by calling BrowseNext.</Description>
-      </Field>
-      <Field Name="References" DataType="tns:ReferenceDescription" ValueRank="Array">
-        <Description>A list of references that meet the criteria specified in the request.</Description>
-      </Field>
+      <Field Name="StatusCode" DataType="tns:StatusCode" />
+      <Field Name="ContinuationPoint" DataType="tns:ContinuationPoint" />
+      <Field Name="References" DataType="tns:ReferenceDescription" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:BrowseRequest" SymbolicId="tns:BrowseRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Browse the references for one or more nodes from the server address space.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="View" DataType="tns:ViewDescription">
-        <Description>The view to browse.</Description>
-      </Field>
-      <Field Name="RequestedMaxReferencesPerNode" DataType="tns:Counter">
-        <Description>The maximum number of references to return in the response.</Description>
-      </Field>
-      <Field Name="NodesToBrowse" DataType="tns:BrowseDescription" ValueRank="Array">
-        <Description>The list of nodes to browse.</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="View" DataType="tns:ViewDescription" />
+      <Field Name="RequestedMaxReferencesPerNode" DataType="tns:Counter" />
+      <Field Name="NodesToBrowse" DataType="tns:BrowseDescription" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:BrowseResponse" SymbolicId="tns:BrowseResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Browse the references for one or more nodes from the server address space.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
-      <Field Name="Results" DataType="tns:BrowseResult" ValueRank="Array">
-        <Description>The results for the browse operations.</Description>
-      </Field>
-      <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array">
-        <Description>The diagnostics associated with the results.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
+      <Field Name="Results" DataType="tns:BrowseResult" ValueRank="Array" />
+      <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:BrowseNextRequest" SymbolicId="tns:BrowseNextRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Continues one or more browse operations.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="ReleaseContinuationPoints" DataType="tns:Boolean">
-        <Description>If TRUE the continuation points are released and no results are returned.</Description>
-      </Field>
-      <Field Name="ContinuationPoints" DataType="tns:ContinuationPoint" ValueRank="Array">
-        <Description>The contination points returned from a previous call to Browse and BrowseNext.</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="ReleaseContinuationPoints" DataType="tns:Boolean" />
+      <Field Name="ContinuationPoints" DataType="tns:ContinuationPoint" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:BrowseNextResponse" SymbolicId="tns:BrowseNextResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Continues one or more browse operations.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
-      <Field Name="Results" DataType="tns:BrowseResult" ValueRank="Array">
-        <Description>The results for the browse operations.</Description>
-      </Field>
-      <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array">
-        <Description>The diagnostics associated with the results.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
+      <Field Name="Results" DataType="tns:BrowseResult" ValueRank="Array" />
+      <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:RelativePathElement" SymbolicId="tns:RelativePathElement" PartNo="4" BaseType="tns:Structure">
-    <Description>An element in a relative path.</Description>
     <Fields>
-      <Field Name="ReferenceTypeId" DataType="tns:NodeId">
-        <Description>The type of reference to follow.</Description>
-      </Field>
-      <Field Name="IsInverse" DataType="tns:Boolean">
-        <Description>If TRUE the reverse reference is followed.</Description>
-      </Field>
-      <Field Name="IncludeSubtypes" DataType="tns:Boolean">
-        <Description>If TRUE then subtypes of the reference type are followed.</Description>
-      </Field>
-      <Field Name="TargetName" DataType="tns:QualifiedName">
-        <Description>The browse name of the target.</Description>
-      </Field>
+      <Field Name="ReferenceTypeId" DataType="tns:NodeId" />
+      <Field Name="IsInverse" DataType="tns:Boolean" />
+      <Field Name="IncludeSubtypes" DataType="tns:Boolean" />
+      <Field Name="TargetName" DataType="tns:QualifiedName" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:RelativePath" SymbolicId="tns:RelativePath" PartNo="4" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>A relative path constructed from reference types and browse names.</Description>
     <Fields>
-      <Field Name="Elements" DataType="tns:RelativePathElement" ValueRank="Array">
-        <Description>A list of elements in the path.</Description>
-      </Field>
+      <Field Name="Elements" DataType="tns:RelativePathElement" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:BrowsePath" SymbolicId="tns:BrowsePath" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true">
-    <Description>A request to translate a path into a node id.</Description>
     <Fields>
-      <Field Name="StartingNode" DataType="tns:NodeId">
-        <Description>The starting point for the search.</Description>
-      </Field>
-      <Field Name="RelativePath" DataType="tns:RelativePath">
-        <Description>The path to follow.</Description>
-      </Field>
+      <Field Name="StartingNode" DataType="tns:NodeId" />
+      <Field Name="RelativePath" DataType="tns:RelativePath" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:BrowsePathTarget" SymbolicId="tns:BrowsePathTarget" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true">
-    <Description>The target of the translated path.</Description>
     <Fields>
-      <Field Name="TargetId" DataType="tns:ExpandedNodeId">
-        <Description>The id of the target node.</Description>
-      </Field>
-      <Field Name="RemainingPathIndex" DataType="tns:Index">
-        <Description>The index of the target in the relative path. UInt32.MaxValue if the entire path was processed.</Description>
-      </Field>
+      <Field Name="TargetId" DataType="tns:ExpandedNodeId" />
+      <Field Name="RemainingPathIndex" DataType="tns:Index" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:BrowsePathResult" SymbolicId="tns:BrowsePathResult" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true">
-    <Description>The result of a translate opearation.</Description>
     <Fields>
-      <Field Name="StatusCode" DataType="tns:StatusCode">
-        <Description>A code indicating any error during the operation.</Description>
-      </Field>
-      <Field Name="Targets" DataType="tns:BrowsePathTarget" ValueRank="Array">
-        <Description>A list of nodes found. The first element matches the type definition.</Description>
-      </Field>
+      <Field Name="StatusCode" DataType="tns:StatusCode" />
+      <Field Name="Targets" DataType="tns:BrowsePathTarget" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:TranslateBrowsePathsToNodeIdsRequest" SymbolicId="tns:TranslateBrowsePathsToNodeIdsRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Translates one or more paths in the server address space.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="BrowsePaths" DataType="tns:BrowsePath" ValueRank="Array">
-        <Description>The list of paths to translate.</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="BrowsePaths" DataType="tns:BrowsePath" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:TranslateBrowsePathsToNodeIdsResponse" SymbolicId="tns:TranslateBrowsePathsToNodeIdsResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Translates one or more paths in the server address space.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
-      <Field Name="Results" DataType="tns:BrowsePathResult" ValueRank="Array">
-        <Description>The results for the translate operations.</Description>
-      </Field>
-      <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array">
-        <Description>The diagnostics associated with the results.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
+      <Field Name="Results" DataType="tns:BrowsePathResult" ValueRank="Array" />
+      <Field Name="DiagnosticInfos" DataType="tns:DiagnosticInfo" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:RegisterNodesRequest" SymbolicId="tns:RegisterNodesRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Registers one or more nodes for repeated use within a session.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="NodesToRegister" DataType="tns:NodeId" ValueRank="Array">
-        <Description>The list of nodes to register.</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="NodesToRegister" DataType="tns:NodeId" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:RegisterNodesResponse" SymbolicId="tns:RegisterNodesResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Registers one or more nodes for repeated use within a session.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
-      <Field Name="RegisteredNodeIds" DataType="tns:NodeId" ValueRank="Array">
-        <Description>The list of node ids that can be used for fast access to the nodes.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
+      <Field Name="RegisteredNodeIds" DataType="tns:NodeId" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:UnregisterNodesRequest" SymbolicId="tns:UnregisterNodesRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Unregisters one or more previously registered nodes.</Description>
     <Fields>
-      <Field Name="RequestHeader" DataType="tns:RequestHeader">
-        <Description>A standard header included in all requests sent to a server.</Description>
-      </Field>
-      <Field Name="NodesToUnregister" DataType="tns:NodeId" ValueRank="Array">
-        <Description>The list of nodes to unregister.</Description>
-      </Field>
+      <Field Name="RequestHeader" DataType="tns:RequestHeader" />
+      <Field Name="NodesToUnregister" DataType="tns:NodeId" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:UnregisterNodesResponse" SymbolicId="tns:UnregisterNodesResponse" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Description>Unregisters one or more previously registered nodes.</Description>
     <Fields>
-      <Field Name="ResponseHeader" DataType="tns:ResponseHeader">
-        <Description>A standard header included in all responses returned by servers.</Description>
-      </Field>
+      <Field Name="ResponseHeader" DataType="tns:ResponseHeader" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:Counter" SymbolicId="tns:Counter" PartNo="4" BaseType="tns:UInt32" NoArraysAllowed="true">
-    <Description>A monotonically increasing value.</Description>
-  </DataType>
-  <DataType SymbolicName="tns:NumericRange" SymbolicId="tns:NumericRange" PartNo="4" BaseType="tns:String" NoArraysAllowed="true">
-    <Description>Specifies a range of array indexes.</Description>
-  </DataType>
-  <DataType SymbolicName="tns:Time" SymbolicId="tns:Time" PartNo="4" BaseType="tns:String" NoArraysAllowed="true">
-    <Description>A time value specified as HH:MM:SS.SSS.</Description>
-  </DataType>
-  <DataType SymbolicName="tns:Date" SymbolicId="tns:Date" PartNo="4" BaseType="tns:DateTime" NoArraysAllowed="true">
-    <Description>A date value.</Description>
-  </DataType>
+  <DataType SymbolicName="tns:Counter" SymbolicId="tns:Counter" PartNo="4" BaseType="tns:UInt32" NoArraysAllowed="true" />
+  <DataType SymbolicName="tns:NumericRange" SymbolicId="tns:NumericRange" PartNo="4" BaseType="tns:String" NoArraysAllowed="true" />
+  <DataType SymbolicName="tns:Time" SymbolicId="tns:Time" PartNo="4" BaseType="tns:String" NoArraysAllowed="true" />
+  <DataType SymbolicName="tns:Date" SymbolicId="tns:Date" PartNo="4" BaseType="tns:DateTime" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:EndpointConfiguration" SymbolicId="tns:EndpointConfiguration" PartNo="4" BaseType="tns:Structure">
     <Fields>
       <Field Name="OperationTimeout" DataType="tns:Int32" />

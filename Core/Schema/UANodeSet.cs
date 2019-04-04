@@ -901,11 +901,11 @@ namespace Opc.Ua.Export {
         
         private string[] categoryField;
         
+        private string documentationField;
+        
         private Reference[] referencesField;
         
         private RolePermission[] rolePermissionsField;
-        
-        private string documentationField;
         
         private System.Xml.XmlElement[] extensionsField;
         
@@ -964,6 +964,16 @@ namespace Opc.Ua.Export {
         }
         
         /// <remarks/>
+        public string Documentation {
+            get {
+                return this.documentationField;
+            }
+            set {
+                this.documentationField = value;
+            }
+        }
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
         public Reference[] References {
             get {
@@ -982,16 +992,6 @@ namespace Opc.Ua.Export {
             }
             set {
                 this.rolePermissionsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Documentation {
-            get {
-                return this.documentationField;
-            }
-            set {
-                this.documentationField = value;
             }
         }
         

@@ -126,8 +126,8 @@
   <opc:Field Name="ValueSpecified" TypeName="opc:Bit" />
   <opc:Field Name="StatusCodeSpecified" TypeName="opc:Bit" />
   <opc:Field Name="SourceTimestampSpecified" TypeName="opc:Bit" />
-  <opc:Field Name="SourcePicosecondsSpecified" TypeName="opc:Bit" />
   <opc:Field Name="ServerTimestampSpecified" TypeName="opc:Bit" />
+  <opc:Field Name="SourcePicosecondsSpecified" TypeName="opc:Bit" />
   <opc:Field Name="ServerPicosecondsSpecified" TypeName="opc:Bit" />
   <opc:Field Name="Reserved1" TypeName="opc:Bit" Length="2" />
   <opc:Field Name="Value" TypeName="ua:Variant" SwitchField="ValueSpecified" />

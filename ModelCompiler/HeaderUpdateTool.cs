@@ -100,9 +100,11 @@ namespace Opc.Ua.ModelCompiler
                         {
                             if (fileText[ii - 1] == '*')
                             {
-                                while (fileText[ii++] != '\n') ;
+                                while (fileText[ii++] != '\n');
 
-                                return fileText.Substring(ii + 1);
+                                var text = fileText.Substring(ii).Trim();
+                                text = $"{Environment.NewLine}{text}";
+                                return text;
                             }
                         }
                     }

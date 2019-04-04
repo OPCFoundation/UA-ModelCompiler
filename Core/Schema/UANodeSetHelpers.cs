@@ -261,7 +261,7 @@ namespace Opc.Ua.Export
                     DataTypeState o = (DataTypeState)node;
                     UADataType value = new UADataType();
                     value.IsAbstract = o.IsAbstract;
-                    value.Definition = Export(o.Definition, context.NamespaceUris);
+                    value.Definition = Export(o, o.Definition, context.NamespaceUris);
                     value.Purpose = o.Purpose;
                     exportedNode = value;
                     break;
@@ -573,7 +573,7 @@ namespace Opc.Ua.Export
                     UADataType o = (UADataType)node;
                     DataTypeState value = new DataTypeState();
                     value.IsAbstract = o.IsAbstract;
-                    value.Definition = Import(o.Definition, context.NamespaceUris);
+                    value.Definition = Import(o, o.Definition, context.NamespaceUris);
                     value.Purpose = o.Purpose;
                     importedNode = value;
                     break;
@@ -817,7 +817,7 @@ namespace Opc.Ua.Export
         /// <summary>
         /// Exports a DataTypeDefinition
         /// </summary>
-        private Opc.Ua.Export.DataTypeDefinition Export(Opc.Ua.DataTypeDefinition2 source, NamespaceTable namespaceUris)
+        private Opc.Ua.Export.DataTypeDefinition Export(DataTypeState dataType, Opc.Ua.DataTypeDefinition2 source, NamespaceTable namespaceUris)
         {
             if (source == null)
             {
@@ -827,6 +827,12 @@ namespace Opc.Ua.Export
             DataTypeDefinition definition = new DataTypeDefinition();
 
             definition.Name = Export(source.Name, namespaceUris);
+
+            if (dataType.BrowseName.Name == source.Name)
+            {
+                definition.Name = null;
+            }
+
             definition.SymbolicName = source.SymbolicName;
 
             switch (source.DataTypeModifier)
@@ -871,7 +877,7 @@ namespace Opc.Ua.Export
         /// <summary>
         /// Imports a DataTypeDefinition
         /// </summary>
-        private Opc.Ua.DataTypeDefinition2 Import(Opc.Ua.Export.DataTypeDefinition source, NamespaceTable namespaceUris)
+        private Opc.Ua.DataTypeDefinition2 Import(UADataType dataType, Opc.Ua.Export.DataTypeDefinition source, NamespaceTable namespaceUris)
         {
             if (source == null)
             {
@@ -880,7 +886,14 @@ namespace Opc.Ua.Export
 
             Opc.Ua.DataTypeDefinition2 definition = new Opc.Ua.DataTypeDefinition2();
 
+            var browseName = ImportQualifiedName(dataType.BrowseName, namespaceUris);
             definition.Name = ImportQualifiedName(source.Name, namespaceUris);
+
+            if (definition.Name.Name == browseName.Name)
+            {
+                definition.Name = browseName;
+            }
+
             definition.SymbolicName = source.SymbolicName;
             definition.DataTypeModifier = DataTypeModifier.None;
 

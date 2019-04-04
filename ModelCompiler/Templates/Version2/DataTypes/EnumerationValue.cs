@@ -1,8 +1,6 @@
 enum Placeholder {
 // ***START***
-/// <summary>
-/// _Description_
-/// </summary>
+/// <remarks />
 [EnumMember(Value = "_XmlIdentifier_")]
 _BrowseName_ = _Identifier_,
 // ***END***

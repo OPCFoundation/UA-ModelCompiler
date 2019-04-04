@@ -46,13 +46,13 @@ IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 1 )
 
 CALL PublishModel OpcUaGdsModel GDS
 CALL PublishModel OpcUaDiModel DI
-CALL PublishModel OpcUaAdiModel ADI
-CALL PublishModel OpcUaPLCopenModel PLCopen
-CALL PublishModel MTConnectModel MTConnect
-CALL PublishModel OpcUaFDIPart5Model FDI
-CALL PublishModel OpcUaFDIPart7Model FDI
-CALL PublishModel SercosModel Sercos
-CALL PublishModel MDIS MDIS
+REM CALL PublishModel OpcUaAdiModel ADI
+REM CALL PublishModel OpcUaPLCopenModel PLCopen
+REM CALL PublishModel MTConnectModel MTConnect
+REM CALL PublishModel OpcUaFDIPart5Model FDI
+REM CALL PublishModel OpcUaFDIPart7Model FDI
+REM CALL PublishModel SercosModel Sercos
+REM CALL PublishModel MDIS MDIS
 
 REM SET PARTNAME="DemoModel"
 REM ECHO Building %PARTNAME%
