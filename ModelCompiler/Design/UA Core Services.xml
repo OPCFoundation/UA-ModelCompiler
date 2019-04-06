@@ -29,7 +29,7 @@
 
   <opc:EnumeratedType Name="NodeClass" PartNo="3">
     <opc:Documentation>A mask specifying the class of the node.</opc:Documentation>
-    <opc:Value Name="Unspecified" Value="0">TranslateBrowsePathsToNodeIds
+    <opc:Value Name="Unspecified" Value="0">
       <opc:Documentation>No classes are selected.</opc:Documentation>
     </opc:Value>
     <opc:Value Name="Object" Value="1">

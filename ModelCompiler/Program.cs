@@ -187,6 +187,7 @@ namespace Opc.Ua.ModelCompiler
                 bool generateMultiFile = false;
                 bool useXmlInitializers = false;
                 string[] excludeCategories = null;
+                bool includeDisplayNames = false;
 
                 bool updateHeaders = false;
                 string inputDirectory = ".";
@@ -326,6 +327,12 @@ namespace Opc.Ua.ModelCompiler
                         useXmlInitializers = true;
                         continue;
                     }
+                    
+                    if (tokens[ii] == "-includeDisplayNames")
+                    {
+                        includeDisplayNames = true;
+                        continue;
+                    }
 
                     if (tokens[ii] == "-stack")
                     {
@@ -413,11 +420,11 @@ namespace Opc.Ua.ModelCompiler
                 {
                     if (generateMultiFile)
                     {
-                        generator.GenerateMultipleFiles(outputDir, useXmlInitializers, excludeCategories);
+                        generator.GenerateMultipleFiles(outputDir, useXmlInitializers, excludeCategories, includeDisplayNames);
                     }
                     else
                     {
-                        generator.GenerateInternalSingleFile(outputDir, useXmlInitializers, excludeCategories);
+                        generator.GenerateInternalSingleFile(outputDir, useXmlInitializers, excludeCategories, includeDisplayNames);
                     }
                 }
             }

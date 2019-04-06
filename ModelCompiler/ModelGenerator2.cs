@@ -60,6 +60,7 @@ namespace Opc.Ua.ModelCompiler
         private ModelCompilerValidator m_validator;
         private ModelDesign m_model;
         private bool m_useXmlInitializers;
+        private bool m_includeDisplayNames;
         private string[] m_excludedCategories;
         #endregion
 
@@ -69,6 +70,14 @@ namespace Opc.Ua.ModelCompiler
         public bool UseXmlInitializers
         {
             get { return m_useXmlInitializers; }
+        }
+
+        /// <summary>
+        /// Whether to include the display names.
+        /// </summary>
+        public bool IncludeDisplayNames
+        {
+            get { return m_includeDisplayNames; }
         }
 
         /// <summary>
@@ -84,10 +93,11 @@ namespace Opc.Ua.ModelCompiler
         /// <summary>
         /// Generates a single file containing all of the classes.
         /// </summary>
-        public virtual void GenerateInternalSingleFile(string filePath, bool useXmlInitializers, string[] excludedCategories)
+        public virtual void GenerateInternalSingleFile(string filePath, bool useXmlInitializers, string[] excludedCategories, bool includeDisplayNames)
         {
             m_useXmlInitializers = useXmlInitializers;
             m_excludedCategories = excludedCategories;
+            m_includeDisplayNames = includeDisplayNames;
 
             // write type and object definitions.
             List<NodeDesign> nodes = GetNodeList();
@@ -101,10 +111,11 @@ namespace Opc.Ua.ModelCompiler
         /// <summary>
         /// Generates a single file containing all of the classes.
         /// </summary>
-        public virtual void GenerateMultipleFiles(string filePath, bool useXmlInitializers, string[] excludedCategories)
+        public virtual void GenerateMultipleFiles(string filePath, bool useXmlInitializers, string[] excludedCategories, bool includeDisplayNames)
         {
             m_useXmlInitializers = useXmlInitializers;
             m_excludedCategories = excludedCategories;
+            m_includeDisplayNames = includeDisplayNames;
 
             // write type and object definitions.
             List<NodeDesign> nodes = GetNodeList();
@@ -258,7 +269,8 @@ namespace Opc.Ua.ModelCompiler
                             PublicationDate = m_model.TargetPublicationDate,
                             PublicationDateSpecified = m_model.TargetPublicationDateSpecified
                         },
-                        (m_model.TargetPublicationDate != DateTime.UtcNow)? m_model.TargetPublicationDate:DateTime.MinValue);
+                        (m_model.TargetPublicationDate != DateTime.UtcNow)? m_model.TargetPublicationDate:DateTime.MinValue,
+                        false);
                 }
             }
 
@@ -311,15 +323,37 @@ namespace Opc.Ua.ModelCompiler
                     model.RequiredModel = new List<Export.ModelTableEntry>(m_model.Dependencies.Values).ToArray();
                 }
 
-                collection.SaveAsNodeSet2(context, ostrm, model, (m_model.TargetPublicationDate != DateTime.MinValue)? m_model.TargetPublicationDate:DateTime.MinValue);
+                collection.SaveAsNodeSet2(
+                    context, 
+                    ostrm, 
+                    model,
+                    (m_model.TargetPublicationDate != DateTime.MinValue)? m_model.TargetPublicationDate:DateTime.MinValue,
+                    false);
+
+                var nodeSetFilePath = String.Format(@"{0}\{1}.NodeSet2_WithNames.xml", filePath, m_model.TargetNamespaceInfo.Prefix);
+
+                using (Stream ostrm2 = File.Open(nodeSetFilePath, FileMode.Create))
+                {
+                    collection.SaveAsNodeSet2(
+                        context,
+                        ostrm2,
+                        model,
+                        (m_model.TargetPublicationDate != DateTime.MinValue) ? m_model.TargetPublicationDate : DateTime.MinValue,
+                        true);
+                }
 
                 if (m_model.TargetNamespace == Namespaces.OpcUa)
                 {
-                    var servicesFilePath = String.Format(@"{0}\{1}.NodeSet2.Services.xml", filePath, m_model.TargetNamespaceInfo.Prefix);
+                    nodeSetFilePath = String.Format(@"{0}\{1}.NodeSet2.Services.xml", filePath, m_model.TargetNamespaceInfo.Prefix);
 
-                    using (Stream servicesOstrm = File.Open(servicesFilePath, FileMode.Create))
+                    using (Stream ostrm2 = File.Open(nodeSetFilePath, FileMode.Create))
                     {
-                        collectionWithServices.SaveAsNodeSet2(context, servicesOstrm, model, (m_model.TargetPublicationDate != DateTime.MinValue) ? m_model.TargetPublicationDate : DateTime.MinValue);
+                        collectionWithServices.SaveAsNodeSet2(
+                            context,
+                            ostrm2,
+                            model,
+                            (m_model.TargetPublicationDate != DateTime.MinValue) ? m_model.TargetPublicationDate : DateTime.MinValue,
+                            false);
                     }
                 }
             }
@@ -1327,6 +1361,7 @@ namespace Opc.Ua.ModelCompiler
                 switch (dataType.NumericId)
                 {
                     case DataTypes.PermissionType:
+                    case DataTypes.AccessRestrictionType:
                     case DataTypes.RolePermissionType:
                     case DataTypes.StructureDefinition:
                     case DataTypes.StructureField:

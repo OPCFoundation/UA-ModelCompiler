@@ -5799,7 +5799,7 @@ namespace Opc.Ua.ModelCompiler
                 }
 
                 definition.Fields = fields;
-                definition.Name = root.BrowseName;
+                definition.Name = new QualifiedName(root.BrowseName, (ushort)namespaceUris.GetIndex(root.SymbolicName.Namespace));
 
                 if (definition.Name != root.SymbolicName.Name)
                 {

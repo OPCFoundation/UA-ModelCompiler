@@ -133,7 +133,7 @@ namespace Opc.Ua.Export
         /// <summary>
         /// Adds a node to the set.
         /// </summary>
-        public void Export(ISystemContext context, NodeState node)
+        public void Export(ISystemContext context, NodeState node, bool outputRedundantNames)
         {
             if (node == null) throw new ArgumentNullException("node");
 
@@ -261,7 +261,7 @@ namespace Opc.Ua.Export
                     DataTypeState o = (DataTypeState)node;
                     UADataType value = new UADataType();
                     value.IsAbstract = o.IsAbstract;
-                    value.Definition = Export(o, o.Definition, context.NamespaceUris);
+                    value.Definition = Export(o, o.Definition, context.NamespaceUris, outputRedundantNames);
                     value.Purpose = o.Purpose;
                     exportedNode = value;
                     break;
@@ -286,8 +286,25 @@ namespace Opc.Ua.Export
 
             exportedNode.NodeId = Export(node.NodeId, context.NamespaceUris);
             exportedNode.BrowseName = Export(node.BrowseName, context.NamespaceUris);
-            exportedNode.DisplayName = Export(new Opc.Ua.LocalizedText[] { node.DisplayName });
-            exportedNode.Description = Export(new Opc.Ua.LocalizedText[] { node.Description });
+
+            if (outputRedundantNames || node.DisplayName.Text != node.BrowseName.Name)
+            {
+                exportedNode.DisplayName = Export(new Opc.Ua.LocalizedText[] { node.DisplayName });
+            }
+            else
+            {
+                exportedNode.DisplayName = null;
+            }
+
+            if (node.Description != null && String.IsNullOrEmpty(node.Description.Text))
+            {
+                exportedNode.Description = Export(new Opc.Ua.LocalizedText[] { node.Description });
+            }
+            else
+            {
+                exportedNode.Description = null;
+            }
+
             exportedNode.Category = (node.Categories != null && node.Categories.Count > 0) ? new List<string>(node.Categories).ToArray() : null;
             exportedNode.ReleaseStatus = node.ReleaseStatus;
             exportedNode.WriteMask = (uint)node.WriteMask;
@@ -352,7 +369,7 @@ namespace Opc.Ua.Export
 
             for (int ii = 0; ii < children.Count; ii++)
             {
-                Export(context, children[ii]);
+                Export(context, children[ii], outputRedundantNames);
             }
         }
         #endregion
@@ -594,6 +611,12 @@ namespace Opc.Ua.Export
             importedNode.NodeId = ImportNodeId(node.NodeId, context.NamespaceUris, false);
             importedNode.BrowseName = ImportQualifiedName(node.BrowseName, context.NamespaceUris);
             importedNode.DisplayName = Import(node.DisplayName);
+
+            if (importedNode.DisplayName == null)
+            {
+                importedNode.DisplayName = new Ua.LocalizedText(importedNode.BrowseName.Name);
+            }
+
             importedNode.Description = Import(node.Description);
             importedNode.Categories = (node.Category != null && node.Category.Length > 0) ? node.Category : null;
             importedNode.ReleaseStatus = node.ReleaseStatus;
@@ -817,7 +840,11 @@ namespace Opc.Ua.Export
         /// <summary>
         /// Exports a DataTypeDefinition
         /// </summary>
-        private Opc.Ua.Export.DataTypeDefinition Export(DataTypeState dataType, Opc.Ua.DataTypeDefinition2 source, NamespaceTable namespaceUris)
+        private Opc.Ua.Export.DataTypeDefinition Export(
+            DataTypeState dataType, 
+            Opc.Ua.DataTypeDefinition2 source,
+            NamespaceTable namespaceUris,
+            bool outputRedundantNames)
         {
             if (source == null)
             {
@@ -826,14 +853,15 @@ namespace Opc.Ua.Export
 
             DataTypeDefinition definition = new DataTypeDefinition();
 
-            definition.Name = Export(source.Name, namespaceUris);
-
-            if (dataType.BrowseName.Name == source.Name)
+            if (outputRedundantNames || dataType.BrowseName != source.Name)
             {
-                definition.Name = null;
+                definition.Name = Export(source.Name, namespaceUris);
             }
 
-            definition.SymbolicName = source.SymbolicName;
+            if (source.Name.Name != source.SymbolicName)
+            {
+                definition.SymbolicName = source.SymbolicName;
+            }
 
             switch (source.DataTypeModifier)
             {
@@ -887,11 +915,17 @@ namespace Opc.Ua.Export
             Opc.Ua.DataTypeDefinition2 definition = new Opc.Ua.DataTypeDefinition2();
 
             var browseName = ImportQualifiedName(dataType.BrowseName, namespaceUris);
-            definition.Name = ImportQualifiedName(source.Name, namespaceUris);
+            definition.Name = browseName;
 
-            if (definition.Name.Name == browseName.Name)
+            if (!String.IsNullOrEmpty(source.Name))
             {
-                definition.Name = browseName;
+                definition.Name = ImportQualifiedName(source.Name, namespaceUris);
+
+                // check for bad input.
+                if (definition.Name.NamespaceIndex == 0 && browseName.NamespaceIndex != 0)
+                {
+                    definition.Name = new QualifiedName(definition.Name.Name, browseName.NamespaceIndex);
+                }
             }
 
             definition.SymbolicName = source.SymbolicName;
