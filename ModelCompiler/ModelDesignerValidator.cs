@@ -52,6 +52,7 @@ namespace Opc.Ua.ModelCompiler
         {
             m_context = ServiceMessageContext.GlobalContext;
             m_startId = startId;
+            EmbeddedResourcePath = "Opc.Ua.ModelCompiler.Design";
         }
         #endregion
 
@@ -71,6 +72,11 @@ namespace Opc.Ua.ModelCompiler
         {
             get { return m_nodes.Values; }
         }
+
+        /// <summary>
+        /// The location of the embedded resources.
+        /// </summary>
+        public string EmbeddedResourcePath { get; set; }
 
         /// <summary>
         /// Finds the data type with the specified name.
@@ -105,7 +111,7 @@ namespace Opc.Ua.ModelCompiler
             // validate node in target dictionary.
             ValidateDictionary(m_dictionary);
 
-            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Opc.Ua.ModelCompiler.Design.StandardTypes.csv");
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{EmbeddedResourcePath}.StandardTypes.csv");
 
             using (stream)
             {
@@ -282,7 +288,16 @@ namespace Opc.Ua.ModelCompiler
 
                 if (!File.Exists(designFilePath))
                 {
-                    designFilePath = Utils.Format(".\\Design\\{0}", designFileName);
+                    designFilePath = $".\\Design\\";
+
+                    int index = EmbeddedResourcePath.IndexOf(".Design");
+
+                    if (index > 0)
+                    {
+                        designFilePath = $".\\{EmbeddedResourcePath.Substring(index + 1)}\\";
+                    }
+
+                    designFilePath += $"{designFileName}";
                     Console.WriteLine("Trying file: " + designFilePath);
 
                     if (!File.Exists(designFilePath))
@@ -421,12 +436,21 @@ namespace Opc.Ua.ModelCompiler
 
                 if (!File.Exists(identifiersFilePath))
                 {
-                    identifiersFilePath = Utils.Format(".\\Design\\{0}", identifiersFileName);
+                    identifiersFilePath = $".\\Design\\";
+
+                    int index = EmbeddedResourcePath.IndexOf(".Design");
+
+                    if (index > 0)
+                    {
+                        identifiersFilePath = $".\\{EmbeddedResourcePath.Substring(index+1)}\\";
+                    }
+
+                    identifiersFilePath += $"{identifiersFileName}";
                     Console.WriteLine("Trying file: " + identifiersFilePath);
 
                     if (!File.Exists(identifiersFilePath))
                     {
-                        identifiersFilePath = Utils.Format("Opc.Ua.ModelCompiler.Design.{0}", identifiersFileName);
+                        identifiersFilePath = $"{EmbeddedResourcePath}.{identifiersFileName}";
                         Console.WriteLine("Trying resource: " + identifiersFilePath);
                         isResource = true;
                     }
@@ -593,18 +617,18 @@ namespace Opc.Ua.ModelCompiler
             }
         }
 
-        private ModelDesign ImportTypeDictionary(string filePath)
+        private ModelDesign ImportTypeDictionary(string filePath, string resourcePath)
         {
             using (Stream stream = File.OpenRead(filePath))
             {
-                return ImportTypeDictionary(stream);
+                return ImportTypeDictionary(stream, resourcePath);
             }
         }
 
-        private ModelDesign ImportTypeDictionary(Stream stream)
+        private ModelDesign ImportTypeDictionary(Stream stream, string resourcePath)
         {
             Dictionary<string,string> knownFiles = new Dictionary<string, string>();
-            Opc.Ua.CodeGenerator.TypeDictionaryValidator validator = new Opc.Ua.CodeGenerator.TypeDictionaryValidator(knownFiles);
+            Opc.Ua.CodeGenerator.TypeDictionaryValidator validator = new Opc.Ua.CodeGenerator.TypeDictionaryValidator(knownFiles, resourcePath);
             validator.Validate(stream);
 
             string namespaceUri = validator.Dictionary.TargetNamespace;
@@ -775,7 +799,7 @@ namespace Opc.Ua.ModelCompiler
             // load the design files.
             ModelDesign builtin = (ModelDesign)LoadResource(
                 typeof(ModelDesign),
-                "Opc.Ua.ModelCompiler.Design.BuiltInTypes.xml",
+                $"{EmbeddedResourcePath}.BuiltInTypes.xml",
                 Assembly.GetExecutingAssembly());
 
             nodes.AddRange(builtin.Items);
@@ -784,11 +808,11 @@ namespace Opc.Ua.ModelCompiler
 
             ModelDesign datatypes = null;
 
-            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Opc.Ua.ModelCompiler.Design.UA Core Services.xml");
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{EmbeddedResourcePath}.UA Core Services.xml");
 
             using (stream)
             {
-                datatypes = ImportTypeDictionary(stream);
+                datatypes = ImportTypeDictionary(stream, EmbeddedResourcePath);
             }
 
             if (datatypes != null)
@@ -798,7 +822,7 @@ namespace Opc.Ua.ModelCompiler
 
             ModelDesign standard = (ModelDesign)LoadResource(
                 typeof(ModelDesign),
-                "Opc.Ua.ModelCompiler.Design.StandardTypes.xml",
+                $"{EmbeddedResourcePath}.StandardTypes.xml",
                 Assembly.GetExecutingAssembly());
 
             nodes.AddRange(standard.Items);
@@ -836,9 +860,18 @@ namespace Opc.Ua.ModelCompiler
 
             if (hasDataTypesDefined)
             {
-                AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Binary, nodes);
-                AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Xml, nodes);
-                AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Json, nodes);
+
+                if (!EmbeddedResourcePath.EndsWith("v103"))
+                {
+                    AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Binary, nodes);
+                    AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Xml, nodes);
+                    AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Json, nodes);
+                }
+                else
+                {
+                    AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Xml, nodes);
+                    AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Binary, nodes);
+                }
 
                 foreach (NodeDesign node in dictionary.Items)
                 {
@@ -945,7 +978,7 @@ namespace Opc.Ua.ModelCompiler
             if (inputPath.EndsWith("StandardTypes.xml"))
             {
                 Log("Loading StandardTypes...");
-                dictionary = (ModelDesign)LoadResource(typeof(ModelDesign), "Opc.Ua.ModelCompiler.Design.BuiltInTypes.xml", Assembly.GetExecutingAssembly());
+                dictionary = (ModelDesign)LoadResource(typeof(ModelDesign), $"{EmbeddedResourcePath}.BuiltInTypes.xml", Assembly.GetExecutingAssembly());
             }
 
             for (int ii = 0; ii < designFilePaths.Count; ii++)
@@ -962,7 +995,7 @@ namespace Opc.Ua.ModelCompiler
                 {
                     try
                     {
-                        component = ImportTypeDictionary(designFilePaths[ii]);
+                        component = ImportTypeDictionary(designFilePaths[ii], EmbeddedResourcePath);
                     }
                     catch (Exception e2)
                     {
@@ -1554,13 +1587,16 @@ namespace Opc.Ua.ModelCompiler
                     namespaceUri,
                     descriptions);
 
-                AddProperty(
-                    dictionary,
-                    new XmlQualifiedName("Deprecated", DefaultNamespace),
-                    new XmlQualifiedName("Boolean", DefaultNamespace),
-                    ValueRank.Scalar,
-                    true,
-                    descriptions);
+                if (!EmbeddedResourcePath.EndsWith("v103"))
+                {
+                    AddProperty(
+                        dictionary,
+                        new XmlQualifiedName("Deprecated", DefaultNamespace),
+                        new XmlQualifiedName("Boolean", DefaultNamespace),
+                        ValueRank.Scalar,
+                        true,
+                        descriptions);
+                }
             }
 
             foreach (NodeDesign node in nodes.Items)
@@ -3310,8 +3346,17 @@ namespace Opc.Ua.ModelCompiler
                     {
                         EncodingDesign xmlEncoding = CreateEncoding(dataType, new XmlQualifiedName("DefaultXml", DefaultNamespace));
                         EncodingDesign binaryEncoding = CreateEncoding(dataType, new XmlQualifiedName("DefaultBinary", DefaultNamespace));
-                        EncodingDesign jsonEncoding = CreateEncoding(dataType, new XmlQualifiedName("DefaultJson", DefaultNamespace));
-                        dataType.Encodings = new EncodingDesign[] { xmlEncoding, binaryEncoding, jsonEncoding };
+
+                        if (!EmbeddedResourcePath.EndsWith("v103"))
+                        {
+                            EncodingDesign jsonEncoding = CreateEncoding(dataType, new XmlQualifiedName("DefaultJson", DefaultNamespace));
+                            dataType.Encodings = new EncodingDesign[] { xmlEncoding, binaryEncoding, jsonEncoding };
+                        }
+                        else
+                        {
+                            dataType.Encodings = new EncodingDesign[] { xmlEncoding, binaryEncoding };
+                        }
+                        
                         dataType.HasEncodings = true;
                     }
 

@@ -9,8 +9,13 @@ REM ****************************************************************************
 SETLOCAL
 
 set MODELCOMPILER=.\Bin\Release\Opc.Ua.ModelCompiler.exe
-set OUTPUT=.\Published
-set EXCLUDE=-exclude nothing
+set OUTPUT=..\nodesets
+set INPUT=.\ModelCompiler\Design
+
+IF NOT "%1"=="" (set OUTPUT=%OUTPUT%\%1) else (set OUTPUT=%OUTPUT%\master)
+IF NOT "%1"=="" (set INPUT=%INPUT%.%1) else (set INPUT=%INPUT%)
+IF NOT "%1"=="" set VERSION=-version %1
+IF NOT "%2"=="" set EXCLUDE=-exclude %2
 
 REM Set the following values to automatically copy the generated source code to your relevant stack locations
 REM
@@ -23,7 +28,7 @@ REM
 REM Leaving these fields empty will skip the operation
 
 set ANSIC_TARGET=
-set DOTNET_TARGET=
+set DOTNET_TARGET=X:\Work\OPC\UA-ModelCompiler\Core\
 set GDS_TARGET=
 set DI_TARGET=
 set ADI_TARGET=
@@ -40,32 +45,35 @@ REM STEP 1) Generate all of our files first...
 
 SET PARTNAME="StandardTypes"
 ECHO Building Model %PARTNAME%
-ECHO %MODELCOMPILER% -d2 ".\ModelCompiler\Design\StandardTypes.xml" %EXCLUDE% -d2 ".\ModelCompiler\Design\UA Core Services.xml" -c ".\ModelCompiler\Design\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\"
-%MODELCOMPILER% -d2 ".\ModelCompiler\Design\StandardTypes.xml" %EXCLUDE% -d2 ".\ModelCompiler\Design\UA Core Services.xml" -c ".\ModelCompiler\Design\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\"
+ECHO %MODELCOMPILER% -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%INPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\"
+%MODELCOMPILER% -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%INPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\"
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 1 )
 
-CALL PublishModel OpcUaGdsModel GDS
-CALL PublishModel OpcUaDiModel DI
-REM CALL PublishModel OpcUaAdiModel ADI
-REM CALL PublishModel OpcUaPLCopenModel PLCopen
-REM CALL PublishModel MTConnectModel MTConnect
-REM CALL PublishModel OpcUaFDIPart5Model FDI
-REM CALL PublishModel OpcUaFDIPart7Model FDI
-REM CALL PublishModel SercosModel Sercos
-REM CALL PublishModel MDIS MDIS
+CALL PublishModel OpcUaGdsModel GDS %1 %2
+CALL PublishModel OpcUaDiModel DI %1 %2
+
+IF "%1"=="v103" (
+	CALL PublishModel OpcUaAdiModel ADI %1 %2
+	CALL PublishModel OpcUaPLCopenModel PLCopen %1 %2
+	CALL PublishModel MTConnectModel MTConnect %1 %2
+	CALL PublishModel OpcUaFDIPart5Model FDI %1 %2
+	CALL PublishModel OpcUaFDIPart7Model FDI %1 %2
+	CALL PublishModel MDIS MDIS %1 %2
+	CALL PublishModel SercosModel Sercos %1 %2
+)
 
 REM SET PARTNAME="DemoModel"
 REM ECHO Building %PARTNAME%
 REM IF NOT EXIST %OUTPUT%\DemoModel MKDIR %OUTPUT%\DemoModel
-REM %MODELCOMPILER% -d2 ".\ModelCompiler\Design\DemoModel.xml" -cg ".\ModelCompiler\Design\DemoModel.csv" -o2 "%OUTPUT%\DemoModel\"
+REM %MODELCOMPILER% -d2 "%INPUT%\DemoModel.xml" -cg "%INPUT%\DemoModel.csv" -o2 "%OUTPUT%\DemoModel\"
 REM IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
 
 REM STEP 2) Copy the generated files to the OUTPUT directory which is how our nodeset files are created...
 
 ECHO Copying CSV files to %OUTPUT%\Schema\
 ECHO ON
-COPY ".\ModelCompiler\Design\StandardTypes.csv" "%OUTPUT%\Schema\NodeIds.csv"
-COPY ".\ModelCompiler\Design\UA Attributes.csv" "%OUTPUT%\Schema\AttributeIds.csv"
+COPY "%INPUT%\StandardTypes.csv" "%OUTPUT%\Schema\NodeIds.csv"
+COPY "%INPUT%\UA Attributes.csv" "%OUTPUT%\Schema\AttributeIds.csv"
 COPY "%OUTPUT%\DotNet\Opc.Ua.StatusCodes.csv" "%OUTPUT%\Schema\StatusCode.csv"
 COPY ".\Core\Schema\UANodeSet.xsd" "%OUTPUT%\Schema\UANodeSet.xsd"
 COPY ".\Core\Schema\SecuredApplication.xsd" "%OUTPUT%\Schema\SecuredApplication.xsd"

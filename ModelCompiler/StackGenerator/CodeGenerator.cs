@@ -54,10 +54,10 @@ namespace Opc.Ua.CodeGenerator
         /// <summary>
         /// Generates the code from the contents of the address space.
         /// </summary>
-        public CodeGenerator(string inputPath, string outputDirectory, Dictionary<string,string> knownFiles)
+        public CodeGenerator(string inputPath, string outputDirectory, Dictionary<string,string> knownFiles, string resourcePath)
         {
             // load and validate type dictionary.
-            m_validator = new TypeDictionaryValidator(knownFiles);
+            m_validator = new TypeDictionaryValidator(knownFiles, resourcePath);
             m_validator.Validate(inputPath);
 
             // save output directory.

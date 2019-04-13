@@ -50,12 +50,13 @@ namespace Opc.Ua.CodeGenerator
         public WiresharkGenerator(
             string                    inputPath,
             string                    outputDirectory,
-            Dictionary<string,string> knownFiles)
+            Dictionary<string,string> knownFiles,
+            string                    resourcePath)
         :
-            base(inputPath, outputDirectory, knownFiles)
+            base(inputPath, outputDirectory, knownFiles, resourcePath)
         {
             // load and validate type dictionary.
-            m_validator = new TypeDictionaryValidator(knownFiles);
+            m_validator = new TypeDictionaryValidator(knownFiles, resourcePath);
             m_validator.Validate(inputPath);
 
             TargetLanguage = Language.Wireshark;

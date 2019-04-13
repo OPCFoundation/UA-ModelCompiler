@@ -1933,6 +1933,11 @@ namespace Opc.Ua
             // specifying a null field name means the start/end tags should not be written.
             if (!String.IsNullOrEmpty(fieldName))
             {
+                if (isNillable && isDefault)
+                {
+                    return false;
+                }
+
                 m_writer.WriteStartElement(fieldName, m_namespaces.Peek());
 
                 if (isDefault)

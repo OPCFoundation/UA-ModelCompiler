@@ -47,7 +47,13 @@ namespace Opc.Ua.CodeGenerator
         /// <summary>
         /// Generates the code from the contents of the address space.
         /// </summary>
-        public BinarySchemaGenerator(string inputPath, string outputDirectory, Dictionary<string,string> knownFiles) : base (inputPath, outputDirectory, knownFiles)
+        public BinarySchemaGenerator(
+            string inputPath,
+            string outputDirectory,
+            Dictionary<string,string> knownFiles,
+            string resourcePath) 
+        : 
+            base (inputPath, outputDirectory, knownFiles, resourcePath)
         {
         }
         #endregion

@@ -47,7 +47,7 @@ namespace Opc.Ua.CodeGenerator
         /// <summary>
         /// Generates the code from the contents of the address space.
         /// </summary>
-        public XmlSchemaGenerator(string inputPath, string outputDirectory, Dictionary<string,string> knownFiles) : base (inputPath, outputDirectory, knownFiles)
+        public XmlSchemaGenerator(string inputPath, string outputDirectory, Dictionary<string,string> knownFiles, string resourcePath) : base (inputPath, outputDirectory, knownFiles, resourcePath)
         {
         }
         #endregion

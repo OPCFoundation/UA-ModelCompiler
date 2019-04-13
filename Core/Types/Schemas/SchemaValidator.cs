@@ -282,6 +282,8 @@ namespace Opc.Ua.Schema
         /// </summary>
         protected static object LoadResource(System.Type type, string path, Assembly assembly)
         {
+            var names = assembly.GetManifestResourceNames();
+
             try
             {
                 StreamReader reader = new StreamReader(assembly.GetManifestResourceStream(path));

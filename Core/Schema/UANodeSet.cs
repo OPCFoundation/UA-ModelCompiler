@@ -440,8 +440,6 @@ namespace Opc.Ua.Export {
         
         private LocalizedText[] descriptionField;
         
-        private string documentationField;
-        
         private string nameField;
         
         private string symbolicNameField;
@@ -486,16 +484,6 @@ namespace Opc.Ua.Export {
             }
             set {
                 this.descriptionField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string Documentation {
-            get {
-                return this.documentationField;
-            }
-            set {
-                this.documentationField = value;
             }
         }
         

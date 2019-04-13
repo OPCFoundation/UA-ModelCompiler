@@ -50,9 +50,10 @@ namespace Opc.Ua.CodeGenerator
         public AnsiCGenerator(
             string                    inputPath,
             string                    outputDirectory,
-            Dictionary<string,string> knownFiles)
+            Dictionary<string,string> knownFiles,
+            string resourcePath)
         :
-            base(inputPath, outputDirectory, knownFiles)
+            base(inputPath, outputDirectory, knownFiles, resourcePath)
         {
             TargetLanguage = Language.AnsiC;
         }

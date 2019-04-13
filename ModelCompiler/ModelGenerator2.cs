@@ -83,9 +83,15 @@ namespace Opc.Ua.ModelCompiler
         /// <summary>
         /// Generates the source code files.
         /// </summary>
-        public virtual void ValidateAndUpdateIds(IList<string> designFilePaths, string identifierFilePath, uint startId)
+        public virtual void ValidateAndUpdateIds(IList<string> designFilePaths, string identifierFilePath, uint startId, string specificationVersion)
         {
             m_validator = new ModelCompilerValidator(startId);
+
+            if (!String.IsNullOrEmpty(specificationVersion))
+            {
+                m_validator.EmbeddedResourcePath = $"{m_validator.EmbeddedResourcePath}.{specificationVersion}";
+            }
+
             m_validator.Validate2(designFilePaths, identifierFilePath, false);
             m_model = m_validator.Dictionary;
         }
@@ -270,7 +276,7 @@ namespace Opc.Ua.ModelCompiler
                             PublicationDateSpecified = m_model.TargetPublicationDateSpecified
                         },
                         (m_model.TargetPublicationDate != DateTime.UtcNow)? m_model.TargetPublicationDate:DateTime.MinValue,
-                        false);
+                        true);
                 }
             }
 
@@ -328,23 +334,11 @@ namespace Opc.Ua.ModelCompiler
                     ostrm, 
                     model,
                     (m_model.TargetPublicationDate != DateTime.MinValue)? m_model.TargetPublicationDate:DateTime.MinValue,
-                    false);
-
-                var nodeSetFilePath = String.Format(@"{0}\{1}.NodeSet2_WithNames.xml", filePath, m_model.TargetNamespaceInfo.Prefix);
-
-                using (Stream ostrm2 = File.Open(nodeSetFilePath, FileMode.Create))
-                {
-                    collection.SaveAsNodeSet2(
-                        context,
-                        ostrm2,
-                        model,
-                        (m_model.TargetPublicationDate != DateTime.MinValue) ? m_model.TargetPublicationDate : DateTime.MinValue,
-                        true);
-                }
+                    true);
 
                 if (m_model.TargetNamespace == Namespaces.OpcUa)
                 {
-                    nodeSetFilePath = String.Format(@"{0}\{1}.NodeSet2.Services.xml", filePath, m_model.TargetNamespaceInfo.Prefix);
+                    var nodeSetFilePath = String.Format(@"{0}\{1}.NodeSet2.Services.xml", filePath, m_model.TargetNamespaceInfo.Prefix);
 
                     using (Stream ostrm2 = File.Open(nodeSetFilePath, FileMode.Create))
                     {
@@ -353,7 +347,7 @@ namespace Opc.Ua.ModelCompiler
                             ostrm2,
                             model,
                             (m_model.TargetPublicationDate != DateTime.MinValue) ? m_model.TargetPublicationDate : DateTime.MinValue,
-                            false);
+                            true);
                     }
                 }
             }

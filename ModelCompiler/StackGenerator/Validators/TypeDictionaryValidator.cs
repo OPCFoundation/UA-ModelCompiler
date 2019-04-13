@@ -48,16 +48,26 @@ namespace Opc.Ua.CodeGenerator
         /// <summary>
         /// Intializes the object with default values.
         /// </summary>
-        public TypeDictionaryValidator()
+        public TypeDictionaryValidator(string resourcePath)
         {
+            var WellKnownDictionaries = new string[][]
+            {
+                new string[] { Namespaces.OpcUaBuiltInTypes, $"Opc.Ua.ModelCompiler.StackGenerator.Validators.BuiltInTypes.xml" }
+            };
+
             SetResourcePaths(WellKnownDictionaries);
         }
 
         /// <summary>
         /// Intializes the object with a file table.
         /// </summary>
-        public TypeDictionaryValidator(Dictionary<string,string> fileTable) : base(fileTable)
+        public TypeDictionaryValidator(Dictionary<string,string> fileTable, string resourcePath) : base(fileTable)
         {
+            var WellKnownDictionaries = new string[][]
+            {
+                new string[] { Namespaces.OpcUaBuiltInTypes, $"Opc.Ua.ModelCompiler.StackGenerator.Validators.BuiltInTypes.xml" }
+            };
+
             SetResourcePaths(WellKnownDictionaries);
         }
         #endregion
@@ -70,6 +80,11 @@ namespace Opc.Ua.CodeGenerator
         {
             get { return m_dictionary; }
         }
+
+        /// <summary>
+        /// The location of the embedded resources.
+        /// </summary>
+        public string EmbeddedResourcePath { get; set; }
 
         /// <summary>
         /// Finds the data type with the specified name.
@@ -509,11 +524,6 @@ namespace Opc.Ua.CodeGenerator
         #endregion
 
         #region Private Fields
-        private readonly string[][] WellKnownDictionaries = new string[][]
-        {
-            new string[] {  Namespaces.OpcUaBuiltInTypes, "Opc.Ua.ModelCompiler.StackGenerator.Validators.BuiltInTypes.xml" }
-        };
-
         private TypeDictionary m_dictionary;
         private Dictionary<XmlQualifiedName,DataType> m_datatypes;
         #endregion

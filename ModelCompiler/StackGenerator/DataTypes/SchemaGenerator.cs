@@ -47,10 +47,10 @@ namespace Opc.Ua.CodeGenerator
         /// <summary>
         /// Loads and validates the type dictionary.
         /// </summary>
-        protected SchemaGenerator(string inputPath, string outputDirectory, Dictionary<string,string> knownFiles)
+        protected SchemaGenerator(string inputPath, string outputDirectory, Dictionary<string,string> knownFiles, string resourcePath)
         {
             // load and validate type dictionary.
-            m_validator = new TypeDictionaryValidator(knownFiles);
+            m_validator = new TypeDictionaryValidator(knownFiles, resourcePath);
             m_validator.Validate(inputPath);
 
             // save output directory.

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelDesign
+  xmlns="http://opcfoundation.org/UA/ModelDesign.xsd"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:ua="http://opcfoundation.org/UA/"
@@ -10,13 +11,66 @@
   TargetXmlNamespace="http://fdi-cooperation.com/OPCUA/FDI5/"
   TargetVersion="1.1"
   TargetPublicationDate="2017-07-14T00:00:00Z"
-  xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
-
+>
   <Namespaces>
     <Namespace Name="OpcUaFdi5" Prefix="Opc.Ua.Fdi5" XmlNamespace="http://fdi-cooperation.com/OPCUA/FDI5/Types.xsd" XmlPrefix="FDI5">http://fdi-cooperation.com/OPCUA/FDI5/</Namespace>
-    <Namespace Name="OpcUaDi" Prefix="Opc.Ua.Di" XmlNamespace="http://opcfoundation.org/UA/DI/Types.xsd" XmlPrefix="DI" FilePath="OpcUaDiModel">http://opcfoundation.org/UA/DI/</Namespace>
+    <Namespace Name="OpcUaDi" Prefix="Opc.Ua.Di" Version="1.01" PublicationDate="2012-12-31T00:00:00Z" XmlNamespace="http://opcfoundation.org/UA/DI/Types.xsd" XmlPrefix="DI" FilePath="OpcUaDiModel">http://opcfoundation.org/UA/DI/</Namespace>
     <Namespace Name="OpcUa" Version="1.03" PublicationDate="2013-12-02T00:00:00Z" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
+
+  <Object SymbolicName="FDI:OpcUaFdi5NamespaceMetadata" TypeDefinition="ua:NamespaceMetadataType">
+    <BrowseName>http://fdi-cooperation.com/OPCUA/FDI5/</BrowseName>
+    <Children>
+      <Property SymbolicName="ua:NamespaceUri" DataType="ua:String">
+        <DefaultValue>
+          <uax:String>http://fdi-cooperation.com/OPCUA/FDI5/</uax:String>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="ua:NamespaceVersion" DataType="ua:String">
+        <DefaultValue>
+          <uax:String>1.1</uax:String>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="ua:NamespacePublicationDate" DataType="ua:DateTime">
+        <DefaultValue>
+          <uax:DateTime>2017-07-14T00:00:00Z"</uax:DateTime>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="ua:IsNamespaceSubset" DataType="ua:Boolean">
+        <DefaultValue>
+          <uax:Boolean>false</uax:Boolean>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="ua:StaticNodeIdTypes" DataType="ua:IdType" ValueRank="Array">
+        <DefaultValue>
+          <uax:ListOfInt32>
+            <uax:Int32>0</uax:Int32>
+          </uax:ListOfInt32>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="ua:StaticNumericNodeIdRange" DataType="ua:NumericRange" ValueRank="Array">
+        <DefaultValue>
+          <uax:ListOfString>
+            <uax:String>1:65535</uax:String>
+          </uax:ListOfString>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="ua:StaticStringNodeIdPattern" DataType="ua:String">
+        <DefaultValue>
+          <uax:String></uax:String>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="ua:DefaultRolePermissions" ModellingRule="Mandatory" />
+      <Property SymbolicName="ua:DefaultUserRolePermissions" ModellingRule="Mandatory" />
+      <Property SymbolicName="ua:DefaultAccessRestrictions" ModellingRule="Mandatory" />
+    </Children>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>ua:HasComponent</ReferenceType>
+        <TargetId>ua:Server_Namespaces</TargetId>
+      </Reference>
+    </References>
+  </Object>
 
   <VariableType SymbolicName="FDI:UIDescriptionType" BaseType="DI:UIElementType" DataType="ua:String" IsAbstract="false">
   </VariableType>

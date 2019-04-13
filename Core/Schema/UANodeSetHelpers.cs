@@ -296,13 +296,13 @@ namespace Opc.Ua.Export
                 exportedNode.DisplayName = null;
             }
 
-            if (node.Description != null && String.IsNullOrEmpty(node.Description.Text))
+            if (node.Description != null && !String.IsNullOrEmpty(node.Description.Text))
             {
                 exportedNode.Description = Export(new Opc.Ua.LocalizedText[] { node.Description });
             }
             else
             {
-                exportedNode.Description = null;
+                exportedNode.Description = new LocalizedText[0];
             }
 
             exportedNode.Category = (node.Categories != null && node.Categories.Count > 0) ? new List<string>(node.Categories).ToArray() : null;
