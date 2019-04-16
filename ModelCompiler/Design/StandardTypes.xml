@@ -1237,16 +1237,16 @@
     <opc:InverseName>GuardOf</opc:InverseName>
   </opc:ReferenceType>
   
-  <opc:VariableType SymbolicName="GuardVariableType" DataType="LocalizedText" BaseType="BaseDataVariableType" PartNo="5">
+  <opc:VariableType SymbolicName="GuardVariableType" DataType="LocalizedText" BaseType="BaseDataVariableType" ValueRank="Scalar" PartNo="5">
   </opc:VariableType>
 
-  <opc:VariableType SymbolicName="ExpressionGuardVariableType" DataType="LocalizedText" BaseType="GuardVariableType" PartNo="5">
+  <opc:VariableType SymbolicName="ExpressionGuardVariableType" DataType="LocalizedText" BaseType="GuardVariableType" ValueRank="Scalar" PartNo="5">
     <opc:Children>
       <opc:Property SymbolicName="Expression" DataType="ua:ContentFilter" ModellingRule="Mandatory"></opc:Property>
     </opc:Children>
   </opc:VariableType>
 
-  <opc:VariableType SymbolicName="ElseGuardVariableType" DataType="LocalizedText" BaseType="GuardVariableType" PartNo="5">
+  <opc:VariableType SymbolicName="ElseGuardVariableType" DataType="LocalizedText" BaseType="GuardVariableType" ValueRank="Scalar" PartNo="5">
   </opc:VariableType>
 
   <!-- FromState BuiltInTypes.xml -->
@@ -1884,7 +1884,7 @@
 
   <!-- Part 5 Annex G - Dictionary Reference -->
 
-  <opc:ObjectType SymbolicName="DictionaryEntryType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="5" ReleaseStatus="Draft">
+  <opc:ObjectType SymbolicName="DictionaryEntryType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="5" ReleaseStatus="Released">
     <opc:Children>
       <opc:Object SymbolicName="DictionaryEntryName_Placeholder" TypeDefinition="DictionaryEntryType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;DictionaryEntryName&gt;</opc:BrowseName>
@@ -1892,7 +1892,7 @@
     </opc:Children>
   </opc:ObjectType>
   
-  <opc:ObjectType SymbolicName="DictionaryFolderType" BaseType="ua:FolderType" PartNo="5" ReleaseStatus="Draft">
+  <opc:ObjectType SymbolicName="DictionaryFolderType" BaseType="ua:FolderType" PartNo="5" ReleaseStatus="Released">
     <opc:Children>
       <opc:Object SymbolicName="DictionaryFolderName_Placeholder" TypeDefinition="DictionaryFolderType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;DictionaryFolderName&gt;</opc:BrowseName>
@@ -1903,7 +1903,7 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Object SymbolicName="Dictionaries" TypeDefinition="DictionaryFolderType" ModellingRule="None" PartNo="5" ReleaseStatus="Draft">
+  <opc:Object SymbolicName="Dictionaries" TypeDefinition="DictionaryFolderType" ModellingRule="None" PartNo="5" ReleaseStatus="Released">
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
@@ -1912,24 +1912,37 @@
     </opc:References>
   </opc:Object>
 
-  <opc:ReferenceType SymbolicName="HasDictionaryEntry" BaseType="ua:NonHierarchicalReferences" PartNo="5" ReleaseStatus="Draft">
+  <opc:ReferenceType SymbolicName="HasDictionaryEntry" BaseType="ua:NonHierarchicalReferences" PartNo="5" ReleaseStatus="Released">
     <opc:InverseName>DictionaryEntryOf</opc:InverseName>
   </opc:ReferenceType>
 
-  <opc:ObjectType SymbolicName="IrdiDictionaryEntryType" BaseType="ua:DictionaryEntryType" PartNo="5" ReleaseStatus="Draft">
+  <opc:ObjectType SymbolicName="IrdiDictionaryEntryType" BaseType="ua:DictionaryEntryType" PartNo="5" ReleaseStatus="Released">
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="UriDictionaryEntryType" BaseType="ua:DictionaryEntryType" PartNo="5" ReleaseStatus="Draft">
+  <opc:ObjectType SymbolicName="UriDictionaryEntryType" BaseType="ua:DictionaryEntryType" PartNo="5" ReleaseStatus="Released">
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="BaseInterfaceType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="5" ReleaseStatus="Draft">
+  <opc:ObjectType SymbolicName="BaseInterfaceType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="5" ReleaseStatus="Released">
   </opc:ObjectType>
 
-  <opc:ReferenceType SymbolicName="HasInterface" BaseType="ua:NonHierarchicalReferences" PartNo="5" ReleaseStatus="Draft">
+  <opc:Object SymbolicName="InterfaceTypes" TypeDefinition="FolderType" ModellingRule="None" PartNo="5" ReleaseStatus="Released">
+    <opc:References>
+      <opc:Reference IsInverse="false">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:BaseInterfaceType</opc:TargetId>
+      </opc:Reference>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:TypesFolder</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:ReferenceType SymbolicName="HasInterface" BaseType="ua:NonHierarchicalReferences" PartNo="5" ReleaseStatus="Released">
     <opc:InverseName>InterfaceOf</opc:InverseName>
   </opc:ReferenceType>
 
-  <opc:ReferenceType SymbolicName="HasAddIn" BaseType="ua:NonHierarchicalReferences" PartNo="5" ReleaseStatus="Draft">
+  <opc:ReferenceType SymbolicName="HasAddIn" BaseType="ua:NonHierarchicalReferences" PartNo="5" ReleaseStatus="Released">
     <opc:InverseName>AddInOf</opc:InverseName>
   </opc:ReferenceType>
 

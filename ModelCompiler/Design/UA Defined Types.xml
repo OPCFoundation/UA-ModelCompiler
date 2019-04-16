@@ -1479,13 +1479,13 @@
   <ReferenceType SymbolicName="tns:HasGuard" PartNo="5" BaseType="tns:HasComponent">
     <InverseName>GuardOf</InverseName>
   </ReferenceType>
-  <VariableType SymbolicName="tns:GuardVariableType" PartNo="5" BaseType="tns:BaseDataVariableType" DataType="tns:LocalizedText" />
-  <VariableType SymbolicName="tns:ExpressionGuardVariableType" PartNo="5" BaseType="tns:GuardVariableType" DataType="tns:LocalizedText">
+  <VariableType SymbolicName="tns:GuardVariableType" PartNo="5" BaseType="tns:BaseDataVariableType" DataType="tns:LocalizedText" ValueRank="Scalar" />
+  <VariableType SymbolicName="tns:ExpressionGuardVariableType" PartNo="5" BaseType="tns:GuardVariableType" DataType="tns:LocalizedText" ValueRank="Scalar">
     <Children>
       <Property SymbolicName="tns:Expression" ModellingRule="Mandatory" DataType="tns:ContentFilter" />
     </Children>
   </VariableType>
-  <VariableType SymbolicName="tns:ElseGuardVariableType" PartNo="5" BaseType="tns:GuardVariableType" DataType="tns:LocalizedText" />
+  <VariableType SymbolicName="tns:ElseGuardVariableType" PartNo="5" BaseType="tns:GuardVariableType" DataType="tns:LocalizedText" ValueRank="Scalar" />
   <ObjectType SymbolicName="tns:TransitionEventType" PartNo="5" BaseType="tns:BaseEventType" IsAbstract="true">
     <Children>
       <Variable SymbolicName="tns:Transition" TypeDefinition="tns:TransitionVariableType" DataType="tns:LocalizedText" />
@@ -2095,6 +2095,18 @@
   <ObjectType SymbolicName="tns:IrdiDictionaryEntryType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:DictionaryEntryType" />
   <ObjectType SymbolicName="tns:UriDictionaryEntryType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:DictionaryEntryType" />
   <ObjectType SymbolicName="tns:BaseInterfaceType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:BaseObjectType" IsAbstract="true" />
+  <Object SymbolicName="tns:InterfaceTypes" PartNo="5" ReleaseStatus="Draft" TypeDefinition="tns:FolderType" ModellingRule="None">
+    <References>
+      <Reference>
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:BaseInterfaceType</TargetId>
+      </Reference>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:TypesFolder</TargetId>
+      </Reference>
+    </References>
+  </Object>
   <ReferenceType SymbolicName="tns:HasInterface" PartNo="5" ReleaseStatus="Draft" BaseType="tns:NonHierarchicalReferences">
     <InverseName>InterfaceOf</InverseName>
   </ReferenceType>

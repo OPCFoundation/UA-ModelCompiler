@@ -533,5 +533,13 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
-   
+
+  <opc:ReferenceType SymbolicName="HasArgumentDescription" BaseType="ua:HasComponent" PartNo="3" ReleaseStatus="Released">
+    <opc:InverseName>ArgumentDescriptionOf</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasOptionalInputArgumentDescription" BaseType="ua:HasArgumentDescription" PartNo="3" ReleaseStatus="Released">
+    <opc:InverseName>OptionalInputArgumentDescriptionOf</opc:InverseName>
+  </opc:ReferenceType>
+
 </opc:ModelDesign>

@@ -307,7 +307,9 @@
     <Content Include="Design.v104\OpcUaGdsModel.xml" />
     <Content Include="Design.v104\OpcUaPLCopenModel.xml" />
     <Content Include="Design.v104\SercosModel.xml" />
-    <EmbeddedResource Include="Design.v104\StandardTypes.xml" />
+    <EmbeddedResource Include="Design.v104\StandardTypes.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Design.v104\UA Attributes.xml" />
     <EmbeddedResource Include="Design.v104\UA Core Services.xml" />
     <Content Include="Design.v104\UA Defined Types.xml" />
