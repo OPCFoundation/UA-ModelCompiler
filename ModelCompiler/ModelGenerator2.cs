@@ -4654,6 +4654,8 @@ namespace Opc.Ua.ModelCompiler
                         value = false;
                     }
 
+                    // this is technically a bug but the potential for side effects is
+                    // so large that it is better to leave as is.
                     if (value.Value)
                     {
                         return "false";

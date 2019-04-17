@@ -52,6 +52,16 @@ IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 1 )
 CALL PublishModel OpcUaGdsModel GDS %1 %2
 CALL PublishModel OpcUaDiModel DI %1 %2
 
+IF "%1"=="v104" (
+	CALL PublishModel OpcUaAdiModel ADI %1 %2
+	CALL PublishModel OpcUaPLCopenModel PLCopen %1 %2
+	CALL PublishModel MTConnectModel MTConnect %1 %2
+	CALL PublishModel OpcUaFDIPart5Model FDI %1 %2
+	CALL PublishModel OpcUaFDIPart7Model FDI %1 %2
+	CALL PublishModel MDIS MDIS %1 %2
+	CALL PublishModel SercosModel Sercos %1 %2
+)
+
 IF "%1"=="v103" (
 	CALL PublishModel OpcUaAdiModel ADI %1 %2
 	CALL PublishModel OpcUaPLCopenModel PLCopen %1 %2

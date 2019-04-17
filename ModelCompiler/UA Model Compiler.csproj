@@ -247,6 +247,7 @@
     <None Include="Design.v103\UA ServerCapabilities.csv" />
     <EmbeddedResource Include="Design.v103\UA Status Codes.csv" />
     <None Include="Design.v104\DemoModel.csv" />
+    <None Include="Design.v104\MDIS.csv" />
     <None Include="Design.v104\MTConnectModel.csv" />
     <None Include="Design.v104\OpcUaAdiModel.csv" />
     <None Include="Design.v104\OpcUaDiModel.csv" />
@@ -299,6 +300,7 @@
     <EmbeddedResource Include="Design.v103\UA Status Codes.xml" />
     <EmbeddedResource Include="Design.v104\BuiltInTypes.xml" />
     <Content Include="Design.v104\DemoModel.xml" />
+    <Content Include="Design.v104\MDIS.xml" />
     <Content Include="Design.v104\MTConnectModel.xml" />
     <Content Include="Design.v104\OpcUaAdiModel.xml" />
     <Content Include="Design.v104\OpcUaDiModel.xml" />

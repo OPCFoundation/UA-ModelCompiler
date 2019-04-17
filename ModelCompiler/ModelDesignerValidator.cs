@@ -4061,6 +4061,11 @@ namespace Opc.Ua.ModelCompiler
 
             if (String.IsNullOrEmpty(arrayDimensions))
             {
+                if (valueRank == ValueRank.Array)
+                {
+                    return new ReadOnlyList<uint>(new uint[1]);
+                }
+
                 return null;
             }
 
@@ -5240,7 +5245,7 @@ namespace Opc.Ua.ModelCompiler
                         if (hierarchyNode.Identifier is uint)
                         {
                             hierarchyNode.Instance.NumericId = (uint)hierarchyNode.Identifier;
-                            hierarchyNode.Instance.NumericIdSpecified = false;
+                            hierarchyNode.Instance.NumericIdSpecified = true;
                         }
                         else if (hierarchyNode.Identifier is string)
                         {

@@ -9,7 +9,7 @@
   TargetNamespace="http://fdi-cooperation.com/OPCUA/FDI7/"
   TargetXmlNamespace="http://fdi-cooperation.com/OPCUA/FDI7/"
   TargetNamespaceVersion="1.3"
-  TargetPublicationDate="2017-07-14T00:00:00Z"
+  TargetPublicationDate="2017-07-15T00:00:00Z"
   xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
 
   <Namespaces>
@@ -33,7 +33,7 @@
       </Property>
       <Property SymbolicName="ua:NamespacePublicationDate" DataType="ua:DateTime">
         <DefaultValue>
-          <uax:DateTime>2017-07-14</uax:DateTime>
+          <uax:DateTime>2017-07-15T00:00:00Z</uax:DateTime>
         </DefaultValue>
       </Property>
       <Property SymbolicName="ua:IsNamespaceSubset" DataType="ua:Boolean">

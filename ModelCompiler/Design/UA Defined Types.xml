@@ -2064,14 +2064,14 @@
       </Reference>
     </References>
   </Object>
-  <ObjectType SymbolicName="tns:DictionaryEntryType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:BaseObjectType" IsAbstract="true">
+  <ObjectType SymbolicName="tns:DictionaryEntryType" PartNo="5" BaseType="tns:BaseObjectType" IsAbstract="true">
     <Children>
       <Object SymbolicName="tns:DictionaryEntryName_Placeholder" TypeDefinition="tns:DictionaryEntryType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;DictionaryEntryName&gt;</BrowseName>
       </Object>
     </Children>
   </ObjectType>
-  <ObjectType SymbolicName="tns:DictionaryFolderType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:FolderType">
+  <ObjectType SymbolicName="tns:DictionaryFolderType" PartNo="5" BaseType="tns:FolderType">
     <Children>
       <Object SymbolicName="tns:DictionaryFolderName_Placeholder" TypeDefinition="tns:DictionaryFolderType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;DictionaryFolderName&gt;</BrowseName>
@@ -2081,7 +2081,7 @@
       </Object>
     </Children>
   </ObjectType>
-  <Object SymbolicName="tns:Dictionaries" PartNo="5" ReleaseStatus="Draft" TypeDefinition="tns:DictionaryFolderType" ModellingRule="None">
+  <Object SymbolicName="tns:Dictionaries" PartNo="5" TypeDefinition="tns:DictionaryFolderType" ModellingRule="None">
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:HasComponent</ReferenceType>
@@ -2089,13 +2089,13 @@
       </Reference>
     </References>
   </Object>
-  <ReferenceType SymbolicName="tns:HasDictionaryEntry" PartNo="5" ReleaseStatus="Draft" BaseType="tns:NonHierarchicalReferences">
+  <ReferenceType SymbolicName="tns:HasDictionaryEntry" PartNo="5" BaseType="tns:NonHierarchicalReferences">
     <InverseName>DictionaryEntryOf</InverseName>
   </ReferenceType>
-  <ObjectType SymbolicName="tns:IrdiDictionaryEntryType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:DictionaryEntryType" />
-  <ObjectType SymbolicName="tns:UriDictionaryEntryType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:DictionaryEntryType" />
-  <ObjectType SymbolicName="tns:BaseInterfaceType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:BaseObjectType" IsAbstract="true" />
-  <Object SymbolicName="tns:InterfaceTypes" PartNo="5" ReleaseStatus="Draft" TypeDefinition="tns:FolderType" ModellingRule="None">
+  <ObjectType SymbolicName="tns:IrdiDictionaryEntryType" PartNo="5" BaseType="tns:DictionaryEntryType" />
+  <ObjectType SymbolicName="tns:UriDictionaryEntryType" PartNo="5" BaseType="tns:DictionaryEntryType" />
+  <ObjectType SymbolicName="tns:BaseInterfaceType" PartNo="5" BaseType="tns:BaseObjectType" IsAbstract="true" />
+  <Object SymbolicName="tns:InterfaceTypes" PartNo="5" TypeDefinition="tns:FolderType" ModellingRule="None">
     <References>
       <Reference>
         <ReferenceType>tns:Organizes</ReferenceType>
@@ -2107,10 +2107,10 @@
       </Reference>
     </References>
   </Object>
-  <ReferenceType SymbolicName="tns:HasInterface" PartNo="5" ReleaseStatus="Draft" BaseType="tns:NonHierarchicalReferences">
+  <ReferenceType SymbolicName="tns:HasInterface" PartNo="5" BaseType="tns:NonHierarchicalReferences">
     <InverseName>InterfaceOf</InverseName>
   </ReferenceType>
-  <ReferenceType SymbolicName="tns:HasAddIn" PartNo="5" ReleaseStatus="Draft" BaseType="tns:NonHierarchicalReferences">
+  <ReferenceType SymbolicName="tns:HasAddIn" PartNo="5" BaseType="tns:NonHierarchicalReferences">
     <InverseName>AddInOf</InverseName>
   </ReferenceType>
   <VariableType SymbolicName="tns:DataItemType" PartNo="8" BaseType="tns:BaseDataVariableType" DataType="tns:BaseDataType" ValueRank="ScalarOrArray">
