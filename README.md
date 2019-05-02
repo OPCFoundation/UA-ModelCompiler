@@ -21,6 +21,8 @@ All of the standard outputs are published in the [Nodeset GitHub repository](htt
 
 Developers should never need to build the standard outputs themselves.
 
+Tutorial by Stefan Profanter [here](https://opcua.rocks/custom-information-models/).
+
 ## About this Repository ##
 This repository contains *sub-modules* for the Nodeset files, which are independently tracked. Please clone this repository as shown:
 ```
