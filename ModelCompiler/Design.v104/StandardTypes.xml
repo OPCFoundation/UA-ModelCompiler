@@ -8,7 +8,7 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
   TargetVersion="1.04"
-  TargetPublicationDate="2019-04-15T00:00:00Z"
+  TargetPublicationDate="2019-05-01T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -1248,7 +1248,131 @@
 
   <opc:VariableType SymbolicName="ElseGuardVariableType" DataType="LocalizedText" BaseType="GuardVariableType" ValueRank="Scalar" PartNo="5">
   </opc:VariableType>
-
+  
+  <opc:VariableType SymbolicName="RationalNumberType" DataType="RationalNumber" BaseType="BaseDataVariableType" ValueRank="Scalar" PartNo="5">
+    <opc:Children>
+      <opc:Variable SymbolicName="Numerator" DataType="ua:Int32" ModellingRule="Mandatory"></opc:Variable>
+      <opc:Variable SymbolicName="Denominator" DataType="ua:UInt32" ModellingRule="Mandatory"></opc:Variable>
+    </opc:Children>
+  </opc:VariableType>
+  
+  <opc:VariableType SymbolicName="VectorType" DataType="Vector" BaseType="BaseDataVariableType" ValueRank="Scalar" IsAbstract="true" PartNo="5">
+    <opc:Children>
+      <opc:Property SymbolicName="VectorUnit" DataType="ua:EUInformation" ModellingRule="Optional"></opc:Property>
+    </opc:Children>
+  </opc:VariableType>
+  
+  <opc:VariableType SymbolicName="ThreeDVectorType" DataType="ThreeDVector" BaseType="VectorType" ValueRank="Scalar" PartNo="5">
+    <opc:BrowseName>3DVectorType</opc:BrowseName>
+    <opc:Children>
+      <opc:Variable SymbolicName="X" DataType="ua:Double" ModellingRule="Mandatory"></opc:Variable>
+      <opc:Variable SymbolicName="Y" DataType="ua:Double" ModellingRule="Mandatory"></opc:Variable>
+      <opc:Variable SymbolicName="Z" DataType="ua:Double" ModellingRule="Mandatory"></opc:Variable>
+    </opc:Children>
+  </opc:VariableType>
+  
+  <opc:VariableType SymbolicName="CartesianCoordinatesType" DataType="CartesianCoordinates" BaseType="BaseDataVariableType" ValueRank="Scalar" IsAbstract="true" PartNo="5">
+    <opc:Children>
+      <opc:Property SymbolicName="LengthUnit" DataType="ua:EUInformation" ModellingRule="Optional"></opc:Property>
+    </opc:Children>
+  </opc:VariableType>
+  
+  <opc:VariableType SymbolicName="ThreeDCartesianCoordinatesType" DataType="ThreeDCartesianCoordinates" BaseType="CartesianCoordinatesType" ValueRank="Scalar" PartNo="5">
+    <opc:BrowseName>3DCartesianCoordinatesType</opc:BrowseName>
+    <opc:Children>
+      <opc:Variable SymbolicName="X" DataType="ua:Double" ModellingRule="Mandatory"></opc:Variable>
+      <opc:Variable SymbolicName="Y" DataType="ua:Double" ModellingRule="Mandatory"></opc:Variable>
+      <opc:Variable SymbolicName="Z" DataType="ua:Double" ModellingRule="Mandatory"></opc:Variable>
+    </opc:Children>
+  </opc:VariableType>
+  
+  <opc:VariableType SymbolicName="OrientationType" DataType="Orientation" BaseType="BaseDataVariableType" ValueRank="Scalar" IsAbstract="true" PartNo="5">
+    <opc:Children>
+      <opc:Property SymbolicName="AngleUnit" DataType="ua:EUInformation" ModellingRule="Optional"></opc:Property>
+    </opc:Children>
+  </opc:VariableType>
+  
+  <opc:VariableType SymbolicName="ThreeDOrientationType" DataType="ThreeDOrientation" BaseType="OrientationType" ValueRank="Scalar" PartNo="5">
+    <opc:BrowseName>3DOrientationType</opc:BrowseName>
+    <opc:Children>
+      <opc:Variable SymbolicName="A" DataType="ua:Double" ModellingRule="Mandatory"></opc:Variable>
+      <opc:Variable SymbolicName="B" DataType="ua:Double" ModellingRule="Mandatory"></opc:Variable>
+      <opc:Variable SymbolicName="C" DataType="ua:Double" ModellingRule="Mandatory"></opc:Variable>
+    </opc:Children>
+  </opc:VariableType>
+  
+  <opc:VariableType SymbolicName="FrameType" DataType="Frame" BaseType="BaseDataVariableType" ValueRank="Scalar" IsAbstract="true" PartNo="5">
+    <opc:Children>      
+      <opc:Variable SymbolicName="CartesianCoordinates" DataType="CartesianCoordinates" TypeDefinition="CartesianCoordinatesType" ModellingRule="Mandatory"></opc:Variable>
+      <opc:Variable SymbolicName="Orientation" DataType="Orientation" TypeDefinition="OrientationType" ModellingRule="Mandatory"></opc:Variable>
+      <opc:Property SymbolicName="Constant" DataType="ua:Boolean" ModellingRule="Optional"></opc:Property>
+      <opc:Variable SymbolicName="BaseFrame" DataType="ua:NodeId" ModellingRule="Optional"></opc:Variable>
+      <opc:Property SymbolicName="FixedBase" DataType="ua:Boolean" ModellingRule="Optional"></opc:Property>
+    </opc:Children>
+  </opc:VariableType>
+  
+  <opc:VariableType SymbolicName="ThreeDFrameType" DataType="ThreeDFrame" BaseType="FrameType" ValueRank="Scalar" PartNo="5">
+    <opc:BrowseName>3DFrameType</opc:BrowseName>
+    <opc:Children>
+      <opc:Variable SymbolicName="CartesianCoordinates" DataType="ThreeDCartesianCoordinates" TypeDefinition="ThreeDCartesianCoordinatesType" ModellingRule="Mandatory"></opc:Variable>
+      <opc:Variable SymbolicName="Orientation" DataType="ThreeDOrientation" TypeDefinition="ThreeDOrientationType" ModellingRule="Mandatory"></opc:Variable>
+    </opc:Children>
+  </opc:VariableType>
+  
+  <opc:DataType SymbolicName="RationalNumber" BaseType="Structure" PartNo="5">
+    <opc:Fields>
+      <opc:Field Name="Numerator" DataType="ua:Int32" />
+      <opc:Field Name="Denominator" DataType="ua:UInt32" />
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="Vector" BaseType="Structure" IsAbstract="true" PartNo="5">
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="ThreeDVector" BaseType="Vector" PartNo="5">
+    <opc:BrowseName>3DVector</opc:BrowseName>
+    <opc:Fields>
+      <opc:Field Name="X" DataType="ua:Double" />
+      <opc:Field Name="Y" DataType="ua:Double" />
+      <opc:Field Name="Z" DataType="ua:Double" />
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="CartesianCoordinates" BaseType="Structure" IsAbstract="true" PartNo="5">
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="ThreeDCartesianCoordinates" BaseType="CartesianCoordinates" PartNo="5">
+    <opc:BrowseName>3DCartesianCoordinates</opc:BrowseName>
+    <opc:Fields>
+      <opc:Field Name="X" DataType="ua:Double" />
+      <opc:Field Name="Y" DataType="ua:Double" />
+      <opc:Field Name="Z" DataType="ua:Double" />
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="Orientation" BaseType="Structure" IsAbstract="true" PartNo="5">
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="ThreeDOrientation" BaseType="Orientation" PartNo="5">
+    <opc:BrowseName>3DOrientation</opc:BrowseName>
+    <opc:Fields>
+      <opc:Field Name="A" DataType="ua:Double" />
+      <opc:Field Name="B" DataType="ua:Double" />
+      <opc:Field Name="C" DataType="ua:Double" />
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="Frame" BaseType="Structure" IsAbstract="true" PartNo="5">
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="ThreeDFrame" BaseType="Frame" PartNo="5">
+    <opc:BrowseName>3DFrame</opc:BrowseName>
+    <opc:Fields>
+      <opc:Field Name="CartesianCoordinates" DataType="ThreeDCartesianCoordinates" />
+      <opc:Field Name="Orientation" DataType="ThreeDOrientation" />
+    </opc:Fields>
+  </opc:DataType>
+  
   <!-- FromState BuiltInTypes.xml -->
   <!-- ToState BuiltInTypes.xml -->
   <!-- HasCause BuiltInTypes.xml -->

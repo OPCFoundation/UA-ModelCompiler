@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.05" TargetPublicationDate="2019-04-15T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.05" TargetPublicationDate="2019-05-01T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -1486,6 +1486,108 @@
     </Children>
   </VariableType>
   <VariableType SymbolicName="tns:ElseGuardVariableType" PartNo="5" BaseType="tns:GuardVariableType" DataType="tns:LocalizedText" ValueRank="Scalar" />
+  <VariableType SymbolicName="tns:RationalNumberType" PartNo="5" BaseType="tns:BaseDataVariableType" DataType="tns:RationalNumber" ValueRank="Scalar">
+    <Children>
+      <Variable SymbolicName="tns:Numerator" ModellingRule="Mandatory" DataType="tns:Int32" />
+      <Variable SymbolicName="tns:Denominator" ModellingRule="Mandatory" DataType="tns:UInt32" />
+    </Children>
+  </VariableType>
+  <VariableType SymbolicName="tns:VectorType" PartNo="5" BaseType="tns:BaseDataVariableType" IsAbstract="true" DataType="tns:Vector" ValueRank="Scalar">
+    <Children>
+      <Property SymbolicName="tns:VectorUnit" ModellingRule="Optional" DataType="tns:EUInformation" />
+    </Children>
+  </VariableType>
+  <VariableType SymbolicName="tns:ThreeDVectorType" PartNo="5" BaseType="tns:VectorType" DataType="tns:ThreeDVector" ValueRank="Scalar">
+    <BrowseName>3DVectorType</BrowseName>
+    <Children>
+      <Variable SymbolicName="tns:X" ModellingRule="Mandatory" DataType="tns:Double" />
+      <Variable SymbolicName="tns:Y" ModellingRule="Mandatory" DataType="tns:Double" />
+      <Variable SymbolicName="tns:Z" ModellingRule="Mandatory" DataType="tns:Double" />
+    </Children>
+  </VariableType>
+  <VariableType SymbolicName="tns:CartesianCoordinatesType" PartNo="5" BaseType="tns:BaseDataVariableType" IsAbstract="true" DataType="tns:CartesianCoordinates" ValueRank="Scalar">
+    <Children>
+      <Property SymbolicName="tns:LengthUnit" ModellingRule="Optional" DataType="tns:EUInformation" />
+    </Children>
+  </VariableType>
+  <VariableType SymbolicName="tns:ThreeDCartesianCoordinatesType" PartNo="5" BaseType="tns:CartesianCoordinatesType" DataType="tns:ThreeDCartesianCoordinates" ValueRank="Scalar">
+    <BrowseName>3DCartesianCoordinatesType</BrowseName>
+    <Children>
+      <Variable SymbolicName="tns:X" ModellingRule="Mandatory" DataType="tns:Double" />
+      <Variable SymbolicName="tns:Y" ModellingRule="Mandatory" DataType="tns:Double" />
+      <Variable SymbolicName="tns:Z" ModellingRule="Mandatory" DataType="tns:Double" />
+    </Children>
+  </VariableType>
+  <VariableType SymbolicName="tns:OrientationType" PartNo="5" BaseType="tns:BaseDataVariableType" IsAbstract="true" DataType="tns:Orientation" ValueRank="Scalar">
+    <Children>
+      <Property SymbolicName="tns:AngleUnit" ModellingRule="Optional" DataType="tns:EUInformation" />
+    </Children>
+  </VariableType>
+  <VariableType SymbolicName="tns:ThreeDOrientationType" PartNo="5" BaseType="tns:OrientationType" DataType="tns:ThreeDOrientation" ValueRank="Scalar">
+    <BrowseName>3DOrientationType</BrowseName>
+    <Children>
+      <Variable SymbolicName="tns:A" ModellingRule="Mandatory" DataType="tns:Double" />
+      <Variable SymbolicName="tns:B" ModellingRule="Mandatory" DataType="tns:Double" />
+      <Variable SymbolicName="tns:C" ModellingRule="Mandatory" DataType="tns:Double" />
+    </Children>
+  </VariableType>
+  <VariableType SymbolicName="tns:FrameType" PartNo="5" BaseType="tns:BaseDataVariableType" IsAbstract="true" DataType="tns:Frame" ValueRank="Scalar">
+    <Children>
+      <Variable SymbolicName="tns:CartesianCoordinates" TypeDefinition="tns:CartesianCoordinatesType" ModellingRule="Mandatory" DataType="tns:CartesianCoordinates" />
+      <Variable SymbolicName="tns:Orientation" TypeDefinition="tns:OrientationType" ModellingRule="Mandatory" DataType="tns:Orientation" />
+      <Property SymbolicName="tns:Constant" ModellingRule="Optional" DataType="tns:Boolean" />
+      <Variable SymbolicName="tns:BaseFrame" ModellingRule="Optional" DataType="tns:NodeId" />
+      <Property SymbolicName="tns:FixedBase" ModellingRule="Optional" DataType="tns:Boolean" />
+    </Children>
+  </VariableType>
+  <VariableType SymbolicName="tns:ThreeDFrameType" PartNo="5" BaseType="tns:FrameType" DataType="tns:ThreeDFrame" ValueRank="Scalar">
+    <BrowseName>3DFrameType</BrowseName>
+    <Children>
+      <Variable SymbolicName="tns:CartesianCoordinates" TypeDefinition="tns:ThreeDCartesianCoordinatesType" ModellingRule="Mandatory" DataType="tns:ThreeDCartesianCoordinates" />
+      <Variable SymbolicName="tns:Orientation" TypeDefinition="tns:ThreeDOrientationType" ModellingRule="Mandatory" DataType="tns:ThreeDOrientation" />
+    </Children>
+  </VariableType>
+  <DataType SymbolicName="tns:RationalNumber" PartNo="5" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="Numerator" DataType="tns:Int32" />
+      <Field Name="Denominator" DataType="tns:UInt32" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:Vector" PartNo="5" BaseType="tns:Structure" IsAbstract="true" />
+  <DataType SymbolicName="tns:ThreeDVector" PartNo="5" BaseType="tns:Vector">
+    <BrowseName>3DVector</BrowseName>
+    <Fields>
+      <Field Name="X" DataType="tns:Double" />
+      <Field Name="Y" DataType="tns:Double" />
+      <Field Name="Z" DataType="tns:Double" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:CartesianCoordinates" PartNo="5" BaseType="tns:Structure" IsAbstract="true" />
+  <DataType SymbolicName="tns:ThreeDCartesianCoordinates" PartNo="5" BaseType="tns:CartesianCoordinates">
+    <BrowseName>3DCartesianCoordinates</BrowseName>
+    <Fields>
+      <Field Name="X" DataType="tns:Double" />
+      <Field Name="Y" DataType="tns:Double" />
+      <Field Name="Z" DataType="tns:Double" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:Orientation" PartNo="5" BaseType="tns:Structure" IsAbstract="true" />
+  <DataType SymbolicName="tns:ThreeDOrientation" PartNo="5" BaseType="tns:Orientation">
+    <BrowseName>3DOrientation</BrowseName>
+    <Fields>
+      <Field Name="A" DataType="tns:Double" />
+      <Field Name="B" DataType="tns:Double" />
+      <Field Name="C" DataType="tns:Double" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:Frame" PartNo="5" BaseType="tns:Structure" IsAbstract="true" />
+  <DataType SymbolicName="tns:ThreeDFrame" PartNo="5" BaseType="tns:Frame">
+    <BrowseName>3DFrame</BrowseName>
+    <Fields>
+      <Field Name="CartesianCoordinates" DataType="tns:ThreeDCartesianCoordinates" />
+      <Field Name="Orientation" DataType="tns:ThreeDOrientation" />
+    </Fields>
+  </DataType>
   <ObjectType SymbolicName="tns:TransitionEventType" PartNo="5" BaseType="tns:BaseEventType" IsAbstract="true">
     <Children>
       <Variable SymbolicName="tns:Transition" TypeDefinition="tns:TransitionVariableType" DataType="tns:LocalizedText" />

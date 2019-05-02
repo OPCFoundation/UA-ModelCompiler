@@ -303,17 +303,23 @@
     <Content Include="Design.v104\MDIS.xml" />
     <Content Include="Design.v104\MTConnectModel.xml" />
     <Content Include="Design.v104\OpcUaAdiModel.xml" />
-    <Content Include="Design.v104\OpcUaDiModel.xml" />
+    <Content Include="Design.v104\OpcUaDiModel.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Design.v104\OpcUaFdiPart5Model.xml" />
     <Content Include="Design.v104\OpcUaFdiPart7Model.xml" />
-    <Content Include="Design.v104\OpcUaGdsModel.xml" />
+    <Content Include="Design.v104\OpcUaGdsModel.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Design.v104\OpcUaPLCopenModel.xml" />
     <Content Include="Design.v104\SercosModel.xml" />
     <EmbeddedResource Include="Design.v104\StandardTypes.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Design.v104\UA Attributes.xml" />
-    <EmbeddedResource Include="Design.v104\UA Core Services.xml" />
+    <EmbeddedResource Include="Design.v104\UA Core Services.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Content Include="Design.v104\UA Defined Types.xml" />
     <EmbeddedResource Include="Design.v104\UA Status Codes.xml" />
     <Content Include="Design\MDIS.xml" />

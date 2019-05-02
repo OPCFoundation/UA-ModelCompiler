@@ -3289,7 +3289,23 @@ namespace Opc.Ua.ModelCompiler
 
                         if (baseType.DataType != variableType.DataType)
                         {
-                            throw Exception("The VariableType subtype cannot redefine the datatype. {0}", type.SymbolicId.Name);
+                            var ii = variableType.DataTypeNode.BaseType;
+
+                            if (ii != null && ii != baseType.DataType)
+                            {
+                                var parent = (DataTypeDesign)FindNode(
+                                    ii,
+                                    typeof(DataTypeDesign),
+                                    variableType.SymbolicId.Name,
+                                    "DataType");
+
+                                ii = parent.BaseType;
+                            }
+
+                            if (ii != baseType.DataType)
+                            {
+                                throw Exception("The VariableType subtype cannot redefine the datatype. {0}", type.SymbolicId.Name);
+                            }
                         }
                     }
                 }
