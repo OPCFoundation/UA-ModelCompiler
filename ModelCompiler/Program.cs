@@ -47,10 +47,15 @@ namespace Opc.Ua.ModelCompiler
         [STAThread]
         static void Main()
         {
+            bool noGui = Environment.CommandLine.Contains(consoleOutputCommandLineArgument);
+
             try
             {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
+                if (!noGui)
+                {
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+                }
 
                 if (MeasurementUnits.ProcessCommandLine())
                 {
@@ -62,16 +67,25 @@ namespace Opc.Ua.ModelCompiler
                 if (!ProcessCommandLine())
                 {
                     StreamReader reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Opc.Ua.ModelCompiler.HelpFile.txt"));
-                    MessageBox.Show(reader.ReadToEnd(), "Opc.Ua.ModelCompiler");
+                    if (noGui)
+                    {
+                        System.Console.Error.WriteLine(reader.ReadToEnd());
+                    }
+                    else
+                    {
+                    	MessageBox.Show(reader.ReadToEnd(), "Opc.Ua.ModelCompiler");
+                    }
                     reader.Close();
+                    Environment.Exit(2);
                 }
             }
             catch (Exception e)
             {
-                if (Environment.CommandLine.Contains(consoleOutputCommandLineArgument))
+                if (noGui)
                 {
                     System.Console.Error.WriteLine(e.Message);
                     System.Console.Error.WriteLine(e.StackTrace);
+                    Environment.Exit(3);
                 }
                 else
                 {
