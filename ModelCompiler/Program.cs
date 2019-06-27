@@ -460,6 +460,7 @@ namespace Opc.Ua.ModelCompiler
                 {
                     System.Console.Error.WriteLine(e.Message);
                     System.Console.Error.WriteLine(e.StackTrace);
+                    Environment.Exit(4);
                 }
                 else
                 {
