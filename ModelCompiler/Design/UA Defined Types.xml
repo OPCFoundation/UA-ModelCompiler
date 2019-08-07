@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.05" TargetPublicationDate="2019-05-01T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.05" TargetPublicationDate="2019-07-23T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -297,17 +297,6 @@
       </Property>
     </Children>
   </Object>
-  <Object SymbolicName="tns:ModellingRule_MandatoryShared" PartNo="5" TypeDefinition="tns:ModellingRuleType" ModellingRule="None">
-    <BrowseName>MandatoryShared</BrowseName>
-    <Description>Specifies that a reference to a shared instance must appear in when a type is instantiated.</Description>
-    <Children>
-      <Property Declaration="tns:ModellingRuleType_NamingRule">
-        <DefaultValue>
-          <uax:Int32>1</uax:Int32>
-        </DefaultValue>
-      </Property>
-    </Children>
-  </Object>
   <Object SymbolicName="tns:ModellingRule_OptionalPlaceholder" PartNo="5" TypeDefinition="tns:ModellingRuleType" ModellingRule="None">
     <BrowseName>OptionalPlaceholder</BrowseName>
     <Description>Specifies that zero or more instances with the attributes and references of the instance declaration may appear when a type is instantiated.</Description>
@@ -461,7 +450,7 @@
       </Property>
       <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
         <DefaultValue>
-          <uax:DateTime>2019-01-31</uax:DateTime>
+          <uax:DateTime>2019-07-23</uax:DateTime>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
@@ -4476,7 +4465,7 @@
       <Field Name="DataSetMessageContentMask" DataType="tns:UadpDataSetMessageContentMask" />
       <Field Name="PublishingInterval" DataType="tns:Duration" />
       <Field Name="ReceiveOffset" DataType="tns:Duration" />
-      <Field Name="ProcessingOffset" DataType="tns:Duration" />
+      <Field Name="ProcessingOffset" DataType="tns:Duration" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:JsonNetworkMessageContentMask" PartNo="14" BaseType="tns:UInt32" IsOptionSet="true">
@@ -5605,7 +5594,7 @@
       <Property SymbolicName="tns:DataSetOrdering" ModellingRule="Mandatory" DataType="tns:DataSetOrderingType" />
       <Property SymbolicName="tns:NetworkMessageContentMask" ModellingRule="Mandatory" DataType="tns:UadpNetworkMessageContentMask" />
       <Property SymbolicName="tns:SamplingOffset" ModellingRule="Optional" DataType="tns:Duration" />
-      <Property SymbolicName="tns:PublishingOffset" ModellingRule="Mandatory" DataType="tns:Duration" />
+      <Property SymbolicName="tns:PublishingOffset" ModellingRule="Mandatory" DataType="tns:Duration" ValueRank="Array" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:UadpDataSetWriterMessageType" PartNo="14" BaseType="tns:DataSetWriterMessageType">
