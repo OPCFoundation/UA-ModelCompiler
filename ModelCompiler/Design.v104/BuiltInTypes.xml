@@ -7,8 +7,8 @@
   xmlns="http://opcfoundation.org/UA/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
-  TargetVersion="1.04"
-  TargetPublicationDate="2019-05-01T00:00:00Z"
+  TargetVersion="1.04.3"
+  TargetPublicationDate="2019-07-23T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -378,41 +378,29 @@
     </opc:Children>
   </opc:Object>
 
-  <opc:Object SymbolicName="ModellingRule_MandatoryShared" TypeDefinition="ModellingRuleType" ModellingRule="None" PartNo="5">
-    <opc:BrowseName>MandatoryShared</opc:BrowseName>
-    <opc:Description>Specifies that a reference to a shared instance must appear in when a type is instantiated.</opc:Description>
-    <opc:Children>
-      <opc:Property Declaration="ModellingRuleType_NamingRule">
-        <opc:DefaultValue>
-          <uax:Int32>1</uax:Int32>
-        </opc:DefaultValue>
-      </opc:Property>
-    </opc:Children>
+  <opc:Object SymbolicName="ModellingRule_OptionalPlaceholder" TypeDefinition="ModellingRuleType" ModellingRule="None" PartNo="5">
+      <opc:BrowseName>OptionalPlaceholder</opc:BrowseName>
+      <opc:Description>Specifies that zero or more instances with the attributes and references of the instance declaration may appear when a type is instantiated.</opc:Description>
+      <opc:Children>
+        <opc:Property Declaration="ModellingRuleType_NamingRule">
+          <opc:DefaultValue>
+            <uax:Int32>2</uax:Int32>
+          </opc:DefaultValue>
+        </opc:Property>
+      </opc:Children>
   </opc:Object>
 
-    <opc:Object SymbolicName="ModellingRule_OptionalPlaceholder" TypeDefinition="ModellingRuleType" ModellingRule="None" PartNo="5">
-        <opc:BrowseName>OptionalPlaceholder</opc:BrowseName>
-        <opc:Description>Specifies that zero or more instances with the attributes and references of the instance declaration may appear when a type is instantiated.</opc:Description>
-        <opc:Children>
+  <opc:Object SymbolicName="ModellingRule_MandatoryPlaceholder" TypeDefinition="ModellingRuleType" ModellingRule="None" PartNo="5">
+      <opc:BrowseName>MandatoryPlaceholder</opc:BrowseName>
+      <opc:Description>Specifies that one or more instances with the attributes and references of the instance declaration must appear when a type is instantiated.</opc:Description>
+      <opc:Children>
           <opc:Property Declaration="ModellingRuleType_NamingRule">
-            <opc:DefaultValue>
-              <uax:Int32>2</uax:Int32>
-            </opc:DefaultValue>
+              <opc:DefaultValue>
+                  <uax:Int32>1</uax:Int32>
+              </opc:DefaultValue>
           </opc:Property>
-        </opc:Children>
-    </opc:Object>
-
-    <opc:Object SymbolicName="ModellingRule_MandatoryPlaceholder" TypeDefinition="ModellingRuleType" ModellingRule="None" PartNo="5">
-        <opc:BrowseName>MandatoryPlaceholder</opc:BrowseName>
-        <opc:Description>Specifies that one or more instances with the attributes and references of the instance declaration must appear when a type is instantiated.</opc:Description>
-        <opc:Children>
-            <opc:Property Declaration="ModellingRuleType_NamingRule">
-                <opc:DefaultValue>
-                    <uax:Int32>1</uax:Int32>
-                </opc:DefaultValue>
-            </opc:Property>
-        </opc:Children>
-    </opc:Object>
+      </opc:Children>
+  </opc:Object>
 
   <opc:Object SymbolicName="RootFolder" TypeDefinition="FolderType" ModellingRule="None" PartNo="5">
     <opc:BrowseName>Root</opc:BrowseName>
