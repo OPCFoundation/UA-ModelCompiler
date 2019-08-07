@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.03" TargetPublicationDate="2013-12-03T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.03.7" TargetPublicationDate="2019-07-23T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -2294,7 +2294,7 @@
   <ObjectType SymbolicName="tns:AuditConditionEnableEventType" PartNo="9" BaseType="tns:AuditConditionEventType" />
   <ObjectType SymbolicName="tns:AuditConditionCommentEventType" PartNo="9" BaseType="tns:AuditConditionEventType">
     <Children>
-      <Property SymbolicName="tns:EventId" ModellingRule="Mandatory" DataType="tns:ByteString" />
+      <Property SymbolicName="tns:ConditionEventId" ModellingRule="Mandatory" DataType="tns:ByteString" />
       <Property SymbolicName="tns:Comment" ModellingRule="Mandatory" DataType="tns:LocalizedText" />
     </Children>
   </ObjectType>
@@ -2305,13 +2305,13 @@
   </ObjectType>
   <ObjectType SymbolicName="tns:AuditConditionAcknowledgeEventType" PartNo="9" BaseType="tns:AuditConditionEventType">
     <Children>
-      <Property SymbolicName="tns:EventId" ModellingRule="Mandatory" DataType="tns:ByteString" />
+      <Property SymbolicName="tns:ConditionEventId" ModellingRule="Mandatory" DataType="tns:ByteString" />
       <Property SymbolicName="tns:Comment" ModellingRule="Mandatory" DataType="tns:LocalizedText" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:AuditConditionConfirmEventType" PartNo="9" BaseType="tns:AuditConditionEventType">
     <Children>
-      <Property SymbolicName="tns:EventId" ModellingRule="Mandatory" DataType="tns:ByteString" />
+      <Property SymbolicName="tns:ConditionEventId" ModellingRule="Mandatory" DataType="tns:ByteString" />
       <Property SymbolicName="tns:Comment" ModellingRule="Mandatory" DataType="tns:LocalizedText" />
     </Children>
   </ObjectType>
