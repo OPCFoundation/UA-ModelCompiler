@@ -4868,9 +4868,11 @@
       <Object SymbolicName="tns:TransportSettings" TypeDefinition="tns:ConnectionTransportType" ModellingRule="Optional" />
       <Object SymbolicName="tns:WriterGroupName_Placeholder" TypeDefinition="tns:WriterGroupType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;WriterGroupName&gt;</BrowseName>
+        <ReferenceType>tns:HasWriterGroup</ReferenceType>
       </Object>
       <Object SymbolicName="tns:ReaderGroupName_Placeholder" TypeDefinition="tns:ReaderGroupType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;ReaderGroupName&gt;</BrowseName>
+        <ReferenceType>tns:HasReaderGroup</ReferenceType>
       </Object>
       <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
       <Object SymbolicName="tns:Diagnostics" TypeDefinition="tns:PubSubDiagnosticsConnectionType" ModellingRule="Optional" />
@@ -4946,6 +4948,9 @@
   <ReferenceType SymbolicName="tns:HasDataSetWriter" PartNo="14" BaseType="tns:HasComponent" Symmetric="false">
     <InverseName>IsWriterInGroup</InverseName>
   </ReferenceType>
+  <ReferenceType SymbolicName="tns:HasWriterGroup" PartNo="14" BaseType="tns:HasComponent" Symmetric="false">
+    <InverseName>IsWriterGroupOf</InverseName>
+  </ReferenceType>
   <ObjectType SymbolicName="tns:WriterGroupTransportType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true" />
   <ObjectType SymbolicName="tns:WriterGroupMessageType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true" />
   <ObjectType SymbolicName="tns:ReaderGroupType" PartNo="14" BaseType="tns:PubSubGroupType">
@@ -4976,6 +4981,9 @@
   </Method>
   <ReferenceType SymbolicName="tns:HasDataSetReader" PartNo="14" BaseType="tns:HasComponent" Symmetric="false">
     <InverseName>IsReaderInGroup</InverseName>
+  </ReferenceType>
+  <ReferenceType SymbolicName="tns:HasReaderGroup" PartNo="14" BaseType="tns:HasComponent" Symmetric="false">
+    <InverseName>IsReaderGroupOf</InverseName>
   </ReferenceType>
   <ObjectType SymbolicName="tns:ReaderGroupTransportType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true" />
   <ObjectType SymbolicName="tns:ReaderGroupMessageType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true" />

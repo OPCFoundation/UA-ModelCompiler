@@ -4555,7 +4555,7 @@
       <opc:Field Name="DataSetMessageContentMask" DataType="UadpDataSetMessageContentMask" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="PublishingInterval" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="ReceiveOffset" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="ProcessingOffset" DataType="ua:Duration" ValueRank="Array"></opc:Field>
+      <opc:Field Name="ProcessingOffset" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
   
@@ -5002,9 +5002,11 @@
       <opc:Object SymbolicName="TransportSettings" TypeDefinition="ConnectionTransportType" ModellingRule="Optional" />
       <opc:Object SymbolicName="WriterGroupName_Placeholder" TypeDefinition="WriterGroupType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;WriterGroupName&gt;</opc:BrowseName>
+        <opc:ReferenceType>HasWriterGroup</opc:ReferenceType>
       </opc:Object>
       <opc:Object SymbolicName="ReaderGroupName_Placeholder" TypeDefinition="ReaderGroupType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ReaderGroupName&gt;</opc:BrowseName>
+        <opc:ReferenceType>HasReaderGroup</opc:ReferenceType>
       </opc:Object>
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsConnectionType" ModellingRule="Optional" />
@@ -5090,6 +5092,10 @@
     <opc:InverseName>IsWriterInGroup</opc:InverseName>
   </opc:ReferenceType>
 
+  <opc:ReferenceType SymbolicName="HasWriterGroup" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
+    <opc:InverseName>IsWriterGroupOf</opc:InverseName>
+  </opc:ReferenceType>
+
   <opc:ObjectType SymbolicName="WriterGroupTransportType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14" />
   <opc:ObjectType SymbolicName="WriterGroupMessageType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14" />
   
@@ -5124,6 +5130,10 @@
 
   <opc:ReferenceType SymbolicName="HasDataSetReader" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
     <opc:InverseName>IsReaderInGroup</opc:InverseName>
+  </opc:ReferenceType>
+  
+  <opc:ReferenceType SymbolicName="HasReaderGroup" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
+    <opc:InverseName>IsReaderGroupOf</opc:InverseName>
   </opc:ReferenceType>
   
   <opc:ObjectType SymbolicName="ReaderGroupTransportType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14" />

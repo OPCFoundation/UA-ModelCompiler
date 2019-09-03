@@ -1,3 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+ * Copyright (c) 2005-2019 The OPC Foundation, Inc. All rights reserved.
+ *
+ * OPC Foundation MIT License 1.00
+ * 
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * The complete license agreement can be found here:
+ * http://opcfoundation.org/License/MIT/1.00/
+-->
+
 <xs:schema
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:ua="http://opcfoundation.org/UA/2008/02/Types.xsd"
@@ -12,7 +42,7 @@
       <xs:element name="Boolean" type="xs:boolean" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfBoolean" type="tns:ListOfBoolean" nillable="true"></xs:element>
+  <xs:element name="ListOfBoolean" type="tns:ListOfBoolean" nillable="true" />
 
   <xs:element name="SByte" nillable="true" type="xs:byte" />
 
@@ -21,7 +51,7 @@
       <xs:element name="SByte" type="xs:byte" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfSByte" type="tns:ListOfSByte" nillable="true"></xs:element>
+  <xs:element name="ListOfSByte" type="tns:ListOfSByte" nillable="true" />
 
   <xs:element name="Byte" nillable="true" type="xs:unsignedByte" />
 
@@ -30,7 +60,7 @@
       <xs:element name="Byte" type="xs:unsignedByte" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfByte" type="tns:ListOfByte" nillable="true"></xs:element>
+  <xs:element name="ListOfByte" type="tns:ListOfByte" nillable="true" />
 
   <xs:element name="Int16" nillable="true" type="xs:short" />
 
@@ -39,7 +69,7 @@
       <xs:element name="Int16" type="xs:short" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfInt16" type="tns:ListOfInt16" nillable="true"></xs:element>
+  <xs:element name="ListOfInt16" type="tns:ListOfInt16" nillable="true" />
 
   <xs:element name="UInt16" nillable="true" type="xs:unsignedShort" />
 
@@ -48,7 +78,7 @@
       <xs:element name="UInt16" type="xs:unsignedShort" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfUInt16" type="tns:ListOfUInt16" nillable="true"></xs:element>
+  <xs:element name="ListOfUInt16" type="tns:ListOfUInt16" nillable="true" />
 
   <xs:element name="Int32" nillable="true" type="xs:int" />
 
@@ -57,7 +87,7 @@
       <xs:element name="Int32" type="xs:int" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfInt32" type="tns:ListOfInt32" nillable="true"></xs:element>
+  <xs:element name="ListOfInt32" type="tns:ListOfInt32" nillable="true" />
 
   <xs:element name="UInt32" nillable="true" type="xs:unsignedInt" />
 
@@ -66,7 +96,7 @@
       <xs:element name="UInt32" type="xs:unsignedInt" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfUInt32" type="tns:ListOfUInt32" nillable="true"></xs:element>
+  <xs:element name="ListOfUInt32" type="tns:ListOfUInt32" nillable="true" />
 
   <xs:element name="Int64" nillable="true" type="xs:long" />
 
@@ -75,7 +105,7 @@
       <xs:element name="Int64" type="xs:long" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfInt64" type="tns:ListOfInt64" nillable="true"></xs:element>
+  <xs:element name="ListOfInt64" type="tns:ListOfInt64" nillable="true" />
 
   <xs:element name="UInt64" nillable="true" type="xs:unsignedLong" />
 
@@ -84,7 +114,7 @@
       <xs:element name="UInt64" type="xs:unsignedLong" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfUInt64" type="tns:ListOfUInt64" nillable="true"></xs:element>
+  <xs:element name="ListOfUInt64" type="tns:ListOfUInt64" nillable="true" />
 
   <xs:element name="Float" nillable="true" type="xs:float" />
 
@@ -93,7 +123,7 @@
       <xs:element name="Float" type="xs:float" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfFloat" type="tns:ListOfFloat" nillable="true"></xs:element>
+  <xs:element name="ListOfFloat" type="tns:ListOfFloat" nillable="true" />
 
   <xs:element name="Double" nillable="true" type="xs:double" />
 
@@ -102,7 +132,7 @@
       <xs:element name="Double" type="xs:double" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDouble" type="tns:ListOfDouble" nillable="true"></xs:element>
+  <xs:element name="ListOfDouble" type="tns:ListOfDouble" nillable="true" />
 
   <xs:element name="String" nillable="true" type="xs:string" />
 
@@ -111,7 +141,7 @@
       <xs:element name="String" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfString" type="tns:ListOfString" nillable="true"></xs:element>
+  <xs:element name="ListOfString" type="tns:ListOfString" nillable="true" />
 
   <xs:element name="DateTime" nillable="true" type="xs:dateTime" />
 
@@ -120,7 +150,7 @@
       <xs:element name="DateTime" type="xs:dateTime" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDateTime" type="tns:ListOfDateTime" nillable="true"></xs:element>
+  <xs:element name="ListOfDateTime" type="tns:ListOfDateTime" nillable="true" />
 
   <xs:complexType name="Guid">
     <xs:annotation>
@@ -129,17 +159,17 @@
       </xs:appinfo>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="String" type="xs:string" minOccurs="0" maxOccurs="1" nillable="true" />
+      <xs:element name="String" type="xs:string" minOccurs="0" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="Guid" type="tns:Guid" nillable="true"></xs:element>
+  <xs:element name="Guid" type="tns:Guid" nillable="true" />
 
   <xs:complexType name="ListOfGuid">
     <xs:sequence>
       <xs:element name="Guid" type="tns:Guid" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfGuid" type="tns:ListOfGuid" nillable="true"></xs:element>
+  <xs:element name="ListOfGuid" type="tns:ListOfGuid" nillable="true" />
 
   <xs:element name="ByteString" nillable="true" type="xs:base64Binary" />
 
@@ -148,7 +178,7 @@
       <xs:element name="ByteString" type="xs:base64Binary" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfByteString" type="tns:ListOfByteString" nillable="true"></xs:element>
+  <xs:element name="ListOfByteString" type="tns:ListOfByteString" nillable="true" />
 
   <xs:complexType name="ListOfXmlElement">
     <xs:sequence>
@@ -161,35 +191,35 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfXmlElement" type="tns:ListOfXmlElement" nillable="true"></xs:element>
+  <xs:element name="ListOfXmlElement" type="tns:ListOfXmlElement" nillable="true" />
 
   <xs:complexType name="NodeId">
     <xs:sequence>
-      <xs:element name="Identifier" type="xs:string" minOccurs="0" maxOccurs="1" nillable="true" />
+      <xs:element name="Identifier" type="xs:string" minOccurs="0" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="NodeId" type="tns:NodeId" nillable="true"></xs:element>
+  <xs:element name="NodeId" type="tns:NodeId" nillable="true" />
 
   <xs:complexType name="ListOfNodeId">
     <xs:sequence>
       <xs:element name="NodeId" type="tns:NodeId" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfNodeId" type="tns:ListOfNodeId" nillable="true"></xs:element>
+  <xs:element name="ListOfNodeId" type="tns:ListOfNodeId" nillable="true" />
 
   <xs:complexType name="ExpandedNodeId">
     <xs:sequence>
-      <xs:element name="Identifier" type="xs:string" minOccurs="0" maxOccurs="1" nillable="true" />
+      <xs:element name="Identifier" type="xs:string" minOccurs="0" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ExpandedNodeId" type="tns:ExpandedNodeId" nillable="true"></xs:element>
+  <xs:element name="ExpandedNodeId" type="tns:ExpandedNodeId" nillable="true" />
 
   <xs:complexType name="ListOfExpandedNodeId">
     <xs:sequence>
       <xs:element name="ExpandedNodeId" type="tns:ExpandedNodeId" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfExpandedNodeId" type="tns:ListOfExpandedNodeId" nillable="true"></xs:element>
+  <xs:element name="ListOfExpandedNodeId" type="tns:ListOfExpandedNodeId" nillable="true" />
 
   <xs:complexType name="StatusCode">
     <xs:annotation>
@@ -201,14 +231,14 @@
       <xs:element name="Code" type="xs:unsignedInt" minOccurs="0" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="StatusCode" type="tns:StatusCode" nillable="true"></xs:element>
+  <xs:element name="StatusCode" type="tns:StatusCode" nillable="true" />
 
   <xs:complexType name="ListOfStatusCode">
     <xs:sequence>
       <xs:element name="StatusCode" type="tns:StatusCode" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfStatusCode" type="tns:ListOfStatusCode" nillable="true"></xs:element>
+  <xs:element name="ListOfStatusCode" type="tns:ListOfStatusCode" nillable="true" />
 
   <xs:complexType name="DiagnosticInfo">
     <xs:sequence>
@@ -221,19 +251,19 @@
       <xs:element name="InnerDiagnosticInfo" type="tns:DiagnosticInfo" minOccurs="0" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="DiagnosticInfo" type="tns:DiagnosticInfo" nillable="true"></xs:element>
+  <xs:element name="DiagnosticInfo" type="tns:DiagnosticInfo" nillable="true" />
 
   <xs:complexType name="ListOfDiagnosticInfo">
     <xs:sequence>
       <xs:element name="DiagnosticInfo" type="tns:DiagnosticInfo" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDiagnosticInfo" type="tns:ListOfDiagnosticInfo" nillable="true"></xs:element>
+  <xs:element name="ListOfDiagnosticInfo" type="tns:ListOfDiagnosticInfo" nillable="true" />
 
   <xs:complexType name="LocalizedText">
     <xs:sequence>
       <xs:element name="Locale" type="xs:string" minOccurs="0" nillable="true" />
-      <xs:element name="Text" type="xs:string" minOccurs="0"  nillable="true" />
+      <xs:element name="Text" type="xs:string" minOccurs="0" nillable="true" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="LocalizedText" type="tns:LocalizedText" nillable="true" />
@@ -243,7 +273,7 @@
       <xs:element name="LocalizedText" type="tns:LocalizedText" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfLocalizedText" type="tns:ListOfLocalizedText" nillable="true"></xs:element>
+  <xs:element name="ListOfLocalizedText" type="tns:ListOfLocalizedText" nillable="true" />
 
   <xs:complexType name="QualifiedName">
     <xs:sequence>
@@ -258,7 +288,7 @@
       <xs:element name="QualifiedName" type="tns:QualifiedName" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfQualifiedName" type="tns:ListOfQualifiedName" nillable="true"></xs:element>
+  <xs:element name="ListOfQualifiedName" type="tns:ListOfQualifiedName" nillable="true" />
 
   <!--
     Some environments require a WSDL/XSD which explicitly defines all possible types.
@@ -313,11 +343,11 @@
       <xs:element name="ExtensionObject" type="tns:ExtensionObject" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfExtensionObject" type="tns:ListOfExtensionObject" nillable="true"></xs:element>
+  <xs:element name="ListOfExtensionObject" type="tns:ListOfExtensionObject" nillable="true" />
 
   <!--
     Some WSDL/XML compilers have issues with the xs:choice construct. For that reason
-    the default declaration of a Variant uses xs:any construct. The schema acutually
+    the default declaration of a Variant uses xs:any construct. The schema actually
     defined by the specification is provided by the Matrix and VariantValue complex types
     shown in comments below. Application developers can replace the VariantValue declaration
     with the specific declaration if they have a development environment that can handle
@@ -328,8 +358,8 @@
     <xs:complexType name="Matrix">
       <xs:sequence>
         <xs:element name="Dimensions" type="tns:ListOfUInt32" minOccurs="0" nillable="true" />
-        <xs:element name="Value" minOccurs="0" nillable="true">
-          <xs:complexType mixed="false">
+        <xs:element name="Elements" minOccurs="0" nillable="true">
+          <xs:complexType>
             <xs:choice maxOccurs="unbounded">
               <xs:element name="Boolean" type="xs:boolean" minOccurs="0" />
               <xs:element name="SByte" type="xs:byte" minOccurs="0" />
@@ -455,7 +485,7 @@
       <xs:element name="Variant" type="tns:Variant" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfVariant" type="tns:ListOfVariant" nillable="true"></xs:element>
+  <xs:element name="ListOfVariant" type="tns:ListOfVariant" nillable="true" />
 
   <xs:complexType name="DataValue">
     <xs:sequence>
@@ -474,7 +504,7 @@
       <xs:element name="DataValue" type="tns:DataValue" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDataValue" type="tns:ListOfDataValue" nillable="true"></xs:element>
+  <xs:element name="ListOfDataValue" type="tns:ListOfDataValue" nillable="true" />
 
   <xs:element name="InvokeServiceRequest" type="xs:base64Binary" nillable="true" />
   <xs:element name="InvokeServiceResponse" type="xs:base64Binary" nillable="true" />
@@ -504,7 +534,7 @@
       <xs:element name="KeyValuePair" type="tns:KeyValuePair" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfKeyValuePair" type="tns:ListOfKeyValuePair" nillable="true"></xs:element>
+  <xs:element name="ListOfKeyValuePair" type="tns:ListOfKeyValuePair" nillable="true" />
 
   <xs:complexType name="AdditionalParametersType">
     <xs:sequence>
@@ -536,7 +566,7 @@
       <xs:element name="EndpointType" type="tns:EndpointType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfEndpointType" type="tns:ListOfEndpointType" nillable="true"></xs:element>
+  <xs:element name="ListOfEndpointType" type="tns:ListOfEndpointType" nillable="true" />
 
   <xs:complexType name="RationalNumber">
     <xs:sequence>
@@ -551,7 +581,7 @@
       <xs:element name="RationalNumber" type="tns:RationalNumber" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfRationalNumber" type="tns:ListOfRationalNumber" nillable="true"></xs:element>
+  <xs:element name="ListOfRationalNumber" type="tns:ListOfRationalNumber" nillable="true" />
 
   <xs:complexType name="Vector">
     <xs:sequence>
@@ -564,10 +594,10 @@
       <xs:element name="Vector" type="tns:Vector" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfVector" type="tns:ListOfVector" nillable="true"></xs:element>
+  <xs:element name="ListOfVector" type="tns:ListOfVector" nillable="true" />
 
   <xs:complexType name="ThreeDVector">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:Vector">
         <xs:sequence>
           <xs:element name="X" type="xs:double" minOccurs="0" />
@@ -584,7 +614,7 @@
       <xs:element name="ThreeDVector" type="tns:ThreeDVector" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfThreeDVector" type="tns:ListOfThreeDVector" nillable="true"></xs:element>
+  <xs:element name="ListOfThreeDVector" type="tns:ListOfThreeDVector" nillable="true" />
 
   <xs:complexType name="CartesianCoordinates">
     <xs:sequence>
@@ -597,10 +627,10 @@
       <xs:element name="CartesianCoordinates" type="tns:CartesianCoordinates" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfCartesianCoordinates" type="tns:ListOfCartesianCoordinates" nillable="true"></xs:element>
+  <xs:element name="ListOfCartesianCoordinates" type="tns:ListOfCartesianCoordinates" nillable="true" />
 
   <xs:complexType name="ThreeDCartesianCoordinates">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:CartesianCoordinates">
         <xs:sequence>
           <xs:element name="X" type="xs:double" minOccurs="0" />
@@ -617,7 +647,7 @@
       <xs:element name="ThreeDCartesianCoordinates" type="tns:ThreeDCartesianCoordinates" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfThreeDCartesianCoordinates" type="tns:ListOfThreeDCartesianCoordinates" nillable="true"></xs:element>
+  <xs:element name="ListOfThreeDCartesianCoordinates" type="tns:ListOfThreeDCartesianCoordinates" nillable="true" />
 
   <xs:complexType name="Orientation">
     <xs:sequence>
@@ -630,10 +660,10 @@
       <xs:element name="Orientation" type="tns:Orientation" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfOrientation" type="tns:ListOfOrientation" nillable="true"></xs:element>
+  <xs:element name="ListOfOrientation" type="tns:ListOfOrientation" nillable="true" />
 
   <xs:complexType name="ThreeDOrientation">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:Orientation">
         <xs:sequence>
           <xs:element name="A" type="xs:double" minOccurs="0" />
@@ -650,7 +680,7 @@
       <xs:element name="ThreeDOrientation" type="tns:ThreeDOrientation" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfThreeDOrientation" type="tns:ListOfThreeDOrientation" nillable="true"></xs:element>
+  <xs:element name="ListOfThreeDOrientation" type="tns:ListOfThreeDOrientation" nillable="true" />
 
   <xs:complexType name="Frame">
     <xs:sequence>
@@ -663,10 +693,10 @@
       <xs:element name="Frame" type="tns:Frame" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfFrame" type="tns:ListOfFrame" nillable="true"></xs:element>
+  <xs:element name="ListOfFrame" type="tns:ListOfFrame" nillable="true" />
 
   <xs:complexType name="ThreeDFrame">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:Frame">
         <xs:sequence>
           <xs:element name="CartesianCoordinates" type="tns:ThreeDCartesianCoordinates" minOccurs="0" nillable="true" />
@@ -682,7 +712,7 @@
       <xs:element name="ThreeDFrame" type="tns:ThreeDFrame" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfThreeDFrame" type="tns:ListOfThreeDFrame" nillable="true"></xs:element>
+  <xs:element name="ListOfThreeDFrame" type="tns:ListOfThreeDFrame" nillable="true" />
 
   <xs:simpleType  name="OpenFileMode">
     <xs:restriction base="xs:string">
@@ -699,7 +729,7 @@
       <xs:element name="OpenFileMode" type="tns:OpenFileMode" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfOpenFileMode" type="tns:ListOfOpenFileMode" nillable="true"></xs:element>
+  <xs:element name="ListOfOpenFileMode" type="tns:ListOfOpenFileMode" nillable="true" />
 
   <xs:simpleType  name="IdentityCriteriaType">
     <xs:restriction base="xs:string">
@@ -718,7 +748,7 @@
       <xs:element name="IdentityCriteriaType" type="tns:IdentityCriteriaType" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfIdentityCriteriaType" type="tns:ListOfIdentityCriteriaType" nillable="true"></xs:element>
+  <xs:element name="ListOfIdentityCriteriaType" type="tns:ListOfIdentityCriteriaType" nillable="true" />
 
   <xs:complexType name="IdentityMappingRuleType">
     <xs:sequence>
@@ -733,7 +763,7 @@
       <xs:element name="IdentityMappingRuleType" type="tns:IdentityMappingRuleType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfIdentityMappingRuleType" type="tns:ListOfIdentityMappingRuleType" nillable="true"></xs:element>
+  <xs:element name="ListOfIdentityMappingRuleType" type="tns:ListOfIdentityMappingRuleType" nillable="true" />
 
   <xs:simpleType  name="TrustListMasks">
     <xs:restriction base="xs:string">
@@ -763,7 +793,7 @@
       <xs:element name="TrustListDataType" type="tns:TrustListDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfTrustListDataType" type="tns:ListOfTrustListDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfTrustListDataType" type="tns:ListOfTrustListDataType" nillable="true" />
 
   <xs:complexType name="DecimalDataType">
     <xs:sequence>
@@ -788,7 +818,7 @@
       <xs:element name="DataTypeSchemaHeader" type="tns:DataTypeSchemaHeader" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDataTypeSchemaHeader" type="tns:ListOfDataTypeSchemaHeader" nillable="true"></xs:element>
+  <xs:element name="ListOfDataTypeSchemaHeader" type="tns:ListOfDataTypeSchemaHeader" nillable="true" />
 
   <xs:complexType name="DataTypeDescription">
     <xs:sequence>
@@ -803,10 +833,10 @@
       <xs:element name="DataTypeDescription" type="tns:DataTypeDescription" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDataTypeDescription" type="tns:ListOfDataTypeDescription" nillable="true"></xs:element>
+  <xs:element name="ListOfDataTypeDescription" type="tns:ListOfDataTypeDescription" nillable="true" />
 
   <xs:complexType name="StructureDescription">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:DataTypeDescription">
         <xs:sequence>
           <xs:element name="StructureDefinition" type="tns:StructureDefinition" minOccurs="0" nillable="true" />
@@ -821,10 +851,10 @@
       <xs:element name="StructureDescription" type="tns:StructureDescription" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfStructureDescription" type="tns:ListOfStructureDescription" nillable="true"></xs:element>
+  <xs:element name="ListOfStructureDescription" type="tns:ListOfStructureDescription" nillable="true" />
 
   <xs:complexType name="EnumDescription">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:DataTypeDescription">
         <xs:sequence>
           <xs:element name="EnumDefinition" type="tns:EnumDefinition" minOccurs="0" nillable="true" />
@@ -840,10 +870,10 @@
       <xs:element name="EnumDescription" type="tns:EnumDescription" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfEnumDescription" type="tns:ListOfEnumDescription" nillable="true"></xs:element>
+  <xs:element name="ListOfEnumDescription" type="tns:ListOfEnumDescription" nillable="true" />
 
   <xs:complexType name="SimpleTypeDescription">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:DataTypeDescription">
         <xs:sequence>
           <xs:element name="BaseDataType" type="ua:NodeId" minOccurs="0" nillable="true" />
@@ -859,10 +889,10 @@
       <xs:element name="SimpleTypeDescription" type="tns:SimpleTypeDescription" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfSimpleTypeDescription" type="tns:ListOfSimpleTypeDescription" nillable="true"></xs:element>
+  <xs:element name="ListOfSimpleTypeDescription" type="tns:ListOfSimpleTypeDescription" nillable="true" />
 
   <xs:complexType name="UABinaryFileDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:DataTypeSchemaHeader">
         <xs:sequence>
           <xs:element name="SchemaLocation" type="xs:string" minOccurs="0" nillable="true" />
@@ -879,7 +909,7 @@
       <xs:element name="UABinaryFileDataType" type="tns:UABinaryFileDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfUABinaryFileDataType" type="tns:ListOfUABinaryFileDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfUABinaryFileDataType" type="tns:ListOfUABinaryFileDataType" nillable="true" />
 
   <xs:simpleType  name="PubSubState">
     <xs:restriction base="xs:string">
@@ -896,10 +926,10 @@
       <xs:element name="PubSubState" type="tns:PubSubState" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfPubSubState" type="tns:ListOfPubSubState" nillable="true"></xs:element>
+  <xs:element name="ListOfPubSubState" type="tns:ListOfPubSubState" nillable="true" />
 
   <xs:complexType name="DataSetMetaDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:DataTypeSchemaHeader">
         <xs:sequence>
           <xs:element name="Name" type="xs:string" minOccurs="0" nillable="true" />
@@ -918,7 +948,7 @@
       <xs:element name="DataSetMetaDataType" type="tns:DataSetMetaDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDataSetMetaDataType" type="tns:ListOfDataSetMetaDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfDataSetMetaDataType" type="tns:ListOfDataSetMetaDataType" nillable="true" />
 
   <xs:complexType name="FieldMetaData">
     <xs:sequence>
@@ -941,11 +971,10 @@
       <xs:element name="FieldMetaData" type="tns:FieldMetaData" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfFieldMetaData" type="tns:ListOfFieldMetaData" nillable="true"></xs:element>
+  <xs:element name="ListOfFieldMetaData" type="tns:ListOfFieldMetaData" nillable="true" />
 
   <xs:simpleType  name="DataSetFieldFlags">
-    <xs:restriction base="xs:unsignedShort">
-    </xs:restriction>
+    <xs:restriction base="xs:unsignedShort" />
   </xs:simpleType>
   <xs:element name="DataSetFieldFlags" type="tns:DataSetFieldFlags" />
 
@@ -962,7 +991,7 @@
       <xs:element name="ConfigurationVersionDataType" type="tns:ConfigurationVersionDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfConfigurationVersionDataType" type="tns:ListOfConfigurationVersionDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfConfigurationVersionDataType" type="tns:ListOfConfigurationVersionDataType" nillable="true" />
 
   <xs:complexType name="PublishedDataSetDataType">
     <xs:sequence>
@@ -980,7 +1009,7 @@
       <xs:element name="PublishedDataSetDataType" type="tns:PublishedDataSetDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfPublishedDataSetDataType" type="tns:ListOfPublishedDataSetDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfPublishedDataSetDataType" type="tns:ListOfPublishedDataSetDataType" nillable="true" />
 
   <xs:complexType name="PublishedDataSetSourceDataType">
     <xs:sequence>
@@ -993,7 +1022,7 @@
       <xs:element name="PublishedDataSetSourceDataType" type="tns:PublishedDataSetSourceDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfPublishedDataSetSourceDataType" type="tns:ListOfPublishedDataSetSourceDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfPublishedDataSetSourceDataType" type="tns:ListOfPublishedDataSetSourceDataType" nillable="true" />
 
   <xs:complexType name="PublishedVariableDataType">
     <xs:sequence>
@@ -1014,10 +1043,10 @@
       <xs:element name="PublishedVariableDataType" type="tns:PublishedVariableDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfPublishedVariableDataType" type="tns:ListOfPublishedVariableDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfPublishedVariableDataType" type="tns:ListOfPublishedVariableDataType" nillable="true" />
 
   <xs:complexType name="PublishedDataItemsDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:PublishedDataSetSourceDataType">
         <xs:sequence>
           <xs:element name="PublishedData" type="tns:ListOfPublishedVariableDataType" minOccurs="0" nillable="true" />
@@ -1032,10 +1061,10 @@
       <xs:element name="PublishedDataItemsDataType" type="tns:PublishedDataItemsDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfPublishedDataItemsDataType" type="tns:ListOfPublishedDataItemsDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfPublishedDataItemsDataType" type="tns:ListOfPublishedDataItemsDataType" nillable="true" />
 
   <xs:complexType name="PublishedEventsDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:PublishedDataSetSourceDataType">
         <xs:sequence>
           <xs:element name="EventNotifier" type="ua:NodeId" minOccurs="0" nillable="true" />
@@ -1052,11 +1081,10 @@
       <xs:element name="PublishedEventsDataType" type="tns:PublishedEventsDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfPublishedEventsDataType" type="tns:ListOfPublishedEventsDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfPublishedEventsDataType" type="tns:ListOfPublishedEventsDataType" nillable="true" />
 
   <xs:simpleType  name="DataSetFieldContentMask">
-    <xs:restriction base="xs:unsignedInt">
-    </xs:restriction>
+    <xs:restriction base="xs:unsignedInt" />
   </xs:simpleType>
   <xs:element name="DataSetFieldContentMask" type="tns:DataSetFieldContentMask" />
 
@@ -1065,7 +1093,7 @@
       <xs:element name="DataSetFieldContentMask" type="tns:DataSetFieldContentMask" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDataSetFieldContentMask" type="tns:ListOfDataSetFieldContentMask" nillable="true"></xs:element>
+  <xs:element name="ListOfDataSetFieldContentMask" type="tns:ListOfDataSetFieldContentMask" nillable="true" />
 
   <xs:complexType name="DataSetWriterDataType">
     <xs:sequence>
@@ -1087,7 +1115,7 @@
       <xs:element name="DataSetWriterDataType" type="tns:DataSetWriterDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDataSetWriterDataType" type="tns:ListOfDataSetWriterDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfDataSetWriterDataType" type="tns:ListOfDataSetWriterDataType" nillable="true" />
 
   <xs:complexType name="DataSetWriterTransportDataType">
     <xs:sequence>
@@ -1100,7 +1128,7 @@
       <xs:element name="DataSetWriterTransportDataType" type="tns:DataSetWriterTransportDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDataSetWriterTransportDataType" type="tns:ListOfDataSetWriterTransportDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfDataSetWriterTransportDataType" type="tns:ListOfDataSetWriterTransportDataType" nillable="true" />
 
   <xs:complexType name="DataSetWriterMessageDataType">
     <xs:sequence>
@@ -1113,7 +1141,7 @@
       <xs:element name="DataSetWriterMessageDataType" type="tns:DataSetWriterMessageDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDataSetWriterMessageDataType" type="tns:ListOfDataSetWriterMessageDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfDataSetWriterMessageDataType" type="tns:ListOfDataSetWriterMessageDataType" nillable="true" />
 
   <xs:complexType name="PubSubGroupDataType">
     <xs:sequence>
@@ -1133,10 +1161,10 @@
       <xs:element name="PubSubGroupDataType" type="tns:PubSubGroupDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfPubSubGroupDataType" type="tns:ListOfPubSubGroupDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfPubSubGroupDataType" type="tns:ListOfPubSubGroupDataType" nillable="true" />
 
   <xs:complexType name="WriterGroupDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:PubSubGroupDataType">
         <xs:sequence>
           <xs:element name="WriterGroupId" type="xs:unsignedShort" minOccurs="0" />
@@ -1159,7 +1187,7 @@
       <xs:element name="WriterGroupDataType" type="tns:WriterGroupDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfWriterGroupDataType" type="tns:ListOfWriterGroupDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfWriterGroupDataType" type="tns:ListOfWriterGroupDataType" nillable="true" />
 
   <xs:complexType name="WriterGroupTransportDataType">
     <xs:sequence>
@@ -1172,7 +1200,7 @@
       <xs:element name="WriterGroupTransportDataType" type="tns:WriterGroupTransportDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfWriterGroupTransportDataType" type="tns:ListOfWriterGroupTransportDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfWriterGroupTransportDataType" type="tns:ListOfWriterGroupTransportDataType" nillable="true" />
 
   <xs:complexType name="WriterGroupMessageDataType">
     <xs:sequence>
@@ -1185,7 +1213,7 @@
       <xs:element name="WriterGroupMessageDataType" type="tns:WriterGroupMessageDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfWriterGroupMessageDataType" type="tns:ListOfWriterGroupMessageDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfWriterGroupMessageDataType" type="tns:ListOfWriterGroupMessageDataType" nillable="true" />
 
   <xs:complexType name="PubSubConnectionDataType">
     <xs:sequence>
@@ -1207,7 +1235,7 @@
       <xs:element name="PubSubConnectionDataType" type="tns:PubSubConnectionDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfPubSubConnectionDataType" type="tns:ListOfPubSubConnectionDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfPubSubConnectionDataType" type="tns:ListOfPubSubConnectionDataType" nillable="true" />
 
   <xs:complexType name="ConnectionTransportDataType">
     <xs:sequence>
@@ -1220,7 +1248,7 @@
       <xs:element name="ConnectionTransportDataType" type="tns:ConnectionTransportDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfConnectionTransportDataType" type="tns:ListOfConnectionTransportDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfConnectionTransportDataType" type="tns:ListOfConnectionTransportDataType" nillable="true" />
 
   <xs:complexType name="NetworkAddressDataType">
     <xs:sequence>
@@ -1234,10 +1262,10 @@
       <xs:element name="NetworkAddressDataType" type="tns:NetworkAddressDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfNetworkAddressDataType" type="tns:ListOfNetworkAddressDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfNetworkAddressDataType" type="tns:ListOfNetworkAddressDataType" nillable="true" />
 
   <xs:complexType name="NetworkAddressUrlDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:NetworkAddressDataType">
         <xs:sequence>
           <xs:element name="Url" type="xs:string" minOccurs="0" nillable="true" />
@@ -1252,10 +1280,10 @@
       <xs:element name="NetworkAddressUrlDataType" type="tns:NetworkAddressUrlDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfNetworkAddressUrlDataType" type="tns:ListOfNetworkAddressUrlDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfNetworkAddressUrlDataType" type="tns:ListOfNetworkAddressUrlDataType" nillable="true" />
 
   <xs:complexType name="ReaderGroupDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:PubSubGroupDataType">
         <xs:sequence>
           <xs:element name="TransportSettings" type="ua:ExtensionObject" minOccurs="0" nillable="true" />
@@ -1272,7 +1300,7 @@
       <xs:element name="ReaderGroupDataType" type="tns:ReaderGroupDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfReaderGroupDataType" type="tns:ListOfReaderGroupDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfReaderGroupDataType" type="tns:ListOfReaderGroupDataType" nillable="true" />
 
   <xs:complexType name="ReaderGroupTransportDataType">
     <xs:sequence>
@@ -1285,7 +1313,7 @@
       <xs:element name="ReaderGroupTransportDataType" type="tns:ReaderGroupTransportDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfReaderGroupTransportDataType" type="tns:ListOfReaderGroupTransportDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfReaderGroupTransportDataType" type="tns:ListOfReaderGroupTransportDataType" nillable="true" />
 
   <xs:complexType name="ReaderGroupMessageDataType">
     <xs:sequence>
@@ -1298,7 +1326,7 @@
       <xs:element name="ReaderGroupMessageDataType" type="tns:ReaderGroupMessageDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfReaderGroupMessageDataType" type="tns:ListOfReaderGroupMessageDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfReaderGroupMessageDataType" type="tns:ListOfReaderGroupMessageDataType" nillable="true" />
 
   <xs:complexType name="DataSetReaderDataType">
     <xs:sequence>
@@ -1328,7 +1356,7 @@
       <xs:element name="DataSetReaderDataType" type="tns:DataSetReaderDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDataSetReaderDataType" type="tns:ListOfDataSetReaderDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfDataSetReaderDataType" type="tns:ListOfDataSetReaderDataType" nillable="true" />
 
   <xs:complexType name="DataSetReaderTransportDataType">
     <xs:sequence>
@@ -1341,7 +1369,7 @@
       <xs:element name="DataSetReaderTransportDataType" type="tns:DataSetReaderTransportDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDataSetReaderTransportDataType" type="tns:ListOfDataSetReaderTransportDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfDataSetReaderTransportDataType" type="tns:ListOfDataSetReaderTransportDataType" nillable="true" />
 
   <xs:complexType name="DataSetReaderMessageDataType">
     <xs:sequence>
@@ -1354,7 +1382,7 @@
       <xs:element name="DataSetReaderMessageDataType" type="tns:DataSetReaderMessageDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDataSetReaderMessageDataType" type="tns:ListOfDataSetReaderMessageDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfDataSetReaderMessageDataType" type="tns:ListOfDataSetReaderMessageDataType" nillable="true" />
 
   <xs:complexType name="SubscribedDataSetDataType">
     <xs:sequence>
@@ -1367,10 +1395,10 @@
       <xs:element name="SubscribedDataSetDataType" type="tns:SubscribedDataSetDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfSubscribedDataSetDataType" type="tns:ListOfSubscribedDataSetDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfSubscribedDataSetDataType" type="tns:ListOfSubscribedDataSetDataType" nillable="true" />
 
   <xs:complexType name="TargetVariablesDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:SubscribedDataSetDataType">
         <xs:sequence>
           <xs:element name="TargetVariables" type="tns:ListOfFieldTargetDataType" minOccurs="0" nillable="true" />
@@ -1385,7 +1413,7 @@
       <xs:element name="TargetVariablesDataType" type="tns:TargetVariablesDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfTargetVariablesDataType" type="tns:ListOfTargetVariablesDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfTargetVariablesDataType" type="tns:ListOfTargetVariablesDataType" nillable="true" />
 
   <xs:complexType name="FieldTargetDataType">
     <xs:sequence>
@@ -1405,7 +1433,7 @@
       <xs:element name="FieldTargetDataType" type="tns:FieldTargetDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfFieldTargetDataType" type="tns:ListOfFieldTargetDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfFieldTargetDataType" type="tns:ListOfFieldTargetDataType" nillable="true" />
 
   <xs:simpleType  name="OverrideValueHandling">
     <xs:restriction base="xs:string">
@@ -1421,10 +1449,10 @@
       <xs:element name="OverrideValueHandling" type="tns:OverrideValueHandling" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfOverrideValueHandling" type="tns:ListOfOverrideValueHandling" nillable="true"></xs:element>
+  <xs:element name="ListOfOverrideValueHandling" type="tns:ListOfOverrideValueHandling" nillable="true" />
 
   <xs:complexType name="SubscribedDataSetMirrorDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:SubscribedDataSetDataType">
         <xs:sequence>
           <xs:element name="ParentNodeName" type="xs:string" minOccurs="0" nillable="true" />
@@ -1440,7 +1468,7 @@
       <xs:element name="SubscribedDataSetMirrorDataType" type="tns:SubscribedDataSetMirrorDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfSubscribedDataSetMirrorDataType" type="tns:ListOfSubscribedDataSetMirrorDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfSubscribedDataSetMirrorDataType" type="tns:ListOfSubscribedDataSetMirrorDataType" nillable="true" />
 
   <xs:complexType name="PubSubConfigurationDataType">
     <xs:sequence>
@@ -1456,7 +1484,7 @@
       <xs:element name="PubSubConfigurationDataType" type="tns:PubSubConfigurationDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfPubSubConfigurationDataType" type="tns:ListOfPubSubConfigurationDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfPubSubConfigurationDataType" type="tns:ListOfPubSubConfigurationDataType" nillable="true" />
 
   <xs:simpleType  name="DataSetOrderingType">
     <xs:restriction base="xs:string">
@@ -1472,11 +1500,10 @@
       <xs:element name="DataSetOrderingType" type="tns:DataSetOrderingType" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDataSetOrderingType" type="tns:ListOfDataSetOrderingType" nillable="true"></xs:element>
+  <xs:element name="ListOfDataSetOrderingType" type="tns:ListOfDataSetOrderingType" nillable="true" />
 
   <xs:simpleType  name="UadpNetworkMessageContentMask">
-    <xs:restriction base="xs:unsignedInt">
-    </xs:restriction>
+    <xs:restriction base="xs:unsignedInt" />
   </xs:simpleType>
   <xs:element name="UadpNetworkMessageContentMask" type="tns:UadpNetworkMessageContentMask" />
 
@@ -1485,10 +1512,10 @@
       <xs:element name="UadpNetworkMessageContentMask" type="tns:UadpNetworkMessageContentMask" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfUadpNetworkMessageContentMask" type="tns:ListOfUadpNetworkMessageContentMask" nillable="true"></xs:element>
+  <xs:element name="ListOfUadpNetworkMessageContentMask" type="tns:ListOfUadpNetworkMessageContentMask" nillable="true" />
 
   <xs:complexType name="UadpWriterGroupMessageDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:WriterGroupMessageDataType">
         <xs:sequence>
           <xs:element name="GroupVersion" type="xs:unsignedInt" minOccurs="0" />
@@ -1507,11 +1534,10 @@
       <xs:element name="UadpWriterGroupMessageDataType" type="tns:UadpWriterGroupMessageDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfUadpWriterGroupMessageDataType" type="tns:ListOfUadpWriterGroupMessageDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfUadpWriterGroupMessageDataType" type="tns:ListOfUadpWriterGroupMessageDataType" nillable="true" />
 
   <xs:simpleType  name="UadpDataSetMessageContentMask">
-    <xs:restriction base="xs:unsignedInt">
-    </xs:restriction>
+    <xs:restriction base="xs:unsignedInt" />
   </xs:simpleType>
   <xs:element name="UadpDataSetMessageContentMask" type="tns:UadpDataSetMessageContentMask" />
 
@@ -1520,10 +1546,10 @@
       <xs:element name="UadpDataSetMessageContentMask" type="tns:UadpDataSetMessageContentMask" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfUadpDataSetMessageContentMask" type="tns:ListOfUadpDataSetMessageContentMask" nillable="true"></xs:element>
+  <xs:element name="ListOfUadpDataSetMessageContentMask" type="tns:ListOfUadpDataSetMessageContentMask" nillable="true" />
 
   <xs:complexType name="UadpDataSetWriterMessageDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:DataSetWriterMessageDataType">
         <xs:sequence>
           <xs:element name="DataSetMessageContentMask" type="tns:UadpDataSetMessageContentMask" minOccurs="0" />
@@ -1541,10 +1567,10 @@
       <xs:element name="UadpDataSetWriterMessageDataType" type="tns:UadpDataSetWriterMessageDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfUadpDataSetWriterMessageDataType" type="tns:ListOfUadpDataSetWriterMessageDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfUadpDataSetWriterMessageDataType" type="tns:ListOfUadpDataSetWriterMessageDataType" nillable="true" />
 
   <xs:complexType name="UadpDataSetReaderMessageDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:DataSetReaderMessageDataType">
         <xs:sequence>
           <xs:element name="GroupVersion" type="xs:unsignedInt" minOccurs="0" />
@@ -1555,7 +1581,7 @@
           <xs:element name="DataSetMessageContentMask" type="tns:UadpDataSetMessageContentMask" minOccurs="0" />
           <xs:element name="PublishingInterval" type="xs:double" minOccurs="0" />
           <xs:element name="ReceiveOffset" type="xs:double" minOccurs="0" />
-          <xs:element name="ProcessingOffset" type="xs:double" minOccurs="0" />
+          <xs:element name="ProcessingOffset" type="ua:ListOfDouble" minOccurs="0" nillable="true" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1567,11 +1593,10 @@
       <xs:element name="UadpDataSetReaderMessageDataType" type="tns:UadpDataSetReaderMessageDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfUadpDataSetReaderMessageDataType" type="tns:ListOfUadpDataSetReaderMessageDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfUadpDataSetReaderMessageDataType" type="tns:ListOfUadpDataSetReaderMessageDataType" nillable="true" />
 
   <xs:simpleType  name="JsonNetworkMessageContentMask">
-    <xs:restriction base="xs:unsignedInt">
-    </xs:restriction>
+    <xs:restriction base="xs:unsignedInt" />
   </xs:simpleType>
   <xs:element name="JsonNetworkMessageContentMask" type="tns:JsonNetworkMessageContentMask" />
 
@@ -1580,10 +1605,10 @@
       <xs:element name="JsonNetworkMessageContentMask" type="tns:JsonNetworkMessageContentMask" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfJsonNetworkMessageContentMask" type="tns:ListOfJsonNetworkMessageContentMask" nillable="true"></xs:element>
+  <xs:element name="ListOfJsonNetworkMessageContentMask" type="tns:ListOfJsonNetworkMessageContentMask" nillable="true" />
 
   <xs:complexType name="JsonWriterGroupMessageDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:WriterGroupMessageDataType">
         <xs:sequence>
           <xs:element name="NetworkMessageContentMask" type="tns:JsonNetworkMessageContentMask" minOccurs="0" />
@@ -1598,11 +1623,10 @@
       <xs:element name="JsonWriterGroupMessageDataType" type="tns:JsonWriterGroupMessageDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfJsonWriterGroupMessageDataType" type="tns:ListOfJsonWriterGroupMessageDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfJsonWriterGroupMessageDataType" type="tns:ListOfJsonWriterGroupMessageDataType" nillable="true" />
 
   <xs:simpleType  name="JsonDataSetMessageContentMask">
-    <xs:restriction base="xs:unsignedInt">
-    </xs:restriction>
+    <xs:restriction base="xs:unsignedInt" />
   </xs:simpleType>
   <xs:element name="JsonDataSetMessageContentMask" type="tns:JsonDataSetMessageContentMask" />
 
@@ -1611,10 +1635,10 @@
       <xs:element name="JsonDataSetMessageContentMask" type="tns:JsonDataSetMessageContentMask" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfJsonDataSetMessageContentMask" type="tns:ListOfJsonDataSetMessageContentMask" nillable="true"></xs:element>
+  <xs:element name="ListOfJsonDataSetMessageContentMask" type="tns:ListOfJsonDataSetMessageContentMask" nillable="true" />
 
   <xs:complexType name="JsonDataSetWriterMessageDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:DataSetWriterMessageDataType">
         <xs:sequence>
           <xs:element name="DataSetMessageContentMask" type="tns:JsonDataSetMessageContentMask" minOccurs="0" />
@@ -1629,10 +1653,10 @@
       <xs:element name="JsonDataSetWriterMessageDataType" type="tns:JsonDataSetWriterMessageDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfJsonDataSetWriterMessageDataType" type="tns:ListOfJsonDataSetWriterMessageDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfJsonDataSetWriterMessageDataType" type="tns:ListOfJsonDataSetWriterMessageDataType" nillable="true" />
 
   <xs:complexType name="JsonDataSetReaderMessageDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:DataSetReaderMessageDataType">
         <xs:sequence>
           <xs:element name="NetworkMessageContentMask" type="tns:JsonNetworkMessageContentMask" minOccurs="0" />
@@ -1648,10 +1672,10 @@
       <xs:element name="JsonDataSetReaderMessageDataType" type="tns:JsonDataSetReaderMessageDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfJsonDataSetReaderMessageDataType" type="tns:ListOfJsonDataSetReaderMessageDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfJsonDataSetReaderMessageDataType" type="tns:ListOfJsonDataSetReaderMessageDataType" nillable="true" />
 
   <xs:complexType name="DatagramConnectionTransportDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:ConnectionTransportDataType">
         <xs:sequence>
           <xs:element name="DiscoveryAddress" type="ua:ExtensionObject" minOccurs="0" nillable="true" />
@@ -1666,10 +1690,10 @@
       <xs:element name="DatagramConnectionTransportDataType" type="tns:DatagramConnectionTransportDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDatagramConnectionTransportDataType" type="tns:ListOfDatagramConnectionTransportDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfDatagramConnectionTransportDataType" type="tns:ListOfDatagramConnectionTransportDataType" nillable="true" />
 
   <xs:complexType name="DatagramWriterGroupTransportDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:WriterGroupTransportDataType">
         <xs:sequence>
           <xs:element name="MessageRepeatCount" type="xs:unsignedByte" minOccurs="0" />
@@ -1685,10 +1709,10 @@
       <xs:element name="DatagramWriterGroupTransportDataType" type="tns:DatagramWriterGroupTransportDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDatagramWriterGroupTransportDataType" type="tns:ListOfDatagramWriterGroupTransportDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfDatagramWriterGroupTransportDataType" type="tns:ListOfDatagramWriterGroupTransportDataType" nillable="true" />
 
   <xs:complexType name="BrokerConnectionTransportDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:ConnectionTransportDataType">
         <xs:sequence>
           <xs:element name="ResourceUri" type="xs:string" minOccurs="0" nillable="true" />
@@ -1704,7 +1728,7 @@
       <xs:element name="BrokerConnectionTransportDataType" type="tns:BrokerConnectionTransportDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfBrokerConnectionTransportDataType" type="tns:ListOfBrokerConnectionTransportDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfBrokerConnectionTransportDataType" type="tns:ListOfBrokerConnectionTransportDataType" nillable="true" />
 
   <xs:simpleType  name="BrokerTransportQualityOfService">
     <xs:restriction base="xs:string">
@@ -1722,10 +1746,10 @@
       <xs:element name="BrokerTransportQualityOfService" type="tns:BrokerTransportQualityOfService" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfBrokerTransportQualityOfService" type="tns:ListOfBrokerTransportQualityOfService" nillable="true"></xs:element>
+  <xs:element name="ListOfBrokerTransportQualityOfService" type="tns:ListOfBrokerTransportQualityOfService" nillable="true" />
 
   <xs:complexType name="BrokerWriterGroupTransportDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:WriterGroupTransportDataType">
         <xs:sequence>
           <xs:element name="QueueName" type="xs:string" minOccurs="0" nillable="true" />
@@ -1743,10 +1767,10 @@
       <xs:element name="BrokerWriterGroupTransportDataType" type="tns:BrokerWriterGroupTransportDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfBrokerWriterGroupTransportDataType" type="tns:ListOfBrokerWriterGroupTransportDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfBrokerWriterGroupTransportDataType" type="tns:ListOfBrokerWriterGroupTransportDataType" nillable="true" />
 
   <xs:complexType name="BrokerDataSetWriterTransportDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:DataSetWriterTransportDataType">
         <xs:sequence>
           <xs:element name="QueueName" type="xs:string" minOccurs="0" nillable="true" />
@@ -1766,10 +1790,10 @@
       <xs:element name="BrokerDataSetWriterTransportDataType" type="tns:BrokerDataSetWriterTransportDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfBrokerDataSetWriterTransportDataType" type="tns:ListOfBrokerDataSetWriterTransportDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfBrokerDataSetWriterTransportDataType" type="tns:ListOfBrokerDataSetWriterTransportDataType" nillable="true" />
 
   <xs:complexType name="BrokerDataSetReaderTransportDataType">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:DataSetReaderTransportDataType">
         <xs:sequence>
           <xs:element name="QueueName" type="xs:string" minOccurs="0" nillable="true" />
@@ -1788,7 +1812,7 @@
       <xs:element name="BrokerDataSetReaderTransportDataType" type="tns:BrokerDataSetReaderTransportDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfBrokerDataSetReaderTransportDataType" type="tns:ListOfBrokerDataSetReaderTransportDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfBrokerDataSetReaderTransportDataType" type="tns:ListOfBrokerDataSetReaderTransportDataType" nillable="true" />
 
   <xs:simpleType  name="DiagnosticsLevel">
     <xs:restriction base="xs:string">
@@ -1806,7 +1830,7 @@
       <xs:element name="DiagnosticsLevel" type="tns:DiagnosticsLevel" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDiagnosticsLevel" type="tns:ListOfDiagnosticsLevel" nillable="true"></xs:element>
+  <xs:element name="ListOfDiagnosticsLevel" type="tns:ListOfDiagnosticsLevel" nillable="true" />
 
   <xs:simpleType  name="PubSubDiagnosticsCounterClassification">
     <xs:restriction base="xs:string">
@@ -1821,7 +1845,7 @@
       <xs:element name="PubSubDiagnosticsCounterClassification" type="tns:PubSubDiagnosticsCounterClassification" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfPubSubDiagnosticsCounterClassification" type="tns:ListOfPubSubDiagnosticsCounterClassification" nillable="true"></xs:element>
+  <xs:element name="ListOfPubSubDiagnosticsCounterClassification" type="tns:ListOfPubSubDiagnosticsCounterClassification" nillable="true" />
 
   <xs:simpleType  name="IdType">
     <xs:restriction base="xs:string">
@@ -1838,7 +1862,7 @@
       <xs:element name="IdType" type="tns:IdType" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfIdType" type="tns:ListOfIdType" nillable="true"></xs:element>
+  <xs:element name="ListOfIdType" type="tns:ListOfIdType" nillable="true" />
 
   <xs:simpleType  name="NodeClass">
     <xs:restriction base="xs:string">
@@ -1856,26 +1880,22 @@
   <xs:element name="NodeClass" type="tns:NodeClass" />
 
   <xs:simpleType  name="PermissionType">
-    <xs:restriction base="xs:unsignedInt">
-    </xs:restriction>
+    <xs:restriction base="xs:unsignedInt" />
   </xs:simpleType>
   <xs:element name="PermissionType" type="tns:PermissionType" />
 
   <xs:simpleType  name="AccessLevelType">
-    <xs:restriction base="xs:unsignedByte">
-    </xs:restriction>
+    <xs:restriction base="xs:unsignedByte" />
   </xs:simpleType>
   <xs:element name="AccessLevelType" type="tns:AccessLevelType" />
 
   <xs:simpleType  name="AccessLevelExType">
-    <xs:restriction base="xs:unsignedInt">
-    </xs:restriction>
+    <xs:restriction base="xs:unsignedInt" />
   </xs:simpleType>
   <xs:element name="AccessLevelExType" type="tns:AccessLevelExType" />
 
   <xs:simpleType  name="EventNotifierType">
-    <xs:restriction base="xs:unsignedByte">
-    </xs:restriction>
+    <xs:restriction base="xs:unsignedByte" />
   </xs:simpleType>
   <xs:element name="EventNotifierType" type="tns:EventNotifierType" />
 
@@ -1892,7 +1912,7 @@
       <xs:element name="RolePermissionType" type="tns:RolePermissionType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfRolePermissionType" type="tns:ListOfRolePermissionType" nillable="true"></xs:element>
+  <xs:element name="ListOfRolePermissionType" type="tns:ListOfRolePermissionType" nillable="true" />
 
   <xs:complexType name="DataTypeDefinition">
     <xs:sequence>
@@ -1905,7 +1925,7 @@
       <xs:element name="DataTypeDefinition" type="tns:DataTypeDefinition" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDataTypeDefinition" type="tns:ListOfDataTypeDefinition" nillable="true"></xs:element>
+  <xs:element name="ListOfDataTypeDefinition" type="tns:ListOfDataTypeDefinition" nillable="true" />
 
   <xs:simpleType  name="StructureType">
     <xs:restriction base="xs:string">
@@ -1934,10 +1954,10 @@
       <xs:element name="StructureField" type="tns:StructureField" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfStructureField" type="tns:ListOfStructureField" nillable="true"></xs:element>
+  <xs:element name="ListOfStructureField" type="tns:ListOfStructureField" nillable="true" />
 
   <xs:complexType name="StructureDefinition">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:DataTypeDefinition">
         <xs:sequence>
           <xs:element name="DefaultEncodingId" type="ua:NodeId" minOccurs="0" nillable="true" />
@@ -1955,10 +1975,10 @@
       <xs:element name="StructureDefinition" type="tns:StructureDefinition" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfStructureDefinition" type="tns:ListOfStructureDefinition" nillable="true"></xs:element>
+  <xs:element name="ListOfStructureDefinition" type="tns:ListOfStructureDefinition" nillable="true" />
 
   <xs:complexType name="EnumDefinition">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:DataTypeDefinition">
         <xs:sequence>
           <xs:element name="Fields" type="tns:ListOfEnumField" minOccurs="0" nillable="true" />
@@ -1973,7 +1993,7 @@
       <xs:element name="EnumDefinition" type="tns:EnumDefinition" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfEnumDefinition" type="tns:ListOfEnumDefinition" nillable="true"></xs:element>
+  <xs:element name="ListOfEnumDefinition" type="tns:ListOfEnumDefinition" nillable="true" />
 
   <xs:complexType name="Node">
     <xs:sequence>
@@ -1997,10 +2017,10 @@
       <xs:element name="Node" type="tns:Node" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfNode" type="tns:ListOfNode" nillable="true"></xs:element>
+  <xs:element name="ListOfNode" type="tns:ListOfNode" nillable="true" />
 
   <xs:complexType name="InstanceNode">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:Node">
         <xs:sequence>
         </xs:sequence>
@@ -2010,7 +2030,7 @@
   <xs:element name="InstanceNode" type="tns:InstanceNode" />
 
   <xs:complexType name="TypeNode">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:Node">
         <xs:sequence>
         </xs:sequence>
@@ -2020,7 +2040,7 @@
   <xs:element name="TypeNode" type="tns:TypeNode" />
 
   <xs:complexType name="ObjectNode">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:InstanceNode">
         <xs:sequence>
           <xs:element name="EventNotifier" type="xs:unsignedByte" minOccurs="0" />
@@ -2031,7 +2051,7 @@
   <xs:element name="ObjectNode" type="tns:ObjectNode" />
 
   <xs:complexType name="ObjectTypeNode">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:TypeNode">
         <xs:sequence>
           <xs:element name="IsAbstract" type="xs:boolean" minOccurs="0" />
@@ -2042,7 +2062,7 @@
   <xs:element name="ObjectTypeNode" type="tns:ObjectTypeNode" />
 
   <xs:complexType name="VariableNode">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:InstanceNode">
         <xs:sequence>
           <xs:element name="Value" type="ua:Variant" minOccurs="0" />
@@ -2061,7 +2081,7 @@
   <xs:element name="VariableNode" type="tns:VariableNode" />
 
   <xs:complexType name="VariableTypeNode">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:TypeNode">
         <xs:sequence>
           <xs:element name="Value" type="ua:Variant" minOccurs="0" />
@@ -2076,7 +2096,7 @@
   <xs:element name="VariableTypeNode" type="tns:VariableTypeNode" />
 
   <xs:complexType name="ReferenceTypeNode">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:TypeNode">
         <xs:sequence>
           <xs:element name="IsAbstract" type="xs:boolean" minOccurs="0" />
@@ -2089,7 +2109,7 @@
   <xs:element name="ReferenceTypeNode" type="tns:ReferenceTypeNode" />
 
   <xs:complexType name="MethodNode">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:InstanceNode">
         <xs:sequence>
           <xs:element name="Executable" type="xs:boolean" minOccurs="0" />
@@ -2101,7 +2121,7 @@
   <xs:element name="MethodNode" type="tns:MethodNode" />
 
   <xs:complexType name="ViewNode">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:InstanceNode">
         <xs:sequence>
           <xs:element name="ContainsNoLoops" type="xs:boolean" minOccurs="0" />
@@ -2113,7 +2133,7 @@
   <xs:element name="ViewNode" type="tns:ViewNode" />
 
   <xs:complexType name="DataTypeNode">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:TypeNode">
         <xs:sequence>
           <xs:element name="IsAbstract" type="xs:boolean" minOccurs="0" />
@@ -2138,7 +2158,7 @@
       <xs:element name="ReferenceNode" type="tns:ReferenceNode" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfReferenceNode" type="tns:ListOfReferenceNode" nillable="true"></xs:element>
+  <xs:element name="ListOfReferenceNode" type="tns:ListOfReferenceNode" nillable="true" />
 
   <xs:complexType name="Argument">
     <xs:sequence>
@@ -2156,7 +2176,7 @@
       <xs:element name="Argument" type="tns:Argument" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfArgument" type="tns:ListOfArgument" nillable="true"></xs:element>
+  <xs:element name="ListOfArgument" type="tns:ListOfArgument" nillable="true" />
 
   <xs:complexType name="EnumValueType">
     <xs:sequence>
@@ -2172,10 +2192,10 @@
       <xs:element name="EnumValueType" type="tns:EnumValueType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfEnumValueType" type="tns:ListOfEnumValueType" nillable="true"></xs:element>
+  <xs:element name="ListOfEnumValueType" type="tns:ListOfEnumValueType" nillable="true" />
 
   <xs:complexType name="EnumField">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:EnumValueType">
         <xs:sequence>
           <xs:element name="Name" type="xs:string" minOccurs="0" nillable="true" />
@@ -2190,7 +2210,7 @@
       <xs:element name="EnumField" type="tns:EnumField" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfEnumField" type="tns:ListOfEnumField" nillable="true"></xs:element>
+  <xs:element name="ListOfEnumField" type="tns:ListOfEnumField" nillable="true" />
 
   <xs:complexType name="OptionSet">
     <xs:sequence>
@@ -2205,7 +2225,7 @@
       <xs:element name="OptionSet" type="tns:OptionSet" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfOptionSet" type="tns:ListOfOptionSet" nillable="true"></xs:element>
+  <xs:element name="ListOfOptionSet" type="tns:ListOfOptionSet" nillable="true" />
 
   <xs:complexType name="Union">
     <xs:sequence>
@@ -2218,7 +2238,7 @@
       <xs:element name="Union" type="tns:Union" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfUnion" type="tns:ListOfUnion" nillable="true"></xs:element>
+  <xs:element name="ListOfUnion" type="tns:ListOfUnion" nillable="true" />
 
   <xs:element name="NormalizedString" type="xs:string" />
 
@@ -2249,7 +2269,7 @@
       <xs:element name="TimeZoneDataType" type="tns:TimeZoneDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfTimeZoneDataType" type="tns:ListOfTimeZoneDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfTimeZoneDataType" type="tns:ListOfTimeZoneDataType" nillable="true" />
 
   <xs:element name="Index" type="xs:unsignedInt" />
 
@@ -2283,7 +2303,7 @@
       <xs:element name="ApplicationDescription" type="tns:ApplicationDescription" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfApplicationDescription" type="tns:ListOfApplicationDescription" nillable="true"></xs:element>
+  <xs:element name="ListOfApplicationDescription" type="tns:ListOfApplicationDescription" nillable="true" />
 
   <xs:complexType name="RequestHeader">
     <xs:sequence>
@@ -2372,7 +2392,7 @@
       <xs:element name="ServerOnNetwork" type="tns:ServerOnNetwork" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfServerOnNetwork" type="tns:ListOfServerOnNetwork" nillable="true"></xs:element>
+  <xs:element name="ListOfServerOnNetwork" type="tns:ListOfServerOnNetwork" nillable="true" />
 
   <xs:complexType name="FindServersOnNetworkRequest">
     <xs:sequence>
@@ -2431,7 +2451,7 @@
       <xs:element name="UserTokenPolicy" type="tns:UserTokenPolicy" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfUserTokenPolicy" type="tns:ListOfUserTokenPolicy" nillable="true"></xs:element>
+  <xs:element name="ListOfUserTokenPolicy" type="tns:ListOfUserTokenPolicy" nillable="true" />
 
   <xs:complexType name="EndpointDescription">
     <xs:sequence>
@@ -2452,7 +2472,7 @@
       <xs:element name="EndpointDescription" type="tns:EndpointDescription" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfEndpointDescription" type="tns:ListOfEndpointDescription" nillable="true"></xs:element>
+  <xs:element name="ListOfEndpointDescription" type="tns:ListOfEndpointDescription" nillable="true" />
 
   <xs:complexType name="GetEndpointsRequest">
     <xs:sequence>
@@ -2491,7 +2511,7 @@
       <xs:element name="RegisteredServer" type="tns:RegisteredServer" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfRegisteredServer" type="tns:ListOfRegisteredServer" nillable="true"></xs:element>
+  <xs:element name="ListOfRegisteredServer" type="tns:ListOfRegisteredServer" nillable="true" />
 
   <xs:complexType name="RegisterServerRequest">
     <xs:sequence>
@@ -2515,7 +2535,7 @@
   <xs:element name="DiscoveryConfiguration" type="tns:DiscoveryConfiguration" />
 
   <xs:complexType name="MdnsDiscoveryConfiguration">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:DiscoveryConfiguration">
         <xs:sequence>
           <xs:element name="MdnsServerName" type="xs:string" minOccurs="0" nillable="true" />
@@ -2611,7 +2631,7 @@
       <xs:element name="SignedSoftwareCertificate" type="tns:SignedSoftwareCertificate" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfSignedSoftwareCertificate" type="tns:ListOfSignedSoftwareCertificate" nillable="true"></xs:element>
+  <xs:element name="ListOfSignedSoftwareCertificate" type="tns:ListOfSignedSoftwareCertificate" nillable="true" />
 
   <xs:element name="SessionAuthenticationToken" type="ua:NodeId" />
 
@@ -2662,7 +2682,7 @@
   <xs:element name="UserIdentityToken" type="tns:UserIdentityToken" />
 
   <xs:complexType name="AnonymousIdentityToken">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:UserIdentityToken">
         <xs:sequence>
         </xs:sequence>
@@ -2672,7 +2692,7 @@
   <xs:element name="AnonymousIdentityToken" type="tns:AnonymousIdentityToken" />
 
   <xs:complexType name="UserNameIdentityToken">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:UserIdentityToken">
         <xs:sequence>
           <xs:element name="UserName" type="xs:string" minOccurs="0" nillable="true" />
@@ -2685,7 +2705,7 @@
   <xs:element name="UserNameIdentityToken" type="tns:UserNameIdentityToken" />
 
   <xs:complexType name="X509IdentityToken">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:UserIdentityToken">
         <xs:sequence>
           <xs:element name="CertificateData" type="xs:base64Binary" minOccurs="0" nillable="true" />
@@ -2696,7 +2716,7 @@
   <xs:element name="X509IdentityToken" type="tns:X509IdentityToken" />
 
   <xs:complexType name="IssuedIdentityToken">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:UserIdentityToken">
         <xs:sequence>
           <xs:element name="TokenData" type="xs:base64Binary" minOccurs="0" nillable="true" />
@@ -2817,7 +2837,7 @@
   <xs:element name="NodeAttributes" type="tns:NodeAttributes" />
 
   <xs:complexType name="ObjectAttributes">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:NodeAttributes">
         <xs:sequence>
           <xs:element name="EventNotifier" type="xs:unsignedByte" minOccurs="0" />
@@ -2828,7 +2848,7 @@
   <xs:element name="ObjectAttributes" type="tns:ObjectAttributes" />
 
   <xs:complexType name="VariableAttributes">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:NodeAttributes">
         <xs:sequence>
           <xs:element name="Value" type="ua:Variant" minOccurs="0" />
@@ -2846,7 +2866,7 @@
   <xs:element name="VariableAttributes" type="tns:VariableAttributes" />
 
   <xs:complexType name="MethodAttributes">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:NodeAttributes">
         <xs:sequence>
           <xs:element name="Executable" type="xs:boolean" minOccurs="0" />
@@ -2858,7 +2878,7 @@
   <xs:element name="MethodAttributes" type="tns:MethodAttributes" />
 
   <xs:complexType name="ObjectTypeAttributes">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:NodeAttributes">
         <xs:sequence>
           <xs:element name="IsAbstract" type="xs:boolean" minOccurs="0" />
@@ -2869,7 +2889,7 @@
   <xs:element name="ObjectTypeAttributes" type="tns:ObjectTypeAttributes" />
 
   <xs:complexType name="VariableTypeAttributes">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:NodeAttributes">
         <xs:sequence>
           <xs:element name="Value" type="ua:Variant" minOccurs="0" />
@@ -2884,7 +2904,7 @@
   <xs:element name="VariableTypeAttributes" type="tns:VariableTypeAttributes" />
 
   <xs:complexType name="ReferenceTypeAttributes">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:NodeAttributes">
         <xs:sequence>
           <xs:element name="IsAbstract" type="xs:boolean" minOccurs="0" />
@@ -2897,7 +2917,7 @@
   <xs:element name="ReferenceTypeAttributes" type="tns:ReferenceTypeAttributes" />
 
   <xs:complexType name="DataTypeAttributes">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:NodeAttributes">
         <xs:sequence>
           <xs:element name="IsAbstract" type="xs:boolean" minOccurs="0" />
@@ -2908,7 +2928,7 @@
   <xs:element name="DataTypeAttributes" type="tns:DataTypeAttributes" />
 
   <xs:complexType name="ViewAttributes">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:NodeAttributes">
         <xs:sequence>
           <xs:element name="ContainsNoLoops" type="xs:boolean" minOccurs="0" />
@@ -2932,10 +2952,10 @@
       <xs:element name="GenericAttributeValue" type="tns:GenericAttributeValue" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfGenericAttributeValue" type="tns:ListOfGenericAttributeValue" nillable="true"></xs:element>
+  <xs:element name="ListOfGenericAttributeValue" type="tns:ListOfGenericAttributeValue" nillable="true" />
 
   <xs:complexType name="GenericAttributes">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:NodeAttributes">
         <xs:sequence>
           <xs:element name="AttributeValues" type="tns:ListOfGenericAttributeValue" minOccurs="0" nillable="true" />
@@ -2963,7 +2983,7 @@
       <xs:element name="AddNodesItem" type="tns:AddNodesItem" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfAddNodesItem" type="tns:ListOfAddNodesItem" nillable="true"></xs:element>
+  <xs:element name="ListOfAddNodesItem" type="tns:ListOfAddNodesItem" nillable="true" />
 
   <xs:complexType name="AddNodesResult">
     <xs:sequence>
@@ -2978,7 +2998,7 @@
       <xs:element name="AddNodesResult" type="tns:AddNodesResult" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfAddNodesResult" type="tns:ListOfAddNodesResult" nillable="true"></xs:element>
+  <xs:element name="ListOfAddNodesResult" type="tns:ListOfAddNodesResult" nillable="true" />
 
   <xs:complexType name="AddNodesRequest">
     <xs:sequence>
@@ -3014,7 +3034,7 @@
       <xs:element name="AddReferencesItem" type="tns:AddReferencesItem" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfAddReferencesItem" type="tns:ListOfAddReferencesItem" nillable="true"></xs:element>
+  <xs:element name="ListOfAddReferencesItem" type="tns:ListOfAddReferencesItem" nillable="true" />
 
   <xs:complexType name="AddReferencesRequest">
     <xs:sequence>
@@ -3046,7 +3066,7 @@
       <xs:element name="DeleteNodesItem" type="tns:DeleteNodesItem" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDeleteNodesItem" type="tns:ListOfDeleteNodesItem" nillable="true"></xs:element>
+  <xs:element name="ListOfDeleteNodesItem" type="tns:ListOfDeleteNodesItem" nillable="true" />
 
   <xs:complexType name="DeleteNodesRequest">
     <xs:sequence>
@@ -3081,7 +3101,7 @@
       <xs:element name="DeleteReferencesItem" type="tns:DeleteReferencesItem" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfDeleteReferencesItem" type="tns:ListOfDeleteReferencesItem" nillable="true"></xs:element>
+  <xs:element name="ListOfDeleteReferencesItem" type="tns:ListOfDeleteReferencesItem" nillable="true" />
 
   <xs:complexType name="DeleteReferencesRequest">
     <xs:sequence>
@@ -3101,8 +3121,7 @@
   <xs:element name="DeleteReferencesResponse" type="tns:DeleteReferencesResponse" />
 
   <xs:simpleType  name="AttributeWriteMask">
-    <xs:restriction base="xs:unsignedInt">
-    </xs:restriction>
+    <xs:restriction base="xs:unsignedInt" />
   </xs:simpleType>
   <xs:element name="AttributeWriteMask" type="tns:AttributeWriteMask" />
 
@@ -3142,7 +3161,7 @@
       <xs:element name="BrowseDescription" type="tns:BrowseDescription" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfBrowseDescription" type="tns:ListOfBrowseDescription" nillable="true"></xs:element>
+  <xs:element name="ListOfBrowseDescription" type="tns:ListOfBrowseDescription" nillable="true" />
 
   <xs:simpleType  name="BrowseResultMask">
     <xs:restriction base="xs:string">
@@ -3178,7 +3197,7 @@
       <xs:element name="ReferenceDescription" type="tns:ReferenceDescription" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfReferenceDescription" type="tns:ListOfReferenceDescription" nillable="true"></xs:element>
+  <xs:element name="ListOfReferenceDescription" type="tns:ListOfReferenceDescription" nillable="true" />
 
   <xs:element name="ContinuationPoint" type="xs:base64Binary" />
 
@@ -3196,7 +3215,7 @@
       <xs:element name="BrowseResult" type="tns:BrowseResult" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfBrowseResult" type="tns:ListOfBrowseResult" nillable="true"></xs:element>
+  <xs:element name="ListOfBrowseResult" type="tns:ListOfBrowseResult" nillable="true" />
 
   <xs:complexType name="BrowseRequest">
     <xs:sequence>
@@ -3250,7 +3269,7 @@
       <xs:element name="RelativePathElement" type="tns:RelativePathElement" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfRelativePathElement" type="tns:ListOfRelativePathElement" nillable="true"></xs:element>
+  <xs:element name="ListOfRelativePathElement" type="tns:ListOfRelativePathElement" nillable="true" />
 
   <xs:complexType name="RelativePath">
     <xs:sequence>
@@ -3272,7 +3291,7 @@
       <xs:element name="BrowsePath" type="tns:BrowsePath" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfBrowsePath" type="tns:ListOfBrowsePath" nillable="true"></xs:element>
+  <xs:element name="ListOfBrowsePath" type="tns:ListOfBrowsePath" nillable="true" />
 
   <xs:complexType name="BrowsePathTarget">
     <xs:sequence>
@@ -3287,7 +3306,7 @@
       <xs:element name="BrowsePathTarget" type="tns:BrowsePathTarget" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfBrowsePathTarget" type="tns:ListOfBrowsePathTarget" nillable="true"></xs:element>
+  <xs:element name="ListOfBrowsePathTarget" type="tns:ListOfBrowsePathTarget" nillable="true" />
 
   <xs:complexType name="BrowsePathResult">
     <xs:sequence>
@@ -3302,7 +3321,7 @@
       <xs:element name="BrowsePathResult" type="tns:BrowsePathResult" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfBrowsePathResult" type="tns:ListOfBrowsePathResult" nillable="true"></xs:element>
+  <xs:element name="ListOfBrowsePathResult" type="tns:ListOfBrowsePathResult" nillable="true" />
 
   <xs:complexType name="TranslateBrowsePathsToNodeIdsRequest">
     <xs:sequence>
@@ -3380,7 +3399,7 @@
       <xs:element name="EndpointConfiguration" type="tns:EndpointConfiguration" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfEndpointConfiguration" type="tns:ListOfEndpointConfiguration" nillable="true"></xs:element>
+  <xs:element name="ListOfEndpointConfiguration" type="tns:ListOfEndpointConfiguration" nillable="true" />
 
   <xs:complexType name="QueryDataDescription">
     <xs:sequence>
@@ -3396,7 +3415,7 @@
       <xs:element name="QueryDataDescription" type="tns:QueryDataDescription" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfQueryDataDescription" type="tns:ListOfQueryDataDescription" nillable="true"></xs:element>
+  <xs:element name="ListOfQueryDataDescription" type="tns:ListOfQueryDataDescription" nillable="true" />
 
   <xs:complexType name="NodeTypeDescription">
     <xs:sequence>
@@ -3412,7 +3431,7 @@
       <xs:element name="NodeTypeDescription" type="tns:NodeTypeDescription" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfNodeTypeDescription" type="tns:ListOfNodeTypeDescription" nillable="true"></xs:element>
+  <xs:element name="ListOfNodeTypeDescription" type="tns:ListOfNodeTypeDescription" nillable="true" />
 
   <xs:simpleType  name="FilterOperator">
     <xs:restriction base="xs:string">
@@ -3452,7 +3471,7 @@
       <xs:element name="QueryDataSet" type="tns:QueryDataSet" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfQueryDataSet" type="tns:ListOfQueryDataSet" nillable="true"></xs:element>
+  <xs:element name="ListOfQueryDataSet" type="tns:ListOfQueryDataSet" nillable="true" />
 
   <xs:complexType name="NodeReference">
     <xs:sequence>
@@ -3469,7 +3488,7 @@
       <xs:element name="NodeReference" type="tns:NodeReference" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfNodeReference" type="tns:ListOfNodeReference" nillable="true"></xs:element>
+  <xs:element name="ListOfNodeReference" type="tns:ListOfNodeReference" nillable="true" />
 
   <xs:complexType name="ContentFilterElement">
     <xs:sequence>
@@ -3484,7 +3503,7 @@
       <xs:element name="ContentFilterElement" type="tns:ContentFilterElement" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfContentFilterElement" type="tns:ListOfContentFilterElement" nillable="true"></xs:element>
+  <xs:element name="ListOfContentFilterElement" type="tns:ListOfContentFilterElement" nillable="true" />
 
   <xs:complexType name="ContentFilter">
     <xs:sequence>
@@ -3498,7 +3517,7 @@
       <xs:element name="ContentFilter" type="tns:ContentFilter" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfContentFilter" type="tns:ListOfContentFilter" nillable="true"></xs:element>
+  <xs:element name="ListOfContentFilter" type="tns:ListOfContentFilter" nillable="true" />
 
   <xs:complexType name="FilterOperand">
     <xs:sequence>
@@ -3507,7 +3526,7 @@
   <xs:element name="FilterOperand" type="tns:FilterOperand" />
 
   <xs:complexType name="ElementOperand">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:FilterOperand">
         <xs:sequence>
           <xs:element name="Index" type="xs:unsignedInt" minOccurs="0" />
@@ -3518,7 +3537,7 @@
   <xs:element name="ElementOperand" type="tns:ElementOperand" />
 
   <xs:complexType name="LiteralOperand">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:FilterOperand">
         <xs:sequence>
           <xs:element name="Value" type="ua:Variant" minOccurs="0" />
@@ -3529,7 +3548,7 @@
   <xs:element name="LiteralOperand" type="tns:LiteralOperand" />
 
   <xs:complexType name="AttributeOperand">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:FilterOperand">
         <xs:sequence>
           <xs:element name="NodeId" type="ua:NodeId" minOccurs="0" nillable="true" />
@@ -3544,7 +3563,7 @@
   <xs:element name="AttributeOperand" type="tns:AttributeOperand" />
 
   <xs:complexType name="SimpleAttributeOperand">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:FilterOperand">
         <xs:sequence>
           <xs:element name="TypeDefinitionId" type="ua:NodeId" minOccurs="0" nillable="true" />
@@ -3562,7 +3581,7 @@
       <xs:element name="SimpleAttributeOperand" type="tns:SimpleAttributeOperand" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfSimpleAttributeOperand" type="tns:ListOfSimpleAttributeOperand" nillable="true"></xs:element>
+  <xs:element name="ListOfSimpleAttributeOperand" type="tns:ListOfSimpleAttributeOperand" nillable="true" />
 
   <xs:complexType name="ContentFilterElementResult">
     <xs:sequence>
@@ -3578,7 +3597,7 @@
       <xs:element name="ContentFilterElementResult" type="tns:ContentFilterElementResult" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfContentFilterElementResult" type="tns:ListOfContentFilterElementResult" nillable="true"></xs:element>
+  <xs:element name="ListOfContentFilterElementResult" type="tns:ListOfContentFilterElementResult" nillable="true" />
 
   <xs:complexType name="ContentFilterResult">
     <xs:sequence>
@@ -3602,7 +3621,7 @@
       <xs:element name="ParsingResult" type="tns:ParsingResult" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfParsingResult" type="tns:ListOfParsingResult" nillable="true"></xs:element>
+  <xs:element name="ListOfParsingResult" type="tns:ListOfParsingResult" nillable="true" />
 
   <xs:complexType name="QueryFirstRequest">
     <xs:sequence>
@@ -3672,7 +3691,7 @@
       <xs:element name="ReadValueId" type="tns:ReadValueId" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfReadValueId" type="tns:ListOfReadValueId" nillable="true"></xs:element>
+  <xs:element name="ListOfReadValueId" type="tns:ListOfReadValueId" nillable="true" />
 
   <xs:complexType name="ReadRequest">
     <xs:sequence>
@@ -3708,7 +3727,7 @@
       <xs:element name="HistoryReadValueId" type="tns:HistoryReadValueId" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfHistoryReadValueId" type="tns:ListOfHistoryReadValueId" nillable="true"></xs:element>
+  <xs:element name="ListOfHistoryReadValueId" type="tns:ListOfHistoryReadValueId" nillable="true" />
 
   <xs:complexType name="HistoryReadResult">
     <xs:sequence>
@@ -3724,7 +3743,7 @@
       <xs:element name="HistoryReadResult" type="tns:HistoryReadResult" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfHistoryReadResult" type="tns:ListOfHistoryReadResult" nillable="true"></xs:element>
+  <xs:element name="ListOfHistoryReadResult" type="tns:ListOfHistoryReadResult" nillable="true" />
 
   <xs:complexType name="HistoryReadDetails">
     <xs:sequence>
@@ -3733,7 +3752,7 @@
   <xs:element name="HistoryReadDetails" type="tns:HistoryReadDetails" />
 
   <xs:complexType name="ReadEventDetails">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:HistoryReadDetails">
         <xs:sequence>
           <xs:element name="NumValuesPerNode" type="xs:unsignedInt" minOccurs="0" />
@@ -3747,7 +3766,7 @@
   <xs:element name="ReadEventDetails" type="tns:ReadEventDetails" />
 
   <xs:complexType name="ReadRawModifiedDetails">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:HistoryReadDetails">
         <xs:sequence>
           <xs:element name="IsReadModified" type="xs:boolean" minOccurs="0" />
@@ -3762,7 +3781,7 @@
   <xs:element name="ReadRawModifiedDetails" type="tns:ReadRawModifiedDetails" />
 
   <xs:complexType name="ReadProcessedDetails">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:HistoryReadDetails">
         <xs:sequence>
           <xs:element name="StartTime" type="xs:dateTime" minOccurs="0" />
@@ -3777,7 +3796,7 @@
   <xs:element name="ReadProcessedDetails" type="tns:ReadProcessedDetails" />
 
   <xs:complexType name="ReadAtTimeDetails">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:HistoryReadDetails">
         <xs:sequence>
           <xs:element name="ReqTimes" type="ua:ListOfDateTime" minOccurs="0" nillable="true" />
@@ -3809,10 +3828,10 @@
       <xs:element name="ModificationInfo" type="tns:ModificationInfo" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfModificationInfo" type="tns:ListOfModificationInfo" nillable="true"></xs:element>
+  <xs:element name="ListOfModificationInfo" type="tns:ListOfModificationInfo" nillable="true" />
 
   <xs:complexType name="HistoryModifiedData">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:HistoryData">
         <xs:sequence>
           <xs:element name="ModificationInfos" type="tns:ListOfModificationInfo" minOccurs="0" nillable="true" />
@@ -3864,7 +3883,7 @@
       <xs:element name="WriteValue" type="tns:WriteValue" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfWriteValue" type="tns:ListOfWriteValue" nillable="true"></xs:element>
+  <xs:element name="ListOfWriteValue" type="tns:ListOfWriteValue" nillable="true" />
 
   <xs:complexType name="WriteRequest">
     <xs:sequence>
@@ -3911,7 +3930,7 @@
   <xs:element name="PerformUpdateType" type="tns:PerformUpdateType" />
 
   <xs:complexType name="UpdateDataDetails">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:HistoryUpdateDetails">
         <xs:sequence>
           <xs:element name="PerformInsertReplace" type="tns:PerformUpdateType" minOccurs="0" />
@@ -3923,7 +3942,7 @@
   <xs:element name="UpdateDataDetails" type="tns:UpdateDataDetails" />
 
   <xs:complexType name="UpdateStructureDataDetails">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:HistoryUpdateDetails">
         <xs:sequence>
           <xs:element name="PerformInsertReplace" type="tns:PerformUpdateType" minOccurs="0" />
@@ -3935,7 +3954,7 @@
   <xs:element name="UpdateStructureDataDetails" type="tns:UpdateStructureDataDetails" />
 
   <xs:complexType name="UpdateEventDetails">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:HistoryUpdateDetails">
         <xs:sequence>
           <xs:element name="PerformInsertReplace" type="tns:PerformUpdateType" minOccurs="0" />
@@ -3948,7 +3967,7 @@
   <xs:element name="UpdateEventDetails" type="tns:UpdateEventDetails" />
 
   <xs:complexType name="DeleteRawModifiedDetails">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:HistoryUpdateDetails">
         <xs:sequence>
           <xs:element name="IsDeleteModified" type="xs:boolean" minOccurs="0" />
@@ -3961,7 +3980,7 @@
   <xs:element name="DeleteRawModifiedDetails" type="tns:DeleteRawModifiedDetails" />
 
   <xs:complexType name="DeleteAtTimeDetails">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:HistoryUpdateDetails">
         <xs:sequence>
           <xs:element name="ReqTimes" type="ua:ListOfDateTime" minOccurs="0" nillable="true" />
@@ -3972,7 +3991,7 @@
   <xs:element name="DeleteAtTimeDetails" type="tns:DeleteAtTimeDetails" />
 
   <xs:complexType name="DeleteEventDetails">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:HistoryUpdateDetails">
         <xs:sequence>
           <xs:element name="EventIds" type="ua:ListOfByteString" minOccurs="0" nillable="true" />
@@ -3996,7 +4015,7 @@
       <xs:element name="HistoryUpdateResult" type="tns:HistoryUpdateResult" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfHistoryUpdateResult" type="tns:ListOfHistoryUpdateResult" nillable="true"></xs:element>
+  <xs:element name="ListOfHistoryUpdateResult" type="tns:ListOfHistoryUpdateResult" nillable="true" />
 
   <xs:complexType name="HistoryUpdateRequest">
     <xs:sequence>
@@ -4029,7 +4048,7 @@
       <xs:element name="CallMethodRequest" type="tns:CallMethodRequest" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfCallMethodRequest" type="tns:ListOfCallMethodRequest" nillable="true"></xs:element>
+  <xs:element name="ListOfCallMethodRequest" type="tns:ListOfCallMethodRequest" nillable="true" />
 
   <xs:complexType name="CallMethodResult">
     <xs:sequence>
@@ -4046,7 +4065,7 @@
       <xs:element name="CallMethodResult" type="tns:CallMethodResult" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfCallMethodResult" type="tns:ListOfCallMethodResult" nillable="true"></xs:element>
+  <xs:element name="ListOfCallMethodResult" type="tns:ListOfCallMethodResult" nillable="true" />
 
   <xs:complexType name="CallRequest">
     <xs:sequence>
@@ -4099,7 +4118,7 @@
   <xs:element name="MonitoringFilter" type="tns:MonitoringFilter" />
 
   <xs:complexType name="DataChangeFilter">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:MonitoringFilter">
         <xs:sequence>
           <xs:element name="Trigger" type="tns:DataChangeTrigger" minOccurs="0" />
@@ -4112,7 +4131,7 @@
   <xs:element name="DataChangeFilter" type="tns:DataChangeFilter" />
 
   <xs:complexType name="EventFilter">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:MonitoringFilter">
         <xs:sequence>
           <xs:element name="SelectClauses" type="tns:ListOfSimpleAttributeOperand" minOccurs="0" nillable="true" />
@@ -4135,7 +4154,7 @@
   <xs:element name="AggregateConfiguration" type="tns:AggregateConfiguration" />
 
   <xs:complexType name="AggregateFilter">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:MonitoringFilter">
         <xs:sequence>
           <xs:element name="StartTime" type="xs:dateTime" minOccurs="0" />
@@ -4155,7 +4174,7 @@
   <xs:element name="MonitoringFilterResult" type="tns:MonitoringFilterResult" />
 
   <xs:complexType name="EventFilterResult">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:MonitoringFilterResult">
         <xs:sequence>
           <xs:element name="SelectClauseResults" type="ua:ListOfStatusCode" minOccurs="0" nillable="true" />
@@ -4168,7 +4187,7 @@
   <xs:element name="EventFilterResult" type="tns:EventFilterResult" />
 
   <xs:complexType name="AggregateFilterResult">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:MonitoringFilterResult">
         <xs:sequence>
           <xs:element name="RevisedStartTime" type="xs:dateTime" minOccurs="0" />
@@ -4205,7 +4224,7 @@
       <xs:element name="MonitoredItemCreateRequest" type="tns:MonitoredItemCreateRequest" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfMonitoredItemCreateRequest" type="tns:ListOfMonitoredItemCreateRequest" nillable="true"></xs:element>
+  <xs:element name="ListOfMonitoredItemCreateRequest" type="tns:ListOfMonitoredItemCreateRequest" nillable="true" />
 
   <xs:complexType name="MonitoredItemCreateResult">
     <xs:sequence>
@@ -4223,7 +4242,7 @@
       <xs:element name="MonitoredItemCreateResult" type="tns:MonitoredItemCreateResult" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfMonitoredItemCreateResult" type="tns:ListOfMonitoredItemCreateResult" nillable="true"></xs:element>
+  <xs:element name="ListOfMonitoredItemCreateResult" type="tns:ListOfMonitoredItemCreateResult" nillable="true" />
 
   <xs:complexType name="CreateMonitoredItemsRequest">
     <xs:sequence>
@@ -4257,7 +4276,7 @@
       <xs:element name="MonitoredItemModifyRequest" type="tns:MonitoredItemModifyRequest" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfMonitoredItemModifyRequest" type="tns:ListOfMonitoredItemModifyRequest" nillable="true"></xs:element>
+  <xs:element name="ListOfMonitoredItemModifyRequest" type="tns:ListOfMonitoredItemModifyRequest" nillable="true" />
 
   <xs:complexType name="MonitoredItemModifyResult">
     <xs:sequence>
@@ -4274,7 +4293,7 @@
       <xs:element name="MonitoredItemModifyResult" type="tns:MonitoredItemModifyResult" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfMonitoredItemModifyResult" type="tns:ListOfMonitoredItemModifyResult" nillable="true"></xs:element>
+  <xs:element name="ListOfMonitoredItemModifyResult" type="tns:ListOfMonitoredItemModifyResult" nillable="true" />
 
   <xs:complexType name="ModifyMonitoredItemsRequest">
     <xs:sequence>
@@ -4435,7 +4454,7 @@
   <xs:element name="NotificationData" type="tns:NotificationData" />
 
   <xs:complexType name="DataChangeNotification">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:NotificationData">
         <xs:sequence>
           <xs:element name="MonitoredItems" type="tns:ListOfMonitoredItemNotification" minOccurs="0" nillable="true" />
@@ -4459,10 +4478,10 @@
       <xs:element name="MonitoredItemNotification" type="tns:MonitoredItemNotification" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfMonitoredItemNotification" type="tns:ListOfMonitoredItemNotification" nillable="true"></xs:element>
+  <xs:element name="ListOfMonitoredItemNotification" type="tns:ListOfMonitoredItemNotification" nillable="true" />
 
   <xs:complexType name="EventNotificationList">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:NotificationData">
         <xs:sequence>
           <xs:element name="Events" type="tns:ListOfEventFieldList" minOccurs="0" nillable="true" />
@@ -4485,7 +4504,7 @@
       <xs:element name="EventFieldList" type="tns:EventFieldList" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfEventFieldList" type="tns:ListOfEventFieldList" nillable="true"></xs:element>
+  <xs:element name="ListOfEventFieldList" type="tns:ListOfEventFieldList" nillable="true" />
 
   <xs:complexType name="HistoryEventFieldList">
     <xs:sequence>
@@ -4499,10 +4518,10 @@
       <xs:element name="HistoryEventFieldList" type="tns:HistoryEventFieldList" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfHistoryEventFieldList" type="tns:ListOfHistoryEventFieldList" nillable="true"></xs:element>
+  <xs:element name="ListOfHistoryEventFieldList" type="tns:ListOfHistoryEventFieldList" nillable="true" />
 
   <xs:complexType name="StatusChangeNotification">
-    <xs:complexContent mixed="false">
+    <xs:complexContent>
       <xs:extension base="tns:NotificationData">
         <xs:sequence>
           <xs:element name="Status" type="ua:StatusCode" minOccurs="0" />
@@ -4526,7 +4545,7 @@
       <xs:element name="SubscriptionAcknowledgement" type="tns:SubscriptionAcknowledgement" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfSubscriptionAcknowledgement" type="tns:ListOfSubscriptionAcknowledgement" nillable="true"></xs:element>
+  <xs:element name="ListOfSubscriptionAcknowledgement" type="tns:ListOfSubscriptionAcknowledgement" nillable="true" />
 
   <xs:complexType name="PublishRequest">
     <xs:sequence>
@@ -4579,7 +4598,7 @@
       <xs:element name="TransferResult" type="tns:TransferResult" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfTransferResult" type="tns:ListOfTransferResult" nillable="true"></xs:element>
+  <xs:element name="ListOfTransferResult" type="tns:ListOfTransferResult" nillable="true" />
 
   <xs:complexType name="TransferSubscriptionsRequest">
     <xs:sequence>
@@ -4668,7 +4687,7 @@
       <xs:element name="RedundantServerDataType" type="tns:RedundantServerDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfRedundantServerDataType" type="tns:ListOfRedundantServerDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfRedundantServerDataType" type="tns:ListOfRedundantServerDataType" nillable="true" />
 
   <xs:complexType name="EndpointUrlListDataType">
     <xs:sequence>
@@ -4682,7 +4701,7 @@
       <xs:element name="EndpointUrlListDataType" type="tns:EndpointUrlListDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfEndpointUrlListDataType" type="tns:ListOfEndpointUrlListDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfEndpointUrlListDataType" type="tns:ListOfEndpointUrlListDataType" nillable="true" />
 
   <xs:complexType name="NetworkGroupDataType">
     <xs:sequence>
@@ -4697,7 +4716,7 @@
       <xs:element name="NetworkGroupDataType" type="tns:NetworkGroupDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfNetworkGroupDataType" type="tns:ListOfNetworkGroupDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfNetworkGroupDataType" type="tns:ListOfNetworkGroupDataType" nillable="true" />
 
   <xs:complexType name="SamplingIntervalDiagnosticsDataType">
     <xs:sequence>
@@ -4714,7 +4733,7 @@
       <xs:element name="SamplingIntervalDiagnosticsDataType" type="tns:SamplingIntervalDiagnosticsDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfSamplingIntervalDiagnosticsDataType" type="tns:ListOfSamplingIntervalDiagnosticsDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfSamplingIntervalDiagnosticsDataType" type="tns:ListOfSamplingIntervalDiagnosticsDataType" nillable="true" />
 
   <xs:complexType name="ServerDiagnosticsSummaryDataType">
     <xs:sequence>
@@ -4800,7 +4819,7 @@
       <xs:element name="SessionDiagnosticsDataType" type="tns:SessionDiagnosticsDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfSessionDiagnosticsDataType" type="tns:ListOfSessionDiagnosticsDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfSessionDiagnosticsDataType" type="tns:ListOfSessionDiagnosticsDataType" nillable="true" />
 
   <xs:complexType name="SessionSecurityDiagnosticsDataType">
     <xs:sequence>
@@ -4822,7 +4841,7 @@
       <xs:element name="SessionSecurityDiagnosticsDataType" type="tns:SessionSecurityDiagnosticsDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfSessionSecurityDiagnosticsDataType" type="tns:ListOfSessionSecurityDiagnosticsDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfSessionSecurityDiagnosticsDataType" type="tns:ListOfSessionSecurityDiagnosticsDataType" nillable="true" />
 
   <xs:complexType name="ServiceCounterDataType">
     <xs:sequence>
@@ -4845,7 +4864,7 @@
       <xs:element name="StatusResult" type="tns:StatusResult" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfStatusResult" type="tns:ListOfStatusResult" nillable="true"></xs:element>
+  <xs:element name="ListOfStatusResult" type="tns:ListOfStatusResult" nillable="true" />
 
   <xs:complexType name="SubscriptionDiagnosticsDataType">
     <xs:sequence>
@@ -4889,7 +4908,7 @@
       <xs:element name="SubscriptionDiagnosticsDataType" type="tns:SubscriptionDiagnosticsDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfSubscriptionDiagnosticsDataType" type="tns:ListOfSubscriptionDiagnosticsDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfSubscriptionDiagnosticsDataType" type="tns:ListOfSubscriptionDiagnosticsDataType" nillable="true" />
 
   <xs:simpleType  name="ModelChangeStructureVerbMask">
     <xs:restriction base="xs:string">
@@ -4916,7 +4935,7 @@
       <xs:element name="ModelChangeStructureDataType" type="tns:ModelChangeStructureDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfModelChangeStructureDataType" type="tns:ListOfModelChangeStructureDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfModelChangeStructureDataType" type="tns:ListOfModelChangeStructureDataType" nillable="true" />
 
   <xs:complexType name="SemanticChangeStructureDataType">
     <xs:sequence>
@@ -4931,7 +4950,7 @@
       <xs:element name="SemanticChangeStructureDataType" type="tns:SemanticChangeStructureDataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfSemanticChangeStructureDataType" type="tns:ListOfSemanticChangeStructureDataType" nillable="true"></xs:element>
+  <xs:element name="ListOfSemanticChangeStructureDataType" type="tns:ListOfSemanticChangeStructureDataType" nillable="true" />
 
   <xs:complexType name="Range">
     <xs:sequence>
