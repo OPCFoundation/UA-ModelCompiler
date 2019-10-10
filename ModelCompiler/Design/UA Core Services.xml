@@ -6,8 +6,8 @@
   xmlns:opc="http://opcfoundation.org/UA/TypeDictionary/"
   xmlns="http://opcfoundation.org/UA/Core/"
   TargetNamespace="http://opcfoundation.org/UA/Core/"
-  TargetVersion="1.04.3"
-  TargetPublicationDate="2019-07-23T00:00:00Z"
+  TargetVersion="1.05"
+  TargetPublicationDate="2019-09-09T00:00:00Z"
 >
   <opc:Import Namespace="http://opcfoundation.org/UA/BuiltInTypes/" />
 

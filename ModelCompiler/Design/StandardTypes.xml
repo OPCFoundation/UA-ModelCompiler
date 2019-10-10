@@ -8,7 +8,7 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
   TargetVersion="1.05"
-  TargetPublicationDate="2019-07-23T00:00:00Z"
+  TargetPublicationDate="2019-09-09T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -29,7 +29,7 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2019-07-23</uax:DateTime>
+          <uax:DateTime>2019-09-09</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -5887,5 +5887,20 @@
       <opc:Variable SymbolicName="Url" DataType="ua:String" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
+
+  <!-- Part 19 -->
+
+  <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteBaseType" BaseType="ua:MultiStateValueDiscreteType" DataType="Number" ValueRank="Scalar" ReleaseStatus="Draft" PartNo="19">
+    <opc:Children>
+      <opc:Property SymbolicName="EnumDictionaryEntries" DataType="ua:NodeId" ValueRank="OneOrMoreDimensions" ArrayDimensions="0,0"  ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ValueAsDictionaryEntries" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0"  ModellingRule="Optional" />
+    </opc:Children>
+  </opc:VariableType>
+
+  <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteType" BaseType="MultiStateDictionaryEntryDiscreteBaseType" DataType="Number" ValueRank="Scalar" ReleaseStatus="Draft" PartNo="19">
+    <opc:Children>
+      <opc:Property SymbolicName="ValueAsDictionaryEntries" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:VariableType>
   
 </opc:ModelDesign>

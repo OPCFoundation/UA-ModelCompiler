@@ -1127,6 +1127,26 @@ namespace Opc.Ua.ModelCompiler
         }
         #endregion
 
+        static readonly string[][] Categories = new string[][]
+        {
+            new string[] { "Part1",  "Core.Overview" },
+            new string[] { "Part2",  "Core.Security" },
+            new string[] { "Part3",  "Core.AddressSpace" },
+            new string[] { "Part4",  "Core.Services" },
+            new string[] { "Part5",  "Core.Model" },
+            new string[] { "Part6",  "Core.Mappings" },
+            new string[] { "Part7",  "Core.Profiles" },
+            new string[] { "Part8",  "Core.DataAccess" },
+            new string[] { "Part9",  "Core.Alarms" },
+            new string[] { "Part10", "Core.Programs" },
+            new string[] { "Part11", "Core.HistoricalAccess" },
+            new string[] { "Part12", "Core.Discovery" },
+            new string[] { "Part13", "Core.Aggregates" },
+            new string[] { "Part14", "Core.PubSub" },
+            new string[] { "Part19", "Core.DictionaryReference" },
+            new string[] { "Part21", "Core.Provisioning" }
+        };
+
         /// <summary>
         /// Adds the method arguments as children.
         /// </summary>
