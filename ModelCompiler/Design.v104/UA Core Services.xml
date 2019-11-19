@@ -6,8 +6,8 @@
   xmlns:opc="http://opcfoundation.org/UA/TypeDictionary/"
   xmlns="http://opcfoundation.org/UA/Core/"
   TargetNamespace="http://opcfoundation.org/UA/Core/"
-  TargetVersion="1.04.3"
-  TargetPublicationDate="2019-09-09T00:00:00Z"
+  TargetVersion="1.04.4"
+  TargetPublicationDate="2019-11-20T00:00:00Z"
 >
   <opc:Import Namespace="http://opcfoundation.org/UA/BuiltInTypes/" />
 
@@ -2050,8 +2050,15 @@
     <opc:Field Name="UseSimpleBounds" DataType="s0:Boolean" />
   </opc:ComplexType>
 
+  <opc:ComplexType Name="ReadAnnotationDataDetails" BaseType="HistoryReadDetails" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
+    <opc:Field Name="ReqTimes" DataType="UtcTime" ValueRank="0" />
+  </opc:ComplexType>
+
   <opc:ComplexType Name="HistoryData" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="DataValues" DataType="s0:DataValue" ValueRank="0" />
+  </opc:ComplexType>
+
+  <opc:ComplexType Name="HistoryAnnotationData" BaseType="HistoryData" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
   </opc:ComplexType>
 
   <opc:ComplexType Name="ModificationInfo" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">

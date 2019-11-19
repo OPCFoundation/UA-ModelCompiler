@@ -14,7 +14,7 @@ set TARGET=%2
 set OUTPUT=..\nodesets
 set INPUT=.\ModelCompiler\Design
 
-IF NOT "%3"=="" (set INPUT=%INPUT%.%3) else (set INPUT=%INPUT%)
+IF NOT "%3"=="" (set INPUT=%INPUT%.%3) else (set INPUT=%INPUT%.v104)
 IF NOT "%3"=="" (set OUTPUT=%OUTPUT%\%3) else (set OUTPUT=%OUTPUT%\master)
 IF NOT "%3"=="" set VERSION=-version %3
 IF NOT "%4"=="" set EXCLUDE=-exclude %4

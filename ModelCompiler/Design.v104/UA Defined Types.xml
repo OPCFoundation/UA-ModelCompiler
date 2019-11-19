@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04.3" TargetPublicationDate="2019-09-09T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.05" TargetPublicationDate="2019-09-09T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -107,7 +107,7 @@
   <ReferenceType SymbolicName="tns:References" PartNo="3" IsAbstract="true" Symmetric="true">
     <Description>The abstract base type for all references.</Description>
   </ReferenceType>
-  <ReferenceType SymbolicName="tns:NonHierarchicalReferences" PartNo="3" BaseType="tns:References" IsAbstract="true">
+  <ReferenceType SymbolicName="tns:NonHierarchicalReferences" PartNo="3" BaseType="tns:References" IsAbstract="true" Symmetric="true">
     <Description>The abstract base type for all non-hierarchical references.</Description>
   </ReferenceType>
   <ReferenceType SymbolicName="tns:HierarchicalReferences" PartNo="3" BaseType="tns:References" IsAbstract="true">
@@ -445,12 +445,12 @@
       </Property>
       <Property SymbolicName="tns:NamespaceVersion" DataType="tns:String">
         <DefaultValue>
-          <uax:String>1.04</uax:String>
+          <uax:String>1.04.4</uax:String>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
         <DefaultValue>
-          <uax:DateTime>2019-09-09</uax:DateTime>
+          <uax:DateTime>2019-11-20T00:00:00</uax:DateTime>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
@@ -3649,6 +3649,7 @@
       <Property SymbolicName="tns:ExceptionDeviationFormat" ModellingRule="Optional" DataType="tns:ExceptionDeviationFormat" />
       <Property SymbolicName="tns:StartOfArchive" ModellingRule="Optional" DataType="tns:UtcTime" />
       <Property SymbolicName="tns:StartOfOnlineArchive" ModellingRule="Optional" DataType="tns:UtcTime" />
+      <Property SymbolicName="tns:ServerTimestampSupported" ModellingRule="Optional" DataType="tns:Boolean" />
     </Children>
   </ObjectType>
   <Object SymbolicName="tns:HAConfiguration" PartNo="11" TypeDefinition="tns:HistoricalDataConfigurationType" ModellingRule="None">
@@ -3674,6 +3675,7 @@
       <Property SymbolicName="tns:DeleteEventCapability" DataType="tns:Boolean" />
       <Property SymbolicName="tns:InsertAnnotationCapability" DataType="tns:Boolean" />
       <Object SymbolicName="tns:AggregateFunctions" TypeDefinition="tns:FolderType" />
+      <Property SymbolicName="tns:ServerTimestampSupported" DataType="tns:Boolean" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:AuditHistoryEventUpdateEventType" PartNo="11" BaseType="tns:AuditHistoryUpdateEventType" IsAbstract="true">
@@ -3688,6 +3690,13 @@
   <ObjectType SymbolicName="tns:AuditHistoryValueUpdateEventType" PartNo="11" BaseType="tns:AuditHistoryUpdateEventType" IsAbstract="true">
     <Children>
       <Property SymbolicName="tns:UpdatedNode" DataType="tns:NodeId" />
+      <Property SymbolicName="tns:PerformInsertReplace" DataType="tns:PerformUpdateType" />
+      <Property SymbolicName="tns:NewValues" DataType="tns:DataValue" ValueRank="Array" />
+      <Property SymbolicName="tns:OldValues" DataType="tns:DataValue" ValueRank="Array" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:AuditHistoryAnnotationUpdateEventType" PartNo="11" BaseType="tns:AuditHistoryUpdateEventType" IsAbstract="true">
+    <Children>
       <Property SymbolicName="tns:PerformInsertReplace" DataType="tns:PerformUpdateType" />
       <Property SymbolicName="tns:NewValues" DataType="tns:DataValue" ValueRank="Array" />
       <Property SymbolicName="tns:OldValues" DataType="tns:DataValue" ValueRank="Array" />
@@ -3749,6 +3758,7 @@
   <ObjectType SymbolicName="tns:TrustListType" PartNo="12" BaseType="tns:FileType">
     <Children>
       <Property SymbolicName="tns:LastUpdateTime" DataType="tns:UtcTime" />
+      <Property SymbolicName="tns:UpdateFrequency" ModellingRule="Optional" DataType="tns:Duration" />
       <Method SymbolicName="tns:OpenWithMasks" TypeDefinition="tns:OpenWithMasksMethodType" ModellingRule="Mandatory" />
       <Method SymbolicName="tns:CloseAndUpdate" TypeDefinition="tns:CloseAndUpdateMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:AddCertificate" TypeDefinition="tns:AddCertificateMethodType" ModellingRule="Optional" />
@@ -3774,10 +3784,19 @@
       <Field Name="IssuerCrls" DataType="tns:ByteString" ValueRank="Array" />
     </Fields>
   </DataType>
+  <ObjectType SymbolicName="tns:TrustListOutOfDateAlarmType" PartNo="12" BaseType="tns:SystemOffNormalAlarmType">
+    <Children>
+      <Property SymbolicName="tns:TrustListId" ModellingRule="Mandatory" DataType="tns:NodeId" />
+      <Property SymbolicName="tns:LastUpdateTime" ModellingRule="Mandatory" DataType="tns:UtcTime" />
+      <Property SymbolicName="tns:UpdateFrequency" ModellingRule="Mandatory" DataType="tns:Duration" />
+    </Children>
+  </ObjectType>
   <ObjectType SymbolicName="tns:CertificateGroupType" PartNo="12" BaseType="tns:BaseObjectType">
     <Children>
       <Object SymbolicName="tns:TrustList" TypeDefinition="tns:TrustListType" ModellingRule="Mandatory" />
       <Property SymbolicName="tns:CertificateTypes" ModellingRule="Mandatory" DataType="tns:NodeId" ValueRank="Array" />
+      <Object SymbolicName="tns:CertificateExpired" TypeDefinition="tns:CertificateExpirationAlarmType" ModellingRule="Optional" />
+      <Object SymbolicName="tns:TrustListOutOfDate" TypeDefinition="tns:TrustListOutOfDateAlarmType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:CertificateGroupFolderType" PartNo="12" BaseType="tns:FolderType">
@@ -3929,7 +3948,7 @@
       </Reference>
     </References>
   </Object>
-  <Method SymbolicName="tns:GetEncryptingKeyMethodType" PartNo="12">
+  <Method SymbolicName="tns:GetEncryptingKeyMethodType" PartNo="12" ReleaseStatus="Draft">
     <InputArguments>
       <Argument Name="CredentialId" DataType="tns:String" />
       <Argument Name="RequestedSecurityPolicyUri" DataType="tns:String" />
@@ -3945,7 +3964,7 @@
       <Property SymbolicName="tns:ProfileUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
       <Property SymbolicName="tns:EndpointUrls" ModellingRule="Optional" DataType="tns:String" ValueRank="Array" />
       <Property SymbolicName="tns:ServiceStatus" ModellingRule="Optional" DataType="tns:StatusCode" ValueRank="Scalar" />
-      <Method SymbolicName="tns:GetEncryptingKey" TypeDefinition="tns:GetEncryptingKeyMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:GetEncryptingKey" ReleaseStatus="Draft" TypeDefinition="tns:GetEncryptingKeyMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:UpdateCredential" TypeDefinition="tns:KeyCredentialUpdateMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:DeleteCredential" ModellingRule="Optional" />
     </Children>
@@ -4430,7 +4449,7 @@
   </DataType>
   <DataType SymbolicName="tns:UadpWriterGroupMessageDataType" PartNo="14" BaseType="tns:WriterGroupMessageDataType">
     <Fields>
-      <Field Name="GroupVersion" DataType="tns:UInt32" />
+      <Field Name="GroupVersion" DataType="tns:VersionTime" />
       <Field Name="DataSetOrdering" DataType="tns:DataSetOrderingType" />
       <Field Name="NetworkMessageContentMask" DataType="tns:UadpNetworkMessageContentMask" />
       <Field Name="SamplingOffset" DataType="tns:Duration" />
@@ -5696,6 +5715,63 @@
       <Variable SymbolicName="tns:Url" ModellingRule="Mandatory" DataType="tns:String" />
     </Children>
   </ObjectType>
+  <ObjectType SymbolicName="tns:AliasNameType" PartNo="17" ReleaseStatus="Draft" BaseType="tns:BaseObjectType" />
+  <ObjectType SymbolicName="tns:AliasNameCategoryType" PartNo="17" ReleaseStatus="Draft" BaseType="tns:FolderType">
+    <Children>
+      <Object SymbolicName="tns:Alias_Placeholder" TypeDefinition="tns:AliasNameType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;Alias&gt;</BrowseName>
+      </Object>
+      <Object SymbolicName="tns:SubAliasNameCategories_Placeholder" TypeDefinition="tns:AliasNameCategoryType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;SubAliasNameCategories&gt;</BrowseName>
+      </Object>
+      <Method SymbolicName="tns:FindAlias" TypeDefinition="tns:FindAliasMethodType" ModellingRule="Mandatory" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:FindAliasMethodType" PartNo="17" ReleaseStatus="Draft">
+    <InputArguments>
+      <Argument Name="AliasNameSearchPattern" DataType="tns:String" />
+      <Argument Name="ReferenceTypeFilter" DataType="tns:NodeId" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="AliasNodeList" DataType="tns:AliasNameDataType" ValueRank="Array" />
+    </OutputArguments>
+  </Method>
+  <DataType SymbolicName="tns:AliasNameDataType" PartNo="17" ReleaseStatus="Draft" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="AliasName" DataType="tns:QualifiedName" />
+      <Field Name="ReferencedNodes" DataType="tns:ExpandedNodeId" ValueRank="Array" />
+    </Fields>
+  </DataType>
+  <ReferenceType SymbolicName="tns:AliasFor" PartNo="17" ReleaseStatus="Draft" BaseType="tns:NonHierarchicalReferences">
+    <InverseName>HasAlias</InverseName>
+  </ReferenceType>
+  <Object SymbolicName="tns:Aliases" PartNo="17" ReleaseStatus="Draft" TypeDefinition="tns:AliasNameCategoryType" ModellingRule="None">
+    <BrowseName>Aliases</BrowseName>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:ObjectsFolder</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <Object SymbolicName="tns:Tags" PartNo="17" ReleaseStatus="Draft" TypeDefinition="tns:AliasNameCategoryType" ModellingRule="None">
+    <BrowseName>Tags</BrowseName>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Aliases</TargetId>
+      </Reference>
+    </References>
+  </Object>
+  <Object SymbolicName="tns:Topics" PartNo="17" ReleaseStatus="Draft" TypeDefinition="tns:AliasNameCategoryType" ModellingRule="None">
+    <BrowseName>Topics</BrowseName>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>tns:Organizes</ReferenceType>
+        <TargetId>tns:Aliases</TargetId>
+      </Reference>
+    </References>
+  </Object>
   <VariableType SymbolicName="tns:MultiStateDictionaryEntryDiscreteBaseType" PartNo="19" ReleaseStatus="Draft" BaseType="tns:MultiStateValueDiscreteType" DataType="tns:Number" ValueRank="Scalar">
     <Children>
       <Property SymbolicName="tns:EnumDictionaryEntries" ModellingRule="Mandatory" DataType="tns:NodeId" ValueRank="OneOrMoreDimensions" ArrayDimensions="0,0" />
@@ -6928,11 +7004,17 @@
       <Field Name="UseSimpleBounds" DataType="tns:Boolean" />
     </Fields>
   </DataType>
+  <DataType SymbolicName="tns:ReadAnnotationDataDetails" SymbolicId="tns:ReadAnnotationDataDetails" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:HistoryReadDetails" NoClassGeneration="true" NoArraysAllowed="true">
+    <Fields>
+      <Field Name="ReqTimes" DataType="tns:UtcTime" ValueRank="Array" />
+    </Fields>
+  </DataType>
   <DataType SymbolicName="tns:HistoryData" SymbolicId="tns:HistoryData" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true" NoArraysAllowed="true">
     <Fields>
       <Field Name="DataValues" DataType="tns:DataValue" ValueRank="Array" />
     </Fields>
   </DataType>
+  <DataType SymbolicName="tns:HistoryAnnotationData" SymbolicId="tns:HistoryAnnotationData" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:HistoryData" NoClassGeneration="true" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:ModificationInfo" SymbolicId="tns:ModificationInfo" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true">
     <Fields>
       <Field Name="ModificationTime" DataType="tns:UtcTime" />

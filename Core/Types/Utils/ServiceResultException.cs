@@ -51,7 +51,7 @@ namespace Opc.Ua
 
             if ((Utils.TraceMask & Utils.TraceMasks.StackTrace) != 0)
             {
-                Utils.Trace(Utils.TraceMasks.StackTrace, "***EXCEPTION*** {0}", m_status);
+                Utils.Trace(Utils.TraceMasks.StackTrace, "***EXCEPTION1*** {0}", m_status);
             }
 		}
 
@@ -64,7 +64,7 @@ namespace Opc.Ua
 
             if ((Utils.TraceMask & Utils.TraceMasks.StackTrace) != 0)
             {
-                Utils.Trace(Utils.TraceMasks.StackTrace, "***EXCEPTION*** {0} {1}", m_status, message);
+                Utils.Trace(Utils.TraceMasks.StackTrace, "***EXCEPTION2*** {0} {1}", m_status, message);
             }
 		}
 
@@ -77,7 +77,7 @@ namespace Opc.Ua
 
             if ((Utils.TraceMask & Utils.TraceMasks.StackTrace) != 0)
             {
-                Utils.Trace(Utils.TraceMasks.StackTrace, "***EXCEPTION*** {0} {1} {2}", m_status, e.GetType().Name, e.Message);
+                Utils.Trace(Utils.TraceMasks.StackTrace, "***EXCEPTION3*** {0} {1} {2}", m_status, e.GetType().Name, e.Message);
             }
 		}
 
@@ -90,7 +90,7 @@ namespace Opc.Ua
 
             if ((Utils.TraceMask & Utils.TraceMasks.StackTrace) != 0)
             {
-                Utils.Trace(Utils.TraceMasks.StackTrace, "***EXCEPTION*** {0} {1} {2}", m_status, e.GetType().Name, message);
+                Utils.Trace(Utils.TraceMasks.StackTrace, "***EXCEPTION4*** {0} {1} {2}", m_status, e.GetType().Name, message);
             }
 		}
 
@@ -103,7 +103,7 @@ namespace Opc.Ua
 
             if ((Utils.TraceMask & Utils.TraceMasks.StackTrace) != 0)
             {
-                Utils.Trace(Utils.TraceMasks.StackTrace, "***EXCEPTION*** {0}", m_status);
+                Utils.Trace(Utils.TraceMasks.StackTrace, "***EXCEPTION5*** {0}", m_status);
             }
 		}
 
@@ -116,7 +116,7 @@ namespace Opc.Ua
 
             if ((Utils.TraceMask & Utils.TraceMasks.StackTrace) != 0)
             {
-                Utils.Trace(Utils.TraceMasks.StackTrace, "***EXCEPTION*** {0} {1}", m_status, message);
+                Utils.Trace(Utils.TraceMasks.StackTrace, "***EXCEPTION6*** {0} {1}", m_status, message);
             }
 		}
 
@@ -129,7 +129,7 @@ namespace Opc.Ua
 
             if ((Utils.TraceMask & Utils.TraceMasks.StackTrace) != 0)
             {
-                Utils.Trace(Utils.TraceMasks.StackTrace, "***EXCEPTION*** {0} {1} {2}", m_status, e.GetType().Name, e.Message);
+                Utils.Trace(Utils.TraceMasks.StackTrace, "***EXCEPTION7*** {0} {1} {2}", m_status, e.GetType().Name, e.Message);
             }
 		}
 
@@ -142,7 +142,7 @@ namespace Opc.Ua
 
             if ((Utils.TraceMask & Utils.TraceMasks.StackTrace) != 0)
             {
-                Utils.Trace(Utils.TraceMasks.StackTrace, "***EXCEPTION*** {0} {1} {2}", m_status, e.GetType().Name, message);
+                Utils.Trace(Utils.TraceMasks.StackTrace, "***EXCEPTION8*** {0} {1} {2}", m_status, e.GetType().Name, message);
             }
 		}
 

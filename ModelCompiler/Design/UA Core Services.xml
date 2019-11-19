@@ -2050,6 +2050,10 @@
     <opc:Field Name="UseSimpleBounds" DataType="s0:Boolean" />
   </opc:ComplexType>
 
+  <opc:ComplexType Name="ReadAnnotationDataDetails" BaseType="HistoryReadDetails" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
+    <opc:Field Name="ReqTimes" DataType="UtcTime" ValueRank="0" />
+  </opc:ComplexType>
+
   <opc:ComplexType Name="HistoryData" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="DataValues" DataType="s0:DataValue" ValueRank="0" />
   </opc:ComplexType>

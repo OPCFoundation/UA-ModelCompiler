@@ -155,7 +155,9 @@
 
   <opc:ObjectType SymbolicName="DirectoryType" BaseType="ua:FolderType">
     <opc:Children>
-      <opc:Object SymbolicName="Applications" TypeDefinition="ua:FolderType" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="Applications" TypeDefinition="ua:FolderType" ModellingRule="Mandatory">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+      </opc:Object>
       <opc:Method SymbolicName="FindApplications" TypeDefinition="FindApplicationsMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RegisterApplication" TypeDefinition="RegisterApplicationMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="UpdateApplication" TypeDefinition="UpdateApplicationMethodType" ModellingRule="Mandatory" />

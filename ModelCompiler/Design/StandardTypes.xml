@@ -29,7 +29,7 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2019-09-09</uax:DateTime>
+          <uax:DateTime>2019-09-09T00:00:00</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -3606,6 +3606,7 @@
       <opc:Property SymbolicName="ExceptionDeviationFormat" DataType="ExceptionDeviationFormat" ModellingRule="Optional" />
       <opc:Property SymbolicName="StartOfArchive" DataType="ua:UtcTime" ModellingRule="Optional" />
       <opc:Property SymbolicName="StartOfOnlineArchive" DataType="ua:UtcTime" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ServerTimestampSupported" DataType="ua:Boolean" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -3636,6 +3637,7 @@
       <opc:Property SymbolicName="DeleteEventCapability" DataType="ua:Boolean" />
       <opc:Property SymbolicName="InsertAnnotationCapability" DataType="ua:Boolean" />
       <opc:Object SymbolicName="AggregateFunctions" TypeDefinition="FolderType" />
+      <opc:Property SymbolicName="ServerTimestampSupported" DataType="ua:Boolean" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -3654,6 +3656,14 @@
   <opc:ObjectType SymbolicName="AuditHistoryValueUpdateEventType" BaseType="AuditHistoryUpdateEventType" IsAbstract="true" PartNo="11">
     <opc:Children>
       <opc:Property SymbolicName="UpdatedNode" DataType="ua:NodeId" />
+      <opc:Property SymbolicName="PerformInsertReplace" DataType="PerformUpdateType" />
+      <opc:Property SymbolicName="NewValues" DataType="ua:DataValue" ValueRank="Array" />
+      <opc:Property SymbolicName="OldValues" DataType="ua:DataValue" ValueRank="Array" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="AuditHistoryAnnotationUpdateEventType" BaseType="AuditHistoryUpdateEventType" IsAbstract="true" PartNo="11">
+    <opc:Children>
       <opc:Property SymbolicName="PerformInsertReplace" DataType="PerformUpdateType" />
       <opc:Property SymbolicName="NewValues" DataType="ua:DataValue" ValueRank="Array" />
       <opc:Property SymbolicName="OldValues" DataType="ua:DataValue" ValueRank="Array" />
@@ -3724,7 +3734,8 @@
 
   <opc:ObjectType SymbolicName="TrustListType" BaseType="ua:FileType" PartNo="12">
     <opc:Children>
-      <opc:Property SymbolicName="LastUpdateTime" DataType="ua:UtcTime" />
+      <opc:Property SymbolicName="LastUpdateTime" DataType="ua:UtcTime" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="UpdateFrequency" DataType="ua:Duration" ModellingRule="Optional" />
       <opc:Method SymbolicName="OpenWithMasks" TypeDefinition="OpenWithMasksMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="CloseAndUpdate" TypeDefinition="CloseAndUpdateMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddCertificate" TypeDefinition="AddCertificateMethodType" ModellingRule="Optional" />
@@ -3753,16 +3764,26 @@
     </opc:Fields>
   </opc:DataType>
 
+  <opc:ObjectType SymbolicName="TrustListOutOfDateAlarmType" BaseType="ua:SystemOffNormalAlarmType" PartNo="12">
+    <opc:Children>
+      <opc:Property SymbolicName="TrustListId" DataType="ua:NodeId" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="LastUpdateTime" DataType="ua:UtcTime" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="UpdateFrequency" DataType="ua:Duration" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+
   <opc:ObjectType SymbolicName="CertificateGroupType" BaseType="ua:BaseObjectType" PartNo="12">
     <opc:Children>
       <opc:Object SymbolicName="TrustList" TypeDefinition="TrustListType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="CertificateTypes" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="CertificateExpired" TypeDefinition="CertificateExpirationAlarmType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="TrustListOutOfDate" TypeDefinition="TrustListOutOfDateAlarmType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
   
   <opc:ObjectType SymbolicName="CertificateGroupFolderType" BaseType="ua:FolderType" PartNo="12">
     <opc:Children>
-      <opc:Object SymbolicName="DefaultApplicationGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="DefaultApplicationGroup" TypeDefinition="CertificateGroupType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="DefaultHttpsGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Optional" />
       <opc:Object SymbolicName="DefaultUserTokenGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Optional" />
       <opc:Object SymbolicName="AdditionalGroup_Placeholder" TypeDefinition="CertificateGroupType"  ModellingRule="OptionalPlaceholder">
@@ -3929,7 +3950,7 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Method SymbolicName="GetEncryptingKeyMethodType" PartNo="12">
+  <opc:Method SymbolicName="GetEncryptingKeyMethodType" PartNo="12" ReleaseStatus="Draft">
     <opc:InputArguments>
       <opc:Argument Name="CredentialId" DataType="ua:String" />
       <opc:Argument Name="RequestedSecurityPolicyUri" DataType="ua:String" />
@@ -3992,6 +4013,8 @@
       <opc:Property SymbolicName="IssuerEndpointUrl"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
      </opc:Children>
   </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="AccessTokenIssuedAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true" PartNo="12" />
   
   <!-- Part 13 -->
   <opc:ObjectType SymbolicName="AggregateConfigurationType" BaseType="ua:BaseObjectType" PartNo="13">

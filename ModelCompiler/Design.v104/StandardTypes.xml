@@ -7,8 +7,8 @@
   xmlns="http://opcfoundation.org/UA/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
-  TargetVersion="1.04.3"
-  TargetPublicationDate="2019-09-09T00:00:00Z"
+  TargetVersion="1.04.4"
+  TargetPublicationDate="2019-11-20T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -24,12 +24,12 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespaceVersion" DataType="ua:String">
         <opc:DefaultValue>
-          <uax:String>1.04</uax:String>
+          <uax:String>1.04.4</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2019-09-09</uax:DateTime>
+          <uax:DateTime>2019-11-20T00:00:00</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -3606,6 +3606,7 @@
       <opc:Property SymbolicName="ExceptionDeviationFormat" DataType="ExceptionDeviationFormat" ModellingRule="Optional" />
       <opc:Property SymbolicName="StartOfArchive" DataType="ua:UtcTime" ModellingRule="Optional" />
       <opc:Property SymbolicName="StartOfOnlineArchive" DataType="ua:UtcTime" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ServerTimestampSupported" DataType="ua:Boolean" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -3636,6 +3637,7 @@
       <opc:Property SymbolicName="DeleteEventCapability" DataType="ua:Boolean" />
       <opc:Property SymbolicName="InsertAnnotationCapability" DataType="ua:Boolean" />
       <opc:Object SymbolicName="AggregateFunctions" TypeDefinition="FolderType" />
+      <opc:Property SymbolicName="ServerTimestampSupported" DataType="ua:Boolean" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -3654,6 +3656,14 @@
   <opc:ObjectType SymbolicName="AuditHistoryValueUpdateEventType" BaseType="AuditHistoryUpdateEventType" IsAbstract="true" PartNo="11">
     <opc:Children>
       <opc:Property SymbolicName="UpdatedNode" DataType="ua:NodeId" />
+      <opc:Property SymbolicName="PerformInsertReplace" DataType="PerformUpdateType" />
+      <opc:Property SymbolicName="NewValues" DataType="ua:DataValue" ValueRank="Array" />
+      <opc:Property SymbolicName="OldValues" DataType="ua:DataValue" ValueRank="Array" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="AuditHistoryAnnotationUpdateEventType" BaseType="AuditHistoryUpdateEventType" IsAbstract="true" PartNo="11">
+    <opc:Children>
       <opc:Property SymbolicName="PerformInsertReplace" DataType="PerformUpdateType" />
       <opc:Property SymbolicName="NewValues" DataType="ua:DataValue" ValueRank="Array" />
       <opc:Property SymbolicName="OldValues" DataType="ua:DataValue" ValueRank="Array" />
@@ -3725,6 +3735,7 @@
   <opc:ObjectType SymbolicName="TrustListType" BaseType="ua:FileType" PartNo="12">
     <opc:Children>
       <opc:Property SymbolicName="LastUpdateTime" DataType="ua:UtcTime" />
+      <opc:Property SymbolicName="UpdateFrequency" DataType="ua:Duration" ModellingRule="Optional" />
       <opc:Method SymbolicName="OpenWithMasks" TypeDefinition="OpenWithMasksMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="CloseAndUpdate" TypeDefinition="CloseAndUpdateMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddCertificate" TypeDefinition="AddCertificateMethodType" ModellingRule="Optional" />
@@ -3753,16 +3764,26 @@
     </opc:Fields>
   </opc:DataType>
 
+  <opc:ObjectType SymbolicName="TrustListOutOfDateAlarmType" BaseType="ua:SystemOffNormalAlarmType" PartNo="12">
+    <opc:Children>
+      <opc:Property SymbolicName="TrustListId" DataType="ua:NodeId" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="LastUpdateTime" DataType="ua:UtcTime" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="UpdateFrequency" DataType="ua:Duration" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+
   <opc:ObjectType SymbolicName="CertificateGroupType" BaseType="ua:BaseObjectType" PartNo="12">
     <opc:Children>
       <opc:Object SymbolicName="TrustList" TypeDefinition="TrustListType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="CertificateTypes" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="CertificateExpired" TypeDefinition="CertificateExpirationAlarmType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="TrustListOutOfDate" TypeDefinition="TrustListOutOfDateAlarmType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
   
   <opc:ObjectType SymbolicName="CertificateGroupFolderType" BaseType="ua:FolderType" PartNo="12">
     <opc:Children>
-      <opc:Object SymbolicName="DefaultApplicationGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="DefaultApplicationGroup" TypeDefinition="CertificateGroupType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="DefaultHttpsGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Optional" />
       <opc:Object SymbolicName="DefaultUserTokenGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Optional" />
       <opc:Object SymbolicName="AdditionalGroup_Placeholder" TypeDefinition="CertificateGroupType"  ModellingRule="OptionalPlaceholder">
@@ -3929,7 +3950,7 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Method SymbolicName="GetEncryptingKeyMethodType" PartNo="12">
+  <opc:Method SymbolicName="GetEncryptingKeyMethodType" PartNo="12" ReleaseStatus="Draft">
     <opc:InputArguments>
       <opc:Argument Name="CredentialId" DataType="ua:String" />
       <opc:Argument Name="RequestedSecurityPolicyUri" DataType="ua:String" />
@@ -3946,7 +3967,7 @@
       <opc:Property SymbolicName="ProfileUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EndpointUrls"  DataType="ua:String" ValueRank="Array" ModellingRule="Optional" />
       <opc:Property SymbolicName="ServiceStatus"  DataType="ua:StatusCode" ValueRank="Scalar" ModellingRule="Optional" />
-      <opc:Method SymbolicName="GetEncryptingKey" TypeDefinition="GetEncryptingKeyMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="GetEncryptingKey" TypeDefinition="GetEncryptingKeyMethodType" ModellingRule="Optional" ReleaseStatus="Draft" />
       <opc:Method SymbolicName="UpdateCredential" TypeDefinition="KeyCredentialUpdateMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="DeleteCredential" ModellingRule="Optional" />
     </opc:Children>
@@ -4517,7 +4538,7 @@
   
   <opc:DataType SymbolicName="UadpWriterGroupMessageDataType" BaseType="WriterGroupMessageDataType" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="GroupVersion" DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="GroupVersion" DataType="ua:VersionTime" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetOrdering" DataType="DataSetOrderingType" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="NetworkMessageContentMask" DataType="UadpNetworkMessageContentMask" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="SamplingOffset" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
@@ -5091,7 +5112,7 @@
   <opc:ReferenceType SymbolicName="HasDataSetWriter" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
     <opc:InverseName>IsWriterInGroup</opc:InverseName>
   </opc:ReferenceType>
-  
+
   <opc:ReferenceType SymbolicName="HasWriterGroup" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
     <opc:InverseName>IsWriterGroupOf</opc:InverseName>
   </opc:ReferenceType>
@@ -5131,7 +5152,7 @@
   <opc:ReferenceType SymbolicName="HasDataSetReader" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
     <opc:InverseName>IsReaderInGroup</opc:InverseName>
   </opc:ReferenceType>
-
+  
   <opc:ReferenceType SymbolicName="HasReaderGroup" BaseType="ua:HasComponent" IsAbstract="false" Symmetric="false" PartNo="14">
     <opc:InverseName>IsReaderGroupOf</opc:InverseName>
   </opc:ReferenceType>
@@ -5888,16 +5909,85 @@
     </opc:Children>
   </opc:ObjectType>
 
+  <!-- Part 17 -->
+
+  <opc:ObjectType SymbolicName="AliasNameType" BaseType="ua:BaseObjectType" PartNo="17" ReleaseStatus="Draft">
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="AliasNameCategoryType" BaseType="ua:FolderType" PartNo="17" ReleaseStatus="Draft">
+    <opc:Children>
+      <opc:Object SymbolicName="Alias_Placeholder" TypeDefinition="AliasNameType"  ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;Alias&gt;</opc:BrowseName>
+      </opc:Object>
+      <opc:Object SymbolicName="SubAliasNameCategories_Placeholder" TypeDefinition="AliasNameCategoryType"  ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;SubAliasNameCategories&gt;</opc:BrowseName>
+      </opc:Object>
+      <opc:Method SymbolicName="FindAlias" TypeDefinition="FindAliasMethodType" ModellingRule="Mandatory">
+      </opc:Method>
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:Method SymbolicName="FindAliasMethodType" PartNo="17" ReleaseStatus="Draft">
+    <opc:InputArguments>
+      <opc:Argument Name="AliasNameSearchPattern" DataType="ua:String" />
+      <opc:Argument Name="ReferenceTypeFilter" DataType="ua:NodeId" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="AliasNodeList" DataType="AliasNameDataType" ValueRank="Array" />
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:DataType SymbolicName="AliasNameDataType" BaseType="Structure" PartNo="17" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="AliasName" DataType="ua:QualifiedName" />
+      <opc:Field Name="ReferencedNodes" DataType="ua:ExpandedNodeId" ValueRank="Array" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:ReferenceType SymbolicName="AliasFor" BaseType="ua:NonHierarchicalReferences" PartNo="17" ReleaseStatus="Draft">
+    <opc:InverseName>HasAlias</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:Object SymbolicName="Aliases" TypeDefinition="AliasNameCategoryType" ModellingRule="None" PartNo="17" ReleaseStatus="Draft">
+    <opc:BrowseName>Aliases</opc:BrowseName>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:ObjectsFolder</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:Object SymbolicName="Tags" TypeDefinition="AliasNameCategoryType" ModellingRule="None" PartNo="17" ReleaseStatus="Draft">
+    <opc:BrowseName>Tags</opc:BrowseName>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:Aliases</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:Object SymbolicName="Topics" TypeDefinition="AliasNameCategoryType" ModellingRule="None" PartNo="17" ReleaseStatus="Draft">
+    <opc:BrowseName>Topics</opc:BrowseName>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:Aliases</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
   <!-- Part 19 -->
 
-  <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteBaseType" BaseType="ua:MultiStateValueDiscreteType" DataType="Number" ValueRank="Scalar" ReleaseStatus="Draft" PartNo="19">
+  <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteBaseType" BaseType="ua:MultiStateValueDiscreteType" DataType="Number" ValueRank="Scalar" PartNo="19" ReleaseStatus="Draft">
     <opc:Children>
       <opc:Property SymbolicName="EnumDictionaryEntries" DataType="ua:NodeId" ValueRank="OneOrMoreDimensions" ArrayDimensions="0,0"  ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ValueAsDictionaryEntries" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0"  ModellingRule="Optional" />
     </opc:Children>
   </opc:VariableType>
 
-  <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteType" BaseType="MultiStateDictionaryEntryDiscreteBaseType" DataType="Number" ValueRank="Scalar" ReleaseStatus="Draft" PartNo="19">
+  <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteType" BaseType="MultiStateDictionaryEntryDiscreteBaseType" DataType="Number" ValueRank="Scalar" PartNo="19" ReleaseStatus="Draft">
     <opc:Children>
       <opc:Property SymbolicName="ValueAsDictionaryEntries" ModellingRule="Mandatory" />
     </opc:Children>
