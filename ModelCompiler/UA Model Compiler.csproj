@@ -210,16 +210,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Design\StandardTypes.csv" />
-    <EmbeddedResource Include="Design\UA Attributes.xml" />
-    <EmbeddedResource Include="Design\UA Core Services.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Design\UA Status Codes.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Design\UA Status Codes.csv" />
-    <EmbeddedResource Include="Design\UA Attributes.csv" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\BinarySchema\BuiltInTypes.bsd" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Constant.csv" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.csv" />
@@ -260,16 +250,6 @@
     <EmbeddedResource Include="Design.v104\UA Attributes.csv" />
     <None Include="Design.v104\UA ServerCapabilities.csv" />
     <EmbeddedResource Include="Design.v104\UA Status Codes.csv" />
-    <None Include="Design\DemoModel.csv" />
-    <None Include="Design\MDIS.csv" />
-    <None Include="Design\MTConnectModel.csv" />
-    <None Include="Design\OpcUaFdiPart7Model.csv" />
-    <None Include="Design\OpcUaFdiPart5Model.csv" />
-    <None Include="Design\OpcUaGdsModel.csv" />
-    <None Include="Design\OpcUaAdiModel.csv" />
-    <None Include="Design\OpcUaDiModel.csv" />
-    <None Include="Design\OpcUaPLCopenModel.csv" />
-    <None Include="Design\SercosModel.csv" />
     <None Include="packages.config" />
     <None Include="StackGenerator\DataTypes\Templates\XmlSchema\BuiltInTypes.xsx">
       <DependentUpon>BuiltInTypes.xsd</DependentUpon>
@@ -278,7 +258,6 @@
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\Message.wsdl" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\PortType.wsdl" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\Services.wsdl" />
-    <EmbeddedResource Include="Design\UA Defined Types.xml" />
     <EmbeddedResource Include="HelpFile.txt" />
     <EmbeddedResource Include="Design.v103\BuiltInTypes.xml" />
     <Content Include="Design.v103\DemoModel.xml" />
@@ -322,21 +301,6 @@
     </EmbeddedResource>
     <Content Include="Design.v104\UA Defined Types.xml" />
     <EmbeddedResource Include="Design.v104\UA Status Codes.xml" />
-    <Content Include="Design\MDIS.xml" />
-    <Content Include="Design\MTConnectModel.xml" />
-    <Content Include="Design\SercosModel.xml" />
-    <Content Include="Design\OpcUaFdiPart7Model.xml" />
-    <Content Include="Design\OpcUaFdiPart5Model.xml" />
-    <Content Include="Design\OpcUaGdsModel.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Design\OpcUaAdiModel.xml" />
-    <Content Include="Design\OpcUaDiModel.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Design\OpcUaPLCopenModel.xml" />
-    <Content Include="Design\DemoModel.xml" />
-    <None Include="Design\UA ServerCapabilities.csv" />
     <Content Include="StackGenerator\Validators\UA Type Dictionary.xsd">
       <SubType>
       </SubType>
@@ -407,20 +371,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Design\BuiltInTypes.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="ExceptionDlg.resx">
       <DependentUpon>ExceptionDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Design\StandardTypes.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Templates\BinarySchema\BuiltInTypes.bsd" />
     <EmbeddedResource Include="Templates\BinarySchema\ComplexType.xml" />
     <EmbeddedResource Include="Templates\BinarySchema\EnumeratedType.xml" />
