@@ -2058,9 +2058,6 @@
     <opc:Field Name="DataValues" DataType="s0:DataValue" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="HistoryAnnotationData" BaseType="HistoryData" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
-  </opc:ComplexType>
-
   <opc:ComplexType Name="ModificationInfo" AllowArrays="true" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
     <opc:Field Name="ModificationTime" DataType="UtcTime" />
     <opc:Field Name="UpdateType" DataType="HistoryUpdateType" />

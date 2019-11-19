@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.05" TargetPublicationDate="2019-09-09T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04.4" TargetPublicationDate="2019-11-20T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -7014,7 +7014,6 @@
       <Field Name="DataValues" DataType="tns:DataValue" ValueRank="Array" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:HistoryAnnotationData" SymbolicId="tns:HistoryAnnotationData" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:HistoryData" NoClassGeneration="true" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:ModificationInfo" SymbolicId="tns:ModificationInfo" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true">
     <Fields>
       <Field Name="ModificationTime" DataType="tns:UtcTime" />

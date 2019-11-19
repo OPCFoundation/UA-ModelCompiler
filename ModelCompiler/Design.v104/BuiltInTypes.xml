@@ -152,7 +152,7 @@
     <opc:Description>The abstract base type for all references.</opc:Description>
   </opc:ReferenceType>
 
-  <opc:ReferenceType SymbolicName="NonHierarchicalReferences"  BaseType="References" IsAbstract="true" PartNo="3">
+  <opc:ReferenceType SymbolicName="NonHierarchicalReferences" BaseType="References" IsAbstract="true" Symmetric="true" PartNo="3">
     <opc:Description>The abstract base type for all non-hierarchical references.</opc:Description>
   </opc:ReferenceType>
 

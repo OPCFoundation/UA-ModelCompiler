@@ -720,6 +720,33 @@
   <opc:Constant Name="Bad_DependentValueChanged">
     <opc:Documentation>A dependent value has been changed but the change has not been applied to the device. The quality of the dominant variable is Bad.</opc:Documentation>
   </opc:Constant>
+  <opc:Constant Name="Good_Edited_DependentValueChanged">
+    <opc:Documentation>It is delivered with a dominant Variable value when a dependent Variable has changed but the change has not been applied.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Good_Edited_DominantValueChanged">
+    <opc:Documentation>It is delivered with a dependent Variable value when a dominant Variable has changed but the change has not been applied.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Good_Edited_DominantValueChanged_DependentValueChanged">
+    <opc:Documentation>It is delivered with a dependent Variable value when a dominant or dependent Variable has changed but change has not been applied.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Bad_Edited_OutOfRange">
+    <opc:Documentation>It is delivered with a Variable value when Variable has changed but the value is not legal.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Bad_InitialValue_OutOfRange">
+    <opc:Documentation>It is delivered with a Variable value when a source Variable has changed but the value is not legal.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Bad_OutOfRange_DominantValueChanged">
+    <opc:Documentation>It is delivered with a dependent Variable value when a dominant Variable has changed and the value is not legal.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Bad_Edited_OutOfRange_DominantValueChanged">
+    <opc:Documentation>It is delivered with a dependent Variable value when a dominant Variable has changed, the value is not legal and the change has not been applied.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Bad_OutOfRange_DominantValueChanged_DependentValueChanged">
+    <opc:Documentation>It is delivered with a dependent Variable value when a dominant or dependent Variable has changed and the value is not legal.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Bad_Edited_OutOfRange_DominantValueChanged_DependentValueChanged">
+    <opc:Documentation>It is delivered with a dependent Variable value when a dominant or dependent Variable has changed, the value is not legal and the change has not been applied.</opc:Documentation>
+  </opc:Constant>
 
   <!-- Codes Only Used By The Stack  -->
   <opc:Constant Name="Good_CommunicationEvent">
