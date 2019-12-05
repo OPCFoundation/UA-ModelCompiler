@@ -755,7 +755,12 @@ namespace Opc.Ua
             /// <summary>
             /// The StatusCode associated with the Value attribute.
             /// </summary>
-            StatusCode = 0x20000000
+            StatusCode = 0x20000000,
+
+            /// <summary>
+            /// The DataTypeDefinition attribute of a DataType Node.
+            /// </summary>
+            DataTypeDefinition = 0x40000000
         }
         #endregion
 
