@@ -893,8 +893,6 @@ namespace Opc.Ua.Export
                     definition.IsUnion = true;
                 }
 
-                definition.BaseType = Export(structureDefinition.BaseDataType, namespaceUris);
-
                 if (structureDefinition.Fields != null)
                 {
                     List<Opc.Ua.Export.DataTypeField> fields = new List<DataTypeField>();
