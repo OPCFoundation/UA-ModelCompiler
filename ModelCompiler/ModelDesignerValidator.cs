@@ -860,7 +860,6 @@ namespace Opc.Ua.ModelCompiler
 
             if (hasDataTypesDefined)
             {
-
                 if (!EmbeddedResourcePath.EndsWith("v103"))
                 {
                     AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Binary, nodes);
@@ -1685,6 +1684,8 @@ namespace Opc.Ua.ModelCompiler
             property.HistorizingSpecified = true;
             property.DecodedValue = value;
             property.PartNo = parent.PartNo;
+            property.Category = parent.Category;
+            property.ReleaseStatus = parent.ReleaseStatus;
 
             children.Add(property);
 
@@ -1962,6 +1963,8 @@ namespace Opc.Ua.ModelCompiler
             public object Id;
             public string SymbolicId;
             public NodeClass NodeClass;
+            public ReleaseStatus ReleaseStatus;
+            public string Category;
         }
 
         private Dictionary<string, object> ParseFile(Stream istrm)
@@ -2062,6 +2065,8 @@ namespace Opc.Ua.ModelCompiler
                 info.Id = id;
                 info.SymbolicId = node.SymbolicId.Name;
                 info.NodeClass = GetNodeClass(node);
+                info.ReleaseStatus = node.ReleaseStatus;
+                info.Category = node.Category;
 
                 uniqueIdentifiers.Add(id, info);
             }
@@ -2358,7 +2363,7 @@ namespace Opc.Ua.ModelCompiler
         private void Import(NodeDesign node, NodeDesign parent)
         {
             UpdateNamesAndIdentifiers(node, parent);
-
+            
             // assign default values for various subtypes.
             if (node is TypeDesign)
             {
@@ -2408,6 +2413,12 @@ namespace Opc.Ua.ModelCompiler
                                 continue;
                             }
                         }
+                    }
+
+                    if (child.ReleaseStatus == ReleaseStatus.Released)
+                    {
+                        child.Category = node.Category;
+                        child.ReleaseStatus = node.ReleaseStatus;
                     }
 
                     children.Add(child);
@@ -5298,12 +5309,15 @@ namespace Opc.Ua.ModelCompiler
                         false,
                         namespaceUris);
 
-                    root.InstanceState.Categories = null;
-                    root.InstanceState.ReleaseStatus = (Export.ReleaseStatus)(int)hierarchyNode.Instance.ReleaseStatus;
-
-                    if (!String.IsNullOrEmpty(root.Category))
+                    if (root.InstanceState.ReleaseStatus == Export.ReleaseStatus.Released || root.InstanceState.Categories != null)
                     {
-                        root.InstanceState.Categories = root.Category.Split(new char[] { ',' });
+                        root.InstanceState.Categories = null;
+                        root.InstanceState.ReleaseStatus = (Export.ReleaseStatus)(int)hierarchyNode.Instance.ReleaseStatus;
+
+                        if (!String.IsNullOrEmpty(root.Category))
+                        {
+                            root.InstanceState.Categories = root.Category.Split(new char[] { ',' });
+                        }
                     }
 
                     ClearModellingRules(hierarchyNode.Instance.State as BaseInstanceState);
@@ -5915,6 +5929,13 @@ namespace Opc.Ua.ModelCompiler
             state.ReferenceTypeId = ConstructNodeId(root.ReferenceType, namespaceUris);
             state.ModellingRuleId = ConstructModellingRule(root.ModellingRule);
             state.EventNotifier = ConstructEventNotifier(root.SupportsEvents);
+            state.Categories = null;
+            state.ReleaseStatus = (Export.ReleaseStatus)(int)root.ReleaseStatus;
+
+            if (!String.IsNullOrEmpty(root.Category))
+            {
+                root.State.Categories = root.Category.Split(new char[] { ',' });
+            }
 
             if (root.NumericIdSpecified)
             {
@@ -5930,11 +5951,23 @@ namespace Opc.Ua.ModelCompiler
             state.Handle = root;
             state.EventNotifier = ConstructEventNotifier(root.SupportsEvents);
             state.ContainsNoLoops = root.ContainsNoLoops;
+            state.Categories = null;
+            state.ReleaseStatus = (Export.ReleaseStatus)(int)root.ReleaseStatus;
+
+            if (!String.IsNullOrEmpty(root.Category))
+            {
+                root.State.Categories = root.Category.Split(new char[] { ',' });
+            }
+
             return state;
         }
 
         private NodeState CreateNodeState(NodeState parent, MethodDesign root, NamespaceTable namespaceUris)
         {
+            if (root.SymbolicId.Name.Contains("FindAlias"))
+            {
+                int x = 0;
+            }
             MethodState state = new MethodState(parent);
             state.Handle = root;
 
@@ -5942,6 +5975,13 @@ namespace Opc.Ua.ModelCompiler
             state.ReferenceTypeId = ConstructNodeId(root.ReferenceType, namespaceUris);
             state.ModellingRuleId = ConstructModellingRule(root.ModellingRule);
             state.Executable = state.UserExecutable = !root.NonExecutable;
+            state.Categories = null;
+            state.ReleaseStatus = (Export.ReleaseStatus)(int)root.ReleaseStatus;
+
+            if (!String.IsNullOrEmpty(root.Category))
+            {
+                root.State.Categories = root.Category.Split(new char[] { ',' });
+            }
 
             if (root.NumericIdSpecified)
             {

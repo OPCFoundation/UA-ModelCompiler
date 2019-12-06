@@ -7,10 +7,15 @@ REM ****************************************************************************
 SETLOCAL
 
 set MODELCOMPILER=.\Bin\Release\Opc.Ua.ModelCompiler.exe
-set OUTPUT=.\Published
+set OUTPUT=..\nodesets
+set INPUT=.\ModelCompiler\Design
 set EXCLUDE=-exclude nothing
-set ANNEX1_SRCPATH=.\ModelCompiler\Design\rec20_latest_a1.csv
-set ANNEX2_SRCPATH=.\ModelCompiler\Design\rec20_latest_a2-3.csv
+
+IF NOT "%1"=="" (set OUTPUT=%OUTPUT%\%1) else (set OUTPUT=%OUTPUT%\master)
+IF NOT "%1"=="" (set INPUT=%INPUT%.%1) else (set INPUT=%INPUT%.v104)
+
+set ANNEX1_SRCPATH=%INPUT%\rec20_latest_a1.csv
+set ANNEX2_SRCPATH=%INPUT%\rec20_latest_a2-3.csv
 set OUTPUT_PATH=%OUTPUT%\Schema\UNECE_to_OPCUA.csv
 
 REM Make sure that all of our output locations exist..

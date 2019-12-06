@@ -158,7 +158,9 @@ namespace Opc.Ua.ModelCompiler
 
             // collect the nodes to write.
             NodeStateCollection collection = new NodeStateCollection();
+            SortedDictionary<string, NodeDesign> identifiers = new SortedDictionary<string, NodeDesign>();
             NodeStateCollection collectionWithServices = new NodeStateCollection();
+            SortedDictionary<string, NodeDesign> identifiersWithServices = new SortedDictionary<string, NodeDesign>();
             Dictionary<uint, NodeStateCollection> subsets = new Dictionary<uint, NodeStateCollection>();
 
             for (int ii = 0; ii < m_model.Items.Length; ii++)
@@ -206,10 +208,12 @@ namespace Opc.Ua.ModelCompiler
                     }
 
                     collectionWithServices.Add(state);
+                    identifiersWithServices.Add(m_model.Items[ii].SymbolicId.Name, m_model.Items[ii]);
 
                     if (isInAddressSpace)
                     {
                         collection.Add(state);
+                        identifiers.Add(m_model.Items[ii].SymbolicId.Name, m_model.Items[ii]);
                     }
 
                     if (m_model.Items[ii].PartNo != 0)
@@ -314,6 +318,23 @@ namespace Opc.Ua.ModelCompiler
             // save as nodeset.
             string outputFile3 = String.Format(@"{0}\{1}.NodeSet2.xml", filePath, m_model.TargetNamespaceInfo.Prefix);
 
+            var identifiersFilePath = String.Format(@"{0}\{1}.NodeIds.csv", filePath, m_model.TargetNamespaceInfo.Prefix);
+
+            using (StreamWriter writer = new StreamWriter(File.Open(identifiersFilePath, FileMode.Create)))
+            {
+                foreach (var ii in identifiers)
+                {
+                    if (ii.Value.NumericIdSpecified)
+                    {
+                        writer.WriteLine($"{ii.Key},{ii.Value.NumericId},{ii.Value.State.NodeClass}");
+                    }
+                    else if (!String.IsNullOrWhiteSpace(ii.Value.StringId))
+                    {
+                        writer.WriteLine($"{ii.Key},\"{ii.Value.StringId}\",{ii.Value.State.NodeClass}");
+                    }
+                }
+            }
+
             using (Stream ostrm = File.Open(outputFile3, FileMode.Create))
             {
                 var model = new Export.ModelTableEntry() 
@@ -348,6 +369,23 @@ namespace Opc.Ua.ModelCompiler
                             model,
                             (m_model.TargetPublicationDate != DateTime.MinValue) ? m_model.TargetPublicationDate : DateTime.MinValue,
                             true);
+                    }
+
+                    identifiersFilePath = String.Format(@"{0}\{1}.NodeIds.Services.csv", filePath, m_model.TargetNamespaceInfo.Prefix);
+
+                    using (StreamWriter writer = new StreamWriter(File.Open(identifiersFilePath, FileMode.Create)))
+                    {
+                        foreach (var ii in identifiersWithServices)
+                        {
+                            if (ii.Value.NumericIdSpecified)
+                            {
+                                writer.WriteLine($"{ii.Key},{ii.Value.NumericId},{ii.Value.State.NodeClass}");
+                            }
+                            else if (!String.IsNullOrWhiteSpace(ii.Value.StringId))
+                            {
+                                writer.WriteLine($"{ii.Key},\"{ii.Value.StringId}\",{ii.Value.State.NodeClass}");
+                            }
+                        }
                     }
                 }
             }

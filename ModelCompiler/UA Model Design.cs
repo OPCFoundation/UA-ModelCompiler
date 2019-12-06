@@ -1055,7 +1055,7 @@ namespace Opc.Ua.ModelCompiler {
         ServicesOnly,
         
         /// <remarks/>
-        CodeGenerator,
+        CodeGenerator
     }
     
     /// <remarks/>
