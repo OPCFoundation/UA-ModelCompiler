@@ -239,12 +239,12 @@ namespace Opc.Ua.ModelCompiler
 
                         if (references.Count > 0 && references[0].TargetId == Opc.Ua.ObjectIds.XmlSchema_TypeSystem)
                         {
-                            file = String.Format(@"{0}\{1}.Types.xsd", filePath, m_model.TargetNamespaceInfo.Prefix);
+                            file = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".Types.xsd");
                         }
 
                         if (references.Count > 0 && references[0].TargetId == Opc.Ua.ObjectIds.OPCBinarySchema_TypeSystem)
                         {
-                            file = String.Format(@"{0}\{1}.Types.bsd", filePath, m_model.TargetNamespaceInfo.Prefix);
+                            file = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".Types.bsd");
                         }
 
                         if (file != null)
@@ -265,7 +265,7 @@ namespace Opc.Ua.ModelCompiler
             // save the subsets.
             foreach (KeyValuePair<uint,NodeStateCollection> entry in subsets)
             {
-                string file = String.Format(@"{0}\{1}.NodeSet2.Part{2}.xml", filePath, m_model.TargetNamespaceInfo.Prefix, entry.Key);
+                string file = Path.Combine(filePath, String.Format(@"{0}.NodeSet2.Part{1}.xml", m_model.TargetNamespaceInfo.Prefix, entry.Key));
 
                 using (Stream ostrm = File.Open(file, FileMode.Create))
                 {
@@ -285,7 +285,7 @@ namespace Opc.Ua.ModelCompiler
             }
 
             // open the output file.
-            string outputFile = String.Format(@"{0}\{1}.PredefinedNodes.xml", filePath, m_model.TargetNamespaceInfo.Prefix);
+            string outputFile = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".PredefinedNodes.xml");
 
             // save the xml.
             using (Stream ostrm = File.Open(outputFile, FileMode.Create))
@@ -302,7 +302,7 @@ namespace Opc.Ua.ModelCompiler
             }
 
             // save as nodeset.
-            string outputFile2 = String.Format(@"{0}\{1}.NodeSet.xml", filePath, m_model.TargetNamespaceInfo.Prefix);
+            string outputFile2 = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet.xml");
 
             using (Stream ostrm = File.Open(outputFile2, FileMode.Create))
             {
@@ -316,7 +316,7 @@ namespace Opc.Ua.ModelCompiler
             }
 
             // save as nodeset.
-            string outputFile3 = String.Format(@"{0}\{1}.NodeSet2.xml", filePath, m_model.TargetNamespaceInfo.Prefix);
+            string outputFile3 = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.xml");
 
             var identifiersFilePath = String.Format(@"{0}\{1}.NodeIds.csv", filePath, m_model.TargetNamespaceInfo.Prefix);
 
@@ -399,7 +399,7 @@ namespace Opc.Ua.ModelCompiler
             }
 
             // open the output file.
-            string outputFile4 = String.Format(@"{0}\{1}.PredefinedNodes.uanodes", filePath, m_model.TargetNamespaceInfo.Prefix);
+            string outputFile4 = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".PredefinedNodes.uanodes");
 
             // save the xml.
             using (Stream ostrm = File.Open(outputFile4, FileMode.Create))
@@ -415,7 +415,7 @@ namespace Opc.Ua.ModelCompiler
         {
             string prefix = m_model.TargetNamespaceInfo.Name;
 
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}_identifiers.h", filePath, prefix.ToLower()), false);
+            StreamWriter writer = new StreamWriter(Path.Combine(filePath, prefix.ToLower() + "_identifiers.h"), false);
 
             try
             {
@@ -454,7 +454,7 @@ namespace Opc.Ua.ModelCompiler
         {
             string prefix = m_model.TargetNamespaceInfo.Name;
 
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}_exclusions.h", filePath, prefix.ToLower()), false);
+            StreamWriter writer = new StreamWriter(Path.Combine(filePath, prefix.ToLower() + "_exclusions.h"), false);
 
             try
             {
@@ -581,7 +581,7 @@ namespace Opc.Ua.ModelCompiler
         {
             string prefix = m_model.TargetNamespaceInfo.Name;
 
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}_browsenames.h", filePath, prefix.ToLower()), false);
+            StreamWriter writer = new StreamWriter(Path.Combine(filePath, prefix.ToLower() + "_browsenames.h"), false);
 
             try
             {
@@ -637,7 +637,7 @@ namespace Opc.Ua.ModelCompiler
         /// </summary>
         private void WriteTemplate_XmlSchema(string filePath, List<NodeDesign> nodes)
         {
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}.Types.xsd", filePath, m_model.TargetNamespaceInfo.Prefix), false);
+            StreamWriter writer = new StreamWriter(Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".Types.xsd"), false);
 
             try
             {
@@ -1275,7 +1275,7 @@ namespace Opc.Ua.ModelCompiler
         /// </summary>
         private void WriteTemplate_BinarySchema(string filePath, List<NodeDesign> nodes)
         {
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}.Types.bsd", filePath, m_model.TargetNamespaceInfo.Prefix), false);
+            StreamWriter writer = new StreamWriter(Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".Types.bsd"), false);
 
             try
             {
@@ -1711,7 +1711,7 @@ namespace Opc.Ua.ModelCompiler
         /// </summary>
         private void WriteTemplate_InternalSingleFile(string filePath, List<NodeDesign> nodes)
         {
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}.Classes.cs", filePath, m_model.TargetNamespaceInfo.Prefix), false);
+            StreamWriter writer = new StreamWriter(Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".Classes.cs"), false);
 
             try
             {
@@ -1800,7 +1800,7 @@ namespace Opc.Ua.ModelCompiler
         /// </summary>
         private void WriteTemplate_ConstantsSingleFile(string filePath, List<NodeDesign> nodes)
         {
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}.Constants.cs", filePath, m_model.TargetNamespaceInfo.Prefix), false);
+            StreamWriter writer = new StreamWriter(Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".Constants.cs"), false);
 
             try
             {
@@ -1880,7 +1880,7 @@ namespace Opc.Ua.ModelCompiler
         /// </summary>
         private void WriteTemplate_DataTypesSingleFile(string filePath, List<NodeDesign> nodes)
         {
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}.DataTypes.cs", filePath, m_model.TargetNamespaceInfo.Prefix), false);
+            StreamWriter writer = new StreamWriter(Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".DataTypes.cs"), false);
 
             try
             {
@@ -1942,7 +1942,7 @@ namespace Opc.Ua.ModelCompiler
         /// </summary>
         private void WriteTemplate_NonDataTypesSingleFile(string filePath, List<NodeDesign> nodes)
         {
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}.Classes.cs", filePath, m_model.TargetNamespaceInfo.Prefix), false);
+            StreamWriter writer = new StreamWriter(Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".Classes.cs"), false);
 
             try
             {

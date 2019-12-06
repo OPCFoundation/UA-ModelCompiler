@@ -283,21 +283,21 @@ namespace Opc.Ua.ModelCompiler
 
             if (!File.Exists(designFilePath))
             {
-                designFilePath = Utils.Format("{0}\\{1}", targetFile.DirectoryName, designFileName);
+                designFilePath = Path.Combine(targetFile.DirectoryName, designFileName);
                 Console.WriteLine("Trying file: " + designFilePath);
 
                 if (!File.Exists(designFilePath))
                 {
-                    designFilePath = $".\\Design\\";
+                    designFilePath = Path.Combine(".", "Design");
 
                     int index = EmbeddedResourcePath.IndexOf(".Design");
 
                     if (index > 0)
                     {
-                        designFilePath = $".\\{EmbeddedResourcePath.Substring(index + 1)}\\";
+                        designFilePath = Path.Combine(".", EmbeddedResourcePath.Substring(index + 1));
                     }
 
-                    designFilePath += $"{designFileName}";
+                    designFilePath = Path.Combine(designFilePath, designFileName);
                     Console.WriteLine("Trying file: " + designFilePath);
 
                     if (!File.Exists(designFilePath))
@@ -431,21 +431,21 @@ namespace Opc.Ua.ModelCompiler
 
             if (!File.Exists(identifiersFilePath))
             {
-                identifiersFilePath = Utils.Format("{0}\\{1}", targetFile.DirectoryName, identifiersFileName);
+                identifiersFilePath = Path.Combine(targetFile.DirectoryName, identifiersFileName);
                 Console.WriteLine("Trying file: " + identifiersFilePath);
 
                 if (!File.Exists(identifiersFilePath))
                 {
-                    identifiersFilePath = $".\\Design\\";
+                    identifiersFilePath = Path.Combine(".", "Design");
 
                     int index = EmbeddedResourcePath.IndexOf(".Design");
 
                     if (index > 0)
                     {
-                        identifiersFilePath = $".\\{EmbeddedResourcePath.Substring(index+1)}\\";
+                        identifiersFilePath = Path.Combine(".", EmbeddedResourcePath.Substring(index+1));
                     }
 
-                    identifiersFilePath += $"{identifiersFileName}";
+                    identifiersFilePath = Path.Combine(identifiersFilePath, identifiersFileName);
                     Console.WriteLine("Trying file: " + identifiersFilePath);
 
                     if (!File.Exists(identifiersFilePath))
