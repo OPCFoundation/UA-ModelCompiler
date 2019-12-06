@@ -261,7 +261,7 @@ namespace Opc.Ua.Export
                     DataTypeState o = (DataTypeState)node;
                     UADataType value = new UADataType();
                     value.IsAbstract = o.IsAbstract;
-                    value.Definition = Export(o, o.Definition, context.NamespaceUris, outputRedundantNames);
+                    value.Definition = Export(o, o.DataTypeDefinition, context.NamespaceUris, outputRedundantNames);
                     value.Purpose = o.Purpose;
                     exportedNode = value;
                     break;
@@ -590,8 +590,23 @@ namespace Opc.Ua.Export
                     UADataType o = (UADataType)node;
                     DataTypeState value = new DataTypeState();
                     value.IsAbstract = o.IsAbstract;
-                    value.Definition = Import(o, o.Definition, context.NamespaceUris);
+                    Opc.Ua.DataTypeDefinition dataTypeDefinition = Import(o, o.Definition, context.NamespaceUris);
+                    value.DataTypeDefinition = new ExtensionObject(dataTypeDefinition);
                     value.Purpose = o.Purpose;
+                    value.DataTypeModifier = DataTypeModifier.None;
+
+                    if (o.Definition != null)
+                    {
+                        if (o.Definition.IsOptionSet)
+                        {
+                            value.DataTypeModifier = DataTypeModifier.OptionSet;
+                        }
+                        else if (o.Definition.IsUnion)
+                        {
+                            value.DataTypeModifier = DataTypeModifier.Union;
+                        }
+                    }
+
                     importedNode = value;
                     break;
                 }
@@ -841,62 +856,94 @@ namespace Opc.Ua.Export
         /// Exports a DataTypeDefinition
         /// </summary>
         private Opc.Ua.Export.DataTypeDefinition Export(
-            DataTypeState dataType, 
-            Opc.Ua.DataTypeDefinition2 source,
+            DataTypeState dataType,
+            ExtensionObject source,
             NamespaceTable namespaceUris,
             bool outputRedundantNames)
         {
-            if (source == null)
+            if (source == null || source.Body == null)
             {
                 return null;
             }
 
             DataTypeDefinition definition = new DataTypeDefinition();
 
-            if (outputRedundantNames || dataType.BrowseName != source.Name)
+            if (outputRedundantNames || dataType.BrowseName != null)
             {
-                definition.Name = Export(source.Name, namespaceUris);
+                definition.Name = Export(dataType.BrowseName, namespaceUris);
             }
 
-            if (source.Name.Name != source.SymbolicName)
+            if (dataType.BrowseName.Name != dataType.SymbolicName)
             {
-                definition.SymbolicName = source.SymbolicName;
+                definition.SymbolicName = dataType.SymbolicName;
             }
 
-            switch (source.DataTypeModifier)
+            switch (dataType.DataTypeModifier)
             {
                 case DataTypeModifier.Union: { definition.IsUnion = true; break; }
                 case DataTypeModifier.OptionSet: { definition.IsOptionSet = true; break; }
             }
 
-            if (source.Fields != null)
+            StructureDefinition structureDefinition = source.Body as StructureDefinition;
+
+            if (structureDefinition != null)
             {
-                List<Opc.Ua.Export.DataTypeField> fields = new List<DataTypeField>();
-
-                foreach (DataTypeDefinitionField field in source.Fields)
+                if (structureDefinition.StructureType == StructureType.Union)
                 {
-                    Opc.Ua.Export.DataTypeField output = new Opc.Ua.Export.DataTypeField();
-
-                    output.Name = field.Name;
-                    output.SymbolicName = field.SymbolicName;
-                    output.Description = Export(new Opc.Ua.LocalizedText[] { field.Description });
-
-                    if (NodeId.IsNull(field.DataType))
-                    {
-                        output.DataType = Export(DataTypeIds.BaseDataType, namespaceUris);
-                    }
-                    else
-                    {
-                        output.DataType = Export(field.DataType, namespaceUris);
-                    }
-
-                    output.ValueRank = field.ValueRank;
-                    output.Value = field.Value;
-
-                    fields.Add(output);
+                    definition.IsUnion = true;
                 }
 
-                definition.Field = fields.ToArray();
+                if (structureDefinition.Fields != null)
+                {
+                    List<Opc.Ua.Export.DataTypeField> fields = new List<DataTypeField>();
+
+                    foreach (StructureField field in structureDefinition.Fields)
+                    {
+                        Opc.Ua.Export.DataTypeField output = new Opc.Ua.Export.DataTypeField();
+
+                        output.Name = field.Name;
+                        output.Description = Export(new Opc.Ua.LocalizedText[] { field.Description });
+
+                        if (NodeId.IsNull(field.DataType))
+                        {
+                            output.DataType = Export(DataTypeIds.BaseDataType, namespaceUris);
+                        }
+                        else
+                        {
+                            output.DataType = Export(field.DataType, namespaceUris);
+                        }
+
+                        output.ValueRank = field.ValueRank;
+
+                        fields.Add(output);
+                    }
+
+                    definition.Field = fields.ToArray();
+                }
+            }
+
+            EnumDefinition enumDefinition = source.Body as EnumDefinition;
+
+            if (enumDefinition != null)
+            {
+                if (enumDefinition.Fields != null)
+                {
+                    List<Opc.Ua.Export.DataTypeField> fields = new List<DataTypeField>();
+
+                    foreach (EnumField field in enumDefinition.Fields)
+                    {
+                        Opc.Ua.Export.DataTypeField output = new Opc.Ua.Export.DataTypeField();
+
+                        output.Name = field.Name;
+                        output.Description = Export(new Opc.Ua.LocalizedText[] { field.Description });
+                        output.ValueRank = ValueRanks.Scalar;
+                        output.Value = (int)field.Value;
+
+                        fields.Add(output);
+                    }
+
+                    definition.Field = fields.ToArray();
+                }
             }
 
             return definition;
@@ -905,60 +952,76 @@ namespace Opc.Ua.Export
         /// <summary>
         /// Imports a DataTypeDefinition
         /// </summary>
-        private Opc.Ua.DataTypeDefinition2 Import(UADataType dataType, Opc.Ua.Export.DataTypeDefinition source, NamespaceTable namespaceUris)
+        private Opc.Ua.DataTypeDefinition Import(UADataType dataType, Opc.Ua.Export.DataTypeDefinition source, NamespaceTable namespaceUris)
         {
             if (source == null)
             {
                 return null;
             }
 
-            Opc.Ua.DataTypeDefinition2 definition = new Opc.Ua.DataTypeDefinition2();
-
-            var browseName = ImportQualifiedName(dataType.BrowseName, namespaceUris);
-            definition.Name = browseName;
-
-            if (!String.IsNullOrEmpty(source.Name))
-            {
-                definition.Name = ImportQualifiedName(source.Name, namespaceUris);
-
-                // check for bad input.
-                if (definition.Name.NamespaceIndex == 0 && browseName.NamespaceIndex != 0)
-                {
-                    definition.Name = new QualifiedName(definition.Name.Name, browseName.NamespaceIndex);
-                }
-            }
-
-            definition.SymbolicName = source.SymbolicName;
-            definition.DataTypeModifier = DataTypeModifier.None;
-
-            if (source.IsOptionSet)
-            {
-                definition.DataTypeModifier = DataTypeModifier.OptionSet;
-            }
-            else if (source.IsUnion)
-            {
-                definition.DataTypeModifier = DataTypeModifier.Union;
-            }
+            Opc.Ua.DataTypeDefinition definition = null;
 
             if (source.Field != null)
             {
-                List<Opc.Ua.DataTypeDefinitionField> fields = new List<Opc.Ua.DataTypeDefinitionField>();
-
-                foreach (DataTypeField field in source.Field)
+                // check if definition is for enumeration or structure.
+                bool isStructure = Array.Exists<DataTypeField>(source.Field, delegate (DataTypeField fieldLookup)
                 {
-                    Opc.Ua.DataTypeDefinitionField output = new Opc.Ua.DataTypeDefinitionField();
+                    return fieldLookup.Value == -1;
+                });
 
-                    output.Name = field.Name;
-                    output.SymbolicName = field.SymbolicName;
-                    output.Description = Import(field.Description);
-                    output.DataType = ImportNodeId(field.DataType, namespaceUris, true);
-                    output.ValueRank = field.ValueRank;
-                    output.Value = field.Value;
+                if (isStructure)
+                {
+                    StructureDefinition structureDefinition = new StructureDefinition();
+                    structureDefinition.BaseDataType = ImportNodeId(source.BaseType, namespaceUris, true);
 
-                    fields.Add(output);
+                    if (source.IsUnion)
+                    {
+                        structureDefinition.StructureType = StructureType.Union;
+                    }
+
+                    if (source.Field != null)
+                    {
+                        List<StructureField> fields = new List<StructureField>();
+
+                        foreach (DataTypeField field in source.Field)
+                        {
+                            StructureField output = new StructureField();
+
+                            output.Name = field.Name;
+                            output.Description = Import(field.Description);
+                            output.DataType = ImportNodeId(field.DataType, namespaceUris, true);
+                            output.ValueRank = field.ValueRank;
+
+                            fields.Add(output);
+                        }
+
+                        structureDefinition.Fields = fields.ToArray();
+                    }
+                    definition = structureDefinition;
                 }
+                else
+                {
+                    EnumDefinition enumDefinition = new EnumDefinition();
+                    if (source.Field != null)
+                    {
+                        List<EnumField> fields = new List<EnumField>();
 
-                definition.Fields = fields;
+                        foreach (DataTypeField field in source.Field)
+                        {
+                            EnumField output = new EnumField();
+
+                            output.Name = field.Name;
+                            output.DisplayName = Import(field.DisplayName);
+                            output.Description = Import(field.Description);
+                            output.Value = field.Value;
+
+                            fields.Add(output);
+                        }
+
+                        enumDefinition.Fields = fields.ToArray();
+                    }
+                    definition = enumDefinition;
+                }
             }
 
             return definition;
