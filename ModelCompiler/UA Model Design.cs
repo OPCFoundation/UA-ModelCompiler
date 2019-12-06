@@ -1475,7 +1475,16 @@ namespace Opc.Ua.ModelCompiler {
         
         /// <remarks/>
         ReadWrite,
-    }
+
+        /// <remarks/>
+        HistoryRead,
+
+        /// <remarks/>
+        HistoryWrite,
+
+        /// <remarks/>
+        HistoryReadWrite,
+  }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]

@@ -699,6 +699,9 @@
       <xs:enumeration value="Read" />
       <xs:enumeration value="Write" />
       <xs:enumeration value="ReadWrite" />
+      <xs:enumeration value="HistoryRead" />
+      <xs:enumeration value="HistoryWrite" />
+      <xs:enumeration value="HistoryReadWrite" />
     </xs:restriction>
   </xs:simpleType>
 
