@@ -91,8 +91,8 @@
     <opc:Documentation>A recursive structure containing diagnostic information associated with a status code.</opc:Documentation>
     <opc:Field Name="SymbolicIdSpecified" TypeName="opc:Bit" />
     <opc:Field Name="NamespaceURISpecified" TypeName="opc:Bit" />
-    <opc:Field Name="LocaleSpecified" TypeName="opc:Bit" />
     <opc:Field Name="LocalizedTextSpecified" TypeName="opc:Bit" />
+    <opc:Field Name="LocaleSpecified" TypeName="opc:Bit" />
     <opc:Field Name="AdditionalInfoSpecified" TypeName="opc:Bit" />
     <opc:Field Name="InnerStatusCodeSpecified" TypeName="opc:Bit" />
     <opc:Field Name="InnerDiagnosticInfoSpecified" TypeName="opc:Bit" />
@@ -108,7 +108,7 @@
 
   <opc:StructuredType Name="QualifiedName">
     <opc:Documentation>A string qualified with a namespace index.</opc:Documentation>
-    <opc:Field Name="NamespaceIndex" TypeName="opc:Int32" />
+    <opc:Field Name="NamespaceIndex" TypeName="opc:UInt16" />
     <opc:Field Name="Name" TypeName="opc:CharArray" />
   </opc:StructuredType>
 
@@ -126,8 +126,8 @@
     <opc:Field Name="ValueSpecified" TypeName="opc:Bit" />
     <opc:Field Name="StatusCodeSpecified" TypeName="opc:Bit" />
     <opc:Field Name="SourceTimestampSpecified" TypeName="opc:Bit" />
-    <opc:Field Name="SourcePicosecondsSpecified" TypeName="opc:Bit" />
     <opc:Field Name="ServerTimestampSpecified" TypeName="opc:Bit" />
+    <opc:Field Name="SourcePicosecondsSpecified" TypeName="opc:Bit" />
     <opc:Field Name="ServerPicosecondsSpecified" TypeName="opc:Bit" />
     <opc:Field Name="Reserved1" TypeName="opc:Bit" Length="2" />
     <opc:Field Name="Value" TypeName="ua:Variant" SwitchField="ValueSpecified" />

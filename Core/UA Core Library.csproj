@@ -11,6 +11,7 @@
     <RootNamespace>Opc.Ua</RootNamespace>
     <AssemblyName>Opc.Ua.ModelCompiler.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <IntermediateOutputPath>$(SolutionDir)build\obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>
@@ -26,7 +27,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Bin\Debug\</OutputPath>
+    <OutputPath>$(SolutionDir)Bin\$(Configuration)</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -37,7 +38,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Bin\Release\</OutputPath>
+    <OutputPath>$(SolutionDir)Bin\$(Configuration)</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -323,8 +324,6 @@
     <Content Include="Schema\BuildSchema.bat" />
     <Content Include="Schema\SecuredApplication.xsd" />
     <EmbeddedResource Include="Stack\Server\ClientAccessPolicy.xml" />
-    <EmbeddedResource Include="Types\Schemas\BuiltInTypes.xml" />
-    <EmbeddedResource Include="Types\Schemas\BuiltInTypes.bsd" />
     <EmbeddedResource Include="Stack\Generated\Opc.Ua.PredefinedNodes.uanodes" />
     <None Include="Schema\AttributeIds.csv" />
     <None Include="Schema\NodeIds.csv" />

@@ -39,6 +39,22 @@
     </xs:complexType>
   </xs:element>
 
+  <xs:simpleType name="ReleaseStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Released" />
+      <xs:enumeration value="Draft" />
+      <xs:enumeration value="Deprecated" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="DataTypePurpose">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Normal" />
+      <xs:enumeration value="ServicesOnly" />
+      <xs:enumeration value="CodeGenerator" />
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:complexType name="DataType">
     <xs:sequence>
       <xs:element ref="Documentation"  minOccurs="0" maxOccurs="1" />
@@ -48,6 +64,9 @@
     <xs:attribute name="NotInAddressSpace" type="xs:boolean" default="false" />
     <xs:attribute name="Identifier" type="xs:int" use="optional" />
     <xs:attribute name="PartNo" type="xs:unsignedInt" use="optional" default="0" />
+    <xs:attribute name="Category" type="xs:string" use="optional" default="" />
+    <xs:attribute name="ReleaseStatus" type="ReleaseStatus" use="optional" default="Released" />
+    <xs:attribute name="Purpose" type="DataTypePurpose" use="optional" default="Normal" />
   </xs:complexType>
 
   <xs:complexType name="TypeDeclaration">

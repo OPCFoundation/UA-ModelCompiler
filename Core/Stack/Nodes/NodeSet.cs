@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2016 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2019 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Reciprocal Community License ("RCL") Version 1.00
  *
@@ -691,6 +691,11 @@ namespace Opc.Ua
             if (nodeId.NamespaceIndex > 0)
             {
                 string uri = sourceNamespaceUris.GetString(nodeId.NamespaceIndex);
+
+                if (String.IsNullOrEmpty(uri))
+                {
+                    return nodeId;
+                }
 
                 int index = targetNamespaceUris.GetIndex(uri);
 

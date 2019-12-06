@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2016 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2019 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Reciprocal Community License ("RCL") Version 1.00
  *
@@ -404,6 +404,11 @@ namespace Opc.Ua
         /// The categories assigned to the node.
         /// </summary>
         public IList<string> Categories { get; set; }
+
+        /// <summary>
+        /// The release status for the node.
+        /// </summary>
+        public Opc.Ua.Export.ReleaseStatus ReleaseStatus { get; set; }
         #endregion
 
         #region Serialization Methods
@@ -750,7 +755,12 @@ namespace Opc.Ua
             /// <summary>
             /// The StatusCode associated with the Value attribute.
             /// </summary>
-            StatusCode = 0x20000000
+            StatusCode = 0x20000000,
+
+            /// <summary>
+            /// The DataTypeDefinition attribute of a DataType Node.
+            /// </summary>
+            DataTypeDefinition = 0x40000000
         }
         #endregion
 

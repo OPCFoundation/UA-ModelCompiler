@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2016 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2019 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  *
@@ -60,6 +60,8 @@ namespace Opc.Ua.ModelCompiler
         private ModelCompilerValidator m_validator;
         private ModelDesign m_model;
         private bool m_useXmlInitializers;
+        private bool m_includeDisplayNames;
+        private string[] m_excludedCategories;
         #endregion
 
         /// <summary>
@@ -71,11 +73,25 @@ namespace Opc.Ua.ModelCompiler
         }
 
         /// <summary>
+        /// Whether to include the display names.
+        /// </summary>
+        public bool IncludeDisplayNames
+        {
+            get { return m_includeDisplayNames; }
+        }
+
+        /// <summary>
         /// Generates the source code files.
         /// </summary>
-        public virtual void ValidateAndUpdateIds(IList<string> designFilePaths, string identifierFilePath, uint startId)
+        public virtual void ValidateAndUpdateIds(IList<string> designFilePaths, string identifierFilePath, uint startId, string specificationVersion)
         {
             m_validator = new ModelCompilerValidator(startId);
+
+            if (!String.IsNullOrEmpty(specificationVersion))
+            {
+                m_validator.EmbeddedResourcePath = $"{m_validator.EmbeddedResourcePath}.{specificationVersion}";
+            }
+
             m_validator.Validate2(designFilePaths, identifierFilePath, false);
             m_model = m_validator.Dictionary;
         }
@@ -83,9 +99,11 @@ namespace Opc.Ua.ModelCompiler
         /// <summary>
         /// Generates a single file containing all of the classes.
         /// </summary>
-        public virtual void GenerateInternalSingleFile(string filePath, bool useXmlInitializers)
+        public virtual void GenerateInternalSingleFile(string filePath, bool useXmlInitializers, string[] excludedCategories, bool includeDisplayNames)
         {
             m_useXmlInitializers = useXmlInitializers;
+            m_excludedCategories = excludedCategories;
+            m_includeDisplayNames = includeDisplayNames;
 
             // write type and object definitions.
             List<NodeDesign> nodes = GetNodeList();
@@ -99,9 +117,11 @@ namespace Opc.Ua.ModelCompiler
         /// <summary>
         /// Generates a single file containing all of the classes.
         /// </summary>
-        public virtual void GenerateMultipleFiles(string filePath, bool useXmlInitializers)
+        public virtual void GenerateMultipleFiles(string filePath, bool useXmlInitializers, string[] excludedCategories, bool includeDisplayNames)
         {
             m_useXmlInitializers = useXmlInitializers;
+            m_excludedCategories = excludedCategories;
+            m_includeDisplayNames = includeDisplayNames;
 
             // write type and object definitions.
             List<NodeDesign> nodes = GetNodeList();
@@ -117,8 +137,10 @@ namespace Opc.Ua.ModelCompiler
         /// <summary>
         /// Generates the ANSI C identifiers.
         /// </summary>
-        public virtual void GenerateIdentifiersAndNamesForAnsiC(string filePath)
+        public virtual void GenerateIdentifiersAndNamesForAnsiC(string filePath, string[] excludedCategories)
         {
+            m_excludedCategories = excludedCategories;
+
             List<NodeDesign> nodes = GetNodeList();
 
             WriteTemplate_IdentifiersAnsiC(filePath, nodes);
@@ -136,17 +158,27 @@ namespace Opc.Ua.ModelCompiler
 
             // collect the nodes to write.
             NodeStateCollection collection = new NodeStateCollection();
+            SortedDictionary<string, NodeDesign> identifiers = new SortedDictionary<string, NodeDesign>();
+            NodeStateCollection collectionWithServices = new NodeStateCollection();
+            SortedDictionary<string, NodeDesign> identifiersWithServices = new SortedDictionary<string, NodeDesign>();
             Dictionary<uint, NodeStateCollection> subsets = new Dictionary<uint, NodeStateCollection>();
 
             for (int ii = 0; ii < m_model.Items.Length; ii++)
             {
+                if (IsExcluded(m_model.Items[ii]))
+                {
+                    continue;
+                }
+
+                bool isInAddressSpace = !m_model.Items[ii].NotInAddressSpace;
+
                 InstanceDesign design2 = m_model.Items[ii] as InstanceDesign;
 
                 if (design2 != null)
                 {
-                    if (design2.NotInAddressSpace && design2.TypeDefinition.Name != "DataTypeEncodingType")
+                    if (design2.TypeDefinition != null && design2.TypeDefinition.Name == "DataTypeEncodingType")
                     {
-                        continue;
+                        isInAddressSpace = design2.Parent == null || !design2.Parent.NotInAddressSpace;
                     }
                 }
 
@@ -154,7 +186,7 @@ namespace Opc.Ua.ModelCompiler
 
                 if (design3 != null)
                 {
-                    if (design3.NotInAddressSpace || design3.SymbolicName.Name.EndsWith("MethodType"))
+                    if (design3.SymbolicName.Name.EndsWith("MethodType"))
                     {
                         continue;
                     }
@@ -164,7 +196,25 @@ namespace Opc.Ua.ModelCompiler
 
                 if (state != null)
                 {
-                    collection.Add(state);
+                    List<BaseInstanceState> children = new List<BaseInstanceState>();
+                    state.GetChildren(context, children);
+
+                    foreach (var child in children)
+                    {
+                        if (IsExcluded(child))
+                        {
+                            state.RemoveChild(child);
+                        }
+                    }
+
+                    collectionWithServices.Add(state);
+                    identifiersWithServices.Add(m_model.Items[ii].SymbolicId.Name, m_model.Items[ii]);
+
+                    if (isInAddressSpace)
+                    {
+                        collection.Add(state);
+                        identifiers.Add(m_model.Items[ii].SymbolicId.Name, m_model.Items[ii]);
+                    }
 
                     if (m_model.Items[ii].PartNo != 0)
                     {
@@ -229,7 +279,8 @@ namespace Opc.Ua.ModelCompiler
                             PublicationDate = m_model.TargetPublicationDate,
                             PublicationDateSpecified = m_model.TargetPublicationDateSpecified
                         },
-                        (m_model.TargetPublicationDate != DateTime.UtcNow)? m_model.TargetPublicationDate:DateTime.MinValue);
+                        (m_model.TargetPublicationDate != DateTime.UtcNow)? m_model.TargetPublicationDate:DateTime.MinValue,
+                        true);
                 }
             }
 
@@ -267,6 +318,23 @@ namespace Opc.Ua.ModelCompiler
             // save as nodeset.
             string outputFile3 = String.Format(@"{0}\{1}.NodeSet2.xml", filePath, m_model.TargetNamespaceInfo.Prefix);
 
+            var identifiersFilePath = String.Format(@"{0}\{1}.NodeIds.csv", filePath, m_model.TargetNamespaceInfo.Prefix);
+
+            using (StreamWriter writer = new StreamWriter(File.Open(identifiersFilePath, FileMode.Create)))
+            {
+                foreach (var ii in identifiers)
+                {
+                    if (ii.Value.NumericIdSpecified)
+                    {
+                        writer.WriteLine($"{ii.Key},{ii.Value.NumericId},{ii.Value.State.NodeClass}");
+                    }
+                    else if (!String.IsNullOrWhiteSpace(ii.Value.StringId))
+                    {
+                        writer.WriteLine($"{ii.Key},\"{ii.Value.StringId}\",{ii.Value.State.NodeClass}");
+                    }
+                }
+            }
+
             using (Stream ostrm = File.Open(outputFile3, FileMode.Create))
             {
                 var model = new Export.ModelTableEntry() 
@@ -282,7 +350,44 @@ namespace Opc.Ua.ModelCompiler
                     model.RequiredModel = new List<Export.ModelTableEntry>(m_model.Dependencies.Values).ToArray();
                 }
 
-                collection.SaveAsNodeSet2(context, ostrm, model, (m_model.TargetPublicationDate != DateTime.MinValue)? m_model.TargetPublicationDate:DateTime.MinValue);
+                collection.SaveAsNodeSet2(
+                    context, 
+                    ostrm, 
+                    model,
+                    (m_model.TargetPublicationDate != DateTime.MinValue)? m_model.TargetPublicationDate:DateTime.MinValue,
+                    true);
+
+                if (m_model.TargetNamespace == Namespaces.OpcUa)
+                {
+                    var nodeSetFilePath = String.Format(@"{0}\{1}.NodeSet2.Services.xml", filePath, m_model.TargetNamespaceInfo.Prefix);
+
+                    using (Stream ostrm2 = File.Open(nodeSetFilePath, FileMode.Create))
+                    {
+                        collectionWithServices.SaveAsNodeSet2(
+                            context,
+                            ostrm2,
+                            model,
+                            (m_model.TargetPublicationDate != DateTime.MinValue) ? m_model.TargetPublicationDate : DateTime.MinValue,
+                            true);
+                    }
+
+                    identifiersFilePath = String.Format(@"{0}\{1}.NodeIds.Services.csv", filePath, m_model.TargetNamespaceInfo.Prefix);
+
+                    using (StreamWriter writer = new StreamWriter(File.Open(identifiersFilePath, FileMode.Create)))
+                    {
+                        foreach (var ii in identifiersWithServices)
+                        {
+                            if (ii.Value.NumericIdSpecified)
+                            {
+                                writer.WriteLine($"{ii.Key},{ii.Value.NumericId},{ii.Value.State.NodeClass}");
+                            }
+                            else if (!String.IsNullOrWhiteSpace(ii.Value.StringId))
+                            {
+                                writer.WriteLine($"{ii.Key},\"{ii.Value.StringId}\",{ii.Value.State.NodeClass}");
+                            }
+                        }
+                    }
+                }
             }
 
             // load as node set.
@@ -1105,7 +1210,7 @@ namespace Opc.Ua.ModelCompiler
                 return null;
             }
 
-            if (dataType.Description.IsAutogenerated)
+            if (dataType.Description == null || dataType.Description.IsAutogenerated)
             {
                 return null;
             }
@@ -1288,6 +1393,7 @@ namespace Opc.Ua.ModelCompiler
                 switch (dataType.NumericId)
                 {
                     case DataTypes.PermissionType:
+                    case DataTypes.AccessRestrictionType:
                     case DataTypes.RolePermissionType:
                     case DataTypes.StructureDefinition:
                     case DataTypes.StructureField:
@@ -1990,6 +2096,11 @@ namespace Opc.Ua.ModelCompiler
             {
                 NodeDesign node = m_model.Items[ii];
 
+                if (IsExcluded(node))
+                {
+                    continue;
+                }
+
                 if (IsMethodTypeNode(node))
                 {
                     continue;
@@ -2022,6 +2133,11 @@ namespace Opc.Ua.ModelCompiler
                 foreach (KeyValuePair<string, HierarchyNode> current in node.Hierarchy.Nodes)
                 {
                     if (String.IsNullOrEmpty(current.Key))
+                    {
+                        continue;
+                    }
+
+                    if (IsExcluded(current.Value.Instance))
                     {
                         continue;
                     }
@@ -2346,7 +2462,7 @@ namespace Opc.Ua.ModelCompiler
             Array children = GetFields(node);
 
             template.AddReplacement("_NodeClass_", GetNodeClass(node));
-            template.AddReplacement("_Description_", node.Description.Value);
+            template.AddReplacement("_Description_", (node.Description != null)?node.Description.Value:"");
 
             template.AddReplacement("_TypeName_", node.SymbolicName.Name);
             template.AddReplacement("_NamespaceUri_", GetConstantForNamespace(node.SymbolicName.Namespace));
@@ -3328,17 +3444,17 @@ namespace Opc.Ua.ModelCompiler
 
             template.WriteNextLine(context.Prefix);
 
-            string format = "{1} {0} = ({1})inputArguments[{2}];";
+            string format = "{1} {0} = ({1})_inputArguments[{2}];";
 
             if (field.DataTypeNode.BasicDataType == BasicDataType.UserDefined)
             {
                 if (field.ValueRank == ValueRank.Scalar)
                 {
-                    format = "{1} {0} = ({1})ExtensionObject.ToEncodeable((ExtensionObject)inputArguments[{2}]);";
+                    format = "{1} {0} = ({1})ExtensionObject.ToEncodeable((ExtensionObject)_inputArguments[{2}]);";
                 }
                 else
                 {
-                    format = "{1} {0} = ({1})ExtensionObject.ToArray(inputArguments[{2}], typeof(" + GetMethodArgumentType(field.DataTypeNode, ValueRank.Scalar) + "));";
+                    format = "{1} {0} = ({1})ExtensionObject.ToArray(_inputArguments[{2}], typeof(" + GetMethodArgumentType(field.DataTypeNode, ValueRank.Scalar) + "));";
                 }
             }
 
@@ -3370,7 +3486,7 @@ namespace Opc.Ua.ModelCompiler
             template.WriteNextLine(context.Prefix);
 
             template.Write(
-                "{1} {0} = ({1})outputArguments[{2}];",
+                "{1} {0} = ({1})_outputArguments[{2}];",
                 GetChildFieldName(field).Substring(2),
                 GetMethodArgumentType(field.DataTypeNode, field.ValueRank),
                 context.Index);
@@ -3397,7 +3513,7 @@ namespace Opc.Ua.ModelCompiler
             template.WriteNextLine(context.Prefix);
 
             template.Write(
-                "outputArguments[{1}] = {0};",
+                "_outputArguments[{1}] = {0};",
                 GetChildFieldName(field).Substring(2),
                 context.Index);
 
@@ -3468,13 +3584,13 @@ namespace Opc.Ua.ModelCompiler
             template.Write("result = OnCall(");
 
             template.WriteNextLine(context.Prefix);
-            template.Write("    context,");
+            template.Write("    _context,");
 
             template.WriteNextLine(context.Prefix);
             template.Write("    this,");
 
             template.WriteNextLine(context.Prefix);
-            template.Write("    objectId");
+            template.Write("    _objectId");
 
             if (method.InputArguments != null)
             {
@@ -3735,7 +3851,7 @@ namespace Opc.Ua.ModelCompiler
 
                 bool emitDefaultValue = true;
 
-                template.AddReplacement("_Description_", field.Description.Value);
+                template.AddReplacement("_Description_", (field.Description != null)?field.Description.Value:"");
                 template.AddReplacement("_BrowseName_", field.Name);
                 template.AddReplacement("_TypeName_", GetSystemTypeName(field.DataTypeNode, field.ValueRank));
                 template.AddReplacement("_FieldName_", GetChildFieldName(field));
@@ -3766,7 +3882,7 @@ namespace Opc.Ua.ModelCompiler
                 instance = GetMergedInstance(instance);
             }
 
-            template.AddReplacement("_Description_", instance.Description.Value);
+            template.AddReplacement("_Description_", (instance.Description != null)?instance.Description.Value:"");
             template.AddReplacement("_ClassName_", GetClassName(instance));
             template.AddReplacement("_ChildName_", instance.SymbolicName.Name);
             template.AddReplacement("_FieldName_", GetChildFieldName(instance));
@@ -4579,6 +4695,8 @@ namespace Opc.Ua.ModelCompiler
                         value = false;
                     }
 
+                    // this is technically a bug but the potential for side effects is
+                    // so large that it is better to leave as is.
                     if (value.Value)
                     {
                         return "false";
@@ -5145,6 +5263,52 @@ namespace Opc.Ua.ModelCompiler
             return null;
         }
 
+        private bool IsExcluded(NodeState node)
+        {
+            if (m_excludedCategories != null)
+            {
+                foreach (var jj in m_excludedCategories)
+                {
+                    if (jj == node.ReleaseStatus.ToString())
+                    {
+                        return true;
+                    }
+
+                    if (node.Categories != null)
+                    {
+                        if (node.Categories.Contains(jj))
+                        {
+                            return true;
+                        }
+                    }
+
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsExcluded(NodeDesign node)
+        {
+            if (m_excludedCategories != null)
+            {
+                foreach (var jj in m_excludedCategories)
+                {
+                    if (jj == node.ReleaseStatus.ToString())
+                    {
+                        return true;
+                    }
+
+                    if (node.Category != null && node.Category.Contains(jj))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Returns a list of nodes to process.
         /// </summary>
@@ -5154,7 +5318,8 @@ namespace Opc.Ua.ModelCompiler
 
             foreach (NodeDesign node in m_model.Items)
             {
-                if (!node.IsDeclaration)
+
+                if (!IsExcluded(node) && !node.IsDeclaration)
                 {
                     nodes.Add(node);
                 }

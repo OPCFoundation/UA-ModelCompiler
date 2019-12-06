@@ -1,8 +1,6 @@
 class _Name_{
 // ***START***
-/// <summary>
-/// _Description_
-/// </summary>
+/// <remarks />
 public new _ClassName_ _ChildName_
 {
     get

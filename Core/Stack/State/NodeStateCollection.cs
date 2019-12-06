@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2016 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2019 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Reciprocal Community License ("RCL") Version 1.00
  *
@@ -162,15 +162,20 @@ namespace Opc.Ua
         /// <summary>
         /// Writes the collection to a stream using the Opc.Ua.Schema.UANodeSet schema.
         /// </summary>
-        public void SaveAsNodeSet2(ISystemContext context, Stream ostrm, DateTime lastModified)
+        public void SaveAsNodeSet2(ISystemContext context, Stream ostrm, DateTime lastModified, bool outputRedundantNames)
         {
-            SaveAsNodeSet2(context, ostrm, null, lastModified);
+            SaveAsNodeSet2(context, ostrm, null, lastModified, outputRedundantNames);
         }
 
         /// <summary>
         /// Writes the collection to a stream using the Opc.Ua.Schema.UANodeSet schema.
         /// </summary>
-        public void SaveAsNodeSet2(ISystemContext context, Stream ostrm, Export.ModelTableEntry model, DateTime lastModified)
+        public void SaveAsNodeSet2(
+            ISystemContext context,
+            Stream ostrm, 
+            Export.ModelTableEntry model, 
+            DateTime lastModified,
+            bool outputRedundantNames)
         {
             Opc.Ua.Export.UANodeSet nodeSet = new Opc.Ua.Export.UANodeSet();
 
@@ -192,7 +197,7 @@ namespace Opc.Ua
 
             for (int ii = 0; ii < this.Count; ii++)
             {
-                nodeSet.Export(context, this[ii]);
+                nodeSet.Export(context, this[ii], outputRedundantNames);
             }
 
             nodeSet.Write(ostrm);

@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2016 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2019 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Reciprocal Community License ("RCL") Version 1.00
  *
@@ -282,6 +282,8 @@ namespace Opc.Ua.Schema
         /// </summary>
         protected static object LoadResource(System.Type type, string path, Assembly assembly)
         {
+            var names = assembly.GetManifestResourceNames();
+
             try
             {
                 StreamReader reader = new StreamReader(assembly.GetManifestResourceStream(path));

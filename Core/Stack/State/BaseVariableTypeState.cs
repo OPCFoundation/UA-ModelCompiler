@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2016 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2019 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Reciprocal Community License ("RCL") Version 1.00
  *
@@ -333,7 +333,7 @@ namespace Opc.Ua
                 attributesToSave |= AttributesToSave.DataType;
             }
 
-            if (m_valueRank != ValueRanks.Any)
+            if (m_valueRank != ValueRanks.OneOrMoreDimensions)
             {
                 attributesToSave |= AttributesToSave.ValueRank;
             }

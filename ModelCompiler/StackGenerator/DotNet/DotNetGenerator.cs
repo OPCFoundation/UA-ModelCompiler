@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2016 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2019 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  *
@@ -50,9 +50,10 @@ namespace Opc.Ua.CodeGenerator
         public DotNetGenerator(
             string                    inputPath,
             string                    outputDirectory,
-            Dictionary<string,string> knownFiles)
+            Dictionary<string,string> knownFiles,
+            string                    resourcePath)
         :
-            base(inputPath, outputDirectory, knownFiles)
+            base(inputPath, outputDirectory, knownFiles, resourcePath)
         {
             TargetLanguage = Language.DotNet;
         }

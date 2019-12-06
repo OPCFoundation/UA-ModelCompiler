@@ -18,7 +18,8 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <IntermediateOutputPath>$(SolutionDir)build\obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
@@ -43,24 +44,39 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Bin\Debug\</OutputPath>
+    <OutputPath>$(SolutionDir)Bin\$(Configuration)</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Bin\Release\</OutputPath>
+    <OutputPath>$(SolutionDir)Bin\$(Configuration)</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Csv, Version=1.0.35.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Csv.1.0.35\lib\net40\Csv.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CsvHelper, Version=7.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.7.1.1\lib\net45\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="QuantityTypes, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b660bd244d5e1bf2, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuantityTypes.4.0.0\lib\net45\QuantityTypes.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -75,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HeaderUpdateTool.cs" />
+    <Compile Include="MeasurementUnits.cs" />
     <Compile Include="Properties\AssemblyVersionInfo.cs" />
     <Compile Include="StackGenerator.cs" />
     <Compile Include="ModelGenerator2.cs" />
@@ -193,16 +210,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Design\StandardTypes.csv" />
-    <EmbeddedResource Include="Design\UA Attributes.xml" />
-    <EmbeddedResource Include="Design\UA Core Services.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Design\UA Status Codes.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Design\UA Status Codes.csv" />
-    <EmbeddedResource Include="Design\UA Attributes.csv" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\BinarySchema\BuiltInTypes.bsd" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Constant.csv" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.csv" />
@@ -212,16 +219,38 @@
       </SubType>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="Design\DemoModel.csv" />
-    <None Include="Design\MTConnectModel.csv" />
-    <None Include="Design\OpcUaFdiPart7Model.csv" />
-    <None Include="Design\OpcUaFdiPart5Model.csv" />
-    <None Include="Design\OpcUaGdsModel.csv" />
-    <None Include="Design\OpcUaAdiModel.csv" />
-    <None Include="Design\OpcUaDiModelv10.csv" />
-    <None Include="Design\OpcUaDiModel.csv" />
-    <None Include="Design\OpcUaPLCopenModel.csv" />
-    <None Include="Design\SercosModel.csv" />
+    <None Include="Design.v103\DemoModel.csv" />
+    <None Include="Design.v103\MDIS.csv" />
+    <None Include="Design.v103\MTConnectModel.csv" />
+    <None Include="Design.v103\OpcUaAdiModel.csv" />
+    <None Include="Design.v103\OpcUaDiModel.csv" />
+    <None Include="Design.v103\OpcUaDiModelv10.csv" />
+    <None Include="Design.v103\OpcUaDiModelv11.csv" />
+    <None Include="Design.v103\OpcUaFdiPart5Model.csv" />
+    <None Include="Design.v103\OpcUaFdiPart7Model.csv" />
+    <None Include="Design.v103\OpcUaGdsModel.csv" />
+    <None Include="Design.v103\OpcUaPLCopenModel.csv" />
+    <None Include="Design.v103\SercosModel.csv" />
+    <None Include="Design.v103\StandardsTypeV1.csv" />
+    <EmbeddedResource Include="Design.v103\StandardTypes.csv" />
+    <EmbeddedResource Include="Design.v103\UA Attributes.csv" />
+    <None Include="Design.v103\UA ServerCapabilities.csv" />
+    <EmbeddedResource Include="Design.v103\UA Status Codes.csv" />
+    <None Include="Design.v104\DemoModel.csv" />
+    <None Include="Design.v104\MDIS.csv" />
+    <None Include="Design.v104\MTConnectModel.csv" />
+    <None Include="Design.v104\OpcUaAdiModel.csv" />
+    <None Include="Design.v104\OpcUaDiModel.csv" />
+    <None Include="Design.v104\OpcUaFdiPart5Model.csv" />
+    <None Include="Design.v104\OpcUaFdiPart7Model.csv" />
+    <None Include="Design.v104\OpcUaGdsModel.csv" />
+    <None Include="Design.v104\OpcUaPLCopenModel.csv" />
+    <None Include="Design.v104\SercosModel.csv" />
+    <EmbeddedResource Include="Design.v104\StandardTypes.csv" />
+    <EmbeddedResource Include="Design.v104\UA Attributes.csv" />
+    <None Include="Design.v104\UA ServerCapabilities.csv" />
+    <EmbeddedResource Include="Design.v104\UA Status Codes.csv" />
+    <None Include="packages.config" />
     <None Include="StackGenerator\DataTypes\Templates\XmlSchema\BuiltInTypes.xsx">
       <DependentUpon>BuiltInTypes.xsd</DependentUpon>
     </None>
@@ -229,23 +258,49 @@
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\Message.wsdl" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\PortType.wsdl" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\Services.wsdl" />
-    <EmbeddedResource Include="Design\UA Defined Types.xml" />
     <EmbeddedResource Include="HelpFile.txt" />
-    <Content Include="Design\MTConnectModel.xml" />
-    <Content Include="Design\SercosModel.xml" />
-    <Content Include="Design\OpcUaFdiPart7Model.xml" />
-    <Content Include="Design\OpcUaFdiPart5Model.xml" />
-    <Content Include="Design\OpcUaGdsModel.xml">
+    <EmbeddedResource Include="Design.v103\BuiltInTypes.xml" />
+    <Content Include="Design.v103\DemoModel.xml" />
+    <Content Include="Design.v103\MDIS.xml" />
+    <Content Include="Design.v103\MTConnectModel.xml" />
+    <Content Include="Design.v103\OpcUaAdiModel.xml" />
+    <Content Include="Design.v103\OpcUaDiModel.xml" />
+    <Content Include="Design.v103\OpcUaDiModelv10.xml" />
+    <Content Include="Design.v103\OpcUaDiModelv11.xml" />
+    <Content Include="Design.v103\OpcUaFdiPart5Model.xml" />
+    <Content Include="Design.v103\OpcUaFdiPart7Model.xml" />
+    <Content Include="Design.v103\OpcUaGdsModel.xml" />
+    <Content Include="Design.v103\OpcUaPLCopenModel.xml" />
+    <EmbeddedResource Include="Design.v103\StandardTypes.xml" />
+    <EmbeddedResource Include="Design.v103\UA Attributes.xml" />
+    <EmbeddedResource Include="Design.v103\UA Core Services.xml" />
+    <Content Include="Design.v103\SercosModel.xml" />
+    <Content Include="Design.v103\UA Defined Types.xml" />
+    <EmbeddedResource Include="Design.v103\UA Status Codes.xml" />
+    <EmbeddedResource Include="Design.v104\BuiltInTypes.xml" />
+    <Content Include="Design.v104\DemoModel.xml" />
+    <Content Include="Design.v104\MDIS.xml" />
+    <Content Include="Design.v104\MTConnectModel.xml" />
+    <Content Include="Design.v104\OpcUaAdiModel.xml" />
+    <Content Include="Design.v104\OpcUaDiModel.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Design\OpcUaAdiModel.xml" />
-    <Content Include="Design\OpcUaDiModelv10.xml" />
-    <Content Include="Design\OpcUaDiModel.xml">
+    <Content Include="Design.v104\OpcUaFdiPart5Model.xml" />
+    <Content Include="Design.v104\OpcUaFdiPart7Model.xml" />
+    <Content Include="Design.v104\OpcUaGdsModel.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Design\OpcUaPLCopenModel.xml" />
-    <Content Include="Design\DemoModel.xml" />
-    <None Include="Design\UA ServerCapabilities.csv" />
+    <Content Include="Design.v104\OpcUaPLCopenModel.xml" />
+    <Content Include="Design.v104\SercosModel.xml" />
+    <EmbeddedResource Include="Design.v104\StandardTypes.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Design.v104\UA Attributes.xml" />
+    <EmbeddedResource Include="Design.v104\UA Core Services.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Content Include="Design.v104\UA Defined Types.xml" />
+    <EmbeddedResource Include="Design.v104\UA Status Codes.xml" />
     <Content Include="StackGenerator\Validators\UA Type Dictionary.xsd">
       <SubType>
       </SubType>
@@ -316,20 +371,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Design\BuiltInTypes.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="ExceptionDlg.resx">
       <DependentUpon>ExceptionDlg.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Design\StandardTypes.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Templates\BinarySchema\BuiltInTypes.bsd" />
     <EmbeddedResource Include="Templates\BinarySchema\ComplexType.xml" />
     <EmbeddedResource Include="Templates\BinarySchema\EnumeratedType.xml" />

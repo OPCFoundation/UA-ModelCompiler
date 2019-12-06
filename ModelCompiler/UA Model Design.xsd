@@ -148,6 +148,22 @@
     </xs:simpleContent>
   </xs:complexType>
 
+  <xs:simpleType name="ReleaseStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Released" />
+      <xs:enumeration value="Draft" />
+      <xs:enumeration value="Deprecated" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="DataTypePurpose">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Normal" />
+      <xs:enumeration value="ServicesOnly" />
+      <xs:enumeration value="CodeGenerator" />
+    </xs:restriction>
+  </xs:simpleType>
+  
   <xs:complexType name="NodeDesign">
     <xs:annotation>
       <xs:documentation>
@@ -298,6 +314,8 @@
     </xs:attribute>
 
     <xs:attribute name="NotInAddressSpace" type="xs:boolean" use="optional" default="false" />
+    <xs:attribute name="ReleaseStatus" type="ReleaseStatus" use="optional" default="Released" />
+    <xs:attribute name="Purpose" type="DataTypePurpose" use="optional" default="Normal" />
 
   </xs:complexType>
 

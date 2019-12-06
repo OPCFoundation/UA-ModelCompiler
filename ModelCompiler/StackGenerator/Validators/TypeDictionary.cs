@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2016 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2019 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  *
@@ -45,6 +45,17 @@ namespace Opc.Ua.CodeGenerator
         {
             get { return m_qname;  }
             set { m_qname = value; }
+        }
+
+
+        public override string ToString()
+        {
+            if (m_qname != null)
+            {
+                return m_qname.Name;
+            }
+
+            return base.ToString();
         }
 
         private XmlQualifiedName m_qname;

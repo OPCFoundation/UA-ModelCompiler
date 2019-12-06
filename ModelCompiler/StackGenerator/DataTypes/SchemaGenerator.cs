@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2016 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2019 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  *
@@ -47,10 +47,10 @@ namespace Opc.Ua.CodeGenerator
         /// <summary>
         /// Loads and validates the type dictionary.
         /// </summary>
-        protected SchemaGenerator(string inputPath, string outputDirectory, Dictionary<string,string> knownFiles)
+        protected SchemaGenerator(string inputPath, string outputDirectory, Dictionary<string,string> knownFiles, string resourcePath)
         {
             // load and validate type dictionary.
-            m_validator = new TypeDictionaryValidator(knownFiles);
+            m_validator = new TypeDictionaryValidator(knownFiles, resourcePath);
             m_validator.Validate(inputPath);
 
             // save output directory.

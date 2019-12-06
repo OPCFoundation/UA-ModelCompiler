@@ -157,8 +157,6 @@ namespace Opc.Ua.Export {
         
         private bool publicationDateFieldSpecified;
         
-        private string symbolicNameField;
-        
         private byte accessRestrictionsField;
         
         public ModelTableEntry() {
@@ -228,17 +226,6 @@ namespace Opc.Ua.Export {
             }
             set {
                 this.publicationDateFieldSpecified = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string SymbolicName {
-            get {
-                return this.symbolicNameField;
-            }
-            set {
-                this.symbolicNameField = value;
             }
         }
         
@@ -547,7 +534,7 @@ namespace Opc.Ua.Export {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="token")]
         [System.ComponentModel.DefaultValueAttribute("")]
         public string ArrayDimensions {
             get {
@@ -922,10 +909,13 @@ namespace Opc.Ua.Export {
         
         private string symbolicNameField;
         
+        private ReleaseStatus releaseStatusField;
+        
         public UANode() {
             this.writeMaskField = ((uint)(0));
             this.userWriteMaskField = ((uint)(0));
             this.accessRestrictionsField = ((byte)(0));
+            this.releaseStatusField = ReleaseStatus.Released;
         }
         
         /// <remarks/>
@@ -1072,6 +1062,34 @@ namespace Opc.Ua.Export {
                 this.symbolicNameField = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(ReleaseStatus.Released)]
+        public ReleaseStatus ReleaseStatus {
+            get {
+                return this.releaseStatusField;
+            }
+            set {
+                this.releaseStatusField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd")]
+    public enum ReleaseStatus {
+        
+        /// <remarks/>
+        Released,
+        
+        /// <remarks/>
+        Draft,
+        
+        /// <remarks/>
+        Deprecated,
     }
     
     /// <remarks/>
@@ -1155,6 +1173,12 @@ namespace Opc.Ua.Export {
         
         private DataTypeDefinition definitionField;
         
+        private DataTypePurpose purposeField;
+        
+        public UADataType() {
+            this.purposeField = DataTypePurpose.Normal;
+        }
+        
         /// <remarks/>
         public DataTypeDefinition Definition {
             get {
@@ -1164,6 +1188,34 @@ namespace Opc.Ua.Export {
                 this.definitionField = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(DataTypePurpose.Normal)]
+        public DataTypePurpose Purpose {
+            get {
+                return this.purposeField;
+            }
+            set {
+                this.purposeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.6.1055.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd")]
+    public enum DataTypePurpose {
+        
+        /// <remarks/>
+        Normal,
+        
+        /// <remarks/>
+        ServicesOnly,
+        
+        /// <remarks/>
+        CodeGenerator,
     }
     
     /// <remarks/>

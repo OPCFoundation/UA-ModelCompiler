@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2016 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2019 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  *
@@ -52,6 +52,7 @@ namespace Opc.Ua.ModelCompiler
         {
             m_context = ServiceMessageContext.GlobalContext;
             m_startId = startId;
+            EmbeddedResourcePath = "Opc.Ua.ModelCompiler.Design";
         }
         #endregion
 
@@ -71,6 +72,11 @@ namespace Opc.Ua.ModelCompiler
         {
             get { return m_nodes.Values; }
         }
+
+        /// <summary>
+        /// The location of the embedded resources.
+        /// </summary>
+        public string EmbeddedResourcePath { get; set; }
 
         /// <summary>
         /// Finds the data type with the specified name.
@@ -105,7 +111,7 @@ namespace Opc.Ua.ModelCompiler
             // validate node in target dictionary.
             ValidateDictionary(m_dictionary);
 
-            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Opc.Ua.ModelCompiler.Design.StandardTypes.csv");
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{EmbeddedResourcePath}.StandardTypes.csv");
 
             using (stream)
             {
@@ -263,7 +269,7 @@ namespace Opc.Ua.ModelCompiler
         /// </summary>
         /// <param name="targetFile">The type file being loaded.</param>
         /// <param name="ns">The namespace being reference.</param>
-        private void LoadIncludedDesignFile(ModelDesign parent, FileInfo targetFile, string designFileName, string publicationDate)
+        private void LoadIncludedDesignFile(ModelDesign parent, FileInfo targetFile, string designFileName, string version, string publicationDate)
         {
             // determine the file location.
             bool isResource = false;
@@ -282,7 +288,16 @@ namespace Opc.Ua.ModelCompiler
 
                 if (!File.Exists(designFilePath))
                 {
-                    designFilePath = Utils.Format(".\\Design\\{0}", designFileName);
+                    designFilePath = $".\\Design\\";
+
+                    int index = EmbeddedResourcePath.IndexOf(".Design");
+
+                    if (index > 0)
+                    {
+                        designFilePath = $".\\{EmbeddedResourcePath.Substring(index + 1)}\\";
+                    }
+
+                    designFilePath += $"{designFileName}";
                     Console.WriteLine("Trying file: " + designFilePath);
 
                     if (!File.Exists(designFilePath))
@@ -355,8 +370,10 @@ namespace Opc.Ua.ModelCompiler
                 }
             }
 
+            // check for earlier publication date specified in the file.
             if (!String.IsNullOrEmpty(publicationDate))
             {
+                modelInfo.Version = version;
                 modelInfo.PublicationDate = XmlConvert.ToDateTime(publicationDate, XmlDateTimeSerializationMode.Utc);
                 modelInfo.PublicationDateSpecified = true;
             }
@@ -378,7 +395,7 @@ namespace Opc.Ua.ModelCompiler
                         continue;
                     }
 
-                    LoadIncludedDesignFile(dictionary, new FileInfo(designFilePath), ns.FilePath, ns.PublicationDate);
+                    LoadIncludedDesignFile(dictionary, new FileInfo(designFilePath), ns.FilePath, ns.Version, ns.PublicationDate);
                 }
             }
 
@@ -419,12 +436,21 @@ namespace Opc.Ua.ModelCompiler
 
                 if (!File.Exists(identifiersFilePath))
                 {
-                    identifiersFilePath = Utils.Format(".\\Design\\{0}", identifiersFileName);
+                    identifiersFilePath = $".\\Design\\";
+
+                    int index = EmbeddedResourcePath.IndexOf(".Design");
+
+                    if (index > 0)
+                    {
+                        identifiersFilePath = $".\\{EmbeddedResourcePath.Substring(index+1)}\\";
+                    }
+
+                    identifiersFilePath += $"{identifiersFileName}";
                     Console.WriteLine("Trying file: " + identifiersFilePath);
 
                     if (!File.Exists(identifiersFilePath))
                     {
-                        identifiersFilePath = Utils.Format("Opc.Ua.ModelCompiler.Design.{0}", identifiersFileName);
+                        identifiersFilePath = $"{EmbeddedResourcePath}.{identifiersFileName}";
                         Console.WriteLine("Trying resource: " + identifiersFilePath);
                         isResource = true;
                     }
@@ -508,7 +534,7 @@ namespace Opc.Ua.ModelCompiler
             Parameter parameter = new Parameter();
 
             parameter.Name = field.Name;
-            parameter.Description = ImportDocumentation(field.Documentation);
+            // parameter.Description = ImportDocumentation(field.Documentation);
 
             if (field.DataType != null)
             {
@@ -541,7 +567,7 @@ namespace Opc.Ua.ModelCompiler
             Parameter parameter = new Parameter();
 
             parameter.Name = value.Name;
-            parameter.Description = ImportDocumentation(value.Documentation);
+            // parameter.Description = ImportDocumentation(value.Documentation);
 
             if (value.ValueSpecified)
             {
@@ -591,18 +617,18 @@ namespace Opc.Ua.ModelCompiler
             }
         }
 
-        private ModelDesign ImportTypeDictionary(string filePath)
+        private ModelDesign ImportTypeDictionary(string filePath, string resourcePath)
         {
             using (Stream stream = File.OpenRead(filePath))
             {
-                return ImportTypeDictionary(stream);
+                return ImportTypeDictionary(stream, resourcePath);
             }
         }
 
-        private ModelDesign ImportTypeDictionary(Stream stream)
+        private ModelDesign ImportTypeDictionary(Stream stream, string resourcePath)
         {
             Dictionary<string,string> knownFiles = new Dictionary<string, string>();
-            Opc.Ua.CodeGenerator.TypeDictionaryValidator validator = new Opc.Ua.CodeGenerator.TypeDictionaryValidator(knownFiles);
+            Opc.Ua.CodeGenerator.TypeDictionaryValidator validator = new Opc.Ua.CodeGenerator.TypeDictionaryValidator(knownFiles, resourcePath);
             validator.Validate(stream);
 
             string namespaceUri = validator.Dictionary.TargetNamespace;
@@ -627,8 +653,11 @@ namespace Opc.Ua.ModelCompiler
                 design.NoClassGeneration = dataType.NotInAddressSpace;
                 design.NotInAddressSpace = dataType.NotInAddressSpace;
                 design.IsAbstract = false;
-                design.Description = ImportDocumentation(dataType.Documentation);
+                // design.Description = ImportDocumentation(dataType.Documentation);
                 design.PartNo = dataType.PartNo;
+                design.Category = dataType.Category;
+                design.ReleaseStatus = (ReleaseStatus)(int)dataType.ReleaseStatus;
+                design.Purpose = (DataTypePurpose)(int)dataType.Purpose;
 
                 if (design.PartNo == 0)
                 {
@@ -679,8 +708,11 @@ namespace Opc.Ua.ModelCompiler
                     design.NoClassGeneration = false;
                     design.NotInAddressSpace = true;
                     design.IsAbstract = false;
-                    design.Description = ImportDocumentation(dataType.Documentation);
+                    // design.Description = ImportDocumentation(dataType.Documentation);
                     design.PartNo = 4;
+                    design.Category = dataType.Category;
+                    design.ReleaseStatus = (ReleaseStatus)(int)dataType.ReleaseStatus;
+                    design.Purpose = DataTypePurpose.ServicesOnly;
 
                     ImportFields(design, serviceType.Request);
 
@@ -696,8 +728,11 @@ namespace Opc.Ua.ModelCompiler
                     design2.NoClassGeneration = false;
                     design2.NotInAddressSpace = true;
                     design2.IsAbstract = false;
-                    design2.Description = ImportDocumentation(dataType.Documentation);
+                    // design2.Description = ImportDocumentation(dataType.Documentation);
                     design2.PartNo = 4;
+                    design2.Category = dataType.Category;
+                    design2.ReleaseStatus = (ReleaseStatus)(int)dataType.ReleaseStatus;
+                    design2.Purpose = DataTypePurpose.ServicesOnly;
 
                     ImportFields(design2, serviceType.Response);
 
@@ -764,7 +799,7 @@ namespace Opc.Ua.ModelCompiler
             // load the design files.
             ModelDesign builtin = (ModelDesign)LoadResource(
                 typeof(ModelDesign),
-                "Opc.Ua.ModelCompiler.Design.BuiltInTypes.xml",
+                $"{EmbeddedResourcePath}.BuiltInTypes.xml",
                 Assembly.GetExecutingAssembly());
 
             nodes.AddRange(builtin.Items);
@@ -773,11 +808,11 @@ namespace Opc.Ua.ModelCompiler
 
             ModelDesign datatypes = null;
 
-            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Opc.Ua.ModelCompiler.Design.UA Core Services.xml");
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{EmbeddedResourcePath}.UA Core Services.xml");
 
             using (stream)
             {
-                datatypes = ImportTypeDictionary(stream);
+                datatypes = ImportTypeDictionary(stream, EmbeddedResourcePath);
             }
 
             if (datatypes != null)
@@ -787,7 +822,7 @@ namespace Opc.Ua.ModelCompiler
 
             ModelDesign standard = (ModelDesign)LoadResource(
                 typeof(ModelDesign),
-                "Opc.Ua.ModelCompiler.Design.StandardTypes.xml",
+                $"{EmbeddedResourcePath}.StandardTypes.xml",
                 Assembly.GetExecutingAssembly());
 
             nodes.AddRange(standard.Items);
@@ -825,9 +860,17 @@ namespace Opc.Ua.ModelCompiler
 
             if (hasDataTypesDefined)
             {
-                AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Binary, nodes);
-                AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Xml, nodes);
-                AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Json, nodes);
+                if (!EmbeddedResourcePath.EndsWith("v103"))
+                {
+                    AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Binary, nodes);
+                    AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Xml, nodes);
+                    AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Json, nodes);
+                }
+                else
+                {
+                    AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Xml, nodes);
+                    AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Binary, nodes);
+                }
 
                 foreach (NodeDesign node in dictionary.Items)
                 {
@@ -934,7 +977,7 @@ namespace Opc.Ua.ModelCompiler
             if (inputPath.EndsWith("StandardTypes.xml"))
             {
                 Log("Loading StandardTypes...");
-                dictionary = (ModelDesign)LoadResource(typeof(ModelDesign), "Opc.Ua.ModelCompiler.Design.BuiltInTypes.xml", Assembly.GetExecutingAssembly());
+                dictionary = (ModelDesign)LoadResource(typeof(ModelDesign), $"{EmbeddedResourcePath}.BuiltInTypes.xml", Assembly.GetExecutingAssembly());
             }
 
             for (int ii = 0; ii < designFilePaths.Count; ii++)
@@ -951,7 +994,7 @@ namespace Opc.Ua.ModelCompiler
                 {
                     try
                     {
-                        component = ImportTypeDictionary(designFilePaths[ii]);
+                        component = ImportTypeDictionary(designFilePaths[ii], EmbeddedResourcePath);
                     }
                     catch (Exception e2)
                     {
@@ -1034,7 +1077,7 @@ namespace Opc.Ua.ModelCompiler
                         continue;
                     }
 
-                    LoadIncludedDesignFile(dictionary, new FileInfo(inputPath), ns.FilePath, ns.PublicationDate);
+                    LoadIncludedDesignFile(dictionary, new FileInfo(inputPath), ns.FilePath, ns.Version, ns.PublicationDate);
                 }
             }
 
@@ -1083,6 +1126,26 @@ namespace Opc.Ua.ModelCompiler
         }
         #endregion
 
+        static readonly string[][] Categories = new string[][]
+        {
+            new string[] { "Part1",  "Core.Overview" },
+            new string[] { "Part2",  "Core.Security" },
+            new string[] { "Part3",  "Core.AddressSpace" },
+            new string[] { "Part4",  "Core.Services" },
+            new string[] { "Part5",  "Core.Model" },
+            new string[] { "Part6",  "Core.Mappings" },
+            new string[] { "Part7",  "Core.Profiles" },
+            new string[] { "Part8",  "Core.DataAccess" },
+            new string[] { "Part9",  "Core.Alarms" },
+            new string[] { "Part10", "Core.Programs" },
+            new string[] { "Part11", "Core.HistoricalAccess" },
+            new string[] { "Part12", "Core.Discovery" },
+            new string[] { "Part13", "Core.Aggregates" },
+            new string[] { "Part14", "Core.PubSub" },
+            new string[] { "Part19", "Core.DictionaryReference" },
+            new string[] { "Part21", "Core.Provisioning" }
+        };
+
         /// <summary>
         /// Adds the method arguments as children.
         /// </summary>
@@ -1118,7 +1181,7 @@ namespace Opc.Ua.ModelCompiler
                         argument.ArrayDimensions = new List<uint>(dimensions).ToArray();
                     }
 
-                    if (!parameter.Description.IsAutogenerated)
+                    if (parameter.Description != null && !parameter.Description.IsAutogenerated)
                     {
                         argument.Description = new Opc.Ua.LocalizedText(parameter.Description.Key, String.Empty, parameter.Description.Value);
                     }
@@ -1158,7 +1221,7 @@ namespace Opc.Ua.ModelCompiler
                         argument.ArrayDimensions = new List<uint>(dimensions).ToArray();
                     }
 
-                    if (!parameter.Description.IsAutogenerated)
+                    if (parameter.Description != null && !parameter.Description.IsAutogenerated)
                     {
                         argument.Description = new Opc.Ua.LocalizedText(parameter.Description.Key, String.Empty, parameter.Description.Value);
                     }
@@ -1275,7 +1338,7 @@ namespace Opc.Ua.ModelCompiler
                         value.DisplayName = new Opc.Ua.LocalizedText(String.Empty, parameter.Name);
                         value.Value = parameter.Identifier;
 
-                        if (!parameter.Description.IsAutogenerated)
+                        if (parameter.Description != null && !parameter.Description.IsAutogenerated)
                         {
                             value.Description = new Opc.Ua.LocalizedText(parameter.Description.Key, String.Empty, parameter.Description.Value);
                         }
@@ -1425,9 +1488,9 @@ namespace Opc.Ua.ModelCompiler
             folder.DisplayName = new LocalizedText();
             folder.DisplayName.IsAutogenerated = false;
             folder.DisplayName.Value = displayName;
-            folder.Description = new LocalizedText();
-            folder.Description.IsAutogenerated = true;
-            folder.Description.Value = folder.BrowseName;
+            // folder.Description = new LocalizedText();
+            // folder.Description.IsAutogenerated = true;
+            // folder.Description.Value = folder.BrowseName;
             folder.WriteAccess = 0;
             folder.TypeDefinition = new XmlQualifiedName("FolderType", DefaultNamespace);
             folder.TypeDefinitionNode = (ObjectTypeDesign)FindNode(folder.TypeDefinition, typeof(ObjectTypeDesign), folder.SymbolicId.Name, "TypeDefinition");
@@ -1495,9 +1558,9 @@ namespace Opc.Ua.ModelCompiler
                 dictionary.DisplayName = new LocalizedText();
                 dictionary.DisplayName.IsAutogenerated = true;
                 dictionary.DisplayName.Value = dictionary.BrowseName;
-                dictionary.Description = new LocalizedText();
-                dictionary.Description.IsAutogenerated = true;
-                dictionary.Description.Value = dictionary.BrowseName;
+                // dictionary.Description = new LocalizedText();
+                // dictionary.Description.IsAutogenerated = true;
+                // dictionary.Description.Value = dictionary.BrowseName;
                 dictionary.WriteAccess = 0;
                 dictionary.TypeDefinition = new XmlQualifiedName("DataTypeDictionaryType", DefaultNamespace);
                 dictionary.TypeDefinitionNode = (VariableTypeDesign)FindNode(dictionary.TypeDefinition, typeof(VariableTypeDesign), dictionary.SymbolicId.Name, "TypeDefinition");
@@ -1543,13 +1606,16 @@ namespace Opc.Ua.ModelCompiler
                     namespaceUri,
                     descriptions);
 
-                AddProperty(
-                    dictionary,
-                    new XmlQualifiedName("Deprecated", DefaultNamespace),
-                    new XmlQualifiedName("Boolean", DefaultNamespace),
-                    ValueRank.Scalar,
-                    true,
-                    descriptions);
+                if (!EmbeddedResourcePath.EndsWith("v103"))
+                {
+                    AddProperty(
+                        dictionary,
+                        new XmlQualifiedName("Deprecated", DefaultNamespace),
+                        new XmlQualifiedName("Boolean", DefaultNamespace),
+                        ValueRank.Scalar,
+                        true,
+                        descriptions);
+                }
             }
 
             foreach (NodeDesign node in nodes.Items)
@@ -1599,9 +1665,9 @@ namespace Opc.Ua.ModelCompiler
             property.DisplayName = new LocalizedText();
             property.DisplayName.IsAutogenerated = true;
             property.DisplayName.Value = property.BrowseName;
-            property.Description = new LocalizedText();
-            property.Description.IsAutogenerated = true;
-            property.Description.Value = property.BrowseName;
+            // property.Description = new LocalizedText();
+            // property.Description.IsAutogenerated = true;
+            // property.Description.Value = property.BrowseName;
             property.WriteAccess = 0;
             property.TypeDefinition = new XmlQualifiedName("PropertyType", DefaultNamespace);
             property.TypeDefinitionNode = (VariableTypeDesign)FindNode(property.TypeDefinition, typeof(VariableTypeDesign), property.SymbolicId.Name, "TypeDefinition");
@@ -1618,6 +1684,8 @@ namespace Opc.Ua.ModelCompiler
             property.HistorizingSpecified = true;
             property.DecodedValue = value;
             property.PartNo = parent.PartNo;
+            property.Category = parent.Category;
+            property.ReleaseStatus = parent.ReleaseStatus;
 
             children.Add(property);
 
@@ -1648,9 +1716,9 @@ namespace Opc.Ua.ModelCompiler
                 description.DisplayName = new LocalizedText();
                 description.DisplayName.IsAutogenerated = true;
                 description.DisplayName.Value = description.BrowseName;
-                description.Description = new LocalizedText();
-                description.Description.IsAutogenerated = true;
-                description.Description.Value = description.BrowseName;
+                // description.Description = new LocalizedText();
+                // description.Description.IsAutogenerated = true;
+                // description.Description.Value = description.BrowseName;
                 description.WriteAccess = 0;
                 description.TypeDefinition = new XmlQualifiedName("DataTypeDescriptionType", DefaultNamespace);
                 description.TypeDefinitionNode = (VariableTypeDesign)FindNode(description.TypeDefinition, typeof(VariableTypeDesign), description.SymbolicId.Name, "TypeDefinition");
@@ -1667,7 +1735,9 @@ namespace Opc.Ua.ModelCompiler
                 description.HistorizingSpecified = true;
                 description.PartNo = dataType.PartNo;
                 description.NotInAddressSpace = dataType.NotInAddressSpace;
-
+                description.ReleaseStatus = dataType.ReleaseStatus;
+                description.Purpose = dataType.Purpose;
+                
                 if (encodingType == EncodingType.Xml)
                 {
                     description.DecodedValue = Utils.Format("//xs:element[@name='{0}']", dataType.SymbolicName.Name);
@@ -1732,9 +1802,9 @@ namespace Opc.Ua.ModelCompiler
             encoding.DisplayName = new LocalizedText();
             encoding.DisplayName.IsAutogenerated = true;
             encoding.DisplayName.Value = encoding.BrowseName;
-            encoding.Description = new LocalizedText();
-            encoding.Description.IsAutogenerated = true;
-            encoding.Description.Value = encoding.BrowseName;
+            // encoding.Description = new LocalizedText();
+            // encoding.Description.IsAutogenerated = true;
+            // encoding.Description.Value = encoding.BrowseName;
             encoding.WriteAccess = 0;
             encoding.TypeDefinition = new XmlQualifiedName("DataTypeEncodingType", DefaultNamespace);
             encoding.TypeDefinitionNode = (ObjectTypeDesign)FindNode(encoding.TypeDefinition, typeof(ObjectTypeDesign), encoding.SymbolicId.Name, "TypeDefinition");
@@ -1743,6 +1813,9 @@ namespace Opc.Ua.ModelCompiler
             encoding.PartNo = dataType.PartNo;
             encoding.NotInAddressSpace = dataType.NotInAddressSpace;
             encoding.Category = dataType.Category;
+            encoding.ReleaseStatus = dataType.ReleaseStatus;
+            encoding.Purpose = dataType.Purpose;
+            encoding.Parent = dataType;
 
             Reference reference1 = new Reference();
 
@@ -1890,6 +1963,8 @@ namespace Opc.Ua.ModelCompiler
             public object Id;
             public string SymbolicId;
             public NodeClass NodeClass;
+            public ReleaseStatus ReleaseStatus;
+            public string Category;
         }
 
         private Dictionary<string, object> ParseFile(Stream istrm)
@@ -1990,6 +2065,8 @@ namespace Opc.Ua.ModelCompiler
                 info.Id = id;
                 info.SymbolicId = node.SymbolicId.Name;
                 info.NodeClass = GetNodeClass(node);
+                info.ReleaseStatus = node.ReleaseStatus;
+                info.Category = node.Category;
 
                 uniqueIdentifiers.Add(id, info);
             }
@@ -2286,7 +2363,7 @@ namespace Opc.Ua.ModelCompiler
         private void Import(NodeDesign node, NodeDesign parent)
         {
             UpdateNamesAndIdentifiers(node, parent);
-
+            
             // assign default values for various subtypes.
             if (node is TypeDesign)
             {
@@ -2296,6 +2373,11 @@ namespace Opc.Ua.ModelCompiler
             if (node is InstanceDesign)
             {
                 ImportInstance((InstanceDesign)node);
+            }
+
+            if (node.SymbolicId.Namespace == "http://opcfoundation.org/UA/")
+            {
+                node.Description = null;
             }
 
             m_nodes.Add(node.SymbolicId, node);
@@ -2331,6 +2413,12 @@ namespace Opc.Ua.ModelCompiler
                                 continue;
                             }
                         }
+                    }
+
+                    if (child.ReleaseStatus == ReleaseStatus.Released)
+                    {
+                        child.Category = node.Category;
+                        child.ReleaseStatus = node.ReleaseStatus;
                     }
 
                     children.Add(child);
@@ -2507,18 +2595,18 @@ namespace Opc.Ua.ModelCompiler
             // add a decription.
             if (node.Description == null)
             {
-                node.Description = new LocalizedText();
-                node.Description.Value = String.Format("A description for the {0} {1}.", node.BrowseName, GetNodeClassText(node)); ;
-                node.Description.IsAutogenerated = true;
+                // node.Description = new LocalizedText();
+                // node.Description.Value = String.Format("A description for the {0} {1}.", node.BrowseName, GetNodeClassText(node)); ;
+                // node.Description.IsAutogenerated = true;
             }
-            else if (node.Description.Value != null)
+            else if (node.Description.Value != null && node.SymbolicId.Namespace != "http://opcfoundation.org/UA/")
             {
                 node.Description.Value = node.Description.Value.Trim();
-            }
 
-            if (String.IsNullOrEmpty(node.Description.Key))
-            {
-                node.Description.Key = String.Format("{0}_Description", node.SymbolicId.Name);
+                if (String.IsNullOrEmpty(node.Description.Key))
+                {
+                    node.Description.Key = String.Format("{0}_Description", node.SymbolicId.Name);
+                }
             }
 
             // save the relationship to the parent.
@@ -2743,9 +2831,9 @@ namespace Opc.Ua.ModelCompiler
                 // add a description name.
                 if (encoding.Description.Value == null || String.IsNullOrEmpty(encoding.Description.Value))
                 {
-                    encoding.Description = new LocalizedText();
-                    encoding.Description.Value = String.Format("The {0} Encoding for the {1} data type.", encoding.SymbolicName.Name, dataType.SymbolicName.Name);
-                    encoding.Description.IsAutogenerated = true;
+                    //encoding.Description = new LocalizedText();
+                    //encoding.Description.Value = String.Format("The {0} Encoding for the {1} data type.", encoding.SymbolicName.Name, dataType.SymbolicName.Name);
+                    //encoding.Description.IsAutogenerated = true;
                 }
 
                 // add to table.
@@ -2893,10 +2981,10 @@ namespace Opc.Ua.ModelCompiler
             property.DataType = new XmlQualifiedName("Argument", DefaultNamespace);
             property.DecodedValue = null;
             property.DefaultValue = null;
-            property.Description = new LocalizedText();
-            property.Description.Value  = String.Format("The {1} for the {0} method.", method.SymbolicName.Name, type);
-            property.Description.Key = String.Format("{0}_{1}_Description", property.SymbolicId.Name, type);
-            property.Description.IsAutogenerated = true;
+            //property.Description = new LocalizedText();
+            //property.Description.Value  = String.Format("The {1} for the {0} method.", method.SymbolicName.Name, type);
+            //property.Description.Key = String.Format("{0}_{1}_Description", property.SymbolicId.Name, type);
+            //property.Description.IsAutogenerated = true;
             property.DisplayName = new LocalizedText();
             property.DisplayName.Value = property.BrowseName;
             property.DisplayName.Key = String.Format("{0}_(1)_DisplayName", property.SymbolicId.Name, type);
@@ -2957,16 +3045,19 @@ namespace Opc.Ua.ModelCompiler
             description.DataType = new XmlQualifiedName("String", DefaultNamespace);
             description.DecodedValue = null;
             description.DefaultValue = null;
-            description.Description = new LocalizedText();
-            description.Description.Value  = String.Format("The description for the {1} encoding for the {0} datatype.", datatype.SymbolicName.Name, encoding.BrowseName);
-            description.Description.Key = String.Format("{0}_Description", description.SymbolicId.Name);
-            description.Description.IsAutogenerated = true;
+            //description.Description = new LocalizedText();
+            //description.Description.Value  = String.Format("The description for the {1} encoding for the {0} datatype.", datatype.SymbolicName.Name, encoding.BrowseName);
+            //description.Description.Key = String.Format("{0}_Description", description.SymbolicId.Name);
+            //description.Description.IsAutogenerated = true;
             description.DisplayName = new LocalizedText();
             description.DisplayName.Value = description.BrowseName;
             description.DisplayName.Key = String.Format("{0}_DisplayName", description.SymbolicId.Name);
             description.DisplayName.IsAutogenerated = true;
             description.ModellingRule = ModellingRule.Mandatory;
             description.WriteAccess = 0;
+            description.NotInAddressSpace = datatype.NotInAddressSpace;
+            description.ReleaseStatus = datatype.ReleaseStatus;
+            description.Purpose = datatype.Purpose;
 
             description.DataTypeNode = (DataTypeDesign)FindNode(
                 description.DataType,
@@ -3067,12 +3158,12 @@ namespace Opc.Ua.ModelCompiler
                 // add a description.
                 if (parameter.Description == null)
                 {
-                    parameter.Description = new LocalizedText();
-                    parameter.Description.Value = String.Format("A description for the {0} {1}.", parameter.Name, parameterType.ToLower());
-                    parameter.Description.IsAutogenerated = true;
+                    //parameter.Description = new LocalizedText();
+                    //parameter.Description.Value = String.Format("A description for the {0} {1}.", parameter.Name, parameterType.ToLower());
+                    //parameter.Description.IsAutogenerated = true;
                 }
 
-                if (String.IsNullOrEmpty(parameter.Description.Key))
+                else if (String.IsNullOrEmpty(parameter.Description.Key))
                 {
                     parameter.Description.Key = String.Format("{0}_{1}_{2}_Description", node.SymbolicId.Name, parameterType, parameter.Name);
                 }
@@ -3229,7 +3320,23 @@ namespace Opc.Ua.ModelCompiler
 
                         if (baseType.DataType != variableType.DataType)
                         {
-                            throw Exception("The VariableType subtype cannot redefine the datatype. {0}", type.SymbolicId.Name);
+                            var ii = variableType.DataTypeNode.BaseType;
+
+                            if (ii != null && ii != baseType.DataType)
+                            {
+                                var parent = (DataTypeDesign)FindNode(
+                                    ii,
+                                    typeof(DataTypeDesign),
+                                    variableType.SymbolicId.Name,
+                                    "DataType");
+
+                                ii = parent.BaseType;
+                            }
+
+                            if (ii != baseType.DataType)
+                            {
+                                throw Exception("The VariableType subtype cannot redefine the datatype. {0}", type.SymbolicId.Name);
+                            }
                         }
                     }
                 }
@@ -3286,8 +3393,17 @@ namespace Opc.Ua.ModelCompiler
                     {
                         EncodingDesign xmlEncoding = CreateEncoding(dataType, new XmlQualifiedName("DefaultXml", DefaultNamespace));
                         EncodingDesign binaryEncoding = CreateEncoding(dataType, new XmlQualifiedName("DefaultBinary", DefaultNamespace));
-                        EncodingDesign jsonEncoding = CreateEncoding(dataType, new XmlQualifiedName("DefaultJson", DefaultNamespace));
-                        dataType.Encodings = new EncodingDesign[] { xmlEncoding, binaryEncoding, jsonEncoding };
+
+                        if (!EmbeddedResourcePath.EndsWith("v103"))
+                        {
+                            EncodingDesign jsonEncoding = CreateEncoding(dataType, new XmlQualifiedName("DefaultJson", DefaultNamespace));
+                            dataType.Encodings = new EncodingDesign[] { xmlEncoding, binaryEncoding, jsonEncoding };
+                        }
+                        else
+                        {
+                            dataType.Encodings = new EncodingDesign[] { xmlEncoding, binaryEncoding };
+                        }
+                        
                         dataType.HasEncodings = true;
                     }
 
@@ -3556,6 +3672,8 @@ namespace Opc.Ua.ModelCompiler
             EncodingDesign encoding = new EncodingDesign();
             encoding.SymbolicName = encodingName;
             encoding.SymbolicId = symbolicId;
+            encoding.ReleaseStatus = dataType.ReleaseStatus;
+            encoding.Purpose = dataType.Purpose;
 
             NodeDesign target = null;
 
@@ -3589,9 +3707,9 @@ namespace Opc.Ua.ModelCompiler
             // add a description name.
             if (encoding.Description == null || String.IsNullOrEmpty(encoding.Description.Value))
             {
-                encoding.Description = new LocalizedText();
-                encoding.Description.Value = String.Format("The {0} Encoding for the {1} data type.", encoding.SymbolicName.Name, dataType.SymbolicName.Name);
-                encoding.Description.IsAutogenerated = true;
+                //encoding.Description = new LocalizedText();
+                //encoding.Description.Value = String.Format("The {0} Encoding for the {1} data type.", encoding.SymbolicName.Name, dataType.SymbolicName.Name);
+                //encoding.Description.IsAutogenerated = true;
             }
 
             m_nodes.Add(encoding.SymbolicId, encoding);
@@ -3993,6 +4111,11 @@ namespace Opc.Ua.ModelCompiler
 
             if (String.IsNullOrEmpty(arrayDimensions))
             {
+                if (valueRank == ValueRank.Array)
+                {
+                    return new ReadOnlyList<uint>(new uint[1]);
+                }
+
                 return null;
             }
 
@@ -4118,6 +4241,9 @@ namespace Opc.Ua.ModelCompiler
             mergedType.IsAbstract = type.IsAbstract;
             mergedType.Children = null;
             mergedType.References = null;
+            mergedType.Category = type.Category;
+            mergedType.Purpose = type.Purpose;
+            mergedType.ReleaseStatus = type.ReleaseStatus;
 
             VariableTypeDesign variableType = type as VariableTypeDesign;
 
@@ -4259,6 +4385,9 @@ namespace Opc.Ua.ModelCompiler
             mergedInstance.InstanceState = null;
             mergedInstance.OveriddenNode = null;
             mergedInstance.Parent = null;
+            mergedInstance.Category = source.Category;
+            mergedInstance.Purpose = source.Purpose;
+            mergedInstance.ReleaseStatus = source.ReleaseStatus;
 
             Log("Created Merged Instance: {0}", mergedInstance.SymbolicId.Name);
             return mergedInstance;
@@ -4282,6 +4411,9 @@ namespace Opc.Ua.ModelCompiler
             objectd.WriteAccess = 0;
             objectd.SupportsEvents = type.SupportsEvents;
             objectd.SupportsEventsSpecified = true;
+            objectd.Category = type.Category;
+            objectd.Purpose = type.Purpose;
+            objectd.ReleaseStatus = type.ReleaseStatus;
 
             return objectd;
         }
@@ -4315,6 +4447,9 @@ namespace Opc.Ua.ModelCompiler
             variable.MinimumSamplingIntervalSpecified = type.MinimumSamplingIntervalSpecified;
             variable.Historizing = type.Historizing;
             variable.HistorizingSpecified = type.HistorizingSpecified;
+            variable.Category = type.Category;
+            variable.Purpose = type.Purpose;
+            variable.ReleaseStatus = type.ReleaseStatus;
 
             return variable;
         }
@@ -4679,7 +4814,7 @@ namespace Opc.Ua.ModelCompiler
             bool inherited)
         {
             Log("BuildHierarchy for Type: {0} : {1}", type.SymbolicId.Name, basePath);
-
+            
             if (type.BaseTypeNode != null)
             {
                 if (type is VariableTypeDesign || type is ObjectTypeDesign)
@@ -4688,7 +4823,7 @@ namespace Opc.Ua.ModelCompiler
                 }
             }
 
-            TranslateReferences(basePath, type, references, suppressInverseHierarchicalAtTypeLevel);
+            TranslateReferences(basePath, type, references, suppressInverseHierarchicalAtTypeLevel, inherited);
 
             if (type.Children != null && type.Children.Items != null)
             {
@@ -4743,10 +4878,12 @@ namespace Opc.Ua.ModelCompiler
                 }
             }
 
-            TranslateReferences(basePath, parent, references, false);
+            TranslateReferences(basePath, parent, references, false, false);
 
             if (parent.Children != null && parent.Children.Items != null)
             {
+                bool isTypeDefinition = (parent.Parent is TypeDesign);
+                
                 for (int ii = 0; ii < parent.Children.Items.Length; ii++)
                 {
                     InstanceDesign instance = parent.Children.Items[ii];
@@ -4759,6 +4896,11 @@ namespace Opc.Ua.ModelCompiler
                     child.Instance = instance;
                     child.Inherited = inherited;
 
+                    if (isTypeDefinition  && !(parent is MethodDesign) && instance.OveriddenNode == null)
+                    {
+                        child.AdHocInstance = true;
+                    }
+
                     nodes.Add(child);
 
                     BuildInstanceHierarchy2(instance, browsePath, nodes, references, inherited);
@@ -4770,7 +4912,8 @@ namespace Opc.Ua.ModelCompiler
             string currentPath,
             NodeDesign source,
             List<HierarchyReference> references,
-            bool suppressInverseHierarchicalAtTypeLevel)
+            bool suppressInverseHierarchicalAtTypeLevel,
+            bool inherited)
         {
             if (source.References == null || source.References.Length == 0)
             {
@@ -4782,6 +4925,35 @@ namespace Opc.Ua.ModelCompiler
                 if (source.References[ii].ReferenceType == new XmlQualifiedName("HasModelParent", DefaultNamespace))
                 {
                     continue;
+                }
+
+                // suppress inhierited non-hierarchial references.
+                if (inherited)
+                {
+                    NodeDesign target = null;
+
+                    if (m_nodes.TryGetValue(source.References[ii].ReferenceType, out target))
+                    {
+                        ReferenceTypeDesign referenceType = target as ReferenceTypeDesign;
+
+                        bool found = false;
+
+                        while (referenceType != null)
+                        {
+                            if (referenceType.SymbolicName == new XmlQualifiedName("NonHierarchicalReferences", DefaultNamespace))
+                            {
+                                found = true;
+                                break;
+                            }
+
+                            referenceType = referenceType.BaseTypeNode as ReferenceTypeDesign;
+                        }
+
+                        if (found)
+                        {
+                            continue;
+                        }
+                    }
                 }
 
                 if (suppressInverseHierarchicalAtTypeLevel && source.References[ii].IsInverse && source.References[ii].ReferenceType == new XmlQualifiedName("Organizes", DefaultNamespace))
@@ -5024,6 +5196,7 @@ namespace Opc.Ua.ModelCompiler
                     mergedNode.Instance = CreateMergedInstance(root.SymbolicId, node.RelativePath, node.Instance);
                     mergedNode.ExplicitlyDefined = false;
                     mergedNode.Inherited = node.Inherited;
+                    mergedNode.AdHocInstance = node.AdHocInstance;
 
                     hierarchy.Nodes.Add(node.RelativePath, mergedNode);
                     hierarchy.NodeList.Add(mergedNode);
@@ -5102,7 +5275,13 @@ namespace Opc.Ua.ModelCompiler
                     true,
                     namespaceUris);
 
-                SetCategory(root, root.State);
+                root.State.Categories = null;
+                root.State.ReleaseStatus = (Export.ReleaseStatus)(int)root.ReleaseStatus;
+
+                if (!String.IsNullOrEmpty(root.Category))
+                {
+                    root.State.Categories = root.Category.Split(new char[] { ',' });
+                }
             }
 
             if (root.Hierarchy != null && root is TypeDesign)
@@ -5116,7 +5295,7 @@ namespace Opc.Ua.ModelCompiler
                         if (hierarchyNode.Identifier is uint)
                         {
                             hierarchyNode.Instance.NumericId = (uint)hierarchyNode.Identifier;
-                            hierarchyNode.Instance.NumericIdSpecified = false;
+                            hierarchyNode.Instance.NumericIdSpecified = true;
                         }
                         else if (hierarchyNode.Identifier is string)
                         {
@@ -5133,7 +5312,16 @@ namespace Opc.Ua.ModelCompiler
                         false,
                         namespaceUris);
 
-                    SetCategory(root, root.InstanceState);
+                    if (root.InstanceState.ReleaseStatus == Export.ReleaseStatus.Released || root.InstanceState.Categories != null)
+                    {
+                        root.InstanceState.Categories = null;
+                        root.InstanceState.ReleaseStatus = (Export.ReleaseStatus)(int)hierarchyNode.Instance.ReleaseStatus;
+
+                        if (!String.IsNullOrEmpty(root.Category))
+                        {
+                            root.InstanceState.Categories = root.Category.Split(new char[] { ',' });
+                        }
+                    }
 
                     ClearModellingRules(hierarchyNode.Instance.State as BaseInstanceState);
                 }
@@ -5369,6 +5557,20 @@ namespace Opc.Ua.ModelCompiler
                     }
                 }
 
+                if (isTypeDefinition)
+                {
+                    if (!current.ExplicitlyDefined && current.Inherited && current.AdHocInstance)
+                    {
+                        // this assumes that ad-hoc instances are not more than one level deep.
+                        // i.e. a type defines folder and adds a few instances but does not defined subfolders.
+                        // need a better way to identify when to suppress inherited adhoc instances.
+                        if (!basePath.Contains(NodeDesign.PathChar))
+                        {
+                            continue;
+                        }
+                    }
+                }
+
                 current.Instance.State = CreateNodeState(
                     state,
                     childPath,
@@ -5422,20 +5624,6 @@ namespace Opc.Ua.ModelCompiler
            }
 
            return state;
-        }
-
-        private void SetCategory(NodeDesign node, NodeState state)
-        {
-            if (!String.IsNullOrEmpty(node.Category))
-            {
-                state.Categories = node.Category.Split(',');
-            }
-
-            if (state.Categories == null && node.PartNo != 0)
-            {
-                var suffix = (node.NotInAddressSpace) ? "/Services" : "";
-                state.Categories = new string[] { $"Part{node.PartNo}{suffix}" };
-            }
         }
 
         private void CreateChildNodeStates(
@@ -5506,6 +5694,7 @@ namespace Opc.Ua.ModelCompiler
                     namespaceUris);
 
                 current.Instance.State.Categories = state.Categories;
+                current.Instance.State.ReleaseStatus = state.ReleaseStatus;
 
                 BaseInstanceState child = current.Instance.State as BaseInstanceState;
 
@@ -5644,20 +5833,62 @@ namespace Opc.Ua.ModelCompiler
             }
 
             state.IsAbstract = root.IsAbstract;
+            state.DataTypeModifier = ((root.IsOptionSet) ? DataTypeModifier.OptionSet : DataTypeModifier.None);
 
             if ((root.BasicDataType == BasicDataType.Enumeration || root.BasicDataType == BasicDataType.UserDefined) && root.Fields != null && root.Fields.Length > 0)
             {
-                DataTypeDefinition2 definition = new DataTypeDefinition2();
-                definition.DataTypeModifier = ((root.IsOptionSet) ? DataTypeModifier.OptionSet : DataTypeModifier.None);
+                DataTypeDefinition definition = null;
 
-                List<DataTypeDefinitionField> fields = new List<DataTypeDefinitionField>();
-
-                foreach (var field in root.Fields)
+                if (root.BasicDataType == BasicDataType.UserDefined && root.IsStructure)
                 {
-                    DataTypeDefinitionField exportedField;
+                    StructureDefinition structureDefinition = new StructureDefinition();
+                    List<StructureField> structFields = new List<StructureField>();
 
-                    if (root.BasicDataType == BasicDataType.Enumeration)
+                    foreach (var field in root.Fields)
                     {
+                        StructureField structureField = new StructureField()
+                        {
+                            Name = field.Name,
+                            DataType = ConstructNodeId(field.DataTypeNode, namespaceUris),
+                            ValueRank = ConstructValueRank(field.ValueRank, null)
+                        };
+
+                        if (string.IsNullOrEmpty(field.BitMask))
+                        {
+                            structureField.IsOptional = false;
+                        }
+                        else
+                        {
+                            structureField.IsOptional = true;
+                        }
+
+                        if (field.Description != null && !field.Description.IsAutogenerated)
+                        {
+                            structureField.Description = new Opc.Ua.LocalizedText(field.Description.Value);
+                        }
+
+                        structureDefinition.Fields.Add(structureField);
+                    }
+
+                    DataTypeDesign baseType = root.BaseTypeNode as DataTypeDesign;
+
+                    if (baseType != null)
+                    {
+                        structureDefinition.BaseDataType = ConstructNodeId(baseType, namespaceUris);
+                    }
+
+                    definition = structureDefinition;
+                }
+
+                if (root.BasicDataType == BasicDataType.Enumeration && root.IsEnumeration)
+                {
+                    EnumDefinition enumDefinition = new EnumDefinition();
+                    List<EnumField> enumFields = new List<EnumField>();
+
+                    foreach (var field in root.Fields)
+                    {
+                        EnumField enumField;
+
                         if (root.IsOptionSet)
                         {
                             long bit = 1;
@@ -5674,60 +5905,35 @@ namespace Opc.Ua.ModelCompiler
                                 value++;
                             }
 
-                            exportedField = new DataTypeDefinitionField()
+                            enumField = new EnumField()
                             {
                                 Name = field.Name,
-                                DataType = NodeId.Null,
-                                ValueRank = ValueRanks.Scalar,
                                 Value = value
                             };
                         }
                         else
                         {
-                            exportedField = new DataTypeDefinitionField()
+                            enumField = new EnumField()
                             {
                                 Name = field.Name,
-                                DataType = NodeId.Null,
-                                ValueRank = ValueRanks.Scalar,
-                                Value = field.Identifier
+                                Value = field.Identifier,
                             };
                         }
-                    }
-                    else
-                    {
-                        exportedField = new DataTypeDefinitionField()
+
+                        if (field.Description != null && !field.Description.IsAutogenerated)
                         {
-                            Name = field.Name,
-                            DataType = ConstructNodeId(field.DataTypeNode, namespaceUris).ToString(),
-                            ValueRank = ConstructValueRank(field.ValueRank, null),
-                            Value = -1
-                        };
+                            enumField.Description = new Opc.Ua.LocalizedText(field.Description.Value);
+                        }
+
+                        enumFields.Add(enumField);
                     }
 
-                    if (field.Description != null && !field.Description.IsAutogenerated)
-                    {
-                        exportedField.Description = new Opc.Ua.LocalizedText(field.Description.Value);
-                    }
-
-                    fields.Add(exportedField);
+                    enumDefinition.Fields = enumFields.ToArray();
+                    definition = enumDefinition;
                 }
 
-                definition.Fields = fields;
-                definition.Name = root.BrowseName;
-
-                if (definition.Name != root.SymbolicName.Name)
-                {
-                    definition.SymbolicName = root.SymbolicName.Name;
-                }
-
-                DataTypeDesign baseType = root.BaseTypeNode as DataTypeDesign;
-
-                if (baseType != null && baseType.BasicDataType == BasicDataType.UserDefined)
-                {
-                    definition.BaseType = new QualifiedName(root.SymbolicId.Name, (ushort)namespaceUris.GetIndex(baseType.SymbolicId.Namespace)).ToString();
-                }
-
-                state.Definition = definition;
+                state.DataTypeDefinition = new ExtensionObject(definition);
+                state.Purpose = (Export.DataTypePurpose)(int)root.Purpose;
             }
 
             return state;
@@ -5742,6 +5948,13 @@ namespace Opc.Ua.ModelCompiler
             state.ReferenceTypeId = ConstructNodeId(root.ReferenceType, namespaceUris);
             state.ModellingRuleId = ConstructModellingRule(root.ModellingRule);
             state.EventNotifier = ConstructEventNotifier(root.SupportsEvents);
+            state.Categories = null;
+            state.ReleaseStatus = (Export.ReleaseStatus)(int)root.ReleaseStatus;
+
+            if (!String.IsNullOrEmpty(root.Category))
+            {
+                root.State.Categories = root.Category.Split(new char[] { ',' });
+            }
 
             if (root.NumericIdSpecified)
             {
@@ -5757,11 +5970,23 @@ namespace Opc.Ua.ModelCompiler
             state.Handle = root;
             state.EventNotifier = ConstructEventNotifier(root.SupportsEvents);
             state.ContainsNoLoops = root.ContainsNoLoops;
+            state.Categories = null;
+            state.ReleaseStatus = (Export.ReleaseStatus)(int)root.ReleaseStatus;
+
+            if (!String.IsNullOrEmpty(root.Category))
+            {
+                root.State.Categories = root.Category.Split(new char[] { ',' });
+            }
+
             return state;
         }
 
         private NodeState CreateNodeState(NodeState parent, MethodDesign root, NamespaceTable namespaceUris)
         {
+            if (root.SymbolicId.Name.Contains("FindAlias"))
+            {
+                int x = 0;
+            }
             MethodState state = new MethodState(parent);
             state.Handle = root;
 
@@ -5769,6 +5994,13 @@ namespace Opc.Ua.ModelCompiler
             state.ReferenceTypeId = ConstructNodeId(root.ReferenceType, namespaceUris);
             state.ModellingRuleId = ConstructModellingRule(root.ModellingRule);
             state.Executable = state.UserExecutable = !root.NonExecutable;
+            state.Categories = null;
+            state.ReleaseStatus = (Export.ReleaseStatus)(int)root.ReleaseStatus;
+
+            if (!String.IsNullOrEmpty(root.Category))
+            {
+                root.State.Categories = root.Category.Split(new char[] { ',' });
+            }
 
             if (root.NumericIdSpecified)
             {
@@ -5864,6 +6096,13 @@ namespace Opc.Ua.ModelCompiler
             state.TypeDefinitionId = ConstructNodeId(root.TypeDefinitionNode, namespaceUris);
             state.ReferenceTypeId = ConstructNodeId(root.ReferenceType, namespaceUris);
             state.ModellingRuleId = ConstructModellingRule(root.ModellingRule);
+            state.Categories = null;
+            state.ReleaseStatus = (Export.ReleaseStatus)(int)root.ReleaseStatus;
+
+            if (!String.IsNullOrEmpty(root.Category))
+            {
+                root.State.Categories = root.Category.Split(new char[] { ',' });
+            }
 
             if (root.NumericIdSpecified)
             {
