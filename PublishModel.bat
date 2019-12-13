@@ -14,10 +14,11 @@ set TARGET=%2
 set OUTPUT=..\nodesets
 set INPUT=.\ModelCompiler\Design
 
-IF NOT "%3"=="" (set INPUT=%INPUT%.%3) else (set INPUT=%INPUT%.v104)
-IF NOT "%3"=="" (set OUTPUT=%OUTPUT%\%3) else (set OUTPUT=%OUTPUT%\master)
-IF NOT "%3"=="" set VERSION=-version %3
-IF NOT "%4"=="" set EXCLUDE=-exclude %4
+IF "%~3"=="" (set V=v104) else (set V=%3)
+IF %V%==v104 (set OUTPUT=%OUTPUT%\master) else (set OUTPUT=%OUTPUT%\%V%) 
+set INPUT=%INPUT%.%V%
+set VERSION=-version %V%
+IF NOT "%4"=="" set EXCLUDE=-exclude %2
 
 ECHO Building Model %TARGET%
 IF NOT EXIST "%OUTPUT%\%TARGET%" MKDIR "%OUTPUT%\%TARGET%"
