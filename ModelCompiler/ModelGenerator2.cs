@@ -3532,7 +3532,7 @@ namespace Opc.Ua.ModelCompiler
             }
 
             template.WriteNextLine(context.Prefix);
-            template.Write("ISystemContext context,");
+            template.Write("ISystemContext systemContext,");
 
             template.WriteNextLine(context.Prefix);
             template.Write("MethodState method,");
