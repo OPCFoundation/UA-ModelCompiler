@@ -5983,10 +5983,6 @@ namespace Opc.Ua.ModelCompiler
 
         private NodeState CreateNodeState(NodeState parent, MethodDesign root, NamespaceTable namespaceUris)
         {
-            if (root.SymbolicId.Name.Contains("FindAlias"))
-            {
-                int x = 0;
-            }
             MethodState state = new MethodState(parent);
             state.Handle = root;
 
