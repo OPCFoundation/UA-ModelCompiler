@@ -7,8 +7,8 @@
   xmlns="http://opcfoundation.org/UA/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
-  TargetVersion="1.04.4"
-  TargetPublicationDate="2019-11-20T00:00:00Z"
+  TargetVersion="1.04.5"
+  TargetPublicationDate="2020-01-25T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -24,12 +24,12 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespaceVersion" DataType="ua:String">
         <opc:DefaultValue>
-          <uax:String>1.04.4</uax:String>
+          <uax:String>1.04.5</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2019-11-20T00:00:00</uax:DateTime>
+          <uax:DateTime>2020-01-25T00:00:00</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -159,7 +159,19 @@
   <opc:DataType SymbolicName="AudioDataType" BaseType="ByteString" PartNo="3">
     <opc:Description>An image encoded in PNG format.</opc:Description>
   </opc:DataType>
-  
+
+  <opc:DataType SymbolicName="CurrencyUnitType" BaseType="ua:Structure" ReleaseStatus="Draft" PartNo="3">
+    <opc:Fields>
+      <opc:Field Name="NumericCode" DataType="ua:Int16" />
+      <opc:Field Name="Exponent" DataType="ua:SByte" />
+      <opc:Field Name="AlphabeticCode" DataType="ua:String" />
+      <opc:Field Name="Currency" DataType="ua:LocalizedText" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="CurrencyUnit" BaseType="ua:CurrencyUnitType" ReleaseStatus="Draft" PartNo="3">
+  </opc:DataType>
+
   <!-- Part 5 - Standard Object Types -->
   <!-- BaseObjectType BuiltInTypes.xml -->
 
