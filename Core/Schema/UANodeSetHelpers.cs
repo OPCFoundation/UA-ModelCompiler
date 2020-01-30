@@ -935,6 +935,7 @@ namespace Opc.Ua.Export
                         Opc.Ua.Export.DataTypeField output = new Opc.Ua.Export.DataTypeField();
 
                         output.Name = field.Name;
+                        output.DisplayName = Export(new Opc.Ua.LocalizedText[] { field.Name });
                         output.Description = Export(new Opc.Ua.LocalizedText[] { field.Description });
                         output.ValueRank = ValueRanks.Scalar;
                         output.Value = (int)field.Value;
@@ -985,6 +986,11 @@ namespace Opc.Ua.Export
 
                         foreach (DataTypeField field in source.Field)
                         {
+                            if (field.IsOptional)
+                            {
+                                structureDefinition.StructureType = StructureType.StructureWithOptionalFields;
+                            }
+
                             StructureField output = new StructureField();
 
                             output.Name = field.Name;

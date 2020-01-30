@@ -2213,6 +2213,15 @@
   <ReferenceType SymbolicName="tns:HasAddIn" PartNo="5" BaseType="tns:NonHierarchicalReferences">
     <InverseName>AddInOf</InverseName>
   </ReferenceType>
+  <DataType SymbolicName="tns:CurrencyUnitType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="NumericCode" DataType="tns:Int16" />
+      <Field Name="Exponent" DataType="tns:SByte" />
+      <Field Name="AlphabeticCode" DataType="tns:String" />
+      <Field Name="Currency" DataType="tns:LocalizedText" />
+    </Fields>
+  </DataType>
+  <Property SymbolicName="tns:CurrencyUnit" PartNo="3" ReleaseStatus="Draft" DataType="tns:CurrencyUnitType" />
   <VariableType SymbolicName="tns:DataItemType" PartNo="8" BaseType="tns:BaseDataVariableType" DataType="tns:BaseDataType" ValueRank="ScalarOrArray">
     <Description>
       A variable that contains live automation data.

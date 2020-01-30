@@ -2082,6 +2082,19 @@
     <opc:InverseName>AddInOf</opc:InverseName>
   </opc:ReferenceType>
 
+  <!-- Part 5 - Amendment 10 -->
+
+  <opc:DataType SymbolicName="CurrencyUnitType" PartNo="5" BaseType="ua:Structure" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="NumericCode"  DataType="ua:Int16" />
+      <opc:Field Name="Exponent"  DataType="ua:SByte" />
+      <opc:Field Name="AlphabeticCode"  DataType="ua:String" />
+      <opc:Field Name="Currency"  DataType="ua:LocalizedText"/>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:Property SymbolicName="CurrencyUnit" DataType="ua:CurrencyUnitType" PartNo="3"  ReleaseStatus="Draft" />
+
   <!-- Part 8 -->
 
   <opc:VariableType SymbolicName="DataItemType" BaseType="ua:BaseDataVariableType" DataType="ua:BaseDataType" ValueRank="ScalarOrArray" PartNo="8">
