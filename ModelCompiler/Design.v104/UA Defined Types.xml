@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04.5" TargetPublicationDate="2020-01-25T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04.5" TargetPublicationDate="2020-03-06T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -450,7 +450,7 @@
       </Property>
       <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
         <DefaultValue>
-          <uax:DateTime>2020-01-25T00:00:00</uax:DateTime>
+          <uax:DateTime>2020-03-06T00:00:00</uax:DateTime>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
@@ -557,15 +557,6 @@
   <DataType SymbolicName="tns:AudioDataType" PartNo="3" BaseType="tns:ByteString">
     <Description>An image encoded in PNG format.</Description>
   </DataType>
-  <DataType SymbolicName="tns:CurrencyUnitType" PartNo="3" ReleaseStatus="Draft" BaseType="tns:Structure">
-    <Fields>
-      <Field Name="NumericCode" DataType="tns:Int16" />
-      <Field Name="Exponent" DataType="tns:SByte" />
-      <Field Name="AlphabeticCode" DataType="tns:String" />
-      <Field Name="Currency" DataType="tns:LocalizedText" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:CurrencyUnit" PartNo="3" ReleaseStatus="Draft" BaseType="tns:CurrencyUnitType" />
   <ObjectType SymbolicName="tns:ServerType" PartNo="5" BaseType="tns:BaseObjectType">
     <Description>Specifies the current status and capabilities of the server.</Description>
     <Children>
@@ -2210,10 +2201,10 @@
   <ReferenceType SymbolicName="tns:HasInterface" PartNo="5" BaseType="tns:NonHierarchicalReferences">
     <InverseName>InterfaceOf</InverseName>
   </ReferenceType>
-  <ReferenceType SymbolicName="tns:HasAddIn" PartNo="5" BaseType="tns:NonHierarchicalReferences">
+  <ReferenceType SymbolicName="tns:HasAddIn" PartNo="5" BaseType="tns:HasComponent">
     <InverseName>AddInOf</InverseName>
   </ReferenceType>
-  <DataType SymbolicName="tns:CurrencyUnitType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:Structure">
+  <DataType SymbolicName="tns:CurrencyUnitType" PartNo="5" BaseType="tns:Structure">
     <Fields>
       <Field Name="NumericCode" DataType="tns:Int16" />
       <Field Name="Exponent" DataType="tns:SByte" />
@@ -2221,7 +2212,7 @@
       <Field Name="Currency" DataType="tns:LocalizedText" />
     </Fields>
   </DataType>
-  <Property SymbolicName="tns:CurrencyUnit" PartNo="3" ReleaseStatus="Draft" DataType="tns:CurrencyUnitType" />
+  <Property SymbolicName="tns:CurrencyUnit" PartNo="3" DataType="tns:CurrencyUnitType" />
   <VariableType SymbolicName="tns:DataItemType" PartNo="8" BaseType="tns:BaseDataVariableType" DataType="tns:BaseDataType" ValueRank="ScalarOrArray">
     <Description>
       A variable that contains live automation data.
@@ -5790,13 +5781,13 @@
       </Reference>
     </References>
   </Object>
-  <VariableType SymbolicName="tns:MultiStateDictionaryEntryDiscreteBaseType" PartNo="19" ReleaseStatus="Draft" BaseType="tns:MultiStateValueDiscreteType" DataType="tns:Number" ValueRank="Scalar">
+  <VariableType SymbolicName="tns:MultiStateDictionaryEntryDiscreteBaseType" PartNo="19" BaseType="tns:MultiStateValueDiscreteType" DataType="tns:Number" ValueRank="Scalar">
     <Children>
       <Property SymbolicName="tns:EnumDictionaryEntries" ModellingRule="Mandatory" DataType="tns:NodeId" ValueRank="OneOrMoreDimensions" ArrayDimensions="0,0" />
       <Property SymbolicName="tns:ValueAsDictionaryEntries" ModellingRule="Optional" DataType="tns:NodeId" ValueRank="Array" ArrayDimensions="0" />
     </Children>
   </VariableType>
-  <VariableType SymbolicName="tns:MultiStateDictionaryEntryDiscreteType" PartNo="19" ReleaseStatus="Draft" BaseType="tns:MultiStateDictionaryEntryDiscreteBaseType" DataType="tns:Number" ValueRank="Scalar">
+  <VariableType SymbolicName="tns:MultiStateDictionaryEntryDiscreteType" PartNo="19" BaseType="tns:MultiStateDictionaryEntryDiscreteBaseType" DataType="tns:Number" ValueRank="Scalar">
     <Children>
       <Property SymbolicName="tns:ValueAsDictionaryEntries" ModellingRule="Mandatory" />
     </Children>

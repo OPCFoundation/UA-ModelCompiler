@@ -897,8 +897,10 @@ namespace Opc.Ua.Export
                 {
                     List<Opc.Ua.Export.DataTypeField> fields = new List<DataTypeField>();
 
-                    foreach (StructureField field in structureDefinition.Fields)
+                    for (int ii = structureDefinition.FirstExplicitFieldIndex; ii < structureDefinition.Fields.Count; ii++)
                     {
+                        StructureField field = structureDefinition.Fields[ii];
+
                         Opc.Ua.Export.DataTypeField output = new Opc.Ua.Export.DataTypeField();
 
                         output.Name = field.Name;
@@ -935,7 +937,6 @@ namespace Opc.Ua.Export
                         Opc.Ua.Export.DataTypeField output = new Opc.Ua.Export.DataTypeField();
 
                         output.Name = field.Name;
-                        output.DisplayName = Export(new Opc.Ua.LocalizedText[] { field.Name });
                         output.Description = Export(new Opc.Ua.LocalizedText[] { field.Description });
                         output.ValueRank = ValueRanks.Scalar;
                         output.Value = (int)field.Value;
@@ -1003,6 +1004,7 @@ namespace Opc.Ua.Export
 
                         structureDefinition.Fields = fields.ToArray();
                     }
+
                     definition = structureDefinition;
                 }
                 else

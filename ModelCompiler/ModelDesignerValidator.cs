@@ -5842,7 +5842,7 @@ namespace Opc.Ua.ModelCompiler
                 if (root.BasicDataType == BasicDataType.UserDefined && root.IsStructure)
                 {
                     StructureDefinition structureDefinition = new StructureDefinition();
-                    GetStructureDefinitionFields(structureDefinition, root, namespaceUris);
+                    structureDefinition.FirstExplicitFieldIndex = GetStructureDefinitionFields(structureDefinition, root, namespaceUris);
 
                     DataTypeDesign baseType = root.BaseTypeNode as DataTypeDesign;
 
@@ -5915,11 +5915,11 @@ namespace Opc.Ua.ModelCompiler
             return state;
         }
 
-        private void GetStructureDefinitionFields(StructureDefinition structureDefinition, DataTypeDesign dataType, NamespaceTable namespaceUris)
+        private int GetStructureDefinitionFields(StructureDefinition structureDefinition, DataTypeDesign dataType, NamespaceTable namespaceUris)
         {
             if (dataType == null || dataType.Fields == null)
             {
-                return;
+                return structureDefinition.Fields.Count;
             }
 
             DataTypeDesign baseType = dataType.BaseTypeNode as DataTypeDesign;
@@ -5928,6 +5928,8 @@ namespace Opc.Ua.ModelCompiler
             {
                 GetStructureDefinitionFields(structureDefinition, baseType, namespaceUris);
             }
+
+            int start = structureDefinition.Fields.Count;
 
             foreach (var field in dataType.Fields)
             {
@@ -5955,6 +5957,8 @@ namespace Opc.Ua.ModelCompiler
 
                 structureDefinition.Fields.Add(structureField);
             }
+
+            return start;
         }
 
         private NodeState CreateNodeState(NodeState parent, ObjectDesign root, NamespaceTable namespaceUris)

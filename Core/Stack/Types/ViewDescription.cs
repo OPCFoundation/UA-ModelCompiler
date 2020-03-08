@@ -54,4 +54,14 @@ namespace Opc.Ua
         }
     }
     #endregion
+
+    #region StructureDefinition Class
+    public partial class StructureDefinition
+    {
+        public int FirstExplicitFieldIndex
+        {
+            get; set;
+        }
+    }
+    #endregion
 }

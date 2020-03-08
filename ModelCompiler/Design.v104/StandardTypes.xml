@@ -8,7 +8,7 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
   TargetVersion="1.04.5"
-  TargetPublicationDate="2020-01-25T00:00:00Z"
+  TargetPublicationDate="2020-03-06T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -29,7 +29,7 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2020-01-25T00:00:00</uax:DateTime>
+          <uax:DateTime>2020-03-06T00:00:00</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -158,18 +158,6 @@
 
   <opc:DataType SymbolicName="AudioDataType" BaseType="ByteString" PartNo="3">
     <opc:Description>An image encoded in PNG format.</opc:Description>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="CurrencyUnitType" BaseType="ua:Structure" ReleaseStatus="Draft" PartNo="3">
-    <opc:Fields>
-      <opc:Field Name="NumericCode" DataType="ua:Int16" />
-      <opc:Field Name="Exponent" DataType="ua:SByte" />
-      <opc:Field Name="AlphabeticCode" DataType="ua:String" />
-      <opc:Field Name="Currency" DataType="ua:LocalizedText" />
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="CurrencyUnit" BaseType="ua:CurrencyUnitType" ReleaseStatus="Draft" PartNo="3">
   </opc:DataType>
 
   <!-- Part 5 - Standard Object Types -->
@@ -2078,13 +2066,13 @@
     <opc:InverseName>InterfaceOf</opc:InverseName>
   </opc:ReferenceType>
 
-  <opc:ReferenceType SymbolicName="HasAddIn" BaseType="ua:NonHierarchicalReferences" PartNo="5" ReleaseStatus="Released">
+  <opc:ReferenceType SymbolicName="HasAddIn" BaseType="ua:HasComponent" PartNo="5" ReleaseStatus="Released">
     <opc:InverseName>AddInOf</opc:InverseName>
   </opc:ReferenceType>
 
   <!-- Part 5 - Amendment 10 -->
 
-  <opc:DataType SymbolicName="CurrencyUnitType" PartNo="5" BaseType="ua:Structure" ReleaseStatus="Draft">
+  <opc:DataType SymbolicName="CurrencyUnitType" PartNo="5" BaseType="ua:Structure" ReleaseStatus="Released">
     <opc:Fields>
       <opc:Field Name="NumericCode"  DataType="ua:Int16" />
       <opc:Field Name="Exponent"  DataType="ua:SByte" />
@@ -2093,10 +2081,9 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:Property SymbolicName="CurrencyUnit" DataType="ua:CurrencyUnitType" PartNo="3"  ReleaseStatus="Draft" />
+  <opc:Property SymbolicName="CurrencyUnit" DataType="ua:CurrencyUnitType" PartNo="3" ReleaseStatus="Released" />
 
   <!-- Part 8 -->
-
   <opc:VariableType SymbolicName="DataItemType" BaseType="ua:BaseDataVariableType" DataType="ua:BaseDataType" ValueRank="ScalarOrArray" PartNo="8">
     <opc:Description>
       A variable that contains live automation data.
@@ -6005,14 +5992,14 @@
 
   <!-- Part 19 -->
 
-  <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteBaseType" BaseType="ua:MultiStateValueDiscreteType" DataType="Number" ValueRank="Scalar" PartNo="19" ReleaseStatus="Draft">
+  <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteBaseType" BaseType="ua:MultiStateValueDiscreteType" DataType="Number" ValueRank="Scalar" PartNo="19" ReleaseStatus="Released">
     <opc:Children>
       <opc:Property SymbolicName="EnumDictionaryEntries" DataType="ua:NodeId" ValueRank="OneOrMoreDimensions" ArrayDimensions="0,0"  ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ValueAsDictionaryEntries" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0"  ModellingRule="Optional" />
     </opc:Children>
   </opc:VariableType>
 
-  <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteType" BaseType="MultiStateDictionaryEntryDiscreteBaseType" DataType="Number" ValueRank="Scalar" PartNo="19" ReleaseStatus="Draft">
+  <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteType" BaseType="MultiStateDictionaryEntryDiscreteBaseType" DataType="Number" ValueRank="Scalar" PartNo="19" ReleaseStatus="Released">
     <opc:Children>
       <opc:Property SymbolicName="ValueAsDictionaryEntries" ModellingRule="Mandatory" />
     </opc:Children>
