@@ -148,6 +148,38 @@ namespace Opc.Ua.ModelCompiler
             WriteTemplate_ExclusionsAnsiC(filePath, nodes);
         }
 
+        private void IndexDocumentation(SystemContext context, IEnumerable<NodeState> source, Dictionary<NodeId, NodeState> map)
+        {
+            foreach (var ii in source)
+            {
+                if (!NodeId.IsNull(ii.NodeId) && !String.IsNullOrEmpty(ii.Documentation))
+                {
+                    map[ii.NodeId] = ii;
+                }
+
+                IList<BaseInstanceState> children = new List<BaseInstanceState>();
+                ii.GetChildren(context, children);
+                IndexDocumentation(context, (IEnumerable<NodeState>)children, map);
+            }
+        }
+
+        private void UpdateDocumentation(SystemContext context, Dictionary<NodeId, NodeState> original, IEnumerable<NodeState> updated)
+        {
+            foreach (var ii in updated)
+            {
+                NodeState existingNode = null;
+
+                if (original.TryGetValue(ii.NodeId, out existingNode))
+                {
+                    ii.Documentation = existingNode.Documentation;
+                }
+
+                IList<BaseInstanceState> children = new List<BaseInstanceState>();
+                ii.GetChildren(context, children);
+                UpdateDocumentation(context, original, (IEnumerable<NodeState>)children);
+             }
+        }
+
         /// <summary>
         /// Writes the schema information to a static XML export file.
         /// </summary>
@@ -316,7 +348,44 @@ namespace Opc.Ua.ModelCompiler
             }
 
             // save as nodeset.
-            string outputFile3 = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.xml");
+            var outputFile3 = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.xml");
+
+            var originalFile = outputFile3;
+
+            if (m_model.TargetNamespace == Namespaces.OpcUa)
+            {
+                originalFile = String.Format(@"{0}\{1}.NodeSet2.Services.xml", filePath, m_model.TargetNamespaceInfo.Prefix);
+            }
+
+            // load existing filed from xml.
+            if (File.Exists(originalFile))
+            {
+                try
+                {
+                    NodeStateCollection exisitingCollection = null;
+
+                    using (Stream istrm = File.Open(originalFile, FileMode.Open))
+                    {
+                        Opc.Ua.Export.UANodeSet nodeSet = Opc.Ua.Export.UANodeSet.Read(istrm);
+                        exisitingCollection = new NodeStateCollection();
+                        nodeSet.Import(context, exisitingCollection);
+                    }
+
+                    Dictionary<NodeId, NodeState> map = new Dictionary<NodeId, NodeState>();
+                    IndexDocumentation(context, exisitingCollection, map);
+
+                    UpdateDocumentation(context, map, collection);
+
+                    if (m_model.TargetNamespace == Namespaces.OpcUa)
+                    {
+                        UpdateDocumentation(context, map, collectionWithServices);
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignore any unparseable file.
+                }
+            }
 
             var identifiersFilePath = String.Format(@"{0}\{1}.NodeIds.csv", filePath, m_model.TargetNamespaceInfo.Prefix);
 

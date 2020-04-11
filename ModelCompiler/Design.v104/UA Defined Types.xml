@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04.5" TargetPublicationDate="2020-03-06T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04.6" TargetPublicationDate="2020-04-10T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -445,12 +445,12 @@
       </Property>
       <Property SymbolicName="tns:NamespaceVersion" DataType="tns:String">
         <DefaultValue>
-          <uax:String>1.04.5</uax:String>
+          <uax:String>1.04.6</uax:String>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
         <DefaultValue>
-          <uax:DateTime>2020-03-06T00:00:00</uax:DateTime>
+          <uax:DateTime>2020-04-10T00:00:00</uax:DateTime>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
@@ -488,37 +488,37 @@
       </Reference>
     </References>
   </Object>
-  <Property SymbolicName="tns:NodeVersion" PartNo="3" DataType="tns:String">
+  <Property SymbolicName="tns:NodeVersion" PartNo="3" DataType="tns:String" ValueRank="Scalar">
     <Description>The version number of the node (used to indicate changes to references of the owning node).</Description>
   </Property>
-  <Property SymbolicName="tns:ViewVersion" PartNo="3" DataType="tns:UInt32">
+  <Property SymbolicName="tns:ViewVersion" PartNo="3" DataType="tns:UInt32" ValueRank="Scalar">
     <Description>The version number of the view.</Description>
   </Property>
-  <Property SymbolicName="tns:Icon" PartNo="3" DataType="tns:Image">
+  <Property SymbolicName="tns:Icon" PartNo="3" DataType="tns:Image" ValueRank="Scalar">
     <Description>A small image representing the object.</Description>
   </Property>
-  <Property SymbolicName="tns:LocalTime" PartNo="3" DataType="tns:TimeZoneDataType">
+  <Property SymbolicName="tns:LocalTime" PartNo="3" DataType="tns:TimeZoneDataType" ValueRank="Scalar">
     <Description>The local time where the owning variable value was collected.</Description>
   </Property>
-  <Property SymbolicName="tns:AllowNulls" PartNo="3" DataType="tns:Boolean">
+  <Property SymbolicName="tns:AllowNulls" PartNo="3" DataType="tns:Boolean" ValueRank="Scalar">
     <Description>Whether the value of the owning variable is allowed to be null.</Description>
   </Property>
-  <Property SymbolicName="tns:ValueAsText" PartNo="3" DataType="tns:LocalizedText">
+  <Property SymbolicName="tns:ValueAsText" PartNo="3" DataType="tns:LocalizedText" ValueRank="Scalar">
     <Description>The string representation of the current value for a variable with an enumerated data type.</Description>
   </Property>
-  <Property SymbolicName="tns:MaxStringLength" PartNo="3" DataType="tns:UInt32">
+  <Property SymbolicName="tns:MaxStringLength" PartNo="3" DataType="tns:UInt32" ValueRank="Scalar">
     <Description>The maximum number of bytes supported by the DataVariable.</Description>
   </Property>
-  <Property SymbolicName="tns:MaxCharacters" PartNo="3" DataType="tns:UInt32">
+  <Property SymbolicName="tns:MaxCharacters" PartNo="3" DataType="tns:UInt32" ValueRank="Scalar">
     <Description>The maximum number of Unicode characters supported by the DataVariable.</Description>
   </Property>
-  <Property SymbolicName="tns:MaxByteStringLength" PartNo="3" DataType="tns:UInt32">
+  <Property SymbolicName="tns:MaxByteStringLength" PartNo="3" DataType="tns:UInt32" ValueRank="Scalar">
     <Description>The maximum length for a byte string that can be stored in the owning variable.</Description>
   </Property>
-  <Property SymbolicName="tns:MaxArrayLength" PartNo="3" DataType="tns:UInt32">
+  <Property SymbolicName="tns:MaxArrayLength" PartNo="3" DataType="tns:UInt32" ValueRank="Scalar">
     <Description>The maximum length for an array that can be stored in the owning variable.</Description>
   </Property>
-  <Property SymbolicName="tns:EngineeringUnits" PartNo="3" DataType="tns:EUInformation">
+  <Property SymbolicName="tns:EngineeringUnits" PartNo="3" DataType="tns:EUInformation" ValueRank="Scalar">
     <Description>The engineering units for the value of the owning variable.</Description>
   </Property>
   <Property SymbolicName="tns:EnumStrings" PartNo="3" DataType="tns:LocalizedText" ValueRank="Array">
@@ -1989,7 +1989,7 @@
     </Children>
     <References>
       <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
+        <ReferenceType>tns:HasComponent</ReferenceType>
         <TargetId>tns:Server_ServerCapabilities_RoleSet</TargetId>
       </Reference>
     </References>
@@ -2012,7 +2012,7 @@
     </Children>
     <References>
       <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
+        <ReferenceType>tns:HasComponent</ReferenceType>
         <TargetId>tns:Server_ServerCapabilities_RoleSet</TargetId>
       </Reference>
     </References>
@@ -2035,7 +2035,7 @@
     </Children>
     <References>
       <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
+        <ReferenceType>tns:HasComponent</ReferenceType>
         <TargetId>tns:Server_ServerCapabilities_RoleSet</TargetId>
       </Reference>
     </References>
@@ -2058,7 +2058,7 @@
     </Children>
     <References>
       <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
+        <ReferenceType>tns:HasComponent</ReferenceType>
         <TargetId>tns:Server_ServerCapabilities_RoleSet</TargetId>
       </Reference>
     </References>
@@ -2081,7 +2081,7 @@
     </Children>
     <References>
       <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
+        <ReferenceType>tns:HasComponent</ReferenceType>
         <TargetId>tns:Server_ServerCapabilities_RoleSet</TargetId>
       </Reference>
     </References>
@@ -2104,7 +2104,7 @@
     </Children>
     <References>
       <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
+        <ReferenceType>tns:HasComponent</ReferenceType>
         <TargetId>tns:Server_ServerCapabilities_RoleSet</TargetId>
       </Reference>
     </References>
@@ -2127,7 +2127,7 @@
     </Children>
     <References>
       <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
+        <ReferenceType>tns:HasComponent</ReferenceType>
         <TargetId>tns:Server_ServerCapabilities_RoleSet</TargetId>
       </Reference>
     </References>
@@ -2150,7 +2150,7 @@
     </Children>
     <References>
       <Reference IsInverse="true">
-        <ReferenceType>tns:Organizes</ReferenceType>
+        <ReferenceType>tns:HasComponent</ReferenceType>
         <TargetId>tns:Server_ServerCapabilities_RoleSet</TargetId>
       </Reference>
     </References>
@@ -2213,6 +2213,35 @@
     </Fields>
   </DataType>
   <Property SymbolicName="tns:CurrencyUnit" PartNo="3" DataType="tns:CurrencyUnitType" />
+  <ObjectType SymbolicName="tns:IOrderedObjectType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:BaseInterfaceType" IsAbstract="true">
+    <Children>
+      <Property SymbolicName="tns:NumberInList" ModellingRule="Mandatory" DataType="tns:Number" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:OrderedListType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:BaseObjectType">
+    <Children>
+      <Object SymbolicName="tns:OrderedObject_Placeholder" TypeDefinition="tns:BaseObjectType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;OrderedObject&gt;</BrowseName>
+        <Children>
+          <Property SymbolicName="tns:NumberInList" ModellingRule="Mandatory" DataType="tns:Number" />
+        </Children>
+        <References>
+          <Reference>
+            <ReferenceType>tns:HasInterface</ReferenceType>
+            <TargetId>tns:IOrderedObjectType</TargetId>
+          </Reference>
+        </References>
+        <ReferenceType>tns:HasOrderedComponent</ReferenceType>
+      </Object>
+      <Property SymbolicName="tns:NodeVersion" ModellingRule="Optional" DataType="tns:String" />
+    </Children>
+    <References>
+      <Reference>
+        <ReferenceType>tns:GeneratesEvent</ReferenceType>
+        <TargetId>tns:GeneralModelChangeEventType</TargetId>
+      </Reference>
+    </References>
+  </ObjectType>
   <VariableType SymbolicName="tns:DataItemType" PartNo="8" BaseType="tns:BaseDataVariableType" DataType="tns:BaseDataType" ValueRank="ScalarOrArray">
     <Description>
       A variable that contains live automation data.

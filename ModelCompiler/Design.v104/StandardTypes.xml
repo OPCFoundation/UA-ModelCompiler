@@ -7,8 +7,8 @@
   xmlns="http://opcfoundation.org/UA/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
-  TargetVersion="1.04.5"
-  TargetPublicationDate="2020-03-06T00:00:00Z"
+  TargetVersion="1.04.6"
+  TargetPublicationDate="2020-04-10T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -24,12 +24,12 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespaceVersion" DataType="ua:String">
         <opc:DefaultValue>
-          <uax:String>1.04.5</uax:String>
+          <uax:String>1.04.6</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2020-03-06T00:00:00</uax:DateTime>
+          <uax:DateTime>2020-04-10T00:00:00</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -68,47 +68,47 @@
     </opc:References>
   </opc:Object>
   
-  <opc:Property SymbolicName="NodeVersion" DataType="ua:String" PartNo="3">
+  <opc:Property SymbolicName="NodeVersion" DataType="ua:String" ValueRank="Scalar" PartNo="3">
     <opc:Description>The version number of the node (used to indicate changes to references of the owning node).</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="ViewVersion" DataType="ua:UInt32" PartNo="3">
+  <opc:Property SymbolicName="ViewVersion" DataType="ua:UInt32" ValueRank="Scalar" PartNo="3">
     <opc:Description>The version number of the view.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="Icon" DataType="Image" PartNo="3">
+  <opc:Property SymbolicName="Icon" DataType="Image" ValueRank="Scalar" PartNo="3">
     <opc:Description>A small image representing the object.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="LocalTime" DataType="TimeZoneDataType" PartNo="3">
+  <opc:Property SymbolicName="LocalTime" DataType="TimeZoneDataType" ValueRank="Scalar" PartNo="3">
     <opc:Description>The local time where the owning variable value was collected.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="AllowNulls" DataType="ua:Boolean" PartNo="3">
+  <opc:Property SymbolicName="AllowNulls" DataType="ua:Boolean" ValueRank="Scalar" PartNo="3">
     <opc:Description>Whether the value of the owning variable is allowed to be null.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="ValueAsText" DataType="ua:LocalizedText" PartNo="3">
+  <opc:Property SymbolicName="ValueAsText" DataType="ua:LocalizedText" ValueRank="Scalar" PartNo="3">
     <opc:Description>The string representation of the current value for a variable with an enumerated data type.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="MaxStringLength" DataType="ua:UInt32" PartNo="3">
+  <opc:Property SymbolicName="MaxStringLength" DataType="ua:UInt32" ValueRank="Scalar" PartNo="3">
     <opc:Description>The maximum number of bytes supported by the DataVariable.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="MaxCharacters" DataType="ua:UInt32" PartNo="3">
+  <opc:Property SymbolicName="MaxCharacters" DataType="ua:UInt32" ValueRank="Scalar" PartNo="3">
     <opc:Description>The maximum number of Unicode characters supported by the DataVariable.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="MaxByteStringLength" DataType="ua:UInt32" PartNo="3">
+  <opc:Property SymbolicName="MaxByteStringLength" DataType="ua:UInt32" ValueRank="Scalar" PartNo="3">
     <opc:Description>The maximum length for a byte string that can be stored in the owning variable.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="MaxArrayLength" DataType="ua:UInt32" PartNo="3">
+  <opc:Property SymbolicName="MaxArrayLength" DataType="ua:UInt32" ValueRank="Scalar" PartNo="3">
     <opc:Description>The maximum length for an array that can be stored in the owning variable.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="EngineeringUnits" DataType="EUInformation" PartNo="3">
+  <opc:Property SymbolicName="EngineeringUnits" DataType="EUInformation" ValueRank="Scalar" PartNo="3">
     <opc:Description>The engineering units for the value of the owning variable.</opc:Description>
   </opc:Property>
 
@@ -1832,7 +1832,7 @@
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
         <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
@@ -1856,7 +1856,7 @@
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
         <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
@@ -1880,7 +1880,7 @@
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
         <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
@@ -1904,7 +1904,7 @@
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
         <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
@@ -1928,7 +1928,7 @@
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
         <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
@@ -1952,7 +1952,7 @@
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
         <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
@@ -1976,7 +1976,7 @@
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
         <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
@@ -2000,7 +2000,7 @@
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
         <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
@@ -2083,6 +2083,39 @@
 
   <opc:Property SymbolicName="CurrencyUnit" DataType="ua:CurrencyUnitType" PartNo="3" ReleaseStatus="Released" />
 
+  <!-- Part 5 - Amendment 13 -->
+
+  <opc:ObjectType SymbolicName="IOrderedObjectType" BaseType="ua:BaseInterfaceType" IsAbstract="true" PartNo="5" ReleaseStatus="Draft">
+    <opc:Children>
+      <opc:Property SymbolicName="NumberInList" DataType="Number" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+  
+  <opc:ObjectType SymbolicName="OrderedListType" BaseType="ua:BaseObjectType" PartNo="5" ReleaseStatus="Draft">
+    <opc:Children>
+      <opc:Object SymbolicName="OrderedObject_Placeholder" TypeDefinition="BaseObjectType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;OrderedObject&gt;</opc:BrowseName>
+        <opc:Children>
+          <opc:Property SymbolicName="NumberInList" DataType="Number" ModellingRule="Mandatory" />          
+        </opc:Children>
+        <opc:References>
+          <opc:Reference IsInverse="false">
+            <opc:ReferenceType>ua:HasInterface</opc:ReferenceType>
+            <opc:TargetId>ua:IOrderedObjectType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+        <opc:ReferenceType>ua:HasOrderedComponent</opc:ReferenceType>
+      </opc:Object>
+      <opc:Property SymbolicName="NodeVersion" DataType="String" ModellingRule="Optional" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="false">
+        <opc:ReferenceType>ua:GeneratesEvent</opc:ReferenceType>
+        <opc:TargetId>ua:GeneralModelChangeEventType</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:ObjectType>
+  
   <!-- Part 8 -->
   <opc:VariableType SymbolicName="DataItemType" BaseType="ua:BaseDataVariableType" DataType="ua:BaseDataType" ValueRank="ScalarOrArray" PartNo="8">
     <opc:Description>

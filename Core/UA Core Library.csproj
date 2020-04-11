@@ -328,6 +328,7 @@
     <None Include="Schema\AttributeIds.csv" />
     <None Include="Schema\NodeIds.csv" />
     <None Include="Schema\ServerCapabilities.csv" />
+    <Content Include="Types\Schemas\BuildSchema.bat" />
     <None Include="Types\Schemas\OPCBinarySchema.xsd">
       <SubType>
       </SubType>

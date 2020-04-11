@@ -122,6 +122,7 @@ namespace Opc.Ua
             m_browseName = source.m_browseName;
             m_displayName = source.m_displayName;
             m_description = source.m_description;
+            Documentation = source.Documentation;
             m_writeMask = source.m_writeMask;
             m_children = null;
             m_references = null;
@@ -354,6 +355,14 @@ namespace Opc.Ua
 
                 m_description = value;
             }
+        }
+
+        /// <summary>
+        /// The documentation for the node that is saved in the NodeSet.
+        /// </summary>
+        public string Documentation
+        {
+            get; set;
         }
 
         /// <summary>

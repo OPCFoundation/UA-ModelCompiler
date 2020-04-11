@@ -286,6 +286,7 @@ namespace Opc.Ua.Export
 
             exportedNode.NodeId = Export(node.NodeId, context.NamespaceUris);
             exportedNode.BrowseName = Export(node.BrowseName, context.NamespaceUris);
+            exportedNode.Documentation = node.Documentation;
 
             if (outputRedundantNames || node.DisplayName.Text != node.BrowseName.Name)
             {
@@ -626,6 +627,7 @@ namespace Opc.Ua.Export
             importedNode.NodeId = ImportNodeId(node.NodeId, context.NamespaceUris, false);
             importedNode.BrowseName = ImportQualifiedName(node.BrowseName, context.NamespaceUris);
             importedNode.DisplayName = Import(node.DisplayName);
+            importedNode.Documentation = node.Documentation;
 
             if (importedNode.DisplayName == null)
             {
