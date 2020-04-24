@@ -127,5 +127,3 @@ An excerpt of the Model Design file is shown here:
 This ModelCompiler is used to generate the content of the [Nodeset GitHub repository](https://github.com/OPCFoundation/UA-Nodeset).
 
 This ModelCompiler is used to generate the content of the [.NET Samples GitHub repository](https://github.com/OPCFoundation/UA-.NET).
-
-eom
