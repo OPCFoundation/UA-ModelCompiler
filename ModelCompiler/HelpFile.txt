@@ -13,4 +13,6 @@ Generates classes that implement a UA information model.
 -stack
 -useXmlInitializers
 -console The output goes to the standard error output (console) instead of error window
+-exclude Excludes types based on thier ReleaseStatus and/or Category. A simple string compare is used to test.
+-version Selects the source for the input files. v103 | v104 are supported.
 

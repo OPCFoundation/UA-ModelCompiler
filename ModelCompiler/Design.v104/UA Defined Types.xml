@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04.6" TargetPublicationDate="2020-04-10T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04.6" TargetPublicationDate="2020-04-14T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -450,7 +450,7 @@
       </Property>
       <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
         <DefaultValue>
-          <uax:DateTime>2020-04-10T00:00:00</uax:DateTime>
+          <uax:DateTime>2020-04-14T00:00:00</uax:DateTime>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
@@ -5753,8 +5753,8 @@
       <Variable SymbolicName="tns:Url" ModellingRule="Mandatory" DataType="tns:String" />
     </Children>
   </ObjectType>
-  <ObjectType SymbolicName="tns:AliasNameType" PartNo="17" ReleaseStatus="Draft" BaseType="tns:BaseObjectType" />
-  <ObjectType SymbolicName="tns:AliasNameCategoryType" PartNo="17" ReleaseStatus="Draft" BaseType="tns:FolderType">
+  <ObjectType SymbolicName="tns:AliasNameType" PartNo="17" BaseType="tns:BaseObjectType" />
+  <ObjectType SymbolicName="tns:AliasNameCategoryType" PartNo="17" BaseType="tns:FolderType">
     <Children>
       <Object SymbolicName="tns:Alias_Placeholder" TypeDefinition="tns:AliasNameType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;Alias&gt;</BrowseName>
@@ -5765,7 +5765,7 @@
       <Method SymbolicName="tns:FindAlias" TypeDefinition="tns:FindAliasMethodType" ModellingRule="Mandatory" />
     </Children>
   </ObjectType>
-  <Method SymbolicName="tns:FindAliasMethodType" PartNo="17" ReleaseStatus="Draft">
+  <Method SymbolicName="tns:FindAliasMethodType" PartNo="17">
     <InputArguments>
       <Argument Name="AliasNameSearchPattern" DataType="tns:String" />
       <Argument Name="ReferenceTypeFilter" DataType="tns:NodeId" />
@@ -5774,16 +5774,16 @@
       <Argument Name="AliasNodeList" DataType="tns:AliasNameDataType" ValueRank="Array" />
     </OutputArguments>
   </Method>
-  <DataType SymbolicName="tns:AliasNameDataType" PartNo="17" ReleaseStatus="Draft" BaseType="tns:Structure">
+  <DataType SymbolicName="tns:AliasNameDataType" PartNo="17" BaseType="tns:Structure">
     <Fields>
       <Field Name="AliasName" DataType="tns:QualifiedName" />
       <Field Name="ReferencedNodes" DataType="tns:ExpandedNodeId" ValueRank="Array" />
     </Fields>
   </DataType>
-  <ReferenceType SymbolicName="tns:AliasFor" PartNo="17" ReleaseStatus="Draft" BaseType="tns:NonHierarchicalReferences">
+  <ReferenceType SymbolicName="tns:AliasFor" PartNo="17" BaseType="tns:NonHierarchicalReferences">
     <InverseName>HasAlias</InverseName>
   </ReferenceType>
-  <Object SymbolicName="tns:Aliases" PartNo="17" ReleaseStatus="Draft" TypeDefinition="tns:AliasNameCategoryType" ModellingRule="None">
+  <Object SymbolicName="tns:Aliases" PartNo="17" TypeDefinition="tns:AliasNameCategoryType" ModellingRule="None">
     <BrowseName>Aliases</BrowseName>
     <References>
       <Reference IsInverse="true">
@@ -5792,8 +5792,8 @@
       </Reference>
     </References>
   </Object>
-  <Object SymbolicName="tns:Tags" PartNo="17" ReleaseStatus="Draft" TypeDefinition="tns:AliasNameCategoryType" ModellingRule="None">
-    <BrowseName>Tags</BrowseName>
+  <Object SymbolicName="tns:TagVariables" PartNo="17" TypeDefinition="tns:AliasNameCategoryType" ModellingRule="None">
+    <BrowseName>TagVariables</BrowseName>
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:Organizes</ReferenceType>
@@ -5801,7 +5801,7 @@
       </Reference>
     </References>
   </Object>
-  <Object SymbolicName="tns:Topics" PartNo="17" ReleaseStatus="Draft" TypeDefinition="tns:AliasNameCategoryType" ModellingRule="None">
+  <Object SymbolicName="tns:Topics" PartNo="17" TypeDefinition="tns:AliasNameCategoryType" ModellingRule="None">
     <BrowseName>Topics</BrowseName>
     <References>
       <Reference IsInverse="true">

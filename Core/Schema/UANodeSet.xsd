@@ -476,7 +476,6 @@
     <xs:attribute name="Name" type="xs:string" use="required" />
     <xs:attribute name="SymbolicName" type="SymbolicName" />
     <xs:attribute name="DataType" type="NodeId" default="i=24" />
-    <xs:attribute name="AbstractDataType" type="NodeId" use="optional" />
     <xs:attribute name="ValueRank" type="ValueRank" default="-1" />
     <xs:attribute name="ArrayDimensions" type="ArrayDimensions" default="" />
     <xs:attribute name="MaxStringLength" type="xs:unsignedInt" default="0" />

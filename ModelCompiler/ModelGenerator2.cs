@@ -4222,7 +4222,10 @@ namespace Opc.Ua.ModelCompiler
             {
                 foreach (InstanceDesign child in children.Items)
                 {
-                    selectedChildren.Add(child);
+                    if (!IsExcluded(child))
+                    {
+                        selectedChildren.Add(child);
+                    }
                 }
             }
 

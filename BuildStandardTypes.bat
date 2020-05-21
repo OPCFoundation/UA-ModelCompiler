@@ -53,13 +53,13 @@ CALL PublishModel OpcUaGdsModel GDS %1 %2
 CALL PublishModel OpcUaDiModel DI %1 %2
 
 IF "%3"=="all" (
-	CALL PublishModel OpcUaAdiModel ADI "" %2
-	CALL PublishModel OpcUaPLCopenModel PLCopen "" %2
-	CALL PublishModel MTConnectModel MTConnect "" %2
-	CALL PublishModel OpcUaFDIPart5Model FDI "" %2
-	CALL PublishModel OpcUaFDIPart7Model FDI "" %2
-	CALL PublishModel MDIS MDIS "" %2
-	CALL PublishModel SercosModel Sercos "" %2
+	CALL PublishModel OpcUaAdiModel ADI %1 %2
+	CALL PublishModel OpcUaPLCopenModel PLCopen %1 %2
+	CALL PublishModel MTConnectModel MTConnect %1  %2
+	CALL PublishModel OpcUaFDIPart5Model FDI %1 %2
+	CALL PublishModel OpcUaFDIPart7Model FDI %1 %2
+	CALL PublishModel MDIS MDIS %1 %2
+	CALL PublishModel SercosModel Sercos %1 %2
 )
 
 REM SET PARTNAME="DemoModel"
