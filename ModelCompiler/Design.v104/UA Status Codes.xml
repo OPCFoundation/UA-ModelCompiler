@@ -519,7 +519,7 @@
     <opc:Documentation>The SecureChannelId and/or TokenId are not currently in use.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_TcpMessageTooLarge">
-    <opc:Documentation>The size of the message specified in the header is too large.</opc:Documentation>
+    <opc:Documentation>The size of the message chunk specified in the header is too large.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_TcpNotEnoughResources">
     <opc:Documentation>There are not enough resources to process the request.</opc:Documentation>

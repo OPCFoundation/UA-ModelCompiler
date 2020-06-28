@@ -5354,6 +5354,13 @@ namespace Opc.Ua.ModelCompiler
                         }
                     }
 
+                    if (!String.IsNullOrEmpty(node.Specification))
+                    {
+                        if (jj == node.Specification)
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
 
@@ -5374,6 +5381,14 @@ namespace Opc.Ua.ModelCompiler
                     if (node.Category != null && node.Category.Contains(jj))
                     {
                         return true;
+                    }
+
+                    if (node.PartNo != 0)
+                    {
+                        if (jj == $"Part{node.PartNo}")
+                        {
+                            return true;
+                        }
                     }
                 }
             }

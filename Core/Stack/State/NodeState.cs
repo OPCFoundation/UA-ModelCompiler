@@ -410,6 +410,11 @@ namespace Opc.Ua
         }
 
         /// <summary>
+        /// The specification that defines the node.
+        /// </summary>
+        public string Specification { get; set; }
+
+        /// <summary>
         /// The categories assigned to the node.
         /// </summary>
         public IList<string> Categories { get; set; }

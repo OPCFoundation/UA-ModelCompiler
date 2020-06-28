@@ -378,7 +378,7 @@ namespace Opc.Ua.ModelCompiler
                             throw new ArgumentException("Incorrect number of parameters specified with the -exclude option.");
                         }
 
-                        excludeCategories = tokens[++ii].Split(',');
+                        excludeCategories = tokens[++ii].Split(',', '+');
                         continue;
                     }
                 }

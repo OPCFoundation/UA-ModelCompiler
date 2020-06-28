@@ -5282,6 +5282,11 @@ namespace Opc.Ua.ModelCompiler
                 {
                     root.State.Categories = root.Category.Split(new char[] { ',' });
                 }
+
+                if (root.PartNo != 0)
+                {
+                    root.State.Specification = $"Part{root.PartNo}";
+                }
             }
 
             if (root.Hierarchy != null && root is TypeDesign)
@@ -5320,6 +5325,11 @@ namespace Opc.Ua.ModelCompiler
                         if (!String.IsNullOrEmpty(root.Category))
                         {
                             root.InstanceState.Categories = root.Category.Split(new char[] { ',' });
+                        }
+
+                        if (root.PartNo != 0)
+                        {
+                            root.InstanceState.Specification = $"Part{root.PartNo}";
                         }
                     }
 
@@ -5694,6 +5704,7 @@ namespace Opc.Ua.ModelCompiler
                     namespaceUris);
 
                 current.Instance.State.Categories = state.Categories;
+                current.Instance.State.Specification = state.Specification;
                 current.Instance.State.ReleaseStatus = state.ReleaseStatus;
 
                 BaseInstanceState child = current.Instance.State as BaseInstanceState;
@@ -5985,6 +5996,11 @@ namespace Opc.Ua.ModelCompiler
                 root.State.Categories = root.Category.Split(new char[] { ',' });
             }
 
+            if (root.PartNo != 0)
+            {
+                state.Specification = $"Part{root.PartNo}";
+            }
+
             if (root.NumericIdSpecified)
             {
                 state.NumericId = root.NumericId;
@@ -6007,6 +6023,11 @@ namespace Opc.Ua.ModelCompiler
                 root.State.Categories = root.Category.Split(new char[] { ',' });
             }
 
+            if (root.PartNo != 0)
+            {
+                state.Specification = $"Part{root.PartNo}";
+            }
+
             return state;
         }
 
@@ -6025,6 +6046,11 @@ namespace Opc.Ua.ModelCompiler
             if (!String.IsNullOrEmpty(root.Category))
             {
                 root.State.Categories = root.Category.Split(new char[] { ',' });
+            }
+
+            if (root.PartNo != 0)
+            {
+                state.Specification = $"Part{root.PartNo}";
             }
 
             if (root.NumericIdSpecified)
@@ -6127,6 +6153,11 @@ namespace Opc.Ua.ModelCompiler
             if (!String.IsNullOrEmpty(root.Category))
             {
                 root.State.Categories = root.Category.Split(new char[] { ',' });
+            }
+
+            if (root.PartNo != 0)
+            {
+                state.Specification = $"Part{root.PartNo}";
             }
 
             if (root.NumericIdSpecified)

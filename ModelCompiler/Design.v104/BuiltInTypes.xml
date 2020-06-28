@@ -7,7 +7,7 @@
   xmlns="http://opcfoundation.org/UA/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
-  TargetVersion="1.04.6"
+  TargetVersion="1.04.7"
   TargetPublicationDate="2020-04-14T00:00:00Z"
 >
   <opc:Namespaces>
