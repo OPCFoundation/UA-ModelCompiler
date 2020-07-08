@@ -10,9 +10,9 @@ The output of the tool includes:
  4. Other data files used to load an information model into a Server built with the .NET sample libraries;
  5. A CSV file which contains numeric identifiers. 
 
-The [UA Model Design.xsd] (https://github.com/OPCFoundation/UA-ModelCompiler/blob/master/ModelCompiler/UA%20Model%20Design.xsd) has more information about the schema itself.
+The [UA Model Design.xsd](https://github.com/OPCFoundation/UA-ModelCompiler/blob/master/ModelCompiler/UA%20Model%20Design.xsd) has more information about the schema itself.
 
-The .NET sample libraries has [a sample Model Design file] (https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/Sample/SampleDesign.xml) that illustrate how to create a user defined model.
+The .NET sample libraries has [a sample Model Design file](https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/Sample/SampleDesign.xml) that illustrate how to create a user defined model.
 This [batch file](https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/BuildDesign.bat) is used to regenerate the files used in the sample after changes.
 
 The tool only produces ANSI C output for the stack.
