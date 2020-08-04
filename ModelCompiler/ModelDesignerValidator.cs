@@ -36,8 +36,10 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Reflection;
 using System.Globalization;
+using Opc.Ua;
+using Export = Opc.Ua.Export;
 
-namespace Opc.Ua.ModelCompiler
+namespace ModelCompiler
 {
     /// <summary>
     /// Generates files used to describe data types.
@@ -52,7 +54,7 @@ namespace Opc.Ua.ModelCompiler
         {
             m_context = ServiceMessageContext.GlobalContext;
             m_startId = startId;
-            EmbeddedResourcePath = "Opc.Ua.ModelCompiler.Design";
+            EmbeddedResourcePath = "ModelCompiler.Design";
         }
         #endregion
 
@@ -302,7 +304,7 @@ namespace Opc.Ua.ModelCompiler
 
                     if (!File.Exists(designFilePath))
                     {
-                        designFilePath = Utils.Format("Opc.Ua.ModelCompiler.Design.{0}", designFileName);
+                        designFilePath = Utils.Format("ModelCompiler.Design.{0}", designFileName);
                         isResource = true;
                         Console.WriteLine("Trying resource: " + designFilePath);
                     }
@@ -511,7 +513,7 @@ namespace Opc.Ua.ModelCompiler
         }
 
         #region Type Dictionary Import Functions
-        private LocalizedText ImportDocumentation(Opc.Ua.CodeGenerator.Documentation documentation)
+        private LocalizedText ImportDocumentation(CodeGenerator.Documentation documentation)
         {
             if (documentation != null && documentation.Text != null && documentation.Text.Length > 0)
             {
@@ -524,7 +526,7 @@ namespace Opc.Ua.ModelCompiler
             return null;
         }
 
-        private Parameter ImportField(Opc.Ua.CodeGenerator.FieldType field)
+        private Parameter ImportField(CodeGenerator.FieldType field)
         {
             if (field == null)
             {
@@ -557,7 +559,7 @@ namespace Opc.Ua.ModelCompiler
             return parameter;
         }
 
-        private Parameter ImportEnumeratedValue(Opc.Ua.CodeGenerator.EnumeratedValue value)
+        private Parameter ImportEnumeratedValue(CodeGenerator.EnumeratedValue value)
         {
             if (value == null)
             {
@@ -600,7 +602,7 @@ namespace Opc.Ua.ModelCompiler
             return new XmlQualifiedName(typeName.Name, DefaultNamespace);
         }
 
-        private void ImportFields(DataTypeDesign design, Opc.Ua.CodeGenerator.FieldType[] fields)
+        private void ImportFields(DataTypeDesign design, CodeGenerator.FieldType[] fields)
         {
             if (fields != null && fields.Length > 0)
             {
@@ -608,7 +610,7 @@ namespace Opc.Ua.ModelCompiler
 
                 for (int jj = 0; jj < fields.Length; jj++)
                 {
-                    Opc.Ua.CodeGenerator.FieldType field = fields[jj];
+                    CodeGenerator.FieldType field = fields[jj];
                     Parameter parameter = ImportField(field);
                     parameters.Add(parameter);
                 }
@@ -628,7 +630,7 @@ namespace Opc.Ua.ModelCompiler
         private ModelDesign ImportTypeDictionary(Stream stream, string resourcePath)
         {
             Dictionary<string,string> knownFiles = new Dictionary<string, string>();
-            Opc.Ua.CodeGenerator.TypeDictionaryValidator validator = new Opc.Ua.CodeGenerator.TypeDictionaryValidator(knownFiles, resourcePath);
+            CodeGenerator.TypeDictionaryValidator validator = new CodeGenerator.TypeDictionaryValidator(knownFiles, resourcePath);
             validator.Validate(stream);
 
             string namespaceUri = validator.Dictionary.TargetNamespace;
@@ -642,7 +644,7 @@ namespace Opc.Ua.ModelCompiler
 
             for (int ii = 0; ii < validator.Dictionary.Items.Length; ii++)
             {
-                Opc.Ua.CodeGenerator.DataType dataType = validator.Dictionary.Items[ii];
+                CodeGenerator.DataType dataType = validator.Dictionary.Items[ii];
 
                 DataTypeDesign design = new DataTypeDesign();
 
@@ -666,7 +668,7 @@ namespace Opc.Ua.ModelCompiler
 
                 Log("Imported {1}: {0}", design.SymbolicId.Name, design.GetType().Name);
 
-                Opc.Ua.CodeGenerator.TypeDeclaration simpleType = dataType as Opc.Ua.CodeGenerator.TypeDeclaration;
+                CodeGenerator.TypeDeclaration simpleType = dataType as CodeGenerator.TypeDeclaration;
 
                 if (simpleType != null)
                 {
@@ -678,7 +680,7 @@ namespace Opc.Ua.ModelCompiler
                     nodes.Add(design);
                 }
 
-                Opc.Ua.CodeGenerator.ComplexType complexType = dataType as Opc.Ua.CodeGenerator.ComplexType;
+                CodeGenerator.ComplexType complexType = dataType as CodeGenerator.ComplexType;
 
                 if (complexType != null)
                 {
@@ -696,7 +698,7 @@ namespace Opc.Ua.ModelCompiler
                     nodes.Add(design);
                 }
 
-                Opc.Ua.CodeGenerator.ServiceType serviceType = dataType as Opc.Ua.CodeGenerator.ServiceType;
+                CodeGenerator.ServiceType serviceType = dataType as CodeGenerator.ServiceType;
 
                 if (serviceType != null)
                 {
@@ -739,7 +741,7 @@ namespace Opc.Ua.ModelCompiler
                     nodes.Add(design2);
                 }
 
-                Opc.Ua.CodeGenerator.EnumeratedType enumeratedType = dataType as Opc.Ua.CodeGenerator.EnumeratedType;
+                CodeGenerator.EnumeratedType enumeratedType = dataType as CodeGenerator.EnumeratedType;
 
                 if (enumeratedType != null)
                 {
@@ -765,7 +767,7 @@ namespace Opc.Ua.ModelCompiler
 
                         for (int jj = 0; jj < enumeratedType.Value.Length; jj++)
                         {
-                            Opc.Ua.CodeGenerator.EnumeratedValue value = enumeratedType.Value[jj];
+                            CodeGenerator.EnumeratedValue value = enumeratedType.Value[jj];
                             Parameter parameter = ImportEnumeratedValue(value);
                             parameters.Add(parameter);
                         }
@@ -3294,7 +3296,7 @@ namespace Opc.Ua.ModelCompiler
                 {
                     XmlDecoder decoder = new XmlDecoder(variableType.DefaultValue, m_context);
 
-                    TypeInfo typeInfo = null;
+                    Opc.Ua.TypeInfo typeInfo = null;
                     variableType.DecodedValue = decoder.ReadVariantContents(out typeInfo);
 
                     if (typeInfo != null)
@@ -3512,7 +3514,7 @@ namespace Opc.Ua.ModelCompiler
                 {
                     XmlDecoder decoder = new XmlDecoder(variable.DefaultValue, m_context);
 
-                    TypeInfo typeInfo = null;
+                    Opc.Ua.TypeInfo typeInfo = null;
                     variable.DecodedValue = decoder.ReadVariantContents(out typeInfo);
 
                     if (typeInfo != null)
@@ -4062,7 +4064,6 @@ namespace Opc.Ua.ModelCompiler
             switch (modellingRule)
             {
                 case ModellingRule.Mandatory: return Opc.Ua.Objects.ModellingRule_Mandatory;
-                case ModellingRule.MandatoryShared: return Opc.Ua.Objects.ModellingRule_MandatoryShared;
                 case ModellingRule.Optional: return Opc.Ua.Objects.ModellingRule_Optional;
                 case ModellingRule.MandatoryPlaceholder: return Opc.Ua.Objects.ModellingRule_MandatoryPlaceholder;
                 case ModellingRule.OptionalPlaceholder: return Opc.Ua.Objects.ModellingRule_OptionalPlaceholder;
@@ -5231,11 +5232,7 @@ namespace Opc.Ua.ModelCompiler
             {
                 return;
             }
-
-            if (root.ModellingRuleId != Opc.Ua.ObjectIds.ModellingRule_MandatoryShared)
-            {
-                root.ModellingRuleId = null;
-            }
+            root.ModellingRuleId = null;
 
             SystemContext context = new SystemContext();
             context.NamespaceUris = this.m_context.NamespaceUris;

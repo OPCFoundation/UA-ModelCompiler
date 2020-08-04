@@ -8,7 +8,7 @@ namespace _Prefix_
 /// The client side interface for a UA server.
 /// </summary>
 /// <exclude />
-[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 public partial class _ServiceSet_Client : ClientBase
 {
     #region Constructors

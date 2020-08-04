@@ -27,7 +27,7 @@
  * http://opcfoundation.org/License/MIT/1.00/
  * ======================================================================*/
 
-namespace Opc.Ua.ModelCompiler
+namespace ModelCompiler
 {
     partial class ExceptionDlg
     {

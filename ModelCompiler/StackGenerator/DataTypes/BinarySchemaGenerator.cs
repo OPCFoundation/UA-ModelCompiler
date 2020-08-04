@@ -35,8 +35,9 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 using System.Reflection;
+using Opc.Ua;
 
-namespace Opc.Ua.CodeGenerator
+namespace CodeGenerator
 {
     /// <summary>
     /// Generates files used to describe data types.
@@ -59,7 +60,7 @@ namespace Opc.Ua.CodeGenerator
         #endregion
 
         #region Public Properties
-        const string TemplatePath = "Opc.Ua.ModelCompiler.StackGenerator.DataTypes.Templates.BinarySchema.";
+        const string TemplatePath = "ModelCompiler.StackGenerator.DataTypes.Templates.BinarySchema.";
         #endregion
 
         #region Public Methods

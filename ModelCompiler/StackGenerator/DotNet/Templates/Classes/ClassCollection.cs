@@ -6,7 +6,7 @@
 /// </summary>
 /// <exclude />
 // _XMLARRAYTYPE_
-[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 public partial class _NAME_Collection : List<_NAME_>, ICloneable
 {
     #region Constructors

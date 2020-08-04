@@ -35,7 +35,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Opc.Ua.ModelCompiler
+namespace ModelCompiler
 {
     public partial class ExceptionDlg : Form
     {

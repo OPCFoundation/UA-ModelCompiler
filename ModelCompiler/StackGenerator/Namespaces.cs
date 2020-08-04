@@ -29,7 +29,7 @@
 
 using System;
 
-namespace Opc.Ua.CodeGenerator
+namespace CodeGenerator
 {
     /// <summary>
     /// Defines well-known namespaces.

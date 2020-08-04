@@ -37,7 +37,7 @@ using System.IO;
 using System.Reflection;
 using Opc.Ua.Schema;
 
-namespace Opc.Ua.CodeGenerator
+namespace CodeGenerator
 {
     /// <summary>
     /// Generates files used to describe data types.
@@ -52,7 +52,7 @@ namespace Opc.Ua.CodeGenerator
         {
             var WellKnownDictionaries = new string[][]
             {
-                new string[] { Namespaces.OpcUaBuiltInTypes, $"Opc.Ua.ModelCompiler.StackGenerator.Validators.BuiltInTypes.xml" }
+                new string[] { Namespaces.OpcUaBuiltInTypes, $"ModelCompiler.StackGenerator.Validators.BuiltInTypes.xml" }
             };
 
             SetResourcePaths(WellKnownDictionaries);
@@ -65,7 +65,7 @@ namespace Opc.Ua.CodeGenerator
         {
             var WellKnownDictionaries = new string[][]
             {
-                new string[] { Namespaces.OpcUaBuiltInTypes, $"Opc.Ua.ModelCompiler.StackGenerator.Validators.BuiltInTypes.xml" }
+                new string[] { Namespaces.OpcUaBuiltInTypes, $"ModelCompiler.StackGenerator.Validators.BuiltInTypes.xml" }
             };
 
             SetResourcePaths(WellKnownDictionaries);

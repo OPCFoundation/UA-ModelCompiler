@@ -13,7 +13,7 @@ public partial class _NAME_Response : IServiceResponse
 /// The message contract for the _NAME_ service.
 /// </summary>
 /// <exclude />
-[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 [MessageContract(IsWrapped=false)]
 public class _NAME_Message : IServiceMessage
 {
@@ -65,7 +65,7 @@ public class _NAME_Message : IServiceMessage
 /// The message contract for the _NAME_ service response.
 /// </summary>
 /// <exclude />
-[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 [MessageContract(IsWrapped=false)]
 public class _NAME_ResponseMessage
 {

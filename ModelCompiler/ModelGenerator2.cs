@@ -33,14 +33,13 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 using System.Xml;
-using System.Xml.Serialization;
-using System.Runtime.Serialization;
+using Opc.Ua;
+using Export = Opc.Ua.Export;
+using CodeGenerator;
 
-using Opc.Ua.CodeGenerator;
-
-namespace Opc.Ua.ModelCompiler
+namespace ModelCompiler
 {
-    public partial class ModelGenerator2 : Opc.Ua.CodeGenerator.CodeGenerator
+    public partial class ModelGenerator2 : CodeGenerator.CodeGenerator
     {
         #region Constructors
         /// <summary>
@@ -52,7 +51,7 @@ namespace Opc.Ua.ModelCompiler
         #endregion
 
         #region Public Properties
-        const string TemplatePath = "Opc.Ua.ModelCompiler.Templates.";
+        const string TemplatePath = "ModelCompiler.Templates.";
         const string DefaultNamespace = "http://opcfoundation.org/UA/";
         #endregion
 
@@ -306,7 +305,7 @@ namespace Opc.Ua.ModelCompiler
                         ostrm, 
                         new Export.ModelTableEntry() 
                         { 
-                            ModelUri = Namespaces.OpcUa,
+                            ModelUri = Opc.Ua.Namespaces.OpcUa,
                             Version = m_model.TargetVersion,
                             PublicationDate = m_model.TargetPublicationDate,
                             PublicationDateSpecified = m_model.TargetPublicationDateSpecified
@@ -352,7 +351,7 @@ namespace Opc.Ua.ModelCompiler
 
             var originalFile = outputFile3;
 
-            if (m_model.TargetNamespace == Namespaces.OpcUa)
+            if (m_model.TargetNamespace == Opc.Ua.Namespaces.OpcUa)
             {
                 originalFile = String.Format(@"{0}\{1}.NodeSet2.Services.xml", filePath, m_model.TargetNamespaceInfo.Prefix);
             }
@@ -376,7 +375,7 @@ namespace Opc.Ua.ModelCompiler
 
                     UpdateDocumentation(context, map, collection);
 
-                    if (m_model.TargetNamespace == Namespaces.OpcUa)
+                    if (m_model.TargetNamespace == Opc.Ua.Namespaces.OpcUa)
                     {
                         UpdateDocumentation(context, map, collectionWithServices);
                     }
@@ -426,7 +425,7 @@ namespace Opc.Ua.ModelCompiler
                     (m_model.TargetPublicationDate != DateTime.MinValue)? m_model.TargetPublicationDate:DateTime.MinValue,
                     true);
 
-                if (m_model.TargetNamespace == Namespaces.OpcUa)
+                if (m_model.TargetNamespace == Opc.Ua.Namespaces.OpcUa)
                 {
                     var nodeSetFilePath = String.Format(@"{0}\{1}.NodeSet2.Services.xml", filePath, m_model.TargetNamespaceInfo.Prefix);
 
@@ -740,7 +739,7 @@ namespace Opc.Ua.ModelCompiler
                 AddTemplate(
                     template,
                     "<!-- BuiltInTypes -->",
-                    "Opc.Ua.ModelCompiler.StackGenerator.DataTypes.Templates.XmlSchema.BuiltInTypes.xsd",
+                    "ModelCompiler.StackGenerator.DataTypes.Templates.XmlSchema.BuiltInTypes.xsd",
                     new ModelDesign[] { m_model },
                     new LoadTemplateEventHandler(LoadTemplate_XmlType),
                     new WriteTemplateEventHandler(WriteTemplate_XmlType));

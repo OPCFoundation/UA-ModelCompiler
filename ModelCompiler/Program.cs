@@ -33,9 +33,9 @@ using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using Csv;
+using Opc.Ua;
 
-namespace Opc.Ua.ModelCompiler
+namespace ModelCompiler
 {
     static class Program
     {
@@ -66,14 +66,14 @@ namespace Opc.Ua.ModelCompiler
 
                 if (!ProcessCommandLine())
                 {
-                    StreamReader reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Opc.Ua.ModelCompiler.HelpFile.txt"));
+                    StreamReader reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("ModelCompiler.HelpFile.txt"));
                     if (noGui)
                     {
                         System.Console.Error.WriteLine(reader.ReadToEnd());
                     }
                     else
                     {
-                    	MessageBox.Show(reader.ReadToEnd(), "Opc.Ua.ModelCompiler");
+                    	MessageBox.Show(reader.ReadToEnd(), "ModelCompiler");
                     }
                     reader.Close();
                     Environment.Exit(2);
@@ -167,8 +167,8 @@ namespace Opc.Ua.ModelCompiler
 
             if (commandLine.IndexOf("-?") != -1)
             {
-                StreamReader reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Opc.Ua.ModelCompiler.HelpFile.txt"));
-                MessageBox.Show(reader.ReadToEnd(), "Opc.Ua.ModelCompiler");
+                StreamReader reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("ModelCompiler.HelpFile.txt"));
+                MessageBox.Show(reader.ReadToEnd(), "ModelCompiler");
                 reader.Close();
                 return true;
             }

@@ -33,9 +33,9 @@ using System.Text;
 
 using Opc.Ua.Schema.Binary;
 using Opc.Ua.Schema.Xml;
-using Opc.Ua.CodeGenerator;
+using CodeGenerator;
 
-namespace Opc.Ua.ModelCompiler
+namespace ModelCompiler
 {
     class StackGenerator
     {
@@ -57,11 +57,11 @@ namespace Opc.Ua.ModelCompiler
 
         static void ProcessDictionary(string name, string input, string output, Files files, string specificationVersion)
         {
-            var resourcePath = "Opc.Ua.ModelCompiler.Design";
+            var resourcePath = "ModelCompiler.Design";
 
             if (!String.IsNullOrEmpty(specificationVersion))
             {
-                resourcePath = $"Opc.Ua.ModelCompiler.Design.{specificationVersion}";
+                resourcePath = $"ModelCompiler.Design.{specificationVersion}";
             }
 
             TypeDictionaryValidator validator = new TypeDictionaryValidator(resourcePath);
@@ -79,7 +79,7 @@ namespace Opc.Ua.ModelCompiler
             generator1.Generate(fileName, "Opc.Ua", name, true);
             string filePath = String.Format(@"{0}\Opc.Ua.Types.xsd", output);
 
-            XmlSchemaValidator validator1 = new XmlSchemaValidator(files.XmlSchemas);
+            XmlSchemaValidator2 validator1 = new XmlSchemaValidator2(files.XmlSchemas);
             validator1.Validate(filePath);
             files.XmlSchemas[validator1.TargetSchema.TargetNamespace] = filePath;
             System.IO.File.Delete(filePath);
@@ -97,11 +97,11 @@ namespace Opc.Ua.ModelCompiler
 
         static void GenerateAnsiC(Files files, string designerDir, string outputDir, string specificationVersion)
         {
-            var resourcePath = "Opc.Ua.ModelCompiler.Design";
+            var resourcePath = "ModelCompiler.Design";
 
             if (!String.IsNullOrEmpty(specificationVersion))
             {
-                resourcePath = $"Opc.Ua.ModelCompiler.Design.{specificationVersion}";
+                resourcePath = $"ModelCompiler.Design.{specificationVersion}";
             }
 
             ConstantsGenerator generator3 = new ConstantsGenerator(
@@ -141,11 +141,11 @@ namespace Opc.Ua.ModelCompiler
 
         static void GenerateDotNet(Files files, string designerDir, string outputDir, string specificationVersion)
         {
-            var resourcePath = "Opc.Ua.ModelCompiler.Design";
+            var resourcePath = "ModelCompiler.Design";
 
             if (!String.IsNullOrEmpty(specificationVersion))
             {
-                resourcePath = $"Opc.Ua.ModelCompiler.Design.{specificationVersion}";
+                resourcePath = $"ModelCompiler.Design.{specificationVersion}";
             }
             
             ConstantsGenerator generator7 = new ConstantsGenerator(

@@ -34,7 +34,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Opc.Ua.ModelCompiler")]
+[assembly: AssemblyTitle("ModelCompiler")]
 [assembly: AssemblyDescription("UA Model Designer")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("OPC Foundation")]

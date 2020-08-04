@@ -6,7 +6,7 @@ namespace _Prefix_
 /// A channel object used by clients to access a UA service.
 /// </summary>
 /// <exclude />
-[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 public partial class _ServiceSet_Channel : WcfChannelBase<I_ServiceSet_Channel>, I_ServiceSet_Channel
 {
     /// <summary>

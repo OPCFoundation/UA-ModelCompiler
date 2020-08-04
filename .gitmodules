@@ -1,3 +1,6 @@
 [submodule "Published"]
 	path = Published
 	url = https://github.com/OPCFoundation/UA-Nodeset.git
+[submodule "Stack"]
+	path = Stack
+	url = https://github.com/OPCFoundation/UA-.NETStandard.git

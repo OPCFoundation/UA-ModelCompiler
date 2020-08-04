@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 
-namespace Opc.Ua.ModelCompiler
+namespace ModelCompiler
 {
     class HeaderUpdateTool
     {
@@ -157,8 +157,8 @@ namespace Opc.Ua.ModelCompiler
 
                 switch (licenseType)
                 {
-                    case LicenseType.MIT: { resourcePath = "Opc.Ua.ModelCompiler.License.UA_MIT.txt"; break; }
-                    case LicenseType.MITXML: { resourcePath = "Opc.Ua.ModelCompiler.License.UA_MIT_XML.txt"; break; }
+                    case LicenseType.MIT: { resourcePath = "ModelCompiler.License.UA_MIT.txt"; break; }
+                    case LicenseType.MITXML: { resourcePath = "ModelCompiler.License.UA_MIT_XML.txt"; break; }
                 }
 
                 Stream istrm = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourcePath);

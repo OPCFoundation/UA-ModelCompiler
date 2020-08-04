@@ -36,7 +36,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Reflection;
 
-namespace Opc.Ua.CodeGenerator
+namespace CodeGenerator
 {
     /// <summary>
     /// Generates code based on a UA Type Dictionary.
@@ -61,7 +61,7 @@ namespace Opc.Ua.CodeGenerator
         #endregion
 
         #region Public Properties
-        const string TemplatePath = "Opc.Ua.ModelCompiler.StackGenerator.DataTypes.Templates.";
+        const string TemplatePath = "ModelCompiler.StackGenerator.DataTypes.Templates.";
         #endregion
 
         #region Public Methods

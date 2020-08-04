@@ -33,7 +33,7 @@ using System.Text;
 using System.Xml;
 using System.IO;
 
-namespace Opc.Ua.CodeGenerator
+namespace CodeGenerator
 {
     /// <summary>
     /// Contains the current context to use for serialization.

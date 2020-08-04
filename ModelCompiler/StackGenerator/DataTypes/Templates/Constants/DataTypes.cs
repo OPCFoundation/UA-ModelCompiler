@@ -37,7 +37,7 @@ namespace _Prefix_
     /// A class that defines identifiers for datatypes.
     /// </summary>
     /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     public static partial class DataTypes
     {
         // ListOfIdentifiers
@@ -47,7 +47,7 @@ namespace _Prefix_
     /// A class that defines identifiers for datatype encodings.
     /// </summary>
     /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     public static partial class Objects
     {
         // ListOfEncodings

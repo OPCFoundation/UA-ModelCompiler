@@ -36,7 +36,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Reflection;
 
-namespace Opc.Ua.CodeGenerator
+namespace CodeGenerator
 {
     /// <summary>
     /// Generates a schema based on a UA Type Dictionary.

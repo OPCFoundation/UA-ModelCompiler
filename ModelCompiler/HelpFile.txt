@@ -1,4 +1,4 @@
-ModelCompiler.exe -d2 <filepath> -c[g] <filepath> -o[i] <directorypath> [-oe <directorypath>]
+Opc.Ua.ModelCompiler.exe -d2 <filepath> -c[g] <filepath> -o[i] <directorypath> [-oe <directorypath>]
 
 Generates classes that implement a UA information model.
 

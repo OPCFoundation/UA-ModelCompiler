@@ -36,7 +36,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Reflection;
 
-namespace Opc.Ua.CodeGenerator
+namespace CodeGenerator
 {
     /// <summary>
     /// Generates code based on a UA Type Dictionary.
@@ -128,7 +128,7 @@ namespace Opc.Ua.CodeGenerator
         private Hashtable m_hashSimpleTypes;
         private TypeDictionaryValidator m_validator;
         private string m_sHeader;
-        const string WiresharkTemplatePath = "Opc.Ua.ModelCompiler.StackGenerator.Wireshark.Template.";
+        const string WiresharkTemplatePath = "ModelCompiler.StackGenerator.Wireshark.Template.";
         #endregion
 
         #region Public Methods

@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Opc.Ua.ModelCompiler
+namespace ModelCompiler
 {
     public class MeasurementUnits
     {

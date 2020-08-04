@@ -35,8 +35,9 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 using System.Reflection;
+using Opc.Ua;
 
-namespace Opc.Ua.CodeGenerator
+namespace CodeGenerator
 {
     /// <summary>
     /// Generates an XML Schema based on a UA Type Dictionary.
@@ -53,7 +54,7 @@ namespace Opc.Ua.CodeGenerator
         #endregion
 
         #region Public Properties
-        const string TemplatePath = "Opc.Ua.ModelCompiler.StackGenerator.DataTypes.Templates.XmlSchema.";
+        const string TemplatePath = "ModelCompiler.StackGenerator.DataTypes.Templates.XmlSchema.";
         public string TypesNamespace = "http://opcfoundation.org/UA/2008/02/Types.xsd";
         public string ServicesNamespace = "http://opcfoundation.org/UA/2008/02/Services.xsd";
         public string EndpointsNamespace = "http://opcfoundation.org/UA/2008/02/Endpoints.xsd";

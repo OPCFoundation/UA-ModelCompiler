@@ -9,7 +9,7 @@ namespace _Prefix_
 /// An interface to a UA server implementation.
 /// </summary>
 /// <exclude />
-[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 public interface I_ServiceSet_Server : IServerBase
 {
     // _ServerApi_
@@ -21,7 +21,7 @@ public interface I_ServiceSet_Server : IServerBase
 /// A basic implementation of the UA server.
 /// </summary>
 /// <exclude />
-[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 public partial class _ServiceSet_ServerBase : ServerBase, I_ServiceSet_Server
 {
     // _ServerStubs_

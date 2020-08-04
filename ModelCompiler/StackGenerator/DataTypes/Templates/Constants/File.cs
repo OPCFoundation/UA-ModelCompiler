@@ -37,7 +37,7 @@ namespace _Prefix_
     /// A class that defines constants used by UA applications.
     /// </summary>
     /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     public static partial class _ClassName_
     {
         // ListOfIdentifiers

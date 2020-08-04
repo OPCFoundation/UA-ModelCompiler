@@ -35,7 +35,7 @@ using System.Xml;
 using System.IO;
 using System.Reflection;
 
-namespace Opc.Ua.CodeGenerator
+namespace CodeGenerator
 {
     /// <summary>
     /// Generates types used to implement an address space.

@@ -31,8 +31,10 @@ using System;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Collections.Generic;
+using Opc.Ua;
+using Export = Opc.Ua.Export;
 
-namespace Opc.Ua.ModelCompiler
+namespace ModelCompiler
 {
     public partial class ModelDesign
     {

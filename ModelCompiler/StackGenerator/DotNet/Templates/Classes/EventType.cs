@@ -4,7 +4,7 @@
 /// The _NAME_ class.
 /// </summary>
 /// <exclude />
-[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 public partial class _NAME_ : _BASETYPE_
 {
     #region Constructors

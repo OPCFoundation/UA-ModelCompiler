@@ -8,7 +8,7 @@
     <ProjectGuid>{98E685DC-8961-4F46-8261-91D8685EDB6E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Opc.Ua.ModelCompiler</RootNamespace>
+    <RootNamespace>ModelCompiler</RootNamespace>
     <AssemblyName>Opc.Ua.ModelCompiler</AssemblyName>
     <StartupObject>
     </StartupObject>
@@ -18,7 +18,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <IntermediateOutputPath>$(SolutionDir)build\obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>
@@ -93,6 +93,7 @@
     <Compile Include="HeaderUpdateTool.cs" />
     <Compile Include="MeasurementUnits.cs" />
     <Compile Include="Properties\AssemblyVersionInfo.cs" />
+    <Compile Include="Schemas\XmlSchemaValidator.cs" />
     <Compile Include="StackGenerator.cs" />
     <Compile Include="ModelGenerator2.cs" />
     <EmbeddedResource Include="License\NONE.txt" />
@@ -422,12 +423,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\UA Core Library.csproj">
-      <Project>{7543AFCB-F5AF-44AF-83C9-23164474C1E9}</Project>
-      <Name>UA Core Library</Name>
+    <ProjectReference Include="..\Stack\Stack\Opc.Ua.Core\Opc.Ua.Core.csproj">
+      <Project>{4a8e0903-f30e-4a9a-a73e-2ea63c9931cb}</Project>
+      <Name>Opc.Ua.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

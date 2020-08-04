@@ -13,7 +13,7 @@ namespace _Prefix_
 /// The service contract which must be implemented by all UA servers.
 /// </summary>
 /// <exclude />
-[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 [ServiceContract(Namespace = Namespaces._ServicesNamespace_)]
 public interface I_ServiceSet_Endpoint : IEndpointBase
 {
@@ -24,7 +24,7 @@ public interface I_ServiceSet_Endpoint : IEndpointBase
 /// The asynchronous service contract which must be implemented by UA servers.
 /// </summary>
 /// <exclude />
-[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 [ServiceContract(Namespace = Namespaces._ServicesNamespace_)]
 public interface I_ServiceSet_Endpoint : IEndpointBase
 {
@@ -38,7 +38,7 @@ public interface I_ServiceSet_Endpoint : IEndpointBase
 /// An interface used by by clients to access a UA server.
 /// </summary>
 /// <exclude />
-[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 [ServiceContract(Namespace = Namespaces._ServicesNamespace_)]
 public interface I_ServiceSet_Channel : IChannelBase
 {

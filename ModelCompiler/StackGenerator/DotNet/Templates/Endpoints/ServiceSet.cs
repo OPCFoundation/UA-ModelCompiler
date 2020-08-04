@@ -6,7 +6,7 @@ namespace _Prefix_
 /// A endpoint object used by clients to access a UA service.
 /// </summary>
 /// <exclude />
-[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.CodeGenerator", "1.0.0.0")]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 #if !NET_STANDARD
 [ServiceMessageContextBehavior()]
 [ServiceBehavior(Namespace = Namespaces._ServicesNamespace_, InstanceContextMode=InstanceContextMode.PerSession, ConcurrencyMode=ConcurrencyMode.Multiple)]
