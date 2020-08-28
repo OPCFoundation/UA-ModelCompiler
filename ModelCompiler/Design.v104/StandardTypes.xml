@@ -1140,19 +1140,6 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="AdditionalParametersType" BaseType="Structure" NoArraysAllowed="true" PartNo="5" ReleaseStatus="Draft">
-    <opc:Fields>
-      <opc:Field Name="Parameters" DataType="KeyValuePair" ValueRank="Array" />
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="EphemeralKeyType" BaseType="Structure" NoArraysAllowed="true" PartNo="5" ReleaseStatus="Draft">
-    <opc:Fields>
-      <opc:Field Name="PublicKey" DataType="ua:ByteString" />
-      <opc:Field Name="Signature" DataType="ua:ByteString" />
-    </opc:Fields>
-  </opc:DataType>
-
   <opc:DataType SymbolicName="EndpointType" BaseType="Structure" PartNo="5">
     <opc:Fields>
       <opc:Field Name="EndpointUrl" DataType="ua:String" />
@@ -3995,24 +3982,12 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Method SymbolicName="GetEncryptingKeyMethodType" PartNo="12" ReleaseStatus="Draft">
-    <opc:InputArguments>
-      <opc:Argument Name="CredentialId" DataType="ua:String" />
-      <opc:Argument Name="RequestedSecurityPolicyUri" DataType="ua:String" />
-    </opc:InputArguments>
-    <opc:OutputArguments>
-      <opc:Argument Name="PublicKey" DataType="ua:ByteString"></opc:Argument>
-      <opc:Argument Name="RevisedSecurityPolicyUri" DataType="ua:NodeId"></opc:Argument>
-    </opc:OutputArguments>
-  </opc:Method>
-
   <opc:ObjectType SymbolicName="KeyCredentialConfigurationType" BaseType="ua:BaseObjectType" PartNo="12">
     <opc:Children>
       <opc:Property SymbolicName="ResourceUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ProfileUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EndpointUrls"  DataType="ua:String" ValueRank="Array" ModellingRule="Optional" />
       <opc:Property SymbolicName="ServiceStatus"  DataType="ua:StatusCode" ValueRank="Scalar" ModellingRule="Optional" />
-      <opc:Method SymbolicName="GetEncryptingKey" TypeDefinition="GetEncryptingKeyMethodType" ModellingRule="Optional" ReleaseStatus="Draft" />
       <opc:Method SymbolicName="UpdateCredential" TypeDefinition="KeyCredentialUpdateMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="DeleteCredential" ModellingRule="Optional" />
     </opc:Children>

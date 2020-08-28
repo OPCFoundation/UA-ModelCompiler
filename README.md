@@ -12,8 +12,8 @@ The output of the tool includes:
 
 The [UA Model Design.xsd] (https://github.com/OPCFoundation/UA-ModelCompiler/blob/master/ModelCompiler/UA%20Model%20Design.xsd) has more information about the schema itself.
 
-The .NET sample libraries has [a sample Model Design file] (https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/Sample/SampleDesign.xml) that illustrate how to create a user defined model.
-This [batch file](https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/BuildDesign.bat) is used to regenerate the files used in the sample after changes.
+The .NET sample libraries has [a sample Model Design file] (https://github.com/OPCFoundation/UA-.NETStandard-Samples/blob/master/Samples/Opc.Ua.Sample/Boiler/BoilerDesign.xml) that illustrate how to create a user defined model.
+This [batch file](https://github.com/OPCFoundation/UA-.NETStandard-Samples/blob/master/Samples/Opc.Ua.Sample/BuildDesign.bat) is used to regenerate the files used in the sample after changes.
 
 The tool only produces ANSI C output for the stack.
 
