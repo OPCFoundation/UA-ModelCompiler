@@ -50,6 +50,7 @@ ECHO %MODELCOMPILER% -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%I
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 1 )
 
 CALL PublishModel OpcUaGdsModel GDS %1 %2
+CALL PublishModel OpcUaProvisioningModel Provisioning %1 %2
 CALL PublishModel OpcUaDiModel DI %1 %2
 
 IF "%3"=="all" (
@@ -75,10 +76,10 @@ ECHO ON
 COPY "%INPUT%\StandardTypes.csv" "%OUTPUT%\Schema\NodeIds.csv"
 COPY "%INPUT%\UA Attributes.csv" "%OUTPUT%\Schema\AttributeIds.csv"
 COPY "%OUTPUT%\DotNet\Opc.Ua.StatusCodes.csv" "%OUTPUT%\Schema\StatusCode.csv"
-COPY ".\Core\Schema\UANodeSet.xsd" "%OUTPUT%\Schema\UANodeSet.xsd"
-COPY ".\Core\Schema\SecuredApplication.xsd" "%OUTPUT%\Schema\SecuredApplication.xsd"
-COPY ".\Core\Types\Schemas\OPCBinarySchema.xsd" "%OUTPUT%\Schema\OPCBinarySchema.xsd"
-COPY ".\Core\Schema\ServerCapabilities.csv" "%OUTPUT%\Schema\ServerCapabilities.csv"
+COPY ".\Schemas\UANodeSet.xsd" "%OUTPUT%\Schema\UANodeSet.xsd"
+COPY ".\Schemas\SecuredApplication.xsd" "%OUTPUT%\Schema\SecuredApplication.xsd"
+COPY ".\Schemas\OPCBinarySchema.xsd" "%OUTPUT%\Schema\OPCBinarySchema.xsd"
+COPY ".\Schemas\ServerCapabilities.csv" "%OUTPUT%\Schema\ServerCapabilities.csv"
 @ECHO OFF
 
 REM STEP 2a) Copy code to ANSIC

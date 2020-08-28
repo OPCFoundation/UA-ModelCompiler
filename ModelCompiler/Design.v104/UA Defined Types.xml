@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04.7" TargetPublicationDate="2020-04-14T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04.7" TargetPublicationDate="2020-07-15T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -450,7 +450,7 @@
       </Property>
       <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
         <DefaultValue>
-          <uax:DateTime>2020-04-14T00:00:00</uax:DateTime>
+          <uax:DateTime>2020-07-15T00:00:00</uax:DateTime>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
@@ -2213,12 +2213,12 @@
     </Fields>
   </DataType>
   <Property SymbolicName="tns:CurrencyUnit" PartNo="3" DataType="tns:CurrencyUnitType" />
-  <ObjectType SymbolicName="tns:IOrderedObjectType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:BaseInterfaceType" IsAbstract="true">
+  <ObjectType SymbolicName="tns:IOrderedObjectType" PartNo="5" BaseType="tns:BaseInterfaceType" IsAbstract="true">
     <Children>
       <Property SymbolicName="tns:NumberInList" ModellingRule="Mandatory" DataType="tns:Number" />
     </Children>
   </ObjectType>
-  <ObjectType SymbolicName="tns:OrderedListType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:BaseObjectType">
+  <ObjectType SymbolicName="tns:OrderedListType" PartNo="5" BaseType="tns:BaseObjectType">
     <Children>
       <Object SymbolicName="tns:OrderedObject_Placeholder" TypeDefinition="tns:BaseObjectType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;OrderedObject&gt;</BrowseName>

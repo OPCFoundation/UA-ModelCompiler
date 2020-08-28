@@ -244,6 +244,7 @@
     <None Include="Design.v104\OpcUaDiModel.csv" />
     <None Include="Design.v104\OpcUaFdiPart5Model.csv" />
     <None Include="Design.v104\OpcUaFdiPart7Model.csv" />
+    <None Include="Design.v104\OpcUaProvisioningModel.csv" />
     <None Include="Design.v104\OpcUaGdsModel.csv" />
     <None Include="Design.v104\OpcUaPLCopenModel.csv" />
     <None Include="Design.v104\SercosModel.csv" />
@@ -288,6 +289,9 @@
     </Content>
     <Content Include="Design.v104\OpcUaFdiPart5Model.xml" />
     <Content Include="Design.v104\OpcUaFdiPart7Model.xml" />
+    <Content Include="Design.v104\OpcUaProvisioningModel.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Design.v104\OpcUaGdsModel.xml">
       <SubType>Designer</SubType>
     </Content>
