@@ -28,11 +28,11 @@ REM
 REM Leaving these fields empty will skip the operation
 
 set ANSIC_TARGET=
-set DOTNET_TARGET=
+set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
 set GDS_TARGET=
 set DI_TARGET=
 set ADI_TARGET=
-set NODESET_TARGET=.\Test\NodeSetTest
+set NODESET_TARGET=.\Tests\NodeSetTest
 set PROVISIONING_TARGET=
 REM Make sure that all of our output locations exist..
 
@@ -72,6 +72,14 @@ REM %MODELCOMPILER% -d2 "%INPUT%\DemoModel.xml" -cg "%INPUT%\DemoModel.csv" -o2 
 REM IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
 
 REM STEP 2) Copy the generated files to the OUTPUT directory which is how our nodeset files are created...
+
+ECHO Copying CSV files to .\Stack\Stack\Opc.Ua.Core\Schema\
+ECHO ON
+COPY ".\Schemas\UANodeSet.xsd" ".\Stack\Stack\Opc.Ua.Core\Schema\UANodeSet.xsd"
+COPY ".\Schemas\SecuredApplication.xsd" ".\Stack\Stack\Opc.Ua.Core\Schema\SecuredApplication.xsd"
+COPY ".\Schemas\ServerCapabilities.csv" ".\Stack\Stack\Opc.Ua.Core\Schema\ServerCapabilities.csv"
+COPY ".\Schemas\OPCBinarySchema.xsd" ".\Stack\Stack\Opc.Ua.Core\Types\Schemas\OPCBinarySchema.xsd"
+@ECHO OFF
 
 ECHO Copying CSV files to %OUTPUT%\Schema\
 ECHO ON

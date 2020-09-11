@@ -22,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schemas", "Schemas", "{FE9D
 		Schemas\UANodeSet.xsd = Schemas\UANodeSet.xsd
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NodeSetTests", "Test\NodeSetTest\NodeSetTests.csproj", "{84F28087-E78A-4C05-B8FA-2B227F2A53CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NodeSetTests", "Tests\NodeSetTest\NodeSetTests.csproj", "{84F28087-E78A-4C05-B8FA-2B227F2A53CD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B2CE7166-F060-4903-A2FD-47808C80E04F}"
 EndProject
