@@ -697,6 +697,14 @@
   <opc:Constant Name="Bad_RequestNotComplete">
     <opc:Documentation>The request has not been processed by the server yet.</opc:Documentation>
   </opc:Constant>
+
+  <!-- Part 21 -->
+  <opc:Constant Name="Bad_TicketRequired">
+    <opc:Documentation>The device identity needs a ticket before it can be accepted.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Bad_TicketInvalid">
+    <opc:Documentation>The device identity needs a ticket before it can be accepted.</opc:Documentation>
+  </opc:Constant>
   
   <!-- FDI -->
   <opc:Constant Name="Good_Edited">
@@ -799,6 +807,45 @@
   </opc:Constant>
   <opc:Constant Name="Bad_MaxConnectionsReached">
     <opc:Documentation>The operation could not be finished because all available connections are in use.</opc:Documentation>
+  </opc:Constant>
+
+
+  <!-- FF and Profibus Codes  -->
+  <opc:Constant Name="Bad_OSSInMAN">
+    <opc:Documentation>Transducer in MAN (FF).</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Bad_SIS">
+    <opc:Documentation>SIS (FF).</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Uncertain_OSSInMAN">
+    <opc:Documentation>Transducer in MAN (FF).</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Uncertain_SimulatedValue">
+    <opc:Documentation>Simulated Value (PROFIBUS).</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Uncertain_SensorCalibration">
+    <opc:Documentation>Sensor Calibration (PROFIBUS).</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Uncertain_ConfigurationError">
+    <opc:Documentation>Configuration Error (PROFIBUS).</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Good_InitializationAcknowledged">
+    <opc:Documentation>Initialization Acknowledged (IA).</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Good_InitializationRequest">
+    <opc:Documentation>Initialization Request (IR).</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Good_NotInvited">
+    <opc:Documentation>Not Invited (NI).</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Good_NotSelected">
+    <opc:Documentation>[Not Selected (NS) (FF)] or [Do Not Select (PA)].</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Good_FaultStateActive">
+    <opc:Documentation>Fault State Active (FSA) (FF).</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Good_InitiateFaultState">
+    <opc:Documentation>Initiate Fault State (IFS).</opc:Documentation>
   </opc:Constant>
 
 </opc:TypeDictionary>

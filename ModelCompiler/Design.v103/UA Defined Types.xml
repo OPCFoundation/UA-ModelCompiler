@@ -1149,7 +1149,7 @@
       <Variable SymbolicName="tns:DisabledMonitoredItemCount" DataType="tns:UInt32" />
       <Variable SymbolicName="tns:MonitoringQueueOverflowCount" DataType="tns:UInt32" />
       <Variable SymbolicName="tns:NextSequenceNumber" DataType="tns:UInt32" />
-      <Variable SymbolicName="tns:EventQueueOverFlowCount" DataType="tns:UInt32" />
+      <Variable SymbolicName="tns:EventQueueOverflowCount" DataType="tns:UInt32" />
     </Children>
   </VariableType>
   <VariableType SymbolicName="tns:SessionDiagnosticsArrayType" PartNo="5" BaseType="tns:BaseDataVariableType" DataType="tns:SessionDiagnosticsDataType" ValueRank="Array">
@@ -4869,7 +4869,7 @@
       <Field Name="DisabledMonitoredItemCount" DataType="tns:UInt32" />
       <Field Name="MonitoringQueueOverflowCount" DataType="tns:UInt32" />
       <Field Name="NextSequenceNumber" DataType="tns:UInt32" />
-      <Field Name="EventQueueOverFlowCount" DataType="tns:UInt32" />
+      <Field Name="EventQueueOverflowCount" DataType="tns:UInt32" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ModelChangeStructureVerbMask" SymbolicId="tns:ModelChangeStructureVerbMask" PartNo="5" NotInAddressSpace="true" BaseType="tns:Enumeration" NoClassGeneration="true" NoArraysAllowed="true">

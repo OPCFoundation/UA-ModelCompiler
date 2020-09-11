@@ -315,7 +315,7 @@
   <opc:ObjectType SymbolicName="DataTypeSystemType" BaseType="BaseObjectType" PartNo="5" />
   <opc:ObjectType SymbolicName="DataTypeEncodingType" BaseType="BaseObjectType" PartNo="5" />
 
-  <opc:DataType SymbolicName="NamingRuleType" BaseType="ua:Enumeration" PartNo="3">
+  <opc:DataType SymbolicName="NamingRuleType" BaseType="ua:Enumeration" PartNo="3" ReleaseStatus="Deprecated">
     <opc:Description>Describes a value that specifies the significance of the BrowseName for an instance declaration.</opc:Description>
     <opc:Fields>
       <opc:Field Name="Mandatory" Identifier="1">
@@ -333,8 +333,7 @@
   <opc:ObjectType SymbolicName="ModellingRuleType" BaseType="BaseObjectType" PartNo="5">
     <opc:Description>The type for an object that describes how an instance declaration is used when a type is instantiated.</opc:Description>
     <opc:Children>
-      <opc:Property SymbolicName="NamingRule" DataType="NamingRuleType">
-        <opc:Description>Specified the significances of the BrowseName when a type is instantiated.</opc:Description>
+      <opc:Property SymbolicName="NamingRule" DataType="NamingRuleType" ReleaseStatus="Deprecated">
         <opc:DefaultValue>
           <uax:Int32>1</uax:Int32>
         </opc:DefaultValue>

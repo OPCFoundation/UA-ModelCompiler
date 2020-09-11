@@ -32,7 +32,8 @@ set DOTNET_TARGET=
 set GDS_TARGET=
 set DI_TARGET=
 set ADI_TARGET=
-
+set NODESET_TARGET=.\Test\NodeSetTest
+set PROVISIONING_TARGET=
 REM Make sure that all of our output locations exist..
 
 IF NOT EXIST %MODELCOMPILER% GOTO noModelCompiler
@@ -51,6 +52,7 @@ IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 1 )
 
 CALL PublishModel OpcUaGdsModel GDS %1 %2
 CALL PublishModel OpcUaProvisioningModel Provisioning %1 %2
+CALL PublishModel OpcUaNodeSetModel NodeSet %1 %2
 CALL PublishModel OpcUaDiModel DI %1 %2
 
 IF "%3"=="all" (
@@ -82,6 +84,17 @@ COPY ".\Schemas\OPCBinarySchema.xsd" "%OUTPUT%\Schema\OPCBinarySchema.xsd"
 COPY ".\Schemas\ServerCapabilities.csv" "%OUTPUT%\Schema\ServerCapabilities.csv"
 @ECHO OFF
 
+ECHO Updating License
+ECHO ON
+%MODELCOMPILER% -input %OUTPUT% -pattern *.xml -license MITXML -silent
+%MODELCOMPILER% -input %OUTPUT% -pattern *.xsd -license MITXML -silent
+%MODELCOMPILER% -input %OUTPUT% -pattern *.bsd -license MITXML -silent
+%MODELCOMPILER% -input %OUTPUT% -pattern *.cs -license MIT -silent
+%MODELCOMPILER% -input %OUTPUT% -pattern *.h -license MIT -silent
+%MODELCOMPILER% -input %OUTPUT% -pattern *.c -license MIT -silent
+@ECHO OFF
+
+
 REM STEP 2a) Copy code to ANSIC
 IF "%ANSIC_TARGET%" NEQ "" (
 	ECHO Copying ANSIC code to %ANSIC_TARGET%
@@ -103,7 +116,6 @@ IF "%ANSIC_TARGET%" NEQ "" (
 REM STEP 2b) Copy code to .NET
 IF "%DOTNET_TARGET%" NEQ "" (
 	ECHO Copying .NET code to %DOTNET_TARGET%
-	@ECHO OFF
 	COPY "%OUTPUT%\Schema\AttributeIds.csv" "%DOTNET_TARGET%\Schema\AttributeIds.csv"
 	COPY "%OUTPUT%\Schema\NodeIds.csv" "%DOTNET_TARGET%\Schema\NodeIds.csv"
 	COPY "%OUTPUT%\Schema\ServerCapabilities.csv" "%DOTNET_TARGET%\Schema\ServerCapabilities.csv"
@@ -126,13 +138,11 @@ IF "%DOTNET_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\Schema\Opc.Ua.DataTypes.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.DataTypes.cs"
 	COPY "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.uanodes" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.PredefinedNodes.uanodes"
 	COPY "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.xml" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.PredefinedNodes.xml"
-	ECHO ON
 )
 
 REM STEP 2b) Copy code to GDS 
 IF "%GDS_TARGET%" NEQ "" (
 	ECHO Copying GDS code to %GDS_TARGET%
-	@ECHO OFF
 	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Types.bsd" "%GDS_TARGET%\Stack\Core\Schema\Opc.Ua.Gds.Types.bsd"
 	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Types.xsd" "%GDS_TARGET%\Stack\Core\Schema\Opc.Ua.Gds.Types.xsd"
 	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.NodeSet2.xml" "%GDS_TARGET%\Stack\Core\Schema\Opc.Ua.Gds.NodeSet2.xml"
@@ -141,7 +151,6 @@ IF "%GDS_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Classes.cs" "%GDS_TARGET%\GDS\Server\Model\Opc.Ua.Gds.Classes.cs"
 	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.PredefinedNodes.uanodes" "%GDS_TARGET%\GDS\Server\Model\Opc.Ua.Gds.PredefinedNodes.uanodes"
 	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.PredefinedNodes.xml" "%GDS_TARGET%\GDS\Server\Model\Opc.Ua.Gds.PredefinedNodes.xml"
-	ECHO ON
 )
 
 REM STEP 2c) Copy remaining collaboration outputs to their respective locations...
@@ -153,19 +162,19 @@ IF "%ADI_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\ADI\*.*" "%ADI_TARGET%"
 )
 
+IF "%NODESET_TARGET%" NEQ "" (
+	ECHO Copying .NET code to %NODESET_TARGET%
+	COPY "%OUTPUT%\NodeSet\*.*" "%NODESET_TARGET%"
+)
+
+IF "%PROVISIONING_TARGET%" NEQ "" (
+	ECHO Copying .NET code to %PROVISIONING_TARGET%
+	COPY "%OUTPUT%\Provisioning\*.*" "%PROVISIONING_TARGET%"
+)
+
 IF "%PLCOPEN_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\ADI\*.*" "%PLCOPEN_TARGET%"
 )
-
-ECHO Updating License
-ECHO ON
-%MODELCOMPILER% -input %OUTPUT% -pattern *.xml -license MITXML -silent
-%MODELCOMPILER% -input %OUTPUT% -pattern *.xsd -license MITXML -silent
-%MODELCOMPILER% -input %OUTPUT% -pattern *.bsd -license MITXML -silent
-%MODELCOMPILER% -input %OUTPUT% -pattern *.cs -license MIT -silent
-%MODELCOMPILER% -input %OUTPUT% -pattern *.h -license MIT -silent
-%MODELCOMPILER% -input %OUTPUT% -pattern *.c -license MIT -silent
-@ECHO OFF
 
 GOTO theEnd
 

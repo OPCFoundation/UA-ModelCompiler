@@ -90,7 +90,7 @@ namespace ModelCompiler
             filePath = String.Format(@"{0}\{1}.bsd", output, fileName);
 
             BinarySchemaValidator validator2 = new BinarySchemaValidator(files.BinarySchemas);
-            validator2.Validate(filePath);
+            validator2.Validate(filePath).Wait();
             files.BinarySchemas[validator2.Dictionary.TargetNamespace] = filePath;
             System.IO.File.Delete(filePath);
         }

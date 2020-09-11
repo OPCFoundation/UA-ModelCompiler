@@ -1,0 +1,1702 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+ * Copyright (c) 2005-2020 The OPC Foundation, Inc. All rights reserved.
+ *
+ * OPC Foundation MIT License 1.00
+ * 
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * The complete license agreement can be found here:
+ * http://opcfoundation.org/License/MIT/1.00/
+-->
+
+<UANodeSet xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" LastModified="2020-09-01T00:00:00Z" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <NamespaceUris>
+    <Uri>http://opcfoundation.org/UA/NodeSet/</Uri>
+  </NamespaceUris>
+  <Models>
+    <Model ModelUri="http://opcfoundation.org/UA/NodeSet/" Version="1.05" PublicationDate="2020-09-01T00:00:00Z">
+      <RequiredModel ModelUri="http://opcfoundation.org/UA/" Version="1.04.7" PublicationDate="2020-07-15T00:00:00Z" />
+    </Model>
+  </Models>
+  <Aliases>
+    <Alias Alias="Boolean">i=1</Alias>
+    <Alias Alias="SByte">i=2</Alias>
+    <Alias Alias="Byte">i=3</Alias>
+    <Alias Alias="Int16">i=4</Alias>
+    <Alias Alias="UInt16">i=5</Alias>
+    <Alias Alias="Int32">i=6</Alias>
+    <Alias Alias="UInt32">i=7</Alias>
+    <Alias Alias="Int64">i=8</Alias>
+    <Alias Alias="UInt64">i=9</Alias>
+    <Alias Alias="Float">i=10</Alias>
+    <Alias Alias="Double">i=11</Alias>
+    <Alias Alias="DateTime">i=13</Alias>
+    <Alias Alias="String">i=12</Alias>
+    <Alias Alias="ByteString">i=15</Alias>
+    <Alias Alias="Guid">i=14</Alias>
+    <Alias Alias="XmlElement">i=16</Alias>
+    <Alias Alias="NodeId">i=17</Alias>
+    <Alias Alias="ExpandedNodeId">i=18</Alias>
+    <Alias Alias="QualifiedName">i=20</Alias>
+    <Alias Alias="LocalizedText">i=21</Alias>
+    <Alias Alias="StatusCode">i=19</Alias>
+    <Alias Alias="Structure">i=22</Alias>
+    <Alias Alias="Number">i=26</Alias>
+    <Alias Alias="Integer">i=27</Alias>
+    <Alias Alias="UInteger">i=28</Alias>
+    <Alias Alias="HasComponent">i=47</Alias>
+    <Alias Alias="HasProperty">i=46</Alias>
+    <Alias Alias="Organizes">i=35</Alias>
+    <Alias Alias="HasEventSource">i=36</Alias>
+    <Alias Alias="HasNotifier">i=48</Alias>
+    <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="HasModellingRule">i=37</Alias>
+    <Alias Alias="HasEncoding">i=38</Alias>
+    <Alias Alias="HasDescription">i=39</Alias>
+  </Aliases>
+  <UADataType NodeId="ns=1;i=1" BrowseName="1:ModelTableEntry">
+    <DisplayName>ModelTableEntry</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
+    </References>
+    <Definition Name="1:ModelTableEntry">
+      <Field Name="ModelUri" DataType="i=12" />
+      <Field Name="Version" DataType="i=12" />
+      <Field Name="PublicationDate" DataType="i=13" />
+      <Field Name="RolePermissions" DataType="i=96" ValueRank="1" />
+      <Field Name="AccessRestrictions" DataType="i=95" />
+      <Field Name="RequiredModels" DataType="ns=1;i=1" ValueRank="1" />
+    </Definition>
+  </UADataType>
+  <UADataType NodeId="ns=1;i=202" BrowseName="1:UANodeSet">
+    <DisplayName>UANodeSet</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
+    </References>
+    <Definition Name="1:UANodeSet">
+      <Field Name="NamespaceUris" DataType="i=12" ValueRank="1" />
+      <Field Name="ServerUris" DataType="i=12" ValueRank="1" />
+      <Field Name="Models" DataType="ns=1;i=1" ValueRank="1" />
+      <Field Name="Extensions" DataType="i=14533" ValueRank="1" />
+      <Field Name="LastModified" DataType="i=13" />
+      <Field Name="Nodes" DataType="i=22" ValueRank="1" />
+    </Definition>
+  </UADataType>
+  <UADataType NodeId="ns=1;i=203" BrowseName="1:UAReference">
+    <DisplayName>UAReference</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
+    </References>
+    <Definition Name="1:UAReference">
+      <Field Name="TargetId" DataType="i=17" />
+      <Field Name="ReferenceTypeId" DataType="i=17" />
+      <Field Name="IsForward" DataType="i=1" />
+    </Definition>
+  </UADataType>
+  <UADataType NodeId="ns=1;i=4" BrowseName="1:UANode">
+    <DisplayName>UANode</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
+    </References>
+    <Definition Name="1:UANode">
+      <Field Name="NodeId" DataType="i=17" />
+      <Field Name="BrowseName" DataType="i=20" />
+      <Field Name="SymbolicName" DataType="i=12" />
+      <Field Name="DisplayNames" DataType="i=21" ValueRank="1" />
+      <Field Name="Descriptions" DataType="i=21" ValueRank="1" />
+      <Field Name="Documentation" DataType="i=12" />
+      <Field Name="WriteMask" DataType="i=347" />
+      <Field Name="RolePermissions" DataType="i=96" ValueRank="1" />
+      <Field Name="AccessRestrictions" DataType="i=95" />
+      <Field Name="References" DataType="ns=1;i=203" ValueRank="1" />
+      <Field Name="Extensions" DataType="i=14533" ValueRank="1" />
+    </Definition>
+  </UADataType>
+  <UADataType NodeId="ns=1;i=5" BrowseName="1:UAType" IsAbstract="true">
+    <DisplayName>UAType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=4</Reference>
+    </References>
+    <Definition Name="1:UAType">
+      <Field Name="IsAbstract" DataType="i=1" />
+    </Definition>
+  </UADataType>
+  <UADataType NodeId="ns=1;i=6" BrowseName="1:UAObjectType">
+    <DisplayName>UAObjectType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=5</Reference>
+    </References>
+  </UADataType>
+  <UADataType NodeId="ns=1;i=2" BrowseName="1:NamedTranslationType">
+    <DisplayName>NamedTranslationType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
+    </References>
+    <Definition Name="1:NamedTranslationType">
+      <Field Name="Name" DataType="i=12" />
+      <Field Name="Text" DataType="i=21" ValueRank="1" />
+    </Definition>
+  </UADataType>
+  <UADataType NodeId="ns=1;i=8" BrowseName="1:UAVariableType">
+    <DisplayName>UAVariableType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=5</Reference>
+    </References>
+    <Definition Name="1:UAVariableType">
+      <Field Name="Value" />
+      <Field Name="DataType" DataType="i=17" />
+      <Field Name="ValueRank" DataType="i=6" />
+      <Field Name="ArrayDimensions" DataType="i=7" ValueRank="1" />
+      <Field Name="Translations" DataType="ns=1;i=2" ValueRank="1" />
+    </Definition>
+  </UADataType>
+  <UADataType NodeId="ns=1;i=9" BrowseName="1:UADataType">
+    <DisplayName>UADataType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=5</Reference>
+    </References>
+    <Definition Name="1:UADataType">
+      <Field Name="Definition" DataType="i=22" />
+    </Definition>
+  </UADataType>
+  <UADataType NodeId="ns=1;i=10" BrowseName="1:UAReferenceType">
+    <DisplayName>UAReferenceType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=5</Reference>
+    </References>
+    <Definition Name="1:UAReferenceType">
+      <Field Name="InverseName" DataType="i=21" ValueRank="1" />
+      <Field Name="Symmetric" DataType="i=1" />
+    </Definition>
+  </UADataType>
+  <UADataType NodeId="ns=1;i=11" BrowseName="1:UAInstance" IsAbstract="true">
+    <DisplayName>UAInstance</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=4</Reference>
+    </References>
+    <Definition Name="1:UAInstance">
+      <Field Name="ParentNodeId" DataType="i=17" />
+    </Definition>
+  </UADataType>
+  <UADataType NodeId="ns=1;i=12" BrowseName="1:UAObject">
+    <DisplayName>UAObject</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=11</Reference>
+    </References>
+    <Definition Name="1:UAObject">
+      <Field Name="EventNotifier" DataType="i=15033" />
+    </Definition>
+  </UADataType>
+  <UADataType NodeId="ns=1;i=13" BrowseName="1:UAVariable">
+    <DisplayName>UAVariable</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=11</Reference>
+    </References>
+    <Definition Name="1:UAVariable">
+      <Field Name="Value" />
+      <Field Name="DataType" DataType="i=17" />
+      <Field Name="ValueRank" DataType="i=6" />
+      <Field Name="ArrayDimensions" DataType="i=7" ValueRank="1" />
+      <Field Name="AccessLevel" DataType="i=15406" />
+      <Field Name="MinimumSamplingInterval" DataType="i=290" />
+      <Field Name="Historizing" DataType="i=1" />
+      <Field Name="Translations" DataType="ns=1;i=2" ValueRank="1" />
+    </Definition>
+  </UADataType>
+  <UADataType NodeId="ns=1;i=15" BrowseName="1:UAMethod">
+    <DisplayName>UAMethod</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=11</Reference>
+    </References>
+    <Definition Name="1:UAMethod">
+      <Field Name="MethodDeclarationId" DataType="i=17" />
+      <Field Name="Translations" DataType="ns=1;i=2" ValueRank="1" />
+    </Definition>
+  </UADataType>
+  <UADataType NodeId="ns=1;i=16" BrowseName="1:UAView">
+    <DisplayName>UAView</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=11</Reference>
+    </References>
+    <Definition Name="1:UAView">
+      <Field Name="EventNotifier" DataType="i=15033" />
+      <Field Name="ContainsNoLoops" DataType="i=1" />
+    </Definition>
+  </UADataType>
+  <UAObject NodeId="ns=1;i=17" BrowseName="1:http://opcfoundation.org/UA/NodeSet/" SymbolicName="OPCUANodeSetNamespaceMetadata">
+    <DisplayName>http://opcfoundation.org/UA/NodeSet/</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty">ns=1;i=18</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=19</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=20</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=21</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=22</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=23</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=24</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=47</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=48</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=49</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">i=11715</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=11616</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;i=18" BrowseName="NamespaceUri" ParentNodeId="ns=1;i=17" DataType="String">
+    <DisplayName>NamespaceUri</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=17</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/GDS/</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=19" BrowseName="NamespaceVersion" ParentNodeId="ns=1;i=17" DataType="String">
+    <DisplayName>NamespaceVersion</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=17</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">1.05</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=20" BrowseName="NamespacePublicationDate" ParentNodeId="ns=1;i=17" DataType="DateTime">
+    <DisplayName>NamespacePublicationDate</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=17</Reference>
+    </References>
+    <Value>
+      <DateTime xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">2020-01-08T00:00:00Z</DateTime>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=21" BrowseName="IsNamespaceSubset" ParentNodeId="ns=1;i=17" DataType="Boolean">
+    <DisplayName>IsNamespaceSubset</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=17</Reference>
+    </References>
+    <Value>
+      <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">false</Boolean>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=22" BrowseName="StaticNodeIdTypes" ParentNodeId="ns=1;i=17" DataType="i=256" ValueRank="1" ArrayDimensions="0">
+    <DisplayName>StaticNodeIdTypes</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=17</Reference>
+    </References>
+    <Value>
+      <ListOfInt32 xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">
+        <Int32>0</Int32>
+      </ListOfInt32>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=23" BrowseName="StaticNumericNodeIdRange" ParentNodeId="ns=1;i=17" DataType="i=291" ValueRank="1" ArrayDimensions="0">
+    <DisplayName>StaticNumericNodeIdRange</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=17</Reference>
+    </References>
+    <Value>
+      <ListOfString xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd" />
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=24" BrowseName="StaticStringNodeIdPattern" ParentNodeId="ns=1;i=17" DataType="String">
+    <DisplayName>StaticStringNodeIdPattern</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=17</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd" />
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=47" BrowseName="DefaultRolePermissions" ParentNodeId="ns=1;i=17" DataType="i=96" ValueRank="1" ArrayDimensions="0">
+    <DisplayName>DefaultRolePermissions</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=17</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=48" BrowseName="DefaultUserRolePermissions" ParentNodeId="ns=1;i=17" DataType="i=96" ValueRank="1" ArrayDimensions="0">
+    <DisplayName>DefaultUserRolePermissions</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=17</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=49" BrowseName="DefaultAccessRestrictions" ParentNodeId="ns=1;i=17" DataType="i=95">
+    <DisplayName>DefaultAccessRestrictions</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=17</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;i=50" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=1</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=70</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=204" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=202</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=206</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=205" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=203</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=209</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=53" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=4</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=79</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=54" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=5</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=82</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=55" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=6</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=85</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=3" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=2</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=51</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=57" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=8</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=91</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=58" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=9</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=94</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=59" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=10</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=97</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=60" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=11</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=100</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=61" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=12</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=103</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=62" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=13</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=106</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=64" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=15</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=112</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=65" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=16</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=115</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;i=66" BrowseName="1:Opc.Ua.UANodeSet" SymbolicName="OpcUaNodeSet_BinarySchema" DataType="ByteString">
+    <DisplayName>Opc.Ua.UANodeSet</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty">ns=1;i=68</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=69</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=70</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=206</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=209</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=79</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=82</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=85</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=51</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=91</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=94</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=97</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=100</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=103</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=106</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=112</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=115</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">i=93</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=72</Reference>
+    </References>
+    <Value>
+      <ByteString xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">PG9wYzpUeXBlRGljdGlvbmFyeQ0KICB4bWxuczpvcGM9Imh0dHA6Ly9vcGNmb3VuZGF0aW9uLm9y
+Zy9CaW5hcnlTY2hlbWEvIg0KICB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1M
+U2NoZW1hLWluc3RhbmNlIg0KICB4bWxuczp1YT0iaHR0cDovL29wY2ZvdW5kYXRpb24ub3JnL1VB
+LyINCiAgeG1sbnM6dG5zPSJodHRwOi8vb3BjZm91bmRhdGlvbi5vcmcvVUEvTm9kZVNldC8iDQog
+IERlZmF1bHRCeXRlT3JkZXI9IkxpdHRsZUVuZGlhbiINCiAgVGFyZ2V0TmFtZXNwYWNlPSJodHRw
+Oi8vb3BjZm91bmRhdGlvbi5vcmcvVUEvTm9kZVNldC8iDQo+DQogIDxvcGM6SW1wb3J0IE5hbWVz
+cGFjZT0iaHR0cDovL29wY2ZvdW5kYXRpb24ub3JnL1VBLyIgTG9jYXRpb249Ik9wYy5VYS5CaW5h
+cnlTY2hlbWEuYnNkIi8+DQoNCiAgPG9wYzpTdHJ1Y3R1cmVkVHlwZSBOYW1lPSJNb2RlbFRhYmxl
+RW50cnkiIEJhc2VUeXBlPSJ1YTpFeHRlbnNpb25PYmplY3QiPg0KICAgIDxvcGM6RmllbGQgTmFt
+ZT0iTW9kZWxVcmkiIFR5cGVOYW1lPSJvcGM6U3RyaW5nIiAvPg0KICAgIDxvcGM6RmllbGQgTmFt
+ZT0iVmVyc2lvbiIgVHlwZU5hbWU9Im9wYzpTdHJpbmciIC8+DQogICAgPG9wYzpGaWVsZCBOYW1l
+PSJQdWJsaWNhdGlvbkRhdGUiIFR5cGVOYW1lPSJvcGM6RGF0ZVRpbWUiIC8+DQogICAgPG9wYzpG
+aWVsZCBOYW1lPSJOb09mUm9sZVBlcm1pc3Npb25zIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0K
+ICAgIDxvcGM6RmllbGQgTmFtZT0iUm9sZVBlcm1pc3Npb25zIiBUeXBlTmFtZT0idWE6Um9sZVBl
+cm1pc3Npb25UeXBlIiBMZW5ndGhGaWVsZD0iTm9PZlJvbGVQZXJtaXNzaW9ucyIgLz4NCiAgICA8
+b3BjOkZpZWxkIE5hbWU9IkFjY2Vzc1Jlc3RyaWN0aW9ucyIgVHlwZU5hbWU9InVhOkFjY2Vzc1Jl
+c3RyaWN0aW9uVHlwZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZSZXF1aXJlZE1vZGVs
+cyIgVHlwZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IlJlcXVpcmVk
+TW9kZWxzIiBUeXBlTmFtZT0idG5zOk1vZGVsVGFibGVFbnRyeSIgTGVuZ3RoRmllbGQ9Ik5vT2ZS
+ZXF1aXJlZE1vZGVscyIgLz4NCiAgPC9vcGM6U3RydWN0dXJlZFR5cGU+DQoNCiAgPG9wYzpTdHJ1
+Y3R1cmVkVHlwZSBOYW1lPSJVQU5vZGVTZXQiIEJhc2VUeXBlPSJ1YTpFeHRlbnNpb25PYmplY3Qi
+Pg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZk5hbWVzcGFjZVVyaXMiIFR5cGVOYW1lPSJvcGM6
+SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOYW1lc3BhY2VVcmlzIiBUeXBlTmFtZT0i
+b3BjOlN0cmluZyIgTGVuZ3RoRmllbGQ9Ik5vT2ZOYW1lc3BhY2VVcmlzIiAvPg0KICAgIDxvcGM6
+RmllbGQgTmFtZT0iTm9PZlNlcnZlclVyaXMiIFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAg
+PG9wYzpGaWVsZCBOYW1lPSJTZXJ2ZXJVcmlzIiBUeXBlTmFtZT0ib3BjOlN0cmluZyIgTGVuZ3Ro
+RmllbGQ9Ik5vT2ZTZXJ2ZXJVcmlzIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZk1vZGVs
+cyIgVHlwZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik1vZGVscyIg
+VHlwZU5hbWU9InRuczpNb2RlbFRhYmxlRW50cnkiIExlbmd0aEZpZWxkPSJOb09mTW9kZWxzIiAv
+Pg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZkV4dGVuc2lvbnMiIFR5cGVOYW1lPSJvcGM6SW50
+MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJFeHRlbnNpb25zIiBUeXBlTmFtZT0idWE6S2V5
+VmFsdWVQYWlyIiBMZW5ndGhGaWVsZD0iTm9PZkV4dGVuc2lvbnMiIC8+DQogICAgPG9wYzpGaWVs
+ZCBOYW1lPSJMYXN0TW9kaWZpZWQiIFR5cGVOYW1lPSJvcGM6RGF0ZVRpbWUiIC8+DQogICAgPG9w
+YzpGaWVsZCBOYW1lPSJOb09mTm9kZXMiIFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9w
+YzpGaWVsZCBOYW1lPSJOb2RlcyIgVHlwZU5hbWU9InVhOkV4dGVuc2lvbk9iamVjdCIgTGVuZ3Ro
+RmllbGQ9Ik5vT2ZOb2RlcyIgLz4NCiAgPC9vcGM6U3RydWN0dXJlZFR5cGU+DQoNCiAgPG9wYzpT
+dHJ1Y3R1cmVkVHlwZSBOYW1lPSJVQVJlZmVyZW5jZSIgQmFzZVR5cGU9InVhOkV4dGVuc2lvbk9i
+amVjdCI+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJUYXJnZXRJZCIgVHlwZU5hbWU9InVhOk5vZGVJ
+ZCIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IlJlZmVyZW5jZVR5cGVJZCIgVHlwZU5hbWU9InVh
+Ok5vZGVJZCIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IklzRm9yd2FyZCIgVHlwZU5hbWU9Im9w
+YzpCb29sZWFuIiAvPg0KICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0KICA8b3BjOlN0cnVjdHVy
+ZWRUeXBlIE5hbWU9IlVBTm9kZSIgQmFzZVR5cGU9InVhOkV4dGVuc2lvbk9iamVjdCI+DQogICAg
+PG9wYzpGaWVsZCBOYW1lPSJOb2RlSWQiIFR5cGVOYW1lPSJ1YTpOb2RlSWQiIC8+DQogICAgPG9w
+YzpGaWVsZCBOYW1lPSJCcm93c2VOYW1lIiBUeXBlTmFtZT0idWE6UXVhbGlmaWVkTmFtZSIgLz4N
+CiAgICA8b3BjOkZpZWxkIE5hbWU9IlN5bWJvbGljTmFtZSIgVHlwZU5hbWU9Im9wYzpTdHJpbmci
+IC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mRGlzcGxheU5hbWVzIiBUeXBlTmFtZT0ib3Bj
+OkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRGlzcGxheU5hbWVzIiBUeXBlTmFtZT0i
+dWE6TG9jYWxpemVkVGV4dCIgTGVuZ3RoRmllbGQ9Ik5vT2ZEaXNwbGF5TmFtZXMiIC8+DQogICAg
+PG9wYzpGaWVsZCBOYW1lPSJOb09mRGVzY3JpcHRpb25zIiBUeXBlTmFtZT0ib3BjOkludDMyIiAv
+Pg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRGVzY3JpcHRpb25zIiBUeXBlTmFtZT0idWE6TG9jYWxp
+emVkVGV4dCIgTGVuZ3RoRmllbGQ9Ik5vT2ZEZXNjcmlwdGlvbnMiIC8+DQogICAgPG9wYzpGaWVs
+ZCBOYW1lPSJEb2N1bWVudGF0aW9uIiBUeXBlTmFtZT0ib3BjOlN0cmluZyIgLz4NCiAgICA8b3Bj
+OkZpZWxkIE5hbWU9IldyaXRlTWFzayIgVHlwZU5hbWU9InVhOkF0dHJpYnV0ZVdyaXRlTWFzayIg
+Lz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZSb2xlUGVybWlzc2lvbnMiIFR5cGVOYW1lPSJv
+cGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJSb2xlUGVybWlzc2lvbnMiIFR5cGVO
+YW1lPSJ1YTpSb2xlUGVybWlzc2lvblR5cGUiIExlbmd0aEZpZWxkPSJOb09mUm9sZVBlcm1pc3Np
+b25zIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iQWNjZXNzUmVzdHJpY3Rpb25zIiBUeXBlTmFt
+ZT0idWE6QWNjZXNzUmVzdHJpY3Rpb25UeXBlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9P
+ZlJlZmVyZW5jZXMiIFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1l
+PSJSZWZlcmVuY2VzIiBUeXBlTmFtZT0idG5zOlVBUmVmZXJlbmNlIiBMZW5ndGhGaWVsZD0iTm9P
+ZlJlZmVyZW5jZXMiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mRXh0ZW5zaW9ucyIgVHlw
+ZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkV4dGVuc2lvbnMiIFR5
+cGVOYW1lPSJ1YTpLZXlWYWx1ZVBhaXIiIExlbmd0aEZpZWxkPSJOb09mRXh0ZW5zaW9ucyIgLz4N
+CiAgPC9vcGM6U3RydWN0dXJlZFR5cGU+DQoNCiAgPG9wYzpTdHJ1Y3R1cmVkVHlwZSBOYW1lPSJV
+QVR5cGUiIEJhc2VUeXBlPSJ0bnM6VUFOb2RlIj4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vZGVJ
+ZCIgVHlwZU5hbWU9InVhOk5vZGVJZCIgU291cmNlVHlwZT0idG5zOlVBTm9kZSIgLz4NCiAgICA8
+b3BjOkZpZWxkIE5hbWU9IkJyb3dzZU5hbWUiIFR5cGVOYW1lPSJ1YTpRdWFsaWZpZWROYW1lIiBT
+b3VyY2VUeXBlPSJ0bnM6VUFOb2RlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iU3ltYm9saWNO
+YW1lIiBUeXBlTmFtZT0ib3BjOlN0cmluZyIgU291cmNlVHlwZT0idG5zOlVBTm9kZSIgLz4NCiAg
+ICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZEaXNwbGF5TmFtZXMiIFR5cGVOYW1lPSJvcGM6SW50MzIi
+IC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJEaXNwbGF5TmFtZXMiIFR5cGVOYW1lPSJ1YTpMb2Nh
+bGl6ZWRUZXh0IiBMZW5ndGhGaWVsZD0iTm9PZkRpc3BsYXlOYW1lcyIgLz4NCiAgICA8b3BjOkZp
+ZWxkIE5hbWU9Ik5vT2ZEZXNjcmlwdGlvbnMiIFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAg
+PG9wYzpGaWVsZCBOYW1lPSJEZXNjcmlwdGlvbnMiIFR5cGVOYW1lPSJ1YTpMb2NhbGl6ZWRUZXh0
+IiBMZW5ndGhGaWVsZD0iTm9PZkRlc2NyaXB0aW9ucyIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9
+IkRvY3VtZW50YXRpb24iIFR5cGVOYW1lPSJvcGM6U3RyaW5nIiBTb3VyY2VUeXBlPSJ0bnM6VUFO
+b2RlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iV3JpdGVNYXNrIiBUeXBlTmFtZT0idWE6QXR0
+cmlidXRlV3JpdGVNYXNrIiBTb3VyY2VUeXBlPSJ0bnM6VUFOb2RlIiAvPg0KICAgIDxvcGM6Rmll
+bGQgTmFtZT0iTm9PZlJvbGVQZXJtaXNzaW9ucyIgVHlwZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAg
+ICA8b3BjOkZpZWxkIE5hbWU9IlJvbGVQZXJtaXNzaW9ucyIgVHlwZU5hbWU9InVhOlJvbGVQZXJt
+aXNzaW9uVHlwZSIgTGVuZ3RoRmllbGQ9Ik5vT2ZSb2xlUGVybWlzc2lvbnMiIC8+DQogICAgPG9w
+YzpGaWVsZCBOYW1lPSJBY2Nlc3NSZXN0cmljdGlvbnMiIFR5cGVOYW1lPSJ1YTpBY2Nlc3NSZXN0
+cmljdGlvblR5cGUiIFNvdXJjZVR5cGU9InRuczpVQU5vZGUiIC8+DQogICAgPG9wYzpGaWVsZCBO
+YW1lPSJOb09mUmVmZXJlbmNlcyIgVHlwZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZp
+ZWxkIE5hbWU9IlJlZmVyZW5jZXMiIFR5cGVOYW1lPSJ0bnM6VUFSZWZlcmVuY2UiIExlbmd0aEZp
+ZWxkPSJOb09mUmVmZXJlbmNlcyIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZFeHRlbnNp
+b25zIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRXh0ZW5z
+aW9ucyIgVHlwZU5hbWU9InVhOktleVZhbHVlUGFpciIgTGVuZ3RoRmllbGQ9Ik5vT2ZFeHRlbnNp
+b25zIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iSXNBYnN0cmFjdCIgVHlwZU5hbWU9Im9wYzpC
+b29sZWFuIiAvPg0KICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0KICA8b3BjOlN0cnVjdHVyZWRU
+eXBlIE5hbWU9IlVBT2JqZWN0VHlwZSIgQmFzZVR5cGU9InRuczpVQVR5cGUiPg0KICAgIDxvcGM6
+RmllbGQgTmFtZT0iTm9kZUlkIiBUeXBlTmFtZT0idWE6Tm9kZUlkIiBTb3VyY2VUeXBlPSJ0bnM6
+VUFOb2RlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iQnJvd3NlTmFtZSIgVHlwZU5hbWU9InVh
+OlF1YWxpZmllZE5hbWUiIFNvdXJjZVR5cGU9InRuczpVQU5vZGUiIC8+DQogICAgPG9wYzpGaWVs
+ZCBOYW1lPSJTeW1ib2xpY05hbWUiIFR5cGVOYW1lPSJvcGM6U3RyaW5nIiBTb3VyY2VUeXBlPSJ0
+bnM6VUFOb2RlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZkRpc3BsYXlOYW1lcyIgVHlw
+ZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkRpc3BsYXlOYW1lcyIg
+VHlwZU5hbWU9InVhOkxvY2FsaXplZFRleHQiIExlbmd0aEZpZWxkPSJOb09mRGlzcGxheU5hbWVz
+IiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZkRlc2NyaXB0aW9ucyIgVHlwZU5hbWU9Im9w
+YzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkRlc2NyaXB0aW9ucyIgVHlwZU5hbWU9
+InVhOkxvY2FsaXplZFRleHQiIExlbmd0aEZpZWxkPSJOb09mRGVzY3JpcHRpb25zIiAvPg0KICAg
+IDxvcGM6RmllbGQgTmFtZT0iRG9jdW1lbnRhdGlvbiIgVHlwZU5hbWU9Im9wYzpTdHJpbmciIFNv
+dXJjZVR5cGU9InRuczpVQU5vZGUiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJXcml0ZU1hc2si
+IFR5cGVOYW1lPSJ1YTpBdHRyaWJ1dGVXcml0ZU1hc2siIFNvdXJjZVR5cGU9InRuczpVQU5vZGUi
+IC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mUm9sZVBlcm1pc3Npb25zIiBUeXBlTmFtZT0i
+b3BjOkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iUm9sZVBlcm1pc3Npb25zIiBUeXBl
+TmFtZT0idWE6Um9sZVBlcm1pc3Npb25UeXBlIiBMZW5ndGhGaWVsZD0iTm9PZlJvbGVQZXJtaXNz
+aW9ucyIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkFjY2Vzc1Jlc3RyaWN0aW9ucyIgVHlwZU5h
+bWU9InVhOkFjY2Vzc1Jlc3RyaWN0aW9uVHlwZSIgU291cmNlVHlwZT0idG5zOlVBTm9kZSIgLz4N
+CiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZSZWZlcmVuY2VzIiBUeXBlTmFtZT0ib3BjOkludDMy
+IiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iUmVmZXJlbmNlcyIgVHlwZU5hbWU9InRuczpVQVJl
+ZmVyZW5jZSIgTGVuZ3RoRmllbGQ9Ik5vT2ZSZWZlcmVuY2VzIiAvPg0KICAgIDxvcGM6RmllbGQg
+TmFtZT0iTm9PZkV4dGVuc2lvbnMiIFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpG
+aWVsZCBOYW1lPSJFeHRlbnNpb25zIiBUeXBlTmFtZT0idWE6S2V5VmFsdWVQYWlyIiBMZW5ndGhG
+aWVsZD0iTm9PZkV4dGVuc2lvbnMiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJJc0Fic3RyYWN0
+IiBUeXBlTmFtZT0ib3BjOkJvb2xlYW4iIFNvdXJjZVR5cGU9InRuczpVQVR5cGUiIC8+DQogIDwv
+b3BjOlN0cnVjdHVyZWRUeXBlPg0KDQogIDxvcGM6U3RydWN0dXJlZFR5cGUgTmFtZT0iTmFtZWRU
+cmFuc2xhdGlvblR5cGUiIEJhc2VUeXBlPSJ1YTpFeHRlbnNpb25PYmplY3QiPg0KICAgIDxvcGM6
+RmllbGQgTmFtZT0iTmFtZSIgVHlwZU5hbWU9Im9wYzpTdHJpbmciIC8+DQogICAgPG9wYzpGaWVs
+ZCBOYW1lPSJOb09mVGV4dCIgVHlwZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxk
+IE5hbWU9IlRleHQiIFR5cGVOYW1lPSJ1YTpMb2NhbGl6ZWRUZXh0IiBMZW5ndGhGaWVsZD0iTm9P
+ZlRleHQiIC8+DQogIDwvb3BjOlN0cnVjdHVyZWRUeXBlPg0KDQogIDxvcGM6U3RydWN0dXJlZFR5
+cGUgTmFtZT0iVUFWYXJpYWJsZVR5cGUiIEJhc2VUeXBlPSJ0bnM6VUFUeXBlIj4NCiAgICA8b3Bj
+OkZpZWxkIE5hbWU9Ik5vZGVJZCIgVHlwZU5hbWU9InVhOk5vZGVJZCIgU291cmNlVHlwZT0idG5z
+OlVBTm9kZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkJyb3dzZU5hbWUiIFR5cGVOYW1lPSJ1
+YTpRdWFsaWZpZWROYW1lIiBTb3VyY2VUeXBlPSJ0bnM6VUFOb2RlIiAvPg0KICAgIDxvcGM6Rmll
+bGQgTmFtZT0iU3ltYm9saWNOYW1lIiBUeXBlTmFtZT0ib3BjOlN0cmluZyIgU291cmNlVHlwZT0i
+dG5zOlVBTm9kZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZEaXNwbGF5TmFtZXMiIFR5
+cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJEaXNwbGF5TmFtZXMi
+IFR5cGVOYW1lPSJ1YTpMb2NhbGl6ZWRUZXh0IiBMZW5ndGhGaWVsZD0iTm9PZkRpc3BsYXlOYW1l
+cyIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZEZXNjcmlwdGlvbnMiIFR5cGVOYW1lPSJv
+cGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJEZXNjcmlwdGlvbnMiIFR5cGVOYW1l
+PSJ1YTpMb2NhbGl6ZWRUZXh0IiBMZW5ndGhGaWVsZD0iTm9PZkRlc2NyaXB0aW9ucyIgLz4NCiAg
+ICA8b3BjOkZpZWxkIE5hbWU9IkRvY3VtZW50YXRpb24iIFR5cGVOYW1lPSJvcGM6U3RyaW5nIiBT
+b3VyY2VUeXBlPSJ0bnM6VUFOb2RlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iV3JpdGVNYXNr
+IiBUeXBlTmFtZT0idWE6QXR0cmlidXRlV3JpdGVNYXNrIiBTb3VyY2VUeXBlPSJ0bnM6VUFOb2Rl
+IiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZlJvbGVQZXJtaXNzaW9ucyIgVHlwZU5hbWU9
+Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IlJvbGVQZXJtaXNzaW9ucyIgVHlw
+ZU5hbWU9InVhOlJvbGVQZXJtaXNzaW9uVHlwZSIgTGVuZ3RoRmllbGQ9Ik5vT2ZSb2xlUGVybWlz
+c2lvbnMiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJBY2Nlc3NSZXN0cmljdGlvbnMiIFR5cGVO
+YW1lPSJ1YTpBY2Nlc3NSZXN0cmljdGlvblR5cGUiIFNvdXJjZVR5cGU9InRuczpVQU5vZGUiIC8+
+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mUmVmZXJlbmNlcyIgVHlwZU5hbWU9Im9wYzpJbnQz
+MiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IlJlZmVyZW5jZXMiIFR5cGVOYW1lPSJ0bnM6VUFS
+ZWZlcmVuY2UiIExlbmd0aEZpZWxkPSJOb09mUmVmZXJlbmNlcyIgLz4NCiAgICA8b3BjOkZpZWxk
+IE5hbWU9Ik5vT2ZFeHRlbnNpb25zIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6
+RmllbGQgTmFtZT0iRXh0ZW5zaW9ucyIgVHlwZU5hbWU9InVhOktleVZhbHVlUGFpciIgTGVuZ3Ro
+RmllbGQ9Ik5vT2ZFeHRlbnNpb25zIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iSXNBYnN0cmFj
+dCIgVHlwZU5hbWU9Im9wYzpCb29sZWFuIiBTb3VyY2VUeXBlPSJ0bnM6VUFUeXBlIiAvPg0KICAg
+IDxvcGM6RmllbGQgTmFtZT0iVmFsdWUiIFR5cGVOYW1lPSJ1YTpWYXJpYW50IiAvPg0KICAgIDxv
+cGM6RmllbGQgTmFtZT0iRGF0YVR5cGUiIFR5cGVOYW1lPSJ1YTpOb2RlSWQiIC8+DQogICAgPG9w
+YzpGaWVsZCBOYW1lPSJWYWx1ZVJhbmsiIFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9w
+YzpGaWVsZCBOYW1lPSJOb09mQXJyYXlEaW1lbnNpb25zIiBUeXBlTmFtZT0ib3BjOkludDMyIiAv
+Pg0KICAgIDxvcGM6RmllbGQgTmFtZT0iQXJyYXlEaW1lbnNpb25zIiBUeXBlTmFtZT0ib3BjOlVJ
+bnQzMiIgTGVuZ3RoRmllbGQ9Ik5vT2ZBcnJheURpbWVuc2lvbnMiIC8+DQogICAgPG9wYzpGaWVs
+ZCBOYW1lPSJOb09mVHJhbnNsYXRpb25zIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxv
+cGM6RmllbGQgTmFtZT0iVHJhbnNsYXRpb25zIiBUeXBlTmFtZT0idG5zOk5hbWVkVHJhbnNsYXRp
+b25UeXBlIiBMZW5ndGhGaWVsZD0iTm9PZlRyYW5zbGF0aW9ucyIgLz4NCiAgPC9vcGM6U3RydWN0
+dXJlZFR5cGU+DQoNCiAgPG9wYzpTdHJ1Y3R1cmVkVHlwZSBOYW1lPSJVQURhdGFUeXBlIiBCYXNl
+VHlwZT0idG5zOlVBVHlwZSI+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb2RlSWQiIFR5cGVOYW1l
+PSJ1YTpOb2RlSWQiIFNvdXJjZVR5cGU9InRuczpVQU5vZGUiIC8+DQogICAgPG9wYzpGaWVsZCBO
+YW1lPSJCcm93c2VOYW1lIiBUeXBlTmFtZT0idWE6UXVhbGlmaWVkTmFtZSIgU291cmNlVHlwZT0i
+dG5zOlVBTm9kZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IlN5bWJvbGljTmFtZSIgVHlwZU5h
+bWU9Im9wYzpTdHJpbmciIFNvdXJjZVR5cGU9InRuczpVQU5vZGUiIC8+DQogICAgPG9wYzpGaWVs
+ZCBOYW1lPSJOb09mRGlzcGxheU5hbWVzIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxv
+cGM6RmllbGQgTmFtZT0iRGlzcGxheU5hbWVzIiBUeXBlTmFtZT0idWE6TG9jYWxpemVkVGV4dCIg
+TGVuZ3RoRmllbGQ9Ik5vT2ZEaXNwbGF5TmFtZXMiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJO
+b09mRGVzY3JpcHRpb25zIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQg
+TmFtZT0iRGVzY3JpcHRpb25zIiBUeXBlTmFtZT0idWE6TG9jYWxpemVkVGV4dCIgTGVuZ3RoRmll
+bGQ9Ik5vT2ZEZXNjcmlwdGlvbnMiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJEb2N1bWVudGF0
+aW9uIiBUeXBlTmFtZT0ib3BjOlN0cmluZyIgU291cmNlVHlwZT0idG5zOlVBTm9kZSIgLz4NCiAg
+ICA8b3BjOkZpZWxkIE5hbWU9IldyaXRlTWFzayIgVHlwZU5hbWU9InVhOkF0dHJpYnV0ZVdyaXRl
+TWFzayIgU291cmNlVHlwZT0idG5zOlVBTm9kZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5v
+T2ZSb2xlUGVybWlzc2lvbnMiIFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVs
+ZCBOYW1lPSJSb2xlUGVybWlzc2lvbnMiIFR5cGVOYW1lPSJ1YTpSb2xlUGVybWlzc2lvblR5cGUi
+IExlbmd0aEZpZWxkPSJOb09mUm9sZVBlcm1pc3Npb25zIiAvPg0KICAgIDxvcGM6RmllbGQgTmFt
+ZT0iQWNjZXNzUmVzdHJpY3Rpb25zIiBUeXBlTmFtZT0idWE6QWNjZXNzUmVzdHJpY3Rpb25UeXBl
+IiBTb3VyY2VUeXBlPSJ0bnM6VUFOb2RlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZlJl
+ZmVyZW5jZXMiIFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJS
+ZWZlcmVuY2VzIiBUeXBlTmFtZT0idG5zOlVBUmVmZXJlbmNlIiBMZW5ndGhGaWVsZD0iTm9PZlJl
+ZmVyZW5jZXMiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mRXh0ZW5zaW9ucyIgVHlwZU5h
+bWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkV4dGVuc2lvbnMiIFR5cGVO
+YW1lPSJ1YTpLZXlWYWx1ZVBhaXIiIExlbmd0aEZpZWxkPSJOb09mRXh0ZW5zaW9ucyIgLz4NCiAg
+ICA8b3BjOkZpZWxkIE5hbWU9IklzQWJzdHJhY3QiIFR5cGVOYW1lPSJvcGM6Qm9vbGVhbiIgU291
+cmNlVHlwZT0idG5zOlVBVHlwZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkRlZmluaXRpb24i
+IFR5cGVOYW1lPSJ1YTpFeHRlbnNpb25PYmplY3QiIC8+DQogIDwvb3BjOlN0cnVjdHVyZWRUeXBl
+Pg0KDQogIDxvcGM6U3RydWN0dXJlZFR5cGUgTmFtZT0iVUFSZWZlcmVuY2VUeXBlIiBCYXNlVHlw
+ZT0idG5zOlVBVHlwZSI+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb2RlSWQiIFR5cGVOYW1lPSJ1
+YTpOb2RlSWQiIFNvdXJjZVR5cGU9InRuczpVQU5vZGUiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1l
+PSJCcm93c2VOYW1lIiBUeXBlTmFtZT0idWE6UXVhbGlmaWVkTmFtZSIgU291cmNlVHlwZT0idG5z
+OlVBTm9kZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IlN5bWJvbGljTmFtZSIgVHlwZU5hbWU9
+Im9wYzpTdHJpbmciIFNvdXJjZVR5cGU9InRuczpVQU5vZGUiIC8+DQogICAgPG9wYzpGaWVsZCBO
+YW1lPSJOb09mRGlzcGxheU5hbWVzIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6
+RmllbGQgTmFtZT0iRGlzcGxheU5hbWVzIiBUeXBlTmFtZT0idWE6TG9jYWxpemVkVGV4dCIgTGVu
+Z3RoRmllbGQ9Ik5vT2ZEaXNwbGF5TmFtZXMiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09m
+RGVzY3JpcHRpb25zIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQgTmFt
+ZT0iRGVzY3JpcHRpb25zIiBUeXBlTmFtZT0idWE6TG9jYWxpemVkVGV4dCIgTGVuZ3RoRmllbGQ9
+Ik5vT2ZEZXNjcmlwdGlvbnMiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJEb2N1bWVudGF0aW9u
+IiBUeXBlTmFtZT0ib3BjOlN0cmluZyIgU291cmNlVHlwZT0idG5zOlVBTm9kZSIgLz4NCiAgICA8
+b3BjOkZpZWxkIE5hbWU9IldyaXRlTWFzayIgVHlwZU5hbWU9InVhOkF0dHJpYnV0ZVdyaXRlTWFz
+ayIgU291cmNlVHlwZT0idG5zOlVBTm9kZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZS
+b2xlUGVybWlzc2lvbnMiIFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBO
+YW1lPSJSb2xlUGVybWlzc2lvbnMiIFR5cGVOYW1lPSJ1YTpSb2xlUGVybWlzc2lvblR5cGUiIExl
+bmd0aEZpZWxkPSJOb09mUm9sZVBlcm1pc3Npb25zIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0i
+QWNjZXNzUmVzdHJpY3Rpb25zIiBUeXBlTmFtZT0idWE6QWNjZXNzUmVzdHJpY3Rpb25UeXBlIiBT
+b3VyY2VUeXBlPSJ0bnM6VUFOb2RlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZlJlZmVy
+ZW5jZXMiIFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJSZWZl
+cmVuY2VzIiBUeXBlTmFtZT0idG5zOlVBUmVmZXJlbmNlIiBMZW5ndGhGaWVsZD0iTm9PZlJlZmVy
+ZW5jZXMiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mRXh0ZW5zaW9ucyIgVHlwZU5hbWU9
+Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkV4dGVuc2lvbnMiIFR5cGVOYW1l
+PSJ1YTpLZXlWYWx1ZVBhaXIiIExlbmd0aEZpZWxkPSJOb09mRXh0ZW5zaW9ucyIgLz4NCiAgICA8
+b3BjOkZpZWxkIE5hbWU9IklzQWJzdHJhY3QiIFR5cGVOYW1lPSJvcGM6Qm9vbGVhbiIgU291cmNl
+VHlwZT0idG5zOlVBVHlwZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZJbnZlcnNlTmFt
+ZSIgVHlwZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkludmVyc2VO
+YW1lIiBUeXBlTmFtZT0idWE6TG9jYWxpemVkVGV4dCIgTGVuZ3RoRmllbGQ9Ik5vT2ZJbnZlcnNl
+TmFtZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IlN5bW1ldHJpYyIgVHlwZU5hbWU9Im9wYzpC
+b29sZWFuIiAvPg0KICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0KICA8b3BjOlN0cnVjdHVyZWRU
+eXBlIE5hbWU9IlVBSW5zdGFuY2UiIEJhc2VUeXBlPSJ0bnM6VUFOb2RlIj4NCiAgICA8b3BjOkZp
+ZWxkIE5hbWU9Ik5vZGVJZCIgVHlwZU5hbWU9InVhOk5vZGVJZCIgU291cmNlVHlwZT0idG5zOlVB
+Tm9kZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkJyb3dzZU5hbWUiIFR5cGVOYW1lPSJ1YTpR
+dWFsaWZpZWROYW1lIiBTb3VyY2VUeXBlPSJ0bnM6VUFOb2RlIiAvPg0KICAgIDxvcGM6RmllbGQg
+TmFtZT0iU3ltYm9saWNOYW1lIiBUeXBlTmFtZT0ib3BjOlN0cmluZyIgU291cmNlVHlwZT0idG5z
+OlVBTm9kZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZEaXNwbGF5TmFtZXMiIFR5cGVO
+YW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJEaXNwbGF5TmFtZXMiIFR5
+cGVOYW1lPSJ1YTpMb2NhbGl6ZWRUZXh0IiBMZW5ndGhGaWVsZD0iTm9PZkRpc3BsYXlOYW1lcyIg
+Lz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZEZXNjcmlwdGlvbnMiIFR5cGVOYW1lPSJvcGM6
+SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJEZXNjcmlwdGlvbnMiIFR5cGVOYW1lPSJ1
+YTpMb2NhbGl6ZWRUZXh0IiBMZW5ndGhGaWVsZD0iTm9PZkRlc2NyaXB0aW9ucyIgLz4NCiAgICA8
+b3BjOkZpZWxkIE5hbWU9IkRvY3VtZW50YXRpb24iIFR5cGVOYW1lPSJvcGM6U3RyaW5nIiBTb3Vy
+Y2VUeXBlPSJ0bnM6VUFOb2RlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iV3JpdGVNYXNrIiBU
+eXBlTmFtZT0idWE6QXR0cmlidXRlV3JpdGVNYXNrIiBTb3VyY2VUeXBlPSJ0bnM6VUFOb2RlIiAv
+Pg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZlJvbGVQZXJtaXNzaW9ucyIgVHlwZU5hbWU9Im9w
+YzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IlJvbGVQZXJtaXNzaW9ucyIgVHlwZU5h
+bWU9InVhOlJvbGVQZXJtaXNzaW9uVHlwZSIgTGVuZ3RoRmllbGQ9Ik5vT2ZSb2xlUGVybWlzc2lv
+bnMiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJBY2Nlc3NSZXN0cmljdGlvbnMiIFR5cGVOYW1l
+PSJ1YTpBY2Nlc3NSZXN0cmljdGlvblR5cGUiIFNvdXJjZVR5cGU9InRuczpVQU5vZGUiIC8+DQog
+ICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mUmVmZXJlbmNlcyIgVHlwZU5hbWU9Im9wYzpJbnQzMiIg
+Lz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IlJlZmVyZW5jZXMiIFR5cGVOYW1lPSJ0bnM6VUFSZWZl
+cmVuY2UiIExlbmd0aEZpZWxkPSJOb09mUmVmZXJlbmNlcyIgLz4NCiAgICA8b3BjOkZpZWxkIE5h
+bWU9Ik5vT2ZFeHRlbnNpb25zIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6Rmll
+bGQgTmFtZT0iRXh0ZW5zaW9ucyIgVHlwZU5hbWU9InVhOktleVZhbHVlUGFpciIgTGVuZ3RoRmll
+bGQ9Ik5vT2ZFeHRlbnNpb25zIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iUGFyZW50Tm9kZUlk
+IiBUeXBlTmFtZT0idWE6Tm9kZUlkIiAvPg0KICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0KICA8
+b3BjOlN0cnVjdHVyZWRUeXBlIE5hbWU9IlVBT2JqZWN0IiBCYXNlVHlwZT0idG5zOlVBSW5zdGFu
+Y2UiPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9kZUlkIiBUeXBlTmFtZT0idWE6Tm9kZUlkIiBT
+b3VyY2VUeXBlPSJ0bnM6VUFOb2RlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iQnJvd3NlTmFt
+ZSIgVHlwZU5hbWU9InVhOlF1YWxpZmllZE5hbWUiIFNvdXJjZVR5cGU9InRuczpVQU5vZGUiIC8+
+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJTeW1ib2xpY05hbWUiIFR5cGVOYW1lPSJvcGM6U3RyaW5n
+IiBTb3VyY2VUeXBlPSJ0bnM6VUFOb2RlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZkRp
+c3BsYXlOYW1lcyIgVHlwZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9
+IkRpc3BsYXlOYW1lcyIgVHlwZU5hbWU9InVhOkxvY2FsaXplZFRleHQiIExlbmd0aEZpZWxkPSJO
+b09mRGlzcGxheU5hbWVzIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZkRlc2NyaXB0aW9u
+cyIgVHlwZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkRlc2NyaXB0
+aW9ucyIgVHlwZU5hbWU9InVhOkxvY2FsaXplZFRleHQiIExlbmd0aEZpZWxkPSJOb09mRGVzY3Jp
+cHRpb25zIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRG9jdW1lbnRhdGlvbiIgVHlwZU5hbWU9
+Im9wYzpTdHJpbmciIFNvdXJjZVR5cGU9InRuczpVQU5vZGUiIC8+DQogICAgPG9wYzpGaWVsZCBO
+YW1lPSJXcml0ZU1hc2siIFR5cGVOYW1lPSJ1YTpBdHRyaWJ1dGVXcml0ZU1hc2siIFNvdXJjZVR5
+cGU9InRuczpVQU5vZGUiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mUm9sZVBlcm1pc3Np
+b25zIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iUm9sZVBl
+cm1pc3Npb25zIiBUeXBlTmFtZT0idWE6Um9sZVBlcm1pc3Npb25UeXBlIiBMZW5ndGhGaWVsZD0i
+Tm9PZlJvbGVQZXJtaXNzaW9ucyIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkFjY2Vzc1Jlc3Ry
+aWN0aW9ucyIgVHlwZU5hbWU9InVhOkFjY2Vzc1Jlc3RyaWN0aW9uVHlwZSIgU291cmNlVHlwZT0i
+dG5zOlVBTm9kZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZSZWZlcmVuY2VzIiBUeXBl
+TmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iUmVmZXJlbmNlcyIgVHlw
+ZU5hbWU9InRuczpVQVJlZmVyZW5jZSIgTGVuZ3RoRmllbGQ9Ik5vT2ZSZWZlcmVuY2VzIiAvPg0K
+ICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZkV4dGVuc2lvbnMiIFR5cGVOYW1lPSJvcGM6SW50MzIi
+IC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJFeHRlbnNpb25zIiBUeXBlTmFtZT0idWE6S2V5VmFs
+dWVQYWlyIiBMZW5ndGhGaWVsZD0iTm9PZkV4dGVuc2lvbnMiIC8+DQogICAgPG9wYzpGaWVsZCBO
+YW1lPSJQYXJlbnROb2RlSWQiIFR5cGVOYW1lPSJ1YTpOb2RlSWQiIFNvdXJjZVR5cGU9InRuczpV
+QUluc3RhbmNlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRXZlbnROb3RpZmllciIgVHlwZU5h
+bWU9InVhOkV2ZW50Tm90aWZpZXJUeXBlIiAvPg0KICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0K
+ICA8b3BjOlN0cnVjdHVyZWRUeXBlIE5hbWU9IlVBVmFyaWFibGUiIEJhc2VUeXBlPSJ0bnM6VUFJ
+bnN0YW5jZSI+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb2RlSWQiIFR5cGVOYW1lPSJ1YTpOb2Rl
+SWQiIFNvdXJjZVR5cGU9InRuczpVQU5vZGUiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJCcm93
+c2VOYW1lIiBUeXBlTmFtZT0idWE6UXVhbGlmaWVkTmFtZSIgU291cmNlVHlwZT0idG5zOlVBTm9k
+ZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IlN5bWJvbGljTmFtZSIgVHlwZU5hbWU9Im9wYzpT
+dHJpbmciIFNvdXJjZVR5cGU9InRuczpVQU5vZGUiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJO
+b09mRGlzcGxheU5hbWVzIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQg
+TmFtZT0iRGlzcGxheU5hbWVzIiBUeXBlTmFtZT0idWE6TG9jYWxpemVkVGV4dCIgTGVuZ3RoRmll
+bGQ9Ik5vT2ZEaXNwbGF5TmFtZXMiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mRGVzY3Jp
+cHRpb25zIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRGVz
+Y3JpcHRpb25zIiBUeXBlTmFtZT0idWE6TG9jYWxpemVkVGV4dCIgTGVuZ3RoRmllbGQ9Ik5vT2ZE
+ZXNjcmlwdGlvbnMiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJEb2N1bWVudGF0aW9uIiBUeXBl
+TmFtZT0ib3BjOlN0cmluZyIgU291cmNlVHlwZT0idG5zOlVBTm9kZSIgLz4NCiAgICA8b3BjOkZp
+ZWxkIE5hbWU9IldyaXRlTWFzayIgVHlwZU5hbWU9InVhOkF0dHJpYnV0ZVdyaXRlTWFzayIgU291
+cmNlVHlwZT0idG5zOlVBTm9kZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZSb2xlUGVy
+bWlzc2lvbnMiIFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJS
+b2xlUGVybWlzc2lvbnMiIFR5cGVOYW1lPSJ1YTpSb2xlUGVybWlzc2lvblR5cGUiIExlbmd0aEZp
+ZWxkPSJOb09mUm9sZVBlcm1pc3Npb25zIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iQWNjZXNz
+UmVzdHJpY3Rpb25zIiBUeXBlTmFtZT0idWE6QWNjZXNzUmVzdHJpY3Rpb25UeXBlIiBTb3VyY2VU
+eXBlPSJ0bnM6VUFOb2RlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZlJlZmVyZW5jZXMi
+IFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJSZWZlcmVuY2Vz
+IiBUeXBlTmFtZT0idG5zOlVBUmVmZXJlbmNlIiBMZW5ndGhGaWVsZD0iTm9PZlJlZmVyZW5jZXMi
+IC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mRXh0ZW5zaW9ucyIgVHlwZU5hbWU9Im9wYzpJ
+bnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkV4dGVuc2lvbnMiIFR5cGVOYW1lPSJ1YTpL
+ZXlWYWx1ZVBhaXIiIExlbmd0aEZpZWxkPSJOb09mRXh0ZW5zaW9ucyIgLz4NCiAgICA8b3BjOkZp
+ZWxkIE5hbWU9IlBhcmVudE5vZGVJZCIgVHlwZU5hbWU9InVhOk5vZGVJZCIgU291cmNlVHlwZT0i
+dG5zOlVBSW5zdGFuY2UiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJWYWx1ZSIgVHlwZU5hbWU9
+InVhOlZhcmlhbnQiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJEYXRhVHlwZSIgVHlwZU5hbWU9
+InVhOk5vZGVJZCIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IlZhbHVlUmFuayIgVHlwZU5hbWU9
+Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZBcnJheURpbWVuc2lvbnMi
+IFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJBcnJheURpbWVu
+c2lvbnMiIFR5cGVOYW1lPSJvcGM6VUludDMyIiBMZW5ndGhGaWVsZD0iTm9PZkFycmF5RGltZW5z
+aW9ucyIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkFjY2Vzc0xldmVsIiBUeXBlTmFtZT0idWE6
+QWNjZXNzTGV2ZWxFeFR5cGUiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJNaW5pbXVtU2FtcGxp
+bmdJbnRlcnZhbCIgVHlwZU5hbWU9Im9wYzpEb3VibGUiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1l
+PSJIaXN0b3JpemluZyIgVHlwZU5hbWU9Im9wYzpCb29sZWFuIiAvPg0KICAgIDxvcGM6RmllbGQg
+TmFtZT0iTm9PZlRyYW5zbGF0aW9ucyIgVHlwZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3Bj
+OkZpZWxkIE5hbWU9IlRyYW5zbGF0aW9ucyIgVHlwZU5hbWU9InRuczpOYW1lZFRyYW5zbGF0aW9u
+VHlwZSIgTGVuZ3RoRmllbGQ9Ik5vT2ZUcmFuc2xhdGlvbnMiIC8+DQogIDwvb3BjOlN0cnVjdHVy
+ZWRUeXBlPg0KDQogIDxvcGM6U3RydWN0dXJlZFR5cGUgTmFtZT0iVUFNZXRob2QiIEJhc2VUeXBl
+PSJ0bnM6VUFJbnN0YW5jZSI+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb2RlSWQiIFR5cGVOYW1l
+PSJ1YTpOb2RlSWQiIFNvdXJjZVR5cGU9InRuczpVQU5vZGUiIC8+DQogICAgPG9wYzpGaWVsZCBO
+YW1lPSJCcm93c2VOYW1lIiBUeXBlTmFtZT0idWE6UXVhbGlmaWVkTmFtZSIgU291cmNlVHlwZT0i
+dG5zOlVBTm9kZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IlN5bWJvbGljTmFtZSIgVHlwZU5h
+bWU9Im9wYzpTdHJpbmciIFNvdXJjZVR5cGU9InRuczpVQU5vZGUiIC8+DQogICAgPG9wYzpGaWVs
+ZCBOYW1lPSJOb09mRGlzcGxheU5hbWVzIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxv
+cGM6RmllbGQgTmFtZT0iRGlzcGxheU5hbWVzIiBUeXBlTmFtZT0idWE6TG9jYWxpemVkVGV4dCIg
+TGVuZ3RoRmllbGQ9Ik5vT2ZEaXNwbGF5TmFtZXMiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJO
+b09mRGVzY3JpcHRpb25zIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQg
+TmFtZT0iRGVzY3JpcHRpb25zIiBUeXBlTmFtZT0idWE6TG9jYWxpemVkVGV4dCIgTGVuZ3RoRmll
+bGQ9Ik5vT2ZEZXNjcmlwdGlvbnMiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJEb2N1bWVudGF0
+aW9uIiBUeXBlTmFtZT0ib3BjOlN0cmluZyIgU291cmNlVHlwZT0idG5zOlVBTm9kZSIgLz4NCiAg
+ICA8b3BjOkZpZWxkIE5hbWU9IldyaXRlTWFzayIgVHlwZU5hbWU9InVhOkF0dHJpYnV0ZVdyaXRl
+TWFzayIgU291cmNlVHlwZT0idG5zOlVBTm9kZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5v
+T2ZSb2xlUGVybWlzc2lvbnMiIFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVs
+ZCBOYW1lPSJSb2xlUGVybWlzc2lvbnMiIFR5cGVOYW1lPSJ1YTpSb2xlUGVybWlzc2lvblR5cGUi
+IExlbmd0aEZpZWxkPSJOb09mUm9sZVBlcm1pc3Npb25zIiAvPg0KICAgIDxvcGM6RmllbGQgTmFt
+ZT0iQWNjZXNzUmVzdHJpY3Rpb25zIiBUeXBlTmFtZT0idWE6QWNjZXNzUmVzdHJpY3Rpb25UeXBl
+IiBTb3VyY2VUeXBlPSJ0bnM6VUFOb2RlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZlJl
+ZmVyZW5jZXMiIFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJS
+ZWZlcmVuY2VzIiBUeXBlTmFtZT0idG5zOlVBUmVmZXJlbmNlIiBMZW5ndGhGaWVsZD0iTm9PZlJl
+ZmVyZW5jZXMiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mRXh0ZW5zaW9ucyIgVHlwZU5h
+bWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkV4dGVuc2lvbnMiIFR5cGVO
+YW1lPSJ1YTpLZXlWYWx1ZVBhaXIiIExlbmd0aEZpZWxkPSJOb09mRXh0ZW5zaW9ucyIgLz4NCiAg
+ICA8b3BjOkZpZWxkIE5hbWU9IlBhcmVudE5vZGVJZCIgVHlwZU5hbWU9InVhOk5vZGVJZCIgU291
+cmNlVHlwZT0idG5zOlVBSW5zdGFuY2UiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJNZXRob2RE
+ZWNsYXJhdGlvbklkIiBUeXBlTmFtZT0idWE6Tm9kZUlkIiAvPg0KICAgIDxvcGM6RmllbGQgTmFt
+ZT0iTm9PZlRyYW5zbGF0aW9ucyIgVHlwZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZp
+ZWxkIE5hbWU9IlRyYW5zbGF0aW9ucyIgVHlwZU5hbWU9InRuczpOYW1lZFRyYW5zbGF0aW9uVHlw
+ZSIgTGVuZ3RoRmllbGQ9Ik5vT2ZUcmFuc2xhdGlvbnMiIC8+DQogIDwvb3BjOlN0cnVjdHVyZWRU
+eXBlPg0KDQogIDxvcGM6U3RydWN0dXJlZFR5cGUgTmFtZT0iVUFWaWV3IiBCYXNlVHlwZT0idG5z
+OlVBSW5zdGFuY2UiPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9kZUlkIiBUeXBlTmFtZT0idWE6
+Tm9kZUlkIiBTb3VyY2VUeXBlPSJ0bnM6VUFOb2RlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0i
+QnJvd3NlTmFtZSIgVHlwZU5hbWU9InVhOlF1YWxpZmllZE5hbWUiIFNvdXJjZVR5cGU9InRuczpV
+QU5vZGUiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJTeW1ib2xpY05hbWUiIFR5cGVOYW1lPSJv
+cGM6U3RyaW5nIiBTb3VyY2VUeXBlPSJ0bnM6VUFOb2RlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFt
+ZT0iTm9PZkRpc3BsYXlOYW1lcyIgVHlwZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZp
+ZWxkIE5hbWU9IkRpc3BsYXlOYW1lcyIgVHlwZU5hbWU9InVhOkxvY2FsaXplZFRleHQiIExlbmd0
+aEZpZWxkPSJOb09mRGlzcGxheU5hbWVzIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZkRl
+c2NyaXB0aW9ucyIgVHlwZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9
+IkRlc2NyaXB0aW9ucyIgVHlwZU5hbWU9InVhOkxvY2FsaXplZFRleHQiIExlbmd0aEZpZWxkPSJO
+b09mRGVzY3JpcHRpb25zIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRG9jdW1lbnRhdGlvbiIg
+VHlwZU5hbWU9Im9wYzpTdHJpbmciIFNvdXJjZVR5cGU9InRuczpVQU5vZGUiIC8+DQogICAgPG9w
+YzpGaWVsZCBOYW1lPSJXcml0ZU1hc2siIFR5cGVOYW1lPSJ1YTpBdHRyaWJ1dGVXcml0ZU1hc2si
+IFNvdXJjZVR5cGU9InRuczpVQU5vZGUiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mUm9s
+ZVBlcm1pc3Npb25zIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQgTmFt
+ZT0iUm9sZVBlcm1pc3Npb25zIiBUeXBlTmFtZT0idWE6Um9sZVBlcm1pc3Npb25UeXBlIiBMZW5n
+dGhGaWVsZD0iTm9PZlJvbGVQZXJtaXNzaW9ucyIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkFj
+Y2Vzc1Jlc3RyaWN0aW9ucyIgVHlwZU5hbWU9InVhOkFjY2Vzc1Jlc3RyaWN0aW9uVHlwZSIgU291
+cmNlVHlwZT0idG5zOlVBTm9kZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZSZWZlcmVu
+Y2VzIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iUmVmZXJl
+bmNlcyIgVHlwZU5hbWU9InRuczpVQVJlZmVyZW5jZSIgTGVuZ3RoRmllbGQ9Ik5vT2ZSZWZlcmVu
+Y2VzIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZkV4dGVuc2lvbnMiIFR5cGVOYW1lPSJv
+cGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJFeHRlbnNpb25zIiBUeXBlTmFtZT0i
+dWE6S2V5VmFsdWVQYWlyIiBMZW5ndGhGaWVsZD0iTm9PZkV4dGVuc2lvbnMiIC8+DQogICAgPG9w
+YzpGaWVsZCBOYW1lPSJQYXJlbnROb2RlSWQiIFR5cGVOYW1lPSJ1YTpOb2RlSWQiIFNvdXJjZVR5
+cGU9InRuczpVQUluc3RhbmNlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRXZlbnROb3RpZmll
+ciIgVHlwZU5hbWU9InVhOkV2ZW50Tm90aWZpZXJUeXBlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFt
+ZT0iQ29udGFpbnNOb0xvb3BzIiBUeXBlTmFtZT0ib3BjOkJvb2xlYW4iIC8+DQogIDwvb3BjOlN0
+cnVjdHVyZWRUeXBlPg0KDQo8L29wYzpUeXBlRGljdGlvbmFyeT4=</ByteString>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=68" BrowseName="NamespaceUri" ParentNodeId="ns=1;i=66" DataType="String">
+    <DisplayName>NamespaceUri</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/NodeSet/</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=69" BrowseName="Deprecated" ParentNodeId="ns=1;i=66" DataType="Boolean">
+    <DisplayName>Deprecated</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">true</Boolean>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=70" BrowseName="1:ModelTableEntry" ParentNodeId="ns=1;i=66" DataType="String">
+    <DisplayName>ModelTableEntry</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">ModelTableEntry</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=206" BrowseName="1:UANodeSet" ParentNodeId="ns=1;i=66" DataType="String">
+    <DisplayName>UANodeSet</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">UANodeSet</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=209" BrowseName="1:UAReference" ParentNodeId="ns=1;i=66" DataType="String">
+    <DisplayName>UAReference</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">UAReference</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=79" BrowseName="1:UANode" ParentNodeId="ns=1;i=66" DataType="String">
+    <DisplayName>UANode</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">UANode</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=82" BrowseName="1:UAType" ParentNodeId="ns=1;i=66" DataType="String">
+    <DisplayName>UAType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">UAType</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=85" BrowseName="1:UAObjectType" ParentNodeId="ns=1;i=66" DataType="String">
+    <DisplayName>UAObjectType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">UAObjectType</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=51" BrowseName="1:NamedTranslationType" ParentNodeId="ns=1;i=66" DataType="String">
+    <DisplayName>NamedTranslationType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">NamedTranslationType</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=91" BrowseName="1:UAVariableType" ParentNodeId="ns=1;i=66" DataType="String">
+    <DisplayName>UAVariableType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">UAVariableType</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=94" BrowseName="1:UADataType" ParentNodeId="ns=1;i=66" DataType="String">
+    <DisplayName>UADataType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">UADataType</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=97" BrowseName="1:UAReferenceType" ParentNodeId="ns=1;i=66" DataType="String">
+    <DisplayName>UAReferenceType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">UAReferenceType</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=100" BrowseName="1:UAInstance" ParentNodeId="ns=1;i=66" DataType="String">
+    <DisplayName>UAInstance</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">UAInstance</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=103" BrowseName="1:UAObject" ParentNodeId="ns=1;i=66" DataType="String">
+    <DisplayName>UAObject</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">UAObject</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=106" BrowseName="1:UAVariable" ParentNodeId="ns=1;i=66" DataType="String">
+    <DisplayName>UAVariable</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">UAVariable</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=112" BrowseName="1:UAMethod" ParentNodeId="ns=1;i=66" DataType="String">
+    <DisplayName>UAMethod</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">UAMethod</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=115" BrowseName="1:UAView" ParentNodeId="ns=1;i=66" DataType="String">
+    <DisplayName>UAView</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=66</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">UAView</String>
+    </Value>
+  </UAVariable>
+  <UAObject NodeId="ns=1;i=118" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=1</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=138</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=212" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=202</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=214</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=213" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=203</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=217</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=121" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=4</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=147</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=122" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=5</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=150</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=123" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=6</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=153</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=74" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=2</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=75</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=125" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=8</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=159</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=126" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=9</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=162</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=127" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=10</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=165</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=128" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=11</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=168</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=129" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=12</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=171</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=130" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=13</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=174</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=132" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=15</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=180</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=133" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=16</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=183</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;i=134" BrowseName="1:Opc.Ua.UANodeSet" SymbolicName="OpcUaNodeSet_XmlSchema" DataType="ByteString">
+    <DisplayName>Opc.Ua.UANodeSet</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty">ns=1;i=136</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=137</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=138</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=214</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=217</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=147</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=150</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=153</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=75</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=159</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=162</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=165</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=168</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=171</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=174</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=180</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=183</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">i=92</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=72</Reference>
+    </References>
+    <Value>
+      <ByteString xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">PHhzOnNjaGVtYQ0KICB4bWxuczp4cz0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEi
+DQogIHhtbG5zOnVhPSJodHRwOi8vb3BjZm91bmRhdGlvbi5vcmcvVUEvMjAwOC8wMi9UeXBlcy54
+c2QiDQogIHhtbG5zOnRucz0iaHR0cDovL29wY2ZvdW5kYXRpb24ub3JnL1VBL05vZGVTZXQvVHlw
+ZXMueHNkIg0KICB0YXJnZXROYW1lc3BhY2U9Imh0dHA6Ly9vcGNmb3VuZGF0aW9uLm9yZy9VQS9O
+b2RlU2V0L1R5cGVzLnhzZCINCiAgZWxlbWVudEZvcm1EZWZhdWx0PSJxdWFsaWZpZWQiDQo+DQog
+IDx4czppbXBvcnQgbmFtZXNwYWNlPSJodHRwOi8vb3BjZm91bmRhdGlvbi5vcmcvVUEvMjAwOC8w
+Mi9UeXBlcy54c2QiIC8+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9Ik1vZGVsVGFibGVFbnRy
+eSI+DQogICAgPHhzOnNlcXVlbmNlPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iTW9kZWxVcmki
+IHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIwIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICAg
+IDx4czplbGVtZW50IG5hbWU9IlZlcnNpb24iIHR5cGU9InhzOnN0cmluZyIgbWluT2NjdXJzPSIw
+IiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IlB1YmxpY2F0aW9u
+RGF0ZSIgdHlwZT0ieHM6ZGF0ZVRpbWUiIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgIDx4czplbGVt
+ZW50IG5hbWU9IlJvbGVQZXJtaXNzaW9ucyIgdHlwZT0idWE6TGlzdE9mUm9sZVBlcm1pc3Npb25U
+eXBlIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgPHhzOmVsZW1lbnQg
+bmFtZT0iQWNjZXNzUmVzdHJpY3Rpb25zIiB0eXBlPSJ1YTpBY2Nlc3NSZXN0cmljdGlvblR5cGUi
+IG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IlJlcXVpcmVkTW9kZWxz
+IiB0eXBlPSJ0bnM6TGlzdE9mTW9kZWxUYWJsZUVudHJ5IiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxl
+PSJ0cnVlIiAvPg0KICAgIDwveHM6c2VxdWVuY2U+DQogIDwveHM6Y29tcGxleFR5cGU+DQogIDx4
+czplbGVtZW50IG5hbWU9Ik1vZGVsVGFibGVFbnRyeSIgdHlwZT0idG5zOk1vZGVsVGFibGVFbnRy
+eSIgLz4NCg0KICA8eHM6Y29tcGxleFR5cGUgbmFtZT0iTGlzdE9mTW9kZWxUYWJsZUVudHJ5Ij4N
+CiAgICA8eHM6c2VxdWVuY2U+DQogICAgICA8eHM6ZWxlbWVudCBuYW1lPSJNb2RlbFRhYmxlRW50
+cnkiIHR5cGU9InRuczpNb2RlbFRhYmxlRW50cnkiIG1pbk9jY3Vycz0iMCIgbWF4T2NjdXJzPSJ1
+bmJvdW5kZWQiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgIDwveHM6c2VxdWVuY2U+DQogIDwveHM6
+Y29tcGxleFR5cGU+DQogIDx4czplbGVtZW50IG5hbWU9Ikxpc3RPZk1vZGVsVGFibGVFbnRyeSIg
+dHlwZT0idG5zOkxpc3RPZk1vZGVsVGFibGVFbnRyeSIgbmlsbGFibGU9InRydWUiPjwveHM6ZWxl
+bWVudD4NCg0KICA8eHM6Y29tcGxleFR5cGUgbmFtZT0iVUFOb2RlU2V0Ij4NCiAgICA8eHM6c2Vx
+dWVuY2U+DQogICAgICA8eHM6ZWxlbWVudCBuYW1lPSJOYW1lc3BhY2VVcmlzIiB0eXBlPSJ1YTpM
+aXN0T2ZTdHJpbmciIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgICA8eHM6
+ZWxlbWVudCBuYW1lPSJTZXJ2ZXJVcmlzIiB0eXBlPSJ1YTpMaXN0T2ZTdHJpbmciIG1pbk9jY3Vy
+cz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgICA8eHM6ZWxlbWVudCBuYW1lPSJNb2RlbHMi
+IHR5cGU9InRuczpMaXN0T2ZNb2RlbFRhYmxlRW50cnkiIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9
+InRydWUiIC8+DQogICAgICA8eHM6ZWxlbWVudCBuYW1lPSJFeHRlbnNpb25zIiB0eXBlPSJ1YTpM
+aXN0T2ZLZXlWYWx1ZVBhaXIiIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQogICAg
+ICA8eHM6ZWxlbWVudCBuYW1lPSJMYXN0TW9kaWZpZWQiIHR5cGU9InhzOmRhdGVUaW1lIiBtaW5P
+Y2N1cnM9IjAiIC8+DQogICAgICA8eHM6ZWxlbWVudCBuYW1lPSJOb2RlcyIgdHlwZT0idWE6TGlz
+dE9mRXh0ZW5zaW9uT2JqZWN0IiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAg
+IDwveHM6c2VxdWVuY2U+DQogIDwveHM6Y29tcGxleFR5cGU+DQogIDx4czplbGVtZW50IG5hbWU9
+IlVBTm9kZVNldCIgdHlwZT0idG5zOlVBTm9kZVNldCIgLz4NCg0KICA8eHM6Y29tcGxleFR5cGUg
+bmFtZT0iTGlzdE9mVUFOb2RlU2V0Ij4NCiAgICA8eHM6c2VxdWVuY2U+DQogICAgICA8eHM6ZWxl
+bWVudCBuYW1lPSJVQU5vZGVTZXQiIHR5cGU9InRuczpVQU5vZGVTZXQiIG1pbk9jY3Vycz0iMCIg
+bWF4T2NjdXJzPSJ1bmJvdW5kZWQiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgIDwveHM6c2VxdWVu
+Y2U+DQogIDwveHM6Y29tcGxleFR5cGU+DQogIDx4czplbGVtZW50IG5hbWU9Ikxpc3RPZlVBTm9k
+ZVNldCIgdHlwZT0idG5zOkxpc3RPZlVBTm9kZVNldCIgbmlsbGFibGU9InRydWUiPjwveHM6ZWxl
+bWVudD4NCg0KICA8eHM6Y29tcGxleFR5cGUgbmFtZT0iVUFSZWZlcmVuY2UiPg0KICAgIDx4czpz
+ZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IlRhcmdldElkIiB0eXBlPSJ1YTpOb2Rl
+SWQiIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgICA8eHM6ZWxlbWVudCBu
+YW1lPSJSZWZlcmVuY2VUeXBlSWQiIHR5cGU9InVhOk5vZGVJZCIgbWluT2NjdXJzPSIwIiBuaWxs
+YWJsZT0idHJ1ZSIgLz4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IklzRm9yd2FyZCIgdHlwZT0i
+eHM6Ym9vbGVhbiIgbWluT2NjdXJzPSIwIiAvPg0KICAgIDwveHM6c2VxdWVuY2U+DQogIDwveHM6
+Y29tcGxleFR5cGU+DQogIDx4czplbGVtZW50IG5hbWU9IlVBUmVmZXJlbmNlIiB0eXBlPSJ0bnM6
+VUFSZWZlcmVuY2UiIC8+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9Ikxpc3RPZlVBUmVmZXJl
+bmNlIj4NCiAgICA8eHM6c2VxdWVuY2U+DQogICAgICA8eHM6ZWxlbWVudCBuYW1lPSJVQVJlZmVy
+ZW5jZSIgdHlwZT0idG5zOlVBUmVmZXJlbmNlIiBtaW5PY2N1cnM9IjAiIG1heE9jY3Vycz0idW5i
+b3VuZGVkIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICA8L3hzOnNlcXVlbmNlPg0KICA8L3hzOmNv
+bXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJMaXN0T2ZVQVJlZmVyZW5jZSIgdHlwZT0i
+dG5zOkxpc3RPZlVBUmVmZXJlbmNlIiBuaWxsYWJsZT0idHJ1ZSI+PC94czplbGVtZW50Pg0KDQog
+IDx4czpjb21wbGV4VHlwZSBuYW1lPSJVQU5vZGUiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAg
+IDx4czplbGVtZW50IG5hbWU9Ik5vZGVJZCIgdHlwZT0idWE6Tm9kZUlkIiBtaW5PY2N1cnM9IjAi
+IG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iQnJvd3NlTmFtZSIg
+dHlwZT0idWE6UXVhbGlmaWVkTmFtZSIgbWluT2NjdXJzPSIwIiBuaWxsYWJsZT0idHJ1ZSIgLz4N
+CiAgICAgIDx4czplbGVtZW50IG5hbWU9IlN5bWJvbGljTmFtZSIgdHlwZT0ieHM6c3RyaW5nIiBt
+aW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0i
+RGlzcGxheU5hbWVzIiB0eXBlPSJ1YTpMaXN0T2ZMb2NhbGl6ZWRUZXh0IiBtaW5PY2N1cnM9IjAi
+IG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iRGVzY3JpcHRpb25z
+IiB0eXBlPSJ1YTpMaXN0T2ZMb2NhbGl6ZWRUZXh0IiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0
+cnVlIiAvPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iRG9jdW1lbnRhdGlvbiIgdHlwZT0ieHM6
+c3RyaW5nIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgPHhzOmVsZW1l
+bnQgbmFtZT0iV3JpdGVNYXNrIiB0eXBlPSJ1YTpBdHRyaWJ1dGVXcml0ZU1hc2siIG1pbk9jY3Vy
+cz0iMCIgLz4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IlJvbGVQZXJtaXNzaW9ucyIgdHlwZT0i
+dWE6TGlzdE9mUm9sZVBlcm1pc3Npb25UeXBlIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVl
+IiAvPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iQWNjZXNzUmVzdHJpY3Rpb25zIiB0eXBlPSJ1
+YTpBY2Nlc3NSZXN0cmljdGlvblR5cGUiIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgIDx4czplbGVt
+ZW50IG5hbWU9IlJlZmVyZW5jZXMiIHR5cGU9InRuczpMaXN0T2ZVQVJlZmVyZW5jZSIgbWluT2Nj
+dXJzPSIwIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IkV4dGVu
+c2lvbnMiIHR5cGU9InVhOkxpc3RPZktleVZhbHVlUGFpciIgbWluT2NjdXJzPSIwIiBuaWxsYWJs
+ZT0idHJ1ZSIgLz4NCiAgICA8L3hzOnNlcXVlbmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8
+eHM6ZWxlbWVudCBuYW1lPSJVQU5vZGUiIHR5cGU9InRuczpVQU5vZGUiIC8+DQoNCiAgPHhzOmNv
+bXBsZXhUeXBlIG5hbWU9Ikxpc3RPZlVBTm9kZSI+DQogICAgPHhzOnNlcXVlbmNlPg0KICAgICAg
+PHhzOmVsZW1lbnQgbmFtZT0iVUFOb2RlIiB0eXBlPSJ0bnM6VUFOb2RlIiBtaW5PY2N1cnM9IjAi
+IG1heE9jY3Vycz0idW5ib3VuZGVkIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICA8L3hzOnNlcXVl
+bmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJMaXN0T2ZVQU5v
+ZGUiIHR5cGU9InRuczpMaXN0T2ZVQU5vZGUiIG5pbGxhYmxlPSJ0cnVlIj48L3hzOmVsZW1lbnQ+
+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9IlVBVHlwZSI+DQogICAgPHhzOmNvbXBsZXhDb250
+ZW50IG1peGVkPSJmYWxzZSI+DQogICAgICA8eHM6ZXh0ZW5zaW9uIGJhc2U9InRuczpVQU5vZGUi
+Pg0KICAgICAgICA8eHM6c2VxdWVuY2U+DQogICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iSXNB
+YnN0cmFjdCIgdHlwZT0ieHM6Ym9vbGVhbiIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICA8L3hz
+OnNlcXVlbmNlPg0KICAgICAgPC94czpleHRlbnNpb24+DQogICAgPC94czpjb21wbGV4Q29udGVu
+dD4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFtZT0iVUFUeXBlIiB0eXBl
+PSJ0bnM6VUFUeXBlIiAvPg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJMaXN0T2ZVQVR5cGUi
+Pg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IlVBVHlwZSIgdHlw
+ZT0idG5zOlVBVHlwZSIgbWluT2NjdXJzPSIwIiBtYXhPY2N1cnM9InVuYm91bmRlZCIgbmlsbGFi
+bGU9InRydWUiIC8+DQogICAgPC94czpzZXF1ZW5jZT4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAg
+PHhzOmVsZW1lbnQgbmFtZT0iTGlzdE9mVUFUeXBlIiB0eXBlPSJ0bnM6TGlzdE9mVUFUeXBlIiBu
+aWxsYWJsZT0idHJ1ZSI+PC94czplbGVtZW50Pg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJV
+QU9iamVjdFR5cGUiPg0KICAgIDx4czpjb21wbGV4Q29udGVudCBtaXhlZD0iZmFsc2UiPg0KICAg
+ICAgPHhzOmV4dGVuc2lvbiBiYXNlPSJ0bnM6VUFUeXBlIj4NCiAgICAgICAgPHhzOnNlcXVlbmNl
+Pg0KICAgICAgICA8L3hzOnNlcXVlbmNlPg0KICAgICAgPC94czpleHRlbnNpb24+DQogICAgPC94
+czpjb21wbGV4Q29udGVudD4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFt
+ZT0iVUFPYmplY3RUeXBlIiB0eXBlPSJ0bnM6VUFPYmplY3RUeXBlIiAvPg0KDQogIDx4czpjb21w
+bGV4VHlwZSBuYW1lPSJMaXN0T2ZVQU9iamVjdFR5cGUiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAg
+ICAgIDx4czplbGVtZW50IG5hbWU9IlVBT2JqZWN0VHlwZSIgdHlwZT0idG5zOlVBT2JqZWN0VHlw
+ZSIgbWluT2NjdXJzPSIwIiBtYXhPY2N1cnM9InVuYm91bmRlZCIgbmlsbGFibGU9InRydWUiIC8+
+DQogICAgPC94czpzZXF1ZW5jZT4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQg
+bmFtZT0iTGlzdE9mVUFPYmplY3RUeXBlIiB0eXBlPSJ0bnM6TGlzdE9mVUFPYmplY3RUeXBlIiBu
+aWxsYWJsZT0idHJ1ZSI+PC94czplbGVtZW50Pg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJO
+YW1lZFRyYW5zbGF0aW9uVHlwZSI+DQogICAgPHhzOnNlcXVlbmNlPg0KICAgICAgPHhzOmVsZW1l
+bnQgbmFtZT0iTmFtZSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0
+cnVlIiAvPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iVGV4dCIgdHlwZT0idWE6TGlzdE9mTG9j
+YWxpemVkVGV4dCIgbWluT2NjdXJzPSIwIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICA8L3hzOnNl
+cXVlbmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJOYW1lZFRy
+YW5zbGF0aW9uVHlwZSIgdHlwZT0idG5zOk5hbWVkVHJhbnNsYXRpb25UeXBlIiAvPg0KDQogIDx4
+czpjb21wbGV4VHlwZSBuYW1lPSJMaXN0T2ZOYW1lZFRyYW5zbGF0aW9uVHlwZSI+DQogICAgPHhz
+OnNlcXVlbmNlPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iTmFtZWRUcmFuc2xhdGlvblR5cGUi
+IHR5cGU9InRuczpOYW1lZFRyYW5zbGF0aW9uVHlwZSIgbWluT2NjdXJzPSIwIiBtYXhPY2N1cnM9
+InVuYm91bmRlZCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgPC94czpzZXF1ZW5jZT4NCiAgPC94
+czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFtZT0iTGlzdE9mTmFtZWRUcmFuc2xhdGlv
+blR5cGUiIHR5cGU9InRuczpMaXN0T2ZOYW1lZFRyYW5zbGF0aW9uVHlwZSIgbmlsbGFibGU9InRy
+dWUiPjwveHM6ZWxlbWVudD4NCg0KICA8eHM6Y29tcGxleFR5cGUgbmFtZT0iVUFWYXJpYWJsZVR5
+cGUiPg0KICAgIDx4czpjb21wbGV4Q29udGVudCBtaXhlZD0iZmFsc2UiPg0KICAgICAgPHhzOmV4
+dGVuc2lvbiBiYXNlPSJ0bnM6VUFUeXBlIj4NCiAgICAgICAgPHhzOnNlcXVlbmNlPg0KICAgICAg
+ICAgIDx4czplbGVtZW50IG5hbWU9IlZhbHVlIiB0eXBlPSJ1YTpWYXJpYW50IiBtaW5PY2N1cnM9
+IjAiIC8+DQogICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iRGF0YVR5cGUiIHR5cGU9InVhOk5v
+ZGVJZCIgbWluT2NjdXJzPSIwIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICAgICAgICA8eHM6ZWxl
+bWVudCBuYW1lPSJWYWx1ZVJhbmsiIHR5cGU9InhzOmludCIgbWluT2NjdXJzPSIwIiAvPg0KICAg
+ICAgICAgIDx4czplbGVtZW50IG5hbWU9IkFycmF5RGltZW5zaW9ucyIgdHlwZT0idWE6TGlzdE9m
+VUludDMyIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgICAgIDx4czpl
+bGVtZW50IG5hbWU9IlRyYW5zbGF0aW9ucyIgdHlwZT0idG5zOkxpc3RPZk5hbWVkVHJhbnNsYXRp
+b25UeXBlIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgICA8L3hzOnNl
+cXVlbmNlPg0KICAgICAgPC94czpleHRlbnNpb24+DQogICAgPC94czpjb21wbGV4Q29udGVudD4N
+CiAgPC94czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFtZT0iVUFWYXJpYWJsZVR5cGUi
+IHR5cGU9InRuczpVQVZhcmlhYmxlVHlwZSIgLz4NCg0KICA8eHM6Y29tcGxleFR5cGUgbmFtZT0i
+TGlzdE9mVUFWYXJpYWJsZVR5cGUiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVt
+ZW50IG5hbWU9IlVBVmFyaWFibGVUeXBlIiB0eXBlPSJ0bnM6VUFWYXJpYWJsZVR5cGUiIG1pbk9j
+Y3Vycz0iMCIgbWF4T2NjdXJzPSJ1bmJvdW5kZWQiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgIDwv
+eHM6c2VxdWVuY2U+DQogIDwveHM6Y29tcGxleFR5cGU+DQogIDx4czplbGVtZW50IG5hbWU9Ikxp
+c3RPZlVBVmFyaWFibGVUeXBlIiB0eXBlPSJ0bnM6TGlzdE9mVUFWYXJpYWJsZVR5cGUiIG5pbGxh
+YmxlPSJ0cnVlIj48L3hzOmVsZW1lbnQ+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9IlVBRGF0
+YVR5cGUiPg0KICAgIDx4czpjb21wbGV4Q29udGVudCBtaXhlZD0iZmFsc2UiPg0KICAgICAgPHhz
+OmV4dGVuc2lvbiBiYXNlPSJ0bnM6VUFUeXBlIj4NCiAgICAgICAgPHhzOnNlcXVlbmNlPg0KICAg
+ICAgICAgIDx4czplbGVtZW50IG5hbWU9IkRlZmluaXRpb24iIHR5cGU9InVhOkV4dGVuc2lvbk9i
+amVjdCIgbWluT2NjdXJzPSIwIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICAgICAgPC94czpzZXF1
+ZW5jZT4NCiAgICAgIDwveHM6ZXh0ZW5zaW9uPg0KICAgIDwveHM6Y29tcGxleENvbnRlbnQ+DQog
+IDwveHM6Y29tcGxleFR5cGU+DQogIDx4czplbGVtZW50IG5hbWU9IlVBRGF0YVR5cGUiIHR5cGU9
+InRuczpVQURhdGFUeXBlIiAvPg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJMaXN0T2ZVQURh
+dGFUeXBlIj4NCiAgICA8eHM6c2VxdWVuY2U+DQogICAgICA8eHM6ZWxlbWVudCBuYW1lPSJVQURh
+dGFUeXBlIiB0eXBlPSJ0bnM6VUFEYXRhVHlwZSIgbWluT2NjdXJzPSIwIiBtYXhPY2N1cnM9InVu
+Ym91bmRlZCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgPC94czpzZXF1ZW5jZT4NCiAgPC94czpj
+b21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFtZT0iTGlzdE9mVUFEYXRhVHlwZSIgdHlwZT0i
+dG5zOkxpc3RPZlVBRGF0YVR5cGUiIG5pbGxhYmxlPSJ0cnVlIj48L3hzOmVsZW1lbnQ+DQoNCiAg
+PHhzOmNvbXBsZXhUeXBlIG5hbWU9IlVBUmVmZXJlbmNlVHlwZSI+DQogICAgPHhzOmNvbXBsZXhD
+b250ZW50IG1peGVkPSJmYWxzZSI+DQogICAgICA8eHM6ZXh0ZW5zaW9uIGJhc2U9InRuczpVQVR5
+cGUiPg0KICAgICAgICA8eHM6c2VxdWVuY2U+DQogICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0i
+SW52ZXJzZU5hbWUiIHR5cGU9InVhOkxpc3RPZkxvY2FsaXplZFRleHQiIG1pbk9jY3Vycz0iMCIg
+bmlsbGFibGU9InRydWUiIC8+DQogICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iU3ltbWV0cmlj
+IiB0eXBlPSJ4czpib29sZWFuIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgIDwveHM6c2VxdWVu
+Y2U+DQogICAgICA8L3hzOmV4dGVuc2lvbj4NCiAgICA8L3hzOmNvbXBsZXhDb250ZW50Pg0KICA8
+L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJVQVJlZmVyZW5jZVR5cGUiIHR5
+cGU9InRuczpVQVJlZmVyZW5jZVR5cGUiIC8+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9Ikxp
+c3RPZlVBUmVmZXJlbmNlVHlwZSI+DQogICAgPHhzOnNlcXVlbmNlPg0KICAgICAgPHhzOmVsZW1l
+bnQgbmFtZT0iVUFSZWZlcmVuY2VUeXBlIiB0eXBlPSJ0bnM6VUFSZWZlcmVuY2VUeXBlIiBtaW5P
+Y2N1cnM9IjAiIG1heE9jY3Vycz0idW5ib3VuZGVkIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICA8
+L3hzOnNlcXVlbmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJM
+aXN0T2ZVQVJlZmVyZW5jZVR5cGUiIHR5cGU9InRuczpMaXN0T2ZVQVJlZmVyZW5jZVR5cGUiIG5p
+bGxhYmxlPSJ0cnVlIj48L3hzOmVsZW1lbnQ+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9IlVB
+SW5zdGFuY2UiPg0KICAgIDx4czpjb21wbGV4Q29udGVudCBtaXhlZD0iZmFsc2UiPg0KICAgICAg
+PHhzOmV4dGVuc2lvbiBiYXNlPSJ0bnM6VUFOb2RlIj4NCiAgICAgICAgPHhzOnNlcXVlbmNlPg0K
+ICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9IlBhcmVudE5vZGVJZCIgdHlwZT0idWE6Tm9kZUlk
+IiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgICA8L3hzOnNlcXVlbmNl
+Pg0KICAgICAgPC94czpleHRlbnNpb24+DQogICAgPC94czpjb21wbGV4Q29udGVudD4NCiAgPC94
+czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFtZT0iVUFJbnN0YW5jZSIgdHlwZT0idG5z
+OlVBSW5zdGFuY2UiIC8+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9Ikxpc3RPZlVBSW5zdGFu
+Y2UiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IlVBSW5zdGFu
+Y2UiIHR5cGU9InRuczpVQUluc3RhbmNlIiBtaW5PY2N1cnM9IjAiIG1heE9jY3Vycz0idW5ib3Vu
+ZGVkIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICA8L3hzOnNlcXVlbmNlPg0KICA8L3hzOmNvbXBs
+ZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJMaXN0T2ZVQUluc3RhbmNlIiB0eXBlPSJ0bnM6
+TGlzdE9mVUFJbnN0YW5jZSIgbmlsbGFibGU9InRydWUiPjwveHM6ZWxlbWVudD4NCg0KICA8eHM6
+Y29tcGxleFR5cGUgbmFtZT0iVUFPYmplY3QiPg0KICAgIDx4czpjb21wbGV4Q29udGVudCBtaXhl
+ZD0iZmFsc2UiPg0KICAgICAgPHhzOmV4dGVuc2lvbiBiYXNlPSJ0bnM6VUFJbnN0YW5jZSI+DQog
+ICAgICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJFdmVudE5v
+dGlmaWVyIiB0eXBlPSJ1YTpFdmVudE5vdGlmaWVyVHlwZSIgbWluT2NjdXJzPSIwIiAvPg0KICAg
+ICAgICA8L3hzOnNlcXVlbmNlPg0KICAgICAgPC94czpleHRlbnNpb24+DQogICAgPC94czpjb21w
+bGV4Q29udGVudD4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFtZT0iVUFP
+YmplY3QiIHR5cGU9InRuczpVQU9iamVjdCIgLz4NCg0KICA8eHM6Y29tcGxleFR5cGUgbmFtZT0i
+TGlzdE9mVUFPYmplY3QiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5h
+bWU9IlVBT2JqZWN0IiB0eXBlPSJ0bnM6VUFPYmplY3QiIG1pbk9jY3Vycz0iMCIgbWF4T2NjdXJz
+PSJ1bmJvdW5kZWQiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgIDwveHM6c2VxdWVuY2U+DQogIDwv
+eHM6Y29tcGxleFR5cGU+DQogIDx4czplbGVtZW50IG5hbWU9Ikxpc3RPZlVBT2JqZWN0IiB0eXBl
+PSJ0bnM6TGlzdE9mVUFPYmplY3QiIG5pbGxhYmxlPSJ0cnVlIj48L3hzOmVsZW1lbnQ+DQoNCiAg
+PHhzOmNvbXBsZXhUeXBlIG5hbWU9IlVBVmFyaWFibGUiPg0KICAgIDx4czpjb21wbGV4Q29udGVu
+dCBtaXhlZD0iZmFsc2UiPg0KICAgICAgPHhzOmV4dGVuc2lvbiBiYXNlPSJ0bnM6VUFJbnN0YW5j
+ZSI+DQogICAgICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJW
+YWx1ZSIgdHlwZT0idWE6VmFyaWFudCIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgICAgIDx4czpl
+bGVtZW50IG5hbWU9IkRhdGFUeXBlIiB0eXBlPSJ1YTpOb2RlSWQiIG1pbk9jY3Vycz0iMCIgbmls
+bGFibGU9InRydWUiIC8+DQogICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iVmFsdWVSYW5rIiB0
+eXBlPSJ4czppbnQiIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1l
+PSJBcnJheURpbWVuc2lvbnMiIHR5cGU9InVhOkxpc3RPZlVJbnQzMiIgbWluT2NjdXJzPSIwIiBu
+aWxsYWJsZT0idHJ1ZSIgLz4NCiAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJBY2Nlc3NMZXZl
+bCIgdHlwZT0idWE6QWNjZXNzTGV2ZWxFeFR5cGUiIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAg
+ICA8eHM6ZWxlbWVudCBuYW1lPSJNaW5pbXVtU2FtcGxpbmdJbnRlcnZhbCIgdHlwZT0ieHM6ZG91
+YmxlIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iSGlzdG9y
+aXppbmciIHR5cGU9InhzOmJvb2xlYW4iIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICA8eHM6
+ZWxlbWVudCBuYW1lPSJUcmFuc2xhdGlvbnMiIHR5cGU9InRuczpMaXN0T2ZOYW1lZFRyYW5zbGF0
+aW9uVHlwZSIgbWluT2NjdXJzPSIwIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICAgICAgPC94czpz
+ZXF1ZW5jZT4NCiAgICAgIDwveHM6ZXh0ZW5zaW9uPg0KICAgIDwveHM6Y29tcGxleENvbnRlbnQ+
+DQogIDwveHM6Y29tcGxleFR5cGU+DQogIDx4czplbGVtZW50IG5hbWU9IlVBVmFyaWFibGUiIHR5
+cGU9InRuczpVQVZhcmlhYmxlIiAvPg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJMaXN0T2ZV
+QVZhcmlhYmxlIj4NCiAgICA8eHM6c2VxdWVuY2U+DQogICAgICA8eHM6ZWxlbWVudCBuYW1lPSJV
+QVZhcmlhYmxlIiB0eXBlPSJ0bnM6VUFWYXJpYWJsZSIgbWluT2NjdXJzPSIwIiBtYXhPY2N1cnM9
+InVuYm91bmRlZCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgPC94czpzZXF1ZW5jZT4NCiAgPC94
+czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFtZT0iTGlzdE9mVUFWYXJpYWJsZSIgdHlw
+ZT0idG5zOkxpc3RPZlVBVmFyaWFibGUiIG5pbGxhYmxlPSJ0cnVlIj48L3hzOmVsZW1lbnQ+DQoN
+CiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9IlVBTWV0aG9kIj4NCiAgICA8eHM6Y29tcGxleENvbnRl
+bnQgbWl4ZWQ9ImZhbHNlIj4NCiAgICAgIDx4czpleHRlbnNpb24gYmFzZT0idG5zOlVBSW5zdGFu
+Y2UiPg0KICAgICAgICA8eHM6c2VxdWVuY2U+DQogICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0i
+TWV0aG9kRGVjbGFyYXRpb25JZCIgdHlwZT0idWE6Tm9kZUlkIiBtaW5PY2N1cnM9IjAiIG5pbGxh
+YmxlPSJ0cnVlIiAvPg0KICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9IlRyYW5zbGF0aW9ucyIg
+dHlwZT0idG5zOkxpc3RPZk5hbWVkVHJhbnNsYXRpb25UeXBlIiBtaW5PY2N1cnM9IjAiIG5pbGxh
+YmxlPSJ0cnVlIiAvPg0KICAgICAgICA8L3hzOnNlcXVlbmNlPg0KICAgICAgPC94czpleHRlbnNp
+b24+DQogICAgPC94czpjb21wbGV4Q29udGVudD4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAgPHhz
+OmVsZW1lbnQgbmFtZT0iVUFNZXRob2QiIHR5cGU9InRuczpVQU1ldGhvZCIgLz4NCg0KICA8eHM6
+Y29tcGxleFR5cGUgbmFtZT0iTGlzdE9mVUFNZXRob2QiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAg
+ICAgIDx4czplbGVtZW50IG5hbWU9IlVBTWV0aG9kIiB0eXBlPSJ0bnM6VUFNZXRob2QiIG1pbk9j
+Y3Vycz0iMCIgbWF4T2NjdXJzPSJ1bmJvdW5kZWQiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgIDwv
+eHM6c2VxdWVuY2U+DQogIDwveHM6Y29tcGxleFR5cGU+DQogIDx4czplbGVtZW50IG5hbWU9Ikxp
+c3RPZlVBTWV0aG9kIiB0eXBlPSJ0bnM6TGlzdE9mVUFNZXRob2QiIG5pbGxhYmxlPSJ0cnVlIj48
+L3hzOmVsZW1lbnQ+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9IlVBVmlldyI+DQogICAgPHhz
+OmNvbXBsZXhDb250ZW50IG1peGVkPSJmYWxzZSI+DQogICAgICA8eHM6ZXh0ZW5zaW9uIGJhc2U9
+InRuczpVQUluc3RhbmNlIj4NCiAgICAgICAgPHhzOnNlcXVlbmNlPg0KICAgICAgICAgIDx4czpl
+bGVtZW50IG5hbWU9IkV2ZW50Tm90aWZpZXIiIHR5cGU9InVhOkV2ZW50Tm90aWZpZXJUeXBlIiBt
+aW5PY2N1cnM9IjAiIC8+DQogICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iQ29udGFpbnNOb0xv
+b3BzIiB0eXBlPSJ4czpib29sZWFuIiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgIDwveHM6c2Vx
+dWVuY2U+DQogICAgICA8L3hzOmV4dGVuc2lvbj4NCiAgICA8L3hzOmNvbXBsZXhDb250ZW50Pg0K
+ICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJVQVZpZXciIHR5cGU9InRu
+czpVQVZpZXciIC8+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9Ikxpc3RPZlVBVmlldyI+DQog
+ICAgPHhzOnNlcXVlbmNlPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iVUFWaWV3IiB0eXBlPSJ0
+bnM6VUFWaWV3IiBtaW5PY2N1cnM9IjAiIG1heE9jY3Vycz0idW5ib3VuZGVkIiBuaWxsYWJsZT0i
+dHJ1ZSIgLz4NCiAgICA8L3hzOnNlcXVlbmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6
+ZWxlbWVudCBuYW1lPSJMaXN0T2ZVQVZpZXciIHR5cGU9InRuczpMaXN0T2ZVQVZpZXciIG5pbGxh
+YmxlPSJ0cnVlIj48L3hzOmVsZW1lbnQ+DQoNCjwveHM6c2NoZW1hPg==</ByteString>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=136" BrowseName="NamespaceUri" ParentNodeId="ns=1;i=134" DataType="String">
+    <DisplayName>NamespaceUri</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/NodeSet/Types.xsd</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=137" BrowseName="Deprecated" ParentNodeId="ns=1;i=134" DataType="Boolean">
+    <DisplayName>Deprecated</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <Boolean xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">true</Boolean>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=138" BrowseName="1:ModelTableEntry" ParentNodeId="ns=1;i=134" DataType="String">
+    <DisplayName>ModelTableEntry</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='ModelTableEntry']</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=214" BrowseName="1:UANodeSet" ParentNodeId="ns=1;i=134" DataType="String">
+    <DisplayName>UANodeSet</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='UANodeSet']</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=217" BrowseName="1:UAReference" ParentNodeId="ns=1;i=134" DataType="String">
+    <DisplayName>UAReference</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='UAReference']</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=147" BrowseName="1:UANode" ParentNodeId="ns=1;i=134" DataType="String">
+    <DisplayName>UANode</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='UANode']</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=150" BrowseName="1:UAType" ParentNodeId="ns=1;i=134" DataType="String">
+    <DisplayName>UAType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='UAType']</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=153" BrowseName="1:UAObjectType" ParentNodeId="ns=1;i=134" DataType="String">
+    <DisplayName>UAObjectType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='UAObjectType']</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=75" BrowseName="1:NamedTranslationType" ParentNodeId="ns=1;i=134" DataType="String">
+    <DisplayName>NamedTranslationType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='NamedTranslationType']</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=159" BrowseName="1:UAVariableType" ParentNodeId="ns=1;i=134" DataType="String">
+    <DisplayName>UAVariableType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='UAVariableType']</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=162" BrowseName="1:UADataType" ParentNodeId="ns=1;i=134" DataType="String">
+    <DisplayName>UADataType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='UADataType']</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=165" BrowseName="1:UAReferenceType" ParentNodeId="ns=1;i=134" DataType="String">
+    <DisplayName>UAReferenceType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='UAReferenceType']</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=168" BrowseName="1:UAInstance" ParentNodeId="ns=1;i=134" DataType="String">
+    <DisplayName>UAInstance</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='UAInstance']</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=171" BrowseName="1:UAObject" ParentNodeId="ns=1;i=134" DataType="String">
+    <DisplayName>UAObject</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='UAObject']</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=174" BrowseName="1:UAVariable" ParentNodeId="ns=1;i=134" DataType="String">
+    <DisplayName>UAVariable</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='UAVariable']</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=180" BrowseName="1:UAMethod" ParentNodeId="ns=1;i=134" DataType="String">
+    <DisplayName>UAMethod</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='UAMethod']</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=183" BrowseName="1:UAView" ParentNodeId="ns=1;i=134" DataType="String">
+    <DisplayName>UAView</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=134</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='UAView']</String>
+    </Value>
+  </UAVariable>
+  <UAObject NodeId="ns=1;i=186" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=1</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=220" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=202</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=221" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=203</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=189" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=4</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=190" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=5</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=191" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=6</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=78" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=2</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=193" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=8</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=194" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=9</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=195" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=10</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=196" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=11</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=197" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=12</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=198" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=13</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=200" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=15</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=201" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=16</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+</UANodeSet>

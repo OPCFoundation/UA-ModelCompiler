@@ -242,3 +242,17 @@ Bad_OutOfRange_DominantValueChanged,283
 Bad_Edited_OutOfRange_DominantValueChanged,284
 Bad_OutOfRange_DominantValueChanged_DependentValueChanged,285
 Bad_Edited_OutOfRange_DominantValueChanged_DependentValueChanged,286
+Bad_TicketRequired,287
+Bad_TicketInvalid,288
+Uncertain_OSSInMAN,520
+Uncertain_SimulatedValue,521
+Uncertain_SensorCalibration,522
+Uncertain_ConfigurationError,527
+Bad_OSSInMAN,776
+Bad_SIS,777
+Good_InitializationAcknowledged,1025
+Good_InitializationRequest,1026
+Good_NotInvited,1027
+Good_NotSelected,1028
+Good_FaultStateActive,1031
+Good_InitiateFaultState,1032

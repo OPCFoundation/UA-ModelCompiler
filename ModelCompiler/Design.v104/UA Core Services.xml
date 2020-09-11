@@ -99,6 +99,7 @@
     <opc:Value Name="NonatomicRead" BitMask="000100" />
     <opc:Value Name="NonatomicWrite" BitMask="000200" />
     <opc:Value Name="WriteFullArrayOnly" BitMask="000400" />
+    <opc:Value Name="NoSubDataTypes" BitMask="000800" />
   </opc:EnumeratedType>
 
   <opc:EnumeratedType Name="EventNotifierType" BaseType="s0:Byte" IsOptionSet="true" PartNo="3">
@@ -1826,14 +1827,6 @@
 
   <opc:TypeDeclaration Name="NumericRange" SourceType="s0:String" PartNo="4">
     <opc:Documentation>Specifies a range of array indexes.</opc:Documentation>
-  </opc:TypeDeclaration>
-
-  <opc:TypeDeclaration Name="Time" SourceType="s0:String" PartNo="4">
-    <opc:Documentation>A time value specified as HH:MM:SS.SSS.</opc:Documentation>
-  </opc:TypeDeclaration>
-
-  <opc:TypeDeclaration Name="Date" SourceType="s0:DateTime" PartNo="4">
-    <opc:Documentation>A date value.</opc:Documentation>
   </opc:TypeDeclaration>
 
   <opc:ComplexType Name="EndpointConfiguration" AllowArrays="true" PartNo="4">

@@ -316,6 +316,7 @@
     <xs:attribute name="NotInAddressSpace" type="xs:boolean" use="optional" default="false" />
     <xs:attribute name="ReleaseStatus" type="ReleaseStatus" use="optional" default="Released" />
     <xs:attribute name="Purpose" type="DataTypePurpose" use="optional" default="Normal" />
+    <xs:attribute name="IsDynamic" type="xs:boolean" use="optional" default="false" />
 
   </xs:complexType>
 

@@ -139,8 +139,6 @@ IntegerId,288,DataType
 Counter,289,DataType
 Duration,290,DataType
 NumericRange,291,DataType
-Time,292,DataType
-Date,293,DataType
 UtcTime,294,DataType
 LocaleId,295,DataType
 Argument,296,DataType
@@ -14359,4 +14357,6 @@ OpcUa_XmlSchema_CurrencyUnitType,23522,Variable
 OpcUa_XmlSchema_CurrencyUnitType_DataTypeVersion,23523,Variable
 OpcUa_XmlSchema_CurrencyUnitType_DictionaryFragment,23524,Variable
 OrderedListType_NodeVersion,23525,Variable
+InformationModelVersionType,23526,ObjectType
+IsDeprecated,23527,ReferenceType
 CurrencyUnitType_Encoding_DefaultJson,23528,Object

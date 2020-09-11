@@ -239,7 +239,7 @@
   </VariableType>
   <ObjectType SymbolicName="tns:DataTypeSystemType" PartNo="5" BaseType="tns:BaseObjectType" />
   <ObjectType SymbolicName="tns:DataTypeEncodingType" PartNo="5" BaseType="tns:BaseObjectType" />
-  <DataType SymbolicName="tns:NamingRuleType" PartNo="3" BaseType="tns:Enumeration">
+  <DataType SymbolicName="tns:NamingRuleType" PartNo="3" ReleaseStatus="Deprecated" BaseType="tns:Enumeration">
     <Description>Describes a value that specifies the significance of the BrowseName for an instance declaration.</Description>
     <Fields>
       <Field Name="Mandatory" Identifier="1">
@@ -256,8 +256,7 @@
   <ObjectType SymbolicName="tns:ModellingRuleType" PartNo="5" BaseType="tns:BaseObjectType">
     <Description>The type for an object that describes how an instance declaration is used when a type is instantiated.</Description>
     <Children>
-      <Property SymbolicName="tns:NamingRule" DataType="tns:NamingRuleType">
-        <Description>Specified the significances of the BrowseName when a type is instantiated.</Description>
+      <Property SymbolicName="tns:NamingRule" ReleaseStatus="Deprecated" DataType="tns:NamingRuleType">
         <DefaultValue>
           <uax:Int32>1</uax:Int32>
         </DefaultValue>
@@ -1088,6 +1087,7 @@
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:AggregateFunctionType" PartNo="5" BaseType="tns:BaseObjectType" />
+  <ObjectType SymbolicName="tns:InformationModelVersionType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:BaseObjectType" />
   <VariableType SymbolicName="tns:ServerVendorCapabilityType" PartNo="5" BaseType="tns:BaseDataVariableType" IsAbstract="true" ValueRank="Scalar" />
   <VariableType SymbolicName="tns:ServerStatusType" PartNo="5" BaseType="tns:BaseDataVariableType" DataType="tns:ServerStatusDataType" ValueRank="Scalar" ExposesItsChildren="true">
     <Children>
@@ -1282,7 +1282,7 @@
       </Reference>
     </References>
   </Object>
-  <Object SymbolicName="tns:Server" PartNo="5" TypeDefinition="tns:ServerType" ModellingRule="None" SupportsEvents="true">
+  <Object SymbolicName="tns:Server" PartNo="5" IsDynamic="true" TypeDefinition="tns:ServerType" ModellingRule="None" SupportsEvents="true">
     <Children>
       <Property SymbolicName="tns:EstimatedReturnTime" ModellingRule="Mandatory" />
       <Property SymbolicName="tns:LocalTime" ModellingRule="Mandatory" />
@@ -1316,14 +1316,7 @@
         </Children>
       </Object>
       <Object SymbolicName="tns:VendorServerInfo" TypeDefinition="tns:VendorServerInfoType" />
-      <Object SymbolicName="tns:ServerRedundancy" TypeDefinition="tns:ServerRedundancyType">
-        <Children>
-          <Property SymbolicName="tns:CurrentServerId" ModellingRule="Mandatory" DataType="tns:String" />
-          <Property SymbolicName="tns:RedundantServerArray" ModellingRule="Mandatory" DataType="tns:RedundantServerDataType" ValueRank="Array" />
-          <Property SymbolicName="tns:ServerUriArray" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Array" />
-          <Property SymbolicName="tns:ServerNetworkGroups" ModellingRule="Mandatory" DataType="tns:NetworkGroupDataType" ValueRank="Array" />
-        </Children>
-      </Object>
+      <Object SymbolicName="tns:ServerRedundancy" TypeDefinition="tns:ServerRedundancyType" />
       <Object SymbolicName="tns:Namespaces" ModellingRule="Mandatory" />
       <Method SymbolicName="tns:GetMonitoredItems" ModellingRule="Mandatory" />
       <Method SymbolicName="tns:ResendData" ModellingRule="Mandatory" />
@@ -1337,7 +1330,11 @@
       </Reference>
     </References>
   </Object>
-  <Object SymbolicName="tns:HistoryServerCapabilities" PartNo="11" TypeDefinition="tns:HistoryServerCapabilitiesType" ModellingRule="None">
+  <Variable SymbolicName="tns:Server_ServerRedundancy_CurrentServerId" IsDynamic="true" TypeDefinition="tns:PropertyType" DataType="tns:String" ValueRank="Scalar" />
+  <Variable SymbolicName="tns:Server_ServerRedundancy_RedundantServerArray" IsDynamic="true" TypeDefinition="tns:PropertyType" DataType="tns:RedundantServerDataType" ValueRank="Array" />
+  <Variable SymbolicName="tns:Server_ServerRedundancy_ServerUriArray" IsDynamic="true" TypeDefinition="tns:PropertyType" DataType="tns:String" ValueRank="Array" />
+  <Variable SymbolicName="tns:Server_ServerRedundancy_ServerNetworkGroups" IsDynamic="true" TypeDefinition="tns:PropertyType" DataType="tns:NetworkGroupDataType" ValueRank="Array" />
+  <Object SymbolicName="tns:HistoryServerCapabilities" PartNo="11" IsDynamic="true" TypeDefinition="tns:HistoryServerCapabilitiesType" ModellingRule="None">
     <BrowseName>HistoryServerCapabilities</BrowseName>
     <References>
       <Reference IsInverse="true">
@@ -1378,6 +1375,9 @@
       <Argument Name="Restart" DataType="tns:Boolean" />
     </InputArguments>
   </Method>
+  <ReferenceType SymbolicName="tns:IsDeprecated" PartNo="5" ReleaseStatus="Draft" BaseType="tns:NonHierarchicalReferences">
+    <InverseName>Deprecates</InverseName>
+  </ReferenceType>
   <DataType SymbolicName="tns:BitFieldMaskDataType" PartNo="5" BaseType="tns:UInt64">
     <Description>A mask of 32 bits that can be updated individually by using the top 32 bits as a mask.</Description>
   </DataType>
@@ -2818,15 +2818,9 @@
   <ObjectType SymbolicName="tns:ShelvedStateMachineType" PartNo="9" BaseType="tns:FiniteStateMachineType">
     <Children>
       <Property SymbolicName="tns:UnshelveTime" ModellingRule="Mandatory" DataType="tns:Duration" />
-      <Object SymbolicName="tns:Unshelved" TypeDefinition="tns:StateType" ModellingRule="None">
-        <DisplayName>Unshelved</DisplayName>
-      </Object>
-      <Object SymbolicName="tns:TimedShelved" TypeDefinition="tns:StateType" ModellingRule="None">
-        <DisplayName>Timed Shelved</DisplayName>
-      </Object>
-      <Object SymbolicName="tns:OneShotShelved" TypeDefinition="tns:StateType" ModellingRule="None">
-        <DisplayName>One Shot Shelved</DisplayName>
-      </Object>
+      <Object SymbolicName="tns:Unshelved" TypeDefinition="tns:StateType" ModellingRule="None" />
+      <Object SymbolicName="tns:TimedShelved" TypeDefinition="tns:StateType" ModellingRule="None" />
+      <Object SymbolicName="tns:OneShotShelved" TypeDefinition="tns:StateType" ModellingRule="None" />
       <Object SymbolicName="tns:UnshelvedToTimedShelved" TypeDefinition="tns:TransitionType" ModellingRule="None">
         <References>
           <Reference>
@@ -5810,7 +5804,7 @@
       </Reference>
     </References>
   </Object>
-  <VariableType SymbolicName="tns:MultiStateDictionaryEntryDiscreteBaseType" PartNo="19" BaseType="tns:MultiStateValueDiscreteType" DataType="tns:Number" ValueRank="Scalar">
+  <VariableType SymbolicName="tns:MultiStateDictionaryEntryDiscreteBaseType" PartNo="19" BaseType="tns:MultiStateValueDiscreteType" DataType="tns:Number" ValueRank="ScalarOrArray">
     <Children>
       <Property SymbolicName="tns:EnumDictionaryEntries" ModellingRule="Mandatory" DataType="tns:NodeId" ValueRank="OneOrMoreDimensions" ArrayDimensions="0,0" />
       <Property SymbolicName="tns:ValueAsDictionaryEntries" ModellingRule="Optional" DataType="tns:NodeId" ValueRank="Array" ArrayDimensions="0" />
@@ -5886,6 +5880,7 @@
       <Field Name="NonatomicRead" BitMask="000100" />
       <Field Name="NonatomicWrite" BitMask="000200" />
       <Field Name="WriteFullArrayOnly" BitMask="000400" />
+      <Field Name="NoSubDataTypes" BitMask="000800" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:EventNotifierType" SymbolicId="tns:EventNotifierType" PartNo="3" BaseType="tns:Byte" IsOptionSet="true" NoArraysAllowed="true">
@@ -6803,8 +6798,6 @@
   </DataType>
   <DataType SymbolicName="tns:Counter" SymbolicId="tns:Counter" PartNo="4" BaseType="tns:UInt32" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:NumericRange" SymbolicId="tns:NumericRange" PartNo="4" BaseType="tns:String" NoArraysAllowed="true" />
-  <DataType SymbolicName="tns:Time" SymbolicId="tns:Time" PartNo="4" BaseType="tns:String" NoArraysAllowed="true" />
-  <DataType SymbolicName="tns:Date" SymbolicId="tns:Date" PartNo="4" BaseType="tns:DateTime" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:EndpointConfiguration" SymbolicId="tns:EndpointConfiguration" PartNo="4" BaseType="tns:Structure">
     <Fields>
       <Field Name="OperationTimeout" DataType="tns:Int32" />

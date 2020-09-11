@@ -38,6 +38,10 @@ using System.Reflection;
 using System.Globalization;
 using Opc.Ua;
 using Export = Opc.Ua.Export;
+using System.Runtime.CompilerServices;
+using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Diagnostics;
 
 namespace ModelCompiler
 {
@@ -899,6 +903,112 @@ namespace ModelCompiler
             }
         }
 
+        private void SetStaticNodeIdRanges(ModelDesign dictionary)
+        {
+            ObjectDesign metadata = null;
+
+            HashSet<uint> dynamicIds = new HashSet<uint>();
+
+            foreach (NodeDesign node in dictionary.Items)
+            {
+                if (node.IsDynamic)
+                {
+                    CollectDynamicIds(node, dynamicIds);
+                }
+
+                if (metadata == null)
+                {
+                    metadata = node as ObjectDesign;
+
+                    if (metadata != null && metadata.TypeDefinition != new XmlQualifiedName("NamespaceMetadataType", Namespaces.OpcUa))
+                    {
+                        metadata = null;
+                    }
+                }
+            }
+
+            List<string> ranges = new List<string>();
+
+            int start = 1;
+            bool readingStaticRange = true;
+
+            for (uint ii = 1; dynamicIds.Count > 0; ii++)
+            {
+                if (readingStaticRange)
+                {
+                    if (dynamicIds.Contains(ii))
+                    {
+                        readingStaticRange = false;
+
+                        int end = (int)(ii - 1);
+
+                        if (end > start)
+                        {
+                            ranges.Add(new NumericRange(start, end).ToString());
+                        }
+                        else
+                        {
+                            ranges.Add(new NumericRange(start).ToString());
+                        }
+
+                        dynamicIds.Remove(ii);
+
+                        if (dynamicIds.Count == 0)
+                        {
+                            ranges.Add(new NumericRange((int)(ii+1), Int32.MaxValue).ToString());
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!dynamicIds.Contains(ii))
+                    {
+                        start = (int)ii;
+                        readingStaticRange = true;
+                    }
+                    else
+                    {
+                        dynamicIds.Remove(ii);
+
+                        if (dynamicIds.Count == 0)
+                        {
+                            ranges.Add(new NumericRange((int)(ii + 1), Int32.MaxValue).ToString());
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (metadata.Hierarchy.NodeList != null)
+            {
+                foreach (var child in metadata.Hierarchy.NodeList)
+                {
+                    if (child.Instance.BrowseName == "StaticNumericNodeIdRange")
+                    {
+                        VariableDesign variable = child.Instance as VariableDesign;
+                        variable.DecodedValue = ranges;
+                    }
+                }
+            }
+        }
+
+        private void CollectDynamicIds(NodeDesign node, HashSet<uint> dynamicIds)
+        {
+            dynamicIds.Add(node.NumericId);
+
+            if (node.Hierarchy.NodeList != null)
+            {
+                foreach (var child in node.Hierarchy.NodeList)
+                {
+                    if (child.Instance.NumericIdSpecified)
+                    {
+                        dynamicIds.Add(child.Instance.NumericId);
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Updates the target namespace information for the dictionary.
         /// </summary>
@@ -1119,6 +1229,8 @@ namespace ModelCompiler
             }
 
             LoadIdentifiersFromFile2(m_dictionary, identifierFilePath);
+
+            SetStaticNodeIdRanges(m_dictionary);
 
             // update the references.
             foreach (NodeDesign node in m_dictionary.Items)
@@ -2031,9 +2143,9 @@ namespace ModelCompiler
             return identifiers;
         }
 
-        private uint FindUnusedId(HashSet<uint> identifiers)
+        private uint FindUnusedId(HashSet<uint> identifiers, string ns)
         {
-            uint id = 15000;
+            uint id = (uint)((ns == Namespaces.OpcUa) ? 15000 : 0);
             while (identifiers.Contains(++id));
             identifiers.Add(id);
             return id;
@@ -2051,7 +2163,7 @@ namespace ModelCompiler
 
             if (!identifiers.TryGetValue(node.SymbolicId.Name, out id))
             {
-                id = FindUnusedId(assignedIds);
+                id = FindUnusedId(assignedIds, node.SymbolicId.Namespace);
                 identifiers.Add(node.SymbolicId.Name, id);
             }
 
@@ -2294,7 +2406,7 @@ namespace ModelCompiler
 
                 if (!identifiers.ContainsKey(node.SymbolicId.Name))
                 {
-                    id = node.NumericId = FindUnusedId(assignedIds);
+                    id = node.NumericId = FindUnusedId(assignedIds, node.SymbolicId.Namespace);
                     node.NumericIdSpecified = true;
                     identifiers.Add(node.SymbolicId.Name, id);
                 }

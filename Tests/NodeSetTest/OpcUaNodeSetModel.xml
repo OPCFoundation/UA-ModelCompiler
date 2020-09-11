@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+ * Copyright (c) 2005-2020 The OPC Foundation, Inc. All rights reserved.
+ *
+ * OPC Foundation MIT License 1.00
+ * 
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * The complete license agreement can be found here:
+ * http://opcfoundation.org/License/MIT/1.00/
+-->
+
+<opc:ModelDesign
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:opc="http://opcfoundation.org/UA/ModelDesign.xsd"
+  xmlns:ua="http://opcfoundation.org/UA/"
+  xmlns="http://opcfoundation.org/UA/NodeSet/"
+  xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
+  TargetNamespace="http://opcfoundation.org/UA/NodeSet/"
+  TargetVersion="1.05"
+  TargetPublicationDate="2020-09-01T00:00:00Z"
+>
+  <opc:Namespaces>
+    <opc:Namespace Name="OpcUaNodeSet" Prefix="Opc.Ua.UANodeSet" XmlNamespace="http://opcfoundation.org/UA/NodeSet/Types.xsd" XmlPrefix="NodeSet">http://opcfoundation.org/UA/NodeSet/</opc:Namespace>
+    <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
+  </opc:Namespaces>
+
+  <opc:DataType SymbolicName="ModelTableEntry" BaseType="ua:Structure" IsAbstract="false" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="ModelUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Version" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="PublicationDate" DataType="ua:DateTime" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="RolePermissions" DataType="ua:RolePermissionType" ValueRank="Array"></opc:Field>
+      <opc:Field Name="AccessRestrictions" DataType="ua:AccessRestrictionType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="RequiredModels" DataType="ModelTableEntry" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UANodeSet" BaseType="ua:Structure" IsAbstract="false" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="NamespaceUris" DataType="ua:String" ValueRank="Array"></opc:Field>
+      <opc:Field Name="ServerUris" DataType="ua:String" ValueRank="Array"></opc:Field>
+      <opc:Field Name="Models" DataType="ModelTableEntry" ValueRank="Array"></opc:Field>
+      <opc:Field Name="Extensions" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
+      <opc:Field Name="LastModified" DataType="ua:DateTime" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Nodes" DataType="ua:Structure" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UAReference" BaseType="ua:Structure" IsAbstract="false" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="TargetId" DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ReferenceTypeId" DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="IsForward" DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="UANode" BaseType="ua:Structure" IsAbstract="false" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="NodeId" DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="BrowseName" DataType="ua:QualifiedName" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="SymbolicName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DisplayNames" DataType="ua:LocalizedText" ValueRank="Array"></opc:Field>
+      <opc:Field Name="Descriptions" DataType="ua:LocalizedText" ValueRank="Array"></opc:Field>
+      <opc:Field Name="Documentation" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="WriteMask" DataType="ua:AttributeWriteMask" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="RolePermissions" DataType="ua:RolePermissionType" ValueRank="Array"></opc:Field>
+      <opc:Field Name="AccessRestrictions" DataType="ua:AccessRestrictionType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="References" DataType="UAReference" ValueRank="Array"></opc:Field>
+      <opc:Field Name="Extensions" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="UAType" BaseType="UANode" IsAbstract="true" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="IsAbstract" DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UAObjectType" BaseType="UAType" IsAbstract="false" PartNo="6">
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="NamedTranslationType" BaseType="ua:Structure" IsAbstract="false" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="Name" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Text" DataType="ua:LocalizedText" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="UAVariableType" BaseType="UAType" IsAbstract="false" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="Value" DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataType" DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ValueRank" DataType="ua:Int32" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ArrayDimensions" DataType="ua:UInt32" ValueRank="Array"></opc:Field>
+      <opc:Field Name="Translations" DataType="NamedTranslationType" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>  
+
+  <opc:DataType SymbolicName="UADataType" BaseType="UAType" IsAbstract="false" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="Definition" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UAReferenceType" BaseType="UAType" IsAbstract="false" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="InverseName" DataType="ua:LocalizedText" ValueRank="Array"></opc:Field>
+      <opc:Field Name="Symmetric" DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="UAInstance" BaseType="UANode" IsAbstract="true" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="ParentNodeId" DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="UAObject" BaseType="UAInstance" IsAbstract="false" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="EventNotifier" DataType="ua:EventNotifierType" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>  
+  
+  <opc:DataType SymbolicName="UAVariable" BaseType="UAInstance" IsAbstract="false" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="Value" DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataType" DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ValueRank" DataType="ua:Int32" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ArrayDimensions" DataType="ua:UInt32" ValueRank="Array"></opc:Field>
+      <opc:Field Name="AccessLevel" DataType="ua:AccessLevelExType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="MinimumSamplingInterval" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Historizing" DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Translations" DataType="NamedTranslationType" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="UAMethod" BaseType="UAInstance" IsAbstract="false" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="MethodDeclarationId" DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Translations" DataType="NamedTranslationType" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="UAView" BaseType="UAInstance" IsAbstract="false" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="EventNotifier" DataType="ua:EventNotifierType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ContainsNoLoops" DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:Object SymbolicName="OPCUANodeSetNamespaceMetadata" TypeDefinition="ua:NamespaceMetadataType" PartNo="6">
+    <opc:BrowseName>http://opcfoundation.org/UA/NodeSet/</opc:BrowseName>
+    <opc:Children>
+      <opc:Property SymbolicName="ua:NamespaceUri" DataType="ua:String">
+        <opc:DefaultValue>
+          <uax:String>http://opcfoundation.org/UA/GDS/</uax:String>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="ua:NamespaceVersion" DataType="ua:String">
+        <opc:DefaultValue>
+          <uax:String>1.05</uax:String>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="ua:NamespacePublicationDate" DataType="ua:DateTime">
+        <opc:DefaultValue>
+          <uax:DateTime>2020-01-08T00:00:00Z</uax:DateTime>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="ua:IsNamespaceSubset" DataType="ua:Boolean">
+        <opc:DefaultValue>
+          <uax:Boolean>false</uax:Boolean>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="ua:StaticNodeIdTypes" DataType="ua:IdType" ValueRank="Array">
+        <opc:DefaultValue>
+          <uax:ListOfInt32>
+            <uax:Int32>0</uax:Int32>
+          </uax:ListOfInt32>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="ua:StaticNumericNodeIdRange" DataType="ua:NumericRange" ValueRank="Array">
+        <opc:DefaultValue>
+          <uax:ListOfString>
+            <uax:String>1:65535</uax:String>
+          </uax:ListOfString>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="ua:StaticStringNodeIdPattern" DataType="ua:String">
+        <opc:DefaultValue>
+          <uax:String></uax:String>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="ua:DefaultRolePermissions" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:DefaultUserRolePermissions" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:DefaultAccessRestrictions" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+        <opc:TargetId>ua:Server_Namespaces</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+</opc:ModelDesign>

@@ -35,6 +35,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 using System.Reflection;
+using System.Management.Instrumentation;
 
 namespace CodeGenerator
 {
@@ -116,6 +117,40 @@ namespace CodeGenerator
                         constant.Severity = Severity.Uncertain;
                     }
                 }
+            }
+
+            if (TargetLanguage == Language.CSV)
+            {
+                datatypes = new List<DataType>(datatypes);
+
+                datatypes.Insert(0, new Constant()
+                {
+                    Severity = Severity.Bad,
+                    Name = "Bad",
+                    Identifier = 0,
+                    IdentifierSpecified = true,
+                    Documentation = new Documentation() { Text = new string[] { "The operation failed." } }
+                });
+
+                datatypes.Insert(0, new Constant()
+                {
+                    Severity = Severity.Uncertain,
+                    Name = "Uncertain",
+                    Identifier = 0,
+                    IdentifierSpecified = true,
+                    QName = new XmlQualifiedName("Uncertain", Namespaces.OpcUa),
+                    Documentation = new Documentation() { Text = new string[] { "The operation was uncertain." } }
+                });
+
+                datatypes.Insert(0, new Constant()
+                {
+                    Severity = Severity.Good,
+                    Name = "Good",
+                    Identifier = 0,
+                    IdentifierSpecified = true,
+                    QName = new XmlQualifiedName("Good", Namespaces.OpcUa),
+                    Documentation = new Documentation() { Text = new string[] { "The operation succeeded." } }
+                });
             }
 
             string fileName = null;
@@ -269,7 +304,7 @@ namespace CodeGenerator
 
             if (constant != null)
             {
-                if (constant.Severity != Severity.None)
+                if (constant.Severity != Severity.None && constant.Identifier != 0)
                 {
                     string name = datatype.Name;
 
@@ -428,8 +463,10 @@ namespace CodeGenerator
             {
                 // using existing id or assign a new one.
                 if (!identifiers.ContainsKey(datatype.Name))
-                {
-                    datatype.Identifier = maxId++;
+                { 
+                    int nextId = 200;
+                    while (uniqueIdentifiers.ContainsKey(nextId)) nextId++;
+                    datatype.Identifier = nextId;
                     datatype.IdentifierSpecified = true;
                 }
                 else

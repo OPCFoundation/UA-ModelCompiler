@@ -745,6 +745,8 @@
 
   <opc:ObjectType SymbolicName="AggregateFunctionType" BaseType="ua:BaseObjectType" PartNo="5" />
 
+  <opc:ObjectType SymbolicName="InformationModelVersionType" BaseType="ua:BaseObjectType" PartNo="5" ReleaseStatus="Draft" />
+
   <!-- Part 5 - Standard Variable Types -->
 
   <!-- BaseVariableType BuiltInTypes.xml -->
@@ -977,7 +979,7 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Object SymbolicName="Server" TypeDefinition="ServerType" ModellingRule="None" SupportsEvents="true" PartNo="5">
+  <opc:Object SymbolicName="Server" TypeDefinition="ServerType" ModellingRule="None" SupportsEvents="true" PartNo="5" IsDynamic="true">
     <opc:Children>
       <opc:Property SymbolicName="EstimatedReturnTime" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="LocalTime" ModellingRule="Mandatory" />
@@ -1012,12 +1014,6 @@
       </opc:Object>
       <opc:Object SymbolicName="VendorServerInfo" TypeDefinition="VendorServerInfoType"/>
       <opc:Object SymbolicName="ServerRedundancy" TypeDefinition="ServerRedundancyType">
-        <opc:Children>
-          <opc:Property SymbolicName="CurrentServerId" DataType="ua:String" ModellingRule="Mandatory"  />
-          <opc:Property SymbolicName="RedundantServerArray" DataType="RedundantServerDataType" ValueRank="Array" ModellingRule="Mandatory" />
-          <opc:Property SymbolicName="ServerUriArray" DataType="ua:String" ValueRank="Array" ModellingRule="Mandatory" />
-          <opc:Property SymbolicName="ServerNetworkGroups" DataType="NetworkGroupDataType" ValueRank="Array" ModellingRule="Mandatory" />
-        </opc:Children>
       </opc:Object>
       <opc:Object SymbolicName="Namespaces" ModellingRule="Mandatory">
       </opc:Object>
@@ -1034,7 +1030,12 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Object SymbolicName="HistoryServerCapabilities" TypeDefinition="HistoryServerCapabilitiesType" ModellingRule="None" PartNo="11">
+  <opc:Variable SymbolicName="Server_ServerRedundancy_CurrentServerId" DataType="ua:String" ValueRank="Scalar" TypeDefinition="PropertyType" IsDynamic="true" />
+  <opc:Variable SymbolicName="Server_ServerRedundancy_RedundantServerArray" DataType="RedundantServerDataType" ValueRank="Array" TypeDefinition="PropertyType" IsDynamic="true" />
+  <opc:Variable SymbolicName="Server_ServerRedundancy_ServerUriArray" DataType="ua:String" ValueRank="Array" TypeDefinition="PropertyType" IsDynamic="true" />
+  <opc:Variable SymbolicName="Server_ServerRedundancy_ServerNetworkGroups"  DataType="NetworkGroupDataType" ValueRank="Array" TypeDefinition="PropertyType" IsDynamic="true" />
+
+  <opc:Object SymbolicName="HistoryServerCapabilities" TypeDefinition="HistoryServerCapabilitiesType" ModellingRule="None" PartNo="11" IsDynamic="true">
     <opc:BrowseName>HistoryServerCapabilities</opc:BrowseName>
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -1125,6 +1126,10 @@
   <!-- SubscriptionDiagnosticsDataType UA Core Services.xml -->
   <!-- ModelChangeStructureDataType UA Core Services.xml -->
   <!-- SemanticChangeStructureDataType UA Core Services.xml -->
+
+  <opc:ReferenceType SymbolicName="IsDeprecated" BaseType="NonHierarchicalReferences" PartNo="5" ReleaseStatus="Draft">
+    <opc:InverseName>Deprecates</opc:InverseName>
+  </opc:ReferenceType>
 
   <opc:DataType SymbolicName="BitFieldMaskDataType" BaseType="UInt64" PartNo="5">
     <opc:Description>A mask of 32 bits that can be updated individually by using the top 32 bits as a mask.</opc:Description>
@@ -2729,13 +2734,10 @@
       <opc:Property SymbolicName="UnshelveTime" DataType="Duration" ModellingRule="Mandatory" />
       
       <opc:Object SymbolicName="Unshelved" TypeDefinition="StateType" ModellingRule="None">
-        <opc:DisplayName>Unshelved</opc:DisplayName>
       </opc:Object>
       <opc:Object SymbolicName="TimedShelved" TypeDefinition="StateType" ModellingRule="None">
-        <opc:DisplayName>Timed Shelved</opc:DisplayName>
       </opc:Object>
       <opc:Object SymbolicName="OneShotShelved" TypeDefinition="StateType" ModellingRule="None">
-        <opc:DisplayName>One Shot Shelved</opc:DisplayName>
       </opc:Object>
 
       <opc:Object SymbolicName="UnshelvedToTimedShelved" TypeDefinition="TransitionType" ModellingRule="None">
@@ -6025,7 +6027,7 @@
 
   <!-- Part 19 -->
 
-  <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteBaseType" BaseType="ua:MultiStateValueDiscreteType" DataType="Number" ValueRank="Scalar" PartNo="19" ReleaseStatus="Released">
+  <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteBaseType" BaseType="ua:MultiStateValueDiscreteType" DataType="Number" ValueRank="ScalarOrArray" PartNo="19" ReleaseStatus="Released">
     <opc:Children>
       <opc:Property SymbolicName="EnumDictionaryEntries" DataType="ua:NodeId" ValueRank="OneOrMoreDimensions" ArrayDimensions="0,0"  ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ValueAsDictionaryEntries" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0"  ModellingRule="Optional" />
