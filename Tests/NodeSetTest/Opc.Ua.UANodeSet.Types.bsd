@@ -69,7 +69,13 @@
     <opc:Field Name="IsForward" TypeName="opc:Boolean" />
   </opc:StructuredType>
 
-  <opc:StructuredType Name="UANode" BaseType="ua:ExtensionObject">
+  <opc:EnumeratedType Name="ReleaseStatus" LengthInBits="32">
+    <opc:EnumeratedValue Name="Released" Value="1" />
+    <opc:EnumeratedValue Name="Draft" Value="2" />
+    <opc:EnumeratedValue Name="Deprecated" Value="3" />
+  </opc:EnumeratedType>
+
+  <opc:StructuredType Name="UABaseNode" BaseType="ua:ExtensionObject">
     <opc:Field Name="NodeId" TypeName="ua:NodeId" />
     <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" />
     <opc:Field Name="SymbolicName" TypeName="opc:String" />
@@ -82,142 +88,33 @@
     <opc:Field Name="NoOfRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="RolePermissions" TypeName="ua:RolePermissionType" LengthField="NoOfRolePermissions" />
     <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" />
+    <opc:Field Name="ReleaseStatus" TypeName="tns:ReleaseStatus" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:UAReference" LengthField="NoOfReferences" />
     <opc:Field Name="NoOfExtensions" TypeName="opc:Int32" />
     <opc:Field Name="Extensions" TypeName="ua:KeyValuePair" LengthField="NoOfExtensions" />
-  </opc:StructuredType>
-
-  <opc:StructuredType Name="UAType" BaseType="tns:UANode">
-    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UANode" />
-    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UANode" />
-    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UANode" />
-    <opc:Field Name="NoOfDisplayNames" TypeName="opc:Int32" />
-    <opc:Field Name="DisplayNames" TypeName="ua:LocalizedText" LengthField="NoOfDisplayNames" />
-    <opc:Field Name="NoOfDescriptions" TypeName="opc:Int32" />
-    <opc:Field Name="Descriptions" TypeName="ua:LocalizedText" LengthField="NoOfDescriptions" />
-    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UANode" />
-    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UANode" />
-    <opc:Field Name="NoOfRolePermissions" TypeName="opc:Int32" />
-    <opc:Field Name="RolePermissions" TypeName="ua:RolePermissionType" LengthField="NoOfRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UANode" />
-    <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
-    <opc:Field Name="References" TypeName="tns:UAReference" LengthField="NoOfReferences" />
-    <opc:Field Name="NoOfExtensions" TypeName="opc:Int32" />
-    <opc:Field Name="Extensions" TypeName="ua:KeyValuePair" LengthField="NoOfExtensions" />
-    <opc:Field Name="IsAbstract" TypeName="opc:Boolean" />
-  </opc:StructuredType>
-
-  <opc:StructuredType Name="UAObjectType" BaseType="tns:UAType">
-    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UANode" />
-    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UANode" />
-    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UANode" />
-    <opc:Field Name="NoOfDisplayNames" TypeName="opc:Int32" />
-    <opc:Field Name="DisplayNames" TypeName="ua:LocalizedText" LengthField="NoOfDisplayNames" />
-    <opc:Field Name="NoOfDescriptions" TypeName="opc:Int32" />
-    <opc:Field Name="Descriptions" TypeName="ua:LocalizedText" LengthField="NoOfDescriptions" />
-    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UANode" />
-    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UANode" />
-    <opc:Field Name="NoOfRolePermissions" TypeName="opc:Int32" />
-    <opc:Field Name="RolePermissions" TypeName="ua:RolePermissionType" LengthField="NoOfRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UANode" />
-    <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
-    <opc:Field Name="References" TypeName="tns:UAReference" LengthField="NoOfReferences" />
-    <opc:Field Name="NoOfExtensions" TypeName="opc:Int32" />
-    <opc:Field Name="Extensions" TypeName="ua:KeyValuePair" LengthField="NoOfExtensions" />
-    <opc:Field Name="IsAbstract" TypeName="opc:Boolean" SourceType="tns:UAType" />
   </opc:StructuredType>
 
   <opc:StructuredType Name="NamedTranslationType" BaseType="ua:ExtensionObject">
     <opc:Field Name="Name" TypeName="opc:String" />
-    <opc:Field Name="NoOfText" TypeName="opc:Int32" />
-    <opc:Field Name="Text" TypeName="ua:LocalizedText" LengthField="NoOfText" />
+    <opc:Field Name="NoOfTexts" TypeName="opc:Int32" />
+    <opc:Field Name="Texts" TypeName="ua:LocalizedText" LengthField="NoOfTexts" />
   </opc:StructuredType>
 
-  <opc:StructuredType Name="UAVariableType" BaseType="tns:UAType">
-    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UANode" />
-    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UANode" />
-    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UANode" />
+  <opc:StructuredType Name="UAInstance" BaseType="tns:UABaseNode">
+    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UABaseNode" />
+    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UABaseNode" />
+    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UABaseNode" />
     <opc:Field Name="NoOfDisplayNames" TypeName="opc:Int32" />
     <opc:Field Name="DisplayNames" TypeName="ua:LocalizedText" LengthField="NoOfDisplayNames" />
     <opc:Field Name="NoOfDescriptions" TypeName="opc:Int32" />
     <opc:Field Name="Descriptions" TypeName="ua:LocalizedText" LengthField="NoOfDescriptions" />
-    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UANode" />
-    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UANode" />
+    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UABaseNode" />
+    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UABaseNode" />
     <opc:Field Name="NoOfRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="RolePermissions" TypeName="ua:RolePermissionType" LengthField="NoOfRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UANode" />
-    <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
-    <opc:Field Name="References" TypeName="tns:UAReference" LengthField="NoOfReferences" />
-    <opc:Field Name="NoOfExtensions" TypeName="opc:Int32" />
-    <opc:Field Name="Extensions" TypeName="ua:KeyValuePair" LengthField="NoOfExtensions" />
-    <opc:Field Name="IsAbstract" TypeName="opc:Boolean" SourceType="tns:UAType" />
-    <opc:Field Name="Value" TypeName="ua:Variant" />
-    <opc:Field Name="DataType" TypeName="ua:NodeId" />
-    <opc:Field Name="ValueRank" TypeName="opc:Int32" />
-    <opc:Field Name="NoOfArrayDimensions" TypeName="opc:Int32" />
-    <opc:Field Name="ArrayDimensions" TypeName="opc:UInt32" LengthField="NoOfArrayDimensions" />
-    <opc:Field Name="NoOfTranslations" TypeName="opc:Int32" />
-    <opc:Field Name="Translations" TypeName="tns:NamedTranslationType" LengthField="NoOfTranslations" />
-  </opc:StructuredType>
-
-  <opc:StructuredType Name="UADataType" BaseType="tns:UAType">
-    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UANode" />
-    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UANode" />
-    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UANode" />
-    <opc:Field Name="NoOfDisplayNames" TypeName="opc:Int32" />
-    <opc:Field Name="DisplayNames" TypeName="ua:LocalizedText" LengthField="NoOfDisplayNames" />
-    <opc:Field Name="NoOfDescriptions" TypeName="opc:Int32" />
-    <opc:Field Name="Descriptions" TypeName="ua:LocalizedText" LengthField="NoOfDescriptions" />
-    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UANode" />
-    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UANode" />
-    <opc:Field Name="NoOfRolePermissions" TypeName="opc:Int32" />
-    <opc:Field Name="RolePermissions" TypeName="ua:RolePermissionType" LengthField="NoOfRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UANode" />
-    <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
-    <opc:Field Name="References" TypeName="tns:UAReference" LengthField="NoOfReferences" />
-    <opc:Field Name="NoOfExtensions" TypeName="opc:Int32" />
-    <opc:Field Name="Extensions" TypeName="ua:KeyValuePair" LengthField="NoOfExtensions" />
-    <opc:Field Name="IsAbstract" TypeName="opc:Boolean" SourceType="tns:UAType" />
-    <opc:Field Name="Definition" TypeName="ua:ExtensionObject" />
-  </opc:StructuredType>
-
-  <opc:StructuredType Name="UAReferenceType" BaseType="tns:UAType">
-    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UANode" />
-    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UANode" />
-    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UANode" />
-    <opc:Field Name="NoOfDisplayNames" TypeName="opc:Int32" />
-    <opc:Field Name="DisplayNames" TypeName="ua:LocalizedText" LengthField="NoOfDisplayNames" />
-    <opc:Field Name="NoOfDescriptions" TypeName="opc:Int32" />
-    <opc:Field Name="Descriptions" TypeName="ua:LocalizedText" LengthField="NoOfDescriptions" />
-    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UANode" />
-    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UANode" />
-    <opc:Field Name="NoOfRolePermissions" TypeName="opc:Int32" />
-    <opc:Field Name="RolePermissions" TypeName="ua:RolePermissionType" LengthField="NoOfRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UANode" />
-    <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
-    <opc:Field Name="References" TypeName="tns:UAReference" LengthField="NoOfReferences" />
-    <opc:Field Name="NoOfExtensions" TypeName="opc:Int32" />
-    <opc:Field Name="Extensions" TypeName="ua:KeyValuePair" LengthField="NoOfExtensions" />
-    <opc:Field Name="IsAbstract" TypeName="opc:Boolean" SourceType="tns:UAType" />
-    <opc:Field Name="NoOfInverseName" TypeName="opc:Int32" />
-    <opc:Field Name="InverseName" TypeName="ua:LocalizedText" LengthField="NoOfInverseName" />
-    <opc:Field Name="Symmetric" TypeName="opc:Boolean" />
-  </opc:StructuredType>
-
-  <opc:StructuredType Name="UAInstance" BaseType="tns:UANode">
-    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UANode" />
-    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UANode" />
-    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UANode" />
-    <opc:Field Name="NoOfDisplayNames" TypeName="opc:Int32" />
-    <opc:Field Name="DisplayNames" TypeName="ua:LocalizedText" LengthField="NoOfDisplayNames" />
-    <opc:Field Name="NoOfDescriptions" TypeName="opc:Int32" />
-    <opc:Field Name="Descriptions" TypeName="ua:LocalizedText" LengthField="NoOfDescriptions" />
-    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UANode" />
-    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UANode" />
-    <opc:Field Name="NoOfRolePermissions" TypeName="opc:Int32" />
-    <opc:Field Name="RolePermissions" TypeName="ua:RolePermissionType" LengthField="NoOfRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UANode" />
+    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UABaseNode" />
+    <opc:Field Name="ReleaseStatus" TypeName="tns:ReleaseStatus" SourceType="tns:UABaseNode" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:UAReference" LengthField="NoOfReferences" />
     <opc:Field Name="NoOfExtensions" TypeName="opc:Int32" />
@@ -226,18 +123,19 @@
   </opc:StructuredType>
 
   <opc:StructuredType Name="UAObject" BaseType="tns:UAInstance">
-    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UANode" />
-    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UANode" />
-    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UANode" />
+    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UABaseNode" />
+    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UABaseNode" />
+    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UABaseNode" />
     <opc:Field Name="NoOfDisplayNames" TypeName="opc:Int32" />
     <opc:Field Name="DisplayNames" TypeName="ua:LocalizedText" LengthField="NoOfDisplayNames" />
     <opc:Field Name="NoOfDescriptions" TypeName="opc:Int32" />
     <opc:Field Name="Descriptions" TypeName="ua:LocalizedText" LengthField="NoOfDescriptions" />
-    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UANode" />
-    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UANode" />
+    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UABaseNode" />
+    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UABaseNode" />
     <opc:Field Name="NoOfRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="RolePermissions" TypeName="ua:RolePermissionType" LengthField="NoOfRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UANode" />
+    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UABaseNode" />
+    <opc:Field Name="ReleaseStatus" TypeName="tns:ReleaseStatus" SourceType="tns:UABaseNode" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:UAReference" LengthField="NoOfReferences" />
     <opc:Field Name="NoOfExtensions" TypeName="opc:Int32" />
@@ -247,18 +145,19 @@
   </opc:StructuredType>
 
   <opc:StructuredType Name="UAVariable" BaseType="tns:UAInstance">
-    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UANode" />
-    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UANode" />
-    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UANode" />
+    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UABaseNode" />
+    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UABaseNode" />
+    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UABaseNode" />
     <opc:Field Name="NoOfDisplayNames" TypeName="opc:Int32" />
     <opc:Field Name="DisplayNames" TypeName="ua:LocalizedText" LengthField="NoOfDisplayNames" />
     <opc:Field Name="NoOfDescriptions" TypeName="opc:Int32" />
     <opc:Field Name="Descriptions" TypeName="ua:LocalizedText" LengthField="NoOfDescriptions" />
-    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UANode" />
-    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UANode" />
+    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UABaseNode" />
+    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UABaseNode" />
     <opc:Field Name="NoOfRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="RolePermissions" TypeName="ua:RolePermissionType" LengthField="NoOfRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UANode" />
+    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UABaseNode" />
+    <opc:Field Name="ReleaseStatus" TypeName="tns:ReleaseStatus" SourceType="tns:UABaseNode" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:UAReference" LengthField="NoOfReferences" />
     <opc:Field Name="NoOfExtensions" TypeName="opc:Int32" />
@@ -277,41 +176,44 @@
   </opc:StructuredType>
 
   <opc:StructuredType Name="UAMethod" BaseType="tns:UAInstance">
-    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UANode" />
-    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UANode" />
-    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UANode" />
+    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UABaseNode" />
+    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UABaseNode" />
+    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UABaseNode" />
     <opc:Field Name="NoOfDisplayNames" TypeName="opc:Int32" />
     <opc:Field Name="DisplayNames" TypeName="ua:LocalizedText" LengthField="NoOfDisplayNames" />
     <opc:Field Name="NoOfDescriptions" TypeName="opc:Int32" />
     <opc:Field Name="Descriptions" TypeName="ua:LocalizedText" LengthField="NoOfDescriptions" />
-    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UANode" />
-    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UANode" />
+    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UABaseNode" />
+    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UABaseNode" />
     <opc:Field Name="NoOfRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="RolePermissions" TypeName="ua:RolePermissionType" LengthField="NoOfRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UANode" />
+    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UABaseNode" />
+    <opc:Field Name="ReleaseStatus" TypeName="tns:ReleaseStatus" SourceType="tns:UABaseNode" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:UAReference" LengthField="NoOfReferences" />
     <opc:Field Name="NoOfExtensions" TypeName="opc:Int32" />
     <opc:Field Name="Extensions" TypeName="ua:KeyValuePair" LengthField="NoOfExtensions" />
     <opc:Field Name="ParentNodeId" TypeName="ua:NodeId" SourceType="tns:UAInstance" />
     <opc:Field Name="MethodDeclarationId" TypeName="ua:NodeId" />
+    <opc:Field Name="Executable" TypeName="ua:EventNotifierType" />
     <opc:Field Name="NoOfTranslations" TypeName="opc:Int32" />
     <opc:Field Name="Translations" TypeName="tns:NamedTranslationType" LengthField="NoOfTranslations" />
   </opc:StructuredType>
 
   <opc:StructuredType Name="UAView" BaseType="tns:UAInstance">
-    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UANode" />
-    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UANode" />
-    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UANode" />
+    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UABaseNode" />
+    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UABaseNode" />
+    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UABaseNode" />
     <opc:Field Name="NoOfDisplayNames" TypeName="opc:Int32" />
     <opc:Field Name="DisplayNames" TypeName="ua:LocalizedText" LengthField="NoOfDisplayNames" />
     <opc:Field Name="NoOfDescriptions" TypeName="opc:Int32" />
     <opc:Field Name="Descriptions" TypeName="ua:LocalizedText" LengthField="NoOfDescriptions" />
-    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UANode" />
-    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UANode" />
+    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UABaseNode" />
+    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UABaseNode" />
     <opc:Field Name="NoOfRolePermissions" TypeName="opc:Int32" />
     <opc:Field Name="RolePermissions" TypeName="ua:RolePermissionType" LengthField="NoOfRolePermissions" />
-    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UANode" />
+    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UABaseNode" />
+    <opc:Field Name="ReleaseStatus" TypeName="tns:ReleaseStatus" SourceType="tns:UABaseNode" />
     <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
     <opc:Field Name="References" TypeName="tns:UAReference" LengthField="NoOfReferences" />
     <opc:Field Name="NoOfExtensions" TypeName="opc:Int32" />
@@ -319,6 +221,124 @@
     <opc:Field Name="ParentNodeId" TypeName="ua:NodeId" SourceType="tns:UAInstance" />
     <opc:Field Name="EventNotifier" TypeName="ua:EventNotifierType" />
     <opc:Field Name="ContainsNoLoops" TypeName="opc:Boolean" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="UABaseType" BaseType="tns:UABaseNode">
+    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UABaseNode" />
+    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UABaseNode" />
+    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UABaseNode" />
+    <opc:Field Name="NoOfDisplayNames" TypeName="opc:Int32" />
+    <opc:Field Name="DisplayNames" TypeName="ua:LocalizedText" LengthField="NoOfDisplayNames" />
+    <opc:Field Name="NoOfDescriptions" TypeName="opc:Int32" />
+    <opc:Field Name="Descriptions" TypeName="ua:LocalizedText" LengthField="NoOfDescriptions" />
+    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UABaseNode" />
+    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UABaseNode" />
+    <opc:Field Name="NoOfRolePermissions" TypeName="opc:Int32" />
+    <opc:Field Name="RolePermissions" TypeName="ua:RolePermissionType" LengthField="NoOfRolePermissions" />
+    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UABaseNode" />
+    <opc:Field Name="ReleaseStatus" TypeName="tns:ReleaseStatus" SourceType="tns:UABaseNode" />
+    <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
+    <opc:Field Name="References" TypeName="tns:UAReference" LengthField="NoOfReferences" />
+    <opc:Field Name="NoOfExtensions" TypeName="opc:Int32" />
+    <opc:Field Name="Extensions" TypeName="ua:KeyValuePair" LengthField="NoOfExtensions" />
+    <opc:Field Name="IsAbstract" TypeName="opc:Boolean" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="UAObjectType" BaseType="tns:UABaseType">
+    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UABaseNode" />
+    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UABaseNode" />
+    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UABaseNode" />
+    <opc:Field Name="NoOfDisplayNames" TypeName="opc:Int32" />
+    <opc:Field Name="DisplayNames" TypeName="ua:LocalizedText" LengthField="NoOfDisplayNames" />
+    <opc:Field Name="NoOfDescriptions" TypeName="opc:Int32" />
+    <opc:Field Name="Descriptions" TypeName="ua:LocalizedText" LengthField="NoOfDescriptions" />
+    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UABaseNode" />
+    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UABaseNode" />
+    <opc:Field Name="NoOfRolePermissions" TypeName="opc:Int32" />
+    <opc:Field Name="RolePermissions" TypeName="ua:RolePermissionType" LengthField="NoOfRolePermissions" />
+    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UABaseNode" />
+    <opc:Field Name="ReleaseStatus" TypeName="tns:ReleaseStatus" SourceType="tns:UABaseNode" />
+    <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
+    <opc:Field Name="References" TypeName="tns:UAReference" LengthField="NoOfReferences" />
+    <opc:Field Name="NoOfExtensions" TypeName="opc:Int32" />
+    <opc:Field Name="Extensions" TypeName="ua:KeyValuePair" LengthField="NoOfExtensions" />
+    <opc:Field Name="IsAbstract" TypeName="opc:Boolean" SourceType="tns:UABaseType" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="UAVariableType" BaseType="tns:UABaseType">
+    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UABaseNode" />
+    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UABaseNode" />
+    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UABaseNode" />
+    <opc:Field Name="NoOfDisplayNames" TypeName="opc:Int32" />
+    <opc:Field Name="DisplayNames" TypeName="ua:LocalizedText" LengthField="NoOfDisplayNames" />
+    <opc:Field Name="NoOfDescriptions" TypeName="opc:Int32" />
+    <opc:Field Name="Descriptions" TypeName="ua:LocalizedText" LengthField="NoOfDescriptions" />
+    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UABaseNode" />
+    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UABaseNode" />
+    <opc:Field Name="NoOfRolePermissions" TypeName="opc:Int32" />
+    <opc:Field Name="RolePermissions" TypeName="ua:RolePermissionType" LengthField="NoOfRolePermissions" />
+    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UABaseNode" />
+    <opc:Field Name="ReleaseStatus" TypeName="tns:ReleaseStatus" SourceType="tns:UABaseNode" />
+    <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
+    <opc:Field Name="References" TypeName="tns:UAReference" LengthField="NoOfReferences" />
+    <opc:Field Name="NoOfExtensions" TypeName="opc:Int32" />
+    <opc:Field Name="Extensions" TypeName="ua:KeyValuePair" LengthField="NoOfExtensions" />
+    <opc:Field Name="IsAbstract" TypeName="opc:Boolean" SourceType="tns:UABaseType" />
+    <opc:Field Name="Value" TypeName="ua:Variant" />
+    <opc:Field Name="DataType" TypeName="ua:NodeId" />
+    <opc:Field Name="ValueRank" TypeName="opc:Int32" />
+    <opc:Field Name="NoOfArrayDimensions" TypeName="opc:Int32" />
+    <opc:Field Name="ArrayDimensions" TypeName="opc:UInt32" LengthField="NoOfArrayDimensions" />
+    <opc:Field Name="NoOfTranslations" TypeName="opc:Int32" />
+    <opc:Field Name="Translations" TypeName="tns:NamedTranslationType" LengthField="NoOfTranslations" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="UADataType" BaseType="tns:UABaseType">
+    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UABaseNode" />
+    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UABaseNode" />
+    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UABaseNode" />
+    <opc:Field Name="NoOfDisplayNames" TypeName="opc:Int32" />
+    <opc:Field Name="DisplayNames" TypeName="ua:LocalizedText" LengthField="NoOfDisplayNames" />
+    <opc:Field Name="NoOfDescriptions" TypeName="opc:Int32" />
+    <opc:Field Name="Descriptions" TypeName="ua:LocalizedText" LengthField="NoOfDescriptions" />
+    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UABaseNode" />
+    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UABaseNode" />
+    <opc:Field Name="NoOfRolePermissions" TypeName="opc:Int32" />
+    <opc:Field Name="RolePermissions" TypeName="ua:RolePermissionType" LengthField="NoOfRolePermissions" />
+    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UABaseNode" />
+    <opc:Field Name="ReleaseStatus" TypeName="tns:ReleaseStatus" SourceType="tns:UABaseNode" />
+    <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
+    <opc:Field Name="References" TypeName="tns:UAReference" LengthField="NoOfReferences" />
+    <opc:Field Name="NoOfExtensions" TypeName="opc:Int32" />
+    <opc:Field Name="Extensions" TypeName="ua:KeyValuePair" LengthField="NoOfExtensions" />
+    <opc:Field Name="IsAbstract" TypeName="opc:Boolean" SourceType="tns:UABaseType" />
+    <opc:Field Name="Definition" TypeName="ua:ExtensionObject" />
+    <opc:Field Name="NoOfTranslations" TypeName="opc:Int32" />
+    <opc:Field Name="Translations" TypeName="tns:NamedTranslationType" LengthField="NoOfTranslations" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="UAReferenceType" BaseType="tns:UABaseType">
+    <opc:Field Name="NodeId" TypeName="ua:NodeId" SourceType="tns:UABaseNode" />
+    <opc:Field Name="BrowseName" TypeName="ua:QualifiedName" SourceType="tns:UABaseNode" />
+    <opc:Field Name="SymbolicName" TypeName="opc:String" SourceType="tns:UABaseNode" />
+    <opc:Field Name="NoOfDisplayNames" TypeName="opc:Int32" />
+    <opc:Field Name="DisplayNames" TypeName="ua:LocalizedText" LengthField="NoOfDisplayNames" />
+    <opc:Field Name="NoOfDescriptions" TypeName="opc:Int32" />
+    <opc:Field Name="Descriptions" TypeName="ua:LocalizedText" LengthField="NoOfDescriptions" />
+    <opc:Field Name="Documentation" TypeName="opc:String" SourceType="tns:UABaseNode" />
+    <opc:Field Name="WriteMask" TypeName="ua:AttributeWriteMask" SourceType="tns:UABaseNode" />
+    <opc:Field Name="NoOfRolePermissions" TypeName="opc:Int32" />
+    <opc:Field Name="RolePermissions" TypeName="ua:RolePermissionType" LengthField="NoOfRolePermissions" />
+    <opc:Field Name="AccessRestrictions" TypeName="ua:AccessRestrictionType" SourceType="tns:UABaseNode" />
+    <opc:Field Name="ReleaseStatus" TypeName="tns:ReleaseStatus" SourceType="tns:UABaseNode" />
+    <opc:Field Name="NoOfReferences" TypeName="opc:Int32" />
+    <opc:Field Name="References" TypeName="tns:UAReference" LengthField="NoOfReferences" />
+    <opc:Field Name="NoOfExtensions" TypeName="opc:Int32" />
+    <opc:Field Name="Extensions" TypeName="ua:KeyValuePair" LengthField="NoOfExtensions" />
+    <opc:Field Name="IsAbstract" TypeName="opc:Boolean" SourceType="tns:UABaseType" />
+    <opc:Field Name="Symmetric" TypeName="opc:Boolean" />
+    <opc:Field Name="NoOfInverseNames" TypeName="opc:Int32" />
+    <opc:Field Name="InverseNames" TypeName="ua:LocalizedText" LengthField="NoOfInverseNames" />
   </opc:StructuredType>
 
 </opc:TypeDictionary>

@@ -2696,6 +2696,8 @@
     <opc:Children>
       <opc:Object SymbolicName="TrustList" TypeDefinition="TrustListType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="CertificateTypes" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="TrustList" TypeDefinition="TrustListType" ModellingRule="Mandatory">
+      </opc:Object>
     </opc:Children>
   </opc:ObjectType>
   
@@ -2704,7 +2706,7 @@
       <opc:Object SymbolicName="DefaultApplicationGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Mandatory" />
       <opc:Object SymbolicName="DefaultHttpsGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Optional" />
       <opc:Object SymbolicName="DefaultUserTokenGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Optional" />
-      <opc:Object SymbolicName="AdditionalGroup_Placeholder" TypeDefinition="CertificateGroupType"  ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="AdditionalGroup_Placeholder" TypeDefinition="CertificateGroupType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;AdditionalGroup&gt;</opc:BrowseName>
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
@@ -2778,7 +2780,15 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Object SymbolicName="ServerConfiguration" TypeDefinition="ServerConfigurationType">
+  <opc:ObjectType SymbolicName="TrustListOutOfDateAlarmType" BaseType="SystemOffNormalAlarmType" PartNo="12" ReleaseStatus="Draft">
+    <opc:Children>
+      <opc:Property SymbolicName="TrustListId" DataType="ua:NodeId" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="LastUpdateTime" DataType="ua:UtcTime" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="UpdateFrequency" DataType="ua:Duration" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:Object SymbolicName="ServerConfiguration" TypeDefinition="ServerConfigurationType" PartNo="12">
     <opc:Children>
 
       <opc:Object SymbolicName="CertificateGroups" TypeDefinition="CertificateGroupFolderType" ModellingRule="Mandatory">

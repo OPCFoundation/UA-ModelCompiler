@@ -11,7 +11,7 @@
   TargetPublicationDate="2020-09-01T00:00:00Z"
 >
   <opc:Namespaces>
-    <opc:Namespace Name="OpcUaNodeSet" Prefix="Opc.Ua.UANodeSet" XmlNamespace="http://opcfoundation.org/UA/NodeSet/Types.xsd" XmlPrefix="NodeSet">http://opcfoundation.org/UA/NodeSet/</opc:Namespace>
+    <opc:Namespace Name="OpcUANodeSet" Prefix="Opc.Ua.UANodeSet" XmlNamespace="http://opcfoundation.org/UA/NodeSet/Types.xsd" XmlPrefix="NodeSet">http://opcfoundation.org/UA/NodeSet/</opc:Namespace>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
   </opc:Namespaces>
 
@@ -44,8 +44,16 @@
       <opc:Field Name="IsForward" DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
-  
-  <opc:DataType SymbolicName="UANode" BaseType="ua:Structure" IsAbstract="false" PartNo="6">
+
+  <opc:DataType SymbolicName="ReleaseStatus" BaseType="ua:Enumeration" IsAbstract="false" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="Released" Identifier="1"></opc:Field>
+      <opc:Field Name="Draft" Identifier="2"></opc:Field>
+      <opc:Field Name="Deprecated" Identifier="3"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UABaseNode" BaseType="ua:Structure" IsAbstract="false" PartNo="6">
     <opc:Fields>
       <opc:Field Name="NodeId" DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="BrowseName" DataType="ua:QualifiedName" ValueRank="Scalar"></opc:Field>
@@ -56,51 +64,20 @@
       <opc:Field Name="WriteMask" DataType="ua:AttributeWriteMask" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="RolePermissions" DataType="ua:RolePermissionType" ValueRank="Array"></opc:Field>
       <opc:Field Name="AccessRestrictions" DataType="ua:AccessRestrictionType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ReleaseStatus" DataType="ReleaseStatus" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="References" DataType="UAReference" ValueRank="Array"></opc:Field>
       <opc:Field Name="Extensions" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
     </opc:Fields>
-  </opc:DataType>
-  
-  <opc:DataType SymbolicName="UAType" BaseType="UANode" IsAbstract="true" PartNo="6">
-    <opc:Fields>
-      <opc:Field Name="IsAbstract" DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="UAObjectType" BaseType="UAType" IsAbstract="false" PartNo="6">
   </opc:DataType>
 
   <opc:DataType SymbolicName="NamedTranslationType" BaseType="ua:Structure" IsAbstract="false" PartNo="6">
     <opc:Fields>
       <opc:Field Name="Name" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="Text" DataType="ua:LocalizedText" ValueRank="Array"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-  
-  <opc:DataType SymbolicName="UAVariableType" BaseType="UAType" IsAbstract="false" PartNo="6">
-    <opc:Fields>
-      <opc:Field Name="Value" DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="DataType" DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="ValueRank" DataType="ua:Int32" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="ArrayDimensions" DataType="ua:UInt32" ValueRank="Array"></opc:Field>
-      <opc:Field Name="Translations" DataType="NamedTranslationType" ValueRank="Array"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>  
-
-  <opc:DataType SymbolicName="UADataType" BaseType="UAType" IsAbstract="false" PartNo="6">
-    <opc:Fields>
-      <opc:Field Name="Definition" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Texts" DataType="ua:LocalizedText" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="UAReferenceType" BaseType="UAType" IsAbstract="false" PartNo="6">
-    <opc:Fields>
-      <opc:Field Name="InverseName" DataType="ua:LocalizedText" ValueRank="Array"></opc:Field>
-      <opc:Field Name="Symmetric" DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-  
-  <opc:DataType SymbolicName="UAInstance" BaseType="UANode" IsAbstract="true" PartNo="6">
+  <opc:DataType SymbolicName="UAInstance" BaseType="UABaseNode" IsAbstract="true" PartNo="6">
     <opc:Fields>
       <opc:Field Name="ParentNodeId" DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
@@ -128,6 +105,7 @@
   <opc:DataType SymbolicName="UAMethod" BaseType="UAInstance" IsAbstract="false" PartNo="6">
     <opc:Fields>
       <opc:Field Name="MethodDeclarationId" DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Executable" DataType="ua:EventNotifierType" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Translations" DataType="NamedTranslationType" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
@@ -136,6 +114,39 @@
     <opc:Fields>
       <opc:Field Name="EventNotifier" DataType="ua:EventNotifierType" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="ContainsNoLoops" DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UABaseType" BaseType="UABaseNode" IsAbstract="true" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="IsAbstract" DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UAObjectType" BaseType="UABaseType" IsAbstract="false" PartNo="6">
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UAVariableType" BaseType="UABaseType" IsAbstract="false" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="Value" DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataType" DataType="ua:NodeId" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ValueRank" DataType="ua:Int32" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ArrayDimensions" DataType="ua:UInt32" ValueRank="Array"></opc:Field>
+      <opc:Field Name="Translations" DataType="NamedTranslationType" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UADataType" BaseType="UABaseType" IsAbstract="false" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="Definition" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Translations" DataType="NamedTranslationType" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UAReferenceType" BaseType="UABaseType" IsAbstract="false" PartNo="6">
+    <opc:Fields>
+      <opc:Field Name="Symmetric" DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="InverseNames" DataType="ua:LocalizedText" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 

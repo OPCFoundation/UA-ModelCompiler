@@ -3791,12 +3791,22 @@
     <Children>
       <Property SymbolicName="tns:LastUpdateTime" DataType="tns:UtcTime" />
       <Property SymbolicName="tns:UpdateFrequency" ModellingRule="Optional" DataType="tns:Duration" />
+      <Property SymbolicName="tns:DefaultValidationOptions" ReleaseStatus="Draft" ModellingRule="Optional" DataType="tns:TrustListValidationOptions" />
       <Method SymbolicName="tns:OpenWithMasks" TypeDefinition="tns:OpenWithMasksMethodType" ModellingRule="Mandatory" />
       <Method SymbolicName="tns:CloseAndUpdate" TypeDefinition="tns:CloseAndUpdateMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:AddCertificate" TypeDefinition="tns:AddCertificateMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:RemoveCertificate" TypeDefinition="tns:RemoveCertificateMethodType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
+  <DataType SymbolicName="tns:TrustListValidationOptions" PartNo="12" ReleaseStatus="Draft" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
+    <Fields>
+      <Field Name="SuppressCertificateExpired" BitMask="0001" />
+      <Field Name="SuppressHostNameInvalid" BitMask="0002" />
+      <Field Name="SuppressRevocationStatusUnknown" BitMask="0004" />
+      <Field Name="CheckRevocationStatusOnline" BitMask="0008" />
+      <Field Name="CheckRevocationStatusOffine" BitMask="0010" />
+    </Fields>
+  </DataType>
   <DataType SymbolicName="tns:TrustListMasks" PartNo="12" BaseType="tns:Enumeration" NoArraysAllowed="true">
     <Fields>
       <Field Name="None" Identifier="0" />
@@ -3827,8 +3837,9 @@
     <Children>
       <Object SymbolicName="tns:TrustList" TypeDefinition="tns:TrustListType" ModellingRule="Mandatory" />
       <Property SymbolicName="tns:CertificateTypes" ModellingRule="Mandatory" DataType="tns:NodeId" ValueRank="Array" />
-      <Object SymbolicName="tns:CertificateExpired" TypeDefinition="tns:CertificateExpirationAlarmType" ModellingRule="Optional" />
-      <Object SymbolicName="tns:TrustListOutOfDate" TypeDefinition="tns:TrustListOutOfDateAlarmType" ModellingRule="Optional" />
+      <Object SymbolicName="tns:CertificateExpired" ReleaseStatus="Draft" TypeDefinition="tns:CertificateExpirationAlarmType" ModellingRule="Optional" />
+      <Object SymbolicName="tns:TrustListOutOfDate" ReleaseStatus="Draft" TypeDefinition="tns:TrustListOutOfDateAlarmType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:GetRejectedList" ReleaseStatus="Draft" TypeDefinition="tns:GetRejectedListMethodType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:CertificateGroupFolderType" PartNo="12" BaseType="tns:FolderType">
@@ -3848,6 +3859,13 @@
   <ObjectType SymbolicName="tns:UserCredentialCertificateType" PartNo="12" BaseType="tns:CertificateType" />
   <ObjectType SymbolicName="tns:RsaMinApplicationCertificateType" PartNo="12" BaseType="tns:ApplicationCertificateType" />
   <ObjectType SymbolicName="tns:RsaSha256ApplicationCertificateType" PartNo="12" BaseType="tns:ApplicationCertificateType" />
+  <ObjectType SymbolicName="tns:EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft" BaseType="tns:ApplicationCertificateType" />
+  <ObjectType SymbolicName="tns:EccNistP256ApplicationCertificateType" PartNo="12" ReleaseStatus="Draft" BaseType="tns:EccApplicationCertificateType" />
+  <ObjectType SymbolicName="tns:EccNistP384ApplicationCertificateType" PartNo="12" ReleaseStatus="Draft" BaseType="tns:EccApplicationCertificateType" />
+  <ObjectType SymbolicName="tns:EccBrainpoolP256r1ApplicationCertificateType" PartNo="12" ReleaseStatus="Draft" BaseType="tns:EccApplicationCertificateType" />
+  <ObjectType SymbolicName="tns:EccBrainpoolP384r1ApplicationCertificateType" PartNo="12" ReleaseStatus="Draft" BaseType="tns:EccApplicationCertificateType" />
+  <ObjectType SymbolicName="tns:EccCurve25519ApplicationCertificateType" PartNo="12" ReleaseStatus="Draft" BaseType="tns:EccApplicationCertificateType" />
+  <ObjectType SymbolicName="tns:EccCurve448ApplicationCertificateType" PartNo="12" ReleaseStatus="Draft" BaseType="tns:EccApplicationCertificateType" />
   <ObjectType SymbolicName="tns:TrustListUpdatedAuditEventType" PartNo="12" BaseType="tns:AuditUpdateMethodEventType" IsAbstract="true" />
   <Method SymbolicName="tns:UpdateCertificateMethodType">
     <InputArguments>
@@ -3968,6 +3986,7 @@
     <Children>
       <Object SymbolicName="tns:ServiceName_Placeholder" TypeDefinition="tns:KeyCredentialConfigurationType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;ServiceName&gt;</BrowseName>
+        <ReferenceType>tns:HasComponent</ReferenceType>
       </Object>
       <Method SymbolicName="tns:CreateCredential" TypeDefinition="tns:CreateCredentialMethodType" ModellingRule="Optional" />
     </Children>
@@ -4016,13 +4035,15 @@
   </ObjectType>
   <ObjectType SymbolicName="tns:KeyCredentialUpdatedAuditEventType" PartNo="12" BaseType="tns:KeyCredentialAuditEventType" />
   <ObjectType SymbolicName="tns:KeyCredentialDeletedAuditEventType" PartNo="12" BaseType="tns:KeyCredentialAuditEventType" />
-  <Object SymbolicName="tns:AuthorizationServices" PartNo="12" TypeDefinition="tns:FolderType">
+  <ObjectType SymbolicName="tns:AuthorizationServicesConfigurationFolderType" BaseType="tns:FolderType">
     <Children>
       <Object SymbolicName="tns:ServiceName_Placeholder" TypeDefinition="tns:AuthorizationServiceConfigurationType" ModellingRule="OptionalPlaceholder">
         <BrowseName>&lt;ServiceName&gt;</BrowseName>
-        <ReferenceType>tns:HasComponent</ReferenceType>
+        <ReferenceType>tns:Organizes</ReferenceType>
       </Object>
     </Children>
+  </ObjectType>
+  <Object SymbolicName="tns:AuthorizationServices" PartNo="12" TypeDefinition="tns:FolderType">
     <References>
       <Reference IsInverse="true">
         <ReferenceType>tns:HasComponent</ReferenceType>

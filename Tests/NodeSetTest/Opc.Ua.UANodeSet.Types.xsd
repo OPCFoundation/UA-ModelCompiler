@@ -91,7 +91,23 @@
   </xs:complexType>
   <xs:element name="ListOfUAReference" type="tns:ListOfUAReference" nillable="true"></xs:element>
 
-  <xs:complexType name="UANode">
+  <xs:simpleType  name="ReleaseStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Released_1" />
+      <xs:enumeration value="Draft_2" />
+      <xs:enumeration value="Deprecated_3" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ReleaseStatus" type="tns:ReleaseStatus" />
+
+  <xs:complexType name="ListOfReleaseStatus">
+    <xs:sequence>
+      <xs:element name="ReleaseStatus" type="tns:ReleaseStatus" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ListOfReleaseStatus" type="tns:ListOfReleaseStatus" nillable="true"></xs:element>
+
+  <xs:complexType name="UABaseNode">
     <xs:sequence>
       <xs:element name="NodeId" type="ua:NodeId" minOccurs="0" nillable="true" />
       <xs:element name="BrowseName" type="ua:QualifiedName" minOccurs="0" nillable="true" />
@@ -102,58 +118,24 @@
       <xs:element name="WriteMask" type="ua:AttributeWriteMask" minOccurs="0" />
       <xs:element name="RolePermissions" type="ua:ListOfRolePermissionType" minOccurs="0" nillable="true" />
       <xs:element name="AccessRestrictions" type="ua:AccessRestrictionType" minOccurs="0" />
+      <xs:element name="ReleaseStatus" type="tns:ReleaseStatus" minOccurs="0" />
       <xs:element name="References" type="tns:ListOfUAReference" minOccurs="0" nillable="true" />
       <xs:element name="Extensions" type="ua:ListOfKeyValuePair" minOccurs="0" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="UANode" type="tns:UANode" />
+  <xs:element name="UABaseNode" type="tns:UABaseNode" />
 
-  <xs:complexType name="ListOfUANode">
+  <xs:complexType name="ListOfUABaseNode">
     <xs:sequence>
-      <xs:element name="UANode" type="tns:UANode" minOccurs="0" maxOccurs="unbounded" nillable="true" />
+      <xs:element name="UABaseNode" type="tns:UABaseNode" minOccurs="0" maxOccurs="unbounded" nillable="true" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="ListOfUANode" type="tns:ListOfUANode" nillable="true"></xs:element>
-
-  <xs:complexType name="UAType">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:UANode">
-        <xs:sequence>
-          <xs:element name="IsAbstract" type="xs:boolean" minOccurs="0" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="UAType" type="tns:UAType" />
-
-  <xs:complexType name="ListOfUAType">
-    <xs:sequence>
-      <xs:element name="UAType" type="tns:UAType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ListOfUAType" type="tns:ListOfUAType" nillable="true"></xs:element>
-
-  <xs:complexType name="UAObjectType">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:UAType">
-        <xs:sequence>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="UAObjectType" type="tns:UAObjectType" />
-
-  <xs:complexType name="ListOfUAObjectType">
-    <xs:sequence>
-      <xs:element name="UAObjectType" type="tns:UAObjectType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ListOfUAObjectType" type="tns:ListOfUAObjectType" nillable="true"></xs:element>
+  <xs:element name="ListOfUABaseNode" type="tns:ListOfUABaseNode" nillable="true"></xs:element>
 
   <xs:complexType name="NamedTranslationType">
     <xs:sequence>
       <xs:element name="Name" type="xs:string" minOccurs="0" nillable="true" />
-      <xs:element name="Text" type="ua:ListOfLocalizedText" minOccurs="0" nillable="true" />
+      <xs:element name="Texts" type="ua:ListOfLocalizedText" minOccurs="0" nillable="true" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="NamedTranslationType" type="tns:NamedTranslationType" />
@@ -165,68 +147,9 @@
   </xs:complexType>
   <xs:element name="ListOfNamedTranslationType" type="tns:ListOfNamedTranslationType" nillable="true"></xs:element>
 
-  <xs:complexType name="UAVariableType">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:UAType">
-        <xs:sequence>
-          <xs:element name="Value" type="ua:Variant" minOccurs="0" />
-          <xs:element name="DataType" type="ua:NodeId" minOccurs="0" nillable="true" />
-          <xs:element name="ValueRank" type="xs:int" minOccurs="0" />
-          <xs:element name="ArrayDimensions" type="ua:ListOfUInt32" minOccurs="0" nillable="true" />
-          <xs:element name="Translations" type="tns:ListOfNamedTranslationType" minOccurs="0" nillable="true" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="UAVariableType" type="tns:UAVariableType" />
-
-  <xs:complexType name="ListOfUAVariableType">
-    <xs:sequence>
-      <xs:element name="UAVariableType" type="tns:UAVariableType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ListOfUAVariableType" type="tns:ListOfUAVariableType" nillable="true"></xs:element>
-
-  <xs:complexType name="UADataType">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:UAType">
-        <xs:sequence>
-          <xs:element name="Definition" type="ua:ExtensionObject" minOccurs="0" nillable="true" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="UADataType" type="tns:UADataType" />
-
-  <xs:complexType name="ListOfUADataType">
-    <xs:sequence>
-      <xs:element name="UADataType" type="tns:UADataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ListOfUADataType" type="tns:ListOfUADataType" nillable="true"></xs:element>
-
-  <xs:complexType name="UAReferenceType">
-    <xs:complexContent mixed="false">
-      <xs:extension base="tns:UAType">
-        <xs:sequence>
-          <xs:element name="InverseName" type="ua:ListOfLocalizedText" minOccurs="0" nillable="true" />
-          <xs:element name="Symmetric" type="xs:boolean" minOccurs="0" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:element name="UAReferenceType" type="tns:UAReferenceType" />
-
-  <xs:complexType name="ListOfUAReferenceType">
-    <xs:sequence>
-      <xs:element name="UAReferenceType" type="tns:UAReferenceType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ListOfUAReferenceType" type="tns:ListOfUAReferenceType" nillable="true"></xs:element>
-
   <xs:complexType name="UAInstance">
     <xs:complexContent mixed="false">
-      <xs:extension base="tns:UANode">
+      <xs:extension base="tns:UABaseNode">
         <xs:sequence>
           <xs:element name="ParentNodeId" type="ua:NodeId" minOccurs="0" nillable="true" />
         </xs:sequence>
@@ -290,6 +213,7 @@
       <xs:extension base="tns:UAInstance">
         <xs:sequence>
           <xs:element name="MethodDeclarationId" type="ua:NodeId" minOccurs="0" nillable="true" />
+          <xs:element name="Executable" type="ua:EventNotifierType" minOccurs="0" />
           <xs:element name="Translations" type="tns:ListOfNamedTranslationType" minOccurs="0" nillable="true" />
         </xs:sequence>
       </xs:extension>
@@ -322,5 +246,100 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ListOfUAView" type="tns:ListOfUAView" nillable="true"></xs:element>
+
+  <xs:complexType name="UABaseType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:UABaseNode">
+        <xs:sequence>
+          <xs:element name="IsAbstract" type="xs:boolean" minOccurs="0" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UABaseType" type="tns:UABaseType" />
+
+  <xs:complexType name="ListOfUABaseType">
+    <xs:sequence>
+      <xs:element name="UABaseType" type="tns:UABaseType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ListOfUABaseType" type="tns:ListOfUABaseType" nillable="true"></xs:element>
+
+  <xs:complexType name="UAObjectType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:UABaseType">
+        <xs:sequence>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UAObjectType" type="tns:UAObjectType" />
+
+  <xs:complexType name="ListOfUAObjectType">
+    <xs:sequence>
+      <xs:element name="UAObjectType" type="tns:UAObjectType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ListOfUAObjectType" type="tns:ListOfUAObjectType" nillable="true"></xs:element>
+
+  <xs:complexType name="UAVariableType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:UABaseType">
+        <xs:sequence>
+          <xs:element name="Value" type="ua:Variant" minOccurs="0" />
+          <xs:element name="DataType" type="ua:NodeId" minOccurs="0" nillable="true" />
+          <xs:element name="ValueRank" type="xs:int" minOccurs="0" />
+          <xs:element name="ArrayDimensions" type="ua:ListOfUInt32" minOccurs="0" nillable="true" />
+          <xs:element name="Translations" type="tns:ListOfNamedTranslationType" minOccurs="0" nillable="true" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UAVariableType" type="tns:UAVariableType" />
+
+  <xs:complexType name="ListOfUAVariableType">
+    <xs:sequence>
+      <xs:element name="UAVariableType" type="tns:UAVariableType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ListOfUAVariableType" type="tns:ListOfUAVariableType" nillable="true"></xs:element>
+
+  <xs:complexType name="UADataType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:UABaseType">
+        <xs:sequence>
+          <xs:element name="Definition" type="ua:ExtensionObject" minOccurs="0" nillable="true" />
+          <xs:element name="Translations" type="tns:ListOfNamedTranslationType" minOccurs="0" nillable="true" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UADataType" type="tns:UADataType" />
+
+  <xs:complexType name="ListOfUADataType">
+    <xs:sequence>
+      <xs:element name="UADataType" type="tns:UADataType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ListOfUADataType" type="tns:ListOfUADataType" nillable="true"></xs:element>
+
+  <xs:complexType name="UAReferenceType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:UABaseType">
+        <xs:sequence>
+          <xs:element name="Symmetric" type="xs:boolean" minOccurs="0" />
+          <xs:element name="InverseNames" type="ua:ListOfLocalizedText" minOccurs="0" nillable="true" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="UAReferenceType" type="tns:UAReferenceType" />
+
+  <xs:complexType name="ListOfUAReferenceType">
+    <xs:sequence>
+      <xs:element name="UAReferenceType" type="tns:UAReferenceType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ListOfUAReferenceType" type="tns:ListOfUAReferenceType" nillable="true"></xs:element>
 
 </xs:schema>

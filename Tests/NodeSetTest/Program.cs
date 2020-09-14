@@ -15,7 +15,7 @@ namespace NodeSetTest
             SystemContext = new SystemContext();
             SystemContext.NamespaceUris = new NamespaceTable();
             SystemContext.ServerUris = new StringTable();
-            SystemContext.NamespaceUris.Append(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSet);
+            SystemContext.NamespaceUris.Append(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSet);
 
             Aliases = new Dictionary<string, NodeId>();
         }
@@ -160,7 +160,7 @@ namespace NodeSetTest
                                 output.Add(new NamedTranslationType()
                                 {
                                     Name = st.Name,
-                                    Text = Import(st.Text)
+                                    Texts = Import(st.Text)
                                 });
 
                                 continue;
@@ -170,7 +170,7 @@ namespace NodeSetTest
 
                             if (lt != null)
                             {
-                                unnamed.Text.Add(new LocalizedText(lt.Locale, lt.Value));
+                                unnamed.Texts.Add(new LocalizedText(lt.Locale, lt.Value));
                                 continue;
                             }
                         }
@@ -178,7 +178,7 @@ namespace NodeSetTest
                 }
             }
 
-            if (unnamed.Text.Count > 0)
+            if (unnamed.Texts.Count > 0)
             {
                 output.Insert(0, unnamed);
             }
@@ -235,7 +235,7 @@ namespace NodeSetTest
                     output.Add(new NamedTranslationType()
                     {
                         Name = ii.Name,
-                        Text = Import(ii.Description)
+                        Texts = Import(ii.Description)
                     });
                 }
             }
@@ -295,7 +295,7 @@ namespace NodeSetTest
             UAReferenceType output = new UAReferenceType()
             {
                 IsAbstract = input.IsAbstract,
-                InverseName = Import(input.InverseName),
+                InverseNames = Import(input.InverseName),
                 Symmetric = input.Symmetric
             };
 
@@ -416,9 +416,9 @@ namespace NodeSetTest
             return output;
         }
 
-        private UANode Import(Opc.Ua.Export.UANode input)
+        private UABaseNode Import(Opc.Ua.Export.UANode input)
         {
-            UANode output = null;
+            UABaseNode output = null;
 
             switch (input.GetType().Name)
             {
@@ -515,7 +515,7 @@ namespace NodeSetTest
             SystemContext = new SystemContext();
             SystemContext.NamespaceUris = new NamespaceTable();
             SystemContext.ServerUris = new StringTable();
-            SystemContext.NamespaceUris.Append(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSet);
+            SystemContext.NamespaceUris.Append(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSet);
 
             Aliases = new Dictionary<string, NodeId>();
 

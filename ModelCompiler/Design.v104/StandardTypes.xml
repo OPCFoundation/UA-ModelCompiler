@@ -3783,13 +3783,24 @@
     <opc:Children>
       <opc:Property SymbolicName="LastUpdateTime" DataType="ua:UtcTime" />
       <opc:Property SymbolicName="UpdateFrequency" DataType="ua:Duration" ModellingRule="Optional" />
+      <opc:Property SymbolicName="DefaultValidationOptions" DataType="TrustListValidationOptions" ModellingRule="Optional"  ReleaseStatus="Draft" />
       <opc:Method SymbolicName="OpenWithMasks" TypeDefinition="OpenWithMasksMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="CloseAndUpdate" TypeDefinition="CloseAndUpdateMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddCertificate" TypeDefinition="AddCertificateMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveCertificate" TypeDefinition="RemoveCertificateMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
-  
+
+  <opc:DataType SymbolicName="TrustListValidationOptions" PartNo="12" BaseType="ua:UInt32" IsOptionSet="true" NoArraysAllowed="true" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="SuppressCertificateExpired" BitMask="0001" />
+      <opc:Field Name="SuppressHostNameInvalid" BitMask="0002" />
+      <opc:Field Name="SuppressRevocationStatusUnknown" BitMask="0004" />
+      <opc:Field Name="CheckRevocationStatusOnline" BitMask="0008" />
+      <opc:Field Name="CheckRevocationStatusOffine" BitMask="0010" />
+    </opc:Fields>
+  </opc:DataType>
+
   <opc:DataType SymbolicName="TrustListMasks" PartNo="12" BaseType="ua:Enumeration" NoArraysAllowed="true">
     <opc:Fields>
       <opc:Field Name="None" Identifier="0" />
@@ -3823,8 +3834,9 @@
     <opc:Children>
       <opc:Object SymbolicName="TrustList" TypeDefinition="TrustListType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="CertificateTypes" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="CertificateExpired" TypeDefinition="CertificateExpirationAlarmType" ModellingRule="Optional" />
-      <opc:Object SymbolicName="TrustListOutOfDate" TypeDefinition="TrustListOutOfDateAlarmType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="CertificateExpired" TypeDefinition="CertificateExpirationAlarmType" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Object SymbolicName="TrustListOutOfDate" TypeDefinition="TrustListOutOfDateAlarmType" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Method SymbolicName="GetRejectedList" TypeDefinition="GetRejectedListMethodType" ModellingRule="Optional" ReleaseStatus="Draft" />
     </opc:Children>
   </opc:ObjectType>
   
@@ -3846,6 +3858,14 @@
   <opc:ObjectType SymbolicName="UserCredentialCertificateType" BaseType="CertificateType" PartNo="12"></opc:ObjectType>
   <opc:ObjectType SymbolicName="RsaMinApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12"></opc:ObjectType>
   <opc:ObjectType SymbolicName="RsaSha256ApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12"></opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="EccApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccNistP256ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccNistP384ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccBrainpoolP256r1ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccBrainpoolP384r1ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccCurve25519ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccCurve448ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
   
   <opc:ObjectType SymbolicName="TrustListUpdatedAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true" PartNo="12">
   </opc:ObjectType>
@@ -3981,8 +4001,9 @@
 
   <opc:ObjectType SymbolicName="KeyCredentialConfigurationFolderType" BaseType="ua:FolderType" PartNo="12">
     <opc:Children>
-      <opc:Object SymbolicName="ServiceName_Placeholder" TypeDefinition="KeyCredentialConfigurationType"  ModellingRule="OptionalPlaceholder">
+      <opc:Object SymbolicName="ServiceName_Placeholder" TypeDefinition="KeyCredentialConfigurationType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ServiceName&gt;</opc:BrowseName>
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
       </opc:Object>
       <opc:Method SymbolicName="CreateCredential" TypeDefinition="CreateCredentialMethodType" ModellingRule="Optional" />
     </opc:Children>
@@ -4037,14 +4058,17 @@
   
   <opc:ObjectType SymbolicName="KeyCredentialUpdatedAuditEventType" BaseType="KeyCredentialAuditEventType" IsAbstract="false" PartNo="12" />
   <opc:ObjectType SymbolicName="KeyCredentialDeletedAuditEventType" BaseType="KeyCredentialAuditEventType" IsAbstract="false" PartNo="12" />
-  
-  <opc:Object SymbolicName="AuthorizationServices" TypeDefinition="ua:FolderType" PartNo="12">
+
+  <opc:ObjectType SymbolicName="AuthorizationServicesConfigurationFolderType" BaseType="ua:FolderType">
     <opc:Children>
       <opc:Object SymbolicName="ServiceName_Placeholder" TypeDefinition="AuthorizationServiceConfigurationType"  ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ServiceName&gt;</opc:BrowseName>
-        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
     </opc:Children>
+  </opc:ObjectType>
+  
+  <opc:Object SymbolicName="AuthorizationServices" TypeDefinition="ua:FolderType" PartNo="12">
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>

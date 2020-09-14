@@ -43,7 +43,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd)]
+    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd)]
     public partial class ModelTableEntry : IEncodeable
     {
         #region Constructors
@@ -178,7 +178,7 @@ namespace Opc.Ua.UANodeSet
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
         {
-            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             encoder.WriteString("ModelUri", ModelUri);
             encoder.WriteString("Version", Version);
@@ -193,7 +193,7 @@ namespace Opc.Ua.UANodeSet
         /// <summary cref="IEncodeable.Decode(IDecoder)" />
         public virtual void Decode(IDecoder decoder)
         {
-            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             ModelUri = decoder.ReadString("ModelUri");
             Version = decoder.ReadString("Version");
@@ -270,7 +270,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfModelTableEntry", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd, ItemName = "ModelTableEntry")]
+    [CollectionDataContract(Name = "ListOfModelTableEntry", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd, ItemName = "ModelTableEntry")]
     #if !NET_STANDARD
     public partial class ModelTableEntryCollection : List<ModelTableEntry>, ICloneable
     #else
@@ -358,7 +358,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd)]
+    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd)]
     public partial class UANodeSet : IEncodeable
     {
         #region Constructors
@@ -535,7 +535,7 @@ namespace Opc.Ua.UANodeSet
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
         {
-            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             encoder.WriteStringArray("NamespaceUris", NamespaceUris);
             encoder.WriteStringArray("ServerUris", ServerUris);
@@ -550,7 +550,7 @@ namespace Opc.Ua.UANodeSet
         /// <summary cref="IEncodeable.Decode(IDecoder)" />
         public virtual void Decode(IDecoder decoder)
         {
-            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             NamespaceUris = decoder.ReadStringArray("NamespaceUris");
             ServerUris = decoder.ReadStringArray("ServerUris");
@@ -627,7 +627,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfUANodeSet", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd, ItemName = "UANodeSet")]
+    [CollectionDataContract(Name = "ListOfUANodeSet", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd, ItemName = "UANodeSet")]
     #if !NET_STANDARD
     public partial class UANodeSetCollection : List<UANodeSet>, ICloneable
     #else
@@ -715,7 +715,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd)]
+    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd)]
     public partial class UAReference : IEncodeable
     {
         #region Constructors
@@ -795,7 +795,7 @@ namespace Opc.Ua.UANodeSet
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
         {
-            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             encoder.WriteNodeId("TargetId", TargetId);
             encoder.WriteNodeId("ReferenceTypeId", ReferenceTypeId);
@@ -807,7 +807,7 @@ namespace Opc.Ua.UANodeSet
         /// <summary cref="IEncodeable.Decode(IDecoder)" />
         public virtual void Decode(IDecoder decoder)
         {
-            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             TargetId = decoder.ReadNodeId("TargetId");
             ReferenceTypeId = decoder.ReadNodeId("ReferenceTypeId");
@@ -872,7 +872,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfUAReference", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd, ItemName = "UAReference")]
+    [CollectionDataContract(Name = "ListOfUAReference", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd, ItemName = "UAReference")]
     #if !NET_STANDARD
     public partial class UAReferenceCollection : List<UAReference>, ICloneable
     #else
@@ -953,21 +953,131 @@ namespace Opc.Ua.UANodeSet
     #endif
     #endregion
 
-    #region UANode Class
-    #if (!OPCUA_EXCLUDE_UANode)
+    #region ReleaseStatus Enumeration
+    #if (!OPCUA_EXCLUDE_ReleaseStatus)
     /// <summary>
     /// 
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd)]
-    public partial class UANode : IEncodeable
+    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd)]
+    public enum ReleaseStatus
+    {
+        /// <remarks />
+        [EnumMember(Value = "Released_1")]
+        Released = 1,
+
+        /// <remarks />
+        [EnumMember(Value = "Draft_2")]
+        Draft = 2,
+
+        /// <remarks />
+        [EnumMember(Value = "Deprecated_3")]
+        Deprecated = 3,
+    }
+
+    #region ReleaseStatusCollection Class
+    /// <summary>
+    /// A collection of ReleaseStatus objects.
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [CollectionDataContract(Name = "ListOfReleaseStatus", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd, ItemName = "ReleaseStatus")]
+    #if !NET_STANDARD
+    public partial class ReleaseStatusCollection : List<ReleaseStatus>, ICloneable
+    #else
+    public partial class ReleaseStatusCollection : List<ReleaseStatus>
+    #endif
+    {
+        #region Constructors
+        /// <summary>
+        /// Initializes the collection with default values.
+        /// </summary>
+        public ReleaseStatusCollection() {}
+
+        /// <summary>
+        /// Initializes the collection with an initial capacity.
+        /// </summary>
+        public ReleaseStatusCollection(int capacity) : base(capacity) {}
+
+        /// <summary>
+        /// Initializes the collection with another collection.
+        /// </summary>
+        public ReleaseStatusCollection(IEnumerable<ReleaseStatus> collection) : base(collection) {}
+        #endregion
+
+        #region Static Operators
+        /// <summary>
+        /// Converts an array to a collection.
+        /// </summary>
+        public static implicit operator ReleaseStatusCollection(ReleaseStatus[] values)
+        {
+            if (values != null)
+            {
+                return new ReleaseStatusCollection(values);
+            }
+
+            return new ReleaseStatusCollection();
+        }
+
+        /// <summary>
+        /// Converts a collection to an array.
+        /// </summary>
+        public static explicit operator ReleaseStatus[](ReleaseStatusCollection values)
+        {
+            if (values != null)
+            {
+                return values.ToArray();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #if !NET_STANDARD
+        #region ICloneable Methods
+        /// <summary>
+        /// Creates a deep copy of the collection.
+        /// </summary>
+        public object Clone()
+        {
+            return (ReleaseStatusCollection)this.MemberwiseClone();
+        }
+        #endregion
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            ReleaseStatusCollection clone = new ReleaseStatusCollection(this.Count);
+
+            for (int ii = 0; ii < this.Count; ii++)
+            {
+                clone.Add((ReleaseStatus)Utils.Clone(this[ii]));
+            }
+
+            return clone;
+        }
+    }
+    #endregion
+    #endif
+    #endregion
+
+    #region UABaseNode Class
+    #if (!OPCUA_EXCLUDE_UABaseNode)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd)]
+    public partial class UABaseNode : IEncodeable
     {
         #region Constructors
         /// <summary>
         /// The default constructor.
         /// </summary>
-        public UANode()
+        public UABaseNode()
         {
             Initialize();
         }
@@ -995,6 +1105,7 @@ namespace Opc.Ua.UANodeSet
             m_writeMask = 0;
             m_rolePermissions = new RolePermissionTypeCollection();
             m_accessRestrictions = 0;
+            m_releaseStatus = ReleaseStatus.Released;
             m_references = new UAReferenceCollection();
             m_extensions = new KeyValuePairCollection();
         }
@@ -1115,10 +1226,18 @@ namespace Opc.Ua.UANodeSet
             set { m_accessRestrictions = value; }
         }
 
+        /// <remarks />
+        [DataMember(Name = "ReleaseStatus", IsRequired = false, Order = 10)]
+        public ReleaseStatus ReleaseStatus
+        {
+            get { return m_releaseStatus;  }
+            set { m_releaseStatus = value; }
+        }
+
         /// <summary>
         /// 
         /// </summary>
-        [DataMember(Name = "References", IsRequired = false, Order = 10)]
+        [DataMember(Name = "References", IsRequired = false, Order = 11)]
         public UAReferenceCollection References
         {
             get
@@ -1140,7 +1259,7 @@ namespace Opc.Ua.UANodeSet
         /// <summary>
         /// 
         /// </summary>
-        [DataMember(Name = "Extensions", IsRequired = false, Order = 11)]
+        [DataMember(Name = "Extensions", IsRequired = false, Order = 12)]
         public KeyValuePairCollection Extensions
         {
             get
@@ -1164,25 +1283,25 @@ namespace Opc.Ua.UANodeSet
         /// <summary cref="IEncodeable.TypeId" />
         public virtual ExpandedNodeId TypeId
         {
-            get { return DataTypeIds.UANode; }
+            get { return DataTypeIds.UABaseNode; }
         }
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
         public virtual ExpandedNodeId BinaryEncodingId
         {
-            get { return ObjectIds.UANode_Encoding_DefaultBinary; }
+            get { return ObjectIds.UABaseNode_Encoding_DefaultBinary; }
         }
 
         /// <summary cref="IEncodeable.XmlEncodingId" />
         public virtual ExpandedNodeId XmlEncodingId
         {
-            get { return ObjectIds.UANode_Encoding_DefaultXml; }
+            get { return ObjectIds.UABaseNode_Encoding_DefaultXml; }
         }
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
         {
-            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             encoder.WriteNodeId("NodeId", NodeId);
             encoder.WriteQualifiedName("BrowseName", BrowseName);
@@ -1193,6 +1312,7 @@ namespace Opc.Ua.UANodeSet
             encoder.WriteUInt32("WriteMask", WriteMask);
             encoder.WriteEncodeableArray("RolePermissions", RolePermissions.ToArray(), typeof(RolePermissionType));
             encoder.WriteUInt32("AccessRestrictions", AccessRestrictions);
+            encoder.WriteEnumerated("ReleaseStatus", ReleaseStatus);
             encoder.WriteEncodeableArray("References", References.ToArray(), typeof(UAReference));
             encoder.WriteEncodeableArray("Extensions", Extensions.ToArray(), typeof(KeyValuePair));
 
@@ -1202,7 +1322,7 @@ namespace Opc.Ua.UANodeSet
         /// <summary cref="IEncodeable.Decode(IDecoder)" />
         public virtual void Decode(IDecoder decoder)
         {
-            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             NodeId = decoder.ReadNodeId("NodeId");
             BrowseName = decoder.ReadQualifiedName("BrowseName");
@@ -1213,6 +1333,7 @@ namespace Opc.Ua.UANodeSet
             WriteMask = decoder.ReadUInt32("WriteMask");
             RolePermissions = (RolePermissionTypeCollection)decoder.ReadEncodeableArray("RolePermissions", typeof(RolePermissionType));
             AccessRestrictions = decoder.ReadUInt32("AccessRestrictions");
+            ReleaseStatus = (ReleaseStatus)decoder.ReadEnumerated("ReleaseStatus", typeof(ReleaseStatus));
             References = (UAReferenceCollection)decoder.ReadEncodeableArray("References", typeof(UAReference));
             Extensions = (KeyValuePairCollection)decoder.ReadEncodeableArray("Extensions", typeof(KeyValuePair));
 
@@ -1227,7 +1348,7 @@ namespace Opc.Ua.UANodeSet
                 return true;
             }
 
-            UANode value = encodeable as UANode;
+            UABaseNode value = encodeable as UABaseNode;
 
             if (value == null)
             {
@@ -1243,6 +1364,7 @@ namespace Opc.Ua.UANodeSet
             if (!Utils.IsEqual(m_writeMask, value.m_writeMask)) return false;
             if (!Utils.IsEqual(m_rolePermissions, value.m_rolePermissions)) return false;
             if (!Utils.IsEqual(m_accessRestrictions, value.m_accessRestrictions)) return false;
+            if (!Utils.IsEqual(m_releaseStatus, value.m_releaseStatus)) return false;
             if (!Utils.IsEqual(m_references, value.m_references)) return false;
             if (!Utils.IsEqual(m_extensions, value.m_extensions)) return false;
 
@@ -1253,14 +1375,14 @@ namespace Opc.Ua.UANodeSet
         /// <summary cref="ICloneable.Clone" />
         public virtual object Clone()
         {
-            return (UANode)this.MemberwiseClone();
+            return (UABaseNode)this.MemberwiseClone();
         }
         #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
         {
-            UANode clone = (UANode)base.MemberwiseClone();
+            UABaseNode clone = (UABaseNode)base.MemberwiseClone();
 
             clone.m_nodeId = (NodeId)Utils.Clone(this.m_nodeId);
             clone.m_browseName = (QualifiedName)Utils.Clone(this.m_browseName);
@@ -1271,6 +1393,7 @@ namespace Opc.Ua.UANodeSet
             clone.m_writeMask = (uint)Utils.Clone(this.m_writeMask);
             clone.m_rolePermissions = (RolePermissionTypeCollection)Utils.Clone(this.m_rolePermissions);
             clone.m_accessRestrictions = (uint)Utils.Clone(this.m_accessRestrictions);
+            clone.m_releaseStatus = (ReleaseStatus)Utils.Clone(this.m_releaseStatus);
             clone.m_references = (UAReferenceCollection)Utils.Clone(this.m_references);
             clone.m_extensions = (KeyValuePairCollection)Utils.Clone(this.m_extensions);
 
@@ -1288,59 +1411,60 @@ namespace Opc.Ua.UANodeSet
         private uint m_writeMask;
         private RolePermissionTypeCollection m_rolePermissions;
         private uint m_accessRestrictions;
+        private ReleaseStatus m_releaseStatus;
         private UAReferenceCollection m_references;
         private KeyValuePairCollection m_extensions;
         #endregion
     }
 
-    #region UANodeCollection Class
+    #region UABaseNodeCollection Class
     /// <summary>
-    /// A collection of UANode objects.
+    /// A collection of UABaseNode objects.
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfUANode", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd, ItemName = "UANode")]
+    [CollectionDataContract(Name = "ListOfUABaseNode", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd, ItemName = "UABaseNode")]
     #if !NET_STANDARD
-    public partial class UANodeCollection : List<UANode>, ICloneable
+    public partial class UABaseNodeCollection : List<UABaseNode>, ICloneable
     #else
-    public partial class UANodeCollection : List<UANode>
+    public partial class UABaseNodeCollection : List<UABaseNode>
     #endif
     {
         #region Constructors
         /// <summary>
         /// Initializes the collection with default values.
         /// </summary>
-        public UANodeCollection() {}
+        public UABaseNodeCollection() {}
 
         /// <summary>
         /// Initializes the collection with an initial capacity.
         /// </summary>
-        public UANodeCollection(int capacity) : base(capacity) {}
+        public UABaseNodeCollection(int capacity) : base(capacity) {}
 
         /// <summary>
         /// Initializes the collection with another collection.
         /// </summary>
-        public UANodeCollection(IEnumerable<UANode> collection) : base(collection) {}
+        public UABaseNodeCollection(IEnumerable<UABaseNode> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
         /// <summary>
         /// Converts an array to a collection.
         /// </summary>
-        public static implicit operator UANodeCollection(UANode[] values)
+        public static implicit operator UABaseNodeCollection(UABaseNode[] values)
         {
             if (values != null)
             {
-                return new UANodeCollection(values);
+                return new UABaseNodeCollection(values);
             }
 
-            return new UANodeCollection();
+            return new UABaseNodeCollection();
         }
 
         /// <summary>
         /// Converts a collection to an array.
         /// </summary>
-        public static explicit operator UANode[](UANodeCollection values)
+        public static explicit operator UABaseNode[](UABaseNodeCollection values)
         {
             if (values != null)
             {
@@ -1358,7 +1482,7 @@ namespace Opc.Ua.UANodeSet
         /// </summary>
         public object Clone()
         {
-            return (UANodeCollection)this.MemberwiseClone();
+            return (UABaseNodeCollection)this.MemberwiseClone();
         }
         #endregion
         #endif
@@ -1366,441 +1490,11 @@ namespace Opc.Ua.UANodeSet
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
         {
-            UANodeCollection clone = new UANodeCollection(this.Count);
+            UABaseNodeCollection clone = new UABaseNodeCollection(this.Count);
 
             for (int ii = 0; ii < this.Count; ii++)
             {
-                clone.Add((UANode)Utils.Clone(this[ii]));
-            }
-
-            return clone;
-        }
-    }
-    #endregion
-    #endif
-    #endregion
-
-    #region UAType Class
-    #if (!OPCUA_EXCLUDE_UAType)
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd)]
-    public partial class UAType : UANode
-    {
-        #region Constructors
-        /// <summary>
-        /// The default constructor.
-        /// </summary>
-        public UAType()
-        {
-            Initialize();
-        }
-
-        /// <summary>
-        /// Called by the .NET framework during deserialization.
-        /// </summary>
-        [OnDeserializing]
-        private void Initialize(StreamingContext context)
-        {
-            Initialize();
-        }
-
-        /// <summary>
-        /// Sets private members to default values.
-        /// </summary>
-        private void Initialize()
-        {
-            m_isAbstract = true;
-        }
-        #endregion
-
-        #region Public Properties
-        /// <remarks />
-        [DataMember(Name = "IsAbstract", IsRequired = false, Order = 1)]
-        public bool IsAbstract
-        {
-            get { return m_isAbstract;  }
-            set { m_isAbstract = value; }
-        }
-        #endregion
-
-        #region IEncodeable Members
-        /// <summary cref="IEncodeable.TypeId" />
-        public override ExpandedNodeId TypeId
-        {
-            get { return DataTypeIds.UAType; }
-        }
-
-        /// <summary cref="IEncodeable.BinaryEncodingId" />
-        public override ExpandedNodeId BinaryEncodingId
-        {
-            get { return ObjectIds.UAType_Encoding_DefaultBinary; }
-        }
-
-        /// <summary cref="IEncodeable.XmlEncodingId" />
-        public override ExpandedNodeId XmlEncodingId
-        {
-            get { return ObjectIds.UAType_Encoding_DefaultXml; }
-        }
-
-        /// <summary cref="IEncodeable.Encode(IEncoder)" />
-        public override void Encode(IEncoder encoder)
-        {
-            base.Encode(encoder);
-
-            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
-
-            encoder.WriteBoolean("IsAbstract", IsAbstract);
-
-            encoder.PopNamespace();
-        }
-
-        /// <summary cref="IEncodeable.Decode(IDecoder)" />
-        public override void Decode(IDecoder decoder)
-        {
-            base.Decode(decoder);
-
-            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
-
-            IsAbstract = decoder.ReadBoolean("IsAbstract");
-
-            decoder.PopNamespace();
-        }
-
-        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
-        public override bool IsEqual(IEncodeable encodeable)
-        {
-            if (Object.ReferenceEquals(this, encodeable))
-            {
-                return true;
-            }
-
-            UAType value = encodeable as UAType;
-
-            if (value == null)
-            {
-                return false;
-            }
-
-            if (!base.IsEqual(encodeable)) return false;
-            if (!Utils.IsEqual(m_isAbstract, value.m_isAbstract)) return false;
-
-            return true;
-        }    
-
-        #if !NET_STANDARD
-        /// <summary cref="ICloneable.Clone" />
-        public override object Clone()
-        {
-            return (UAType)this.MemberwiseClone();
-        }
-        #endif
-
-        /// <summary cref="Object.MemberwiseClone" />
-        public new object MemberwiseClone()
-        {
-            UAType clone = (UAType)base.MemberwiseClone();
-
-            clone.m_isAbstract = (bool)Utils.Clone(this.m_isAbstract);
-
-            return clone;
-        }
-        #endregion
-
-        #region Private Fields
-        private bool m_isAbstract;
-        #endregion
-    }
-
-    #region UATypeCollection Class
-    /// <summary>
-    /// A collection of UAType objects.
-    /// </summary>
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfUAType", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd, ItemName = "UAType")]
-    #if !NET_STANDARD
-    public partial class UATypeCollection : List<UAType>, ICloneable
-    #else
-    public partial class UATypeCollection : List<UAType>
-    #endif
-    {
-        #region Constructors
-        /// <summary>
-        /// Initializes the collection with default values.
-        /// </summary>
-        public UATypeCollection() {}
-
-        /// <summary>
-        /// Initializes the collection with an initial capacity.
-        /// </summary>
-        public UATypeCollection(int capacity) : base(capacity) {}
-
-        /// <summary>
-        /// Initializes the collection with another collection.
-        /// </summary>
-        public UATypeCollection(IEnumerable<UAType> collection) : base(collection) {}
-        #endregion
-
-        #region Static Operators
-        /// <summary>
-        /// Converts an array to a collection.
-        /// </summary>
-        public static implicit operator UATypeCollection(UAType[] values)
-        {
-            if (values != null)
-            {
-                return new UATypeCollection(values);
-            }
-
-            return new UATypeCollection();
-        }
-
-        /// <summary>
-        /// Converts a collection to an array.
-        /// </summary>
-        public static explicit operator UAType[](UATypeCollection values)
-        {
-            if (values != null)
-            {
-                return values.ToArray();
-            }
-
-            return null;
-        }
-        #endregion
-
-        #if !NET_STANDARD
-        #region ICloneable Methods
-        /// <summary>
-        /// Creates a deep copy of the collection.
-        /// </summary>
-        public object Clone()
-        {
-            return (UATypeCollection)this.MemberwiseClone();
-        }
-        #endregion
-        #endif
-
-        /// <summary cref="Object.MemberwiseClone" />
-        public new object MemberwiseClone()
-        {
-            UATypeCollection clone = new UATypeCollection(this.Count);
-
-            for (int ii = 0; ii < this.Count; ii++)
-            {
-                clone.Add((UAType)Utils.Clone(this[ii]));
-            }
-
-            return clone;
-        }
-    }
-    #endregion
-    #endif
-    #endregion
-
-    #region UAObjectType Class
-    #if (!OPCUA_EXCLUDE_UAObjectType)
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd)]
-    public partial class UAObjectType : UAType
-    {
-        #region Constructors
-        /// <summary>
-        /// The default constructor.
-        /// </summary>
-        public UAObjectType()
-        {
-            Initialize();
-        }
-
-        /// <summary>
-        /// Called by the .NET framework during deserialization.
-        /// </summary>
-        [OnDeserializing]
-        private void Initialize(StreamingContext context)
-        {
-            Initialize();
-        }
-
-        /// <summary>
-        /// Sets private members to default values.
-        /// </summary>
-        private void Initialize()
-        {
-        }
-        #endregion
-
-        #region Public Properties
-        #endregion
-
-        #region IEncodeable Members
-        /// <summary cref="IEncodeable.TypeId" />
-        public override ExpandedNodeId TypeId
-        {
-            get { return DataTypeIds.UAObjectType; }
-        }
-
-        /// <summary cref="IEncodeable.BinaryEncodingId" />
-        public override ExpandedNodeId BinaryEncodingId
-        {
-            get { return ObjectIds.UAObjectType_Encoding_DefaultBinary; }
-        }
-
-        /// <summary cref="IEncodeable.XmlEncodingId" />
-        public override ExpandedNodeId XmlEncodingId
-        {
-            get { return ObjectIds.UAObjectType_Encoding_DefaultXml; }
-        }
-
-        /// <summary cref="IEncodeable.Encode(IEncoder)" />
-        public override void Encode(IEncoder encoder)
-        {
-            base.Encode(encoder);
-
-            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
-
-
-            encoder.PopNamespace();
-        }
-
-        /// <summary cref="IEncodeable.Decode(IDecoder)" />
-        public override void Decode(IDecoder decoder)
-        {
-            base.Decode(decoder);
-
-            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
-
-
-            decoder.PopNamespace();
-        }
-
-        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
-        public override bool IsEqual(IEncodeable encodeable)
-        {
-            if (Object.ReferenceEquals(this, encodeable))
-            {
-                return true;
-            }
-
-            UAObjectType value = encodeable as UAObjectType;
-
-            if (value == null)
-            {
-                return false;
-            }
-
-
-            return true;
-        }    
-
-        #if !NET_STANDARD
-        /// <summary cref="ICloneable.Clone" />
-        public override object Clone()
-        {
-            return (UAObjectType)this.MemberwiseClone();
-        }
-        #endif
-
-        /// <summary cref="Object.MemberwiseClone" />
-        public new object MemberwiseClone()
-        {
-            UAObjectType clone = (UAObjectType)base.MemberwiseClone();
-
-
-            return clone;
-        }
-        #endregion
-
-        #region Private Fields
-        #endregion
-    }
-
-    #region UAObjectTypeCollection Class
-    /// <summary>
-    /// A collection of UAObjectType objects.
-    /// </summary>
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfUAObjectType", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd, ItemName = "UAObjectType")]
-    #if !NET_STANDARD
-    public partial class UAObjectTypeCollection : List<UAObjectType>, ICloneable
-    #else
-    public partial class UAObjectTypeCollection : List<UAObjectType>
-    #endif
-    {
-        #region Constructors
-        /// <summary>
-        /// Initializes the collection with default values.
-        /// </summary>
-        public UAObjectTypeCollection() {}
-
-        /// <summary>
-        /// Initializes the collection with an initial capacity.
-        /// </summary>
-        public UAObjectTypeCollection(int capacity) : base(capacity) {}
-
-        /// <summary>
-        /// Initializes the collection with another collection.
-        /// </summary>
-        public UAObjectTypeCollection(IEnumerable<UAObjectType> collection) : base(collection) {}
-        #endregion
-
-        #region Static Operators
-        /// <summary>
-        /// Converts an array to a collection.
-        /// </summary>
-        public static implicit operator UAObjectTypeCollection(UAObjectType[] values)
-        {
-            if (values != null)
-            {
-                return new UAObjectTypeCollection(values);
-            }
-
-            return new UAObjectTypeCollection();
-        }
-
-        /// <summary>
-        /// Converts a collection to an array.
-        /// </summary>
-        public static explicit operator UAObjectType[](UAObjectTypeCollection values)
-        {
-            if (values != null)
-            {
-                return values.ToArray();
-            }
-
-            return null;
-        }
-        #endregion
-
-        #if !NET_STANDARD
-        #region ICloneable Methods
-        /// <summary>
-        /// Creates a deep copy of the collection.
-        /// </summary>
-        public object Clone()
-        {
-            return (UAObjectTypeCollection)this.MemberwiseClone();
-        }
-        #endregion
-        #endif
-
-        /// <summary cref="Object.MemberwiseClone" />
-        public new object MemberwiseClone()
-        {
-            UAObjectTypeCollection clone = new UAObjectTypeCollection(this.Count);
-
-            for (int ii = 0; ii < this.Count; ii++)
-            {
-                clone.Add((UAObjectType)Utils.Clone(this[ii]));
+                clone.Add((UABaseNode)Utils.Clone(this[ii]));
             }
 
             return clone;
@@ -1817,7 +1511,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd)]
+    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd)]
     public partial class NamedTranslationType : IEncodeable
     {
         #region Constructors
@@ -1844,7 +1538,7 @@ namespace Opc.Ua.UANodeSet
         private void Initialize()
         {
             m_name = null;
-            m_text = new LocalizedTextCollection();
+            m_texts = new LocalizedTextCollection();
         }
         #endregion
 
@@ -1860,21 +1554,21 @@ namespace Opc.Ua.UANodeSet
         /// <summary>
         /// 
         /// </summary>
-        [DataMember(Name = "Text", IsRequired = false, Order = 2)]
-        public LocalizedTextCollection Text
+        [DataMember(Name = "Texts", IsRequired = false, Order = 2)]
+        public LocalizedTextCollection Texts
         {
             get
             {
-                return m_text;
+                return m_texts;
             }
 
             set
             {
-                m_text = value;
+                m_texts = value;
 
                 if (value == null)
                 {
-                    m_text = new LocalizedTextCollection();
+                    m_texts = new LocalizedTextCollection();
                 }
             }
         }
@@ -1902,10 +1596,10 @@ namespace Opc.Ua.UANodeSet
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
         {
-            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             encoder.WriteString("Name", Name);
-            encoder.WriteLocalizedTextArray("Text", Text);
+            encoder.WriteLocalizedTextArray("Texts", Texts);
 
             encoder.PopNamespace();
         }
@@ -1913,10 +1607,10 @@ namespace Opc.Ua.UANodeSet
         /// <summary cref="IEncodeable.Decode(IDecoder)" />
         public virtual void Decode(IDecoder decoder)
         {
-            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             Name = decoder.ReadString("Name");
-            Text = decoder.ReadLocalizedTextArray("Text");
+            Texts = decoder.ReadLocalizedTextArray("Texts");
 
             decoder.PopNamespace();
         }
@@ -1937,7 +1631,7 @@ namespace Opc.Ua.UANodeSet
             }
 
             if (!Utils.IsEqual(m_name, value.m_name)) return false;
-            if (!Utils.IsEqual(m_text, value.m_text)) return false;
+            if (!Utils.IsEqual(m_texts, value.m_texts)) return false;
 
             return true;
         }
@@ -1956,7 +1650,7 @@ namespace Opc.Ua.UANodeSet
             NamedTranslationType clone = (NamedTranslationType)base.MemberwiseClone();
 
             clone.m_name = (string)Utils.Clone(this.m_name);
-            clone.m_text = (LocalizedTextCollection)Utils.Clone(this.m_text);
+            clone.m_texts = (LocalizedTextCollection)Utils.Clone(this.m_texts);
 
             return clone;
         }
@@ -1964,7 +1658,7 @@ namespace Opc.Ua.UANodeSet
 
         #region Private Fields
         private string m_name;
-        private LocalizedTextCollection m_text;
+        private LocalizedTextCollection m_texts;
         #endregion
     }
 
@@ -1974,7 +1668,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfNamedTranslationType", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd, ItemName = "NamedTranslationType")]
+    [CollectionDataContract(Name = "ListOfNamedTranslationType", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd, ItemName = "NamedTranslationType")]
     #if !NET_STANDARD
     public partial class NamedTranslationTypeCollection : List<NamedTranslationType>, ICloneable
     #else
@@ -2055,784 +1749,6 @@ namespace Opc.Ua.UANodeSet
     #endif
     #endregion
 
-    #region UAVariableType Class
-    #if (!OPCUA_EXCLUDE_UAVariableType)
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd)]
-    public partial class UAVariableType : UAType
-    {
-        #region Constructors
-        /// <summary>
-        /// The default constructor.
-        /// </summary>
-        public UAVariableType()
-        {
-            Initialize();
-        }
-
-        /// <summary>
-        /// Called by the .NET framework during deserialization.
-        /// </summary>
-        [OnDeserializing]
-        private void Initialize(StreamingContext context)
-        {
-            Initialize();
-        }
-
-        /// <summary>
-        /// Sets private members to default values.
-        /// </summary>
-        private void Initialize()
-        {
-            m_value = Variant.Null;
-            m_dataType = null;
-            m_valueRank = (int)0;
-            m_arrayDimensions = new UInt32Collection();
-            m_translations = new NamedTranslationTypeCollection();
-        }
-        #endregion
-
-        #region Public Properties
-        /// <remarks />
-        [DataMember(Name = "Value", IsRequired = false, Order = 1)]
-        public Variant Value
-        {
-            get { return m_value;  }
-            set { m_value = value; }
-        }
-
-        /// <remarks />
-        [DataMember(Name = "DataType", IsRequired = false, Order = 2)]
-        public NodeId DataType
-        {
-            get { return m_dataType;  }
-            set { m_dataType = value; }
-        }
-
-        /// <remarks />
-        [DataMember(Name = "ValueRank", IsRequired = false, Order = 3)]
-        public int ValueRank
-        {
-            get { return m_valueRank;  }
-            set { m_valueRank = value; }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "ArrayDimensions", IsRequired = false, Order = 4)]
-        public UInt32Collection ArrayDimensions
-        {
-            get
-            {
-                return m_arrayDimensions;
-            }
-
-            set
-            {
-                m_arrayDimensions = value;
-
-                if (value == null)
-                {
-                    m_arrayDimensions = new UInt32Collection();
-                }
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "Translations", IsRequired = false, Order = 5)]
-        public NamedTranslationTypeCollection Translations
-        {
-            get
-            {
-                return m_translations;
-            }
-
-            set
-            {
-                m_translations = value;
-
-                if (value == null)
-                {
-                    m_translations = new NamedTranslationTypeCollection();
-                }
-            }
-        }
-        #endregion
-
-        #region IEncodeable Members
-        /// <summary cref="IEncodeable.TypeId" />
-        public override ExpandedNodeId TypeId
-        {
-            get { return DataTypeIds.UAVariableType; }
-        }
-
-        /// <summary cref="IEncodeable.BinaryEncodingId" />
-        public override ExpandedNodeId BinaryEncodingId
-        {
-            get { return ObjectIds.UAVariableType_Encoding_DefaultBinary; }
-        }
-
-        /// <summary cref="IEncodeable.XmlEncodingId" />
-        public override ExpandedNodeId XmlEncodingId
-        {
-            get { return ObjectIds.UAVariableType_Encoding_DefaultXml; }
-        }
-
-        /// <summary cref="IEncodeable.Encode(IEncoder)" />
-        public override void Encode(IEncoder encoder)
-        {
-            base.Encode(encoder);
-
-            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
-
-            encoder.WriteVariant("Value", Value);
-            encoder.WriteNodeId("DataType", DataType);
-            encoder.WriteInt32("ValueRank", ValueRank);
-            encoder.WriteUInt32Array("ArrayDimensions", ArrayDimensions);
-            encoder.WriteEncodeableArray("Translations", Translations.ToArray(), typeof(NamedTranslationType));
-
-            encoder.PopNamespace();
-        }
-
-        /// <summary cref="IEncodeable.Decode(IDecoder)" />
-        public override void Decode(IDecoder decoder)
-        {
-            base.Decode(decoder);
-
-            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
-
-            Value = decoder.ReadVariant("Value");
-            DataType = decoder.ReadNodeId("DataType");
-            ValueRank = decoder.ReadInt32("ValueRank");
-            ArrayDimensions = decoder.ReadUInt32Array("ArrayDimensions");
-            Translations = (NamedTranslationTypeCollection)decoder.ReadEncodeableArray("Translations", typeof(NamedTranslationType));
-
-            decoder.PopNamespace();
-        }
-
-        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
-        public override bool IsEqual(IEncodeable encodeable)
-        {
-            if (Object.ReferenceEquals(this, encodeable))
-            {
-                return true;
-            }
-
-            UAVariableType value = encodeable as UAVariableType;
-
-            if (value == null)
-            {
-                return false;
-            }
-
-            if (!base.IsEqual(encodeable)) return false;
-            if (!Utils.IsEqual(m_value, value.m_value)) return false;
-            if (!Utils.IsEqual(m_dataType, value.m_dataType)) return false;
-            if (!Utils.IsEqual(m_valueRank, value.m_valueRank)) return false;
-            if (!Utils.IsEqual(m_arrayDimensions, value.m_arrayDimensions)) return false;
-            if (!Utils.IsEqual(m_translations, value.m_translations)) return false;
-
-            return true;
-        }    
-
-        #if !NET_STANDARD
-        /// <summary cref="ICloneable.Clone" />
-        public override object Clone()
-        {
-            return (UAVariableType)this.MemberwiseClone();
-        }
-        #endif
-
-        /// <summary cref="Object.MemberwiseClone" />
-        public new object MemberwiseClone()
-        {
-            UAVariableType clone = (UAVariableType)base.MemberwiseClone();
-
-            clone.m_value = (Variant)Utils.Clone(this.m_value);
-            clone.m_dataType = (NodeId)Utils.Clone(this.m_dataType);
-            clone.m_valueRank = (int)Utils.Clone(this.m_valueRank);
-            clone.m_arrayDimensions = (UInt32Collection)Utils.Clone(this.m_arrayDimensions);
-            clone.m_translations = (NamedTranslationTypeCollection)Utils.Clone(this.m_translations);
-
-            return clone;
-        }
-        #endregion
-
-        #region Private Fields
-        private Variant m_value;
-        private NodeId m_dataType;
-        private int m_valueRank;
-        private UInt32Collection m_arrayDimensions;
-        private NamedTranslationTypeCollection m_translations;
-        #endregion
-    }
-
-    #region UAVariableTypeCollection Class
-    /// <summary>
-    /// A collection of UAVariableType objects.
-    /// </summary>
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfUAVariableType", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd, ItemName = "UAVariableType")]
-    #if !NET_STANDARD
-    public partial class UAVariableTypeCollection : List<UAVariableType>, ICloneable
-    #else
-    public partial class UAVariableTypeCollection : List<UAVariableType>
-    #endif
-    {
-        #region Constructors
-        /// <summary>
-        /// Initializes the collection with default values.
-        /// </summary>
-        public UAVariableTypeCollection() {}
-
-        /// <summary>
-        /// Initializes the collection with an initial capacity.
-        /// </summary>
-        public UAVariableTypeCollection(int capacity) : base(capacity) {}
-
-        /// <summary>
-        /// Initializes the collection with another collection.
-        /// </summary>
-        public UAVariableTypeCollection(IEnumerable<UAVariableType> collection) : base(collection) {}
-        #endregion
-
-        #region Static Operators
-        /// <summary>
-        /// Converts an array to a collection.
-        /// </summary>
-        public static implicit operator UAVariableTypeCollection(UAVariableType[] values)
-        {
-            if (values != null)
-            {
-                return new UAVariableTypeCollection(values);
-            }
-
-            return new UAVariableTypeCollection();
-        }
-
-        /// <summary>
-        /// Converts a collection to an array.
-        /// </summary>
-        public static explicit operator UAVariableType[](UAVariableTypeCollection values)
-        {
-            if (values != null)
-            {
-                return values.ToArray();
-            }
-
-            return null;
-        }
-        #endregion
-
-        #if !NET_STANDARD
-        #region ICloneable Methods
-        /// <summary>
-        /// Creates a deep copy of the collection.
-        /// </summary>
-        public object Clone()
-        {
-            return (UAVariableTypeCollection)this.MemberwiseClone();
-        }
-        #endregion
-        #endif
-
-        /// <summary cref="Object.MemberwiseClone" />
-        public new object MemberwiseClone()
-        {
-            UAVariableTypeCollection clone = new UAVariableTypeCollection(this.Count);
-
-            for (int ii = 0; ii < this.Count; ii++)
-            {
-                clone.Add((UAVariableType)Utils.Clone(this[ii]));
-            }
-
-            return clone;
-        }
-    }
-    #endregion
-    #endif
-    #endregion
-
-    #region UADataType Class
-    #if (!OPCUA_EXCLUDE_UADataType)
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd)]
-    public partial class UADataType : UAType
-    {
-        #region Constructors
-        /// <summary>
-        /// The default constructor.
-        /// </summary>
-        public UADataType()
-        {
-            Initialize();
-        }
-
-        /// <summary>
-        /// Called by the .NET framework during deserialization.
-        /// </summary>
-        [OnDeserializing]
-        private void Initialize(StreamingContext context)
-        {
-            Initialize();
-        }
-
-        /// <summary>
-        /// Sets private members to default values.
-        /// </summary>
-        private void Initialize()
-        {
-            m_definition = null;
-        }
-        #endregion
-
-        #region Public Properties
-        /// <remarks />
-        [DataMember(Name = "Definition", IsRequired = false, Order = 1)]
-        public ExtensionObject Definition
-        {
-            get { return m_definition;  }
-            set { m_definition = value; }
-        }
-        #endregion
-
-        #region IEncodeable Members
-        /// <summary cref="IEncodeable.TypeId" />
-        public override ExpandedNodeId TypeId
-        {
-            get { return DataTypeIds.UADataType; }
-        }
-
-        /// <summary cref="IEncodeable.BinaryEncodingId" />
-        public override ExpandedNodeId BinaryEncodingId
-        {
-            get { return ObjectIds.UADataType_Encoding_DefaultBinary; }
-        }
-
-        /// <summary cref="IEncodeable.XmlEncodingId" />
-        public override ExpandedNodeId XmlEncodingId
-        {
-            get { return ObjectIds.UADataType_Encoding_DefaultXml; }
-        }
-
-        /// <summary cref="IEncodeable.Encode(IEncoder)" />
-        public override void Encode(IEncoder encoder)
-        {
-            base.Encode(encoder);
-
-            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
-
-            encoder.WriteExtensionObject("Definition", Definition);
-
-            encoder.PopNamespace();
-        }
-
-        /// <summary cref="IEncodeable.Decode(IDecoder)" />
-        public override void Decode(IDecoder decoder)
-        {
-            base.Decode(decoder);
-
-            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
-
-            Definition = decoder.ReadExtensionObject("Definition");
-
-            decoder.PopNamespace();
-        }
-
-        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
-        public override bool IsEqual(IEncodeable encodeable)
-        {
-            if (Object.ReferenceEquals(this, encodeable))
-            {
-                return true;
-            }
-
-            UADataType value = encodeable as UADataType;
-
-            if (value == null)
-            {
-                return false;
-            }
-
-            if (!base.IsEqual(encodeable)) return false;
-            if (!Utils.IsEqual(m_definition, value.m_definition)) return false;
-
-            return true;
-        }    
-
-        #if !NET_STANDARD
-        /// <summary cref="ICloneable.Clone" />
-        public override object Clone()
-        {
-            return (UADataType)this.MemberwiseClone();
-        }
-        #endif
-
-        /// <summary cref="Object.MemberwiseClone" />
-        public new object MemberwiseClone()
-        {
-            UADataType clone = (UADataType)base.MemberwiseClone();
-
-            clone.m_definition = (ExtensionObject)Utils.Clone(this.m_definition);
-
-            return clone;
-        }
-        #endregion
-
-        #region Private Fields
-        private ExtensionObject m_definition;
-        #endregion
-    }
-
-    #region UADataTypeCollection Class
-    /// <summary>
-    /// A collection of UADataType objects.
-    /// </summary>
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfUADataType", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd, ItemName = "UADataType")]
-    #if !NET_STANDARD
-    public partial class UADataTypeCollection : List<UADataType>, ICloneable
-    #else
-    public partial class UADataTypeCollection : List<UADataType>
-    #endif
-    {
-        #region Constructors
-        /// <summary>
-        /// Initializes the collection with default values.
-        /// </summary>
-        public UADataTypeCollection() {}
-
-        /// <summary>
-        /// Initializes the collection with an initial capacity.
-        /// </summary>
-        public UADataTypeCollection(int capacity) : base(capacity) {}
-
-        /// <summary>
-        /// Initializes the collection with another collection.
-        /// </summary>
-        public UADataTypeCollection(IEnumerable<UADataType> collection) : base(collection) {}
-        #endregion
-
-        #region Static Operators
-        /// <summary>
-        /// Converts an array to a collection.
-        /// </summary>
-        public static implicit operator UADataTypeCollection(UADataType[] values)
-        {
-            if (values != null)
-            {
-                return new UADataTypeCollection(values);
-            }
-
-            return new UADataTypeCollection();
-        }
-
-        /// <summary>
-        /// Converts a collection to an array.
-        /// </summary>
-        public static explicit operator UADataType[](UADataTypeCollection values)
-        {
-            if (values != null)
-            {
-                return values.ToArray();
-            }
-
-            return null;
-        }
-        #endregion
-
-        #if !NET_STANDARD
-        #region ICloneable Methods
-        /// <summary>
-        /// Creates a deep copy of the collection.
-        /// </summary>
-        public object Clone()
-        {
-            return (UADataTypeCollection)this.MemberwiseClone();
-        }
-        #endregion
-        #endif
-
-        /// <summary cref="Object.MemberwiseClone" />
-        public new object MemberwiseClone()
-        {
-            UADataTypeCollection clone = new UADataTypeCollection(this.Count);
-
-            for (int ii = 0; ii < this.Count; ii++)
-            {
-                clone.Add((UADataType)Utils.Clone(this[ii]));
-            }
-
-            return clone;
-        }
-    }
-    #endregion
-    #endif
-    #endregion
-
-    #region UAReferenceType Class
-    #if (!OPCUA_EXCLUDE_UAReferenceType)
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd)]
-    public partial class UAReferenceType : UAType
-    {
-        #region Constructors
-        /// <summary>
-        /// The default constructor.
-        /// </summary>
-        public UAReferenceType()
-        {
-            Initialize();
-        }
-
-        /// <summary>
-        /// Called by the .NET framework during deserialization.
-        /// </summary>
-        [OnDeserializing]
-        private void Initialize(StreamingContext context)
-        {
-            Initialize();
-        }
-
-        /// <summary>
-        /// Sets private members to default values.
-        /// </summary>
-        private void Initialize()
-        {
-            m_inverseName = new LocalizedTextCollection();
-            m_symmetric = true;
-        }
-        #endregion
-
-        #region Public Properties
-        /// <summary>
-        /// 
-        /// </summary>
-        [DataMember(Name = "InverseName", IsRequired = false, Order = 1)]
-        public LocalizedTextCollection InverseName
-        {
-            get
-            {
-                return m_inverseName;
-            }
-
-            set
-            {
-                m_inverseName = value;
-
-                if (value == null)
-                {
-                    m_inverseName = new LocalizedTextCollection();
-                }
-            }
-        }
-
-        /// <remarks />
-        [DataMember(Name = "Symmetric", IsRequired = false, Order = 2)]
-        public bool Symmetric
-        {
-            get { return m_symmetric;  }
-            set { m_symmetric = value; }
-        }
-        #endregion
-
-        #region IEncodeable Members
-        /// <summary cref="IEncodeable.TypeId" />
-        public override ExpandedNodeId TypeId
-        {
-            get { return DataTypeIds.UAReferenceType; }
-        }
-
-        /// <summary cref="IEncodeable.BinaryEncodingId" />
-        public override ExpandedNodeId BinaryEncodingId
-        {
-            get { return ObjectIds.UAReferenceType_Encoding_DefaultBinary; }
-        }
-
-        /// <summary cref="IEncodeable.XmlEncodingId" />
-        public override ExpandedNodeId XmlEncodingId
-        {
-            get { return ObjectIds.UAReferenceType_Encoding_DefaultXml; }
-        }
-
-        /// <summary cref="IEncodeable.Encode(IEncoder)" />
-        public override void Encode(IEncoder encoder)
-        {
-            base.Encode(encoder);
-
-            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
-
-            encoder.WriteLocalizedTextArray("InverseName", InverseName);
-            encoder.WriteBoolean("Symmetric", Symmetric);
-
-            encoder.PopNamespace();
-        }
-
-        /// <summary cref="IEncodeable.Decode(IDecoder)" />
-        public override void Decode(IDecoder decoder)
-        {
-            base.Decode(decoder);
-
-            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
-
-            InverseName = decoder.ReadLocalizedTextArray("InverseName");
-            Symmetric = decoder.ReadBoolean("Symmetric");
-
-            decoder.PopNamespace();
-        }
-
-        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
-        public override bool IsEqual(IEncodeable encodeable)
-        {
-            if (Object.ReferenceEquals(this, encodeable))
-            {
-                return true;
-            }
-
-            UAReferenceType value = encodeable as UAReferenceType;
-
-            if (value == null)
-            {
-                return false;
-            }
-
-            if (!base.IsEqual(encodeable)) return false;
-            if (!Utils.IsEqual(m_inverseName, value.m_inverseName)) return false;
-            if (!Utils.IsEqual(m_symmetric, value.m_symmetric)) return false;
-
-            return true;
-        }    
-
-        #if !NET_STANDARD
-        /// <summary cref="ICloneable.Clone" />
-        public override object Clone()
-        {
-            return (UAReferenceType)this.MemberwiseClone();
-        }
-        #endif
-
-        /// <summary cref="Object.MemberwiseClone" />
-        public new object MemberwiseClone()
-        {
-            UAReferenceType clone = (UAReferenceType)base.MemberwiseClone();
-
-            clone.m_inverseName = (LocalizedTextCollection)Utils.Clone(this.m_inverseName);
-            clone.m_symmetric = (bool)Utils.Clone(this.m_symmetric);
-
-            return clone;
-        }
-        #endregion
-
-        #region Private Fields
-        private LocalizedTextCollection m_inverseName;
-        private bool m_symmetric;
-        #endregion
-    }
-
-    #region UAReferenceTypeCollection Class
-    /// <summary>
-    /// A collection of UAReferenceType objects.
-    /// </summary>
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfUAReferenceType", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd, ItemName = "UAReferenceType")]
-    #if !NET_STANDARD
-    public partial class UAReferenceTypeCollection : List<UAReferenceType>, ICloneable
-    #else
-    public partial class UAReferenceTypeCollection : List<UAReferenceType>
-    #endif
-    {
-        #region Constructors
-        /// <summary>
-        /// Initializes the collection with default values.
-        /// </summary>
-        public UAReferenceTypeCollection() {}
-
-        /// <summary>
-        /// Initializes the collection with an initial capacity.
-        /// </summary>
-        public UAReferenceTypeCollection(int capacity) : base(capacity) {}
-
-        /// <summary>
-        /// Initializes the collection with another collection.
-        /// </summary>
-        public UAReferenceTypeCollection(IEnumerable<UAReferenceType> collection) : base(collection) {}
-        #endregion
-
-        #region Static Operators
-        /// <summary>
-        /// Converts an array to a collection.
-        /// </summary>
-        public static implicit operator UAReferenceTypeCollection(UAReferenceType[] values)
-        {
-            if (values != null)
-            {
-                return new UAReferenceTypeCollection(values);
-            }
-
-            return new UAReferenceTypeCollection();
-        }
-
-        /// <summary>
-        /// Converts a collection to an array.
-        /// </summary>
-        public static explicit operator UAReferenceType[](UAReferenceTypeCollection values)
-        {
-            if (values != null)
-            {
-                return values.ToArray();
-            }
-
-            return null;
-        }
-        #endregion
-
-        #if !NET_STANDARD
-        #region ICloneable Methods
-        /// <summary>
-        /// Creates a deep copy of the collection.
-        /// </summary>
-        public object Clone()
-        {
-            return (UAReferenceTypeCollection)this.MemberwiseClone();
-        }
-        #endregion
-        #endif
-
-        /// <summary cref="Object.MemberwiseClone" />
-        public new object MemberwiseClone()
-        {
-            UAReferenceTypeCollection clone = new UAReferenceTypeCollection(this.Count);
-
-            for (int ii = 0; ii < this.Count; ii++)
-            {
-                clone.Add((UAReferenceType)Utils.Clone(this[ii]));
-            }
-
-            return clone;
-        }
-    }
-    #endregion
-    #endif
-    #endregion
-
     #region UAInstance Class
     #if (!OPCUA_EXCLUDE_UAInstance)
     /// <summary>
@@ -2840,8 +1756,8 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd)]
-    public partial class UAInstance : UANode
+    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd)]
+    public partial class UAInstance : UABaseNode
     {
         #region Constructors
         /// <summary>
@@ -2904,7 +1820,7 @@ namespace Opc.Ua.UANodeSet
         {
             base.Encode(encoder);
 
-            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             encoder.WriteNodeId("ParentNodeId", ParentNodeId);
 
@@ -2916,7 +1832,7 @@ namespace Opc.Ua.UANodeSet
         {
             base.Decode(decoder);
 
-            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             ParentNodeId = decoder.ReadNodeId("ParentNodeId");
 
@@ -2974,7 +1890,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfUAInstance", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd, ItemName = "UAInstance")]
+    [CollectionDataContract(Name = "ListOfUAInstance", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd, ItemName = "UAInstance")]
     #if !NET_STANDARD
     public partial class UAInstanceCollection : List<UAInstance>, ICloneable
     #else
@@ -3062,7 +1978,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd)]
+    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd)]
     public partial class UAObject : UAInstance
     {
         #region Constructors
@@ -3126,7 +2042,7 @@ namespace Opc.Ua.UANodeSet
         {
             base.Encode(encoder);
 
-            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             encoder.WriteByte("EventNotifier", EventNotifier);
 
@@ -3138,7 +2054,7 @@ namespace Opc.Ua.UANodeSet
         {
             base.Decode(decoder);
 
-            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             EventNotifier = decoder.ReadByte("EventNotifier");
 
@@ -3196,7 +2112,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfUAObject", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd, ItemName = "UAObject")]
+    [CollectionDataContract(Name = "ListOfUAObject", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd, ItemName = "UAObject")]
     #if !NET_STANDARD
     public partial class UAObjectCollection : List<UAObject>, ICloneable
     #else
@@ -3284,7 +2200,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd)]
+    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd)]
     public partial class UAVariable : UAInstance
     {
         #region Constructors
@@ -3439,7 +2355,7 @@ namespace Opc.Ua.UANodeSet
         {
             base.Encode(encoder);
 
-            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             encoder.WriteVariant("Value", Value);
             encoder.WriteNodeId("DataType", DataType);
@@ -3458,7 +2374,7 @@ namespace Opc.Ua.UANodeSet
         {
             base.Decode(decoder);
 
-            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             Value = decoder.ReadVariant("Value");
             DataType = decoder.ReadNodeId("DataType");
@@ -3544,7 +2460,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfUAVariable", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd, ItemName = "UAVariable")]
+    [CollectionDataContract(Name = "ListOfUAVariable", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd, ItemName = "UAVariable")]
     #if !NET_STANDARD
     public partial class UAVariableCollection : List<UAVariable>, ICloneable
     #else
@@ -3632,7 +2548,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd)]
+    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd)]
     public partial class UAMethod : UAInstance
     {
         #region Constructors
@@ -3659,6 +2575,7 @@ namespace Opc.Ua.UANodeSet
         private void Initialize()
         {
             m_methodDeclarationId = null;
+            m_executable = 0;
             m_translations = new NamedTranslationTypeCollection();
         }
         #endregion
@@ -3672,10 +2589,18 @@ namespace Opc.Ua.UANodeSet
             set { m_methodDeclarationId = value; }
         }
 
+        /// <remarks />
+        [DataMember(Name = "Executable", IsRequired = false, Order = 2)]
+        public byte Executable
+        {
+            get { return m_executable;  }
+            set { m_executable = value; }
+        }
+
         /// <summary>
         /// 
         /// </summary>
-        [DataMember(Name = "Translations", IsRequired = false, Order = 2)]
+        [DataMember(Name = "Translations", IsRequired = false, Order = 3)]
         public NamedTranslationTypeCollection Translations
         {
             get
@@ -3719,9 +2644,10 @@ namespace Opc.Ua.UANodeSet
         {
             base.Encode(encoder);
 
-            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             encoder.WriteNodeId("MethodDeclarationId", MethodDeclarationId);
+            encoder.WriteByte("Executable", Executable);
             encoder.WriteEncodeableArray("Translations", Translations.ToArray(), typeof(NamedTranslationType));
 
             encoder.PopNamespace();
@@ -3732,9 +2658,10 @@ namespace Opc.Ua.UANodeSet
         {
             base.Decode(decoder);
 
-            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             MethodDeclarationId = decoder.ReadNodeId("MethodDeclarationId");
+            Executable = decoder.ReadByte("Executable");
             Translations = (NamedTranslationTypeCollection)decoder.ReadEncodeableArray("Translations", typeof(NamedTranslationType));
 
             decoder.PopNamespace();
@@ -3757,6 +2684,7 @@ namespace Opc.Ua.UANodeSet
 
             if (!base.IsEqual(encodeable)) return false;
             if (!Utils.IsEqual(m_methodDeclarationId, value.m_methodDeclarationId)) return false;
+            if (!Utils.IsEqual(m_executable, value.m_executable)) return false;
             if (!Utils.IsEqual(m_translations, value.m_translations)) return false;
 
             return true;
@@ -3776,6 +2704,7 @@ namespace Opc.Ua.UANodeSet
             UAMethod clone = (UAMethod)base.MemberwiseClone();
 
             clone.m_methodDeclarationId = (NodeId)Utils.Clone(this.m_methodDeclarationId);
+            clone.m_executable = (byte)Utils.Clone(this.m_executable);
             clone.m_translations = (NamedTranslationTypeCollection)Utils.Clone(this.m_translations);
 
             return clone;
@@ -3784,6 +2713,7 @@ namespace Opc.Ua.UANodeSet
 
         #region Private Fields
         private NodeId m_methodDeclarationId;
+        private byte m_executable;
         private NamedTranslationTypeCollection m_translations;
         #endregion
     }
@@ -3794,7 +2724,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfUAMethod", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd, ItemName = "UAMethod")]
+    [CollectionDataContract(Name = "ListOfUAMethod", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd, ItemName = "UAMethod")]
     #if !NET_STANDARD
     public partial class UAMethodCollection : List<UAMethod>, ICloneable
     #else
@@ -3882,7 +2812,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd)]
+    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd)]
     public partial class UAView : UAInstance
     {
         #region Constructors
@@ -3955,7 +2885,7 @@ namespace Opc.Ua.UANodeSet
         {
             base.Encode(encoder);
 
-            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             encoder.WriteByte("EventNotifier", EventNotifier);
             encoder.WriteBoolean("ContainsNoLoops", ContainsNoLoops);
@@ -3968,7 +2898,7 @@ namespace Opc.Ua.UANodeSet
         {
             base.Decode(decoder);
 
-            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd);
+            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
 
             EventNotifier = decoder.ReadByte("EventNotifier");
             ContainsNoLoops = decoder.ReadBoolean("ContainsNoLoops");
@@ -4030,7 +2960,7 @@ namespace Opc.Ua.UANodeSet
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfUAView", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUaNodeSetXsd, ItemName = "UAView")]
+    [CollectionDataContract(Name = "ListOfUAView", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd, ItemName = "UAView")]
     #if !NET_STANDARD
     public partial class UAViewCollection : List<UAView>, ICloneable
     #else
@@ -4102,6 +3032,1242 @@ namespace Opc.Ua.UANodeSet
             for (int ii = 0; ii < this.Count; ii++)
             {
                 clone.Add((UAView)Utils.Clone(this[ii]));
+            }
+
+            return clone;
+        }
+    }
+    #endregion
+    #endif
+    #endregion
+
+    #region UABaseType Class
+    #if (!OPCUA_EXCLUDE_UABaseType)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd)]
+    public partial class UABaseType : UABaseNode
+    {
+        #region Constructors
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        public UABaseType()
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Called by the .NET framework during deserialization.
+        /// </summary>
+        [OnDeserializing]
+        private void Initialize(StreamingContext context)
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Sets private members to default values.
+        /// </summary>
+        private void Initialize()
+        {
+            m_isAbstract = true;
+        }
+        #endregion
+
+        #region Public Properties
+        /// <remarks />
+        [DataMember(Name = "IsAbstract", IsRequired = false, Order = 1)]
+        public bool IsAbstract
+        {
+            get { return m_isAbstract;  }
+            set { m_isAbstract = value; }
+        }
+        #endregion
+
+        #region IEncodeable Members
+        /// <summary cref="IEncodeable.TypeId" />
+        public override ExpandedNodeId TypeId
+        {
+            get { return DataTypeIds.UABaseType; }
+        }
+
+        /// <summary cref="IEncodeable.BinaryEncodingId" />
+        public override ExpandedNodeId BinaryEncodingId
+        {
+            get { return ObjectIds.UABaseType_Encoding_DefaultBinary; }
+        }
+
+        /// <summary cref="IEncodeable.XmlEncodingId" />
+        public override ExpandedNodeId XmlEncodingId
+        {
+            get { return ObjectIds.UABaseType_Encoding_DefaultXml; }
+        }
+
+        /// <summary cref="IEncodeable.Encode(IEncoder)" />
+        public override void Encode(IEncoder encoder)
+        {
+            base.Encode(encoder);
+
+            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
+
+            encoder.WriteBoolean("IsAbstract", IsAbstract);
+
+            encoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.Decode(IDecoder)" />
+        public override void Decode(IDecoder decoder)
+        {
+            base.Decode(decoder);
+
+            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
+
+            IsAbstract = decoder.ReadBoolean("IsAbstract");
+
+            decoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
+        public override bool IsEqual(IEncodeable encodeable)
+        {
+            if (Object.ReferenceEquals(this, encodeable))
+            {
+                return true;
+            }
+
+            UABaseType value = encodeable as UABaseType;
+
+            if (value == null)
+            {
+                return false;
+            }
+
+            if (!base.IsEqual(encodeable)) return false;
+            if (!Utils.IsEqual(m_isAbstract, value.m_isAbstract)) return false;
+
+            return true;
+        }    
+
+        #if !NET_STANDARD
+        /// <summary cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            return (UABaseType)this.MemberwiseClone();
+        }
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            UABaseType clone = (UABaseType)base.MemberwiseClone();
+
+            clone.m_isAbstract = (bool)Utils.Clone(this.m_isAbstract);
+
+            return clone;
+        }
+        #endregion
+
+        #region Private Fields
+        private bool m_isAbstract;
+        #endregion
+    }
+
+    #region UABaseTypeCollection Class
+    /// <summary>
+    /// A collection of UABaseType objects.
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [CollectionDataContract(Name = "ListOfUABaseType", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd, ItemName = "UABaseType")]
+    #if !NET_STANDARD
+    public partial class UABaseTypeCollection : List<UABaseType>, ICloneable
+    #else
+    public partial class UABaseTypeCollection : List<UABaseType>
+    #endif
+    {
+        #region Constructors
+        /// <summary>
+        /// Initializes the collection with default values.
+        /// </summary>
+        public UABaseTypeCollection() {}
+
+        /// <summary>
+        /// Initializes the collection with an initial capacity.
+        /// </summary>
+        public UABaseTypeCollection(int capacity) : base(capacity) {}
+
+        /// <summary>
+        /// Initializes the collection with another collection.
+        /// </summary>
+        public UABaseTypeCollection(IEnumerable<UABaseType> collection) : base(collection) {}
+        #endregion
+
+        #region Static Operators
+        /// <summary>
+        /// Converts an array to a collection.
+        /// </summary>
+        public static implicit operator UABaseTypeCollection(UABaseType[] values)
+        {
+            if (values != null)
+            {
+                return new UABaseTypeCollection(values);
+            }
+
+            return new UABaseTypeCollection();
+        }
+
+        /// <summary>
+        /// Converts a collection to an array.
+        /// </summary>
+        public static explicit operator UABaseType[](UABaseTypeCollection values)
+        {
+            if (values != null)
+            {
+                return values.ToArray();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #if !NET_STANDARD
+        #region ICloneable Methods
+        /// <summary>
+        /// Creates a deep copy of the collection.
+        /// </summary>
+        public object Clone()
+        {
+            return (UABaseTypeCollection)this.MemberwiseClone();
+        }
+        #endregion
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            UABaseTypeCollection clone = new UABaseTypeCollection(this.Count);
+
+            for (int ii = 0; ii < this.Count; ii++)
+            {
+                clone.Add((UABaseType)Utils.Clone(this[ii]));
+            }
+
+            return clone;
+        }
+    }
+    #endregion
+    #endif
+    #endregion
+
+    #region UAObjectType Class
+    #if (!OPCUA_EXCLUDE_UAObjectType)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd)]
+    public partial class UAObjectType : UABaseType
+    {
+        #region Constructors
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        public UAObjectType()
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Called by the .NET framework during deserialization.
+        /// </summary>
+        [OnDeserializing]
+        private void Initialize(StreamingContext context)
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Sets private members to default values.
+        /// </summary>
+        private void Initialize()
+        {
+        }
+        #endregion
+
+        #region Public Properties
+        #endregion
+
+        #region IEncodeable Members
+        /// <summary cref="IEncodeable.TypeId" />
+        public override ExpandedNodeId TypeId
+        {
+            get { return DataTypeIds.UAObjectType; }
+        }
+
+        /// <summary cref="IEncodeable.BinaryEncodingId" />
+        public override ExpandedNodeId BinaryEncodingId
+        {
+            get { return ObjectIds.UAObjectType_Encoding_DefaultBinary; }
+        }
+
+        /// <summary cref="IEncodeable.XmlEncodingId" />
+        public override ExpandedNodeId XmlEncodingId
+        {
+            get { return ObjectIds.UAObjectType_Encoding_DefaultXml; }
+        }
+
+        /// <summary cref="IEncodeable.Encode(IEncoder)" />
+        public override void Encode(IEncoder encoder)
+        {
+            base.Encode(encoder);
+
+            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
+
+
+            encoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.Decode(IDecoder)" />
+        public override void Decode(IDecoder decoder)
+        {
+            base.Decode(decoder);
+
+            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
+
+
+            decoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
+        public override bool IsEqual(IEncodeable encodeable)
+        {
+            if (Object.ReferenceEquals(this, encodeable))
+            {
+                return true;
+            }
+
+            UAObjectType value = encodeable as UAObjectType;
+
+            if (value == null)
+            {
+                return false;
+            }
+
+
+            return true;
+        }    
+
+        #if !NET_STANDARD
+        /// <summary cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            return (UAObjectType)this.MemberwiseClone();
+        }
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            UAObjectType clone = (UAObjectType)base.MemberwiseClone();
+
+
+            return clone;
+        }
+        #endregion
+
+        #region Private Fields
+        #endregion
+    }
+
+    #region UAObjectTypeCollection Class
+    /// <summary>
+    /// A collection of UAObjectType objects.
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [CollectionDataContract(Name = "ListOfUAObjectType", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd, ItemName = "UAObjectType")]
+    #if !NET_STANDARD
+    public partial class UAObjectTypeCollection : List<UAObjectType>, ICloneable
+    #else
+    public partial class UAObjectTypeCollection : List<UAObjectType>
+    #endif
+    {
+        #region Constructors
+        /// <summary>
+        /// Initializes the collection with default values.
+        /// </summary>
+        public UAObjectTypeCollection() {}
+
+        /// <summary>
+        /// Initializes the collection with an initial capacity.
+        /// </summary>
+        public UAObjectTypeCollection(int capacity) : base(capacity) {}
+
+        /// <summary>
+        /// Initializes the collection with another collection.
+        /// </summary>
+        public UAObjectTypeCollection(IEnumerable<UAObjectType> collection) : base(collection) {}
+        #endregion
+
+        #region Static Operators
+        /// <summary>
+        /// Converts an array to a collection.
+        /// </summary>
+        public static implicit operator UAObjectTypeCollection(UAObjectType[] values)
+        {
+            if (values != null)
+            {
+                return new UAObjectTypeCollection(values);
+            }
+
+            return new UAObjectTypeCollection();
+        }
+
+        /// <summary>
+        /// Converts a collection to an array.
+        /// </summary>
+        public static explicit operator UAObjectType[](UAObjectTypeCollection values)
+        {
+            if (values != null)
+            {
+                return values.ToArray();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #if !NET_STANDARD
+        #region ICloneable Methods
+        /// <summary>
+        /// Creates a deep copy of the collection.
+        /// </summary>
+        public object Clone()
+        {
+            return (UAObjectTypeCollection)this.MemberwiseClone();
+        }
+        #endregion
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            UAObjectTypeCollection clone = new UAObjectTypeCollection(this.Count);
+
+            for (int ii = 0; ii < this.Count; ii++)
+            {
+                clone.Add((UAObjectType)Utils.Clone(this[ii]));
+            }
+
+            return clone;
+        }
+    }
+    #endregion
+    #endif
+    #endregion
+
+    #region UAVariableType Class
+    #if (!OPCUA_EXCLUDE_UAVariableType)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd)]
+    public partial class UAVariableType : UABaseType
+    {
+        #region Constructors
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        public UAVariableType()
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Called by the .NET framework during deserialization.
+        /// </summary>
+        [OnDeserializing]
+        private void Initialize(StreamingContext context)
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Sets private members to default values.
+        /// </summary>
+        private void Initialize()
+        {
+            m_value = Variant.Null;
+            m_dataType = null;
+            m_valueRank = (int)0;
+            m_arrayDimensions = new UInt32Collection();
+            m_translations = new NamedTranslationTypeCollection();
+        }
+        #endregion
+
+        #region Public Properties
+        /// <remarks />
+        [DataMember(Name = "Value", IsRequired = false, Order = 1)]
+        public Variant Value
+        {
+            get { return m_value;  }
+            set { m_value = value; }
+        }
+
+        /// <remarks />
+        [DataMember(Name = "DataType", IsRequired = false, Order = 2)]
+        public NodeId DataType
+        {
+            get { return m_dataType;  }
+            set { m_dataType = value; }
+        }
+
+        /// <remarks />
+        [DataMember(Name = "ValueRank", IsRequired = false, Order = 3)]
+        public int ValueRank
+        {
+            get { return m_valueRank;  }
+            set { m_valueRank = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "ArrayDimensions", IsRequired = false, Order = 4)]
+        public UInt32Collection ArrayDimensions
+        {
+            get
+            {
+                return m_arrayDimensions;
+            }
+
+            set
+            {
+                m_arrayDimensions = value;
+
+                if (value == null)
+                {
+                    m_arrayDimensions = new UInt32Collection();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "Translations", IsRequired = false, Order = 5)]
+        public NamedTranslationTypeCollection Translations
+        {
+            get
+            {
+                return m_translations;
+            }
+
+            set
+            {
+                m_translations = value;
+
+                if (value == null)
+                {
+                    m_translations = new NamedTranslationTypeCollection();
+                }
+            }
+        }
+        #endregion
+
+        #region IEncodeable Members
+        /// <summary cref="IEncodeable.TypeId" />
+        public override ExpandedNodeId TypeId
+        {
+            get { return DataTypeIds.UAVariableType; }
+        }
+
+        /// <summary cref="IEncodeable.BinaryEncodingId" />
+        public override ExpandedNodeId BinaryEncodingId
+        {
+            get { return ObjectIds.UAVariableType_Encoding_DefaultBinary; }
+        }
+
+        /// <summary cref="IEncodeable.XmlEncodingId" />
+        public override ExpandedNodeId XmlEncodingId
+        {
+            get { return ObjectIds.UAVariableType_Encoding_DefaultXml; }
+        }
+
+        /// <summary cref="IEncodeable.Encode(IEncoder)" />
+        public override void Encode(IEncoder encoder)
+        {
+            base.Encode(encoder);
+
+            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
+
+            encoder.WriteVariant("Value", Value);
+            encoder.WriteNodeId("DataType", DataType);
+            encoder.WriteInt32("ValueRank", ValueRank);
+            encoder.WriteUInt32Array("ArrayDimensions", ArrayDimensions);
+            encoder.WriteEncodeableArray("Translations", Translations.ToArray(), typeof(NamedTranslationType));
+
+            encoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.Decode(IDecoder)" />
+        public override void Decode(IDecoder decoder)
+        {
+            base.Decode(decoder);
+
+            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
+
+            Value = decoder.ReadVariant("Value");
+            DataType = decoder.ReadNodeId("DataType");
+            ValueRank = decoder.ReadInt32("ValueRank");
+            ArrayDimensions = decoder.ReadUInt32Array("ArrayDimensions");
+            Translations = (NamedTranslationTypeCollection)decoder.ReadEncodeableArray("Translations", typeof(NamedTranslationType));
+
+            decoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
+        public override bool IsEqual(IEncodeable encodeable)
+        {
+            if (Object.ReferenceEquals(this, encodeable))
+            {
+                return true;
+            }
+
+            UAVariableType value = encodeable as UAVariableType;
+
+            if (value == null)
+            {
+                return false;
+            }
+
+            if (!base.IsEqual(encodeable)) return false;
+            if (!Utils.IsEqual(m_value, value.m_value)) return false;
+            if (!Utils.IsEqual(m_dataType, value.m_dataType)) return false;
+            if (!Utils.IsEqual(m_valueRank, value.m_valueRank)) return false;
+            if (!Utils.IsEqual(m_arrayDimensions, value.m_arrayDimensions)) return false;
+            if (!Utils.IsEqual(m_translations, value.m_translations)) return false;
+
+            return true;
+        }    
+
+        #if !NET_STANDARD
+        /// <summary cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            return (UAVariableType)this.MemberwiseClone();
+        }
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            UAVariableType clone = (UAVariableType)base.MemberwiseClone();
+
+            clone.m_value = (Variant)Utils.Clone(this.m_value);
+            clone.m_dataType = (NodeId)Utils.Clone(this.m_dataType);
+            clone.m_valueRank = (int)Utils.Clone(this.m_valueRank);
+            clone.m_arrayDimensions = (UInt32Collection)Utils.Clone(this.m_arrayDimensions);
+            clone.m_translations = (NamedTranslationTypeCollection)Utils.Clone(this.m_translations);
+
+            return clone;
+        }
+        #endregion
+
+        #region Private Fields
+        private Variant m_value;
+        private NodeId m_dataType;
+        private int m_valueRank;
+        private UInt32Collection m_arrayDimensions;
+        private NamedTranslationTypeCollection m_translations;
+        #endregion
+    }
+
+    #region UAVariableTypeCollection Class
+    /// <summary>
+    /// A collection of UAVariableType objects.
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [CollectionDataContract(Name = "ListOfUAVariableType", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd, ItemName = "UAVariableType")]
+    #if !NET_STANDARD
+    public partial class UAVariableTypeCollection : List<UAVariableType>, ICloneable
+    #else
+    public partial class UAVariableTypeCollection : List<UAVariableType>
+    #endif
+    {
+        #region Constructors
+        /// <summary>
+        /// Initializes the collection with default values.
+        /// </summary>
+        public UAVariableTypeCollection() {}
+
+        /// <summary>
+        /// Initializes the collection with an initial capacity.
+        /// </summary>
+        public UAVariableTypeCollection(int capacity) : base(capacity) {}
+
+        /// <summary>
+        /// Initializes the collection with another collection.
+        /// </summary>
+        public UAVariableTypeCollection(IEnumerable<UAVariableType> collection) : base(collection) {}
+        #endregion
+
+        #region Static Operators
+        /// <summary>
+        /// Converts an array to a collection.
+        /// </summary>
+        public static implicit operator UAVariableTypeCollection(UAVariableType[] values)
+        {
+            if (values != null)
+            {
+                return new UAVariableTypeCollection(values);
+            }
+
+            return new UAVariableTypeCollection();
+        }
+
+        /// <summary>
+        /// Converts a collection to an array.
+        /// </summary>
+        public static explicit operator UAVariableType[](UAVariableTypeCollection values)
+        {
+            if (values != null)
+            {
+                return values.ToArray();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #if !NET_STANDARD
+        #region ICloneable Methods
+        /// <summary>
+        /// Creates a deep copy of the collection.
+        /// </summary>
+        public object Clone()
+        {
+            return (UAVariableTypeCollection)this.MemberwiseClone();
+        }
+        #endregion
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            UAVariableTypeCollection clone = new UAVariableTypeCollection(this.Count);
+
+            for (int ii = 0; ii < this.Count; ii++)
+            {
+                clone.Add((UAVariableType)Utils.Clone(this[ii]));
+            }
+
+            return clone;
+        }
+    }
+    #endregion
+    #endif
+    #endregion
+
+    #region UADataType Class
+    #if (!OPCUA_EXCLUDE_UADataType)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd)]
+    public partial class UADataType : UABaseType
+    {
+        #region Constructors
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        public UADataType()
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Called by the .NET framework during deserialization.
+        /// </summary>
+        [OnDeserializing]
+        private void Initialize(StreamingContext context)
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Sets private members to default values.
+        /// </summary>
+        private void Initialize()
+        {
+            m_definition = null;
+            m_translations = new NamedTranslationTypeCollection();
+        }
+        #endregion
+
+        #region Public Properties
+        /// <remarks />
+        [DataMember(Name = "Definition", IsRequired = false, Order = 1)]
+        public ExtensionObject Definition
+        {
+            get { return m_definition;  }
+            set { m_definition = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "Translations", IsRequired = false, Order = 2)]
+        public NamedTranslationTypeCollection Translations
+        {
+            get
+            {
+                return m_translations;
+            }
+
+            set
+            {
+                m_translations = value;
+
+                if (value == null)
+                {
+                    m_translations = new NamedTranslationTypeCollection();
+                }
+            }
+        }
+        #endregion
+
+        #region IEncodeable Members
+        /// <summary cref="IEncodeable.TypeId" />
+        public override ExpandedNodeId TypeId
+        {
+            get { return DataTypeIds.UADataType; }
+        }
+
+        /// <summary cref="IEncodeable.BinaryEncodingId" />
+        public override ExpandedNodeId BinaryEncodingId
+        {
+            get { return ObjectIds.UADataType_Encoding_DefaultBinary; }
+        }
+
+        /// <summary cref="IEncodeable.XmlEncodingId" />
+        public override ExpandedNodeId XmlEncodingId
+        {
+            get { return ObjectIds.UADataType_Encoding_DefaultXml; }
+        }
+
+        /// <summary cref="IEncodeable.Encode(IEncoder)" />
+        public override void Encode(IEncoder encoder)
+        {
+            base.Encode(encoder);
+
+            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
+
+            encoder.WriteExtensionObject("Definition", Definition);
+            encoder.WriteEncodeableArray("Translations", Translations.ToArray(), typeof(NamedTranslationType));
+
+            encoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.Decode(IDecoder)" />
+        public override void Decode(IDecoder decoder)
+        {
+            base.Decode(decoder);
+
+            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
+
+            Definition = decoder.ReadExtensionObject("Definition");
+            Translations = (NamedTranslationTypeCollection)decoder.ReadEncodeableArray("Translations", typeof(NamedTranslationType));
+
+            decoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
+        public override bool IsEqual(IEncodeable encodeable)
+        {
+            if (Object.ReferenceEquals(this, encodeable))
+            {
+                return true;
+            }
+
+            UADataType value = encodeable as UADataType;
+
+            if (value == null)
+            {
+                return false;
+            }
+
+            if (!base.IsEqual(encodeable)) return false;
+            if (!Utils.IsEqual(m_definition, value.m_definition)) return false;
+            if (!Utils.IsEqual(m_translations, value.m_translations)) return false;
+
+            return true;
+        }    
+
+        #if !NET_STANDARD
+        /// <summary cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            return (UADataType)this.MemberwiseClone();
+        }
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            UADataType clone = (UADataType)base.MemberwiseClone();
+
+            clone.m_definition = (ExtensionObject)Utils.Clone(this.m_definition);
+            clone.m_translations = (NamedTranslationTypeCollection)Utils.Clone(this.m_translations);
+
+            return clone;
+        }
+        #endregion
+
+        #region Private Fields
+        private ExtensionObject m_definition;
+        private NamedTranslationTypeCollection m_translations;
+        #endregion
+    }
+
+    #region UADataTypeCollection Class
+    /// <summary>
+    /// A collection of UADataType objects.
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [CollectionDataContract(Name = "ListOfUADataType", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd, ItemName = "UADataType")]
+    #if !NET_STANDARD
+    public partial class UADataTypeCollection : List<UADataType>, ICloneable
+    #else
+    public partial class UADataTypeCollection : List<UADataType>
+    #endif
+    {
+        #region Constructors
+        /// <summary>
+        /// Initializes the collection with default values.
+        /// </summary>
+        public UADataTypeCollection() {}
+
+        /// <summary>
+        /// Initializes the collection with an initial capacity.
+        /// </summary>
+        public UADataTypeCollection(int capacity) : base(capacity) {}
+
+        /// <summary>
+        /// Initializes the collection with another collection.
+        /// </summary>
+        public UADataTypeCollection(IEnumerable<UADataType> collection) : base(collection) {}
+        #endregion
+
+        #region Static Operators
+        /// <summary>
+        /// Converts an array to a collection.
+        /// </summary>
+        public static implicit operator UADataTypeCollection(UADataType[] values)
+        {
+            if (values != null)
+            {
+                return new UADataTypeCollection(values);
+            }
+
+            return new UADataTypeCollection();
+        }
+
+        /// <summary>
+        /// Converts a collection to an array.
+        /// </summary>
+        public static explicit operator UADataType[](UADataTypeCollection values)
+        {
+            if (values != null)
+            {
+                return values.ToArray();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #if !NET_STANDARD
+        #region ICloneable Methods
+        /// <summary>
+        /// Creates a deep copy of the collection.
+        /// </summary>
+        public object Clone()
+        {
+            return (UADataTypeCollection)this.MemberwiseClone();
+        }
+        #endregion
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            UADataTypeCollection clone = new UADataTypeCollection(this.Count);
+
+            for (int ii = 0; ii < this.Count; ii++)
+            {
+                clone.Add((UADataType)Utils.Clone(this[ii]));
+            }
+
+            return clone;
+        }
+    }
+    #endregion
+    #endif
+    #endregion
+
+    #region UAReferenceType Class
+    #if (!OPCUA_EXCLUDE_UAReferenceType)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [DataContract(Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd)]
+    public partial class UAReferenceType : UABaseType
+    {
+        #region Constructors
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        public UAReferenceType()
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Called by the .NET framework during deserialization.
+        /// </summary>
+        [OnDeserializing]
+        private void Initialize(StreamingContext context)
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Sets private members to default values.
+        /// </summary>
+        private void Initialize()
+        {
+            m_symmetric = true;
+            m_inverseNames = new LocalizedTextCollection();
+        }
+        #endregion
+
+        #region Public Properties
+        /// <remarks />
+        [DataMember(Name = "Symmetric", IsRequired = false, Order = 1)]
+        public bool Symmetric
+        {
+            get { return m_symmetric;  }
+            set { m_symmetric = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "InverseNames", IsRequired = false, Order = 2)]
+        public LocalizedTextCollection InverseNames
+        {
+            get
+            {
+                return m_inverseNames;
+            }
+
+            set
+            {
+                m_inverseNames = value;
+
+                if (value == null)
+                {
+                    m_inverseNames = new LocalizedTextCollection();
+                }
+            }
+        }
+        #endregion
+
+        #region IEncodeable Members
+        /// <summary cref="IEncodeable.TypeId" />
+        public override ExpandedNodeId TypeId
+        {
+            get { return DataTypeIds.UAReferenceType; }
+        }
+
+        /// <summary cref="IEncodeable.BinaryEncodingId" />
+        public override ExpandedNodeId BinaryEncodingId
+        {
+            get { return ObjectIds.UAReferenceType_Encoding_DefaultBinary; }
+        }
+
+        /// <summary cref="IEncodeable.XmlEncodingId" />
+        public override ExpandedNodeId XmlEncodingId
+        {
+            get { return ObjectIds.UAReferenceType_Encoding_DefaultXml; }
+        }
+
+        /// <summary cref="IEncodeable.Encode(IEncoder)" />
+        public override void Encode(IEncoder encoder)
+        {
+            base.Encode(encoder);
+
+            encoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
+
+            encoder.WriteBoolean("Symmetric", Symmetric);
+            encoder.WriteLocalizedTextArray("InverseNames", InverseNames);
+
+            encoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.Decode(IDecoder)" />
+        public override void Decode(IDecoder decoder)
+        {
+            base.Decode(decoder);
+
+            decoder.PushNamespace(Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd);
+
+            Symmetric = decoder.ReadBoolean("Symmetric");
+            InverseNames = decoder.ReadLocalizedTextArray("InverseNames");
+
+            decoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
+        public override bool IsEqual(IEncodeable encodeable)
+        {
+            if (Object.ReferenceEquals(this, encodeable))
+            {
+                return true;
+            }
+
+            UAReferenceType value = encodeable as UAReferenceType;
+
+            if (value == null)
+            {
+                return false;
+            }
+
+            if (!base.IsEqual(encodeable)) return false;
+            if (!Utils.IsEqual(m_symmetric, value.m_symmetric)) return false;
+            if (!Utils.IsEqual(m_inverseNames, value.m_inverseNames)) return false;
+
+            return true;
+        }    
+
+        #if !NET_STANDARD
+        /// <summary cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            return (UAReferenceType)this.MemberwiseClone();
+        }
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            UAReferenceType clone = (UAReferenceType)base.MemberwiseClone();
+
+            clone.m_symmetric = (bool)Utils.Clone(this.m_symmetric);
+            clone.m_inverseNames = (LocalizedTextCollection)Utils.Clone(this.m_inverseNames);
+
+            return clone;
+        }
+        #endregion
+
+        #region Private Fields
+        private bool m_symmetric;
+        private LocalizedTextCollection m_inverseNames;
+        #endregion
+    }
+
+    #region UAReferenceTypeCollection Class
+    /// <summary>
+    /// A collection of UAReferenceType objects.
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [CollectionDataContract(Name = "ListOfUAReferenceType", Namespace = Opc.Ua.UANodeSet.Namespaces.OpcUANodeSetXsd, ItemName = "UAReferenceType")]
+    #if !NET_STANDARD
+    public partial class UAReferenceTypeCollection : List<UAReferenceType>, ICloneable
+    #else
+    public partial class UAReferenceTypeCollection : List<UAReferenceType>
+    #endif
+    {
+        #region Constructors
+        /// <summary>
+        /// Initializes the collection with default values.
+        /// </summary>
+        public UAReferenceTypeCollection() {}
+
+        /// <summary>
+        /// Initializes the collection with an initial capacity.
+        /// </summary>
+        public UAReferenceTypeCollection(int capacity) : base(capacity) {}
+
+        /// <summary>
+        /// Initializes the collection with another collection.
+        /// </summary>
+        public UAReferenceTypeCollection(IEnumerable<UAReferenceType> collection) : base(collection) {}
+        #endregion
+
+        #region Static Operators
+        /// <summary>
+        /// Converts an array to a collection.
+        /// </summary>
+        public static implicit operator UAReferenceTypeCollection(UAReferenceType[] values)
+        {
+            if (values != null)
+            {
+                return new UAReferenceTypeCollection(values);
+            }
+
+            return new UAReferenceTypeCollection();
+        }
+
+        /// <summary>
+        /// Converts a collection to an array.
+        /// </summary>
+        public static explicit operator UAReferenceType[](UAReferenceTypeCollection values)
+        {
+            if (values != null)
+            {
+                return values.ToArray();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #if !NET_STANDARD
+        #region ICloneable Methods
+        /// <summary>
+        /// Creates a deep copy of the collection.
+        /// </summary>
+        public object Clone()
+        {
+            return (UAReferenceTypeCollection)this.MemberwiseClone();
+        }
+        #endregion
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            UAReferenceTypeCollection clone = new UAReferenceTypeCollection(this.Count);
+
+            for (int ii = 0; ii < this.Count; ii++)
+            {
+                clone.Add((UAReferenceType)Utils.Clone(this[ii]));
             }
 
             return clone;

@@ -955,7 +955,7 @@ namespace ModelCompiler
 
                         if (dynamicIds.Count == 0)
                         {
-                            ranges.Add(new NumericRange((int)(ii+1), Int32.MaxValue).ToString());
+                            start = (int)ii + 1;
                             break;
                         }
                     }
@@ -973,12 +973,14 @@ namespace ModelCompiler
 
                         if (dynamicIds.Count == 0)
                         {
-                            ranges.Add(new NumericRange((int)(ii + 1), Int32.MaxValue).ToString());
+                            start = (int)ii + 1;
                             break;
                         }
                     }
                 }
             }
+
+            ranges.Add(new NumericRange(start, Int32.MaxValue).ToString());
 
             if (metadata.Hierarchy.NodeList != null)
             {
