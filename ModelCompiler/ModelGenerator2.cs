@@ -1680,7 +1680,7 @@ namespace ModelCompiler
                             return GetBinaryDataType((DataTypeDesign)dataType.BaseTypeNode);
                         }
 
-                        return String.Format("ua:Int32");
+                        return String.Format("opc:Int32");
                     }
 
                     string prefix = "tns";
