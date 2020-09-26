@@ -745,8 +745,6 @@
 
   <opc:ObjectType SymbolicName="AggregateFunctionType" BaseType="ua:BaseObjectType" PartNo="5" />
 
-  <opc:ObjectType SymbolicName="InformationModelVersionType" BaseType="ua:BaseObjectType" PartNo="5" ReleaseStatus="Draft" />
-
   <!-- Part 5 - Standard Variable Types -->
 
   <!-- BaseVariableType BuiltInTypes.xml -->
@@ -1127,10 +1125,6 @@
   <!-- ModelChangeStructureDataType UA Core Services.xml -->
   <!-- SemanticChangeStructureDataType UA Core Services.xml -->
 
-  <opc:ReferenceType SymbolicName="IsDeprecated" BaseType="NonHierarchicalReferences" PartNo="5" ReleaseStatus="Draft">
-    <opc:InverseName>Deprecates</opc:InverseName>
-  </opc:ReferenceType>
-
   <opc:DataType SymbolicName="BitFieldMaskDataType" BaseType="UInt64" PartNo="5">
     <opc:Description>A mask of 32 bits that can be updated individually by using the top 32 bits as a mask.</opc:Description>
   </opc:DataType>
@@ -1142,19 +1136,6 @@
     <opc:Fields>
       <opc:Field Name="Key" DataType="ua:QualifiedName" />
       <opc:Field Name="Value" DataType="ua:BaseDataType" />
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="AdditionalParametersType" BaseType="Structure" NoArraysAllowed="true" PartNo="5" ReleaseStatus="Draft">
-    <opc:Fields>
-      <opc:Field Name="Parameters" DataType="KeyValuePair" ValueRank="Array" />
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="EphemeralKeyType" BaseType="Structure" NoArraysAllowed="true" PartNo="5" ReleaseStatus="Draft">
-    <opc:Fields>
-      <opc:Field Name="PublicKey" DataType="ua:ByteString" />
-      <opc:Field Name="Signature" DataType="ua:ByteString" />
     </opc:Fields>
   </opc:DataType>
 
@@ -3783,24 +3764,13 @@
     <opc:Children>
       <opc:Property SymbolicName="LastUpdateTime" DataType="ua:UtcTime" />
       <opc:Property SymbolicName="UpdateFrequency" DataType="ua:Duration" ModellingRule="Optional" />
-      <opc:Property SymbolicName="DefaultValidationOptions" DataType="TrustListValidationOptions" ModellingRule="Optional"  ReleaseStatus="Draft" />
       <opc:Method SymbolicName="OpenWithMasks" TypeDefinition="OpenWithMasksMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="CloseAndUpdate" TypeDefinition="CloseAndUpdateMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddCertificate" TypeDefinition="AddCertificateMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveCertificate" TypeDefinition="RemoveCertificateMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
-
-  <opc:DataType SymbolicName="TrustListValidationOptions" PartNo="12" BaseType="ua:UInt32" IsOptionSet="true" NoArraysAllowed="true" ReleaseStatus="Draft">
-    <opc:Fields>
-      <opc:Field Name="SuppressCertificateExpired" BitMask="0001" />
-      <opc:Field Name="SuppressHostNameInvalid" BitMask="0002" />
-      <opc:Field Name="SuppressRevocationStatusUnknown" BitMask="0004" />
-      <opc:Field Name="CheckRevocationStatusOnline" BitMask="0008" />
-      <opc:Field Name="CheckRevocationStatusOffine" BitMask="0010" />
-    </opc:Fields>
-  </opc:DataType>
-
+  
   <opc:DataType SymbolicName="TrustListMasks" PartNo="12" BaseType="ua:Enumeration" NoArraysAllowed="true">
     <opc:Fields>
       <opc:Field Name="None" Identifier="0" />
@@ -3834,9 +3804,6 @@
     <opc:Children>
       <opc:Object SymbolicName="TrustList" TypeDefinition="TrustListType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="CertificateTypes" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="CertificateExpired" TypeDefinition="CertificateExpirationAlarmType" ModellingRule="Optional" ReleaseStatus="Draft" />
-      <opc:Object SymbolicName="TrustListOutOfDate" TypeDefinition="TrustListOutOfDateAlarmType" ModellingRule="Optional" ReleaseStatus="Draft" />
-      <opc:Method SymbolicName="GetRejectedList" TypeDefinition="GetRejectedListMethodType" ModellingRule="Optional" ReleaseStatus="Draft" />
     </opc:Children>
   </opc:ObjectType>
   
@@ -3858,14 +3825,6 @@
   <opc:ObjectType SymbolicName="UserCredentialCertificateType" BaseType="CertificateType" PartNo="12"></opc:ObjectType>
   <opc:ObjectType SymbolicName="RsaMinApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12"></opc:ObjectType>
   <opc:ObjectType SymbolicName="RsaSha256ApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12"></opc:ObjectType>
-
-  <opc:ObjectType SymbolicName="EccApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccNistP256ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccNistP384ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccBrainpoolP256r1ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccBrainpoolP384r1ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccCurve25519ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccCurve448ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
   
   <opc:ObjectType SymbolicName="TrustListUpdatedAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true" PartNo="12">
   </opc:ObjectType>
@@ -4018,24 +3977,12 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Method SymbolicName="GetEncryptingKeyMethodType" PartNo="12" ReleaseStatus="Draft">
-    <opc:InputArguments>
-      <opc:Argument Name="CredentialId" DataType="ua:String" />
-      <opc:Argument Name="RequestedSecurityPolicyUri" DataType="ua:String" />
-    </opc:InputArguments>
-    <opc:OutputArguments>
-      <opc:Argument Name="PublicKey" DataType="ua:ByteString"></opc:Argument>
-      <opc:Argument Name="RevisedSecurityPolicyUri" DataType="ua:NodeId"></opc:Argument>
-    </opc:OutputArguments>
-  </opc:Method>
-
   <opc:ObjectType SymbolicName="KeyCredentialConfigurationType" BaseType="ua:BaseObjectType" PartNo="12">
     <opc:Children>
       <opc:Property SymbolicName="ResourceUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ProfileUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EndpointUrls"  DataType="ua:String" ValueRank="Array" ModellingRule="Optional" />
       <opc:Property SymbolicName="ServiceStatus"  DataType="ua:StatusCode" ValueRank="Scalar" ModellingRule="Optional" />
-      <opc:Method SymbolicName="GetEncryptingKey" TypeDefinition="GetEncryptingKeyMethodType" ModellingRule="Optional" ReleaseStatus="Draft" />
       <opc:Method SymbolicName="UpdateCredential" TypeDefinition="KeyCredentialUpdateMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="DeleteCredential" ModellingRule="Optional" />
     </opc:Children>

@@ -951,9 +951,6 @@
 
   <opc:TypeDeclaration Name="RsaEncryptedSecret" SourceType="s0:Variant" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly">
   </opc:TypeDeclaration>
-
-  <opc:TypeDeclaration Name="EccEncryptedSecret" SourceType="s0:Variant" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" ReleaseStatus="Draft">
-  </opc:TypeDeclaration>
   
   <opc:ServiceType Name="ActivateSession">
     <opc:Documentation>Activates a session with the server.</opc:Documentation>

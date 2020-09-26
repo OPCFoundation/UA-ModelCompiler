@@ -1087,7 +1087,6 @@
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:AggregateFunctionType" PartNo="5" BaseType="tns:BaseObjectType" />
-  <ObjectType SymbolicName="tns:InformationModelVersionType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:BaseObjectType" />
   <VariableType SymbolicName="tns:ServerVendorCapabilityType" PartNo="5" BaseType="tns:BaseDataVariableType" IsAbstract="true" ValueRank="Scalar" />
   <VariableType SymbolicName="tns:ServerStatusType" PartNo="5" BaseType="tns:BaseDataVariableType" DataType="tns:ServerStatusDataType" ValueRank="Scalar" ExposesItsChildren="true">
     <Children>
@@ -1375,9 +1374,6 @@
       <Argument Name="Restart" DataType="tns:Boolean" />
     </InputArguments>
   </Method>
-  <ReferenceType SymbolicName="tns:IsDeprecated" PartNo="5" ReleaseStatus="Draft" BaseType="tns:NonHierarchicalReferences">
-    <InverseName>Deprecates</InverseName>
-  </ReferenceType>
   <DataType SymbolicName="tns:BitFieldMaskDataType" PartNo="5" BaseType="tns:UInt64">
     <Description>A mask of 32 bits that can be updated individually by using the top 32 bits as a mask.</Description>
   </DataType>
@@ -1385,17 +1381,6 @@
     <Fields>
       <Field Name="Key" DataType="tns:QualifiedName" />
       <Field Name="Value" DataType="tns:BaseDataType" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:AdditionalParametersType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Fields>
-      <Field Name="Parameters" DataType="tns:KeyValuePair" ValueRank="Array" />
-    </Fields>
-  </DataType>
-  <DataType SymbolicName="tns:EphemeralKeyType" PartNo="5" ReleaseStatus="Draft" BaseType="tns:Structure" NoArraysAllowed="true">
-    <Fields>
-      <Field Name="PublicKey" DataType="tns:ByteString" />
-      <Field Name="Signature" DataType="tns:ByteString" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:EndpointType" PartNo="5" BaseType="tns:Structure">
@@ -3791,22 +3776,12 @@
     <Children>
       <Property SymbolicName="tns:LastUpdateTime" DataType="tns:UtcTime" />
       <Property SymbolicName="tns:UpdateFrequency" ModellingRule="Optional" DataType="tns:Duration" />
-      <Property SymbolicName="tns:DefaultValidationOptions" ReleaseStatus="Draft" ModellingRule="Optional" DataType="tns:TrustListValidationOptions" />
       <Method SymbolicName="tns:OpenWithMasks" TypeDefinition="tns:OpenWithMasksMethodType" ModellingRule="Mandatory" />
       <Method SymbolicName="tns:CloseAndUpdate" TypeDefinition="tns:CloseAndUpdateMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:AddCertificate" TypeDefinition="tns:AddCertificateMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:RemoveCertificate" TypeDefinition="tns:RemoveCertificateMethodType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
-  <DataType SymbolicName="tns:TrustListValidationOptions" PartNo="12" ReleaseStatus="Draft" BaseType="tns:UInt32" IsOptionSet="true" NoArraysAllowed="true">
-    <Fields>
-      <Field Name="SuppressCertificateExpired" BitMask="0001" />
-      <Field Name="SuppressHostNameInvalid" BitMask="0002" />
-      <Field Name="SuppressRevocationStatusUnknown" BitMask="0004" />
-      <Field Name="CheckRevocationStatusOnline" BitMask="0008" />
-      <Field Name="CheckRevocationStatusOffine" BitMask="0010" />
-    </Fields>
-  </DataType>
   <DataType SymbolicName="tns:TrustListMasks" PartNo="12" BaseType="tns:Enumeration" NoArraysAllowed="true">
     <Fields>
       <Field Name="None" Identifier="0" />
@@ -3837,9 +3812,6 @@
     <Children>
       <Object SymbolicName="tns:TrustList" TypeDefinition="tns:TrustListType" ModellingRule="Mandatory" />
       <Property SymbolicName="tns:CertificateTypes" ModellingRule="Mandatory" DataType="tns:NodeId" ValueRank="Array" />
-      <Object SymbolicName="tns:CertificateExpired" ReleaseStatus="Draft" TypeDefinition="tns:CertificateExpirationAlarmType" ModellingRule="Optional" />
-      <Object SymbolicName="tns:TrustListOutOfDate" ReleaseStatus="Draft" TypeDefinition="tns:TrustListOutOfDateAlarmType" ModellingRule="Optional" />
-      <Method SymbolicName="tns:GetRejectedList" ReleaseStatus="Draft" TypeDefinition="tns:GetRejectedListMethodType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:CertificateGroupFolderType" PartNo="12" BaseType="tns:FolderType">
@@ -3859,13 +3831,6 @@
   <ObjectType SymbolicName="tns:UserCredentialCertificateType" PartNo="12" BaseType="tns:CertificateType" />
   <ObjectType SymbolicName="tns:RsaMinApplicationCertificateType" PartNo="12" BaseType="tns:ApplicationCertificateType" />
   <ObjectType SymbolicName="tns:RsaSha256ApplicationCertificateType" PartNo="12" BaseType="tns:ApplicationCertificateType" />
-  <ObjectType SymbolicName="tns:EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft" BaseType="tns:ApplicationCertificateType" />
-  <ObjectType SymbolicName="tns:EccNistP256ApplicationCertificateType" PartNo="12" ReleaseStatus="Draft" BaseType="tns:EccApplicationCertificateType" />
-  <ObjectType SymbolicName="tns:EccNistP384ApplicationCertificateType" PartNo="12" ReleaseStatus="Draft" BaseType="tns:EccApplicationCertificateType" />
-  <ObjectType SymbolicName="tns:EccBrainpoolP256r1ApplicationCertificateType" PartNo="12" ReleaseStatus="Draft" BaseType="tns:EccApplicationCertificateType" />
-  <ObjectType SymbolicName="tns:EccBrainpoolP384r1ApplicationCertificateType" PartNo="12" ReleaseStatus="Draft" BaseType="tns:EccApplicationCertificateType" />
-  <ObjectType SymbolicName="tns:EccCurve25519ApplicationCertificateType" PartNo="12" ReleaseStatus="Draft" BaseType="tns:EccApplicationCertificateType" />
-  <ObjectType SymbolicName="tns:EccCurve448ApplicationCertificateType" PartNo="12" ReleaseStatus="Draft" BaseType="tns:EccApplicationCertificateType" />
   <ObjectType SymbolicName="tns:TrustListUpdatedAuditEventType" PartNo="12" BaseType="tns:AuditUpdateMethodEventType" IsAbstract="true" />
   <Method SymbolicName="tns:UpdateCertificateMethodType">
     <InputArguments>
@@ -3999,23 +3964,12 @@
       </Reference>
     </References>
   </Object>
-  <Method SymbolicName="tns:GetEncryptingKeyMethodType" PartNo="12" ReleaseStatus="Draft">
-    <InputArguments>
-      <Argument Name="CredentialId" DataType="tns:String" />
-      <Argument Name="RequestedSecurityPolicyUri" DataType="tns:String" />
-    </InputArguments>
-    <OutputArguments>
-      <Argument Name="PublicKey" DataType="tns:ByteString" />
-      <Argument Name="RevisedSecurityPolicyUri" DataType="tns:NodeId" />
-    </OutputArguments>
-  </Method>
   <ObjectType SymbolicName="tns:KeyCredentialConfigurationType" PartNo="12" BaseType="tns:BaseObjectType">
     <Children>
       <Property SymbolicName="tns:ResourceUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
       <Property SymbolicName="tns:ProfileUri" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
       <Property SymbolicName="tns:EndpointUrls" ModellingRule="Optional" DataType="tns:String" ValueRank="Array" />
       <Property SymbolicName="tns:ServiceStatus" ModellingRule="Optional" DataType="tns:StatusCode" ValueRank="Scalar" />
-      <Method SymbolicName="tns:GetEncryptingKey" ReleaseStatus="Draft" TypeDefinition="tns:GetEncryptingKeyMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:UpdateCredential" TypeDefinition="tns:KeyCredentialUpdateMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:DeleteCredential" ModellingRule="Optional" />
     </Children>
@@ -6383,7 +6337,6 @@
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:RsaEncryptedSecret" SymbolicId="tns:RsaEncryptedSecret" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:BaseDataType" NoClassGeneration="true" NoArraysAllowed="true" />
-  <DataType SymbolicName="tns:EccEncryptedSecret" SymbolicId="tns:EccEncryptedSecret" PartNo="4" NotInAddressSpace="true" ReleaseStatus="Draft" Purpose="ServicesOnly" BaseType="tns:BaseDataType" NoClassGeneration="true" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:ActivateSessionRequest" SymbolicId="tns:ActivateSessionRequest" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoArraysAllowed="true">
     <Fields>
       <Field Name="RequestHeader" DataType="tns:RequestHeader" />
