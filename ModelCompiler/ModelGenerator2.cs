@@ -90,6 +90,10 @@ namespace ModelCompiler
             {
                 m_validator.EmbeddedResourcePath = $"{m_validator.EmbeddedResourcePath}.{specificationVersion}";
             }
+            else
+            {
+                m_validator.EmbeddedResourcePath = $"{m_validator.EmbeddedResourcePath}.v104";
+            }
 
             m_validator.Validate2(designFilePaths, identifierFilePath, false);
             m_model = m_validator.Dictionary;

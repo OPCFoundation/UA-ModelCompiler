@@ -84,27 +84,10 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:DataType SymbolicName="TicketEnvelope" BaseType="ua:DataTypeSchemaHeader" IsAbstract="false" PartNo="21">
-    <opc:Fields>
-      <opc:Field Name="Payload" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="TicketSignature" BaseType="ua:Structure" IsAbstract="false" PartNo="21">
-    <opc:Fields>
-      <opc:Field Name="SecurityPolicyUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="Certificate" DataType="ua:ByteString" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="IssuerCertificates" DataType="ua:ByteString" ValueRank="Array"></opc:Field>
-      <opc:Field Name="Nonce" DataType="ua:ByteString" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="Timestamp" DataType="ua:ByteString" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
   <opc:DataType SymbolicName="CertificateAuthorityType" BaseType="ua:Structure" IsAbstract="false" PartNo="21">
     <opc:Fields>
       <opc:Field Name="AuthorityCertificate" DataType="ua:ByteString" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="IssuerCertificates" DataType="ua:ByteString" ValueRank="Array"></opc:Field>
-      <opc:Field Name="Properties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -113,45 +96,43 @@
 
   <opc:DataType SymbolicName="DeviceIdentityTicketType" BaseType="BaseTicketType" IsAbstract="false" PartNo="21">
     <opc:Fields>
-      <opc:Field Name="ManufacturerName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="ProductInstanceUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ManufacturerName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="ModelName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="ModelVersion" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="HardwareRevision" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="SerialNumber" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="ManufactureDate" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ManufactureDate" DataType="ua:DateTime" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Authorities" DataType="CertificateAuthorityType" ValueRank="Array"></opc:Field>
-      <opc:Field Name="Properties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="MachineIdentityTicketType" BaseType="BaseTicketType" IsAbstract="false" PartNo="21">
+  <opc:DataType SymbolicName="CompositeIdentityTicketType" BaseType="BaseTicketType" IsAbstract="false" PartNo="21">
     <opc:Fields>
-      <opc:Field Name="MachineBuilderName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="MachineInstanceUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="MachineModelName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="MachineModelVersion" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="CompositeInstanceUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="CompositeBuilderName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="CompositeModelName" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="CompositeModelVersion" DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="HardwareRevision" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="MachineSerialNumber" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="BuildDate" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="Devices" DataType="ua:ByteString" ValueRank="Array"></opc:Field>
-      <opc:Field Name="Machines" DataType="ua:ByteString" ValueRank="Array"></opc:Field>
+      <opc:Field Name="CompositeSerialNumber" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="BuildDate" DataType="ua:DateTime" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Devices" DataType="ua:String" ValueRank="Array"></opc:Field>
+      <opc:Field Name="SubComponents" DataType="ua:String" ValueRank="Array"></opc:Field>
       <opc:Field Name="Authorities" DataType="CertificateAuthorityType" ValueRank="Array"></opc:Field>
-      <opc:Field Name="Properties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
   <opc:DataType SymbolicName="TicketListType" BaseType="BaseTicketType" IsAbstract="false" PartNo="21">
     <opc:Fields>
       <opc:Field Name="Devices" DataType="ua:ByteString" ValueRank="Array"></opc:Field>
-      <opc:Field Name="Machines" DataType="ua:ByteString" ValueRank="Array"></opc:Field>
+      <opc:Field Name="Composites" DataType="ua:ByteString" ValueRank="Array"></opc:Field>
       <opc:Field Name="Properties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
   <opc:Method SymbolicName="RegisterTicketsMethodType">
     <opc:InputArguments>
-      <opc:Argument Name="Tickets" DataType="ua:ByteString" ValueRank="Array"></opc:Argument>
+      <opc:Argument Name="Tickets" DataType="ua:String" ValueRank="Array"></opc:Argument>
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="Results" DataType="ua:StatusCode" ValueRank="Array"></opc:Argument>
@@ -160,7 +141,7 @@
 
   <opc:Method SymbolicName="UnregisterTicketsMethodType">
     <opc:InputArguments>
-      <opc:Argument Name="Tickets" DataType="ua:ByteString" ValueRank="Array"></opc:Argument>
+      <opc:Argument Name="Tickets" DataType="ua:String" ValueRank="Array"></opc:Argument>
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="Results" DataType="ua:StatusCode" ValueRank="Array"></opc:Argument>
@@ -184,7 +165,7 @@
     <opc:InputArguments>
       <opc:Argument Name="Identities" DataType="ua:ByteString" ValueRank="Array"></opc:Argument>
       <opc:Argument Name="Issuers" DataType="ua:ByteString" ValueRank="Array"></opc:Argument>
-      <opc:Argument Name="Tickets" DataType="ua:ByteString" ValueRank="Array"></opc:Argument>
+      <opc:Argument Name="Tickets" DataType="ua:String" ValueRank="Array"></opc:Argument>
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="SelectedIdentity" DataType="ua:ByteString" ValueRank="Scalar"></opc:Argument>
@@ -242,7 +223,7 @@
 
   <opc:Method SymbolicName="RequestTicketsMethodType">
     <opc:OutputArguments>
-      <opc:Argument Name="Tickets" DataType="ua:ByteString" ValueRank="Array"></opc:Argument>
+      <opc:Argument Name="Tickets" DataType="ua:String" ValueRank="Array"></opc:Argument>
     </opc:OutputArguments>
   </opc:Method>
 

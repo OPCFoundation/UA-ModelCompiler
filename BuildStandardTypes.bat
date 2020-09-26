@@ -32,7 +32,7 @@ set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
 set GDS_TARGET=
 set DI_TARGET=
 set ADI_TARGET=
-set NODESET_TARGET=.\Tests\NodeSetTest
+REM set NODESET_TARGET=.\Tests\NodeSetTest
 set PROVISIONING_TARGET=
 REM Make sure that all of our output locations exist..
 
@@ -51,9 +51,10 @@ ECHO %MODELCOMPILER% -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%I
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 1 )
 
 CALL PublishModel OpcUaGdsModel GDS %1 %2
-CALL PublishModel OpcUaProvisioningModel Provisioning %1 %2
-CALL PublishModel OpcUaNodeSetModel NodeSet %1 %2
 CALL PublishModel OpcUaDiModel DI %1 %2
+
+IF EXIST %INPUT%\OpcUaProvisioningModel.xml CALL PublishModel OpcUaProvisioningModel Provisioning %1 %2
+IF EXIST %INPUT%\OpcUaNodeSetModel.xml CALL PublishModel OpcUaNodeSetModel NodeSet %1 %2
 
 IF "%3"=="all" (
 	CALL PublishModel OpcUaAdiModel ADI %1 %2
