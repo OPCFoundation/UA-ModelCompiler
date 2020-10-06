@@ -32,6 +32,7 @@ public partial class _ClassName_ : MethodState
     /// </summary>
     protected override void Initialize(ISystemContext context)
     {
+        base.Initialize(context);
         Initialize(context, InitializationString);
         InitializeOptionalChildren(context);
     }

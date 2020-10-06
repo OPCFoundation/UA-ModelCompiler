@@ -107,6 +107,7 @@ public partial class _ClassName_State : _BaseClassName_State<BaseT>
     /// </summary>
     protected override void Initialize(ISystemContext context)
     {
+        base.Initialize(context);
         Initialize(context, InitializationString);
         InitializeOptionalChildren(context);
     }
