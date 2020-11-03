@@ -982,7 +982,7 @@ namespace ModelCompiler
 
             ranges.Add(new NumericRange(start, Int32.MaxValue).ToString());
 
-            if (metadata.Hierarchy.NodeList != null)
+            if (metadata?.Hierarchy.NodeList != null)
             {
                 foreach (var child in metadata.Hierarchy.NodeList)
                 {
