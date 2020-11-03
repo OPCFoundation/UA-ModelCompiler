@@ -1,0 +1,463 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModelDesign
+    xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ua="http://opcfoundation.org/UA/"
+    xmlns:Glass="https://opcfoundation.org/UA/glas_technology/"
+	xmlns:DI="http://opcfoundation.org/UA/DI/"
+	xmlns:MA="http://opcfoundation.org/UA/Machinery/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    TargetNamespace="https://opcfoundation.org/UA/glas_technology/"
+    TargetXmlNamespace="https://opcfoundation.org/UA/glas_technology/"
+    xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+    <Namespaces>
+        <Namespace  Name="OpcUa" Prefix="Opc.Ua" XmlPrefix="OpcUa" Version="1.03" 
+					XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" 
+					>http://opcfoundation.org/UA/</Namespace>
+					
+		<Namespace  Name="OpcUaDi" Prefix="Opc.Ua.Di" XmlPrefix="OpcUaDi" FilePath="OpcUaDiModel" Version="1.0" 
+					XmlNamespace="http://opcfoundation.org/UA/DI/">http://opcfoundation.org/UA/DI/</Namespace>
+					
+		<Namespace 	Name="OpcUaMachinery" Prefix="Opc.Ua.Machinery" XmlPrefix="OpcUaMachinery" FilePath="OpcUaMachineryModel" Version="1.0" 
+					XmlNamespace="http://opcfoundation.org/UA/Machinery/">http://opcfoundation.org/UA/Machinery/</Namespace>
+					
+		<Namespace  Name="Glass" Prefix="Glass" XmlPrefix="Glass" 
+					XmlNamespace="https://opcfoundation.org/UA/glas_technology/">https://opcfoundation.org/UA/glas_technology/</Namespace>
+	</Namespaces>
+
+	 <DataType SymbolicName="Glass:FrameMaterialClass" BaseType="ua:Enumeration">
+    <ClassName />
+    <Fields>
+      <Field Name="Other" Identifier="0" BitMask="" ArrayDimensions="" />
+      <Field Name="Metalic" Identifier="1" BitMask="" ArrayDimensions="" />
+      <Field Name="TPS" Identifier="2" BitMask="" ArrayDimensions="" />
+      <Field Name="Plastic" Identifier="3" BitMask="" ArrayDimensions="" />
+      <Field Name="Elasticspacer" Identifier="4" BitMask="" ArrayDimensions="" />
+    </Fields>
+  </DataType>
+  
+    <DataType SymbolicName="Glass:SignificanSideEnumeration" BaseType="ua:Enumeration">
+    <ClassName />
+    <Fields>
+      <Field Name="Indifferent" Identifier="0" BitMask="" ArrayDimensions="" />
+      <Field Name="Top" Identifier="1" BitMask="" ArrayDimensions="" />
+      <Field Name="Bottom" Identifier="2" BitMask="" ArrayDimensions="" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="Glass:StructureAlignmentEnumeration" BaseType="ua:Enumeration">
+    <ClassName />
+    <Fields>
+      <Field Name="Indifferent" Identifier="0" BitMask="" ArrayDimensions="" />
+      <Field Name="Longitudinal" Identifier="1" BitMask="" ArrayDimensions="" />
+      <Field Name="Transverse" Identifier="2" BitMask="" ArrayDimensions="" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="Glass:LimitedString64" BaseType="ua:String">
+    <ClassName />
+    <Fields />
+  </DataType>
+  <DataType SymbolicName="Glass:UserProfileType" BaseType="ua:Structure">
+    <References>
+      <Reference>
+        <ReferenceType>ua:HasEncoding</ReferenceType>
+        <TargetId>Glass:UserProfileType_Encoding_DefaultBinary</TargetId>
+      </Reference>
+	  <Reference>
+        <ReferenceType>ua:HasEncoding</ReferenceType>
+        <TargetId>Glass:UserProfileType_Encoding_DefaultJson</TargetId>
+      </Reference>
+	 
+      <Reference>
+        <ReferenceType>ua:HasEncoding</ReferenceType>
+        <TargetId>Glass:UserProfileType_Encoding_DefaultXml</TargetId>
+      </Reference>
+    </References>
+    <ClassName />
+    <Fields>
+      <Field Name="Name" BitMask="" DataType="ua:String" ArrayDimensions="" />
+      <Field Name="LoginTime" BitMask="" DataType="ua:DateTime" ArrayDimensions="" />
+      <Field Name="AccessLevel" BitMask="" DataType="ua:String" ArrayDimensions="" />
+    </Fields>
+  </DataType>
+  
+	
+	<ObjectType SymbolicName="Glass:GlasEventType" BaseType="ua:BaseEventType" IsAbstract="true">
+    <Children>
+      <Property SymbolicName="Glass:JobdID" ModellingRule="Optional" DataType="Glass:LimitedString64" AccessLevel="ReadWrite">
+        <DefaultValue>
+          <uax:String xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"></uax:String>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="Glass:Location" ModellingRule="Optional" DataType="Glass:LimitedString64" AccessLevel="ReadWrite">
+        <DefaultValue>
+          <uax:String xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"></uax:String>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="Glass:MaterialID" ModellingRule="Optional" DataType="Glass:LimitedString64" AccessLevel="ReadWrite">
+        <DefaultValue>
+          <uax:String xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"></uax:String>
+        </DefaultValue>
+      </Property>
+      <Property SymbolicName="Glass:SerialID" ModellingRule="Mandatory" DataType="Glass:LimitedString64" AccessLevel="ReadWrite">
+        <DefaultValue>
+          <uax:String xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"></uax:String>
+        </DefaultValue>
+      </Property>
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:CommunicationErrorEventType" BaseType="Glass:GlasEventType" IsAbstract="true">
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:GlasMaterialEventType" BaseType="Glass:GlasEventType" IsAbstract="true">
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:MaterialExitEventType" BaseType="Glass:GlasMaterialEventType" IsAbstract="true">
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:MaterialMissingEventType" BaseType="Glass:GlasMaterialEventType" IsAbstract="true">
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:MaterialRecivedEventType" BaseType="Glass:GlasMaterialEventType" IsAbstract="true">
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:IntermediateStepEvent" BaseType="Glass:GlasEventType" IsAbstract="true">
+    <Children>
+      <Property SymbolicName="Glass:ProcessStep" ModellingRule="Optional" DataType="Glass:LimitedString64" AccessLevel="ReadWrite" />
+      <Property SymbolicName="Glass:Status" ModellingRule="Optional" DataType="Glass:LimitedString64" AccessLevel="ReadWrite" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:InterruptedEventType" BaseType="Glass:GlasEventType" IsAbstract="true">
+    <Children>
+      <Property SymbolicName="Glass:ProcessName" ModellingRule="Mandatory" DataType="ua:Double" AccessLevel="ReadWrite" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:EmergencyButtonPressedEventType" BaseType="Glass:InterruptedEventType" IsAbstract="true">
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:MotorTemperatureTooHighEventType" BaseType="Glass:InterruptedEventType" IsAbstract="true">
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:OpenSecurityFenceType" BaseType="Glass:InterruptedEventType" IsAbstract="true">
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:OutOfJobEventType" BaseType="Glass:InterruptedEventType" IsAbstract="true">
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:ProcessParameterOutOfRangeType" BaseType="Glass:InterruptedEventType" IsAbstract="true">
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:ToolMissingEventType" BaseType="Glass:InterruptedEventType" IsAbstract="true">
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:JobGroupMovedEventType" BaseType="Glass:GlasEventType" IsAbstract="true">
+    <Children>
+      <Property SymbolicName="Glass:NewPosition" ModellingRule="Optional" AccessLevel="ReadWrite" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:BaseMaterialType">
+    <Children>
+      <Property SymbolicName="Glass:Description" ModellingRule="Optional" DataType="ua:LocalizedText" AccessLevel="ReadWrite" />
+      <Variable SymbolicName="Glass:Height" TypeDefinition="ua:AnalogUnitType" ModellingRule="Optional" DataType="ua:Float" AccessLevel="ReadWrite" />
+      <Variable SymbolicName="Glass:Length" TypeDefinition="ua:AnalogUnitType" ModellingRule="Optional" DataType="ua:Float" AccessLevel="ReadWrite" />
+      <Property SymbolicName="Glass:Location" ModellingRule="Mandatory" DataType="Glass:LimitedString64" AccessLevel="ReadWrite" />
+      <Property SymbolicName="Glass:MaterialID" ModellingRule="Mandatory" DataType="Glass:LimitedString64" AccessLevel="ReadWrite" />
+      <Property SymbolicName="Glass:SerialID" ModellingRule="Mandatory" DataType="Glass:LimitedString64" AccessLevel="ReadWrite" />
+      <Variable SymbolicName="Glass:Thickness" TypeDefinition="ua:AnalogUnitType" ModellingRule="Optional" DataType="ua:Float" AccessLevel="ReadWrite" />
+      <Variable SymbolicName="Glass:Weight" TypeDefinition="ua:AnalogUnitType" ModellingRule="Optional" DataType="ua:Float" AccessLevel="ReadWrite" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:FoilType" BaseType="Glass:BaseMaterialType">
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:FrameType" BaseType="Glass:BaseMaterialType">
+    <Children>
+      <Variable SymbolicName="Glass:Filling" ModellingRule="Optional" DataType="ua:String" AccessLevel="ReadWrite">
+        <Children>
+          <Variable SymbolicName="Glass:FillLevel" TypeDefinition="ua:AnalogUnitType" ModellingRule="Mandatory" DataType="ua:Double" AccessLevel="ReadWrite" />
+        </Children>
+      </Variable>
+      <Property SymbolicName="Glass:FrameMaterialClass" ModellingRule="Mandatory" DataType="Glass:FrameMaterialClass" AccessLevel="ReadWrite" />
+      <Property SymbolicName="Glass:FrameMaterialSubClass" ModellingRule="Optional" DataType="Glass:LimitedString64" AccessLevel="ReadWrite" />
+      <Variable SymbolicName="Glass:SealingDepth" TypeDefinition="ua:AnalogUnitType" ModellingRule="Optional" DataType="ua:Double" AccessLevel="ReadWrite" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:GasMixType" BaseType="Glass:BaseMaterialType">
+    <Children>
+      <Object SymbolicName="Glass:Gas_1" TypeDefinition="Glass:BaseMaterialType" ModellingRule="Optional" />
+      <Object SymbolicName="Glass:Gas_2" TypeDefinition="Glass:BaseMaterialType" ModellingRule="Optional" />
+      <Variable SymbolicName="Glass:GasFilling" TypeDefinition="ua:AnalogUnitType" ModellingRule="Optional" DataType="ua:Int16" AccessLevel="ReadWrite" />
+      <Variable SymbolicName="Glass:MixingRatio" TypeDefinition="ua:AnalogUnitType" ModellingRule="Optional" DataType="ua:Int16" AccessLevel="ReadWrite" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:GlasType" BaseType="Glass:BaseMaterialType">
+    <Children>
+      <Variable SymbolicName="Glass:CoatingClass" TypeDefinition="ua:MultiStateDiscreteType" ModellingRule="Mandatory" DataType="ua:UInt32" AccessLevel="ReadWrite" />
+      <Variable SymbolicName="Glass:Orientation" ModellingRule="Mandatory" DataType="ua:Float" AccessLevel="ReadWrite" />
+      <Variable SymbolicName="Glass:SignificantSide" ModellingRule="Mandatory" DataType="Glass:SignificanSideEnumeration" AccessLevel="ReadWrite" />
+      <Variable SymbolicName="Glass:StrcutureClass" ModellingRule="Mandatory" DataType="Glass:LimitedString64" AccessLevel="ReadWrite" />
+      <Variable SymbolicName="Glass:StructureAlignment" ModellingRule="Mandatory" DataType="Glass:StructureAlignmentEnumeration" AccessLevel="ReadWrite" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:PackagingType" BaseType="Glass:BaseMaterialType">
+    <Children>
+      <Variable SymbolicName="Glass:AreaProtection" ModellingRule="Mandatory" DataType="Glass:LimitedString64" AccessLevel="ReadWrite" />
+      <Variable SymbolicName="Glass:CornerProtection" ModellingRule="Mandatory" DataType="Glass:LimitedString64" AccessLevel="ReadWrite" />
+      <Variable SymbolicName="Glass:Spacer" ModellingRule="Mandatory" DataType="Glass:LimitedString64" AccessLevel="ReadWrite" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:SealingMaterialType" BaseType="Glass:BaseMaterialType">
+    <Children>
+      <Object SymbolicName="Glass:Hardener" TypeDefinition="Glass:BaseMaterialType" ModellingRule="Optional" />
+      <Variable SymbolicName="Glass:MixingRatio" TypeDefinition="ua:AnalogItemType" ModellingRule="Mandatory" AccessLevel="ReadWrite" />
+      <Object SymbolicName="Glass:Resin" TypeDefinition="Glass:BaseMaterialType" ModellingRule="Optional" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:GlasMachineIdentificationType" BaseType="MA:MachineIdentificationType">
+    <Children>
+      <Property SymbolicName="Glass:AllowedFileFormat" ModellingRule="Mandatory" DataType="Glass:LimitedString64" AccessLevel="ReadWrite" />
+      <Property SymbolicName="Glass:LoggedInProfiles" ModellingRule="Mandatory" DataType="Glass:LimitedString64" AccessLevel="ReadWrite" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:ManualFolderType" BaseType="ua:FolderType">
+    <Children>
+      <Variable SymbolicName="Glass:LocalManuals" ModellingRule="OptionalPlaceholder" DataType="ua:ByteString" AccessLevel="ReadWrite">
+        <BrowseName>&lt;LocalManuals&gt;</BrowseName>
+      </Variable>
+      <Variable SymbolicName="Glass:ExternalManuals" ModellingRule="OptionalPlaceholder" DataType="ua:String" AccessLevel="ReadWrite" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:GlasMachineType">
+    <Children>
+      <Object SymbolicName="Glass:Identification" TypeDefinition="Glass:GlasMachineIdentificationType" ModellingRule="Mandatory">
+        <Children>
+          <Property SymbolicName="DI:AssetId" AccessLevel="ReadWrite">
+            <Description Key="en">To be used by end users to store a unique identification in the context of their overall application. The minimum number of Unicode characters of this Property shall be 40 characters, i.e. clients can expect to be able to write strings with a length of 40 Unicode characters into that field.</Description>
+          </Property>
+          <Property SymbolicName="DI:ComponentName" AccessLevel="ReadWrite">
+            <Description Key="en">To be used by end users to store a human-readable localized text for the machine. The minimum number of locales supported for this Property shall be two. The minimum number of Unicode characters for the text part of each locale shall be 40 characters, i.e. clients can expect to be able to write strings with a length of 40 Unicode characters into that field.</Description>
+          </Property>
+          <Property SymbolicName="DI:DeviceClass">
+            <Description Key="en">Indicates in which domain or for what purpose the machine is used.</Description>
+          </Property>
+          <Property SymbolicName="DI:HardwareRevision">
+            <Description Key="en">A string representation of the revision level of the hardware of a machine. Hardware is physical equipment, as opposed to programs, procedures, rules and associated documentation. Many machines will not provide such information due to the modular and configurable nature of the machine.</Description>
+          </Property>
+          <Property SymbolicName="MA:InitialOperationDate">
+            <Description Key="en">The date, when the machine was switched on the first time after it has left the manufacturer plant.</Description>
+          </Property>
+          <Property SymbolicName="MA:Location" AccessLevel="ReadWrite">
+            <Description Key="en">To be used by end users to store the location of the machine in a scheme specific to the end user. The minimum number of Unicode characters of this Property shall be 60 characters, i.e. clients can expect to be able to write strings with a length of 40 Unicode characters into that field.</Description>
+          </Property>
+          <Property SymbolicName="DI:Manufacturer">
+            <Description Key="en">A human-readable, localized name of the manufacturer of the machine</Description>
+          </Property>
+          <Property SymbolicName="DI:ManufacturerUri">
+            <Description Key="en">A globally unique identifier of the manufacturer of the machine</Description>
+          </Property>
+          <Property SymbolicName="DI:Model">
+            <Description Key="en">A human-readable, localized name of the model of the machine</Description>
+          </Property>
+          <Property SymbolicName="MA:MonthOfConstruction">
+            <Description Key="en">The month in which the manufacturing process of the machine has been completed. It shall be a number between 1 and 12, representing the month from January to December.</Description>
+          </Property>
+          <Property SymbolicName="DI:ProductCode">
+            <Description Key="en">A machine-readable string of the model of the machine, that might include options like the hardware configuration of the model. This information might be provided by the ERP system of the machine vendor and can be used for example as order information.</Description>
+          </Property>
+          <Property SymbolicName="DI:ProductInstanceUri" />
+          <Property SymbolicName="DI:SerialNumber">
+            <Description Key="en">A string containing a unique production number of the manufacturer of the machine. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the machine.</Description>
+          </Property>
+          <Property SymbolicName="DI:SoftwareRevision">
+            <Description Key="en">A string representation of the revision level of a machine. In most cases, machines consist of several software components. In that case, information about the software components might be provided as additional information in the address space, including individual revision information. In that case, this property is either not provided or provides an overall software revision level. The value might change during the life-cycle of a machine.</Description>
+          </Property>
+          <Property SymbolicName="MA:YearOfConstruction">
+            <Description Key="en">The year (Gregorian calendar) in which the manufacturing process of the machine has been completed. It shall be a four-digit number and never change during the life-cycle of a machine.</Description>
+          </Property>
+        </Children>
+      </Object>
+      <Object SymbolicName="Glass:MaintenanceManuals" TypeDefinition="Glass:ManualFolderType" ModellingRule="Optional" />
+      <Object SymbolicName="Glass:OperationManuals" TypeDefinition="Glass:ManualFolderType" ModellingRule="Optional" />
+      <Object SymbolicName="Glass:Production" TypeDefinition="Glass:ProductionType" ModellingRule="Mandatory" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:ProductionType">
+    <Children>
+      <Method SymbolicName="Glass:ChangePositionInList" ModellingRule="Optional" />
+      <Method SymbolicName="Glass:DeleteJobs" ModellingRule="Optional">
+        <InputArguments>
+          <Argument Name="ID">
+            <Description />
+          </Argument>
+        </InputArguments>
+      </Method>
+      <Method SymbolicName="Glass:InsertJobs" ModellingRule="Optional">
+        <InputArguments>
+          <Argument Name="ID" DataType="ua:String">
+            <Description />
+          </Argument>
+          <Argument Name="Name" DataType="ua:String">
+            <Description />
+          </Argument>
+          <Argument Name="JobGroup" DataType="ua:String">
+            <Description />
+          </Argument>
+          <Argument Name="InputMaterial" DataType="ua:NodeId" ValueRank="Array">
+            <Description />
+          </Argument>
+          <Argument Name="OutpuMaterial" DataType="ua:NodeId" ValueRank="Array">
+            <Description />
+          </Argument>
+        </InputArguments>
+        <OutputArguments>
+          <Argument Name="JobNodeID" DataType="ua:NodeId">
+            <Description />
+          </Argument>
+        </OutputArguments>
+      </Method>
+      <Property SymbolicName="Glass:JobListIsRecommendation" ModellingRule="Mandatory" DataType="ua:Boolean" AccessLevel="ReadWrite" />
+      <Object SymbolicName="Glass:ProductionPlan" TypeDefinition="ua:FolderType" ModellingRule="Mandatory">
+        <Children>
+          <Object SymbolicName="Glass:OrderedObject" TypeDefinition="Glass:ProductionJobGroupType" ModellingRule="OptionalPlaceholder" />
+        </Children>
+      </Object>
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:ProductionJobGroupType">
+    <Children>
+      <Property SymbolicName="Glass:GroupID" ModellingRule="Mandatory" DataType="ua:String" AccessLevel="ReadWrite" />
+      <Property SymbolicName="Glass:JobsCompleted" ModellingRule="Mandatory" DataType="ua:UInt32" AccessLevel="ReadWrite" />
+      <Property SymbolicName="Glass:JobsPlanned" ModellingRule="Mandatory" DataType="ua:UInt32" AccessLevel="ReadWrite" />
+      <Property SymbolicName="Glass:NumberInList" ModellingRule="Mandatory" AccessLevel="ReadWrite" />
+      <Object SymbolicName="Glass:OrderedObject" TypeDefinition="Glass:ProductionJobType" ModellingRule="OptionalPlaceholder">
+        <Children>
+          <Object SymbolicName="Glass:InputMaterial" TypeDefinition="Glass:BaseMaterialType">
+            <BrowseName>&lt;InputMaterial&gt;</BrowseName>
+            <DisplayName>InputMaterial</DisplayName>
+          </Object>
+        </Children>
+      </Object>
+      <Object SymbolicName="Glass:State" TypeDefinition="Glass:ProductionBaseStateMachineType" ModellingRule="Mandatory" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:ProductionBaseStateMachineType" BaseType="ua:FiniteStateMachineType">
+    <DisplayName>ProductionStateMachineType</DisplayName>
+    <Children>
+      <Object SymbolicName="Glass:Aborted" TypeDefinition="ua:StateType" />
+      <Object SymbolicName="Glass:Ended" TypeDefinition="ua:StateType" />
+      <Object SymbolicName="Glass:InitializedState" TypeDefinition="Glass:InitializingSubStateMachineType" ModellingRule="Mandatory" />
+      <Object SymbolicName="Glass:Initializing" TypeDefinition="ua:InitialStateType" />
+      <Object SymbolicName="Glass:Interrupted" TypeDefinition="ua:StateType" />
+      <Object SymbolicName="Glass:Running" TypeDefinition="ua:StateType" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:InitializingSubStateMachineType" BaseType="ua:FiniteStateMachineType">
+    <Children>
+      <Object SymbolicName="Glass:Idle" TypeDefinition="ua:InitialStateType" />
+      <Object SymbolicName="Glass:Queued" TypeDefinition="ua:StateType" />
+      <Object SymbolicName="Glass:Released" TypeDefinition="ua:StateType" />
+    </Children>
+    <References>
+      <Reference IsInverse="true">
+        <ReferenceType>ua:HasSubStateMachine</ReferenceType>
+        <TargetId>Glass:ProductionBaseStateMachineType_InitializedState</TargetId>
+      </Reference>
+    </References>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:InstructionType">
+    <Children>
+      <Object SymbolicName="Glass:Plan" TypeDefinition="ua:FileType" ModellingRule="Mandatory">
+        <Children>
+          <Property SymbolicName="ua:OpenCount">
+            <Description>The current number of open file handles.</Description>
+          </Property>
+          <Property SymbolicName="ua:Size">
+            <Description>The size of the file in bytes.</Description>
+          </Property>
+          <Property SymbolicName="ua:UserWritable">
+            <Description>Whether the file is writable by the current user.</Description>
+          </Property>
+          <Property SymbolicName="ua:Writable">
+            <Description>Whether the file is writable.</Description>
+          </Property>
+        </Children>
+      </Object>
+      <Property SymbolicName="Glass:PlanFileFormat" ModellingRule="Mandatory" DataType="ua:String" AccessLevel="ReadWrite" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:ProductionJobType">
+    <Children>
+      <Object SymbolicName="Glass:InputMaterial" TypeDefinition="Glass:BaseMaterialType" ModellingRule="MandatoryPlaceholder">
+        <BrowseName>&lt;InputMaterial&gt;</BrowseName>
+      </Object>
+      <Object SymbolicName="Glass:OutputMaterial" TypeDefinition="Glass:BaseMaterialType" ModellingRule="MandatoryPlaceholder">
+        <BrowseName>&lt;OutputMaterial&gt;</BrowseName>
+      </Object>
+      <Variable SymbolicName="Glass:EndTime" ModellingRule="Mandatory" DataType="ua:DateTime" AccessLevel="ReadWrite" />
+      <Object SymbolicName="Glass:Instruction" TypeDefinition="Glass:InstructionType" ModellingRule="Mandatory" />
+      <Property SymbolicName="Glass:JobID" ModellingRule="Mandatory" DataType="ua:String" AccessLevel="ReadWrite" />
+      <Object SymbolicName="Glass:Lock" TypeDefinition="DI:LockingServicesType" ModellingRule="Optional" />
+      <Property SymbolicName="Glass:Name" ModellingRule="Optional" DataType="ua:String" AccessLevel="ReadWrite" />
+      <Property SymbolicName="Glass:NumberInList" ModellingRule="Mandatory" AccessLevel="ReadWrite" />
+      <Method SymbolicName="Glass:ReleaseJob" ModellingRule="Optional" />
+      <Variable SymbolicName="Glass:StartTime" ModellingRule="Mandatory" DataType="ua:DateTime" AccessLevel="ReadWrite" />
+      <Object SymbolicName="Glass:State" TypeDefinition="Glass:ProductionBaseStateMachineType" ModellingRule="Mandatory" />
+      <Method SymbolicName="Glass:SuspendJob" ModellingRule="Optional" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:AssemblyJobType" BaseType="Glass:ProductionJobType">
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:CombinedJob" BaseType="Glass:ProductionJobType">
+    <Children>
+      <Object SymbolicName="Glass:Jobs" TypeDefinition="ua:FolderType" ModellingRule="Mandatory">
+        <Children>
+          <Object SymbolicName="Glass:Jobs_2" TypeDefinition="Glass:ProductionJobType" ModellingRule="MandatoryPlaceholder">
+            <BrowseName>&lt;Jobs_2&gt;</BrowseName>
+            <Children>
+              <Object SymbolicName="Glass:InputMaterial" TypeDefinition="Glass:BaseMaterialType">
+                <BrowseName>&lt;InputMaterial&gt;</BrowseName>
+                <DisplayName>InputMaterial</DisplayName>
+              </Object>
+            </Children>
+          </Object>
+        </Children>
+      </Object>
+    </Children>
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:CuttingJobType" BaseType="Glass:ProductionJobType">
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:ProcessingJobType" BaseType="Glass:ProductionJobType">
+    <ClassName />
+  </ObjectType>
+  <ObjectType SymbolicName="Glass:ProductionPlanType">
+    <References>
+      <Reference>
+        <ReferenceType >ua:HasOrderedComponent</ReferenceType>
+        <TargetId>Glass:ProductionJobGroupType_OrderedObject</TargetId>
+      </Reference>
+    </References>
+    <ClassName />
+  </ObjectType>
+	
+</ModelDesign>

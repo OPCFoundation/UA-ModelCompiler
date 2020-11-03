@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModelDesign
+    xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ua="http://opcfoundation.org/UA/"
+	xmlns:DI="http://opcfoundation.org/UA/DI/"
+	xmlns:MA="http://opcfoundation.org/UA/Machinery/"
+	xmlns:Glass="https://opcfoundation.org/UA/glas_technology/"
+	xmlns:Edge="https://grenzebach.com/UA/edge/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    TargetNamespace="https://grenzebach.com/UA/edge/"
+    TargetXmlNamespace="https://grenzebach.com/UA/edge/"
+    xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+    <Namespaces>
+
+     			
+		<Namespace  Name="OpcUa" Prefix="Opc.Ua" XmlPrefix="OpcUa" Version="1.03" 
+					XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" 
+					>http://opcfoundation.org/UA/</Namespace>
+					
+		<Namespace  Name="OpcUaDi" Prefix="Opc.Ua.Di" XmlPrefix="OpcUaDi" FilePath="OpcUaDiModel" Version="1.0" 
+					XmlNamespace="http://opcfoundation.org/UA/DI/">http://opcfoundation.org/UA/DI/</Namespace>
+					
+		<Namespace 	Name="OpcUaMachinery" Prefix="Opc.Ua.Machinery" XmlPrefix="OpcUaMachinery" FilePath="OpcUaMachineryModel" Version="1.0" 
+					XmlNamespace="http://opcfoundation.org/UA/Machinery/">http://opcfoundation.org/UA/Machinery/</Namespace>
+					
+		<Namespace  Name="Glass" Prefix="Glass" XmlPrefix="Glass" FilePath="EdgeGlasModel"
+					XmlNamespace="https://opcfoundation.org/UA/glas_technology/">https://opcfoundation.org/UA/glas_technology/</Namespace>
+
+		        <Namespace  Name="Edge" Prefix="Edge" XmlPrefix="Edge" 
+					XmlNamespace="https://grenzebach.com/UA/edge/Types.xsd">https://grenzebach.com/UA/edge/</Namespace>
+					
+	</Namespaces>
+
+    <DataType SymbolicName="Edge:EdgeStructure" BaseType="ua:Structure">
+        <Description>Demo structure</Description>
+        <Fields>
+            <Field Name="Name" DataType="ua:String">
+                <Description>Name of the structure</Description>
+            </Field>
+        </Fields>
+    </DataType>
+	
+	<ObjectType SymbolicName="Edge:EdgeMachineType">
+    <Children>
+      <Object SymbolicName="DI:Production" TypeDefinition="DI:ConfigurableObjectType" ModellingRule="Mandatory" />
+    </Children>
+  </ObjectType>
+	
+  <ObjectType SymbolicName="Edge:EdgeGlasMachine" BaseType="Glass:GlasMachineType">
+    <ClassName />
+  </ObjectType>
+  
+	
+	
+</ModelDesign>
