@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ModelDesign 
+  xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ua="http://opcfoundation.org/UA/"
+  xmlns:DI="http://opcfoundation.org/UA/DI/"
+  xmlns:EDGE="http://grenzebach.com/UA/Edge/"
+  xmlns:GLAS="https://opcfoundation.org/UA/glas_technology/"
+  xmlns:MACHINERY="http://opcfoundation.org/UA/Machinery/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  TargetNamespace="http://grenzebach.com/UA/Edge/"
+  TargetXmlNamespace="http://grenzebach.com/UA/Edge/"
+  TargetVersion="1.00"
+  TargetPublicationDate="2017-03-13T00:00:00Z"
+  xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+
+  <Namespaces>
+	<Namespace Name="OpcUaEdge" Prefix="Opc.Ua.Edge" XmlPrefix="OpcUaEdge">http://grenzebach.com/UA/Edge/</Namespace>
+    <Namespace Name="OpcUaDi" Prefix="Opc.Ua.Di" XmlPrefix="OpcUaDi" FilePath="OpcUaDiModel">http://opcfoundation.org/UA/DI/</Namespace>
+    <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</Namespace>
+	<Namespace Name="OpcUaMachinery" Prefix="Opc.Ua.Machinery" XmlPrefix="OpcUaMachinery" FilePath="OpcUaMachineryModel">http://opcfoundation.org/UA/Machinery/</Namespace>
+	<Namespace Name="OpcUaGlass" Prefix="Opc.Ua.Glass" XmlPrefix="OpcUaGlass" FilePath="OpcUaGlasModel">https://opcfoundation.org/UA/glas_technology/</Namespace>
+  </Namespaces>
+
+  <!-- ObjectTypes -->
+  <ObjectType SymbolicName="EDGE:OrderInformationType" BaseType="GLAS:BaseMaterialType">
+    <Description>Contains machine state information</Description>
+    <Children>
+      <Property SymbolicName="EDGE:Value" DataType="ua:UInt32" ValueRank="Scalar" />
+      <Property SymbolicName="EDGE:Quality" DataType="ua:UInt32" ValueRank="Scalar" />
+	  <Variable SymbolicName="EDGE:Height" TypeDefinition="ua:AnalogUnitType" DataType="ua:Float" ModellingRule="Mandatory" />
+      <Variable SymbolicName="EDGE:Length" TypeDefinition="ua:AnalogUnitType" DataType="ua:Float" ModellingRule="Mandatory" />
+    </Children>
+  </ObjectType>
+  
+  <ObjectType SymbolicName="EDGE:OrderJobType" BaseType="GLAS:ProductionJobType">
+    <Children>
+      <Object SymbolicName="GLAS:InputMaterial" TypeDefinition="EDGE:OrderInformationType" ModellingRule="MandatoryPlaceholder">
+        <BrowseName>&lt;InputMaterial&gt;</BrowseName>
+      </Object>
+    </Children>
+  </ObjectType>
+  
+  <ObjectType SymbolicName="EDGE:OrderJobGroupType" BaseType="GLAS:ProductionJobGroupType">
+    <Children>
+      <Object SymbolicName="EDGE:OrderedObject" TypeDefinition="EDGE:OrderJobType" ModellingRule="OptionalPlaceholder"/>
+    </Children>
+    <ClassName />
+  </ObjectType>
+
+  <ObjectType SymbolicName="EDGE:OrderProcessingProductionType" BaseType="GLAS:ProductionType">
+    <Children>
+      <Object SymbolicName="EDGE:ProductionPlan" TypeDefinition="ua:FolderType" ModellingRule="Mandatory">
+        <Children>
+          <Object SymbolicName="EDGE:OrderedObject" TypeDefinition="EDGE:OrderJobGroupType" ModellingRule="OptionalPlaceholder" />
+        </Children>
+      </Object>
+    </Children>
+    <ClassName />
+  </ObjectType>
+  
+  <ObjectType SymbolicName="EDGE:OrderProcessingMachineType" BaseType="GLAS:GlasMachineType" ModellingRule="Optional">
+    <Children>
+      <Object SymbolicName="EDGE:Production" TypeDefinition="EDGE:OrderProcessingProductionType" ModellingRule="Mandatory" />
+    </Children>
+    <ClassName />
+  </ObjectType>
+  
+  
+   <!-- Objects -->
+  <Object SymbolicName="EDGE:OrderProcessingMachine"  TypeDefinition="EDGE:OrderProcessingMachineType" ModellingRule="Optional" />
+  
+</ModelDesign>

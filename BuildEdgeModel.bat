@@ -2,7 +2,7 @@
 
 set MODELCOMPILER=.\Bin\Debug\Opc.Ua.ModelCompiler.exe
 
-%MODELCOMPILER% -d2 ".\Input\EdgeModel.xml" -cg ".\Input\EdgeModel.csv" -o2 ".\Out"
+%MODELCOMPILER% -d2 ".\Input\OpcUaDiModel.xml" -cg ".\Input\OpcUaDiModel.csv" -o2 ".\Out"
 
 ENDLOCAL
 

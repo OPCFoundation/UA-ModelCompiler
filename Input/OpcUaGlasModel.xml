@@ -12,20 +12,19 @@
     xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
     <Namespaces>
         <Namespace  Name="OpcUa" Prefix="Opc.Ua" XmlPrefix="OpcUa" Version="1.03" 
-					XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" 
 					>http://opcfoundation.org/UA/</Namespace>
 					
 		<Namespace  Name="OpcUaDi" Prefix="Opc.Ua.Di" XmlPrefix="OpcUaDi" FilePath="OpcUaDiModel" Version="1.0" 
-					XmlNamespace="http://opcfoundation.org/UA/DI/">http://opcfoundation.org/UA/DI/</Namespace>
+					>http://opcfoundation.org/UA/DI/</Namespace>
 					
 		<Namespace 	Name="OpcUaMachinery" Prefix="Opc.Ua.Machinery" XmlPrefix="OpcUaMachinery" FilePath="OpcUaMachineryModel" Version="1.0" 
-					XmlNamespace="http://opcfoundation.org/UA/Machinery/">http://opcfoundation.org/UA/Machinery/</Namespace>
+					>http://opcfoundation.org/UA/Machinery/</Namespace>
 					
-		<Namespace  Name="Glass" Prefix="Glass" XmlPrefix="Glass" 
-					XmlNamespace="https://opcfoundation.org/UA/glas_technology/">https://opcfoundation.org/UA/glas_technology/</Namespace>
+		<Namespace  Name="OpcUaGlass" Prefix="Opc.Ua.Glass" XmlPrefix="OpcUaGlass" 
+					>https://opcfoundation.org/UA/glas_technology/</Namespace>
 	</Namespaces>
 
-	 <DataType SymbolicName="Glass:FrameMaterialClass" BaseType="ua:Enumeration">
+  <DataType SymbolicName="Glass:FrameMaterialClass" BaseType="ua:Enumeration">
     <ClassName />
     <Fields>
       <Field Name="Other" Identifier="0" BitMask="" ArrayDimensions="" />
@@ -35,8 +34,7 @@
       <Field Name="Elasticspacer" Identifier="4" BitMask="" ArrayDimensions="" />
     </Fields>
   </DataType>
-  
-    <DataType SymbolicName="Glass:SignificanSideEnumeration" BaseType="ua:Enumeration">
+  <DataType SymbolicName="Glass:SignificanSideEnumeration" BaseType="ua:Enumeration">
     <ClassName />
     <Fields>
       <Field Name="Indifferent" Identifier="0" BitMask="" ArrayDimensions="" />
@@ -81,7 +79,7 @@
   </DataType>
   
 	
-	<ObjectType SymbolicName="Glass:GlasEventType" BaseType="ua:BaseEventType" IsAbstract="true">
+  <ObjectType SymbolicName="Glass:GlasEventType" BaseType="ua:BaseEventType" IsAbstract="true">
     <Children>
       <Property SymbolicName="Glass:JobdID" ModellingRule="Optional" DataType="Glass:LimitedString64" AccessLevel="ReadWrite">
         <DefaultValue>
@@ -292,7 +290,7 @@
       <Object SymbolicName="Glass:Production" TypeDefinition="Glass:ProductionType" ModellingRule="Mandatory" />
     </Children>
     <ClassName />
-  </ObjectType>
+  </ObjectType> 
   <ObjectType SymbolicName="Glass:ProductionType">
     <Children>
       <Method SymbolicName="Glass:ChangePositionInList" ModellingRule="Optional" />
@@ -459,5 +457,37 @@
     </References>
     <ClassName />
   </ObjectType>
+  <Method SymbolicName="Glass:DeleteJobs">
+    <InputArguments>
+      <Argument Name="ID">
+        <Description />
+      </Argument>
+    </InputArguments>
+  </Method>
+
+  <Method SymbolicName="Glass:InsertJobs">
+    <InputArguments>
+      <Argument Name="ID" DataType="ua:String">
+        <Description />
+      </Argument>
+      <Argument Name="Name" DataType="ua:String">
+        <Description />
+      </Argument>
+      <Argument Name="JobGroup" DataType="ua:String">
+        <Description />
+      </Argument>
+      <Argument Name="InputMaterial" DataType="ua:NodeId" ValueRank="Array">
+        <Description />
+      </Argument>
+      <Argument Name="OutpuMaterial" DataType="ua:NodeId" ValueRank="Array">
+        <Description />
+      </Argument>
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="JobNodeID" DataType="ua:NodeId">
+        <Description />
+      </Argument>
+    </OutputArguments>
+  </Method>
 	
 </ModelDesign>

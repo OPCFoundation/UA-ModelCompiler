@@ -12,8 +12,8 @@
   xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
 
   <Namespaces>
-    <Namespace Name="OpcUaDi" Prefix="Opc.Ua.Di" XmlNamespace="http://opcfoundation.org/UA/DI/Types.xsd" XmlPrefix="DI">http://opcfoundation.org/UA/DI/</Namespace>
-    <Namespace Name="OpcUa" Version="1.04.4" PublicationDate="2020-01-08T00:00:00Z" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</Namespace>
+    <Namespace Name="OpcUaDi" Prefix="Opc.Ua.Di" XmlPrefix="OpcUaDi">http://opcfoundation.org/UA/DI/</Namespace>
+    <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
 
   <Object SymbolicName="DI:OPCUADINamespaceMetadata" TypeDefinition="OpcUa:NamespaceMetadataType">
@@ -527,7 +527,7 @@
 
   <Method SymbolicName="DI:InitLockMethodType">
     <InputArguments>
-      <Argument Name="Context" DataType="OpcUa:String" />
+      <Argument Name="ContextString" DataType="OpcUa:String" />
     </InputArguments>
     <OutputArguments>
       <Argument Name="InitLockStatus" DataType="OpcUa:Int32" />

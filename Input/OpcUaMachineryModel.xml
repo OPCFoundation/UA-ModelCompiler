@@ -8,9 +8,9 @@
 			TargetPublicationDate="2020-10-20T00:00:00+02:00" 
 			xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
-    <Namespace Name="Name0" Prefix="Prefix0" InternalPrefix="http://opcfoundation.org/UA/" XmlNamespace="http://opcfoundation.org/UA/" XmlPrefix="Prefix1" FilePath="" Version="1.0" >http://opcfoundation.org/UA/</Namespace>
-    <Namespace Name="Name2" Prefix="Prefix2" InternalPrefix="http://opcfoundation.org/UA/Machinery/" XmlNamespace="http://opcfoundation.org/UA/Machinery/" XmlPrefix="Prefix3" FilePath="" Version="1.0" >http://opcfoundation.org/UA/Machinery/</Namespace>
-    <Namespace Name="DI" Version="1.02" PublicationDate="2019-05-01T00:00:00Z" Prefix="Opc.Ua.Di" XmlPrefix="DI" FilePath="OpcUaDiModel">http://opcfoundation.org/UA/DI/</Namespace>
+    <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlPrefix="OpcUa" FilePath="" Version="1.0" >http://opcfoundation.org/UA/</Namespace>
+    <Namespace Name="OpcUaMachinery" Prefix="Opc.Ua.Machinery" XmlPrefix="OpcUaMachinery" FilePath="" Version="1.0" >http://opcfoundation.org/UA/Machinery/</Namespace>
+    <Namespace Name="OpcUaDi" Version="1.02" PublicationDate="2019-05-01T00:00:00Z" Prefix="Opc.Ua.Di" XmlPrefix="OpcUaDi" FilePath="OpcUaDiModel">http://opcfoundation.org/UA/DI/</Namespace>
   </Namespaces>
   
   
