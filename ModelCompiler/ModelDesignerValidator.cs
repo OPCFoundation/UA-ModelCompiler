@@ -58,7 +58,8 @@ namespace ModelCompiler
         {
             m_context = ServiceMessageContext.GlobalContext;
             m_startId = startId;
-            EmbeddedResourcePath = "ModelCompiler.Design";
+            EmbeddedModelDesignPath = "ModelCompiler.Design";
+            EmbeddedCsvPath = "ModelCompiler.CSVs";
         }
         #endregion
 
@@ -82,7 +83,12 @@ namespace ModelCompiler
         /// <summary>
         /// The location of the embedded resources.
         /// </summary>
-        public string EmbeddedResourcePath { get; set; }
+        public string EmbeddedModelDesignPath { get; set; }
+
+        /// <summary>
+        /// The location of the embedded CSVs.
+        /// </summary>
+        public string EmbeddedCsvPath { get; set; }
 
         /// <summary>
         /// Finds the data type with the specified name.
@@ -117,7 +123,7 @@ namespace ModelCompiler
             // validate node in target dictionary.
             ValidateDictionary(m_dictionary);
 
-            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{EmbeddedResourcePath}.StandardTypes.csv");
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{EmbeddedCsvPath}.StandardTypes.csv");
 
             using (stream)
             {
@@ -296,11 +302,11 @@ namespace ModelCompiler
                 {
                     designFilePath = Path.Combine(".", "Design");
 
-                    int index = EmbeddedResourcePath.IndexOf(".Design");
+                    int index = EmbeddedModelDesignPath.IndexOf(".Design");
 
                     if (index > 0)
                     {
-                        designFilePath = Path.Combine(".", EmbeddedResourcePath.Substring(index + 1));
+                        designFilePath = Path.Combine(".", EmbeddedModelDesignPath.Substring(index + 1));
                     }
 
                     designFilePath = Path.Combine(designFilePath, designFileName);
@@ -423,43 +429,21 @@ namespace ModelCompiler
             }
 
             // load the identifiers
-            string identifiersFileName = designFileName;
-
-            if (identifiersFileName.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
-            {
-                identifiersFileName = identifiersFileName.Substring(0, identifiersFileName.Length - ".xml".Length);
-            }
-
-            identifiersFileName += ".csv";
-
-            string identifiersFilePath = identifiersFileName;
+            var identifiersFileName = Path.ChangeExtension(designFileName, ".csv");
+            var identifiersFilePath = Path.Combine(Path.GetDirectoryName(designFilePath), identifiersFileName);
+;
             isResource = false;
 
             if (!File.Exists(identifiersFilePath))
             {
-                identifiersFilePath = Path.Combine(targetFile.DirectoryName, identifiersFileName);
+                identifiersFilePath = Path.Combine(identifiersFilePath, identifiersFileName);
                 Console.WriteLine("Trying file: " + identifiersFilePath);
 
                 if (!File.Exists(identifiersFilePath))
                 {
-                    identifiersFilePath = Path.Combine(".", "Design");
-
-                    int index = EmbeddedResourcePath.IndexOf(".Design");
-
-                    if (index > 0)
-                    {
-                        identifiersFilePath = Path.Combine(".", EmbeddedResourcePath.Substring(index+1));
-                    }
-
-                    identifiersFilePath = Path.Combine(identifiersFilePath, identifiersFileName);
-                    Console.WriteLine("Trying file: " + identifiersFilePath);
-
-                    if (!File.Exists(identifiersFilePath))
-                    {
-                        identifiersFilePath = $"{EmbeddedResourcePath}.{identifiersFileName}";
-                        Console.WriteLine("Trying resource: " + identifiersFilePath);
-                        isResource = true;
-                    }
+                    identifiersFilePath = $"{EmbeddedCsvPath}.{identifiersFileName}";
+                    Console.WriteLine("Trying resource: " + identifiersFilePath);
+                    isResource = true;
                 }
             }
 
@@ -805,7 +789,7 @@ namespace ModelCompiler
             // load the design files.
             ModelDesign builtin = (ModelDesign)LoadResource(
                 typeof(ModelDesign),
-                $"{EmbeddedResourcePath}.BuiltInTypes.xml",
+                $"{EmbeddedModelDesignPath}.BuiltInTypes.xml",
                 Assembly.GetExecutingAssembly());
 
             nodes.AddRange(builtin.Items);
@@ -814,11 +798,11 @@ namespace ModelCompiler
 
             ModelDesign datatypes = null;
 
-            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{EmbeddedResourcePath}.UA Core Services.xml");
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{EmbeddedModelDesignPath}.UA Core Services.xml");
 
             using (stream)
             {
-                datatypes = ImportTypeDictionary(stream, EmbeddedResourcePath);
+                datatypes = ImportTypeDictionary(stream, EmbeddedModelDesignPath);
             }
 
             if (datatypes != null)
@@ -828,7 +812,7 @@ namespace ModelCompiler
 
             ModelDesign standard = (ModelDesign)LoadResource(
                 typeof(ModelDesign),
-                $"{EmbeddedResourcePath}.StandardTypes.xml",
+                $"{EmbeddedModelDesignPath}.StandardTypes.xml",
                 Assembly.GetExecutingAssembly());
 
             nodes.AddRange(standard.Items);
@@ -866,7 +850,7 @@ namespace ModelCompiler
 
             if (hasDataTypesDefined)
             {
-                if (!EmbeddedResourcePath.EndsWith("v103"))
+                if (!EmbeddedModelDesignPath.EndsWith("v103"))
                 {
                     AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Binary, nodes);
                     AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Xml, nodes);
@@ -1091,7 +1075,7 @@ namespace ModelCompiler
             if (inputPath.EndsWith("StandardTypes.xml"))
             {
                 Log("Loading StandardTypes...");
-                dictionary = (ModelDesign)LoadResource(typeof(ModelDesign), $"{EmbeddedResourcePath}.BuiltInTypes.xml", Assembly.GetExecutingAssembly());
+                dictionary = (ModelDesign)LoadResource(typeof(ModelDesign), $"{EmbeddedModelDesignPath}.BuiltInTypes.xml", Assembly.GetExecutingAssembly());
             }
 
             for (int ii = 0; ii < designFilePaths.Count; ii++)
@@ -1108,7 +1092,7 @@ namespace ModelCompiler
                 {
                     try
                     {
-                        component = ImportTypeDictionary(designFilePaths[ii], EmbeddedResourcePath);
+                        component = ImportTypeDictionary(designFilePaths[ii], EmbeddedModelDesignPath);
                     }
                     catch (Exception e2)
                     {
@@ -1722,7 +1706,7 @@ namespace ModelCompiler
                     namespaceUri,
                     descriptions);
 
-                if (!EmbeddedResourcePath.EndsWith("v103"))
+                if (!EmbeddedModelDesignPath.EndsWith("v103"))
                 {
                     AddProperty(
                         dictionary,
@@ -1985,24 +1969,32 @@ namespace ModelCompiler
         /// </summary>
         private void LoadIdentifiersFromFile(string filePath)
         {
-            IDictionary<object,NodeDesign> uniqueIdentifiers = LoadIdentifiersFromStream(File.Open(filePath, FileMode.Open));
+            var uniqueIdentifiers = LoadIdentifiersFromStream(File.Open(filePath, FileMode.Open));
 
             // update the CSV file.
             StreamWriter writer = new StreamWriter(filePath, false);
 
             try
             {
-                foreach (KeyValuePair<object,NodeDesign> id in uniqueIdentifiers)
+                foreach (var ii in uniqueIdentifiers)
                 {
+                    if (ii.Value is string)
+                    {
+                        writer.WriteLine("{0},{1},{2}", ii.Value, ii.Key, "Unassigned");
+                        continue;
+                    }
+
+                    var node = ii.Value as NodeDesign;
+
                     // do not save identifiers for built-in types.
-                    if (id.Value.NumericId < 256 && !filePath.EndsWith("BuiltInTypes.csv"))
+                    if (node.NumericId < 256 && !filePath.EndsWith("BuiltInTypes.csv"))
                     {
                         continue;
                     }
 
                     NodeClass nodeClass = NodeClass.Unspecified;
 
-                    switch (id.Value.GetType().Name)
+                    switch (node.GetType().Name)
                     {
                         case "ObjectTypeDesign":
                         case "EventTypeDesign":
@@ -2058,13 +2050,13 @@ namespace ModelCompiler
                         }
                     }
 
-                    if (id.Key is string)
+                    if (ii.Key is string)
                     {
-                        writer.WriteLine("{0},\"{1}\",{2}", id.Value.SymbolicId.Name, id.Key, nodeClass);
+                        writer.WriteLine("{0},\"{1}\",{2}", node.SymbolicId.Name, ii.Key, nodeClass);
                     }
                     else
                     {
-                        writer.WriteLine("{0},{1},{2}", id.Value.SymbolicId.Name, id.Key, nodeClass);
+                        writer.WriteLine("{0},{1},{2}", node.SymbolicId.Name, ii.Key, nodeClass);
                     }
                 }
             }
@@ -2281,6 +2273,20 @@ namespace ModelCompiler
                 throw new InvalidOperationException(buffer.ToString());
             }
 
+            foreach (var ii in identifiers)
+            {
+                if (!uniqueIdentifiers.ContainsKey(ii.Value))
+                {
+                    uniqueIdentifiers[ii.Value] = new IdInfo()
+                    {
+                        Id = ii.Value,
+                        SymbolicId = ii.Key,
+                        NodeClass = NodeClass.Unspecified,
+                        ReleaseStatus = ReleaseStatus.Released
+                    };
+                }
+            }
+
             return uniqueIdentifiers;
         }
 
@@ -2317,7 +2323,7 @@ namespace ModelCompiler
         /// <summary>
         /// Loads the identifiers from a CSV file.
         /// </summary>
-        private IDictionary<object,NodeDesign> LoadIdentifiersFromStream(Stream istrm)
+        private IDictionary<object,object> LoadIdentifiersFromStream(Stream istrm)
         {
             Dictionary<string,object> identifiers = new Dictionary<string,object>();
 
@@ -2394,8 +2400,8 @@ namespace ModelCompiler
                 }
             }
 
-            SortedDictionary<object,NodeDesign> uniqueIdentifiers = new SortedDictionary<object,NodeDesign>();
-            Dictionary<string,object> duplicateIdentifiers = new Dictionary<string,object>();
+            var uniqueIdentifiers = new SortedDictionary<object,object>();
+            var duplicateIdentifiers = new Dictionary<string,object>();
 
             foreach (NodeDesign node in m_nodes.Values)
             {
@@ -2452,6 +2458,14 @@ namespace ModelCompiler
                 }
 
                 throw new InvalidOperationException(buffer.ToString());
+            }
+
+            foreach (var ii in identifiers)
+            {
+                if (!uniqueIdentifiers.ContainsKey(ii.Value))
+                {
+                    uniqueIdentifiers[ii.Value] = ii.Key;
+                }
             }
 
             return uniqueIdentifiers;
@@ -3510,7 +3524,7 @@ namespace ModelCompiler
                         EncodingDesign xmlEncoding = CreateEncoding(dataType, new XmlQualifiedName("DefaultXml", DefaultNamespace));
                         EncodingDesign binaryEncoding = CreateEncoding(dataType, new XmlQualifiedName("DefaultBinary", DefaultNamespace));
 
-                        if (!EmbeddedResourcePath.EndsWith("v103"))
+                        if (!EmbeddedModelDesignPath.EndsWith("v103"))
                         {
                             EncodingDesign jsonEncoding = CreateEncoding(dataType, new XmlQualifiedName("DefaultJson", DefaultNamespace));
                             dataType.Encodings = new EncodingDesign[] { xmlEncoding, binaryEncoding, jsonEncoding };
@@ -5956,6 +5970,7 @@ namespace ModelCompiler
 
             state.IsAbstract = root.IsAbstract;
             state.DataTypeModifier = ((root.IsOptionSet) ? DataTypeModifier.OptionSet : DataTypeModifier.None);
+            state.Purpose = (Export.DataTypePurpose)(int)root.Purpose;
 
             if ((root.BasicDataType == BasicDataType.Enumeration || root.BasicDataType == BasicDataType.UserDefined) && (root.Fields != null && root.Fields.Length > 0))
             {
@@ -6035,7 +6050,6 @@ namespace ModelCompiler
                 }
 
                 state.DataTypeDefinition = new ExtensionObject(definition);
-                state.Purpose = (Export.DataTypePurpose)(int)root.Purpose;
             }
 
             return state;

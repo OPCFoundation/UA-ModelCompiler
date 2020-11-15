@@ -132,6 +132,10 @@
     <opc:Description>The output arguments for a method.</opc:Description>
   </opc:Property>
 
+  <opc:Property SymbolicName="DefaultInputValues" DataType="BaseDataType" ValueRank="Array" PartNo="3">
+    <opc:Description>Specifies the default values for optional input arguments.</opc:Description>
+  </opc:Property>
+
   <opc:Property SymbolicName="DefaultInstanceBrowseName" DataType="QualifiedName" ValueRank="Scalar" PartNo="3">
     <opc:Description>Allows the definition of BrowseName on an ObjectType that all instances should use by default.</opc:Description>
   </opc:Property>
@@ -741,6 +745,8 @@
 
   <opc:ObjectType SymbolicName="AggregateFunctionType" BaseType="ua:BaseObjectType" PartNo="5" />
 
+  <opc:ObjectType SymbolicName="InformationModelVersionType" BaseType="ua:BaseObjectType" PartNo="5" ReleaseStatus="Draft" />
+
   <!-- Part 5 - Standard Variable Types -->
 
   <!-- BaseVariableType BuiltInTypes.xml -->
@@ -1121,6 +1127,10 @@
   <!-- ModelChangeStructureDataType UA Core Services.xml -->
   <!-- SemanticChangeStructureDataType UA Core Services.xml -->
 
+  <opc:ReferenceType SymbolicName="IsDeprecated" BaseType="NonHierarchicalReferences" PartNo="5" ReleaseStatus="Draft">
+    <opc:InverseName>Deprecates</opc:InverseName>
+  </opc:ReferenceType>
+
   <opc:DataType SymbolicName="BitFieldMaskDataType" BaseType="UInt64" PartNo="5">
     <opc:Description>A mask of 32 bits that can be updated individually by using the top 32 bits as a mask.</opc:Description>
   </opc:DataType>
@@ -1135,13 +1145,13 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="AdditionalParametersType" BaseType="Structure" NoArraysAllowed="true" PartNo="5" ReleaseStatus="Released">
+  <opc:DataType SymbolicName="AdditionalParametersType" BaseType="Structure" NoArraysAllowed="true" PartNo="5" ReleaseStatus="Draft">
     <opc:Fields>
       <opc:Field Name="Parameters" DataType="KeyValuePair" ValueRank="Array" />
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="EphemeralKeyType" BaseType="Structure" NoArraysAllowed="true" PartNo="5" ReleaseStatus="Released">
+  <opc:DataType SymbolicName="EphemeralKeyType" BaseType="Structure" NoArraysAllowed="true" PartNo="5" ReleaseStatus="Draft">
     <opc:Fields>
       <opc:Field Name="PublicKey" DataType="ua:ByteString" />
       <opc:Field Name="Signature" DataType="ua:ByteString" />
@@ -1555,59 +1565,12 @@
 
   <opc:ObjectType SymbolicName="FileTransferStateMachineType" BaseType="FiniteStateMachineType" PartNo="5">
     <opc:Children>
-      <opc:Object SymbolicName="Idle" TypeDefinition="InitialStateType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="StateNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>1</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
-      </opc:Object>
-      <opc:Object SymbolicName="ReadPrepare" TypeDefinition="StateType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="StateNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>2</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
-      </opc:Object>
-      <opc:Object SymbolicName="ReadTransfer" TypeDefinition="StateType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="StateNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>3</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
-      </opc:Object>
-      <opc:Object SymbolicName="ApplyWrite" TypeDefinition="StateType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="StateNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>4</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
-      </opc:Object>
-      <opc:Object SymbolicName="Error" TypeDefinition="StateType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="StateNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>5</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
-      </opc:Object>
+      <opc:Object SymbolicName="Idle" TypeDefinition="InitialStateType" ModellingRule="None" />
+      <opc:Object SymbolicName="ReadPrepare" TypeDefinition="StateType" ModellingRule="None" />
+      <opc:Object SymbolicName="ReadTransfer" TypeDefinition="StateType" ModellingRule="None" />
+      <opc:Object SymbolicName="ApplyWrite" TypeDefinition="StateType" ModellingRule="None" />
+      <opc:Object SymbolicName="Error" TypeDefinition="StateType" ModellingRule="None" />
       <opc:Object SymbolicName="IdleToReadPrepare" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>12</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -1624,13 +1587,6 @@
         </opc:References>
       </opc:Object>
       <opc:Object SymbolicName="ReadPrepareToReadTransfer" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>23</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -1647,13 +1603,6 @@
         </opc:References>
       </opc:Object>
       <opc:Object SymbolicName="ReadTransferToIdle" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>31</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -1670,13 +1619,6 @@
         </opc:References>
       </opc:Object>
       <opc:Object SymbolicName="IdleToApplyWrite" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>14</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -1693,13 +1635,6 @@
         </opc:References>
       </opc:Object>
       <opc:Object SymbolicName="ApplyWriteToIdle" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>41</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -1716,13 +1651,6 @@
         </opc:References>
       </opc:Object>
       <opc:Object SymbolicName="ReadPrepareToError" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>25</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -1739,13 +1667,6 @@
         </opc:References>
       </opc:Object>
       <opc:Object SymbolicName="ReadTransferToError" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>35</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -1762,13 +1683,6 @@
         </opc:References>
       </opc:Object>
       <opc:Object SymbolicName="ApplyWriteToError" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>45</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -1785,13 +1699,6 @@
         </opc:References>
       </opc:Object>
       <opc:Object SymbolicName="ErrorToIdle" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>51</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -2827,41 +2734,13 @@
       <opc:Property SymbolicName="UnshelveTime" DataType="Duration" ModellingRule="Mandatory" />
       
       <opc:Object SymbolicName="Unshelved" TypeDefinition="StateType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="StateNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>1</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
       </opc:Object>
       <opc:Object SymbolicName="TimedShelved" TypeDefinition="StateType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="StateNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>2</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
       </opc:Object>
       <opc:Object SymbolicName="OneShotShelved" TypeDefinition="StateType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="StateNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>3</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
       </opc:Object>
 
       <opc:Object SymbolicName="UnshelvedToTimedShelved" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>12</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -2883,13 +2762,6 @@
       </opc:Object>
 
       <opc:Object SymbolicName="UnshelvedToOneShotShelved" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>13</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -2911,13 +2783,6 @@
       </opc:Object>
 
       <opc:Object SymbolicName="TimedShelvedToUnshelved" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>21</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -2939,13 +2804,6 @@
       </opc:Object>
 
       <opc:Object SymbolicName="TimedShelvedToOneShotShelved" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>23</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -2967,13 +2825,6 @@
       </opc:Object>
 
       <opc:Object SymbolicName="OneShotShelvedToUnshelved" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>31</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -2995,13 +2846,6 @@
       </opc:Object>
 
       <opc:Object SymbolicName="OneShotShelvedToTimedShelved" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>32</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -3072,51 +2916,11 @@
 
   <opc:ObjectType SymbolicName="ExclusiveLimitStateMachineType" BaseType="FiniteStateMachineType" PartNo="9">
     <opc:Children>
-      <opc:Object SymbolicName="HighHigh" TypeDefinition="StateType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="StateNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>1</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
-      </opc:Object>
-      <opc:Object SymbolicName="High" TypeDefinition="StateType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="StateNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>2</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
-      </opc:Object>
-      <opc:Object SymbolicName="Low" TypeDefinition="StateType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="StateNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>3</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
-      </opc:Object>
-      <opc:Object SymbolicName="LowLow" TypeDefinition="StateType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="StateNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>4</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
-      </opc:Object>
-      
+      <opc:Object SymbolicName="HighHigh" TypeDefinition="StateType" ModellingRule="None" />
+      <opc:Object SymbolicName="High" TypeDefinition="StateType" ModellingRule="None" />
+      <opc:Object SymbolicName="Low" TypeDefinition="StateType" ModellingRule="None" />
+      <opc:Object SymbolicName="LowLow" TypeDefinition="StateType" ModellingRule="None" />
       <opc:Object SymbolicName="LowLowToLow" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>43</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -3129,13 +2933,6 @@
         </opc:References>
       </opc:Object>
       <opc:Object SymbolicName="LowToLowLow" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>34</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -3148,13 +2945,6 @@
         </opc:References>
       </opc:Object>
       <opc:Object SymbolicName="HighHighToHigh" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>12</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -3167,13 +2957,6 @@
         </opc:References>
       </opc:Object>
       <opc:Object SymbolicName="HighToHighHigh" TypeDefinition="TransitionType" ModellingRule="None">
-        <opc:Children>
-          <opc:Property SymbolicName="TransitionNumber">
-            <opc:DefaultValue>
-              <uax:UInt32>21</uax:UInt32>
-            </opc:DefaultValue>
-          </opc:Property>
-        </opc:Children>
         <opc:References>
           <opc:Reference>
             <opc:ReferenceType>FromState</opc:ReferenceType>
@@ -4000,13 +3783,24 @@
     <opc:Children>
       <opc:Property SymbolicName="LastUpdateTime" DataType="ua:UtcTime" />
       <opc:Property SymbolicName="UpdateFrequency" DataType="ua:Duration" ModellingRule="Optional" />
+      <opc:Property SymbolicName="DefaultValidationOptions" DataType="TrustListValidationOptions" ModellingRule="Optional"  ReleaseStatus="Draft" />
       <opc:Method SymbolicName="OpenWithMasks" TypeDefinition="OpenWithMasksMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="CloseAndUpdate" TypeDefinition="CloseAndUpdateMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddCertificate" TypeDefinition="AddCertificateMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveCertificate" TypeDefinition="RemoveCertificateMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
-  
+
+  <opc:DataType SymbolicName="TrustListValidationOptions" PartNo="12" BaseType="ua:UInt32" IsOptionSet="true" NoArraysAllowed="true" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="SuppressCertificateExpired" BitMask="0001" />
+      <opc:Field Name="SuppressHostNameInvalid" BitMask="0002" />
+      <opc:Field Name="SuppressRevocationStatusUnknown" BitMask="0004" />
+      <opc:Field Name="CheckRevocationStatusOnline" BitMask="0008" />
+      <opc:Field Name="CheckRevocationStatusOffine" BitMask="0010" />
+    </opc:Fields>
+  </opc:DataType>
+
   <opc:DataType SymbolicName="TrustListMasks" PartNo="12" BaseType="ua:Enumeration" NoArraysAllowed="true">
     <opc:Fields>
       <opc:Field Name="None" Identifier="0" />
@@ -4040,7 +3834,9 @@
     <opc:Children>
       <opc:Object SymbolicName="TrustList" TypeDefinition="TrustListType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="CertificateTypes" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="GetRejectedList" TypeDefinition="GetRejectedListMethodType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="CertificateExpired" TypeDefinition="CertificateExpirationAlarmType" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Object SymbolicName="TrustListOutOfDate" TypeDefinition="TrustListOutOfDateAlarmType" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Method SymbolicName="GetRejectedList" TypeDefinition="GetRejectedListMethodType" ModellingRule="Optional" ReleaseStatus="Draft" />
     </opc:Children>
   </opc:ObjectType>
   
@@ -4063,14 +3859,14 @@
   <opc:ObjectType SymbolicName="RsaMinApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12"></opc:ObjectType>
   <opc:ObjectType SymbolicName="RsaSha256ApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12"></opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="EccApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12" ReleaseStatus="Released"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccNistP256ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Released"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccNistP384ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Released"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccBrainpoolP256r1ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Released"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccBrainpoolP384r1ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Released"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccCurve25519ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Released"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccCurve448ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Released"></opc:ObjectType>
-
+  <opc:ObjectType SymbolicName="EccApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccNistP256ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccNistP384ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccBrainpoolP256r1ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccBrainpoolP384r1ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccCurve25519ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccCurve448ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Draft"></opc:ObjectType>
+  
   <opc:ObjectType SymbolicName="TrustListUpdatedAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true" PartNo="12">
   </opc:ObjectType>
 
@@ -4222,7 +4018,7 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Method SymbolicName="GetEncryptingKeyMethodType" PartNo="12" ReleaseStatus="Released">
+  <opc:Method SymbolicName="GetEncryptingKeyMethodType" PartNo="12" ReleaseStatus="Draft">
     <opc:InputArguments>
       <opc:Argument Name="CredentialId" DataType="ua:String" />
       <opc:Argument Name="RequestedSecurityPolicyUri" DataType="ua:String" />
@@ -4239,7 +4035,7 @@
       <opc:Property SymbolicName="ProfileUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EndpointUrls"  DataType="ua:String" ValueRank="Array" ModellingRule="Optional" />
       <opc:Property SymbolicName="ServiceStatus"  DataType="ua:StatusCode" ValueRank="Scalar" ModellingRule="Optional" />
-      <opc:Method SymbolicName="GetEncryptingKey" TypeDefinition="GetEncryptingKeyMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="GetEncryptingKey" TypeDefinition="GetEncryptingKeyMethodType" ModellingRule="Optional" ReleaseStatus="Draft" />
       <opc:Method SymbolicName="UpdateCredential" TypeDefinition="KeyCredentialUpdateMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="DeleteCredential" ModellingRule="Optional" />
     </opc:Children>
@@ -6193,11 +5989,9 @@
     <opc:Children>
       <opc:Object SymbolicName="Alias_Placeholder" TypeDefinition="AliasNameType"  ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;Alias&gt;</opc:BrowseName>
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
       <opc:Object SymbolicName="SubAliasNameCategories_Placeholder" TypeDefinition="AliasNameCategoryType"  ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;SubAliasNameCategories&gt;</opc:BrowseName>
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
       <opc:Method SymbolicName="FindAlias" TypeDefinition="FindAliasMethodType" ModellingRule="Mandatory">
       </opc:Method>

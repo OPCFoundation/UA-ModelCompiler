@@ -456,6 +456,45 @@ namespace CodeGenerator
                 }
             }
 
+            HashSet<int> assignedIdentifiers = new HashSet<int>();
+
+            foreach (DataType datatype in datatypes)
+            {
+                int value;
+
+                if (identifiers.TryGetValue(datatype.Name, out value))
+                {
+                    assignedIdentifiers.Add(value);
+                }
+
+                // find identifiers for data type encodings.
+                ComplexType complexType = datatype as ComplexType;
+
+                if (complexType != null)
+                {
+                    string name = String.Format("{0}_Encoding_DefaultXml", datatype.Name);
+
+                    if (identifiers.TryGetValue(datatype.Name, out value))
+                    {
+                        assignedIdentifiers.Add(value);
+                    }
+
+                    name = String.Format("{0}_Encoding_DefaultJson", datatype.Name);
+
+                    if (identifiers.TryGetValue(datatype.Name, out value))
+                    {
+                        assignedIdentifiers.Add(value);
+                    }
+
+                    name = String.Format("{0}_Encoding_DefaultBinary", datatype.Name);
+
+                    if (identifiers.TryGetValue(datatype.Name, out value))
+                    {
+                        assignedIdentifiers.Add(value);
+                    }
+                }
+            }
+
             SortedDictionary<int,string> uniqueIdentifiers = new SortedDictionary<int,string>();
             Dictionary<string,int> duplicateIdentifiers = new Dictionary<string,int>();
 
@@ -465,7 +504,7 @@ namespace CodeGenerator
                 if (!identifiers.ContainsKey(datatype.Name))
                 { 
                     int nextId = 200;
-                    while (uniqueIdentifiers.ContainsKey(nextId)) nextId++;
+                    while (assignedIdentifiers.Contains(nextId)) nextId++;
                     datatype.Identifier = nextId;
                     datatype.IdentifierSpecified = true;
                 }
@@ -547,6 +586,18 @@ namespace CodeGenerator
                 }
 
                 throw new InvalidOperationException(buffer.ToString());
+            }
+
+            foreach (DataType datatype in datatypes)
+            {
+                // using existing id or assign a new one.
+                if (!identifiers.ContainsKey(datatype.Name))
+                {
+                    int nextId = 200;
+                    while (uniqueIdentifiers.ContainsKey(nextId)) nextId++;
+                    datatype.Identifier = nextId;
+                    datatype.IdentifierSpecified = true;
+                }
             }
 
             // update the CSV file.

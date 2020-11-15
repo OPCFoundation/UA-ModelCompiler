@@ -220,6 +220,25 @@
       </SubType>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="CSVs\DemoModel.csv" />
+    <None Include="CSVs\MDIS.csv" />
+    <None Include="CSVs\MTConnectModel.csv" />
+    <None Include="CSVs\OpcUaAdiModel.csv" />
+    <None Include="CSVs\OpcUaDiModel.csv" />
+    <None Include="CSVs\OpcUaFdiPart5Model.csv" />
+    <None Include="CSVs\OpcUaFdiPart7Model.csv" />
+    <None Include="CSVs\OpcUaGdsModel.csv" />
+    <None Include="CSVs\OpcUaNodeSetModel.csv" />
+    <None Include="CSVs\OpcUaPLCopenModel.csv" />
+    <None Include="CSVs\OpcUaProvisioningModel.csv" />
+    <None Include="CSVs\rec20_latest_a1.csv" />
+    <None Include="CSVs\rec20_latest_a2-3.csv" />
+    <None Include="CSVs\SercosModel.csv" />
+    <EmbeddedResource Include="CSVs\StandardTypes.csv" />
+    <EmbeddedResource Include="CSVs\UA Attributes.csv" />
+    <EmbeddedResource Include="CSVs\UA ServerCapabilities.csv" />
+    <EmbeddedResource Include="CSVs\UA Status Codes.csv" />
+    <None Include="CSVs\UNECE_to_OPCUA.csv" />
     <None Include="Design.v103\DemoModel.csv" />
     <None Include="Design.v103\MDIS.csv" />
     <None Include="Design.v103\MTConnectModel.csv" />
@@ -237,22 +256,6 @@
     <EmbeddedResource Include="Design.v103\UA Attributes.csv" />
     <None Include="Design.v103\UA ServerCapabilities.csv" />
     <EmbeddedResource Include="Design.v103\UA Status Codes.csv" />
-    <None Include="Design.v104\DemoModel.csv" />
-    <None Include="Design.v104\MDIS.csv" />
-    <None Include="Design.v104\MTConnectModel.csv" />
-    <None Include="Design.v104\OpcUaAdiModel.csv" />
-    <None Include="Design.v104\OpcUaDiModel.csv" />
-    <None Include="Design.v104\OpcUaFdiPart5Model.csv" />
-    <None Include="Design.v104\OpcUaFdiPart7Model.csv" />
-    <None Include="Design.v104\OpcUaNodeSetModel.csv" />
-    <None Include="Design.v104\OpcUaProvisioningModel.csv" />
-    <None Include="Design.v104\OpcUaGdsModel.csv" />
-    <None Include="Design.v104\OpcUaPLCopenModel.csv" />
-    <None Include="Design.v104\SercosModel.csv" />
-    <EmbeddedResource Include="Design.v104\StandardTypes.csv" />
-    <EmbeddedResource Include="Design.v104\UA Attributes.csv" />
-    <None Include="Design.v104\UA ServerCapabilities.csv" />
-    <EmbeddedResource Include="Design.v104\UA Status Codes.csv" />
     <None Include="packages.config" />
     <None Include="StackGenerator\DataTypes\Templates\XmlSchema\BuiltInTypes.xsx">
       <DependentUpon>BuiltInTypes.xsd</DependentUpon>
@@ -285,15 +288,10 @@
     <Content Include="Design.v104\MDIS.xml" />
     <Content Include="Design.v104\MTConnectModel.xml" />
     <Content Include="Design.v104\OpcUaAdiModel.xml" />
-    <Content Include="Design.v104\OpcUaDiModel.xml">
-      <SubType>Designer</SubType>
-    </Content>
+    <EmbeddedResource Include="Design.v104\OpcUaDiModel.xml" />
     <Content Include="Design.v104\OpcUaFdiPart5Model.xml" />
     <Content Include="Design.v104\OpcUaFdiPart7Model.xml" />
     <Content Include="Design.v104\OpcUaNodeSetModel.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Design.v104\OpcUaProvisioningModel.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Design.v104\OpcUaGdsModel.xml">
@@ -310,6 +308,14 @@
     </EmbeddedResource>
     <Content Include="Design.v104\UA Defined Types.xml" />
     <EmbeddedResource Include="Design.v104\UA Status Codes.xml" />
+    <EmbeddedResource Include="Design.v105\OpcUaDiModel.xml" />
+    <EmbeddedResource Include="Design.v105\OpcUaGdsModel.xml" />
+    <EmbeddedResource Include="Design.v105\OpcUaProvisioningModel.xml" />
+    <EmbeddedResource Include="Design.v105\StandardTypes.xml" />
+    <EmbeddedResource Include="Design.v105\UA Attributes.xml" />
+    <EmbeddedResource Include="Design.v105\UA Core Services.xml" />
+    <EmbeddedResource Include="Design.v105\UA Status Codes.xml" />
+    <EmbeddedResource Include="Design.v105\BuiltInTypes.xml" />
     <Content Include="StackGenerator\Validators\UA Type Dictionary.xsd">
       <SubType>
       </SubType>

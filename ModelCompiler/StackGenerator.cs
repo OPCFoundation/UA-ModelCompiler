@@ -95,137 +95,125 @@ namespace ModelCompiler
             System.IO.File.Delete(filePath);
         }
 
-        static void GenerateAnsiC(Files files, string designerDir, string outputDir, string specificationVersion)
+        static void GenerateAnsiC(Files files, string modelDir, string csvDir, string outputDir, string specificationVersion)
         {
-            var resourcePath = "ModelCompiler.Design";
-
-            if (!String.IsNullOrEmpty(specificationVersion))
-            {
-                resourcePath = $"ModelCompiler.Design.{specificationVersion}";
-            }
-
             ConstantsGenerator generator3 = new ConstantsGenerator(
                 Language.AnsiC,
-                $"{designerDir}UA Attributes.xml",
+                $"{modelDir}UA Attributes.xml",
                 outputDir,
                 files.NodeDictionaries,
-                resourcePath);
+                null);
 
             generator3.Generate(
                 "OpcUa",
                 "Attributes",
-                $"{designerDir}UA Attributes.csv",
+                $"{csvDir}UA Attributes.csv",
                 false);
 
             ConstantsGenerator generator4 = new ConstantsGenerator(
                 Language.AnsiC,
-                $"{designerDir}UA Status Codes.xml",
+                $"{modelDir}UA Status Codes.xml",
                 outputDir,
                 files.NodeDictionaries,
-                resourcePath);
+                null);
 
             generator4.Generate(
                 "OpcUa",
                 "StatusCodes",
-                $"{designerDir}UA Status Codes.csv",
+                $"{csvDir}UA Status Codes.csv",
                 false);
 
             AnsiCGenerator generator7 = new AnsiCGenerator(
-                $"{designerDir}UA Core Services.xml",
+                $"{modelDir}UA Core Services.xml",
                 outputDir,
                 files.TypeDictionaries,
-                resourcePath);
+                null);
 
             generator7.Generate("OpcUa", "Core", true);
         }
 
-        static void GenerateDotNet(Files files, string designerDir, string outputDir, string specificationVersion)
+        static void GenerateDotNet(Files files, string modelDir, string csvDir, string outputDir, string specificationVersion)
         {
-            var resourcePath = "ModelCompiler.Design";
-
-            if (!String.IsNullOrEmpty(specificationVersion))
-            {
-                resourcePath = $"ModelCompiler.Design.{specificationVersion}";
-            }
-            
             ConstantsGenerator generator7 = new ConstantsGenerator(
                 Language.DotNet,
-                $"{designerDir}UA Attributes.xml",
+                $"{modelDir}UA Attributes.xml",
                 outputDir,
                 files.NodeDictionaries,
-                resourcePath);
+                null);
 
             generator7.Generate(
                 "Opc.Ua",
                 "Attributes",
-                $"{designerDir}UA Attributes.csv",
+                $"{csvDir}UA Attributes.csv",
                 false);
 
             ConstantsGenerator generator8 = new ConstantsGenerator(
                 Language.DotNet,
-                $"{designerDir}UA Status Codes.xml",
+                $"{modelDir}UA Status Codes.xml",
                 outputDir,
                 files.NodeDictionaries,
-                resourcePath);
+                null);
 
             generator8.Generate(
                 "Opc.Ua",
                 "StatusCodes",
-                $"{designerDir}UA Status Codes.csv",
+                $"{csvDir}UA Status Codes.csv",
                 false);
 
             ConstantsGenerator generator9 = new ConstantsGenerator(
                 Language.CSV,
-                $"{designerDir}UA Status Codes.xml",
+                $"{modelDir}UA Status Codes.xml",
                 outputDir,
                 files.NodeDictionaries,
-                resourcePath);
+                null);
 
             generator9.Generate(
                 "Opc.Ua",
                 "StatusCodes",
-                $"{designerDir}UA Status Codes.csv",
+                $"{csvDir}UA Status Codes.csv",
                 false);
 
             DotNetGenerator generator10 = new DotNetGenerator(
-                $"{designerDir}UA Core Services.xml",
+                $"{modelDir}UA Core Services.xml",
                 outputDir,
                 files.TypeDictionaries,
-                resourcePath);
+                null);
 
             generator10.Generate("Opc.Ua", "Core", true);
         }
 
         public static void GenerateDotNet(string rootDir, string specificationVersion)
         {
-            string designerDir = $".\\ModelCompiler\\Design.{specificationVersion}\\";
+            string modelDir = $".\\ModelCompiler\\Design.{specificationVersion}\\";
+            string csvDir = $".\\ModelCompiler\\CSVs\\";
 
             Files files = new Files();
 
             ProcessDictionary(
                 "",
-                $"{designerDir}UA Core Services.xml",
+                $"{modelDir}UA Core Services.xml",
                 rootDir,
                 files,
                 specificationVersion);
 
-            GenerateDotNet(files, designerDir, rootDir, specificationVersion);
+            GenerateDotNet(files, modelDir, csvDir, rootDir, specificationVersion);
         }
 
         public static void GenerateAnsiC(string rootDir, string specificationVersion)
         {
-            string designerDir = $".\\ModelCompiler\\Design.{specificationVersion}\\";
+            string modelDir = $".\\ModelCompiler\\Design.{specificationVersion}\\";
+            string csvDir = $".\\ModelCompiler\\CSVs\\";
 
             Files files = new Files();
 
             ProcessDictionary(
                 "",
-                $"{designerDir}UA Core Services.xml",
+                $"{modelDir}UA Core Services.xml",
                 rootDir,
                 files,
                 specificationVersion);
 
-            GenerateAnsiC(files, designerDir, rootDir, specificationVersion);
+            GenerateAnsiC(files, modelDir, csvDir, rootDir, specificationVersion);
         }
     }
 }

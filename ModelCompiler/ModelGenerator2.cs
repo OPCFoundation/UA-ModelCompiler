@@ -88,11 +88,11 @@ namespace ModelCompiler
 
             if (!String.IsNullOrEmpty(specificationVersion))
             {
-                m_validator.EmbeddedResourcePath = $"{m_validator.EmbeddedResourcePath}.{specificationVersion}";
+                m_validator.EmbeddedModelDesignPath = $"{m_validator.EmbeddedModelDesignPath}.{specificationVersion}";
             }
             else
             {
-                m_validator.EmbeddedResourcePath = $"{m_validator.EmbeddedResourcePath}.v104";
+                m_validator.EmbeddedModelDesignPath = $"{m_validator.EmbeddedModelDesignPath}.v104";
             }
 
             m_validator.Validate2(designFilePaths, identifierFilePath, false);
