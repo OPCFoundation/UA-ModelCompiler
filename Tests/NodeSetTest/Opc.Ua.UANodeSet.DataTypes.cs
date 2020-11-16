@@ -1,8 +1,8 @@
 /* ========================================================================
- * Copyright (c) 2005-2019 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2020 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- *
+ * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -127,7 +127,7 @@ namespace Opc.Ua.UANodeSet
 
         /// <remarks />
         [DataMember(Name = "AccessRestrictions", IsRequired = false, Order = 5)]
-        public uint AccessRestrictions
+        public ushort AccessRestrictions
         {
             get { return m_accessRestrictions;  }
             set { m_accessRestrictions = value; }
@@ -184,7 +184,7 @@ namespace Opc.Ua.UANodeSet
             encoder.WriteString("Version", Version);
             encoder.WriteDateTime("PublicationDate", PublicationDate);
             encoder.WriteEncodeableArray("RolePermissions", RolePermissions.ToArray(), typeof(RolePermissionType));
-            encoder.WriteUInt32("AccessRestrictions", AccessRestrictions);
+            encoder.WriteUInt16("AccessRestrictions", AccessRestrictions);
             encoder.WriteEncodeableArray("RequiredModels", RequiredModels.ToArray(), typeof(ModelTableEntry));
 
             encoder.PopNamespace();
@@ -199,7 +199,7 @@ namespace Opc.Ua.UANodeSet
             Version = decoder.ReadString("Version");
             PublicationDate = decoder.ReadDateTime("PublicationDate");
             RolePermissions = (RolePermissionTypeCollection)decoder.ReadEncodeableArray("RolePermissions", typeof(RolePermissionType));
-            AccessRestrictions = decoder.ReadUInt32("AccessRestrictions");
+            AccessRestrictions = decoder.ReadUInt16("AccessRestrictions");
             RequiredModels = (ModelTableEntryCollection)decoder.ReadEncodeableArray("RequiredModels", typeof(ModelTableEntry));
 
             decoder.PopNamespace();
@@ -247,7 +247,7 @@ namespace Opc.Ua.UANodeSet
             clone.m_version = (string)Utils.Clone(this.m_version);
             clone.m_publicationDate = (DateTime)Utils.Clone(this.m_publicationDate);
             clone.m_rolePermissions = (RolePermissionTypeCollection)Utils.Clone(this.m_rolePermissions);
-            clone.m_accessRestrictions = (uint)Utils.Clone(this.m_accessRestrictions);
+            clone.m_accessRestrictions = (ushort)Utils.Clone(this.m_accessRestrictions);
             clone.m_requiredModels = (ModelTableEntryCollection)Utils.Clone(this.m_requiredModels);
 
             return clone;
@@ -259,7 +259,7 @@ namespace Opc.Ua.UANodeSet
         private string m_version;
         private DateTime m_publicationDate;
         private RolePermissionTypeCollection m_rolePermissions;
-        private uint m_accessRestrictions;
+        private ushort m_accessRestrictions;
         private ModelTableEntryCollection m_requiredModels;
         #endregion
     }
@@ -1220,7 +1220,7 @@ namespace Opc.Ua.UANodeSet
 
         /// <remarks />
         [DataMember(Name = "AccessRestrictions", IsRequired = false, Order = 9)]
-        public uint AccessRestrictions
+        public ushort AccessRestrictions
         {
             get { return m_accessRestrictions;  }
             set { m_accessRestrictions = value; }
@@ -1311,7 +1311,7 @@ namespace Opc.Ua.UANodeSet
             encoder.WriteString("Documentation", Documentation);
             encoder.WriteUInt32("WriteMask", WriteMask);
             encoder.WriteEncodeableArray("RolePermissions", RolePermissions.ToArray(), typeof(RolePermissionType));
-            encoder.WriteUInt32("AccessRestrictions", AccessRestrictions);
+            encoder.WriteUInt16("AccessRestrictions", AccessRestrictions);
             encoder.WriteEnumerated("ReleaseStatus", ReleaseStatus);
             encoder.WriteEncodeableArray("References", References.ToArray(), typeof(UAReference));
             encoder.WriteEncodeableArray("Extensions", Extensions.ToArray(), typeof(KeyValuePair));
@@ -1332,7 +1332,7 @@ namespace Opc.Ua.UANodeSet
             Documentation = decoder.ReadString("Documentation");
             WriteMask = decoder.ReadUInt32("WriteMask");
             RolePermissions = (RolePermissionTypeCollection)decoder.ReadEncodeableArray("RolePermissions", typeof(RolePermissionType));
-            AccessRestrictions = decoder.ReadUInt32("AccessRestrictions");
+            AccessRestrictions = decoder.ReadUInt16("AccessRestrictions");
             ReleaseStatus = (ReleaseStatus)decoder.ReadEnumerated("ReleaseStatus", typeof(ReleaseStatus));
             References = (UAReferenceCollection)decoder.ReadEncodeableArray("References", typeof(UAReference));
             Extensions = (KeyValuePairCollection)decoder.ReadEncodeableArray("Extensions", typeof(KeyValuePair));
@@ -1392,7 +1392,7 @@ namespace Opc.Ua.UANodeSet
             clone.m_documentation = (string)Utils.Clone(this.m_documentation);
             clone.m_writeMask = (uint)Utils.Clone(this.m_writeMask);
             clone.m_rolePermissions = (RolePermissionTypeCollection)Utils.Clone(this.m_rolePermissions);
-            clone.m_accessRestrictions = (uint)Utils.Clone(this.m_accessRestrictions);
+            clone.m_accessRestrictions = (ushort)Utils.Clone(this.m_accessRestrictions);
             clone.m_releaseStatus = (ReleaseStatus)Utils.Clone(this.m_releaseStatus);
             clone.m_references = (UAReferenceCollection)Utils.Clone(this.m_references);
             clone.m_extensions = (KeyValuePairCollection)Utils.Clone(this.m_extensions);
@@ -1410,7 +1410,7 @@ namespace Opc.Ua.UANodeSet
         private string m_documentation;
         private uint m_writeMask;
         private RolePermissionTypeCollection m_rolePermissions;
-        private uint m_accessRestrictions;
+        private ushort m_accessRestrictions;
         private ReleaseStatus m_releaseStatus;
         private UAReferenceCollection m_references;
         private KeyValuePairCollection m_extensions;

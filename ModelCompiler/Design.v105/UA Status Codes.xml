@@ -489,7 +489,10 @@
   <opc:Constant Name="Bad_SequenceNumberUnknown">
     <opc:Documentation>The sequence number is unknown to the server.</opc:Documentation>
   </opc:Constant>
-
+  <opc:Constant Name="Good_RetransmissionQueueNotSupported">
+    <opc:Documentation>The Server does not support retransmission queue and acknowledgement of sequence numbers is not available.</opc:Documentation>
+  </opc:Constant>
+  
   <!-- Republish -->
   <opc:Constant Name="Bad_MessageNotAvailable">
     <opc:Documentation>The requested notification message is no longer available.</opc:Documentation>

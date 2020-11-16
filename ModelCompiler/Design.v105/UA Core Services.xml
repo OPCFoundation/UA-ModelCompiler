@@ -6,7 +6,7 @@
   xmlns:opc="http://opcfoundation.org/UA/TypeDictionary/"
   xmlns="http://opcfoundation.org/UA/Core/"
   TargetNamespace="http://opcfoundation.org/UA/Core/"
-  TargetVersion="1.05.1"
+  TargetVersion="1.05"
   TargetPublicationDate="2020-11-20T00:00:00Z"
 >
   <opc:Import Namespace="http://opcfoundation.org/UA/BuiltInTypes/" />
@@ -108,10 +108,11 @@
     <opc:Value Name="HistoryWrite" BitMask="0008" />
   </opc:EnumeratedType>
   
-  <opc:EnumeratedType Name="AccessRestrictionType" IsOptionSet="true" PartNo="3">
+  <opc:EnumeratedType Name="AccessRestrictionType" BaseType="s0:UInt16" IsOptionSet="true" PartNo="3">
     <opc:Value Name="SigningRequired" BitMask="0001" />
     <opc:Value Name="EncryptionRequired" BitMask="0002" />
     <opc:Value Name="SessionRequired" BitMask="0004" />
+    <opc:Value Name="ApplyRestrictionsToBrowse" BitMask="0008" />
   </opc:EnumeratedType>
   
   <opc:ComplexType Name="RolePermissionType" AllowArrays="true" PartNo="3">
@@ -951,10 +952,10 @@
 
   <opc:TypeDeclaration Name="RsaEncryptedSecret" SourceType="s0:Variant" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly">
   </opc:TypeDeclaration>
-
-  <opc:TypeDeclaration Name="EccEncryptedSecret" SourceType="s0:Variant" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" ReleaseStatus="Draft">
-  </opc:TypeDeclaration>
   
+  <opc:TypeDeclaration Name="EccEncryptedSecret" SourceType="s0:Variant" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" ReleaseStatus="Released">
+  </opc:TypeDeclaration>
+
   <opc:ServiceType Name="ActivateSession">
     <opc:Documentation>Activates a session with the server.</opc:Documentation>
     <opc:Request>

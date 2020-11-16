@@ -1,4 +1,4 @@
-@ECHO off
+@ECHO on
 REM ****************************************************************************************************************
 REM ** --
 REM ** This script demonstrates how to use the model compiler to generate source code from a variety
@@ -11,11 +11,14 @@ SETLOCAL
 set MODELCOMPILER=.\Bin\Release\Opc.Ua.ModelCompiler.exe
 set OUTPUT=..\nodesets
 set INPUT=.\ModelCompiler\Design
+set CSVINPUT=.\ModelCompiler\CSVs
 
 IF NOT "%1"=="" (set OUTPUT=%OUTPUT%\%1) else (set OUTPUT=%OUTPUT%\master)
-IF NOT "%1"=="" (set INPUT=%INPUT%.%1) else (set INPUT=%INPUT%.v104)
-IF NOT "%1"=="" (set VERSION=-version %1) else (set VERSION=-version v104)
+IF NOT "%1"=="" (set INPUT=%INPUT%.%1) else (set INPUT=%INPUT%.v105)
+IF NOT "%1"=="" (set VERSION=-version %1) else (set VERSION=-version v105)
 IF NOT "%2"=="" set EXCLUDE=-exclude %2
+
+IF "%1"=="v103" set CSVINPUT=%INPUT%
 
 REM Set the following values to automatically copy the generated source code to your relevant stack locations
 REM
@@ -32,9 +35,11 @@ set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
 set GDS_TARGET=
 set DI_TARGET=
 set ADI_TARGET=
-REM set NODESET_TARGET=.\Tests\NodeSetTest
+set NODESET_TARGET=.\Tests\NodeSetTest
 set PROVISIONING_TARGET=
-REM Make sure that all of our output locations exist..
+REM Make sure that all of our output locations exist.
+
+IF NOT "%1"=="v105" (set DOTNET_TARGET=)
 
 IF NOT EXIST %MODELCOMPILER% GOTO noModelCompiler
 IF NOT EXIST %OUTPUT% MKDIR %OUTPUT%
@@ -46,8 +51,8 @@ REM STEP 1) Generate all of our files first...
 
 SET PARTNAME="StandardTypes"
 ECHO Building Model %PARTNAME%
-ECHO %MODELCOMPILER% -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%INPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\"
-%MODELCOMPILER% -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%INPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\"
+ECHO %MODELCOMPILER% -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\"
+%MODELCOMPILER% -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\"
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 1 )
 
 CALL PublishModel OpcUaGdsModel GDS %1 %2
@@ -84,8 +89,8 @@ COPY ".\Schemas\OPCBinarySchema.xsd" ".\Stack\Stack\Opc.Ua.Core\Types\Schemas\OP
 
 ECHO Copying CSV files to %OUTPUT%\Schema\
 ECHO ON
-COPY "%INPUT%\StandardTypes.csv" "%OUTPUT%\Schema\NodeIds.csv"
-COPY "%INPUT%\UA Attributes.csv" "%OUTPUT%\Schema\AttributeIds.csv"
+TYPE "%CSVINPUT%\StandardTypes.csv" | FINDSTR /V /E Unspecified > "%OUTPUT%\Schema\NodeIds.csv"
+COPY "%CSVINPUT%\UA Attributes.csv" "%OUTPUT%\Schema\AttributeIds.csv"
 COPY "%OUTPUT%\DotNet\Opc.Ua.StatusCodes.csv" "%OUTPUT%\Schema\StatusCode.csv"
 COPY ".\Schemas\UANodeSet.xsd" "%OUTPUT%\Schema\UANodeSet.xsd"
 COPY ".\Schemas\SecuredApplication.xsd" "%OUTPUT%\Schema\SecuredApplication.xsd"
@@ -102,7 +107,6 @@ ECHO ON
 %MODELCOMPILER% -input %OUTPUT% -pattern *.h -license MIT -silent
 %MODELCOMPILER% -input %OUTPUT% -pattern *.c -license MIT -silent
 @ECHO OFF
-
 
 REM STEP 2a) Copy code to ANSIC
 IF "%ANSIC_TARGET%" NEQ "" (
@@ -170,10 +174,11 @@ IF "%DI_TARGET%" NEQ "" (
 IF "%ADI_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\ADI\*.*" "%ADI_TARGET%"
 )
-
-IF "%NODESET_TARGET%" NEQ "" (
-	ECHO Copying .NET code to %NODESET_TARGET%
-	COPY "%OUTPUT%\NodeSet\*.*" "%NODESET_TARGET%"
+IF EXIST %INPUT%\OpcUaNodeSetModel.xml (
+	IF "%NODESET_TARGET%" NEQ "" (
+		ECHO Copying .NET code to %NODESET_TARGET%
+		COPY "%OUTPUT%\NodeSet\*.*" "%NODESET_TARGET%"
+	)
 )
 
 IF "%PROVISIONING_TARGET%" NEQ "" (

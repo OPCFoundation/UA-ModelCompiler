@@ -340,6 +340,7 @@ OpcUaDi_XmlSchema_UpdateBehavior,339,Variable
 OpcUaDi_XmlSchema_UpdateBehavior_DataTypeVersion,340,Variable
 OpcUaDi_XmlSchema_UpdateBehavior_DictionaryFragment,341,Variable
 UpdateBehavior_Encoding_DefaultJson,342,Object
+OPCUADINamespaceMetadata_NamespaceFile_MaxBufferLength,343,Variable
 TopologyElementType,1001,ObjectType
 DeviceType,1002,ObjectType
 BlockType,1003,ObjectType

@@ -1,6 +1,7 @@
 ModelTableEntry,1,DataType
 NamedTranslationType,2,DataType
 NamedTranslationType_Encoding_DefaultBinary,3,Object
+OPCUANodeSetNamespaceMetadata_NamespaceFile_MaxBufferLength,4,Variable
 UAObjectType,6,DataType
 ReleaseStatus,7,DataType
 UAVariableType,8,DataType

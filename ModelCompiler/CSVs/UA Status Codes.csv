@@ -217,6 +217,7 @@ Bad_TooManyMonitoredItems,219
 Good_Edited,220
 Good_PostActionFailed,221
 Uncertain_DominantValueChanged,222
+Good_RetransmissionQueueNotSupported,223
 Good_DependentValueChanged,224
 Bad_DominantValueChanged,225
 Uncertain_DependentValueChanged,226
