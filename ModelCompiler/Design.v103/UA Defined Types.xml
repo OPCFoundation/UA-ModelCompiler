@@ -1149,7 +1149,7 @@
       <Variable SymbolicName="tns:DisabledMonitoredItemCount" DataType="tns:UInt32" />
       <Variable SymbolicName="tns:MonitoringQueueOverflowCount" DataType="tns:UInt32" />
       <Variable SymbolicName="tns:NextSequenceNumber" DataType="tns:UInt32" />
-      <Variable SymbolicName="tns:EventQueueOverflowCount" DataType="tns:UInt32" />
+      <Variable SymbolicName="tns:EventQueueOverFlowCount" DataType="tns:UInt32" />
     </Children>
   </VariableType>
   <VariableType SymbolicName="tns:SessionDiagnosticsArrayType" PartNo="5" BaseType="tns:BaseDataVariableType" DataType="tns:SessionDiagnosticsDataType" ValueRank="Array">
@@ -1274,10 +1274,10 @@
       </Object>
       <Object SymbolicName="tns:ServerRedundancy" TypeDefinition="tns:ServerRedundancyType">
         <Children>
-          <Property SymbolicName="tns:CurrentServerId" ModellingRule="Mandatory" DataType="tns:String" />
-          <Property SymbolicName="tns:RedundantServerArray" ModellingRule="Mandatory" DataType="tns:RedundantServerDataType" ValueRank="Array" />
-          <Property SymbolicName="tns:ServerUriArray" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Array" />
-          <Property SymbolicName="tns:ServerNetworkGroups" ModellingRule="Mandatory" DataType="tns:NetworkGroupDataType" ValueRank="Array" />
+          <Property SymbolicName="tns:CurrentServerId" TypeDefinition="tns:PropertyType" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Scalar" />
+          <Property SymbolicName="tns:RedundantServerArray" TypeDefinition="tns:PropertyType" ModellingRule="Mandatory" DataType="tns:RedundantServerDataType" ValueRank="Array" />
+          <Property SymbolicName="tns:ServerUriArray" TypeDefinition="tns:PropertyType" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Array" />
+          <Property SymbolicName="tns:ServerNetworkGroups" TypeDefinition="tns:PropertyType" ModellingRule="Mandatory" DataType="tns:NetworkGroupDataType" ValueRank="Array" />
         </Children>
       </Object>
       <Object SymbolicName="tns:Namespaces" ModellingRule="Mandatory">
@@ -2884,7 +2884,7 @@
       <Property SymbolicName="tns:CertificateType" ModellingRule="Mandatory" DataType="tns:NodeId" />
     </Children>
   </ObjectType>
-  <Object SymbolicName="tns:ServerConfiguration" TypeDefinition="tns:ServerConfigurationType">
+  <Object SymbolicName="tns:ServerConfiguration" PartNo="12" TypeDefinition="tns:ServerConfigurationType">
     <Children>
       <Object SymbolicName="tns:CertificateGroups" TypeDefinition="tns:CertificateGroupFolderType" ModellingRule="Mandatory">
         <Children>

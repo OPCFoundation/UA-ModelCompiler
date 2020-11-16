@@ -911,6 +911,11 @@ namespace ModelCompiler
                 }
             }
 
+            if (metadata == null)
+            {
+                return;
+            }
+
             List<string> ranges = new List<string>();
 
             int start = 1;

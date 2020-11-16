@@ -507,6 +507,7 @@ namespace CodeGenerator
                     while (assignedIdentifiers.Contains(nextId)) nextId++;
                     datatype.Identifier = nextId;
                     datatype.IdentifierSpecified = true;
+                    assignedIdentifiers.Add(nextId);
                 }
                 else
                 {

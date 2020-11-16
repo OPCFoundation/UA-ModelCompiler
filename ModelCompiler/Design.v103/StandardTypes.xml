@@ -832,7 +832,7 @@
       <opc:Variable SymbolicName="DisabledMonitoredItemCount" DataType="ua:UInt32" />
       <opc:Variable SymbolicName="MonitoringQueueOverflowCount" DataType="ua:UInt32" />
       <opc:Variable SymbolicName="NextSequenceNumber" DataType="ua:UInt32" />
-      <opc:Variable SymbolicName="EventQueueOverflowCount" DataType="ua:UInt32" />
+      <opc:Variable SymbolicName="EventQueueOverFlowCount" DataType="ua:UInt32" />
     </opc:Children>
   </opc:VariableType>
 
@@ -977,7 +977,10 @@
       </opc:Object>
       <opc:Object SymbolicName="ServerRedundancy" TypeDefinition="ServerRedundancyType">
         <opc:Children>
-             <opc:Property SymbolicName="ServerNetworkGroups" DataType="NetworkGroupDataType" ValueRank="Array" ModellingRule="Mandatory" />
+          <opc:Property SymbolicName="CurrentServerId" DataType="ua:String" ValueRank="Scalar" TypeDefinition="PropertyType" ModellingRule="Mandatory" />
+          <opc:Property SymbolicName="RedundantServerArray" DataType="RedundantServerDataType" ValueRank="Array" TypeDefinition="PropertyType" ModellingRule="Mandatory" />
+          <opc:Property SymbolicName="ServerUriArray" DataType="ua:String" ValueRank="Array" TypeDefinition="PropertyType" ModellingRule="Mandatory" />
+          <opc:Property SymbolicName="ServerNetworkGroups"  DataType="NetworkGroupDataType" ValueRank="Array" TypeDefinition="PropertyType" ModellingRule="Mandatory" />
         </opc:Children>
       </opc:Object>
       <opc:Object SymbolicName="Namespaces" ModellingRule="Mandatory">
@@ -1012,10 +1015,6 @@
           </opc:Object>
         </opc:Children>
       </opc:Object>
-      
-      <!--
-      <opc:Object SymbolicName="Roles" ModellingRule="Mandatory"></opc:Object>
-      -->
       
       <opc:Method SymbolicName="GetMonitoredItems" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="ResendData" ModellingRule="Mandatory" />
@@ -2696,8 +2695,6 @@
     <opc:Children>
       <opc:Object SymbolicName="TrustList" TypeDefinition="TrustListType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="CertificateTypes" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="TrustList" TypeDefinition="TrustListType" ModellingRule="Mandatory">
-      </opc:Object>
     </opc:Children>
   </opc:ObjectType>
   
@@ -2777,14 +2774,6 @@
     <opc:Children>
       <opc:Property SymbolicName="CertificateGroup" DataType="ua:NodeId" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="CertificateType" DataType="ua:NodeId" ModellingRule="Mandatory" />
-    </opc:Children>
-  </opc:ObjectType>
-
-  <opc:ObjectType SymbolicName="TrustListOutOfDateAlarmType" BaseType="SystemOffNormalAlarmType" PartNo="12" ReleaseStatus="Draft">
-    <opc:Children>
-      <opc:Property SymbolicName="TrustListId" DataType="ua:NodeId" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="LastUpdateTime" DataType="ua:UtcTime" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="UpdateFrequency" DataType="ua:Duration" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 

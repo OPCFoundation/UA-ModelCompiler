@@ -239,23 +239,12 @@
     <EmbeddedResource Include="CSVs\UA ServerCapabilities.csv" />
     <EmbeddedResource Include="CSVs\UA Status Codes.csv" />
     <None Include="CSVs\UNECE_to_OPCUA.csv" />
-    <None Include="Design.v103\DemoModel.csv" />
-    <None Include="Design.v103\MDIS.csv" />
-    <None Include="Design.v103\MTConnectModel.csv" />
-    <None Include="Design.v103\OpcUaAdiModel.csv" />
     <None Include="Design.v103\OpcUaDiModel.csv" />
-    <None Include="Design.v103\OpcUaDiModelv10.csv" />
-    <None Include="Design.v103\OpcUaDiModelv11.csv" />
-    <None Include="Design.v103\OpcUaFdiPart5Model.csv" />
-    <None Include="Design.v103\OpcUaFdiPart7Model.csv" />
     <None Include="Design.v103\OpcUaGdsModel.csv" />
-    <None Include="Design.v103\OpcUaPLCopenModel.csv" />
-    <None Include="Design.v103\SercosModel.csv" />
-    <None Include="Design.v103\StandardsTypeV1.csv" />
     <EmbeddedResource Include="Design.v103\StandardTypes.csv" />
-    <EmbeddedResource Include="Design.v103\UA Attributes.csv" />
+    <None Include="Design.v103\UA Attributes.csv" />
     <None Include="Design.v103\UA ServerCapabilities.csv" />
-    <EmbeddedResource Include="Design.v103\UA Status Codes.csv" />
+    <None Include="Design.v103\UA Status Codes.csv" />
     <None Include="packages.config" />
     <None Include="StackGenerator\DataTypes\Templates\XmlSchema\BuiltInTypes.xsx">
       <DependentUpon>BuiltInTypes.xsd</DependentUpon>
@@ -291,9 +280,6 @@
     <EmbeddedResource Include="Design.v104\OpcUaDiModel.xml" />
     <Content Include="Design.v104\OpcUaFdiPart5Model.xml" />
     <Content Include="Design.v104\OpcUaFdiPart7Model.xml" />
-    <Content Include="Design.v104\OpcUaNodeSetModel.xml">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Design.v104\OpcUaGdsModel.xml">
       <SubType>Designer</SubType>
     </Content>

@@ -89,6 +89,11 @@ namespace ModelCompiler
             if (!String.IsNullOrEmpty(specificationVersion))
             {
                 m_validator.EmbeddedModelDesignPath = $"{m_validator.EmbeddedModelDesignPath}.{specificationVersion}";
+
+                if (specificationVersion == "v103")
+                {
+                    m_validator.EmbeddedCsvPath = m_validator.EmbeddedModelDesignPath;
+                }
             }
             else
             {

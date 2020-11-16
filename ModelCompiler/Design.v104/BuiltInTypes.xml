@@ -7,8 +7,8 @@
   xmlns="http://opcfoundation.org/UA/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
-  TargetVersion="1.04.7"
-  TargetPublicationDate="2020-07-15T00:00:00Z"
+  TargetVersion="1.04.8"
+  TargetPublicationDate="2020-11-20T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -315,7 +315,7 @@
   <opc:ObjectType SymbolicName="DataTypeSystemType" BaseType="BaseObjectType" PartNo="5" />
   <opc:ObjectType SymbolicName="DataTypeEncodingType" BaseType="BaseObjectType" PartNo="5" />
 
-  <opc:DataType SymbolicName="NamingRuleType" BaseType="ua:Enumeration" PartNo="3" ReleaseStatus="Deprecated">
+  <opc:DataType SymbolicName="NamingRuleType" BaseType="ua:Enumeration" PartNo="3">
     <opc:Description>Describes a value that specifies the significance of the BrowseName for an instance declaration.</opc:Description>
     <opc:Fields>
       <opc:Field Name="Mandatory" Identifier="1">
@@ -333,7 +333,7 @@
   <opc:ObjectType SymbolicName="ModellingRuleType" BaseType="BaseObjectType" PartNo="5">
     <opc:Description>The type for an object that describes how an instance declaration is used when a type is instantiated.</opc:Description>
     <opc:Children>
-      <opc:Property SymbolicName="NamingRule" DataType="NamingRuleType" ReleaseStatus="Deprecated">
+      <opc:Property SymbolicName="NamingRule" DataType="NamingRuleType">
         <opc:DefaultValue>
           <uax:Int32>1</uax:Int32>
         </opc:DefaultValue>
