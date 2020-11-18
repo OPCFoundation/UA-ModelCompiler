@@ -300,8 +300,10 @@
     <EmbeddedResource Include="Design.v105\StandardTypes.xml" />
     <EmbeddedResource Include="Design.v105\UA Attributes.xml" />
     <EmbeddedResource Include="Design.v105\UA Core Services.xml" />
-    <EmbeddedResource Include="Design.v105\UA Status Codes.xml" />
     <EmbeddedResource Include="Design.v105\BuiltInTypes.xml" />
+    <Content Include="Design.v105\OpcUaNodeSetModel.xml" />
+    <Content Include="Design.v105\UA Defined Types.xml" />
+    <Content Include="Design.v105\UA Status Codes.xml" />
     <Content Include="StackGenerator\Validators\UA Type Dictionary.xsd">
       <SubType>
       </SubType>
