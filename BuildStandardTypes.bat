@@ -39,7 +39,7 @@ set NODESET_TARGET=.\Tests\NodeSetTest
 set PROVISIONING_TARGET=
 REM Make sure that all of our output locations exist.
 
-IF NOT "%1"=="v105" (set DOTNET_TARGET=)
+IF NOT "%1"=="v104" (set DOTNET_TARGET=)
 
 IF NOT EXIST %MODELCOMPILER% GOTO noModelCompiler
 IF NOT EXIST %OUTPUT% MKDIR %OUTPUT%
@@ -71,6 +71,16 @@ IF "%3"=="all" (
 	CALL PublishModel SercosModel Sercos %1 %2
 )
 
+ECHO Updating License
+ECHO ON
+%MODELCOMPILER% -input %OUTPUT% -pattern *.xml -license MITXML -silent
+%MODELCOMPILER% -input %OUTPUT% -pattern *.xsd -license MITXML -silent
+%MODELCOMPILER% -input %OUTPUT% -pattern *.bsd -license MITXML -silent
+%MODELCOMPILER% -input %OUTPUT% -pattern *.cs -license MIT -silent
+%MODELCOMPILER% -input %OUTPUT% -pattern *.h -license MIT -silent
+%MODELCOMPILER% -input %OUTPUT% -pattern *.c -license MIT -silent
+@ECHO OFF
+
 REM SET PARTNAME="DemoModel"
 REM ECHO Building %PARTNAME%
 REM IF NOT EXIST %OUTPUT%\DemoModel MKDIR %OUTPUT%\DemoModel
@@ -96,16 +106,6 @@ COPY ".\Schemas\UANodeSet.xsd" "%OUTPUT%\Schema\UANodeSet.xsd"
 COPY ".\Schemas\SecuredApplication.xsd" "%OUTPUT%\Schema\SecuredApplication.xsd"
 COPY ".\Schemas\OPCBinarySchema.xsd" "%OUTPUT%\Schema\OPCBinarySchema.xsd"
 COPY ".\Schemas\ServerCapabilities.csv" "%OUTPUT%\Schema\ServerCapabilities.csv"
-@ECHO OFF
-
-ECHO Updating License
-ECHO ON
-%MODELCOMPILER% -input %OUTPUT% -pattern *.xml -license MITXML -silent
-%MODELCOMPILER% -input %OUTPUT% -pattern *.xsd -license MITXML -silent
-%MODELCOMPILER% -input %OUTPUT% -pattern *.bsd -license MITXML -silent
-%MODELCOMPILER% -input %OUTPUT% -pattern *.cs -license MIT -silent
-%MODELCOMPILER% -input %OUTPUT% -pattern *.h -license MIT -silent
-%MODELCOMPILER% -input %OUTPUT% -pattern *.c -license MIT -silent
 @ECHO OFF
 
 REM STEP 2a) Copy code to ANSIC
