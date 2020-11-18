@@ -6342,7 +6342,7 @@
   </DataType>
   <DataType SymbolicName="tns:SessionlessInvokeRequestType" SymbolicId="tns:SessionlessInvokeRequestType" PartNo="4" NotInAddressSpace="true" Purpose="ServicesOnly" BaseType="tns:Structure" NoClassGeneration="true" NoArraysAllowed="true">
     <Fields>
-      <Field Name="UrisVersion" DataType="tns:VersionTime" ValueRank="Array" />
+      <Field Name="UrisVersion" DataType="tns:VersionTime" />
       <Field Name="NamespaceUris" DataType="tns:String" ValueRank="Array" />
       <Field Name="ServerUris" DataType="tns:String" ValueRank="Array" />
       <Field Name="LocaleIds" DataType="tns:LocaleId" ValueRank="Array" />

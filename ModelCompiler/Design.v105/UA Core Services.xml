@@ -501,7 +501,7 @@
   </opc:ComplexType>
 
   <opc:ComplexType Name="SessionlessInvokeRequestType" NotInAddressSpace="true" Purpose="ServicesOnly" PartNo="4">
-    <opc:Field Name="UrisVersion" DataType="VersionTime" ValueRank="0" />
+    <opc:Field Name="UrisVersion" DataType="VersionTime" />
     <opc:Field Name="NamespaceUris" DataType="s0:String" ValueRank="0" />
     <opc:Field Name="ServerUris" DataType="s0:String" ValueRank="0" />
     <opc:Field Name="LocaleIds" DataType="LocaleId" ValueRank="0" />

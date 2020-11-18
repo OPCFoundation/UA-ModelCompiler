@@ -398,6 +398,7 @@ namespace CodeGenerator
         private void LoadIdentifiersFromFile(string filePath, List<DataType> datatypes)
         {
             Dictionary<string,int> identifiers = new Dictionary<string,int>();
+            SortedDictionary<int, string> assignedIdentifiers = new SortedDictionary<int, string>();
 
             int maxId = 1;
 
@@ -443,6 +444,7 @@ namespace CodeGenerator
                             }
 
                             identifiers[name] = uid;
+                            assignedIdentifiers[uid] = name;
                         }
                         catch (Exception)
                         {
@@ -456,45 +458,6 @@ namespace CodeGenerator
                 }
             }
 
-            HashSet<int> assignedIdentifiers = new HashSet<int>();
-
-            foreach (DataType datatype in datatypes)
-            {
-                int value;
-
-                if (identifiers.TryGetValue(datatype.Name, out value))
-                {
-                    assignedIdentifiers.Add(value);
-                }
-
-                // find identifiers for data type encodings.
-                ComplexType complexType = datatype as ComplexType;
-
-                if (complexType != null)
-                {
-                    string name = String.Format("{0}_Encoding_DefaultXml", datatype.Name);
-
-                    if (identifiers.TryGetValue(datatype.Name, out value))
-                    {
-                        assignedIdentifiers.Add(value);
-                    }
-
-                    name = String.Format("{0}_Encoding_DefaultJson", datatype.Name);
-
-                    if (identifiers.TryGetValue(datatype.Name, out value))
-                    {
-                        assignedIdentifiers.Add(value);
-                    }
-
-                    name = String.Format("{0}_Encoding_DefaultBinary", datatype.Name);
-
-                    if (identifiers.TryGetValue(datatype.Name, out value))
-                    {
-                        assignedIdentifiers.Add(value);
-                    }
-                }
-            }
-
             SortedDictionary<int,string> uniqueIdentifiers = new SortedDictionary<int,string>();
             Dictionary<string,int> duplicateIdentifiers = new Dictionary<string,int>();
 
@@ -504,10 +467,10 @@ namespace CodeGenerator
                 if (!identifiers.ContainsKey(datatype.Name))
                 { 
                     int nextId = 200;
-                    while (assignedIdentifiers.Contains(nextId)) nextId++;
+                    while (assignedIdentifiers.ContainsKey(nextId)) nextId++;
                     datatype.Identifier = nextId;
                     datatype.IdentifierSpecified = true;
-                    assignedIdentifiers.Add(nextId);
+                    assignedIdentifiers.Add(nextId, datatype.Name);
                 }
                 else
                 {
@@ -589,26 +552,21 @@ namespace CodeGenerator
                 throw new InvalidOperationException(buffer.ToString());
             }
 
-            foreach (DataType datatype in datatypes)
-            {
-                // using existing id or assign a new one.
-                if (!identifiers.ContainsKey(datatype.Name))
-                {
-                    int nextId = 200;
-                    while (uniqueIdentifiers.ContainsKey(nextId)) nextId++;
-                    datatype.Identifier = nextId;
-                    datatype.IdentifierSpecified = true;
-                }
-            }
-
             // update the CSV file.
             StreamWriter writer = new StreamWriter(filePath, false);
 
             try
             {
-                foreach (KeyValuePair<int,string> id in uniqueIdentifiers)
+                foreach (var ii in assignedIdentifiers)
                 {
-                    writer.WriteLine("{0},{1}", id.Value, id.Key);
+                    if (uniqueIdentifiers.ContainsKey(ii.Key))
+                    {
+                        writer.WriteLine("{0},{1}", ii.Value, ii.Key);
+                    }
+                    else
+                    {
+                        writer.WriteLine("{0},{1},Unassigned", ii.Value, ii.Key);
+                    }
                 }
             }
             finally
