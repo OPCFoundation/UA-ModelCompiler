@@ -594,7 +594,9 @@
       </Object>
       <Variable SymbolicName="DI:UpdateStatus" DataType="OpcUa:LocalizedText" ModellingRule="Optional">
       </Variable>
-      <Property SymbolicName="OpcUa:DefaultInstanceBrowseName" DataType="OpcUa:QualifiedName" TypeDefinition="OpcUa:BaseDataVariableType">
+      <Variable SymbolicName="DI:ErrorCode" DataType="OpcUa:Int32" ModellingRule="Optional">
+      </Variable>
+      <Property SymbolicName="OpcUa:DefaultInstanceBrowseName" DataType="OpcUa:QualifiedName" ModellingRule="None">
         <DefaultValue>
           <uax:QualifiedName>
             <uax:NamespaceIndex>1</uax:NamespaceIndex>
@@ -649,16 +651,7 @@
       <Object SymbolicName="DI:FallbackVersion" TypeDefinition="DI:SoftwareVersionType" ModellingRule="Optional">
         <Description></Description>
       </Object>
-      <Method SymbolicName="DI:GetUpdateBehavior" ModellingRule="Mandatory">
-        <InputArguments>
-          <Argument Name="ManufacturerUri" DataType="OpcUa:String" />
-          <Argument Name="SoftwareRevision" DataType="OpcUa:String" />
-          <Argument Name="PatchIdentifiers" DataType="OpcUa:String" ValueRank="Array"/>
-        </InputArguments>
-        <OutputArguments>
-          <Argument Name="UpdateBehavior" DataType="DI:UpdateBehavior" />
-        </OutputArguments>
-      </Method>
+	   <Method SymbolicName="DI:GetUpdateBehavior" TypeDefinition="DI:GetUpdateBehaviorCachedLoadingMethodType" ModellingRule="Mandatory"/>
     </Children>
   </ObjectType>
 
@@ -669,28 +662,15 @@
       <Object SymbolicName="OpcUa:FileSystem" TypeDefinition="OpcUa:FileDirectoryType" ModellingRule="Mandatory">
         <Description></Description>
       </Object>
-      <Method SymbolicName="DI:GetUpdateBehavior" ModellingRule="Mandatory">
-        <InputArguments>
-          <Argument Name="NodeIds" DataType="OpcUa:NodeId" ValueRank="Array"/>
-        </InputArguments>
-        <OutputArguments>
-          <Argument Name="UpdateBehavior" DataType="DI:UpdateBehavior" />
-        </OutputArguments>
-      </Method>
-      <Method SymbolicName="DI:ValidateFiles" ModellingRule="Optional">
-        <InputArguments>
-          <Argument Name="NodeIds" DataType="OpcUa:NodeId" ValueRank="Array"/>
-        </InputArguments>
-        <OutputArguments>
-          <Argument Name="ErrorCode" DataType="OpcUa:UInt32" />
-          <Argument Name="ErrorMessage" DataType="OpcUa:LocalizedText" />
-        </OutputArguments>
-      </Method>
+	   <Method SymbolicName="DI:GetUpdateBehavior" TypeDefinition="DI:GetUpdateBehaviorFileSystemMethodType" ModellingRule="Mandatory"/>
+	   <Method SymbolicName="DI:ValidateFiles" TypeDefinition="DI:ValidateFilesMethodType" ModellingRule="Optional"/>
     </Children>
   </ObjectType>
 
   <!--SoftwareVersionType-->
   <ObjectType SymbolicName="DI:SoftwareVersionType" TypeDefinition="OpcUa:BaseObjectType" IsAbstract="false">
+    <Description></Description>
+    <Children>
     <Property SymbolicName="DI:Manufacturer" DataType="OpcUa:LocalizedText" ModellingRule="Mandatory"/>
     <Property SymbolicName="DI:ManufacturerUri" DataType="OpcUa:String" ModellingRule="Mandatory"/>
     <Property SymbolicName="DI:SoftwareRevision" DataType="OpcUa:String" ModellingRule="Mandatory"/>
@@ -698,6 +678,7 @@
     <Property SymbolicName="DI:ReleaseDate" DataType="OpcUa:DateTime" ModellingRule="Optional"/>
     <Property SymbolicName="DI:ChangeLogReference" DataType="OpcUa:String" ModellingRule="Optional"/>
     <Property SymbolicName="DI:Hash" DataType="OpcUa:ByteString" ModellingRule="Optional"/>
+    </Children>
   </ObjectType>
 
   <!--PrepareStatemachine-->
@@ -712,25 +693,25 @@
       </Method>
       <Method SymbolicName="DI:Resume" ModellingRule="Optional">
       </Method>
-      <Object SymbolicName="DI:Idle" TypeDefinition="OpcUa:InitialStateType">
+      <Object SymbolicName="DI:Idle" TypeDefinition="OpcUa:InitialStateType" ModellingRule="None">
         <Description></Description>
       </Object>
-      <Object SymbolicName="DI:Preparing" TypeDefinition="OpcUa:StateType">
+      <Object SymbolicName="DI:Preparing" TypeDefinition="OpcUa:StateType"  ModellingRule="None">
         <Description></Description>
       </Object>
-      <Object SymbolicName="DI:PreparedForUpdate" TypeDefinition="OpcUa:StateType">
+      <Object SymbolicName="DI:PreparedForUpdate" TypeDefinition="OpcUa:StateType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:Resuming" TypeDefinition="OpcUa:StateType">
+      <Object SymbolicName="DI:Resuming" TypeDefinition="OpcUa:StateType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:IdleToPreparing" TypeDefinition="OpcUa:TransitionType">
+      <Object SymbolicName="DI:IdleToPreparing" TypeDefinition="OpcUa:TransitionType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:PreparingToIdle" TypeDefinition="OpcUa:TransitionType">
+      <Object SymbolicName="DI:PreparingToIdle" TypeDefinition="OpcUa:TransitionType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:PreparingToPreparedForUpdate" TypeDefinition="OpcUa:TransitionType">
+      <Object SymbolicName="DI:PreparingToPreparedForUpdate" TypeDefinition="OpcUa:TransitionType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:PreparedForUpdateToResuming" TypeDefinition="OpcUa:TransitionType">
+      <Object SymbolicName="DI:PreparedForUpdateToResuming" TypeDefinition="OpcUa:TransitionType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:ResumingToIdle" TypeDefinition="OpcUa:TransitionType">
+      <Object SymbolicName="DI:ResumingToIdle" TypeDefinition="OpcUa:TransitionType" ModellingRule="None">
       </Object>
     </Children>
   </ObjectType>
@@ -743,36 +724,22 @@
       </Variable>
       <Variable SymbolicName="DI:InstallationDelay" DataType="OpcUa:Duration" ModellingRule="Optional">
       </Variable>
-      <Method SymbolicName="DI:InstallSoftwarePackage" ModellingRule="Optional">
-        <InputArguments>
-          <Argument Name="ManufacturerUri" DataType="OpcUa:String"/>
-          <Argument Name="SoftwareRevision" DataType="OpcUa:String"/>
-          <Argument Name="PatchIdentifiers" DataType="OpcUa:String" ValueRank="Array"/>
-          <Argument Name="Hash" DataType="OpcUa:ByteString" />
-        </InputArguments>
-        <OutputArguments>
-        </OutputArguments>
-      </Method>
-      <Method SymbolicName="DI:InstallFiles" ModellingRule="Optional">
-        <InputArguments>
-          <Argument Name="NodeIds" DataType="OpcUa:NodeId" ValueRank="Array"/>
-        </InputArguments>
-      </Method>
-      <Method SymbolicName="DI:Resume" ModellingRule="Mandatory">
-      </Method>
-      <Object SymbolicName="DI:Idle" TypeDefinition="OpcUa:InitialStateType">
+	  <Method SymbolicName="DI:InstallSoftwarePackage" TypeDefinition="DI:InstallSoftwarePackageMethodType" ModellingRule="Optional"/>
+	  <Method SymbolicName="DI:InstallFiles" TypeDefinition="DI:InstallFilesMethodType" ModellingRule="Optional"/>
+      <Method SymbolicName="DI:Resume" ModellingRule="Mandatory"/>
+      <Object SymbolicName="DI:Idle" TypeDefinition="OpcUa:InitialStateType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:Installing" TypeDefinition="OpcUa:StateType">
+      <Object SymbolicName="DI:Installing" TypeDefinition="OpcUa:StateType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:Error" TypeDefinition="OpcUa:StateType">
+      <Object SymbolicName="DI:Error" TypeDefinition="OpcUa:StateType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:IdleToInstalling" TypeDefinition="OpcUa:StateType">
+      <Object SymbolicName="DI:IdleToInstalling" TypeDefinition="OpcUa:TransitionType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:InstallingToIdle" TypeDefinition="OpcUa:TransitionType">
+      <Object SymbolicName="DI:InstallingToIdle" TypeDefinition="OpcUa:TransitionType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:InstallingToError" TypeDefinition="OpcUa:TransitionType">
+      <Object SymbolicName="DI:InstallingToError" TypeDefinition="OpcUa:TransitionType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:ErrorToIdle" TypeDefinition="OpcUa:TransitionType">
+      <Object SymbolicName="DI:ErrorToIdle" TypeDefinition="OpcUa:TransitionType" ModellingRule="None">
       </Object>
     </Children>
   </ObjectType>
@@ -781,13 +748,13 @@
   <ObjectType SymbolicName="DI:PowerCycleStateMachineType" BaseType="OpcUa:FiniteStateMachineType" IsAbstract="false">
     <Description></Description>
     <Children>
-      <Object SymbolicName="DI:NotWaitingForPowerCycle" TypeDefinition="OpcUa:InitialStateType">
+      <Object SymbolicName="DI:NotWaitingForPowerCycle" TypeDefinition="OpcUa:InitialStateType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:WaitingForPowerCycle" TypeDefinition="OpcUa:StateType">
+      <Object SymbolicName="DI:WaitingForPowerCycle" TypeDefinition="OpcUa:StateType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:NotWaitingForPowerCycleToWaitingForPowerCycle" TypeDefinition="OpcUa:TransitionType">
+      <Object SymbolicName="DI:NotWaitingForPowerCycleToWaitingForPowerCycle" TypeDefinition="OpcUa:TransitionType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:WaitingForPowerCycleToNotWaitingForPowerCycle" TypeDefinition="OpcUa:TransitionType">
+      <Object SymbolicName="DI:WaitingForPowerCycleToNotWaitingForPowerCycle" TypeDefinition="OpcUa:TransitionType" ModellingRule="None">
       </Object>
     </Children>
   </ObjectType>
@@ -800,13 +767,13 @@
       </Method>
       <Variable SymbolicName="DI:ConfirmationTimeout" DataType="OpcUa:Duration" ModellingRule="Mandatory">
       </Variable>
-      <Object SymbolicName="DI:NotWaitingForConfirm" TypeDefinition="OpcUa:InitialStateType">
+      <Object SymbolicName="DI:NotWaitingForConfirm" TypeDefinition="OpcUa:InitialStateType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:WaitingForConfirm" TypeDefinition="OpcUa:StateType">
+      <Object SymbolicName="DI:WaitingForConfirm" TypeDefinition="OpcUa:StateType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:NotWaitingForConfirmToWaitingForConfirm" TypeDefinition="OpcUa:TransitionType">
+      <Object SymbolicName="DI:NotWaitingForConfirmToWaitingForConfirm" TypeDefinition="OpcUa:TransitionType" ModellingRule="None">
       </Object>
-      <Object SymbolicName="DI:WaitingForConfirmToNotWaitingForConfirm" TypeDefinition="OpcUa:TransitionType">
+      <Object SymbolicName="DI:WaitingForConfirmToNotWaitingForConfirm" TypeDefinition="OpcUa:TransitionType" ModellingRule="None">
       </Object>
     </Children>
   </ObjectType>
@@ -827,7 +794,7 @@
   </DataType>
 
   <!-- UpdateBehavior -->
-  <DataType SymbolicName="DI:UpdateBehavior" BaseType="OpcUa:OptionSet">
+  <DataType SymbolicName="DI:UpdateBehavior" BaseType="OpcUa:UInt32" IsOptionSet="true">
     <Fields>
       <Field Name="KeepsParameters" BitMask="0001">
         <Description>If KeepsParameters is not set, the device will lose its configuration during update. The Client should do a backup of the parameters before the update and restore them afterwards.</Description>
@@ -847,6 +814,55 @@
     </Fields>
   </DataType>
 
+  <!-- MethodTypes -->
+
+  <Method SymbolicName="DI:InstallSoftwarePackageMethodType" >
+	<InputArguments>
+	  <Argument Name="ManufacturerUri" DataType="OpcUa:String"/>
+	  <Argument Name="SoftwareRevision" DataType="OpcUa:String"/>
+	  <Argument Name="PatchIdentifiers" DataType="OpcUa:String" ValueRank="Array"/>
+	  <Argument Name="Hash" DataType="OpcUa:ByteString" />
+	</InputArguments>
+	<OutputArguments>
+	</OutputArguments>
+  </Method>
+
+  <Method SymbolicName="DI:InstallFilesMethodType">
+      <InputArguments>
+        <Argument Name="NodeIds" DataType="OpcUa:NodeId" ValueRank="Array"/>
+      </InputArguments>
+  </Method>
+  
+  <Method SymbolicName="DI:GetUpdateBehaviorFileSystemMethodType">
+	<InputArguments>
+	  <Argument Name="NodeIds" DataType="OpcUa:NodeId" ValueRank="Array"/>
+	</InputArguments>
+	<OutputArguments>
+	  <Argument Name="UpdateBehavior" DataType="DI:UpdateBehavior" />
+	</OutputArguments>
+  </Method>
+  
+   <Method SymbolicName="DI:ValidateFilesMethodType">
+	<InputArguments>
+	  <Argument Name="NodeIds" DataType="OpcUa:NodeId" ValueRank="Array"/>
+	</InputArguments>
+	<OutputArguments>
+	  <Argument Name="ErrorCode" DataType="OpcUa:UInt32" />
+	  <Argument Name="ErrorMessage" DataType="OpcUa:LocalizedText" />
+	</OutputArguments>
+  </Method>
+	  
+  <Method SymbolicName="DI:GetUpdateBehaviorCachedLoadingMethodType">
+	<InputArguments>
+	  <Argument Name="ManufacturerUri" DataType="OpcUa:String" />
+	  <Argument Name="SoftwareRevision" DataType="OpcUa:String" />
+	  <Argument Name="PatchIdentifiers" DataType="OpcUa:String" ValueRank="Array"/>
+	</InputArguments>
+	<OutputArguments>
+	  <Argument Name="UpdateBehavior" DataType="DI:UpdateBehavior" />
+	</OutputArguments>
+  </Method>
+	  
   <!--END SoftwareUpdate Model-->
 	
 </ModelDesign>

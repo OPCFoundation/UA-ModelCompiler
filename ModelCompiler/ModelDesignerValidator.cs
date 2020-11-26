@@ -1299,6 +1299,7 @@ namespace ModelCompiler
                     new XmlQualifiedName("InputArguments", DefaultNamespace),
                     new XmlQualifiedName("Argument", DefaultNamespace),
                     ValueRank.Array,
+                    new uint[] { (uint)arguments.Count },
                     arguments.ToArray(),
                     children);
             }
@@ -1339,6 +1340,7 @@ namespace ModelCompiler
                     new XmlQualifiedName("OutputArguments", DefaultNamespace),
                     new XmlQualifiedName("Argument", DefaultNamespace),
                     ValueRank.Array,
+                    new uint[] { (uint)arguments.Count },
                     arguments.ToArray(),
                     children);
             }
@@ -1395,6 +1397,7 @@ namespace ModelCompiler
                     new XmlQualifiedName("OptionSetValues", DefaultNamespace),
                     new XmlQualifiedName("LocalizedText", DefaultNamespace),
                     ValueRank.Array,
+                    new uint[] { (uint)values.Count },
                     values.ToArray(),
                     children);
             }
@@ -1428,6 +1431,7 @@ namespace ModelCompiler
                         new XmlQualifiedName("EnumStrings", DefaultNamespace),
                         new XmlQualifiedName("LocalizedText", DefaultNamespace),
                         ValueRank.Array,
+                        new uint[] { (uint)values.Count },
                         values.ToArray(),
                         children);
                 }
@@ -1456,6 +1460,7 @@ namespace ModelCompiler
                         new XmlQualifiedName("EnumValues", DefaultNamespace),
                         new XmlQualifiedName("EnumValueType", DefaultNamespace),
                         ValueRank.Array,
+                        new uint[] { (uint)values.Count },
                         values.ToArray(),
                         children);
                 }
@@ -1708,6 +1713,7 @@ namespace ModelCompiler
                     new XmlQualifiedName("NamespaceUri", DefaultNamespace),
                     new XmlQualifiedName("String", DefaultNamespace),
                     ValueRank.Scalar,
+                    null,
                     namespaceUri,
                     descriptions);
 
@@ -1718,6 +1724,7 @@ namespace ModelCompiler
                         new XmlQualifiedName("Deprecated", DefaultNamespace),
                         new XmlQualifiedName("Boolean", DefaultNamespace),
                         ValueRank.Scalar,
+                        null,
                         true,
                         descriptions);
                 }
@@ -1755,6 +1762,7 @@ namespace ModelCompiler
             XmlQualifiedName propertyName,
             XmlQualifiedName dataType,
             ValueRank valueRank,
+            uint[] arrayDimensions,
             object value,
             IList<InstanceDesign> children)
         {
@@ -1791,6 +1799,23 @@ namespace ModelCompiler
             property.PartNo = parent.PartNo;
             property.Category = parent.Category;
             property.ReleaseStatus = parent.ReleaseStatus;
+
+            if (!EmbeddedModelDesignPath.EndsWith("v104") && !EmbeddedModelDesignPath.EndsWith("v103"))
+            {
+                if (arrayDimensions != null)
+                {
+                    property.ArrayDimensions = "";
+                    foreach (var ii in arrayDimensions)
+                    {
+                        if (property.ArrayDimensions.Length > 0)
+                        {
+                            property.ArrayDimensions += ",";
+                        }
+
+                        property.ArrayDimensions += ii.ToString();
+                    }
+                }
+            }
 
             children.Add(property);
 

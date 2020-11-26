@@ -160,7 +160,7 @@ namespace ModelCompiler
         {
             foreach (var ii in source)
             {
-                if (!NodeId.IsNull(ii.NodeId) && !String.IsNullOrEmpty(ii.Documentation))
+                if (!NodeId.IsNull(ii.NodeId) && !String.IsNullOrEmpty(ii.NodeSetDocumentation))
                 {
                     map[ii.NodeId] = ii;
                 }
@@ -179,7 +179,7 @@ namespace ModelCompiler
 
                 if (original.TryGetValue(ii.NodeId, out existingNode))
                 {
-                    ii.Documentation = existingNode.Documentation;
+                    ii.NodeSetDocumentation = existingNode.NodeSetDocumentation;
                 }
 
                 IList<BaseInstanceState> children = new List<BaseInstanceState>();
@@ -3609,13 +3609,13 @@ namespace ModelCompiler
             }
 
             template.WriteNextLine(context.Prefix);
-            template.Write("ISystemContext context,");
+            template.Write("ISystemContext _context,");
 
             template.WriteNextLine(context.Prefix);
-            template.Write("MethodState method,");
+            template.Write("MethodState _method,");
 
             template.WriteNextLine(context.Prefix);
-            template.Write("NodeId objectId");
+            template.Write("NodeId _objectId");
 
             if (method.InputArguments != null)
             {
