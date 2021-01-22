@@ -8,7 +8,7 @@ REM ** --
 REM ****************************************************************************************************************
 SETLOCAL
 
-set MODELCOMPILER=.\Bin\Debug\Opc.Ua.ModelCompiler.exe
+set MODELCOMPILER=.\Bin\Release\Opc.Ua.ModelCompiler.exe
 set OUTPUT=..\nodesets
 set INPUT=.\ModelCompiler\Design
 set CSVINPUT=.\ModelCompiler\CSVs
