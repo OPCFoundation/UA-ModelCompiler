@@ -2585,7 +2585,7 @@ namespace ModelCompiler
 
                 AddTemplate(
                     template,
-                    "result = OnCall(context);",
+                    "result = OnCall(_context);",
                     null,
                     new MethodDesign[] { method },
                     new LoadTemplateEventHandler(LoadTemplate_OnCallImplementation),
@@ -3647,7 +3647,7 @@ namespace ModelCompiler
         }
         #endregion
 
-        #region "result = OnCall(context);"
+        #region "result = OnCall(_context);"
         private string LoadTemplate_OnCallImplementation(Template template, Context context)
         {
             MethodDesign method = context.Target as MethodDesign;

@@ -25,7 +25,9 @@ public interface I_ServiceSet_Endpoint : IEndpointBase
 /// </summary>
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+#if (!NET_STANDARD)
 [ServiceContract(Namespace = Namespaces._ServicesNamespace_)]
+#endif
 public interface I_ServiceSet_Endpoint : IEndpointBase
 {
     // _ASYNCENDPOINTOPERATIONLIST_
@@ -39,7 +41,9 @@ public interface I_ServiceSet_Endpoint : IEndpointBase
 /// </summary>
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+#if (!NET_STANDARD)
 [ServiceContract(Namespace = Namespaces._ServicesNamespace_)]
+#endif
 public interface I_ServiceSet_Channel : IChannelBase
 {
     // _ASYNCOPERATIONLIST_

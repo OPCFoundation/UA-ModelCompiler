@@ -8,7 +8,7 @@ REM ** --
 REM ****************************************************************************************************************
 SETLOCAL
 
-set MODELCOMPILER=.\Bin\Release\Opc.Ua.ModelCompiler.exe
+set MODELCOMPILER=.\Bin\Debug\Opc.Ua.ModelCompiler.exe
 set OUTPUT=..\nodesets
 set INPUT=.\ModelCompiler\Design
 set CSVINPUT=.\ModelCompiler\CSVs
@@ -28,6 +28,11 @@ REM 	set DOTNET_TARGET=..\..\uastack\Source\Common\Core\
 REM 	set DI_TARGET=..\..\uastack\Source\Common\Core\Stack\Generated\
 REM 	set ADI_TARGET=..\..\uastack\Source\Common\Core\Stack\Generated\
 REM
+REM  in order to update the nodeset of the UA stack set:
+REM     set DOTNET_TARGET=..\UA-.NETStandard\Stack\Opc.Ua.Core
+REM     set GDS_TARGET=..\UA-.NETStandard\Libraries\Opc.Ua.Gds.Server.Common
+REM  then: 'BuildStandardTypes v104'
+REM  
 REM Leaving these fields empty will skip the operation
 
 set ANSIC_TARGET=
@@ -155,15 +160,15 @@ IF "%DOTNET_TARGET%" NEQ "" (
 
 REM STEP 2b) Copy code to GDS 
 IF "%GDS_TARGET%" NEQ "" (
-	ECHO Copying GDS code to %GDS_TARGET%
-	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Types.bsd" "%GDS_TARGET%\Stack\Core\Schema\Opc.Ua.Gds.Types.bsd"
-	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Types.xsd" "%GDS_TARGET%\Stack\Core\Schema\Opc.Ua.Gds.Types.xsd"
-	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.NodeSet2.xml" "%GDS_TARGET%\Stack\Core\Schema\Opc.Ua.Gds.NodeSet2.xml"
-	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Constants.cs" "%GDS_TARGET%\Stack\Core\Stack\Generated\Opc.Ua.Gds.Constants.cs"
-	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.DataTypes.cs" "%GDS_TARGET%\Stack\Core\Stack\Generated\Opc.Ua.Gds.DataTypes.cs"
-	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Classes.cs" "%GDS_TARGET%\GDS\Server\Model\Opc.Ua.Gds.Classes.cs"
-	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.PredefinedNodes.uanodes" "%GDS_TARGET%\GDS\Server\Model\Opc.Ua.Gds.PredefinedNodes.uanodes"
-	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.PredefinedNodes.xml" "%GDS_TARGET%\GDS\Server\Model\Opc.Ua.Gds.PredefinedNodes.xml"
+	ECHO Copying GDS code to %GDS_TARGET% / %DOTNET_TARGET%
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Types.bsd" "%DOTNET_TARGET%\Schema\Opc.Ua.Gds.Types.bsd"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Types.xsd" "%DOTNET_TARGET%\Schema\Opc.Ua.Gds.Types.xsd"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.NodeSet2.xml" "%DOTNET_TARGET%\Schema\Opc.Ua.Gds.NodeSet2.xml"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Constants.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Gds.Constants.cs"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.DataTypes.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Gds.DataTypes.cs"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Classes.cs" "%GDS_TARGET%\Model\Opc.Ua.Gds.Classes.cs"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.PredefinedNodes.uanodes" "%GDS_TARGET%\Model\Opc.Ua.Gds.PredefinedNodes.uanodes"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.PredefinedNodes.xml" "%GDS_TARGET%\Model\Opc.Ua.Gds.PredefinedNodes.xml"
 )
 
 REM STEP 2c) Copy remaining collaboration outputs to their respective locations...
