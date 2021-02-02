@@ -2709,7 +2709,7 @@
       <opc:Property SymbolicName="SuppressedOrShelved" DataType="ua:Boolean" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MaxTimeShelved" DataType="Duration" ModellingRule="Optional" />
       <opc:Property SymbolicName="AudibleEnabled" DataType="ua:Boolean" ModellingRule="Optional" />
-      <opc:Property SymbolicName="AudibleSound" DataType="AudioDataType" TypeDefinition="AudioVariableType" ModellingRule="Optional" />
+      <opc:Variable SymbolicName="AudibleSound" DataType="AudioDataType" TypeDefinition="AudioVariableType" ModellingRule="Optional" />
       <opc:Variable SymbolicName="SilenceState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
@@ -3831,7 +3831,7 @@
       <opc:Property SymbolicName="LastMethodInputArguments" DataType="ua:BaseDataType" ValueRank="Array" />
       <opc:Property SymbolicName="LastMethodOutputArguments" DataType="ua:BaseDataType" ValueRank="Array" />
       <opc:Property SymbolicName="LastMethodCallTime" DataType="ua:UtcTime" />
-      <opc:Property SymbolicName="LastMethodReturnStatus" DataType="ua:StatusCode" />
+      <opc:Property SymbolicName="LastMethodReturnStatus" DataType="ua:StatusResult" />
     </opc:Children>
   </opc:VariableType>
 

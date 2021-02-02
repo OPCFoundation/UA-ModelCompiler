@@ -4,7 +4,7 @@
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   targetNamespace="http://opcfoundation.org/UA/TypeDictionary/"
   elementFormDefault="qualified"
->
+> 
   <xs:element name="Documentation">
     <xs:complexType mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">

@@ -2694,7 +2694,7 @@
       <opc:Property SymbolicName="SuppressedOrShelved" DataType="ua:Boolean" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MaxTimeShelved" DataType="Duration" ModellingRule="Optional" />
       <opc:Property SymbolicName="AudibleEnabled" DataType="ua:Boolean" ModellingRule="Optional" />
-      <opc:Property SymbolicName="AudibleSound" DataType="AudioDataType" TypeDefinition="AudioVariableType" ModellingRule="Optional" />
+      <opc:Variable SymbolicName="AudibleSound" DataType="AudioDataType" TypeDefinition="AudioVariableType" ModellingRule="Optional" />
       <opc:Variable SymbolicName="SilenceState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
@@ -3805,7 +3805,7 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:VariableType SymbolicName="ProgramDiagnosticType" DataType="ProgramDiagnosticDataType" ValueRank="Scalar" BaseType="ua:BaseDataVariableType" PartNo="10">
+  <opc:VariableType SymbolicName="ProgramDiagnosticType" DataType="ua:ProgramDiagnosticDataType" ValueRank="Scalar" BaseType="ua:BaseDataVariableType" PartNo="10">
     <opc:Children>
       <opc:Property SymbolicName="CreateSessionId" DataType="ua:NodeId" />
       <opc:Property SymbolicName="CreateClientName" DataType="ua:String" />
@@ -3816,11 +3816,11 @@
       <opc:Property SymbolicName="LastMethodInputArguments" DataType="ua:BaseDataType" ValueRank="Array" />
       <opc:Property SymbolicName="LastMethodOutputArguments" DataType="ua:BaseDataType" ValueRank="Array" />
       <opc:Property SymbolicName="LastMethodCallTime" DataType="ua:UtcTime" />
-      <opc:Property SymbolicName="LastMethodReturnStatus" DataType="ua:StatusCode" />
+      <opc:Property SymbolicName="LastMethodReturnStatus" DataType="ua:StatusResult" />
     </opc:Children>
   </opc:VariableType>
 
-  <opc:VariableType SymbolicName="ProgramDiagnostic2Type" DataType="ProgramDiagnostic2DataType" ValueRank="Scalar" BaseType="ua:BaseDataVariableType" PartNo="10">
+  <opc:VariableType SymbolicName="ProgramDiagnostic2Type" DataType="ua:ProgramDiagnostic2DataType" ValueRank="Scalar" BaseType="ua:BaseDataVariableType" PartNo="10">
     <opc:Children>
       <opc:Variable SymbolicName="CreateSessionId" DataType="ua:NodeId" />
       <opc:Variable SymbolicName="CreateClientName" DataType="ua:String" />
@@ -4543,6 +4543,7 @@
       <opc:Field Name="Paused" Identifier="1"></opc:Field>
       <opc:Field Name="Operational" Identifier="2"></opc:Field>
       <opc:Field Name="Error" Identifier="3"></opc:Field>
+      <opc:Field Name="PreOperational" Identifier="4"></opc:Field>
     </opc:Fields>
   </opc:DataType>
   
@@ -4708,6 +4709,12 @@
     </opc:Fields>
   </opc:DataType>
 
+  <opc:DataType SymbolicName="NetworkAddressUrlLayer2DataType" BaseType="NetworkAddressUrlDataType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="UrlLayer2" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
   <opc:DataType SymbolicName="ReaderGroupDataType" BaseType="PubSubGroupDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="TransportSettings" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
@@ -4784,6 +4791,43 @@
       <opc:Field Name="PublishedDataSets"  DataType="PublishedDataSetDataType" ValueRank="Array"></opc:Field>
       <opc:Field Name="Connections"  DataType="PubSubConnectionDataType" ValueRank="Array"></opc:Field>
       <opc:Field Name="Enabled"  DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="StandaloneSubscribedDataSetRefDataType" BaseType="SubscribedDataSetDataType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="DataSetName"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="StandaloneSubscribedDataSetDataType" BaseType="SubscribedDataSetDataType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="Name"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DataSetFolder"  DataType="ua:String" ValueRank="Array"></opc:Field>
+      <opc:Field Name="DataSetMetaData"  DataType="DataSetMetaDataType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="SubscribedDataSet"  DataType="SubscribedDataSetDataType" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="SecurityGroupDataType" BaseType="ua:Structure" PartNo="14" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="Name" DataType="String"></opc:Field>
+      <opc:Field Name="SecurityGroupFolder" DataType="String" ValueRank="Array"></opc:Field>
+      <opc:Field Name="KeyLifetime" DataType="Duration"></opc:Field>
+      <opc:Field Name="SecurityPolicyUri" DataType="String"></opc:Field>
+      <opc:Field Name="MaxFutureKeyCount" DataType="UInt32"></opc:Field>
+      <opc:Field Name="MaxPastKeyCount" DataType="UInt32"></opc:Field>
+      <opc:Field Name="SecurityGroupId" DataType="String"></opc:Field>
+      <opc:Field Name="RolePermissions" DataType="RolePermissionType" ValueRank="Array"></opc:Field>
+      <opc:Field Name="GroupProperties" DataType="KeyValuePair" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="PubSubConfiguration2DataType" BaseType="PubSubConfigurationDataType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="SubscribedDataSets"  DataType="StandaloneSubscribedDataSetDataType" ValueRank="Array"></opc:Field>
+      <opc:Field Name="SecurityGroups"  DataType="SecurityGroupDataType" ValueRank="Array"></opc:Field>
+      <opc:Field Name="ConfigurationProperties"  DataType="KeyValuePair" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -4879,6 +4923,7 @@
       <opc:Field Name="SequenceNumber" BitMask="0004"></opc:Field>
       <opc:Field Name="Timestamp" BitMask="0008"></opc:Field>
       <opc:Field Name="Status" BitMask="0010"></opc:Field>
+      <opc:Field Name="MessageType" BitMask="0020"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -4895,9 +4940,66 @@
     </opc:Fields>
   </opc:DataType>
 
+  <opc:DataType SymbolicName="QosDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14" ReleaseStatus="Draft">
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="TransmitQosDataType" BaseType="QosDataType" IsAbstract="true" PartNo="14" ReleaseStatus="Draft">
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="TransmitQosPriorityDataType" BaseType="TransmitQosDataType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="PriorityLabel" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="TransmitQosBandwidthDataType" BaseType="TransmitQosDataType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="MaxBytesPerInterval" DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="MaxMessagesPerInterval" DataType="ua:UInt16" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="TransmitQosOffsetDataType" BaseType="TransmitQosDataType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="TransmissionOffsetMin" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="TransmissionOffsetMax" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="TransmissionJitter" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="ReceiveQosDataType" BaseType="QosDataType" IsAbstract="true" PartNo="14" ReleaseStatus="Draft">
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="ReceiveQosPriorityDataType" BaseType="ReceiveQosDataType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="PriorityLabel" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="ReceiveQosLatencyDataType" BaseType="ReceiveQosDataType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="LatencyMax" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="ReceiveQosOffsetDataType" BaseType="ReceiveQosDataType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="ReceiveOffsetMin" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="ReceiveOffsetMax" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
   <opc:DataType SymbolicName="DatagramConnectionTransportDataType" BaseType="ConnectionTransportDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="DiscoveryAddress" DataType="ua:Structure" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="DatagramConnectionTransport2DataType" BaseType="ConnectionTransportDataType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="DiscoveryAnnounceRate" DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DiscoveryMaxMessageSize" DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DatagramQoS" DataType="QosDataType" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
   
@@ -4905,6 +5007,23 @@
     <opc:Fields>
       <opc:Field Name="MessageRepeatCount" DataType="ua:Byte" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="MessageRepeatDelay" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="DatagramWriterGroupTransport2DataType" BaseType="DatagramWriterGroupTransportDataType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="Address" DataType="ua:NetworkAddressDataType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DatagramQoS" DataType="ua:TransmitQosDataType" ValueRank="Array"></opc:Field>
+      <opc:Field Name="DiscoveryAnnounceRate" DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="Topic" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="DatagramDataSetReaderTransportDataType" BaseType="DataSetWriterTransportDataType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Fields>
+      <opc:Field Name="Address" DataType="ua:NetworkAddressDataType" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DatagramQoS" DataType="ua:ReceiveQosDataType" ValueRank="Array"></opc:Field>
+      <opc:Field Name="Topic" DataType="ua:String" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -5041,9 +5160,19 @@
       <opc:Method SymbolicName="AddConnection" TypeDefinition="AddConnectionMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveConnection" TypeDefinition="RemoveConnectionMethodType" ModellingRule="Optional" />
       <opc:Object SymbolicName="PublishedDataSets" TypeDefinition="DataSetFolderType" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="SubscribedDataSets" TypeDefinition="SubscribedDataSetFolderType" ModellingRule="Optional" ReleaseStatus="Draft" />
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsRootType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="PubSubCapablities" TypeDefinition="PubSubCapabilitiesType" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Object SymbolicName="DataSetClasses" TypeDefinition="FolderType" ModellingRule="Optional" ReleaseStatus="Draft">
+        <opc:Children>
+          <opc:Variable SymbolicName="DataSetName_Placeholder" DataType="DataSetMetaDataType" ModellingRule="OptionalPlaceholder">
+            <opc:BrowseName>&lt;DataSetName&gt;</opc:BrowseName>
+          </opc:Variable>        
+      </opc:Children>        
+      </opc:Object>
       <opc:Property SymbolicName="SupportedTransportProfiles" DataType="String" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ConfigCheckSum" DataType="ByteString" ModellingRule="Optional" ReleaseStatus="Draft" />
     </opc:Children>
   </opc:ObjectType>
   
@@ -5306,11 +5435,36 @@
       </opc:Object>
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsConnectionType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ConfigCheckSum" DataType="ua:ByteString" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Method SymbolicName="GetConnection" TypeDefinition="GetConnectionMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
+      <opc:Method SymbolicName="ModifyConnection" TypeDefinition="ModifyConnectionMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
       <opc:Method SymbolicName="AddWriterGroup" TypeDefinition="PubSubConnectionTypeAddWriterGroupMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddReaderGroup" TypeDefinition="PubSubConnectionAddReaderGroupGroupMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveGroup" TypeDefinition="PubSubConnectionTypeRemoveGroupMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
+
+  <opc:Method SymbolicName="GetConnectionMethodType" PartNo="14" ReleaseStatus="Draft">
+    <opc:InputArguments>
+      <opc:Argument Name="IncludeChildren" DataType="ua:Boolean" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="Configuration" DataType="PubSubConnectionDataType" />
+      <opc:Argument Name="CheckSum" DataType="ua:ByteString" />
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="ModifyConnectionMethodType" PartNo="14" ReleaseStatus="Draft">
+    <opc:InputArguments>
+      <opc:Argument Name="Configuration" DataType="PubSubConnectionDataType" />
+      <opc:Argument Name="ModifyChildren" DataType="ua:Boolean" />
+      <opc:Argument Name="CheckSum" DataType="ua:ByteString" />
+      <opc:Argument Name="Force" DataType="ua:Boolean" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="NewCheckSum" DataType="ua:ByteString" />
+    </opc:OutputArguments>
+  </opc:Method>
 
   <opc:Method SymbolicName="PubSubConnectionTypeAddWriterGroupMethodType" PartNo="14">
     <opc:InputArguments>
@@ -5364,12 +5518,37 @@
         <opc:ReferenceType>HasDataSetWriter</opc:ReferenceType>
       </opc:Object>
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsWriterGroupType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddDataSetWriter" TypeDefinition="PubSubGroupTypeAddWriterrMethodType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ConfigCheckSum" DataType="ua:ByteString" ModellingRule="Optional" ReleaseStatus="Draft"/>
+      <opc:Method SymbolicName="GetWriterGroup" TypeDefinition="GetWriterGroupMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
+      <opc:Method SymbolicName="ModifyWriterGroup" TypeDefinition="ModifyWriterGroupMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
+      <opc:Method SymbolicName="AddDataSetWriter" TypeDefinition="PubSubGroupTypeAddWriterMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveDataSetWriter" TypeDefinition="PubSubGroupTypeRemoveWriterMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
+  
+  <opc:Method SymbolicName="GetWriterGroupMethodType" PartNo="14" ReleaseStatus="Draft">
+    <opc:InputArguments>
+      <opc:Argument Name="IncludeChildren" DataType="ua:Boolean" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="Configuration" DataType="WriterGroupDataType" />
+      <opc:Argument Name="CheckSum" DataType="ua:ByteString" />
+    </opc:OutputArguments>
+  </opc:Method>
 
-  <opc:Method SymbolicName="PubSubGroupTypeAddWriterrMethodType" PartNo="14">
+  <opc:Method SymbolicName="ModifyWriterGroupMethodType" PartNo="14" ReleaseStatus="Draft">
+    <opc:InputArguments>
+      <opc:Argument Name="Configuration" DataType="WriterGroupDataType" />
+      <opc:Argument Name="ModifyChildren" DataType="ua:Boolean" />
+      <opc:Argument Name="CheckSum" DataType="ua:ByteString" />
+      <opc:Argument Name="Force" DataType="ua:Boolean" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="NewCheckSum" DataType="ua:ByteString" />
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="PubSubGroupTypeAddWriterMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="Configuration" DataType="DataSetWriterDataType" />
     </opc:InputArguments>
@@ -5404,10 +5583,35 @@
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsReaderGroupType" ModellingRule="Optional" />
       <opc:Object SymbolicName="TransportSettings" TypeDefinition="ReaderGroupTransportType" ModellingRule="Optional" />
       <opc:Object SymbolicName="MessageSettings" TypeDefinition="ReaderGroupMessageType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ConfigCheckSum" DataType="ua:ByteString" ModellingRule="Optional" ReleaseStatus="Draft"/>
+      <opc:Method SymbolicName="GetReaderGroup" TypeDefinition="GetReaderGroupMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
+      <opc:Method SymbolicName="ModifyReaderGroup" TypeDefinition="ModifyReaderGroupMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
       <opc:Method SymbolicName="AddDataSetReader" TypeDefinition="PubSubGroupTypeAddReaderMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveDataSetReader" TypeDefinition="PubSubGroupTypeRemoveReaderMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
+
+  <opc:Method SymbolicName="GetReaderGroupMethodType" PartNo="14" ReleaseStatus="Draft">
+    <opc:InputArguments>
+      <opc:Argument Name="IncludeChildren" DataType="ua:Boolean" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="Configuration" DataType="ReaderGroupDataType" />
+      <opc:Argument Name="CheckSum" DataType="ua:ByteString" />
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="ModifyReaderGroupMethodType" PartNo="14" ReleaseStatus="Draft">
+    <opc:InputArguments>
+      <opc:Argument Name="Configuration" DataType="ReaderGroupDataType" />
+      <opc:Argument Name="ModifyChildren" DataType="ua:Boolean" />
+      <opc:Argument Name="CheckSum" DataType="ua:ByteString" />
+      <opc:Argument Name="Force" DataType="ua:Boolean" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="NewCheckSum" DataType="ua:ByteString" />
+    </opc:OutputArguments>
+  </opc:Method>
 
   <opc:Method SymbolicName="PubSubGroupTypeAddReaderMethodType" PartNo="14">
     <opc:InputArguments>
@@ -5445,9 +5649,30 @@
       <opc:Object SymbolicName="MessageSettings" TypeDefinition="DataSetWriterMessageType" ModellingRule="Optional" />
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsDataSetWriterType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ConfigCheckSum" DataType="ua:ByteString" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Method SymbolicName="GetDataSetWriter" TypeDefinition="GetDataSetWriterMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
+      <opc:Method SymbolicName="ModifyDataSetWriter" TypeDefinition="ModifyDataSetWriterMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
     </opc:Children>
   </opc:ObjectType>
 
+  <opc:Method SymbolicName="GetDataSetWriterMethodType" PartNo="14" ReleaseStatus="Draft">
+    <opc:OutputArguments>
+      <opc:Argument Name="Configuration" DataType="DataSetWriterDataType" />
+      <opc:Argument Name="CheckSum" DataType="ua:ByteString" />
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="ModifyDataSetWriterMethodType" PartNo="14" ReleaseStatus="Draft">
+    <opc:InputArguments>
+      <opc:Argument Name="Configuration" DataType="DataSetWriterDataType" />
+      <opc:Argument Name="CheckSum" DataType="ua:ByteString" />
+      <opc:Argument Name="Force" DataType="ua:Boolean" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="NewCheckSum" DataType="ua:ByteString" />
+    </opc:OutputArguments>
+  </opc:Method>
+  
   <opc:ObjectType SymbolicName="DataSetWriterTransportType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14" />
   <opc:ObjectType SymbolicName="DataSetWriterMessageType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14" />
   
@@ -5470,6 +5695,9 @@
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsDataSetReaderType" ModellingRule="Optional" />
       <opc:Object SymbolicName="SubscribedDataSet" TypeDefinition="SubscribedDataSetType" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ConfigCheckSum" DataType="ua:ByteString" ModellingRule="Optional" ReleaseStatus="Draft"/>
+      <opc:Method SymbolicName="GetDataSetReader" TypeDefinition="GetDataSetReaderMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
+      <opc:Method SymbolicName="ModifyDataSetReader" TypeDefinition="ModifyDataSetReaderMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
       <opc:Method SymbolicName="CreateTargetVariables" TypeDefinition="DataSetReaderTypeCreateTargetVariablesMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="CreateDataSetMirror" TypeDefinition="DataSetReaderTypeCreateDataSetMirrorMethodType" ModellingRule="Optional" />
     </opc:Children>
@@ -5477,6 +5705,24 @@
 
   <opc:ObjectType SymbolicName="DataSetReaderTransportType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14" />
   <opc:ObjectType SymbolicName="DataSetReaderMessageType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14" />
+
+  <opc:Method SymbolicName="GetDataSetReaderMethodType" PartNo="14" ReleaseStatus="Draft">
+    <opc:OutputArguments>
+      <opc:Argument Name="Configuration" DataType="DataSetReaderDataType" />
+      <opc:Argument Name="CheckSum" DataType="ua:ByteString" />
+    </opc:OutputArguments>
+  </opc:Method>
+  
+  <opc:Method SymbolicName="ModifyDataSetReaderMethodType" PartNo="14" ReleaseStatus="Draft">
+    <opc:InputArguments>
+      <opc:Argument Name="Configuration" DataType="DataSetReaderDataType" />
+      <opc:Argument Name="CheckSum" DataType="ua:ByteString" />
+      <opc:Argument Name="Force" DataType="ua:Boolean" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="NewCheckSum" DataType="ua:ByteString" />
+    </opc:OutputArguments>
+  </opc:Method>
   
   <opc:Method SymbolicName="DataSetReaderTypeCreateTargetVariablesMethodType" PartNo="14">
     <opc:InputArguments>
@@ -5531,6 +5777,52 @@
 
   <opc:ObjectType SymbolicName="SubscribedDataSetMirrorType" BaseType="SubscribedDataSetType" IsAbstract="false" PartNo="14" />
 
+  <opc:ObjectType SymbolicName="SubscribedDataSetFolderType" BaseType="ua:FolderType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Children>
+      <opc:Object SymbolicName="SubscribedDataSetFolderName_Placeholder" TypeDefinition="SubscribedDataSetFolderType"  ModellingRule="OptionalPlaceholder" ReleaseStatus="Draft">
+        <opc:BrowseName>&lt;SubscribedDataSetFolderName&gt;</opc:BrowseName>
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+      </opc:Object>
+      <opc:Object SymbolicName="StandaloneSubscribedDataSetName_Placeholder" TypeDefinition="StandaloneSubscribedDataSetType"  ModellingRule="OptionalPlaceholder" ReleaseStatus="Draft">
+        <opc:BrowseName>&lt;StandaloneSubscribedDataSetName&gt;</opc:BrowseName>
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+      </opc:Object>
+      <opc:Method SymbolicName="AddSubscribedDataSet" TypeDefinition="AddSubscribedDataSetMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
+      <opc:Method SymbolicName="RemoveSubscribedDataSet" TypeDefinition="RemoveSubscribedDataSetMethodType" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Method SymbolicName="AddDataSetFolder" TypeDefinition="AddDataSetFolderMethodType" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Method SymbolicName="RemoveDataSetFolder" TypeDefinition="RemoveDataSetFolderMethodType" ModellingRule="Optional" ReleaseStatus="Draft" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:Method SymbolicName="AddSubscribedDataSetMethodType" PartNo="14" ReleaseStatus="Draft">
+    <opc:InputArguments>
+      <opc:Argument Name="SubscribedDataSet" DataType="StandaloneSubscribedDataSetDataType" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="SubscribedDataSetNodeId" DataType="ua:NodeId" />
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="RemoveSubscribedDataSetMethodType" PartNo="14" ReleaseStatus="Draft">
+    <opc:InputArguments>
+      <opc:Argument Name="SubscribedDataSetNodeId" DataType="ua:NodeId" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="RemoveDataSetFolder" PartNo="14" ReleaseStatus="Draft">
+    <opc:InputArguments>
+      <opc:Argument Name="DataSetFolderNodeId" DataType="ua:NodeId" />
+    </opc:InputArguments>
+  </opc:Method>
+  
+  <opc:ObjectType SymbolicName="StandaloneSubscribedDataSetType" BaseType="ua:BaseObjectType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Children>
+      <opc:Object SymbolicName="SubscribedDataSet" TypeDefinition="SubscribedDataSetType" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="DataSetMetaData" DataType="DataSetMetaDataType" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="IsConnected" DataType="Boolean" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+  
   <opc:ObjectType SymbolicName="PubSubStatusType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
       <opc:Variable SymbolicName="State" DataType="PubSubState" ModellingRule="Mandatory" />
@@ -6048,6 +6340,17 @@
       </opc:Object>
     </opc:Children>
   </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="PubSubCapabilitiesType" BaseType="ua:BaseObjectType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Children>
+      <opc:Property SymbolicName="MaxPubSubConnections" DataType="ua:UInt32" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MaxWriterGroups" DataType="ua:UInt32" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MaxReaderGroups" DataType="ua:UInt32" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MaxDataSetWriters" DataType="ua:UInt32" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MaxDataSetReaders" DataType="ua:UInt32" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MaxFieldsPerDataSet" DataType="ua:UInt32" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
   
   <opc:ObjectType SymbolicName="PubSubStatusEventType" BaseType="SystemEventType" IsAbstract="true" PartNo="14">
     <opc:Children>
@@ -6125,13 +6428,28 @@
   <opc:ObjectType SymbolicName="DatagramConnectionTransportType" BaseType="ConnectionTransportType" PartNo="14">
     <opc:Children>
       <opc:Object SymbolicName="DiscoveryAddress" TypeDefinition="NetworkAddressType" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="DiscoveryAnnounceRate" DataType="UInt32" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Property SymbolicName="DiscoveryMaxMessageSize" DataType="UInt32" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Property SymbolicName="DatagramQoS" DataType="QosDataType" ValueRank="Array" ModellingRule="Optional" ReleaseStatus="Draft" />
     </opc:Children>
   </opc:ObjectType>
   
   <opc:ObjectType SymbolicName="DatagramWriterGroupTransportType" BaseType="WriterGroupTransportType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="MessageRepeatCount" DataType="ua:Byte" ModellingRule="Optional" />
-      <opc:Property SymbolicName="MessageRepeatDelay" DataType="ua:Duration" ModellingRule="Optional" /> 
+      <opc:Property SymbolicName="MessageRepeatDelay" DataType="ua:Duration" ModellingRule="Optional" />
+      <opc:Object SymbolicName="Address" TypeDefinition="NetworkAddressType" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Property SymbolicName="DatagramQos" DataType="TransmitQosDataType" ValueRank="Array" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Property SymbolicName="DiscoveryAnnounceRate" DataType="ua:UInt32" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Property SymbolicName="Topic" DataType="ua:String" ModellingRule="Optional" ReleaseStatus="Draft" /> 
+    </opc:Children>
+  </opc:ObjectType>
+  
+  <opc:ObjectType SymbolicName="DatagramDataSetReaderTransportType" BaseType="WriterGroupTransportType" PartNo="14" ReleaseStatus="Draft">
+    <opc:Children>
+      <opc:Object SymbolicName="Address" TypeDefinition="NetworkAddressType" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Property SymbolicName="DatagramQos" DataType="ReceiveQosDataType" ValueRank="Array" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Property SymbolicName="Topic" DataType="ua:String" ModellingRule="Optional" ReleaseStatus="Draft" />
     </opc:Children>
   </opc:ObjectType>
 

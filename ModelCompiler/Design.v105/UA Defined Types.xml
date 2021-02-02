@@ -2783,7 +2783,7 @@
       <Property SymbolicName="tns:SuppressedOrShelved" ModellingRule="Mandatory" DataType="tns:Boolean" />
       <Property SymbolicName="tns:MaxTimeShelved" ModellingRule="Optional" DataType="tns:Duration" />
       <Property SymbolicName="tns:AudibleEnabled" ModellingRule="Optional" DataType="tns:Boolean" />
-      <Property SymbolicName="tns:AudibleSound" TypeDefinition="tns:AudioVariableType" ModellingRule="Optional" DataType="tns:AudioDataType" />
+      <Variable SymbolicName="tns:AudibleSound" TypeDefinition="tns:AudioVariableType" ModellingRule="Optional" DataType="tns:AudioDataType" />
       <Variable SymbolicName="tns:SilenceState" TypeDefinition="tns:TwoStateVariableType" ModellingRule="Optional">
         <Children>
           <Property SymbolicName="tns:TransitionTime" ModellingRule="Optional" DataType="tns:UtcTime" />
@@ -3852,7 +3852,7 @@
       <Property SymbolicName="tns:LastMethodInputArguments" DataType="tns:BaseDataType" ValueRank="Array" />
       <Property SymbolicName="tns:LastMethodOutputArguments" DataType="tns:BaseDataType" ValueRank="Array" />
       <Property SymbolicName="tns:LastMethodCallTime" DataType="tns:UtcTime" />
-      <Property SymbolicName="tns:LastMethodReturnStatus" DataType="tns:StatusCode" />
+      <Property SymbolicName="tns:LastMethodReturnStatus" DataType="tns:StatusResult" />
     </Children>
   </VariableType>
   <VariableType SymbolicName="tns:ProgramDiagnostic2Type" PartNo="10" BaseType="tns:BaseDataVariableType" DataType="tns:ProgramDiagnostic2DataType" ValueRank="Scalar">
@@ -4471,6 +4471,7 @@
       <Field Name="Paused" Identifier="1" />
       <Field Name="Operational" Identifier="2" />
       <Field Name="Error" Identifier="3" />
+      <Field Name="PreOperational" Identifier="4" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:DataSetMetaDataType" PartNo="14" BaseType="tns:DataTypeSchemaHeader">
@@ -4616,6 +4617,11 @@
       <Field Name="Url" DataType="tns:String" />
     </Fields>
   </DataType>
+  <DataType SymbolicName="tns:NetworkAddressUrlLayer2DataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:NetworkAddressUrlDataType">
+    <Fields>
+      <Field Name="UrlLayer2" DataType="tns:String" />
+    </Fields>
+  </DataType>
   <DataType SymbolicName="tns:ReaderGroupDataType" PartNo="14" BaseType="tns:PubSubGroupDataType">
     <Fields>
       <Field Name="TransportSettings" DataType="tns:Structure" />
@@ -4683,6 +4689,39 @@
       <Field Name="PublishedDataSets" DataType="tns:PublishedDataSetDataType" ValueRank="Array" />
       <Field Name="Connections" DataType="tns:PubSubConnectionDataType" ValueRank="Array" />
       <Field Name="Enabled" DataType="tns:Boolean" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:StandaloneSubscribedDataSetRefDataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:SubscribedDataSetDataType">
+    <Fields>
+      <Field Name="DataSetName" DataType="tns:String" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:StandaloneSubscribedDataSetDataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:SubscribedDataSetDataType">
+    <Fields>
+      <Field Name="Name" DataType="tns:String" />
+      <Field Name="DataSetFolder" DataType="tns:String" ValueRank="Array" />
+      <Field Name="DataSetMetaData" DataType="tns:DataSetMetaDataType" />
+      <Field Name="SubscribedDataSet" DataType="tns:SubscribedDataSetDataType" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:SecurityGroupDataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:Structure">
+    <Fields>
+      <Field Name="Name" DataType="tns:String" />
+      <Field Name="SecurityGroupFolder" DataType="tns:String" ValueRank="Array" />
+      <Field Name="KeyLifetime" DataType="tns:Duration" />
+      <Field Name="SecurityPolicyUri" DataType="tns:String" />
+      <Field Name="MaxFutureKeyCount" DataType="tns:UInt32" />
+      <Field Name="MaxPastKeyCount" DataType="tns:UInt32" />
+      <Field Name="SecurityGroupId" DataType="tns:String" />
+      <Field Name="RolePermissions" DataType="tns:RolePermissionType" ValueRank="Array" />
+      <Field Name="GroupProperties" DataType="tns:KeyValuePair" ValueRank="Array" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:PubSubConfiguration2DataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:PubSubConfigurationDataType">
+    <Fields>
+      <Field Name="SubscribedDataSets" DataType="tns:StandaloneSubscribedDataSetDataType" ValueRank="Array" />
+      <Field Name="SecurityGroups" DataType="tns:SecurityGroupDataType" ValueRank="Array" />
+      <Field Name="ConfigurationProperties" DataType="tns:KeyValuePair" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:DataSetOrderingType" PartNo="14" BaseType="tns:Enumeration">
@@ -4769,6 +4808,7 @@
       <Field Name="SequenceNumber" BitMask="0004" />
       <Field Name="Timestamp" BitMask="0008" />
       <Field Name="Status" BitMask="0010" />
+      <Field Name="MessageType" BitMask="0020" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:JsonDataSetWriterMessageDataType" PartNo="14" BaseType="tns:DataSetWriterMessageDataType">
@@ -4782,15 +4822,74 @@
       <Field Name="DataSetMessageContentMask" DataType="tns:JsonDataSetMessageContentMask" />
     </Fields>
   </DataType>
+  <DataType SymbolicName="tns:QosDataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:Structure" IsAbstract="true" />
+  <DataType SymbolicName="tns:TransmitQosDataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:QosDataType" IsAbstract="true" />
+  <DataType SymbolicName="tns:TransmitQosPriorityDataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:TransmitQosDataType">
+    <Fields>
+      <Field Name="PriorityLabel" DataType="tns:String" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:TransmitQosBandwidthDataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:TransmitQosDataType">
+    <Fields>
+      <Field Name="MaxBytesPerInterval" DataType="tns:UInt32" />
+      <Field Name="MaxMessagesPerInterval" DataType="tns:UInt16" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:TransmitQosOffsetDataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:TransmitQosDataType">
+    <Fields>
+      <Field Name="TransmissionOffsetMin" DataType="tns:Duration" />
+      <Field Name="TransmissionOffsetMax" DataType="tns:Duration" />
+      <Field Name="TransmissionJitter" DataType="tns:Duration" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:ReceiveQosDataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:QosDataType" IsAbstract="true" />
+  <DataType SymbolicName="tns:ReceiveQosPriorityDataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:ReceiveQosDataType">
+    <Fields>
+      <Field Name="PriorityLabel" DataType="tns:String" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:ReceiveQosLatencyDataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:ReceiveQosDataType">
+    <Fields>
+      <Field Name="LatencyMax" DataType="tns:Duration" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:ReceiveQosOffsetDataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:ReceiveQosDataType">
+    <Fields>
+      <Field Name="ReceiveOffsetMin" DataType="tns:Duration" />
+      <Field Name="ReceiveOffsetMax" DataType="tns:Duration" />
+    </Fields>
+  </DataType>
   <DataType SymbolicName="tns:DatagramConnectionTransportDataType" PartNo="14" BaseType="tns:ConnectionTransportDataType">
     <Fields>
       <Field Name="DiscoveryAddress" DataType="tns:Structure" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:DatagramConnectionTransport2DataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:ConnectionTransportDataType">
+    <Fields>
+      <Field Name="DiscoveryAnnounceRate" DataType="tns:UInt32" />
+      <Field Name="DiscoveryMaxMessageSize" DataType="tns:UInt32" />
+      <Field Name="DatagramQoS" DataType="tns:QosDataType" ValueRank="Array" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:DatagramWriterGroupTransportDataType" PartNo="14" BaseType="tns:WriterGroupTransportDataType">
     <Fields>
       <Field Name="MessageRepeatCount" DataType="tns:Byte" />
       <Field Name="MessageRepeatDelay" DataType="tns:Duration" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:DatagramWriterGroupTransport2DataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:DatagramWriterGroupTransportDataType">
+    <Fields>
+      <Field Name="Address" DataType="tns:NetworkAddressDataType" />
+      <Field Name="DatagramQoS" DataType="tns:TransmitQosDataType" ValueRank="Array" />
+      <Field Name="DiscoveryAnnounceRate" DataType="tns:UInt32" />
+      <Field Name="Topic" DataType="tns:String" />
+    </Fields>
+  </DataType>
+  <DataType SymbolicName="tns:DatagramDataSetReaderTransportDataType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:DataSetWriterTransportDataType">
+    <Fields>
+      <Field Name="Address" DataType="tns:NetworkAddressDataType" />
+      <Field Name="DatagramQoS" DataType="tns:ReceiveQosDataType" ValueRank="Array" />
+      <Field Name="Topic" DataType="tns:String" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:BrokerConnectionTransportDataType" PartNo="14" BaseType="tns:ConnectionTransportDataType">
@@ -4914,9 +5013,19 @@
       <Method SymbolicName="tns:AddConnection" TypeDefinition="tns:AddConnectionMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:RemoveConnection" TypeDefinition="tns:RemoveConnectionMethodType" ModellingRule="Optional" />
       <Object SymbolicName="tns:PublishedDataSets" TypeDefinition="tns:DataSetFolderType" ModellingRule="Mandatory" />
+      <Object SymbolicName="tns:SubscribedDataSets" ReleaseStatus="Draft" TypeDefinition="tns:SubscribedDataSetFolderType" ModellingRule="Optional" />
       <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
       <Object SymbolicName="tns:Diagnostics" TypeDefinition="tns:PubSubDiagnosticsRootType" ModellingRule="Optional" />
+      <Object SymbolicName="tns:PubSubCapablities" ReleaseStatus="Draft" TypeDefinition="tns:PubSubCapabilitiesType" ModellingRule="Optional" />
+      <Object SymbolicName="tns:DataSetClasses" ReleaseStatus="Draft" TypeDefinition="tns:FolderType" ModellingRule="Optional">
+        <Children>
+          <Variable SymbolicName="tns:DataSetName_Placeholder" ModellingRule="OptionalPlaceholder" DataType="tns:DataSetMetaDataType">
+            <BrowseName>&lt;DataSetName&gt;</BrowseName>
+          </Variable>
+        </Children>
+      </Object>
       <Property SymbolicName="tns:SupportedTransportProfiles" ModellingRule="Mandatory" DataType="tns:String" ValueRank="Array" />
+      <Property SymbolicName="tns:ConfigCheckSum" ReleaseStatus="Draft" ModellingRule="Optional" DataType="tns:ByteString" />
     </Children>
   </ObjectType>
   <Object SymbolicName="tns:PublishSubscribe" PartNo="14" TypeDefinition="tns:PublishSubscribeType">
@@ -5155,11 +5264,34 @@
       </Object>
       <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
       <Object SymbolicName="tns:Diagnostics" TypeDefinition="tns:PubSubDiagnosticsConnectionType" ModellingRule="Optional" />
+      <Property SymbolicName="tns:ConfigCheckSum" ReleaseStatus="Draft" ModellingRule="Optional" DataType="tns:ByteString" />
+      <Method SymbolicName="tns:GetConnection" ReleaseStatus="Draft" TypeDefinition="tns:GetConnectionMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:ModifyConnection" ReleaseStatus="Draft" TypeDefinition="tns:ModifyConnectionMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:AddWriterGroup" TypeDefinition="tns:PubSubConnectionTypeAddWriterGroupMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:AddReaderGroup" TypeDefinition="tns:PubSubConnectionAddReaderGroupGroupMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:RemoveGroup" TypeDefinition="tns:PubSubConnectionTypeRemoveGroupMethodType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
+  <Method SymbolicName="tns:GetConnectionMethodType" PartNo="14" ReleaseStatus="Draft">
+    <InputArguments>
+      <Argument Name="IncludeChildren" DataType="tns:Boolean" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="Configuration" DataType="tns:PubSubConnectionDataType" />
+      <Argument Name="CheckSum" DataType="tns:ByteString" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:ModifyConnectionMethodType" PartNo="14" ReleaseStatus="Draft">
+    <InputArguments>
+      <Argument Name="Configuration" DataType="tns:PubSubConnectionDataType" />
+      <Argument Name="ModifyChildren" DataType="tns:Boolean" />
+      <Argument Name="CheckSum" DataType="tns:ByteString" />
+      <Argument Name="Force" DataType="tns:Boolean" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="NewCheckSum" DataType="tns:ByteString" />
+    </OutputArguments>
+  </Method>
   <Method SymbolicName="tns:PubSubConnectionTypeAddWriterGroupMethodType" PartNo="14">
     <InputArguments>
       <Argument Name="Configuration" DataType="tns:WriterGroupDataType" />
@@ -5207,11 +5339,34 @@
         <ReferenceType>tns:HasDataSetWriter</ReferenceType>
       </Object>
       <Object SymbolicName="tns:Diagnostics" TypeDefinition="tns:PubSubDiagnosticsWriterGroupType" ModellingRule="Optional" />
-      <Method SymbolicName="tns:AddDataSetWriter" TypeDefinition="tns:PubSubGroupTypeAddWriterrMethodType" ModellingRule="Optional" />
+      <Property SymbolicName="tns:ConfigCheckSum" ReleaseStatus="Draft" ModellingRule="Optional" DataType="tns:ByteString" />
+      <Method SymbolicName="tns:GetWriterGroup" ReleaseStatus="Draft" TypeDefinition="tns:GetWriterGroupMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:ModifyWriterGroup" ReleaseStatus="Draft" TypeDefinition="tns:ModifyWriterGroupMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:AddDataSetWriter" TypeDefinition="tns:PubSubGroupTypeAddWriterMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:RemoveDataSetWriter" TypeDefinition="tns:PubSubGroupTypeRemoveWriterMethodType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
-  <Method SymbolicName="tns:PubSubGroupTypeAddWriterrMethodType" PartNo="14">
+  <Method SymbolicName="tns:GetWriterGroupMethodType" PartNo="14" ReleaseStatus="Draft">
+    <InputArguments>
+      <Argument Name="IncludeChildren" DataType="tns:Boolean" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="Configuration" DataType="tns:WriterGroupDataType" />
+      <Argument Name="CheckSum" DataType="tns:ByteString" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:ModifyWriterGroupMethodType" PartNo="14" ReleaseStatus="Draft">
+    <InputArguments>
+      <Argument Name="Configuration" DataType="tns:WriterGroupDataType" />
+      <Argument Name="ModifyChildren" DataType="tns:Boolean" />
+      <Argument Name="CheckSum" DataType="tns:ByteString" />
+      <Argument Name="Force" DataType="tns:Boolean" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="NewCheckSum" DataType="tns:ByteString" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:PubSubGroupTypeAddWriterMethodType" PartNo="14">
     <InputArguments>
       <Argument Name="Configuration" DataType="tns:DataSetWriterDataType" />
     </InputArguments>
@@ -5241,10 +5396,33 @@
       <Object SymbolicName="tns:Diagnostics" TypeDefinition="tns:PubSubDiagnosticsReaderGroupType" ModellingRule="Optional" />
       <Object SymbolicName="tns:TransportSettings" TypeDefinition="tns:ReaderGroupTransportType" ModellingRule="Optional" />
       <Object SymbolicName="tns:MessageSettings" TypeDefinition="tns:ReaderGroupMessageType" ModellingRule="Optional" />
+      <Property SymbolicName="tns:ConfigCheckSum" ReleaseStatus="Draft" ModellingRule="Optional" DataType="tns:ByteString" />
+      <Method SymbolicName="tns:GetReaderGroup" ReleaseStatus="Draft" TypeDefinition="tns:GetReaderGroupMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:ModifyReaderGroup" ReleaseStatus="Draft" TypeDefinition="tns:ModifyReaderGroupMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:AddDataSetReader" TypeDefinition="tns:PubSubGroupTypeAddReaderMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:RemoveDataSetReader" TypeDefinition="tns:PubSubGroupTypeRemoveReaderMethodType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
+  <Method SymbolicName="tns:GetReaderGroupMethodType" PartNo="14" ReleaseStatus="Draft">
+    <InputArguments>
+      <Argument Name="IncludeChildren" DataType="tns:Boolean" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="Configuration" DataType="tns:ReaderGroupDataType" />
+      <Argument Name="CheckSum" DataType="tns:ByteString" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:ModifyReaderGroupMethodType" PartNo="14" ReleaseStatus="Draft">
+    <InputArguments>
+      <Argument Name="Configuration" DataType="tns:ReaderGroupDataType" />
+      <Argument Name="ModifyChildren" DataType="tns:Boolean" />
+      <Argument Name="CheckSum" DataType="tns:ByteString" />
+      <Argument Name="Force" DataType="tns:Boolean" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="NewCheckSum" DataType="tns:ByteString" />
+    </OutputArguments>
+  </Method>
   <Method SymbolicName="tns:PubSubGroupTypeAddReaderMethodType" PartNo="14">
     <InputArguments>
       <Argument Name="Configuration" DataType="tns:DataSetReaderDataType" />
@@ -5276,8 +5454,27 @@
       <Object SymbolicName="tns:MessageSettings" TypeDefinition="tns:DataSetWriterMessageType" ModellingRule="Optional" />
       <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
       <Object SymbolicName="tns:Diagnostics" TypeDefinition="tns:PubSubDiagnosticsDataSetWriterType" ModellingRule="Optional" />
+      <Property SymbolicName="tns:ConfigCheckSum" ReleaseStatus="Draft" ModellingRule="Optional" DataType="tns:ByteString" />
+      <Method SymbolicName="tns:GetDataSetWriter" ReleaseStatus="Draft" TypeDefinition="tns:GetDataSetWriterMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:ModifyDataSetWriter" ReleaseStatus="Draft" TypeDefinition="tns:ModifyDataSetWriterMethodType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
+  <Method SymbolicName="tns:GetDataSetWriterMethodType" PartNo="14" ReleaseStatus="Draft">
+    <OutputArguments>
+      <Argument Name="Configuration" DataType="tns:DataSetWriterDataType" />
+      <Argument Name="CheckSum" DataType="tns:ByteString" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:ModifyDataSetWriterMethodType" PartNo="14" ReleaseStatus="Draft">
+    <InputArguments>
+      <Argument Name="Configuration" DataType="tns:DataSetWriterDataType" />
+      <Argument Name="CheckSum" DataType="tns:ByteString" />
+      <Argument Name="Force" DataType="tns:Boolean" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="NewCheckSum" DataType="tns:ByteString" />
+    </OutputArguments>
+  </Method>
   <ObjectType SymbolicName="tns:DataSetWriterTransportType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true" />
   <ObjectType SymbolicName="tns:DataSetWriterMessageType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true" />
   <ObjectType SymbolicName="tns:DataSetReaderType" PartNo="14" BaseType="tns:BaseObjectType">
@@ -5299,12 +5496,31 @@
       <Object SymbolicName="tns:Status" TypeDefinition="tns:PubSubStatusType" ModellingRule="Mandatory" />
       <Object SymbolicName="tns:Diagnostics" TypeDefinition="tns:PubSubDiagnosticsDataSetReaderType" ModellingRule="Optional" />
       <Object SymbolicName="tns:SubscribedDataSet" TypeDefinition="tns:SubscribedDataSetType" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:ConfigCheckSum" ReleaseStatus="Draft" ModellingRule="Optional" DataType="tns:ByteString" />
+      <Method SymbolicName="tns:GetDataSetReader" ReleaseStatus="Draft" TypeDefinition="tns:GetDataSetReaderMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:ModifyDataSetReader" ReleaseStatus="Draft" TypeDefinition="tns:ModifyDataSetReaderMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:CreateTargetVariables" TypeDefinition="tns:DataSetReaderTypeCreateTargetVariablesMethodType" ModellingRule="Optional" />
       <Method SymbolicName="tns:CreateDataSetMirror" TypeDefinition="tns:DataSetReaderTypeCreateDataSetMirrorMethodType" ModellingRule="Optional" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:DataSetReaderTransportType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true" />
   <ObjectType SymbolicName="tns:DataSetReaderMessageType" PartNo="14" BaseType="tns:BaseObjectType" IsAbstract="true" />
+  <Method SymbolicName="tns:GetDataSetReaderMethodType" PartNo="14" ReleaseStatus="Draft">
+    <OutputArguments>
+      <Argument Name="Configuration" DataType="tns:DataSetReaderDataType" />
+      <Argument Name="CheckSum" DataType="tns:ByteString" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:ModifyDataSetReaderMethodType" PartNo="14" ReleaseStatus="Draft">
+    <InputArguments>
+      <Argument Name="Configuration" DataType="tns:DataSetReaderDataType" />
+      <Argument Name="CheckSum" DataType="tns:ByteString" />
+      <Argument Name="Force" DataType="tns:Boolean" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="NewCheckSum" DataType="tns:ByteString" />
+    </OutputArguments>
+  </Method>
   <Method SymbolicName="tns:DataSetReaderTypeCreateTargetVariablesMethodType" PartNo="14">
     <InputArguments>
       <Argument Name="ConfigurationVersion" DataType="tns:ConfigurationVersionDataType" />
@@ -5350,6 +5566,47 @@
     </OutputArguments>
   </Method>
   <ObjectType SymbolicName="tns:SubscribedDataSetMirrorType" PartNo="14" BaseType="tns:SubscribedDataSetType" />
+  <ObjectType SymbolicName="tns:SubscribedDataSetFolderType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:FolderType">
+    <Children>
+      <Object SymbolicName="tns:SubscribedDataSetFolderName_Placeholder" ReleaseStatus="Draft" TypeDefinition="tns:SubscribedDataSetFolderType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;SubscribedDataSetFolderName&gt;</BrowseName>
+        <ReferenceType>tns:Organizes</ReferenceType>
+      </Object>
+      <Object SymbolicName="tns:StandaloneSubscribedDataSetName_Placeholder" ReleaseStatus="Draft" TypeDefinition="tns:StandaloneSubscribedDataSetType" ModellingRule="OptionalPlaceholder">
+        <BrowseName>&lt;StandaloneSubscribedDataSetName&gt;</BrowseName>
+        <ReferenceType>tns:HasComponent</ReferenceType>
+      </Object>
+      <Method SymbolicName="tns:AddSubscribedDataSet" ReleaseStatus="Draft" TypeDefinition="tns:AddSubscribedDataSetMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:RemoveSubscribedDataSet" ReleaseStatus="Draft" TypeDefinition="tns:RemoveSubscribedDataSetMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:AddDataSetFolder" ReleaseStatus="Draft" TypeDefinition="tns:AddDataSetFolderMethodType" ModellingRule="Optional" />
+      <Method SymbolicName="tns:RemoveDataSetFolder" ReleaseStatus="Draft" TypeDefinition="tns:RemoveDataSetFolderMethodType" ModellingRule="Optional" />
+    </Children>
+  </ObjectType>
+  <Method SymbolicName="tns:AddSubscribedDataSetMethodType" PartNo="14" ReleaseStatus="Draft">
+    <InputArguments>
+      <Argument Name="SubscribedDataSet" DataType="tns:StandaloneSubscribedDataSetDataType" />
+    </InputArguments>
+    <OutputArguments>
+      <Argument Name="SubscribedDataSetNodeId" DataType="tns:NodeId" />
+    </OutputArguments>
+  </Method>
+  <Method SymbolicName="tns:RemoveSubscribedDataSetMethodType" PartNo="14" ReleaseStatus="Draft">
+    <InputArguments>
+      <Argument Name="SubscribedDataSetNodeId" DataType="tns:NodeId" />
+    </InputArguments>
+  </Method>
+  <Method SymbolicName="tns:RemoveDataSetFolder" PartNo="14" ReleaseStatus="Draft">
+    <InputArguments>
+      <Argument Name="DataSetFolderNodeId" DataType="tns:NodeId" />
+    </InputArguments>
+  </Method>
+  <ObjectType SymbolicName="tns:StandaloneSubscribedDataSetType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:BaseObjectType">
+    <Children>
+      <Object SymbolicName="tns:SubscribedDataSet" TypeDefinition="tns:SubscribedDataSetType" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:DataSetMetaData" ModellingRule="Mandatory" DataType="tns:DataSetMetaDataType" />
+      <Property SymbolicName="tns:IsConnected" ModellingRule="Mandatory" DataType="tns:Boolean" />
+    </Children>
+  </ObjectType>
   <ObjectType SymbolicName="tns:PubSubStatusType" PartNo="14" BaseType="tns:BaseObjectType">
     <Children>
       <Variable SymbolicName="tns:State" ModellingRule="Mandatory" DataType="tns:PubSubState" />
@@ -5857,6 +6114,16 @@
       </Object>
     </Children>
   </ObjectType>
+  <ObjectType SymbolicName="tns:PubSubCapabilitiesType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:BaseObjectType">
+    <Children>
+      <Property SymbolicName="tns:MaxPubSubConnections" ModellingRule="Mandatory" DataType="tns:UInt32" />
+      <Property SymbolicName="tns:MaxWriterGroups" ModellingRule="Mandatory" DataType="tns:UInt32" />
+      <Property SymbolicName="tns:MaxReaderGroups" ModellingRule="Mandatory" DataType="tns:UInt32" />
+      <Property SymbolicName="tns:MaxDataSetWriters" ModellingRule="Mandatory" DataType="tns:UInt32" />
+      <Property SymbolicName="tns:MaxDataSetReaders" ModellingRule="Mandatory" DataType="tns:UInt32" />
+      <Property SymbolicName="tns:MaxFieldsPerDataSet" ModellingRule="Mandatory" DataType="tns:UInt32" />
+    </Children>
+  </ObjectType>
   <ObjectType SymbolicName="tns:PubSubStatusEventType" PartNo="14" BaseType="tns:SystemEventType" IsAbstract="true">
     <Children>
       <Property SymbolicName="tns:ConnectionId" ModellingRule="Mandatory" DataType="tns:NodeId" />
@@ -5924,12 +6191,26 @@
   <ObjectType SymbolicName="tns:DatagramConnectionTransportType" PartNo="14" BaseType="tns:ConnectionTransportType">
     <Children>
       <Object SymbolicName="tns:DiscoveryAddress" TypeDefinition="tns:NetworkAddressType" ModellingRule="Mandatory" />
+      <Property SymbolicName="tns:DiscoveryAnnounceRate" ReleaseStatus="Draft" ModellingRule="Optional" DataType="tns:UInt32" />
+      <Property SymbolicName="tns:DiscoveryMaxMessageSize" ReleaseStatus="Draft" ModellingRule="Optional" DataType="tns:UInt32" />
+      <Property SymbolicName="tns:DatagramQoS" ReleaseStatus="Draft" ModellingRule="Optional" DataType="tns:QosDataType" ValueRank="Array" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:DatagramWriterGroupTransportType" PartNo="14" BaseType="tns:WriterGroupTransportType">
     <Children>
       <Property SymbolicName="tns:MessageRepeatCount" ModellingRule="Optional" DataType="tns:Byte" />
       <Property SymbolicName="tns:MessageRepeatDelay" ModellingRule="Optional" DataType="tns:Duration" />
+      <Object SymbolicName="tns:Address" ReleaseStatus="Draft" TypeDefinition="tns:NetworkAddressType" ModellingRule="Optional" />
+      <Property SymbolicName="tns:DatagramQos" ReleaseStatus="Draft" ModellingRule="Optional" DataType="tns:TransmitQosDataType" ValueRank="Array" />
+      <Property SymbolicName="tns:DiscoveryAnnounceRate" ReleaseStatus="Draft" ModellingRule="Optional" DataType="tns:UInt32" />
+      <Property SymbolicName="tns:Topic" ReleaseStatus="Draft" ModellingRule="Optional" DataType="tns:String" />
+    </Children>
+  </ObjectType>
+  <ObjectType SymbolicName="tns:DatagramDataSetReaderTransportType" PartNo="14" ReleaseStatus="Draft" BaseType="tns:WriterGroupTransportType">
+    <Children>
+      <Object SymbolicName="tns:Address" ReleaseStatus="Draft" TypeDefinition="tns:NetworkAddressType" ModellingRule="Optional" />
+      <Property SymbolicName="tns:DatagramQos" ReleaseStatus="Draft" ModellingRule="Optional" DataType="tns:ReceiveQosDataType" ValueRank="Array" />
+      <Property SymbolicName="tns:Topic" ReleaseStatus="Draft" ModellingRule="Optional" DataType="tns:String" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:BrokerConnectionTransportType" PartNo="14" BaseType="tns:ConnectionTransportType">
@@ -8070,7 +8351,7 @@
       <Field Name="LastMethodInputValues" DataType="tns:BaseDataType" ValueRank="Array" />
       <Field Name="LastMethodOutputValues" DataType="tns:BaseDataType" ValueRank="Array" />
       <Field Name="LastMethodCallTime" DataType="tns:UtcTime" />
-      <Field Name="LastMethodReturnStatus" DataType="tns:StatusResult" />
+      <Field Name="LastMethodReturnStatus" DataType="tns:StatusCode" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:Annotation" SymbolicId="tns:Annotation" PartNo="11" BaseType="tns:Structure" NoArraysAllowed="true">

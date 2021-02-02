@@ -240,7 +240,7 @@
   </opc:ComplexType>
   -->
 
-  <opc:ComplexType Name="OptionSet" AllowArrays="true" PartNo="3">
+  <opc:ComplexType Name="OptionSet" AllowArrays="true" IsAbstract="true" PartNo="3">
     <opc:Documentation>This abstract Structured DataType is the base DataType for all DataTypes representing a bit mask.</opc:Documentation>
     <opc:Field Name="Value" DataType="s0:ByteString">
       <opc:Documentation>Array of bytes representing the bits in the option set.</opc:Documentation>

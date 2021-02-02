@@ -2800,7 +2800,7 @@
       <Property SymbolicName="tns:SuppressedOrShelved" ModellingRule="Mandatory" DataType="tns:Boolean" />
       <Property SymbolicName="tns:MaxTimeShelved" ModellingRule="Optional" DataType="tns:Duration" />
       <Property SymbolicName="tns:AudibleEnabled" ModellingRule="Optional" DataType="tns:Boolean" />
-      <Property SymbolicName="tns:AudibleSound" TypeDefinition="tns:AudioVariableType" ModellingRule="Optional" DataType="tns:AudioDataType" />
+      <Variable SymbolicName="tns:AudibleSound" TypeDefinition="tns:AudioVariableType" ModellingRule="Optional" DataType="tns:AudioDataType" />
       <Variable SymbolicName="tns:SilenceState" TypeDefinition="tns:TwoStateVariableType" ModellingRule="Optional">
         <Children>
           <Property SymbolicName="tns:TransitionTime" ModellingRule="Optional" DataType="tns:UtcTime" />
@@ -8059,7 +8059,7 @@
       <Field Name="LastMethodInputArguments" DataType="tns:Argument" ValueRank="Array" />
       <Field Name="LastMethodOutputArguments" DataType="tns:Argument" ValueRank="Array" />
       <Field Name="LastMethodCallTime" DataType="tns:UtcTime" />
-      <Field Name="LastMethodReturnStatus" DataType="tns:StatusResult" />
+      <Field Name="LastMethodReturnStatus" DataType="tns:StatusCode" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ProgramDiagnostic2DataType" SymbolicId="tns:ProgramDiagnostic2DataType" PartNo="10" BaseType="tns:Structure" NoArraysAllowed="true">
@@ -8075,7 +8075,7 @@
       <Field Name="LastMethodInputValues" DataType="tns:BaseDataType" ValueRank="Array" />
       <Field Name="LastMethodOutputValues" DataType="tns:BaseDataType" ValueRank="Array" />
       <Field Name="LastMethodCallTime" DataType="tns:UtcTime" />
-      <Field Name="LastMethodReturnStatus" DataType="tns:StatusResult" />
+      <Field Name="LastMethodReturnStatus" DataType="tns:StatusCode" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:Annotation" SymbolicId="tns:Annotation" PartNo="11" BaseType="tns:Structure" NoArraysAllowed="true">
