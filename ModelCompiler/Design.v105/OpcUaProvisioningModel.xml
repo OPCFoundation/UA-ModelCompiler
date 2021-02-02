@@ -229,7 +229,7 @@
 
   <opc:Method SymbolicName="SetRegistrarEndpointsMethodType">
     <opc:InputArguments>
-      <opc:Argument Name="Registrars" DataType="ua:ByteString" ValueRank="Array"></opc:Argument>
+      <opc:Argument Name="Registrars" DataType="ua:ApplicationDescription" ValueRank="Array"></opc:Argument>
     </opc:InputArguments>
   </opc:Method>
 

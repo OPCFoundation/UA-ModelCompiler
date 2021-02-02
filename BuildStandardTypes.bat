@@ -36,7 +36,7 @@ set GDS_TARGET=
 set DI_TARGET=
 set ADI_TARGET=
 set NODESET_TARGET=.\Tests\NodeSetTest
-set PROVISIONING_TARGET=
+set PROVISIONING_TARGET=D:\Work\OPC\UA-.NETStandard-Prototypes\Libraries\Opc.Ua.Gds.Server.Common\Provisioning\
 REM Make sure that all of our output locations exist.
 
 IF NOT "%1"=="v104" (set DOTNET_TARGET=)

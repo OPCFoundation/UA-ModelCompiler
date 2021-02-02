@@ -7,8 +7,8 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   TargetNamespace="http://opcfoundation.org/UA/DI/"
   TargetXmlNamespace="http://opcfoundation.org/UA/DI/"
-  TargetVersion="1.02.2"
-  TargetPublicationDate="2020-06-02T00:00:00Z"
+  TargetVersion="1.03.0"
+  TargetPublicationDate="2021-03-01T00:00:00Z"
   xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
 
   <Namespaces>
@@ -26,12 +26,12 @@
       </Property>
       <Property SymbolicName="OpcUa:NamespaceVersion" DataType="OpcUa:String">
         <DefaultValue>
-          <uax:String>1.02.2</uax:String>
+          <uax:String>1.03.0</uax:String>
         </DefaultValue>
       </Property>
       <Property SymbolicName="OpcUa:NamespacePublicationDate" DataType="OpcUa:DateTime">
         <DefaultValue>
-          <uax:DateTime>2020-06-02</uax:DateTime>
+          <uax:DateTime>2021-03-01</uax:DateTime>
         </DefaultValue>
       </Property>
       <Property SymbolicName="OpcUa:IsNamespaceSubset" DataType="OpcUa:Boolean">
@@ -363,11 +363,11 @@
     </Children>
   </ObjectType>
 
-  <ObjectType SymbolicName="DI:DeviceHealthDiagnosticAlarmType" BaseType="OpcUa:InstrumentDiagnosticAlarmType" IsAbstract="false" />
-  <ObjectType SymbolicName="DI:FailureAlarmType" BaseType="DI:DeviceHealthDiagnosticAlarmType" IsAbstract="true" />
-  <ObjectType SymbolicName="DI:CheckFunctionAlarmType" BaseType="DI:DeviceHealthDiagnosticAlarmType" IsAbstract="true" />
-  <ObjectType SymbolicName="DI:OffSpecAlarmType" BaseType="DI:DeviceHealthDiagnosticAlarmType" IsAbstract="true" />
-  <ObjectType SymbolicName="DI:MaintenanceRequiredAlarmType" BaseType="DI:DeviceHealthDiagnosticAlarmType" IsAbstract="true" />
+  <ObjectType SymbolicName="DI:DeviceHealthDiagnosticAlarmType" BaseType="OpcUa:InstrumentDiagnosticAlarmType" IsAbstract="true" />
+  <ObjectType SymbolicName="DI:FailureAlarmType" BaseType="DI:DeviceHealthDiagnosticAlarmType" IsAbstract="false" />
+  <ObjectType SymbolicName="DI:CheckFunctionAlarmType" BaseType="DI:DeviceHealthDiagnosticAlarmType" IsAbstract="false" />
+  <ObjectType SymbolicName="DI:OffSpecAlarmType" BaseType="DI:DeviceHealthDiagnosticAlarmType" IsAbstract="false" />
+  <ObjectType SymbolicName="DI:MaintenanceRequiredAlarmType" BaseType="DI:DeviceHealthDiagnosticAlarmType" IsAbstract="false" />
 
   <ObjectType SymbolicName="DI:ConfigurableObjectType" BaseType="OpcUa:BaseObjectType">
     <Description>Defines a general pattern to expose and configure modular components</Description>
@@ -594,7 +594,7 @@
       </Object>
       <Variable SymbolicName="DI:UpdateStatus" DataType="OpcUa:LocalizedText" ModellingRule="Optional">
       </Variable>
-      <Variable SymbolicName="DI:ErrorCode" DataType="OpcUa:Int32" ModellingRule="Optional">
+      <Variable SymbolicName="DI:VendorErrorCode" DataType="OpcUa:Int32" ModellingRule="Optional">
       </Variable>
       <Property SymbolicName="OpcUa:DefaultInstanceBrowseName" DataType="OpcUa:QualifiedName" ModellingRule="None">
         <DefaultValue>
@@ -847,7 +847,7 @@
 	  <Argument Name="NodeIds" DataType="OpcUa:NodeId" ValueRank="Array"/>
 	</InputArguments>
 	<OutputArguments>
-	  <Argument Name="ErrorCode" DataType="OpcUa:UInt32" />
+	  <Argument Name="ErrorCode" DataType="OpcUa:Int32" />
 	  <Argument Name="ErrorMessage" DataType="OpcUa:LocalizedText" />
 	</OutputArguments>
   </Method>
