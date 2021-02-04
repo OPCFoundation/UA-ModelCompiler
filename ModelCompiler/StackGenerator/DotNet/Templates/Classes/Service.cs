@@ -14,13 +14,17 @@ public partial class _NAME_Response : IServiceResponse
 /// </summary>
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+#if (!NET_STANDARD)
 [MessageContract(IsWrapped=false)]
+#endif
 public class _NAME_Message : IServiceMessage
 {
     /// <summary>
     /// The body of the message.
     /// </summary>
+    #if (!NET_STANDARD)
     [MessageBodyMember(Namespace = Namespaces._TypesNamespace_, Order = 0)]
+    #endif
     public _NAME_Request _NAME_Request;
 
     /// <summary>
@@ -66,13 +70,17 @@ public class _NAME_Message : IServiceMessage
 /// </summary>
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+#if (!NET_STANDARD)
 [MessageContract(IsWrapped=false)]
+#endif
 public class _NAME_ResponseMessage
 {
     /// <summary>
     /// The body of the message.
     /// </summary>
+    #if (!NET_STANDARD)
     [MessageBodyMember(Namespace=Namespaces._TypesNamespace_, Order=0)]
+    #endif
     public _NAME_Response _NAME_Response;
 
     /// <summary>

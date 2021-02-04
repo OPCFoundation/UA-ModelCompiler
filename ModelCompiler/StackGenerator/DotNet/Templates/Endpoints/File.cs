@@ -29,12 +29,19 @@
  * ======================================================================*/
 
 using System;
+
+#if (!NET_STANDARD)
 using System.Collections.Generic;
 using System.Xml;
 using System.Threading;
 using System.Security.Principal;
 using System.ServiceModel;
 using System.Runtime.Serialization;
+#endif
+
+#if (NET_STANDARD_ASYNC)
+using System.Threading.Tasks;
+#endif
 
 namespace _Prefix_
 {

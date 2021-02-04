@@ -202,7 +202,7 @@ namespace CodeGenerator
                 "InvokeService();",
                 null,
                 new ServiceType[] { serviceType } ,
-                new LoadTemplateEventHandler(LoadTemplate_InvokeServiceParameters),
+                new LoadTemplateEventHandler(LoadTemplate_InvokeServiceSyncParameters),
                 null);
 
             AddTemplate(
@@ -219,7 +219,7 @@ namespace CodeGenerator
         /// <summary>
         /// Writes a synchronous method declaration.
         /// </summary>
-        private string LoadTemplate_InvokeServiceParameters(Template template, Context context)
+        private string LoadTemplate_InvokeServiceSyncParameters(Template template, Context context)
         {
             ServiceType serviceType = context.Target as ServiceType;
 
@@ -368,7 +368,15 @@ namespace CodeGenerator
                 TemplatePath + "ServerApi.InterfaceMethod.cs",
                 datatypes,
                 null,
-                new WriteTemplateEventHandler(WriteTemplate_InterfaceMethod));
+                new WriteTemplateEventHandler(WriteTemplate_InterfaceSyncMethod));
+
+            AddTemplate(
+                template,
+                "// _ServerAsyncApi_",
+                TemplatePath + "ServerApi.InterfaceMethod.cs",
+                datatypes,
+                null,
+                new WriteTemplateEventHandler(WriteTemplate_InterfaceAsyncMethod));
 
             AddTemplate(
                 template,
@@ -384,7 +392,7 @@ namespace CodeGenerator
         /// <summary>
         /// Copies the response paramaters into the request object.
         /// </summary>
-        private bool WriteTemplate_InterfaceMethod(Template template, Context context)
+        private bool WriteTemplate_InterfaceSyncMethod(Template template, Context context)
         {
             ServiceType serviceType = context.Target as ServiceType;
 
@@ -401,6 +409,33 @@ namespace CodeGenerator
                 null,
                 new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_SyncParameters),
+                null);
+
+            bool result = template.WriteTemplate(context);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Copies the response paramaters into the request object.
+        /// </summary>
+        private bool WriteTemplate_InterfaceAsyncMethod(Template template, Context context)
+        {
+            ServiceType serviceType = context.Target as ServiceType;
+
+            if (serviceType == null)
+            {
+                return false;
+            }
+
+            template.AddReplacement("_NAME_", serviceType.Name);
+
+            AddTemplate(
+                template,
+                "void Interface();",
+                null,
+                new ServiceType[] { serviceType },
+                new LoadTemplateEventHandler(LoadTemplate_AsyncParameters),
                 null);
 
             bool result = template.WriteTemplate(context);
@@ -584,6 +619,14 @@ namespace CodeGenerator
 
             AddTemplate(
                 template,
+                "void AsyncCall()",
+                null,
+                new ServiceType[] { serviceType },
+                new LoadTemplateEventHandler(LoadTemplate_AsyncParameters),
+                null);
+
+            AddTemplate(
+                template,
                 "void BeginAsyncCall()",
                 null,
                 new ServiceType[] { serviceType } ,
@@ -648,6 +691,56 @@ namespace CodeGenerator
             }
 
             template.Write("{0} {1}(", GetReturnType(serviceType), serviceType.Name);
+
+            WriteParameters(template, context, types, names, length);
+
+            // write closing semicolon for interface.
+            if (context.Token.IndexOf("Interface") != -1)
+            {
+                template.Write(";");
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Writes an asynchronous method declaration.
+        /// </summary>
+        private string LoadTemplate_AsyncParameters(Template template, Context context)
+        {
+            ServiceType serviceType = context.Target as ServiceType;
+
+            if (serviceType == null)
+            {
+                return null;
+            }
+
+            int length = 0;
+
+            List<string> types = new List<string>();
+            List<string> names = new List<string>();
+
+            CollectParameters(serviceType.Request, false, types, names, ref length);
+
+            string tokenType = "CancellationToken";
+            if (tokenType.Length > length)
+            {
+                length = tokenType.Length;
+            }
+            types.Add(tokenType);
+            names.Add("ct");
+
+            // write method declaration.
+            template.WriteLine(String.Empty);
+            template.Write(context.Prefix);
+
+            // write method type if not writing an interface declaration.
+            if (context.Token.IndexOf("Interface") == -1)
+            {
+                template.Write("public virtual async ");
+            }
+
+            template.Write("Task<{0}Response> {1}Async(", serviceType.Name, serviceType.Name);
 
             WriteParameters(template, context, types, names, length);
 

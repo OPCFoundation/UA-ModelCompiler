@@ -30,9 +30,11 @@
 
 using System;
 using System.Collections.Generic;
+#if (!NET_STANDARD)
 using System.Xml;
 using System.ServiceModel;
 using System.Runtime.Serialization;
+#endif
 
 namespace _Prefix_
 {

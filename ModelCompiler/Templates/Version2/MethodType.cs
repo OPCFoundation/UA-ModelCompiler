@@ -83,7 +83,7 @@ public partial class _ClassName_ : MethodState
 
         if (OnCall != null)
         {
-            result = OnCall(context);
+            result = OnCall(_context);
         }
         // ListOfOutputArguments
 

@@ -31,6 +31,11 @@
 using System;
 using System.Collections.Generic;
 
+#if (NET_STANDARD_ASYNC)
+using System.Threading;
+using System.Threading.Tasks;
+#endif
+
 namespace _Prefix_
 {
     // _SERVICESETS_
