@@ -812,43 +812,39 @@
     <opc:Documentation>The operation could not be finished because all available connections are in use.</opc:Documentation>
   </opc:Constant>
 
-
-  <!-- FF and Profibus Codes  -->
-  <opc:Constant Name="Bad_OSSInMAN">
-    <opc:Documentation>Transducer in MAN (FF).</opc:Documentation>
-  </opc:Constant>
-  <opc:Constant Name="Bad_SIS">
-    <opc:Documentation>SIS (FF).</opc:Documentation>
-  </opc:Constant>
-  <opc:Constant Name="Uncertain_OSSInMAN">
-    <opc:Documentation>Transducer in MAN (FF).</opc:Documentation>
+  <!-- OPATH Codes  -->  
+  <opc:Constant Name="Uncertain_TransducerInManual">
+    <opc:Documentation>The value may not be accurate because the transducer is in manual mode.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Uncertain_SimulatedValue">
-    <opc:Documentation>Simulated Value (PROFIBUS).</opc:Documentation>
+    <opc:Documentation>The value is simulated.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Uncertain_SensorCalibration">
-    <opc:Documentation>Sensor Calibration (PROFIBUS).</opc:Documentation>
+    <opc:Documentation>The value may not be accurate due to a sensor calibration fault.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Uncertain_ConfigurationError">
-    <opc:Documentation>Configuration Error (PROFIBUS).</opc:Documentation>
+    <opc:Documentation>The value may not be accurate due to a configuration issue.</opc:Documentation>
   </opc:Constant>
-  <opc:Constant Name="Good_InitializationAcknowledged">
-    <opc:Documentation>Initialization Acknowledged (IA).</opc:Documentation>
+  <opc:Constant Name="Good_CascadeInitializationAcknowledged">
+    <opc:Documentation>The value source supports cascade handshaking and the value has been Initialized based on an initialization request from a cascade secondary.</opc:Documentation>
   </opc:Constant>
-  <opc:Constant Name="Good_InitializationRequest">
-    <opc:Documentation>Initialization Request (IR).</opc:Documentation>
+  <opc:Constant Name="Good_CascadeInitializationRequest">
+    <opc:Documentation>The value source supports cascade handshaking and is requesting initialization of a cascade primary.</opc:Documentation>
   </opc:Constant>
-  <opc:Constant Name="Good_NotInvited">
-    <opc:Documentation>Not Invited (NI).</opc:Documentation>
+  <opc:Constant Name="Good_CascadeNotInvited">
+    <opc:Documentation>The value source supports cascade handshaking, however, the source’s current state does not allow for cascade.</opc:Documentation>
   </opc:Constant>
-  <opc:Constant Name="Good_NotSelected">
-    <opc:Documentation>[Not Selected (NS) (FF)] or [Do Not Select (PA)].</opc:Documentation>
+  <opc:Constant Name="Good_CascadeNotSelected">
+    <opc:Documentation>The value source supports cascade handshaking, however, the source has not selected the corresponding cascade primary for use.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Good_FaultStateActive">
-    <opc:Documentation>Fault State Active (FSA) (FF).</opc:Documentation>
+    <opc:Documentation>There is a fault state condition active in the value source.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Good_InitiateFaultState">
-    <opc:Documentation>Initiate Fault State (IFS).</opc:Documentation>
+    <opc:Documentation>A fault state condition is being requested of the destination.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Good_Cascade">
+    <opc:Documentation>The value is accurate, and the signal source supports cascade handshaking.</opc:Documentation>
   </opc:Constant>
 
 </opc:TypeDictionary>

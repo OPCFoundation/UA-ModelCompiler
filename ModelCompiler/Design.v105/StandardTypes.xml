@@ -1849,6 +1849,7 @@
       <opc:Field Name="GroupId" Identifier="4" />
       <opc:Field Name="Anonymous" Identifier="5" />
       <opc:Field Name="AuthenticatedUser" Identifier="6" />
+      <opc:Field Name="Application" Identifier="7" />
     </opc:Fields>
   </opc:DataType>
 
