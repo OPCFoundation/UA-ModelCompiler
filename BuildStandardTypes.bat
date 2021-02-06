@@ -1,4 +1,4 @@
-@ECHO on
+@ECHO off
 REM ****************************************************************************************************************
 REM ** --
 REM ** This script demonstrates how to use the model compiler to generate source code from a variety

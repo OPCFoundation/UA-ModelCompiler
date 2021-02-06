@@ -2,7 +2,6 @@
 using System.IO;
 using System.Xml;
 using System.Collections.Generic;
-using Microsoft.Net.Http.Headers;
 using Opc.Ua;
 using Opc.Ua.UANodeSet;
 

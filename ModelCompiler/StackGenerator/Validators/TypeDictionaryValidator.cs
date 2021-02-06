@@ -183,7 +183,11 @@ namespace CodeGenerator
                 return;
             }
 
-            TypeDictionary dictionary = (TypeDictionary)Load(typeof(TypeDictionary), directive.Namespace, directive.Location);
+            TypeDictionary dictionary = (TypeDictionary)Load(
+                typeof(TypeDictionary), 
+                directive.Namespace, 
+                directive.Location,
+                Assembly.GetExecutingAssembly());
 
             // verify namespace.
             if (!String.IsNullOrEmpty(dictionary.TargetNamespace) && directive.Namespace != dictionary.TargetNamespace)
