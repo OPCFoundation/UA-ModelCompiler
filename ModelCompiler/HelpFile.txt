@@ -5,7 +5,7 @@ Generates classes that implement a UA information model.
 -? Prints this help text
 -d2 The path to the XML file which contains the UA information model. New version of code generator is used (option -stack forces to use -d2 switch)
 -c The path to the CSV file which contains the unique identifiers for the types defined in the UA information model.
--cg Generates the unique identifier CSV file instead of reading it (used instead of the -c option).
+-cg Creates the identifier file if it does not exist (used instead of the -c option).
 -o The output directory for a single file output.
 -o2 The output directory for a multiple file output.
 -id The start identifier
