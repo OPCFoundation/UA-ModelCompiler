@@ -29,6 +29,7 @@ public partial class _TypeName_State : _BaseType_State<BaseT>
     /// </summary>
     public override void Initialize(ISystemContext context)
     {
+        base.Initialize(context);
         System.IO.StringReader reader = new System.IO.StringReader(InitializationString);
         LoadFromXml(context, reader);
     }
@@ -107,6 +108,7 @@ public partial class _ClassName_State : _BaseClassName_State<BaseT>
     /// </summary>
     protected override void Initialize(ISystemContext context)
     {
+        base.Initialize(context);
         Initialize(context, InitializationString);
         InitializeOptionalChildren(context);
     }
