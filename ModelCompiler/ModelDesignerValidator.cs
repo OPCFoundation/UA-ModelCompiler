@@ -970,8 +970,9 @@ namespace ModelCompiler
             }
 
             ranges.Add(new NumericRange(start, Int32.MaxValue).ToString());
-
-            if (metadata.Hierarchy.NodeList != null)
+            
+            // Fix avoid a null metadata in some cases
+            if ((metadata != null) && (metadata.Hierarchy.NodeList != null))
             {
                 foreach (var child in metadata.Hierarchy.NodeList)
                 {
