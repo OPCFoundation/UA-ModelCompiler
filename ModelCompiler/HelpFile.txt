@@ -15,4 +15,5 @@ Generates classes that implement a UA information model.
 -console The output goes to the standard error output (console) instead of error window
 -exclude Excludes types based on thier ReleaseStatus and/or Category. A simple string compare is used to test.
 -version Selects the source for the input files. v103 | v104 are supported.
+-useAllowSubtypes When subtypes are allowed for a field, C# code with the class name from the model is created instead of ExtensionObject. No effect when subtypes are not allowed.
 

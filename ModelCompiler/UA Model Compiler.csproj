@@ -45,7 +45,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>$(SolutionDir)Bin\$(Configuration)</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET_STANDARD</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -56,7 +56,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>$(SolutionDir)Bin\$(Configuration)</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;NET_STANDARD</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -294,16 +294,6 @@
     </EmbeddedResource>
     <Content Include="Design.v104\UA Defined Types.xml" />
     <EmbeddedResource Include="Design.v104\UA Status Codes.xml" />
-    <EmbeddedResource Include="Design.v105\OpcUaDiModel.xml" />
-    <EmbeddedResource Include="Design.v105\OpcUaGdsModel.xml" />
-    <EmbeddedResource Include="Design.v105\OpcUaProvisioningModel.xml" />
-    <EmbeddedResource Include="Design.v105\StandardTypes.xml" />
-    <EmbeddedResource Include="Design.v105\UA Attributes.xml" />
-    <EmbeddedResource Include="Design.v105\UA Core Services.xml" />
-    <EmbeddedResource Include="Design.v105\BuiltInTypes.xml" />
-    <Content Include="Design.v105\OpcUaNodeSetModel.xml" />
-    <Content Include="Design.v105\UA Defined Types.xml" />
-    <Content Include="Design.v105\UA Status Codes.xml" />
     <Content Include="StackGenerator\Validators\UA Type Dictionary.xsd">
       <SubType>
       </SubType>

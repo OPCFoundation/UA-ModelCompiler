@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2019 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2021 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  *
@@ -202,6 +202,7 @@ namespace ModelCompiler
                 bool useXmlInitializers = false;
                 string[] excludeCategories = null;
                 bool includeDisplayNames = false;
+                bool useAllowSubtypes = false;
 
                 bool updateHeaders = false;
                 string inputDirectory = ".";
@@ -381,6 +382,12 @@ namespace ModelCompiler
                         excludeCategories = tokens[++ii].Split(',', '+');
                         continue;
                     }
+
+                    if (tokens[ii] == "-useAllowSubtypes")
+                    {
+                        useAllowSubtypes = true;
+                        continue;
+                    }
                 }
 
                 if (updateHeaders)
@@ -419,7 +426,12 @@ namespace ModelCompiler
                     File.Create(identifierFile).Close();
                 }
 
-                generator.ValidateAndUpdateIds(designFiles, identifierFile, startId, specificationVersion);
+                generator.ValidateAndUpdateIds(
+                    designFiles,
+                    identifierFile,
+                    startId, 
+                    specificationVersion,
+                    useAllowSubtypes);
 
                 if (!String.IsNullOrEmpty(stackRootDir))
                 {

@@ -156,8 +156,14 @@ namespace CodeGenerator {
         
         private int valueRankField;
         
+        private bool isOptionalField;
+        
+        private bool allowSubtypesField;
+        
         public FieldType() {
             this.valueRankField = -1;
+            this.isOptionalField = false;
+            this.allowSubtypesField = false;
         }
         
         /// <remarks/>
@@ -213,6 +219,30 @@ namespace CodeGenerator {
                 this.valueRankField = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public bool IsOptional {
+            get {
+                return this.isOptionalField;
+            }
+            set {
+                this.isOptionalField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public bool AllowSubtypes {
+            get {
+                return this.allowSubtypesField;
+            }
+            set {
+                this.allowSubtypesField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -233,10 +263,13 @@ namespace CodeGenerator {
         
         private bool isAbstractField;
         
+        private bool isUnionField;
+        
         public ComplexType() {
             this.xmlEncodingIdField = 0;
             this.binaryEncodingIdField = 0;
             this.isAbstractField = false;
+            this.isUnionField = false;
         }
         
         /// <remarks/>
@@ -294,6 +327,18 @@ namespace CodeGenerator {
             }
             set {
                 this.isAbstractField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public bool IsUnion {
+            get {
+                return this.isUnionField;
+            }
+            set {
+                this.isUnionField = value;
             }
         }
     }

@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2019 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2021 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  *
@@ -82,7 +82,12 @@ namespace ModelCompiler
         /// <summary>
         /// Generates the source code files.
         /// </summary>
-        public virtual void ValidateAndUpdateIds(IList<string> designFilePaths, string identifierFilePath, uint startId, string specificationVersion)
+        public virtual void ValidateAndUpdateIds(
+            IList<string> designFilePaths, 
+            string identifierFilePath, 
+            uint startId, 
+            string specificationVersion,
+            bool useAllowSubtypes)
         {
             m_validator = new ModelCompilerValidator(startId);
 
@@ -100,6 +105,7 @@ namespace ModelCompiler
                 m_validator.EmbeddedModelDesignPath = $"{m_validator.EmbeddedModelDesignPath}.v104";
             }
 
+            m_validator.UseAllowSubtypes = useAllowSubtypes;
             m_validator.Validate2(designFilePaths, identifierFilePath, false);
             m_model = m_validator.Dictionary;
         }
@@ -160,9 +166,12 @@ namespace ModelCompiler
         {
             foreach (var ii in source)
             {
-                if (!NodeId.IsNull(ii.NodeId) && !String.IsNullOrEmpty(ii.NodeSetDocumentation))
+                if (!NodeId.IsNull(ii.NodeId))
                 {
-                    map[ii.NodeId] = ii;
+                    if (!String.IsNullOrEmpty(ii.NodeSetDocumentation) || ii.Categories?.Count > 0)
+                    {
+                        map[ii.NodeId] = ii;
+                    }
                 }
 
                 IList<BaseInstanceState> children = new List<BaseInstanceState>();
@@ -175,11 +184,12 @@ namespace ModelCompiler
         {
             foreach (var ii in updated)
             {
-                NodeState existingNode = null;
+                NodeState existingNode;
 
                 if (original.TryGetValue(ii.NodeId, out existingNode))
                 {
                     ii.NodeSetDocumentation = existingNode.NodeSetDocumentation;
+                    ii.Categories = existingNode.Categories;
                 }
 
                 IList<BaseInstanceState> children = new List<BaseInstanceState>();
@@ -1685,7 +1695,7 @@ namespace ModelCompiler
                             return GetBinaryDataType((DataTypeDesign)dataType.BaseTypeNode);
                         }
 
-                        return String.Format("ua:Int32");
+                        return String.Format("opc:Int32");
                     }
 
                     string prefix = "tns";
@@ -3327,6 +3337,24 @@ namespace ModelCompiler
 
                 case BasicDataType.UserDefined:
                 {
+                    if (field.AllowSubtypes)
+                    {
+                        if (field.ValueRank == ValueRank.Array)
+                        { 
+                            template.Write($"encoder.WriteExtensionObjectArray(\"{field.Name}\", ExtensionObjectCollection.ToExtensionObjects({field.Name}));");
+                            return context.TemplatePath;
+                        }
+
+                        if (field.ValueRank == ValueRank.Scalar)
+                        {
+                            template.Write($"encoder.WriteExtensionObject(\"{field.Name}\", new ExtensionObject({field.Name}));");
+                            return context.TemplatePath;
+                        }
+
+                        template.Write($"encoder.WriteVariant(\"{field.Name}\", {field.Name});");
+                        return context.TemplatePath;
+                    }
+
                     functionName = "Encodeable";
                     elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
 
@@ -3418,6 +3446,27 @@ namespace ModelCompiler
 
                 case BasicDataType.UserDefined:
                 {
+                    if (field.AllowSubtypes)
+                    {
+                        template.Write($"{valueName} = ");
+                        elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
+
+                        if (field.ValueRank == ValueRank.Array)
+                        { 
+                            template.Write($"({elementName}[])ExtensionObject.ToArray(decoder.ReadExtensionObjectArray(\"{field.Name}\"), typeof({elementName}));");
+                            return context.TemplatePath;
+                        }
+
+                        if (field.ValueRank == ValueRank.Scalar)
+                        {
+                            template.Write($"({elementName})ExtensionObject.ToEncodeable(decoder.ReadExtensionObject(\"{field.Name}\"));");
+                            return context.TemplatePath;
+                        }
+
+                        template.Write($"decoder.ReadVariant(\"{field.Name}\");");
+                        return context.TemplatePath;
+                    }
+
                     functionName = "Encodeable";
                     elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
                     break;
@@ -3772,6 +3821,11 @@ namespace ModelCompiler
                     {
                         if (field.DataTypeNode.BasicDataType == BasicDataType.UserDefined || field.ValueRank == ValueRank.Array)
                         {
+                            if (field.AllowSubtypes && (field.ValueRank != ValueRank.Array && field.ValueRank != ValueRank.Scalar))
+                            {
+                                return TemplatePath + "Version2.DataTypes.Property.cs";
+                            }
+
                             return TemplatePath + "Version2.DataTypes.ArrayProperty.cs";
                         }
 

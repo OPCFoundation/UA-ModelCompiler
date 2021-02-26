@@ -1,0 +1,17 @@
+DemoModel_BinarySchema,24,Variable
+DemoModel_XmlSchema,9,Variable
+HeaterStatus,1,DataType
+Signal,36,Object
+TrafficView,40,View
+Vector,3,DataType
+Vector_Encoding_DefaultBinary,21,Object
+Vector_Encoding_DefaultJson,43,Object
+Vector_Encoding_DefaultXml,6,Object
+WorkOrderStatusType,4,DataType
+WorkOrderStatusType_Encoding_DefaultBinary,22,Object
+WorkOrderStatusType_Encoding_DefaultJson,44,Object
+WorkOrderStatusType_Encoding_DefaultXml,7,Object
+WorkOrderType,5,DataType
+WorkOrderType_Encoding_DefaultBinary,23,Object
+WorkOrderType_Encoding_DefaultJson,45,Object
+WorkOrderType_Encoding_DefaultXml,8,Object

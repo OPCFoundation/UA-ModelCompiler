@@ -3,11 +3,17 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>DemoModel</AssemblyName>
+    <RootNamespace>DemoModel</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\build\bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>..\build\obj\$(Configuration)\UaBase\</IntermediateOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;NET_STANDARD</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

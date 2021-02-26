@@ -9,7 +9,7 @@ REM ****************************************************************************
 SETLOCAL
 
 set MODELCOMPILER=.\Bin\Release\Opc.Ua.ModelCompiler.exe
-set OUTPUT=..\nodesets
+set OUTPUT=..\..
 set INPUT=.\ModelCompiler\Design
 set CSVINPUT=.\ModelCompiler\CSVs
 
@@ -41,7 +41,11 @@ set GDS_TARGET=
 set DI_TARGET=
 set ADI_TARGET=
 set NODESET_TARGET=.\Tests\NodeSetTest
+set DEMOMODEL_TARGET=.\Tests\DemoModel
 set PROVISIONING_TARGET=D:\Work\OPC\UA-.NETStandard-Prototypes\Libraries\Opc.Ua.Gds.Server.Common\Provisioning\
+set USEALLOWSUBTYPES=
+REM set USEALLOWSUBTYPES=-useAllowSubtypes
+
 REM Make sure that all of our output locations exist.
 
 IF NOT "%1"=="v104" (set DOTNET_TARGET=)
@@ -56,8 +60,8 @@ REM STEP 1) Generate all of our files first...
 
 SET PARTNAME="StandardTypes"
 ECHO Building Model %PARTNAME%
-ECHO %MODELCOMPILER% -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\"
-%MODELCOMPILER% -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\"
+ECHO %MODELCOMPILER% -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\" %USEALLOWSUBTYPES%
+%MODELCOMPILER% -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\" %USEALLOWSUBTYPES%
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 1 )
 
 CALL PublishModel OpcUaGdsModel GDS %1 %2
@@ -65,6 +69,8 @@ CALL PublishModel OpcUaDiModel DI %1 %2
 
 IF EXIST %INPUT%\OpcUaProvisioningModel.xml CALL PublishModel OpcUaProvisioningModel Provisioning %1 %2
 IF EXIST %INPUT%\OpcUaNodeSetModel.xml CALL PublishModel OpcUaNodeSetModel NodeSet %1 %2
+IF EXIST %INPUT%\DemoModel.xml CALL PublishModel DemoModel DemoModel %1 %2
+IF EXIST %INPUT%\MDIS.xml CALL PublishModel MDIS MDIS %1 %2
 
 IF "%3"=="all" (
 	CALL PublishModel OpcUaAdiModel ADI %1 %2
@@ -72,7 +78,6 @@ IF "%3"=="all" (
 	CALL PublishModel MTConnectModel MTConnect %1  %2
 	CALL PublishModel OpcUaFDIPart5Model FDI %1 %2
 	CALL PublishModel OpcUaFDIPart7Model FDI %1 %2
-	CALL PublishModel MDIS MDIS %1 %2
 	CALL PublishModel SercosModel Sercos %1 %2
 )
 
@@ -94,23 +99,26 @@ REM IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 5 )
 
 REM STEP 2) Copy the generated files to the OUTPUT directory which is how our nodeset files are created...
 
-ECHO Copying CSV files to .\Stack\Stack\Opc.Ua.Core\Schema\
-ECHO ON
-COPY ".\Schemas\UANodeSet.xsd" ".\Stack\Stack\Opc.Ua.Core\Schema\UANodeSet.xsd"
-COPY ".\Schemas\SecuredApplication.xsd" ".\Stack\Stack\Opc.Ua.Core\Schema\SecuredApplication.xsd"
-COPY ".\Schemas\ServerCapabilities.csv" ".\Stack\Stack\Opc.Ua.Core\Schema\ServerCapabilities.csv"
-COPY ".\Schemas\OPCBinarySchema.xsd" ".\Stack\Stack\Opc.Ua.Core\Types\Schemas\OPCBinarySchema.xsd"
-@ECHO OFF
-
 ECHO Copying CSV files to %OUTPUT%\Schema\
 ECHO ON
 TYPE "%CSVINPUT%\StandardTypes.csv" | FINDSTR /V /E Unspecified > "%OUTPUT%\Schema\NodeIds.csv"
 COPY "%CSVINPUT%\UA Attributes.csv" "%OUTPUT%\Schema\AttributeIds.csv"
+COPY "%CSVINPUT%\UA ServerCapabilities.csv" "%OUTPUT%\Schema\ServerCapabilities.csv"
 COPY "%OUTPUT%\DotNet\Opc.Ua.StatusCodes.csv" "%OUTPUT%\Schema\StatusCode.csv"
 COPY ".\Schemas\UANodeSet.xsd" "%OUTPUT%\Schema\UANodeSet.xsd"
 COPY ".\Schemas\SecuredApplication.xsd" "%OUTPUT%\Schema\SecuredApplication.xsd"
 COPY ".\Schemas\OPCBinarySchema.xsd" "%OUTPUT%\Schema\OPCBinarySchema.xsd"
-COPY ".\Schemas\ServerCapabilities.csv" "%OUTPUT%\Schema\ServerCapabilities.csv"
+@ECHO OFF
+
+ECHO Copying CSV files to .\Stack\Stack\Opc.Ua.Core\Schema\
+ECHO ON
+COPY "%OUTPUT%\Schema\NodeIds.csv" ".\Stack\Stack\Opc.Ua.Core\Schema\NodeIds.csv"
+COPY "%OUTPUT%\Schema\AttributeIds.csv" ".\Stack\Stack\Opc.Ua.Core\Schema\AttributeIds.csv"
+COPY "%OUTPUT%\Schema\ServerCapabilities.csv" ".\Stack\Stack\Opc.Ua.Core\Schema\ServerCapabilities.csv"
+COPY "%OUTPUT%\Schema\StatusCode.csv" ".\Stack\Stack\Opc.Ua.Core\Schema\Opc.Ua.StatusCodes.csv"
+COPY ".\Schemas\UANodeSet.xsd" ".\Stack\Stack\Opc.Ua.Core\Schema\UANodeSet.xsd"
+COPY ".\Schemas\SecuredApplication.xsd" ".\Stack\Stack\Opc.Ua.Core\Schema\SecuredApplication.xsd"
+COPY ".\Schemas\OPCBinarySchema.xsd" ".\Stack\Stack\Opc.Ua.Core\Types\Schemas\OPCBinarySchema.xsd"
 @ECHO OFF
 
 REM STEP 2a) Copy code to ANSIC
@@ -179,16 +187,26 @@ IF "%DI_TARGET%" NEQ "" (
 IF "%ADI_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\ADI\*.*" "%ADI_TARGET%"
 )
+
+IF EXIST %INPUT%\OpcUaProvisioningModel.xml (
+	IF EXIST "%PROVISIONING_TARGET%" (
+		ECHO Copying .NET code to %PROVISIONING_TARGET%
+		COPY "%OUTPUT%\Provisioning\*.*" "%PROVISIONING_TARGET%"
+	)
+)
+
 IF EXIST %INPUT%\OpcUaNodeSetModel.xml (
-	IF "%NODESET_TARGET%" NEQ "" (
+	IF EXIST "%NODESET_TARGET%" (
 		ECHO Copying .NET code to %NODESET_TARGET%
 		COPY "%OUTPUT%\NodeSet\*.*" "%NODESET_TARGET%"
 	)
 )
 
-IF "%PROVISIONING_TARGET%" NEQ "" (
-	ECHO Copying .NET code to %PROVISIONING_TARGET%
-	COPY "%OUTPUT%\Provisioning\*.*" "%PROVISIONING_TARGET%"
+IF EXIST %INPUT%\DemoModel.xml (
+	IF EXIST "%DEMOMODEL_TARGET%" (
+		ECHO Copying .NET code to %DEMOMODEL_TARGET%
+		COPY "%OUTPUT%\DemoModel\*.*" "%DEMOMODEL_TARGET%"
+	)
 )
 
 IF "%PLCOPEN_TARGET%" NEQ "" (

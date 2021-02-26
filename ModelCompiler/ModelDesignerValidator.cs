@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2019 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2021 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  *
@@ -89,6 +89,11 @@ namespace ModelCompiler
         /// The location of the embedded CSVs.
         /// </summary>
         public string EmbeddedCsvPath { get; set; }
+
+        /// <summary>
+        /// Use the true type instead of ExtensionObject when subtypes are allowed.
+        /// </summary>
+        public bool UseAllowSubtypes { get; set; }
 
         /// <summary>
         /// Finds the data type with the specified name.
@@ -544,6 +549,9 @@ namespace ModelCompiler
                 parameter.ValueRank = ValueRank.Scalar;
             }
 
+            parameter.IsOptional = field.IsOptional;
+            parameter.AllowSubtypes = field.AllowSubtypes;
+
             return parameter;
         }
 
@@ -683,6 +691,7 @@ namespace ModelCompiler
 
                     ImportFields(design, complexType.Field);
                     design.IsAbstract = complexType.IsAbstract;
+                    design.IsUnion = complexType.IsUnion;
                     nodes.Add(design);
                 }
 
@@ -979,7 +988,7 @@ namespace ModelCompiler
                     if (child.Instance.BrowseName == "StaticNumericNodeIdRange")
                     {
                         VariableDesign variable = child.Instance as VariableDesign;
-                        variable.DecodedValue = ranges;
+                        variable.DecodedValue = ranges.ToArray();
                     }
                 }
             }
@@ -2915,6 +2924,7 @@ namespace ModelCompiler
 
                 dataType.IsStructure = (dataType.BaseType == new XmlQualifiedName("Structure", DefaultNamespace));
                 dataType.IsEnumeration = (dataType.BaseType == new XmlQualifiedName("Enumeration", DefaultNamespace) || dataType.IsOptionSet);
+                dataType.IsUnion = (dataType.BaseType == new XmlQualifiedName("Union", DefaultNamespace) || dataType.IsUnion);
                 dataType.HasFields = ImportParameters(dataType, dataType.Fields, "Field");
                 dataType.HasEncodings = ImportEncodings(dataType);
             }
@@ -3751,6 +3761,18 @@ namespace ModelCompiler
                         typeof(DataTypeDesign),
                         node.SymbolicId.Name,
                         "DataType");
+
+                    if (IsTypeOf(parameter.DataTypeNode, new XmlQualifiedName("Structure", DefaultNamespace)))
+                    {
+                        if (parameter.AllowSubtypes && !UseAllowSubtypes)
+                        {
+                            parameter.DataTypeNode = (DataTypeDesign)FindNode(
+                                new XmlQualifiedName("Structure", DefaultNamespace),
+                                typeof(DataTypeDesign),
+                                node.SymbolicId.Name,
+                                "DataType");
+                        }
+                    }
                 }
             }
         }
@@ -5908,6 +5930,39 @@ namespace ModelCompiler
             return state;
         }
 
+        private NodeId GetDataType(VariableTypeDesign type, NamespaceTable namespaceUris)
+        {
+            if (!UseAllowSubtypes)
+            {
+                var dataType = (DataTypeDesign)FindNode(type.DataType, typeof(DataTypeDesign), type.SymbolicId.Name, "DataType"); ;
+                return ConstructNodeId(dataType, namespaceUris);
+            }
+
+            return ConstructNodeId(type.DataTypeNode, namespaceUris);
+        }
+
+        private NodeId GetDataType(Parameter field, NamespaceTable namespaceUris)
+        {
+            if (!UseAllowSubtypes)
+            {
+                var dataType = (DataTypeDesign)FindNode(field.DataType, typeof(DataTypeDesign), field.Name, "DataType"); ;
+                return ConstructNodeId(dataType, namespaceUris);
+            }
+
+            return ConstructNodeId(field.DataTypeNode, namespaceUris);
+        }
+
+        private NodeId GetDataType(VariableDesign instance, NamespaceTable namespaceUris)
+        {
+            if (!UseAllowSubtypes)
+            {
+                var dataType = (DataTypeDesign)FindNode(instance.DataType, typeof(DataTypeDesign), instance.SymbolicId.Name, "DataType"); ;
+                return ConstructNodeId(dataType, namespaceUris);
+            }
+
+            return ConstructNodeId(instance.DataTypeNode, namespaceUris);
+        }
+
         private NodeState CreateNodeState(VariableTypeDesign root, NamespaceTable namespaceUris)
         {
             BaseDataVariableTypeState state = new BaseDataVariableTypeState();
@@ -5941,14 +5996,14 @@ namespace ModelCompiler
             if (mergedInstance != null)
             {
                 state.Value = mergedInstance.DecodedValue;
-                state.DataType = ConstructNodeId(mergedInstance.DataTypeNode, namespaceUris);
+                state.DataType = GetDataType(mergedInstance, namespaceUris);
                 state.ValueRank = ConstructValueRank(mergedInstance.ValueRank, mergedInstance.ArrayDimensions);
                 state.ArrayDimensions = ConstructArrayDimensions(mergedInstance.ValueRank, mergedInstance.ArrayDimensions);
             }
             else
             {
                 state.Value = root.DecodedValue;
-                state.DataType = ConstructNodeId(root.DataTypeNode, namespaceUris);
+                state.DataType = GetDataType(root, namespaceUris);
                 state.ValueRank = ConstructValueRank(root.ValueRank, root.ArrayDimensions);
                 state.ArrayDimensions = ConstructArrayDimensions(root.ValueRank, root.ArrayDimensions);
             }
@@ -6000,7 +6055,6 @@ namespace ModelCompiler
             }
 
             state.IsAbstract = root.IsAbstract;
-            state.DataTypeModifier = ((root.IsOptionSet) ? DataTypeModifier.OptionSet : DataTypeModifier.None);
             state.Purpose = (Export.DataTypePurpose)(int)root.Purpose;
 
             if ((root.BasicDataType == BasicDataType.Enumeration || root.BasicDataType == BasicDataType.UserDefined) && (root.Fields != null && root.Fields.Length > 0))
@@ -6009,22 +6063,52 @@ namespace ModelCompiler
 
                 if (root.BasicDataType == BasicDataType.UserDefined && root.IsStructure)
                 {
-                    StructureDefinition structureDefinition = new StructureDefinition();
-                    structureDefinition.FirstExplicitFieldIndex = GetStructureDefinitionFields(structureDefinition, root, namespaceUris);
+                    StructureDefinition sd = new StructureDefinition();
 
                     DataTypeDesign baseType = root.BaseTypeNode as DataTypeDesign;
 
                     if (baseType != null)
                     {
-                        structureDefinition.BaseDataType = ConstructNodeId(baseType, namespaceUris);
+                        sd.BaseDataType = ConstructNodeId(baseType, namespaceUris);
                     }
 
-                    definition = structureDefinition;
+                    sd.StructureType = StructureType.Structure;
+
+                    if (root.IsUnion)
+                    {
+                        sd.StructureType = StructureType.Union;
+                    }
+
+                    foreach (var field in root.Fields)
+                    {
+                        if (field.IsOptional)
+                        {
+                            sd.StructureType = StructureType.StructureWithOptionalFields;
+                            break;
+                        }
+
+                        if (field.AllowSubtypes)
+                        {
+                            if (root.IsUnion)
+                            {
+                                sd.StructureType = (StructureType)4; // StructureType.UnionWithSubtypedValues;
+                                break;
+                            }
+
+                            sd.StructureType = (StructureType)3; // StructureType.StructureWithSubtypedValues;
+                            break;
+                        }
+                    }
+
+                    sd.FirstExplicitFieldIndex = GetStructureDefinitionFields(sd, root, namespaceUris);
+                    definition = sd;
                 }
 
                 if (root.BasicDataType == BasicDataType.Enumeration && root.IsEnumeration)
                 {
-                    EnumDefinition enumDefinition = new EnumDefinition();
+                    EnumDefinition ed = new EnumDefinition();
+                    ed.IsOptionSet = root.IsOptionSet;
+
                     List<EnumField> enumFields = new List<EnumField>();
 
                     if (root.Fields != null && root.Fields.Length > 0)
@@ -6074,10 +6158,10 @@ namespace ModelCompiler
                             enumFields.Add(enumField);
                         }
 
-                        enumDefinition.Fields = enumFields.ToArray();
+                        ed.Fields = enumFields.ToArray();
                     }
 
-                    definition = enumDefinition;
+                    definition = ed;
                 }
 
                 state.DataTypeDefinition = new ExtensionObject(definition);
@@ -6086,21 +6170,21 @@ namespace ModelCompiler
             return state;
         }
 
-        private int GetStructureDefinitionFields(StructureDefinition structureDefinition, DataTypeDesign dataType, NamespaceTable namespaceUris)
+        private int GetStructureDefinitionFields(StructureDefinition sd, DataTypeDesign dataType, NamespaceTable namespaceUris)
         {
             if (dataType == null || dataType.Fields == null)
             {
-                return structureDefinition.Fields.Count;
+                return sd.Fields.Count;
             }
 
             DataTypeDesign baseType = dataType.BaseTypeNode as DataTypeDesign;
 
             if (baseType != null)
             {
-                GetStructureDefinitionFields(structureDefinition, baseType, namespaceUris);
+                GetStructureDefinitionFields(sd, baseType, namespaceUris);
             }
 
-            int start = structureDefinition.Fields.Count;
+            int start = sd.Fields.Count;
 
             if (dataType.Fields != null && dataType.Fields.Length > 0)
             {
@@ -6109,18 +6193,18 @@ namespace ModelCompiler
                     StructureField structureField = new StructureField()
                     {
                         Name = field.Name,
-                        DataType = ConstructNodeId(field.DataTypeNode, namespaceUris),
+                        DataType = GetDataType(field, namespaceUris),
                         ValueRank = ConstructValueRank(field.ValueRank, null)
                     };
 
-                    if (string.IsNullOrEmpty(field.BitMask))
+                    if (sd.StructureType == StructureType.StructureWithOptionalFields)
                     {
-                        structureField.IsOptional = false;
+                        structureField.IsOptional = field.IsOptional;
                     }
-                    else
+                    else if (sd.StructureType == (StructureType)3 || // StructureType.StructureWithSubtypedValues || 
+                             sd.StructureType == (StructureType)4)   // StructureType.UnionWithSubtypedValues)
                     {
-                        structureField.IsOptional = true;
-                        structureDefinition.StructureType = StructureType.StructureWithOptionalFields;
+                        structureField.IsOptional = field.AllowSubtypes;
                     }
 
                     if (field.Description != null && !field.Description.IsAutogenerated)
@@ -6128,7 +6212,7 @@ namespace ModelCompiler
                         structureField.Description = new Opc.Ua.LocalizedText(field.Description.Value);
                     }
 
-                    structureDefinition.Fields.Add(structureField);
+                    sd.Fields.Add(structureField);
                 }
             }
 
@@ -6322,7 +6406,7 @@ namespace ModelCompiler
             }
 
             state.Value = root.DecodedValue;
-            state.DataType = ConstructNodeId(root.DataTypeNode, namespaceUris);
+            state.DataType = GetDataType(root, namespaceUris);
             state.ValueRank = ConstructValueRank(root.ValueRank, root.ArrayDimensions);
             state.ArrayDimensions = ConstructArrayDimensions(root.ValueRank, root.ArrayDimensions);
             state.AccessLevel = ConstructAccessLevel(root.AccessLevel);

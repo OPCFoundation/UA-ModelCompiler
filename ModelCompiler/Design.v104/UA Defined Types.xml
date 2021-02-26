@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04.10" TargetPublicationDate="2021-02-15T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04.9" TargetPublicationDate="2021-01-21T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -444,12 +444,12 @@
       </Property>
       <Property SymbolicName="tns:NamespaceVersion" DataType="tns:String">
         <DefaultValue>
-          <uax:String>1.04.10</uax:String>
+          <uax:String>1.04.9</uax:String>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
         <DefaultValue>
-          <uax:DateTime>2021-02-15T00:00:00</uax:DateTime>
+          <uax:DateTime>2021-01-21T00:00:00</uax:DateTime>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
@@ -2028,7 +2028,6 @@
       <Field Name="GroupId" Identifier="4" />
       <Field Name="Anonymous" Identifier="5" />
       <Field Name="AuthenticatedUser" Identifier="6" />
-      <Field Name="Application" Identifier="7" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:IdentityMappingRuleType" PartNo="5" BaseType="tns:Structure">
@@ -2801,7 +2800,7 @@
       <Property SymbolicName="tns:SuppressedOrShelved" ModellingRule="Mandatory" DataType="tns:Boolean" />
       <Property SymbolicName="tns:MaxTimeShelved" ModellingRule="Optional" DataType="tns:Duration" />
       <Property SymbolicName="tns:AudibleEnabled" ModellingRule="Optional" DataType="tns:Boolean" />
-      <Variable SymbolicName="tns:AudibleSound" TypeDefinition="tns:AudioVariableType" ModellingRule="Optional" DataType="tns:AudioDataType" />
+      <Property SymbolicName="tns:AudibleSound" TypeDefinition="tns:AudioVariableType" ModellingRule="Optional" DataType="tns:AudioDataType" />
       <Variable SymbolicName="tns:SilenceState" TypeDefinition="tns:TwoStateVariableType" ModellingRule="Optional">
         <Children>
           <Property SymbolicName="tns:TransitionTime" ModellingRule="Optional" DataType="tns:UtcTime" />
@@ -6146,8 +6145,6 @@
       <Field Name="Structure" Identifier="0" />
       <Field Name="StructureWithOptionalFields" Identifier="1" />
       <Field Name="Union" Identifier="2" />
-      <Field Name="StructureWithSubtypedValues" Identifier="3" />
-      <Field Name="UnionWithSubtypedValues" Identifier="4" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:StructureField" SymbolicId="tns:StructureField" PartNo="3" BaseType="tns:Structure">
@@ -6276,7 +6273,7 @@
       <Field Name="Name" DataType="tns:String" />
     </Fields>
   </DataType>
-  <DataType SymbolicName="tns:OptionSet" SymbolicId="tns:OptionSet" PartNo="3" BaseType="tns:Structure" IsAbstract="true">
+  <DataType SymbolicName="tns:OptionSet" SymbolicId="tns:OptionSet" PartNo="3" BaseType="tns:Structure">
     <Fields>
       <Field Name="Value" DataType="tns:ByteString" />
       <Field Name="ValidBits" DataType="tns:ByteString" />
@@ -8078,7 +8075,7 @@
       <Field Name="LastMethodInputValues" DataType="tns:BaseDataType" ValueRank="Array" />
       <Field Name="LastMethodOutputValues" DataType="tns:BaseDataType" ValueRank="Array" />
       <Field Name="LastMethodCallTime" DataType="tns:UtcTime" />
-      <Field Name="LastMethodReturnStatus" DataType="tns:StatusCode" />
+      <Field Name="LastMethodReturnStatus" DataType="tns:StatusResult" />
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:Annotation" SymbolicId="tns:Annotation" PartNo="11" BaseType="tns:Structure" NoArraysAllowed="true">

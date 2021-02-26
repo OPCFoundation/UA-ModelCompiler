@@ -373,8 +373,14 @@ namespace ModelCompiler {
         
         private string arrayDimensionsField;
         
+        private bool allowSubtypesField;
+        
+        private bool isOptionalField;
+        
         public Parameter() {
             this.valueRankField = ValueRank.Scalar;
+            this.allowSubtypesField = false;
+            this.isOptionalField = false;
         }
         
         /// <remarks/>
@@ -462,6 +468,30 @@ namespace ModelCompiler {
             }
             set {
                 this.arrayDimensionsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public bool AllowSubtypes {
+            get {
+                return this.allowSubtypesField;
+            }
+            set {
+                this.allowSubtypesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public bool IsOptional {
+            get {
+                return this.isOptionalField;
+            }
+            set {
+                this.isOptionalField = value;
             }
         }
     }
@@ -1205,10 +1235,13 @@ namespace ModelCompiler {
         
         private bool isOptionSetField;
         
+        private bool isUnionField;
+        
         private bool noArraysAllowedField;
         
         public DataTypeDesign() {
             this.isOptionSetField = false;
+            this.isUnionField = false;
             this.noArraysAllowedField = false;
         }
         
@@ -1243,6 +1276,18 @@ namespace ModelCompiler {
             }
             set {
                 this.isOptionSetField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public bool IsUnion {
+            get {
+                return this.isUnionField;
+            }
+            set {
+                this.isUnionField = value;
             }
         }
         

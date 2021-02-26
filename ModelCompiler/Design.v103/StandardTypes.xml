@@ -2779,7 +2779,6 @@
 
   <opc:Object SymbolicName="ServerConfiguration" TypeDefinition="ServerConfigurationType" PartNo="12">
     <opc:Children>
-
       <opc:Object SymbolicName="CertificateGroups" TypeDefinition="CertificateGroupFolderType" ModellingRule="Mandatory">
         <opc:Children>
           <opc:Object SymbolicName="DefaultApplicationGroup" ModellingRule="Mandatory">

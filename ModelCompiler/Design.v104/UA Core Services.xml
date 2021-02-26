@@ -6,8 +6,8 @@
   xmlns:opc="http://opcfoundation.org/UA/TypeDictionary/"
   xmlns="http://opcfoundation.org/UA/Core/"
   TargetNamespace="http://opcfoundation.org/UA/Core/"
-  TargetVersion="1.04.10"
-  TargetPublicationDate="2021-02-15T00:00:00Z"
+  TargetVersion="1.04.9"
+  TargetPublicationDate="2021-01-21T00:00:00Z"
 >
   <opc:Import Namespace="http://opcfoundation.org/UA/BuiltInTypes/" />
 
@@ -126,8 +126,6 @@
     <opc:Value Name="Structure" Value="0" />
     <opc:Value Name="StructureWithOptionalFields" Value="1" />
     <opc:Value Name="Union" Value="2" />
-    <opc:Value Name="StructureWithSubtypedValues" Value="3" />
-    <opc:Value Name="UnionWithSubtypedValues" Value="4" />
   </opc:EnumeratedType>
 
   <opc:ComplexType Name="StructureField" NotInAddressSpace="false" AllowArrays="true" PartNo="3">
@@ -346,7 +344,7 @@
     <opc:Field Name="Name" DataType="s0:String" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="OptionSet" AllowArrays="true" IsAbstract="true" PartNo="3">
+  <opc:ComplexType Name="OptionSet" AllowArrays="true" PartNo="3">
     <opc:Documentation>This abstract Structured DataType is the base DataType for all DataTypes representing a bit mask.</opc:Documentation>
     <opc:Field Name="Value" DataType="s0:ByteString">
       <opc:Documentation>Array of bytes representing the bits in the option set.</opc:Documentation>
@@ -2874,7 +2872,7 @@
     <opc:Field Name="LastMethodInputValues" DataType="s0:Variant" ValueRank="0" />
     <opc:Field Name="LastMethodOutputValues" DataType="s0:Variant" ValueRank="0" />
     <opc:Field Name="LastMethodCallTime" DataType="UtcTime" />
-    <opc:Field Name="LastMethodReturnStatus" DataType="s0:StatusCode" />
+    <opc:Field Name="LastMethodReturnStatus" DataType="StatusResult" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="Annotation" PartNo="11">

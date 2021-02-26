@@ -1,4 +1,6 @@
 # Model Compiler #
+
+## Overview ##
 The [OPC Foundation](https://opcfoundation.org) Model Compiler will generate C# and ANSI C source code from XML files which include the UA Services, data-types, error codes, etc.; and numerous CSV files that contain NodeIds, error codes, and attributes etc.
 
 The input format for the tool is a file that conforms to the schema defined in UA Model Design.xsd. 
@@ -10,9 +12,9 @@ The output of the tool includes:
  4. Other data files used to load an information model into a Server built with the .NET sample libraries;
  5. A CSV file which contains numeric identifiers. 
 
-The [UA Model Design.xsd] (https://github.com/OPCFoundation/UA-ModelCompiler/blob/master/ModelCompiler/UA%20Model%20Design.xsd) has more information about the schema itself.
+The [UA Model Design.xsd](https://github.com/OPCFoundation/UA-ModelCompiler/blob/master/ModelCompiler/UA%20Model%20Design.xsd) has more information about the schema itself.
 
-The .NET sample libraries has [a sample Model Design file] (https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/Sample/SampleDesign.xml) that illustrate how to create a user defined model.
+The .NET sample libraries has [a sample Model Design file](https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/Sample/SampleDesign.xml) that illustrate how to create a user defined model.
 This [batch file](https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/BuildDesign.bat) is used to regenerate the files used in the sample after changes.
 
 The tool only produces ANSI C output for the stack.
@@ -22,6 +24,10 @@ All of the standard outputs are published in the [Nodeset GitHub repository](htt
 Developers should never need to build the standard outputs themselves.
 
 Tutorial by Stefan Profanter [here](https://opcua.rocks/custom-information-models/).
+
+## Release Notes ##
+
+2021-02-28 - Compliler can now generate properly typed code for Variables and DataType fields with abstract DataTypes. Prior releases produced code with an ExtensionObject or Variant as the type name. Passing the -useAllowSubtypes flag will enable this feature.
 
 ## About this Repository ##
 This repository contains *sub-modules* for the Nodeset files, which are independently tracked. Please clone this repository as shown:
