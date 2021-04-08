@@ -6107,7 +6107,7 @@ namespace ModelCompiler
                 if (root.BasicDataType == BasicDataType.Enumeration && root.IsEnumeration)
                 {
                     EnumDefinition ed = new EnumDefinition();
-                    ed.IsOptionSet = root.IsOptionSet;
+                    //ed.IsOptionSet = root.IsOptionSet;
 
                     List<EnumField> enumFields = new List<EnumField>();
 

@@ -9,13 +9,13 @@ REM ****************************************************************************
 SETLOCAL
 
 set MODELCOMPILER=.\Bin\Release\Opc.Ua.ModelCompiler.exe
-set OUTPUT=..\..
+set OUTPUT=..\nodesets
 set INPUT=.\ModelCompiler\Design
 set CSVINPUT=.\ModelCompiler\CSVs
 
 IF NOT "%1"=="" (set OUTPUT=%OUTPUT%\%1) else (set OUTPUT=%OUTPUT%\master)
-IF NOT "%1"=="" (set INPUT=%INPUT%.%1) else (set INPUT=%INPUT%.v105)
-IF NOT "%1"=="" (set VERSION=-version %1) else (set VERSION=-version v105)
+IF NOT "%1"=="" (set INPUT=%INPUT%.%1) else (set INPUT=%INPUT%.v104)
+IF NOT "%1"=="" (set VERSION=-version %1) else (set VERSION=-version v104)
 IF NOT "%2"=="" set EXCLUDE=-exclude %2
 
 IF "%1"=="v103" set CSVINPUT=%INPUT%
@@ -64,15 +64,11 @@ ECHO %MODELCOMPILER% -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%I
 %MODELCOMPILER% -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\" -stack "%OUTPUT%\DotNet\" -ansic "%OUTPUT%\AnsiC\" %USEALLOWSUBTYPES%
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 1 )
 
-CALL PublishModel OpcUaGdsModel GDS %1 %2
-CALL PublishModel OpcUaDiModel DI %1 %2
-
-IF EXIST %INPUT%\OpcUaProvisioningModel.xml CALL PublishModel OpcUaProvisioningModel Provisioning %1 %2
-IF EXIST %INPUT%\OpcUaNodeSetModel.xml CALL PublishModel OpcUaNodeSetModel NodeSet %1 %2
 IF EXIST %INPUT%\DemoModel.xml CALL PublishModel DemoModel DemoModel %1 %2
-IF EXIST %INPUT%\MDIS.xml CALL PublishModel MDIS MDIS %1 %2
 
 IF "%3"=="all" (
+	CALL PublishModel OpcUaGdsModel GDS %1 %2
+	CALL PublishModel OpcUaDiModel DI %1 %2
 	CALL PublishModel OpcUaAdiModel ADI %1 %2
 	CALL PublishModel OpcUaPLCopenModel PLCopen %1 %2
 	CALL PublishModel MTConnectModel MTConnect %1  %2
@@ -205,7 +201,7 @@ IF EXIST %INPUT%\OpcUaNodeSetModel.xml (
 IF EXIST %INPUT%\DemoModel.xml (
 	IF EXIST "%DEMOMODEL_TARGET%" (
 		ECHO Copying .NET code to %DEMOMODEL_TARGET%
-		COPY "%OUTPUT%\DemoModel\*.*" "%DEMOMODEL_TARGET%"
+		ECHO COPY "%OUTPUT%\DemoModel\*.*" "%DEMOMODEL_TARGET%"
 	)
 )
 
