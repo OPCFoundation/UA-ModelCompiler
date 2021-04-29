@@ -37,7 +37,7 @@ git clone https://github.com/OPCFoundation/UA-ModelCompiler --recursive
 
 ## Docker Build
 
-The compiled version of this model compiler is available in DockerHub as [sailavid/ua-modelcompiler](https://cloud.docker.com/u/sailavid/repository/docker/sailavid/ua-modelcompiler).
+The compiled version of this model compiler is available in DockerHub as [sailavid/ua-modelcompiler](https://hub.docker.com/r/sailavid/ua-modelcompiler).
 TODO: Change URL to use official OPCF Docker container!
 
 If you like to build your own container, just use the provided Dockerfile in this repo.
