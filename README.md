@@ -1,6 +1,4 @@
 # Model Compiler #
-
-## Overview ##
 The [OPC Foundation](https://opcfoundation.org) Model Compiler will generate C# and ANSI C source code from XML files which include the UA Services, data-types, error codes, etc.; and numerous CSV files that contain NodeIds, error codes, and attributes etc.
 
 The input format for the tool is a file that conforms to the schema defined in UA Model Design.xsd. 
@@ -12,9 +10,9 @@ The output of the tool includes:
  4. Other data files used to load an information model into a Server built with the .NET sample libraries;
  5. A CSV file which contains numeric identifiers. 
 
-The [UA Model Design.xsd](https://github.com/OPCFoundation/UA-ModelCompiler/blob/master/ModelCompiler/UA%20Model%20Design.xsd) has more information about the schema itself.
+The [UA Model Design.xsd] (https://github.com/OPCFoundation/UA-ModelCompiler/blob/master/ModelCompiler/UA%20Model%20Design.xsd) has more information about the schema itself.
 
-The .NET sample libraries has [a sample Model Design file](https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/Sample/SampleDesign.xml) that illustrate how to create a user defined model.
+The .NET sample libraries has [a sample Model Design file] (https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/Sample/SampleDesign.xml) that illustrate how to create a user defined model.
 This [batch file](https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/BuildDesign.bat) is used to regenerate the files used in the sample after changes.
 
 The tool only produces ANSI C output for the stack.
@@ -25,15 +23,24 @@ Developers should never need to build the standard outputs themselves.
 
 Tutorial by Stefan Profanter [here](https://opcua.rocks/custom-information-models/).
 
-## Release Notes ##
-
-2021-02-28 - Compliler can now generate properly typed code for Variables and DataType fields with abstract DataTypes. Prior releases produced code with an ExtensionObject or Variant as the type name. Passing the -useAllowSubtypes flag will enable this feature.
-
 ## About this Repository ##
 This repository contains *sub-modules* for the Nodeset files, which are independently tracked. Please clone this repository as shown:
 ```
 git clone https://github.com/OPCFoundation/UA-ModelCompiler --recursive
 ```
+
+This repository is not updated directly. All changes are first made in a member-only version that can be found [here](https://github.com/OPCF-Members/UA-ModelCompiler).
+
+The version in the member-only repository includes content that is only available to OPC Foundation members such as draft versions of the specifications. When a new version of the OPC UA specification is released, the member-only content is removed and copied to the public reposotory. 
+
+In many cases, updates to the UA-ModelCompiler will require updates to [UA-.NETStandard](https://github.com/OPCFoundation/UA-.NETStandard) codebase. This means a complete release of the UA-ModelCompiler will need to wait for a update to UA-.NETStandard NuGet packages. The member only version links to a member only fork of [UA-.NETStandard](https://github.com/OPCF-Members/UA-.NETStandard-Prototypes) allows the changes to be viewed before they are merged with the public baseline.
+
+The public repository is updated as frequently as the OPC UA Specification (once every 3-5 months). When a release starts, all issues reported on the public repository will be reviewed and, if appropricate, incorporated into the member-only codebase. This includes any pull requests. 
+
+## License Model ##
+
+The ModelCompiler code is MIT license, however, it links to the UA-.NETStandard NuGet packages which is covered under the OPC Foundation Redistributables licence. If a user chooses the version that links directly to the  UA-.NETStandard submodule then the license the UA-.NETStandard dual license applies. 
+  
 
 ## Docker Build
 
@@ -69,7 +76,6 @@ Trying file: ./Design/OpcUaDiModel.csv
 ```
 
 Note, there's no final success message.
-
 
 
 To use the `PublishModel.sh` script you can also override the entrypoint. The PublishModel script is a wrapper around the model compiler executable and is handling directory creation and copying the original model files.
