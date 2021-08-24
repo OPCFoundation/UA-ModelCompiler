@@ -10,9 +10,9 @@ The output of the tool includes:
  4. Other data files used to load an information model into a Server built with the .NET sample libraries;
  5. A CSV file which contains numeric identifiers. 
 
-The [UA Model Design.xsd] (https://github.com/OPCFoundation/UA-ModelCompiler/blob/master/ModelCompiler/UA%20Model%20Design.xsd) has more information about the schema itself.
+The [UA Model Design.xsd](https://github.com/OPCFoundation/UA-ModelCompiler/blob/master/ModelCompiler/UA%20Model%20Design.xsd) has more information about the schema itself.
 
-The .NET sample libraries has [a sample Model Design file] (https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/Sample/SampleDesign.xml) that illustrate how to create a user defined model.
+The .NET sample libraries has [a sample Model Design file](https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/Sample/SampleDesign.xml) that illustrate how to create a user defined model.
 This [batch file](https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/BuildDesign.bat) is used to regenerate the files used in the sample after changes.
 
 The tool only produces ANSI C output for the stack.
@@ -39,12 +39,12 @@ The public repository is updated as frequently as the OPC UA Specification (once
 
 ## License Model ##
 
-The ModelCompiler code is MIT license, however, it links to the UA-.NETStandard NuGet packages which is covered under the OPC Foundation Redistributables licence. If a user chooses the version that links directly to the  UA-.NETStandard submodule then the license the UA-.NETStandard dual license applies. 
+The ModelCompiler code is [MIT license](https://github.com/OPCFoundation/UA-ModelCompiler/blob/master/license.md), however, it links to the UA-.NETStandard NuGet packages which is covered under the [OPC Foundation Redistributables licence](https://opcfoundation.org/license/redistributables/1.3/index.html). If a user chooses the version that links directly to the  UA-.NETStandard submodule then the license the UA-.NETStandard [dual license](https://github.com/OPCFoundation/UA-.NETStandard/blob/master/LICENSE.txt) applies. 
   
 
 ## Docker Build
 
-The compiled version of this model compiler is available in DockerHub as [sailavid/ua-modelcompiler](https://hub.docker.com/r/sailavid/ua-modelcompiler).
+The compiled version of this model compiler is available in DockerHub as [sailavid/ua-modelcompiler](https://cloud.docker.com/u/sailavid/repository/docker/sailavid/ua-modelcompiler).
 TODO: Change URL to use official OPCF Docker container!
 
 If you like to build your own container, just use the provided Dockerfile in this repo.
