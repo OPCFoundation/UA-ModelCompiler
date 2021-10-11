@@ -1,0 +1,19 @@
+Opc.Ua.ModelCompiler.exe -d2 <filepath> -c[g] <filepath> -o2 <directorypath>
+
+Generates classes that implement a UA information model.
+
+-? Prints this help text
+-d2 The path to the XML file which contains the UA information model. New version of code generator is used (option -stack forces to use -d2 switch)
+-c The path to the CSV file which contains the unique identifiers for the types defined in the UA information model.
+-cg Creates the identifier file if it does not exist (used instead of the -c option).
+-o No longer supported.
+-o2 The output directory for a multiple file output.
+-id The start identifier
+-ansic Generates the ANSI C stack code for the core model (not used for vendor defined models).
+-stack Generates the .NET stack code for the core model (not used for vendor defined models).
+-useXmlInitializers No longer supported.
+-console The output goes to the standard error output (console) instead of error window
+-exclude Excludes types based on thier ReleaseStatus and/or Category. A simple string compare is used to test.
+-version Selects the source for the input files. v103 | v104 | v105 are supported.
+-useAllowSubtypes When subtypes are allowed for a field, C# code with the class name from the model is created instead of ExtensionObject. No effect when subtypes are not allowed.
+

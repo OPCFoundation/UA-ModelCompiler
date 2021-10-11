@@ -64,6 +64,26 @@ namespace DemoModel
         /// The identifier for the WorkOrderType DataType.
         /// </summary>
         public const uint WorkOrderType = 5;
+
+        /// <summary>
+        /// The identifier for the SampleUnion DataType.
+        /// </summary>
+        public const uint SampleUnion = 41;
+
+        /// <summary>
+        /// The identifier for the SampleStructureWithOptionalFields DataType.
+        /// </summary>
+        public const uint SampleStructureWithOptionalFields = 42;
+
+        /// <summary>
+        /// The identifier for the SampleUnionAllowSubtypes DataType.
+        /// </summary>
+        public const uint SampleUnionAllowSubtypes = 43;
+
+        /// <summary>
+        /// The identifier for the SampleStructureAllowSubtypes DataType.
+        /// </summary>
+        public const uint SampleStructureAllowSubtypes = 44;
     }
     #endregion
 
@@ -96,6 +116,26 @@ namespace DemoModel
         public const uint WorkOrderType_Encoding_DefaultBinary = 23;
 
         /// <summary>
+        /// The identifier for the SampleUnion_Encoding_DefaultBinary Object.
+        /// </summary>
+        public const uint SampleUnion_Encoding_DefaultBinary = 45;
+
+        /// <summary>
+        /// The identifier for the SampleStructureWithOptionalFields_Encoding_DefaultBinary Object.
+        /// </summary>
+        public const uint SampleStructureWithOptionalFields_Encoding_DefaultBinary = 46;
+
+        /// <summary>
+        /// The identifier for the SampleUnionAllowSubtypes_Encoding_DefaultBinary Object.
+        /// </summary>
+        public const uint SampleUnionAllowSubtypes_Encoding_DefaultBinary = 47;
+
+        /// <summary>
+        /// The identifier for the SampleStructureAllowSubtypes_Encoding_DefaultBinary Object.
+        /// </summary>
+        public const uint SampleStructureAllowSubtypes_Encoding_DefaultBinary = 48;
+
+        /// <summary>
         /// The identifier for the Vector_Encoding_DefaultXml Object.
         /// </summary>
         public const uint Vector_Encoding_DefaultXml = 6;
@@ -111,19 +151,59 @@ namespace DemoModel
         public const uint WorkOrderType_Encoding_DefaultXml = 8;
 
         /// <summary>
+        /// The identifier for the SampleUnion_Encoding_DefaultXml Object.
+        /// </summary>
+        public const uint SampleUnion_Encoding_DefaultXml = 62;
+
+        /// <summary>
+        /// The identifier for the SampleStructureWithOptionalFields_Encoding_DefaultXml Object.
+        /// </summary>
+        public const uint SampleStructureWithOptionalFields_Encoding_DefaultXml = 63;
+
+        /// <summary>
+        /// The identifier for the SampleUnionAllowSubtypes_Encoding_DefaultXml Object.
+        /// </summary>
+        public const uint SampleUnionAllowSubtypes_Encoding_DefaultXml = 64;
+
+        /// <summary>
+        /// The identifier for the SampleStructureAllowSubtypes_Encoding_DefaultXml Object.
+        /// </summary>
+        public const uint SampleStructureAllowSubtypes_Encoding_DefaultXml = 65;
+
+        /// <summary>
         /// The identifier for the Vector_Encoding_DefaultJson Object.
         /// </summary>
-        public const uint Vector_Encoding_DefaultJson = 43;
+        public const uint Vector_Encoding_DefaultJson = 79;
 
         /// <summary>
         /// The identifier for the WorkOrderStatusType_Encoding_DefaultJson Object.
         /// </summary>
-        public const uint WorkOrderStatusType_Encoding_DefaultJson = 44;
+        public const uint WorkOrderStatusType_Encoding_DefaultJson = 80;
 
         /// <summary>
         /// The identifier for the WorkOrderType_Encoding_DefaultJson Object.
         /// </summary>
-        public const uint WorkOrderType_Encoding_DefaultJson = 45;
+        public const uint WorkOrderType_Encoding_DefaultJson = 81;
+
+        /// <summary>
+        /// The identifier for the SampleUnion_Encoding_DefaultJson Object.
+        /// </summary>
+        public const uint SampleUnion_Encoding_DefaultJson = 82;
+
+        /// <summary>
+        /// The identifier for the SampleStructureWithOptionalFields_Encoding_DefaultJson Object.
+        /// </summary>
+        public const uint SampleStructureWithOptionalFields_Encoding_DefaultJson = 83;
+
+        /// <summary>
+        /// The identifier for the SampleUnionAllowSubtypes_Encoding_DefaultJson Object.
+        /// </summary>
+        public const uint SampleUnionAllowSubtypes_Encoding_DefaultJson = 84;
+
+        /// <summary>
+        /// The identifier for the SampleStructureAllowSubtypes_Encoding_DefaultJson Object.
+        /// </summary>
+        public const uint SampleStructureAllowSubtypes_Encoding_DefaultJson = 85;
     }
     #endregion
 
@@ -168,7 +248,7 @@ namespace DemoModel
         /// <summary>
         /// The identifier for the DemoModel_BinarySchema_Deprecated Variable.
         /// </summary>
-        public const uint DemoModel_BinarySchema_Deprecated = 41;
+        public const uint DemoModel_BinarySchema_Deprecated = 49;
 
         /// <summary>
         /// The identifier for the DemoModel_BinarySchema_Vector Variable.
@@ -186,6 +266,26 @@ namespace DemoModel
         public const uint DemoModel_BinarySchema_WorkOrderType = 33;
 
         /// <summary>
+        /// The identifier for the DemoModel_BinarySchema_SampleUnion Variable.
+        /// </summary>
+        public const uint DemoModel_BinarySchema_SampleUnion = 50;
+
+        /// <summary>
+        /// The identifier for the DemoModel_BinarySchema_SampleStructureWithOptionalFields Variable.
+        /// </summary>
+        public const uint DemoModel_BinarySchema_SampleStructureWithOptionalFields = 53;
+
+        /// <summary>
+        /// The identifier for the DemoModel_BinarySchema_SampleUnionAllowSubtypes Variable.
+        /// </summary>
+        public const uint DemoModel_BinarySchema_SampleUnionAllowSubtypes = 56;
+
+        /// <summary>
+        /// The identifier for the DemoModel_BinarySchema_SampleStructureAllowSubtypes Variable.
+        /// </summary>
+        public const uint DemoModel_BinarySchema_SampleStructureAllowSubtypes = 59;
+
+        /// <summary>
         /// The identifier for the DemoModel_XmlSchema Variable.
         /// </summary>
         public const uint DemoModel_XmlSchema = 9;
@@ -198,7 +298,7 @@ namespace DemoModel
         /// <summary>
         /// The identifier for the DemoModel_XmlSchema_Deprecated Variable.
         /// </summary>
-        public const uint DemoModel_XmlSchema_Deprecated = 42;
+        public const uint DemoModel_XmlSchema_Deprecated = 66;
 
         /// <summary>
         /// The identifier for the DemoModel_XmlSchema_Vector Variable.
@@ -214,6 +314,26 @@ namespace DemoModel
         /// The identifier for the DemoModel_XmlSchema_WorkOrderType Variable.
         /// </summary>
         public const uint DemoModel_XmlSchema_WorkOrderType = 18;
+
+        /// <summary>
+        /// The identifier for the DemoModel_XmlSchema_SampleUnion Variable.
+        /// </summary>
+        public const uint DemoModel_XmlSchema_SampleUnion = 67;
+
+        /// <summary>
+        /// The identifier for the DemoModel_XmlSchema_SampleStructureWithOptionalFields Variable.
+        /// </summary>
+        public const uint DemoModel_XmlSchema_SampleStructureWithOptionalFields = 70;
+
+        /// <summary>
+        /// The identifier for the DemoModel_XmlSchema_SampleUnionAllowSubtypes Variable.
+        /// </summary>
+        public const uint DemoModel_XmlSchema_SampleUnionAllowSubtypes = 73;
+
+        /// <summary>
+        /// The identifier for the DemoModel_XmlSchema_SampleStructureAllowSubtypes Variable.
+        /// </summary>
+        public const uint DemoModel_XmlSchema_SampleStructureAllowSubtypes = 76;
     }
     #endregion
 
@@ -259,6 +379,26 @@ namespace DemoModel
         /// The identifier for the WorkOrderType DataType.
         /// </summary>
         public static readonly ExpandedNodeId WorkOrderType = new ExpandedNodeId(DemoModel.DataTypes.WorkOrderType, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the SampleUnion DataType.
+        /// </summary>
+        public static readonly ExpandedNodeId SampleUnion = new ExpandedNodeId(DemoModel.DataTypes.SampleUnion, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the SampleStructureWithOptionalFields DataType.
+        /// </summary>
+        public static readonly ExpandedNodeId SampleStructureWithOptionalFields = new ExpandedNodeId(DemoModel.DataTypes.SampleStructureWithOptionalFields, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the SampleUnionAllowSubtypes DataType.
+        /// </summary>
+        public static readonly ExpandedNodeId SampleUnionAllowSubtypes = new ExpandedNodeId(DemoModel.DataTypes.SampleUnionAllowSubtypes, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the SampleStructureAllowSubtypes DataType.
+        /// </summary>
+        public static readonly ExpandedNodeId SampleStructureAllowSubtypes = new ExpandedNodeId(DemoModel.DataTypes.SampleStructureAllowSubtypes, DemoModel.Namespaces.DemoModel);
     }
     #endregion
 
@@ -291,6 +431,26 @@ namespace DemoModel
         public static readonly ExpandedNodeId WorkOrderType_Encoding_DefaultBinary = new ExpandedNodeId(DemoModel.Objects.WorkOrderType_Encoding_DefaultBinary, DemoModel.Namespaces.DemoModel);
 
         /// <summary>
+        /// The identifier for the SampleUnion_Encoding_DefaultBinary Object.
+        /// </summary>
+        public static readonly ExpandedNodeId SampleUnion_Encoding_DefaultBinary = new ExpandedNodeId(DemoModel.Objects.SampleUnion_Encoding_DefaultBinary, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the SampleStructureWithOptionalFields_Encoding_DefaultBinary Object.
+        /// </summary>
+        public static readonly ExpandedNodeId SampleStructureWithOptionalFields_Encoding_DefaultBinary = new ExpandedNodeId(DemoModel.Objects.SampleStructureWithOptionalFields_Encoding_DefaultBinary, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the SampleUnionAllowSubtypes_Encoding_DefaultBinary Object.
+        /// </summary>
+        public static readonly ExpandedNodeId SampleUnionAllowSubtypes_Encoding_DefaultBinary = new ExpandedNodeId(DemoModel.Objects.SampleUnionAllowSubtypes_Encoding_DefaultBinary, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the SampleStructureAllowSubtypes_Encoding_DefaultBinary Object.
+        /// </summary>
+        public static readonly ExpandedNodeId SampleStructureAllowSubtypes_Encoding_DefaultBinary = new ExpandedNodeId(DemoModel.Objects.SampleStructureAllowSubtypes_Encoding_DefaultBinary, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
         /// The identifier for the Vector_Encoding_DefaultXml Object.
         /// </summary>
         public static readonly ExpandedNodeId Vector_Encoding_DefaultXml = new ExpandedNodeId(DemoModel.Objects.Vector_Encoding_DefaultXml, DemoModel.Namespaces.DemoModel);
@@ -306,6 +466,26 @@ namespace DemoModel
         public static readonly ExpandedNodeId WorkOrderType_Encoding_DefaultXml = new ExpandedNodeId(DemoModel.Objects.WorkOrderType_Encoding_DefaultXml, DemoModel.Namespaces.DemoModel);
 
         /// <summary>
+        /// The identifier for the SampleUnion_Encoding_DefaultXml Object.
+        /// </summary>
+        public static readonly ExpandedNodeId SampleUnion_Encoding_DefaultXml = new ExpandedNodeId(DemoModel.Objects.SampleUnion_Encoding_DefaultXml, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the SampleStructureWithOptionalFields_Encoding_DefaultXml Object.
+        /// </summary>
+        public static readonly ExpandedNodeId SampleStructureWithOptionalFields_Encoding_DefaultXml = new ExpandedNodeId(DemoModel.Objects.SampleStructureWithOptionalFields_Encoding_DefaultXml, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the SampleUnionAllowSubtypes_Encoding_DefaultXml Object.
+        /// </summary>
+        public static readonly ExpandedNodeId SampleUnionAllowSubtypes_Encoding_DefaultXml = new ExpandedNodeId(DemoModel.Objects.SampleUnionAllowSubtypes_Encoding_DefaultXml, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the SampleStructureAllowSubtypes_Encoding_DefaultXml Object.
+        /// </summary>
+        public static readonly ExpandedNodeId SampleStructureAllowSubtypes_Encoding_DefaultXml = new ExpandedNodeId(DemoModel.Objects.SampleStructureAllowSubtypes_Encoding_DefaultXml, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
         /// The identifier for the Vector_Encoding_DefaultJson Object.
         /// </summary>
         public static readonly ExpandedNodeId Vector_Encoding_DefaultJson = new ExpandedNodeId(DemoModel.Objects.Vector_Encoding_DefaultJson, DemoModel.Namespaces.DemoModel);
@@ -319,6 +499,26 @@ namespace DemoModel
         /// The identifier for the WorkOrderType_Encoding_DefaultJson Object.
         /// </summary>
         public static readonly ExpandedNodeId WorkOrderType_Encoding_DefaultJson = new ExpandedNodeId(DemoModel.Objects.WorkOrderType_Encoding_DefaultJson, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the SampleUnion_Encoding_DefaultJson Object.
+        /// </summary>
+        public static readonly ExpandedNodeId SampleUnion_Encoding_DefaultJson = new ExpandedNodeId(DemoModel.Objects.SampleUnion_Encoding_DefaultJson, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the SampleStructureWithOptionalFields_Encoding_DefaultJson Object.
+        /// </summary>
+        public static readonly ExpandedNodeId SampleStructureWithOptionalFields_Encoding_DefaultJson = new ExpandedNodeId(DemoModel.Objects.SampleStructureWithOptionalFields_Encoding_DefaultJson, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the SampleUnionAllowSubtypes_Encoding_DefaultJson Object.
+        /// </summary>
+        public static readonly ExpandedNodeId SampleUnionAllowSubtypes_Encoding_DefaultJson = new ExpandedNodeId(DemoModel.Objects.SampleUnionAllowSubtypes_Encoding_DefaultJson, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the SampleStructureAllowSubtypes_Encoding_DefaultJson Object.
+        /// </summary>
+        public static readonly ExpandedNodeId SampleStructureAllowSubtypes_Encoding_DefaultJson = new ExpandedNodeId(DemoModel.Objects.SampleStructureAllowSubtypes_Encoding_DefaultJson, DemoModel.Namespaces.DemoModel);
     }
     #endregion
 
@@ -381,6 +581,26 @@ namespace DemoModel
         public static readonly ExpandedNodeId DemoModel_BinarySchema_WorkOrderType = new ExpandedNodeId(DemoModel.Variables.DemoModel_BinarySchema_WorkOrderType, DemoModel.Namespaces.DemoModel);
 
         /// <summary>
+        /// The identifier for the DemoModel_BinarySchema_SampleUnion Variable.
+        /// </summary>
+        public static readonly ExpandedNodeId DemoModel_BinarySchema_SampleUnion = new ExpandedNodeId(DemoModel.Variables.DemoModel_BinarySchema_SampleUnion, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the DemoModel_BinarySchema_SampleStructureWithOptionalFields Variable.
+        /// </summary>
+        public static readonly ExpandedNodeId DemoModel_BinarySchema_SampleStructureWithOptionalFields = new ExpandedNodeId(DemoModel.Variables.DemoModel_BinarySchema_SampleStructureWithOptionalFields, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the DemoModel_BinarySchema_SampleUnionAllowSubtypes Variable.
+        /// </summary>
+        public static readonly ExpandedNodeId DemoModel_BinarySchema_SampleUnionAllowSubtypes = new ExpandedNodeId(DemoModel.Variables.DemoModel_BinarySchema_SampleUnionAllowSubtypes, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the DemoModel_BinarySchema_SampleStructureAllowSubtypes Variable.
+        /// </summary>
+        public static readonly ExpandedNodeId DemoModel_BinarySchema_SampleStructureAllowSubtypes = new ExpandedNodeId(DemoModel.Variables.DemoModel_BinarySchema_SampleStructureAllowSubtypes, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
         /// The identifier for the DemoModel_XmlSchema Variable.
         /// </summary>
         public static readonly ExpandedNodeId DemoModel_XmlSchema = new ExpandedNodeId(DemoModel.Variables.DemoModel_XmlSchema, DemoModel.Namespaces.DemoModel);
@@ -409,6 +629,26 @@ namespace DemoModel
         /// The identifier for the DemoModel_XmlSchema_WorkOrderType Variable.
         /// </summary>
         public static readonly ExpandedNodeId DemoModel_XmlSchema_WorkOrderType = new ExpandedNodeId(DemoModel.Variables.DemoModel_XmlSchema_WorkOrderType, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the DemoModel_XmlSchema_SampleUnion Variable.
+        /// </summary>
+        public static readonly ExpandedNodeId DemoModel_XmlSchema_SampleUnion = new ExpandedNodeId(DemoModel.Variables.DemoModel_XmlSchema_SampleUnion, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the DemoModel_XmlSchema_SampleStructureWithOptionalFields Variable.
+        /// </summary>
+        public static readonly ExpandedNodeId DemoModel_XmlSchema_SampleStructureWithOptionalFields = new ExpandedNodeId(DemoModel.Variables.DemoModel_XmlSchema_SampleStructureWithOptionalFields, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the DemoModel_XmlSchema_SampleUnionAllowSubtypes Variable.
+        /// </summary>
+        public static readonly ExpandedNodeId DemoModel_XmlSchema_SampleUnionAllowSubtypes = new ExpandedNodeId(DemoModel.Variables.DemoModel_XmlSchema_SampleUnionAllowSubtypes, DemoModel.Namespaces.DemoModel);
+
+        /// <summary>
+        /// The identifier for the DemoModel_XmlSchema_SampleStructureAllowSubtypes Variable.
+        /// </summary>
+        public static readonly ExpandedNodeId DemoModel_XmlSchema_SampleStructureAllowSubtypes = new ExpandedNodeId(DemoModel.Variables.DemoModel_XmlSchema_SampleStructureAllowSubtypes, DemoModel.Namespaces.DemoModel);
     }
     #endregion
 
@@ -458,6 +698,26 @@ namespace DemoModel
         /// The BrowseName for the Red component.
         /// </summary>
         public const string Red = "Red";
+
+        /// <summary>
+        /// The BrowseName for the SampleStructureAllowSubtypes component.
+        /// </summary>
+        public const string SampleStructureAllowSubtypes = "SampleStructureAllowSubtypes";
+
+        /// <summary>
+        /// The BrowseName for the SampleStructureWithOptionalFields component.
+        /// </summary>
+        public const string SampleStructureWithOptionalFields = "SampleStructureWithOptionalFields";
+
+        /// <summary>
+        /// The BrowseName for the SampleUnion component.
+        /// </summary>
+        public const string SampleUnion = "SampleUnion";
+
+        /// <summary>
+        /// The BrowseName for the SampleUnionAllowSubtypes component.
+        /// </summary>
+        public const string SampleUnionAllowSubtypes = "SampleUnionAllowSubtypes";
 
         /// <summary>
         /// The BrowseName for the Signal component.

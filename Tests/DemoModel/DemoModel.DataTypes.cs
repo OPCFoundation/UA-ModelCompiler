@@ -908,4 +908,1064 @@ namespace DemoModel
     #endregion
     #endif
     #endregion
+
+    #region SampleUnion Class
+    #if (!OPCUA_EXCLUDE_SampleUnion)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModel)]
+    public partial class SampleUnion : Union
+    {
+        #region Constructors
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        public SampleUnion()
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Called by the .NET framework during deserialization.
+        /// </summary>
+        [OnDeserializing]
+        private void Initialize(StreamingContext context)
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Sets private members to default values.
+        /// </summary>
+        private void Initialize()
+        {
+            m_fieldX = (uint)0;
+            m_fieldY = new StringCollection();
+            m_fieldZ = null;
+        }
+        #endregion
+
+        #region Public Properties
+        /// <remarks />
+        [DataMember(Name = "FieldX", IsRequired = false, Order = 1)]
+        public uint FieldX
+        {
+            get { return m_fieldX;  }
+            set { m_fieldX = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "FieldY", IsRequired = false, Order = 2)]
+        public StringCollection FieldY
+        {
+            get
+            {
+                return m_fieldY;
+            }
+
+            set
+            {
+                m_fieldY = value;
+
+                if (value == null)
+                {
+                    m_fieldY = new StringCollection();
+                }
+            }
+        }
+
+        /// <remarks />
+        [DataMember(Name = "FieldZ", IsRequired = false, Order = 3)]
+        public byte[] FieldZ
+        {
+            get { return m_fieldZ;  }
+            set { m_fieldZ = value; }
+        }
+        #endregion
+
+        #region IEncodeable Members
+        /// <summary cref="IEncodeable.TypeId" />
+        public override ExpandedNodeId TypeId
+        {
+            get { return DataTypeIds.SampleUnion; }
+        }
+
+        /// <summary cref="IEncodeable.BinaryEncodingId" />
+        public override ExpandedNodeId BinaryEncodingId
+        {
+            get { return ObjectIds.SampleUnion_Encoding_DefaultBinary; }
+        }
+
+        /// <summary cref="IEncodeable.XmlEncodingId" />
+        public override ExpandedNodeId XmlEncodingId
+        {
+            get { return ObjectIds.SampleUnion_Encoding_DefaultXml; }
+        }
+
+        /// <summary cref="IEncodeable.Encode(IEncoder)" />
+        public override void Encode(IEncoder encoder)
+        {
+            base.Encode(encoder);
+
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+
+            encoder.WriteUInt32("FieldX", FieldX);
+            encoder.WriteStringArray("FieldY", FieldY);
+            encoder.WriteByteString("FieldZ", FieldZ);
+
+            encoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.Decode(IDecoder)" />
+        public override void Decode(IDecoder decoder)
+        {
+            base.Decode(decoder);
+
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+
+            FieldX = decoder.ReadUInt32("FieldX");
+            FieldY = decoder.ReadStringArray("FieldY");
+            FieldZ = decoder.ReadByteString("FieldZ");
+
+            decoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
+        public override bool IsEqual(IEncodeable encodeable)
+        {
+            if (Object.ReferenceEquals(this, encodeable))
+            {
+                return true;
+            }
+
+            SampleUnion value = encodeable as SampleUnion;
+
+            if (value == null)
+            {
+                return false;
+            }
+
+            if (!base.IsEqual(encodeable)) return false;
+            if (!Utils.IsEqual(m_fieldX, value.m_fieldX)) return false;
+            if (!Utils.IsEqual(m_fieldY, value.m_fieldY)) return false;
+            if (!Utils.IsEqual(m_fieldZ, value.m_fieldZ)) return false;
+
+            return true;
+        }    
+
+        #if !NET_STANDARD
+        /// <summary cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            return (SampleUnion)this.MemberwiseClone();
+        }
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            SampleUnion clone = (SampleUnion)base.MemberwiseClone();
+
+            clone.m_fieldX = (uint)Utils.Clone(this.m_fieldX);
+            clone.m_fieldY = (StringCollection)Utils.Clone(this.m_fieldY);
+            clone.m_fieldZ = (byte[])Utils.Clone(this.m_fieldZ);
+
+            return clone;
+        }
+        #endregion
+
+        #region Private Fields
+        private uint m_fieldX;
+        private StringCollection m_fieldY;
+        private byte[] m_fieldZ;
+        #endregion
+    }
+
+    #region SampleUnionCollection Class
+    /// <summary>
+    /// A collection of SampleUnion objects.
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [CollectionDataContract(Name = "ListOfSampleUnion", Namespace = DemoModel.Namespaces.DemoModel, ItemName = "SampleUnion")]
+    #if !NET_STANDARD
+    public partial class SampleUnionCollection : List<SampleUnion>, ICloneable
+    #else
+    public partial class SampleUnionCollection : List<SampleUnion>
+    #endif
+    {
+        #region Constructors
+        /// <summary>
+        /// Initializes the collection with default values.
+        /// </summary>
+        public SampleUnionCollection() {}
+
+        /// <summary>
+        /// Initializes the collection with an initial capacity.
+        /// </summary>
+        public SampleUnionCollection(int capacity) : base(capacity) {}
+
+        /// <summary>
+        /// Initializes the collection with another collection.
+        /// </summary>
+        public SampleUnionCollection(IEnumerable<SampleUnion> collection) : base(collection) {}
+        #endregion
+
+        #region Static Operators
+        /// <summary>
+        /// Converts an array to a collection.
+        /// </summary>
+        public static implicit operator SampleUnionCollection(SampleUnion[] values)
+        {
+            if (values != null)
+            {
+                return new SampleUnionCollection(values);
+            }
+
+            return new SampleUnionCollection();
+        }
+
+        /// <summary>
+        /// Converts a collection to an array.
+        /// </summary>
+        public static explicit operator SampleUnion[](SampleUnionCollection values)
+        {
+            if (values != null)
+            {
+                return values.ToArray();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #if !NET_STANDARD
+        #region ICloneable Methods
+        /// <summary>
+        /// Creates a deep copy of the collection.
+        /// </summary>
+        public object Clone()
+        {
+            return (SampleUnionCollection)this.MemberwiseClone();
+        }
+        #endregion
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            SampleUnionCollection clone = new SampleUnionCollection(this.Count);
+
+            for (int ii = 0; ii < this.Count; ii++)
+            {
+                clone.Add((SampleUnion)Utils.Clone(this[ii]));
+            }
+
+            return clone;
+        }
+    }
+    #endregion
+    #endif
+    #endregion
+
+    #region SampleStructureWithOptionalFields Class
+    #if (!OPCUA_EXCLUDE_SampleStructureWithOptionalFields)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModel)]
+    public partial class SampleStructureWithOptionalFields : IEncodeable
+    {
+        #region Constructors
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        public SampleStructureWithOptionalFields()
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Called by the .NET framework during deserialization.
+        /// </summary>
+        [OnDeserializing]
+        private void Initialize(StreamingContext context)
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Sets private members to default values.
+        /// </summary>
+        private void Initialize()
+        {
+            m_fieldX = (uint)0;
+            m_fieldY = new StringCollection();
+            m_fieldZ = null;
+        }
+        #endregion
+
+        #region Public Properties
+        /// <remarks />
+        [DataMember(Name = "FieldX", IsRequired = false, Order = 1)]
+        public uint FieldX
+        {
+            get { return m_fieldX;  }
+            set { m_fieldX = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "FieldY", IsRequired = false, Order = 2)]
+        public StringCollection FieldY
+        {
+            get
+            {
+                return m_fieldY;
+            }
+
+            set
+            {
+                m_fieldY = value;
+
+                if (value == null)
+                {
+                    m_fieldY = new StringCollection();
+                }
+            }
+        }
+
+        /// <remarks />
+        [DataMember(Name = "FieldZ", IsRequired = false, Order = 3)]
+        public byte[] FieldZ
+        {
+            get { return m_fieldZ;  }
+            set { m_fieldZ = value; }
+        }
+        #endregion
+
+        #region IEncodeable Members
+        /// <summary cref="IEncodeable.TypeId" />
+        public virtual ExpandedNodeId TypeId
+        {
+            get { return DataTypeIds.SampleStructureWithOptionalFields; }
+        }
+
+        /// <summary cref="IEncodeable.BinaryEncodingId" />
+        public virtual ExpandedNodeId BinaryEncodingId
+        {
+            get { return ObjectIds.SampleStructureWithOptionalFields_Encoding_DefaultBinary; }
+        }
+
+        /// <summary cref="IEncodeable.XmlEncodingId" />
+        public virtual ExpandedNodeId XmlEncodingId
+        {
+            get { return ObjectIds.SampleStructureWithOptionalFields_Encoding_DefaultXml; }
+        }
+
+        /// <summary cref="IEncodeable.Encode(IEncoder)" />
+        public virtual void Encode(IEncoder encoder)
+        {
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+
+            encoder.WriteUInt32("FieldX", FieldX);
+            encoder.WriteStringArray("FieldY", FieldY);
+            encoder.WriteByteString("FieldZ", FieldZ);
+
+            encoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.Decode(IDecoder)" />
+        public virtual void Decode(IDecoder decoder)
+        {
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+
+            FieldX = decoder.ReadUInt32("FieldX");
+            FieldY = decoder.ReadStringArray("FieldY");
+            FieldZ = decoder.ReadByteString("FieldZ");
+
+            decoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
+        public virtual bool IsEqual(IEncodeable encodeable)
+        {
+            if (Object.ReferenceEquals(this, encodeable))
+            {
+                return true;
+            }
+
+            SampleStructureWithOptionalFields value = encodeable as SampleStructureWithOptionalFields;
+
+            if (value == null)
+            {
+                return false;
+            }
+
+            if (!Utils.IsEqual(m_fieldX, value.m_fieldX)) return false;
+            if (!Utils.IsEqual(m_fieldY, value.m_fieldY)) return false;
+            if (!Utils.IsEqual(m_fieldZ, value.m_fieldZ)) return false;
+
+            return true;
+        }
+
+        #if !NET_STANDARD
+        /// <summary cref="ICloneable.Clone" />
+        public virtual object Clone()
+        {
+            return (SampleStructureWithOptionalFields)this.MemberwiseClone();
+        }
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            SampleStructureWithOptionalFields clone = (SampleStructureWithOptionalFields)base.MemberwiseClone();
+
+            clone.m_fieldX = (uint)Utils.Clone(this.m_fieldX);
+            clone.m_fieldY = (StringCollection)Utils.Clone(this.m_fieldY);
+            clone.m_fieldZ = (byte[])Utils.Clone(this.m_fieldZ);
+
+            return clone;
+        }
+        #endregion
+
+        #region Private Fields
+        private uint m_fieldX;
+        private StringCollection m_fieldY;
+        private byte[] m_fieldZ;
+        #endregion
+    }
+
+    #region SampleStructureWithOptionalFieldsCollection Class
+    /// <summary>
+    /// A collection of SampleStructureWithOptionalFields objects.
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [CollectionDataContract(Name = "ListOfSampleStructureWithOptionalFields", Namespace = DemoModel.Namespaces.DemoModel, ItemName = "SampleStructureWithOptionalFields")]
+    #if !NET_STANDARD
+    public partial class SampleStructureWithOptionalFieldsCollection : List<SampleStructureWithOptionalFields>, ICloneable
+    #else
+    public partial class SampleStructureWithOptionalFieldsCollection : List<SampleStructureWithOptionalFields>
+    #endif
+    {
+        #region Constructors
+        /// <summary>
+        /// Initializes the collection with default values.
+        /// </summary>
+        public SampleStructureWithOptionalFieldsCollection() {}
+
+        /// <summary>
+        /// Initializes the collection with an initial capacity.
+        /// </summary>
+        public SampleStructureWithOptionalFieldsCollection(int capacity) : base(capacity) {}
+
+        /// <summary>
+        /// Initializes the collection with another collection.
+        /// </summary>
+        public SampleStructureWithOptionalFieldsCollection(IEnumerable<SampleStructureWithOptionalFields> collection) : base(collection) {}
+        #endregion
+
+        #region Static Operators
+        /// <summary>
+        /// Converts an array to a collection.
+        /// </summary>
+        public static implicit operator SampleStructureWithOptionalFieldsCollection(SampleStructureWithOptionalFields[] values)
+        {
+            if (values != null)
+            {
+                return new SampleStructureWithOptionalFieldsCollection(values);
+            }
+
+            return new SampleStructureWithOptionalFieldsCollection();
+        }
+
+        /// <summary>
+        /// Converts a collection to an array.
+        /// </summary>
+        public static explicit operator SampleStructureWithOptionalFields[](SampleStructureWithOptionalFieldsCollection values)
+        {
+            if (values != null)
+            {
+                return values.ToArray();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #if !NET_STANDARD
+        #region ICloneable Methods
+        /// <summary>
+        /// Creates a deep copy of the collection.
+        /// </summary>
+        public object Clone()
+        {
+            return (SampleStructureWithOptionalFieldsCollection)this.MemberwiseClone();
+        }
+        #endregion
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            SampleStructureWithOptionalFieldsCollection clone = new SampleStructureWithOptionalFieldsCollection(this.Count);
+
+            for (int ii = 0; ii < this.Count; ii++)
+            {
+                clone.Add((SampleStructureWithOptionalFields)Utils.Clone(this[ii]));
+            }
+
+            return clone;
+        }
+    }
+    #endregion
+    #endif
+    #endregion
+
+    #region SampleUnionAllowSubtypes Class
+    #if (!OPCUA_EXCLUDE_SampleUnionAllowSubtypes)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModel)]
+    public partial class SampleUnionAllowSubtypes : Union
+    {
+        #region Constructors
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        public SampleUnionAllowSubtypes()
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Called by the .NET framework during deserialization.
+        /// </summary>
+        [OnDeserializing]
+        private void Initialize(StreamingContext context)
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Sets private members to default values.
+        /// </summary>
+        private void Initialize()
+        {
+            m_fieldX = null;
+            m_fieldY = new WorkOrderStatusType();
+        }
+        #endregion
+
+        #region Public Properties
+        /// <remarks />
+        [DataMember(Name = "FieldX", IsRequired = false, Order = 1)]
+        public ExtensionObject FieldX
+        {
+            get { return m_fieldX;  }
+            set { m_fieldX = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "FieldY", IsRequired = false, Order = 2)]
+        public WorkOrderStatusType FieldY
+        {
+            get
+            {
+                return m_fieldY;
+            }
+
+            set
+            {
+                m_fieldY = value;
+
+                if (value == null)
+                {
+                    m_fieldY = new WorkOrderStatusType();
+                }
+            }
+        }
+        #endregion
+
+        #region IEncodeable Members
+        /// <summary cref="IEncodeable.TypeId" />
+        public override ExpandedNodeId TypeId
+        {
+            get { return DataTypeIds.SampleUnionAllowSubtypes; }
+        }
+
+        /// <summary cref="IEncodeable.BinaryEncodingId" />
+        public override ExpandedNodeId BinaryEncodingId
+        {
+            get { return ObjectIds.SampleUnionAllowSubtypes_Encoding_DefaultBinary; }
+        }
+
+        /// <summary cref="IEncodeable.XmlEncodingId" />
+        public override ExpandedNodeId XmlEncodingId
+        {
+            get { return ObjectIds.SampleUnionAllowSubtypes_Encoding_DefaultXml; }
+        }
+
+        /// <summary cref="IEncodeable.Encode(IEncoder)" />
+        public override void Encode(IEncoder encoder)
+        {
+            base.Encode(encoder);
+
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+
+            encoder.WriteExtensionObject("FieldX", FieldX);
+            encoder.WriteEncodeable("FieldY", FieldY, typeof(WorkOrderStatusType));
+
+            encoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.Decode(IDecoder)" />
+        public override void Decode(IDecoder decoder)
+        {
+            base.Decode(decoder);
+
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+
+            FieldX = decoder.ReadExtensionObject("FieldX");
+            FieldY = (WorkOrderStatusType)decoder.ReadEncodeable("FieldY", typeof(WorkOrderStatusType));
+
+            decoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
+        public override bool IsEqual(IEncodeable encodeable)
+        {
+            if (Object.ReferenceEquals(this, encodeable))
+            {
+                return true;
+            }
+
+            SampleUnionAllowSubtypes value = encodeable as SampleUnionAllowSubtypes;
+
+            if (value == null)
+            {
+                return false;
+            }
+
+            if (!base.IsEqual(encodeable)) return false;
+            if (!Utils.IsEqual(m_fieldX, value.m_fieldX)) return false;
+            if (!Utils.IsEqual(m_fieldY, value.m_fieldY)) return false;
+
+            return true;
+        }    
+
+        #if !NET_STANDARD
+        /// <summary cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            return (SampleUnionAllowSubtypes)this.MemberwiseClone();
+        }
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            SampleUnionAllowSubtypes clone = (SampleUnionAllowSubtypes)base.MemberwiseClone();
+
+            clone.m_fieldX = (ExtensionObject)Utils.Clone(this.m_fieldX);
+            clone.m_fieldY = (WorkOrderStatusType)Utils.Clone(this.m_fieldY);
+
+            return clone;
+        }
+        #endregion
+
+        #region Private Fields
+        private ExtensionObject m_fieldX;
+        private WorkOrderStatusType m_fieldY;
+        #endregion
+    }
+
+    #region SampleUnionAllowSubtypesCollection Class
+    /// <summary>
+    /// A collection of SampleUnionAllowSubtypes objects.
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [CollectionDataContract(Name = "ListOfSampleUnionAllowSubtypes", Namespace = DemoModel.Namespaces.DemoModel, ItemName = "SampleUnionAllowSubtypes")]
+    #if !NET_STANDARD
+    public partial class SampleUnionAllowSubtypesCollection : List<SampleUnionAllowSubtypes>, ICloneable
+    #else
+    public partial class SampleUnionAllowSubtypesCollection : List<SampleUnionAllowSubtypes>
+    #endif
+    {
+        #region Constructors
+        /// <summary>
+        /// Initializes the collection with default values.
+        /// </summary>
+        public SampleUnionAllowSubtypesCollection() {}
+
+        /// <summary>
+        /// Initializes the collection with an initial capacity.
+        /// </summary>
+        public SampleUnionAllowSubtypesCollection(int capacity) : base(capacity) {}
+
+        /// <summary>
+        /// Initializes the collection with another collection.
+        /// </summary>
+        public SampleUnionAllowSubtypesCollection(IEnumerable<SampleUnionAllowSubtypes> collection) : base(collection) {}
+        #endregion
+
+        #region Static Operators
+        /// <summary>
+        /// Converts an array to a collection.
+        /// </summary>
+        public static implicit operator SampleUnionAllowSubtypesCollection(SampleUnionAllowSubtypes[] values)
+        {
+            if (values != null)
+            {
+                return new SampleUnionAllowSubtypesCollection(values);
+            }
+
+            return new SampleUnionAllowSubtypesCollection();
+        }
+
+        /// <summary>
+        /// Converts a collection to an array.
+        /// </summary>
+        public static explicit operator SampleUnionAllowSubtypes[](SampleUnionAllowSubtypesCollection values)
+        {
+            if (values != null)
+            {
+                return values.ToArray();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #if !NET_STANDARD
+        #region ICloneable Methods
+        /// <summary>
+        /// Creates a deep copy of the collection.
+        /// </summary>
+        public object Clone()
+        {
+            return (SampleUnionAllowSubtypesCollection)this.MemberwiseClone();
+        }
+        #endregion
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            SampleUnionAllowSubtypesCollection clone = new SampleUnionAllowSubtypesCollection(this.Count);
+
+            for (int ii = 0; ii < this.Count; ii++)
+            {
+                clone.Add((SampleUnionAllowSubtypes)Utils.Clone(this[ii]));
+            }
+
+            return clone;
+        }
+    }
+    #endregion
+    #endif
+    #endregion
+
+    #region SampleStructureAllowSubtypes Class
+    #if (!OPCUA_EXCLUDE_SampleStructureAllowSubtypes)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModel)]
+    public partial class SampleStructureAllowSubtypes : IEncodeable
+    {
+        #region Constructors
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        public SampleStructureAllowSubtypes()
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Called by the .NET framework during deserialization.
+        /// </summary>
+        [OnDeserializing]
+        private void Initialize(StreamingContext context)
+        {
+            Initialize();
+        }
+
+        /// <summary>
+        /// Sets private members to default values.
+        /// </summary>
+        private void Initialize()
+        {
+            m_fieldX = null;
+            m_fieldY = new ExtensionObjectCollection();
+            m_fieldZ = Variant.Null;
+            m_fieldW = new WorkOrderStatusType();
+        }
+        #endregion
+
+        #region Public Properties
+        /// <remarks />
+        [DataMember(Name = "FieldX", IsRequired = false, Order = 1)]
+        public ExtensionObject FieldX
+        {
+            get { return m_fieldX;  }
+            set { m_fieldX = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "FieldY", IsRequired = false, Order = 2)]
+        public ExtensionObjectCollection FieldY
+        {
+            get
+            {
+                return m_fieldY;
+            }
+
+            set
+            {
+                m_fieldY = value;
+
+                if (value == null)
+                {
+                    m_fieldY = new ExtensionObjectCollection();
+                }
+            }
+        }
+
+        /// <remarks />
+        [DataMember(Name = "FieldZ", IsRequired = false, Order = 3)]
+        public Variant FieldZ
+        {
+            get { return m_fieldZ;  }
+            set { m_fieldZ = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [DataMember(Name = "FieldW", IsRequired = false, Order = 4)]
+        public WorkOrderStatusType FieldW
+        {
+            get
+            {
+                return m_fieldW;
+            }
+
+            set
+            {
+                m_fieldW = value;
+
+                if (value == null)
+                {
+                    m_fieldW = new WorkOrderStatusType();
+                }
+            }
+        }
+        #endregion
+
+        #region IEncodeable Members
+        /// <summary cref="IEncodeable.TypeId" />
+        public virtual ExpandedNodeId TypeId
+        {
+            get { return DataTypeIds.SampleStructureAllowSubtypes; }
+        }
+
+        /// <summary cref="IEncodeable.BinaryEncodingId" />
+        public virtual ExpandedNodeId BinaryEncodingId
+        {
+            get { return ObjectIds.SampleStructureAllowSubtypes_Encoding_DefaultBinary; }
+        }
+
+        /// <summary cref="IEncodeable.XmlEncodingId" />
+        public virtual ExpandedNodeId XmlEncodingId
+        {
+            get { return ObjectIds.SampleStructureAllowSubtypes_Encoding_DefaultXml; }
+        }
+
+        /// <summary cref="IEncodeable.Encode(IEncoder)" />
+        public virtual void Encode(IEncoder encoder)
+        {
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+
+            encoder.WriteExtensionObject("FieldX", FieldX);
+            encoder.WriteExtensionObjectArray("FieldY", FieldY);
+            encoder.WriteVariant("FieldZ", FieldZ);
+            encoder.WriteEncodeable("FieldW", FieldW, typeof(WorkOrderStatusType));
+
+            encoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.Decode(IDecoder)" />
+        public virtual void Decode(IDecoder decoder)
+        {
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+
+            FieldX = decoder.ReadExtensionObject("FieldX");
+            FieldY = decoder.ReadExtensionObjectArray("FieldY");
+            FieldZ = decoder.ReadVariant("FieldZ");
+            FieldW = (WorkOrderStatusType)decoder.ReadEncodeable("FieldW", typeof(WorkOrderStatusType));
+
+            decoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
+        public virtual bool IsEqual(IEncodeable encodeable)
+        {
+            if (Object.ReferenceEquals(this, encodeable))
+            {
+                return true;
+            }
+
+            SampleStructureAllowSubtypes value = encodeable as SampleStructureAllowSubtypes;
+
+            if (value == null)
+            {
+                return false;
+            }
+
+            if (!Utils.IsEqual(m_fieldX, value.m_fieldX)) return false;
+            if (!Utils.IsEqual(m_fieldY, value.m_fieldY)) return false;
+            if (!Utils.IsEqual(m_fieldZ, value.m_fieldZ)) return false;
+            if (!Utils.IsEqual(m_fieldW, value.m_fieldW)) return false;
+
+            return true;
+        }
+
+        #if !NET_STANDARD
+        /// <summary cref="ICloneable.Clone" />
+        public virtual object Clone()
+        {
+            return (SampleStructureAllowSubtypes)this.MemberwiseClone();
+        }
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            SampleStructureAllowSubtypes clone = (SampleStructureAllowSubtypes)base.MemberwiseClone();
+
+            clone.m_fieldX = (ExtensionObject)Utils.Clone(this.m_fieldX);
+            clone.m_fieldY = (ExtensionObjectCollection)Utils.Clone(this.m_fieldY);
+            clone.m_fieldZ = (Variant)Utils.Clone(this.m_fieldZ);
+            clone.m_fieldW = (WorkOrderStatusType)Utils.Clone(this.m_fieldW);
+
+            return clone;
+        }
+        #endregion
+
+        #region Private Fields
+        private ExtensionObject m_fieldX;
+        private ExtensionObjectCollection m_fieldY;
+        private Variant m_fieldZ;
+        private WorkOrderStatusType m_fieldW;
+        #endregion
+    }
+
+    #region SampleStructureAllowSubtypesCollection Class
+    /// <summary>
+    /// A collection of SampleStructureAllowSubtypes objects.
+    /// </summary>
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [CollectionDataContract(Name = "ListOfSampleStructureAllowSubtypes", Namespace = DemoModel.Namespaces.DemoModel, ItemName = "SampleStructureAllowSubtypes")]
+    #if !NET_STANDARD
+    public partial class SampleStructureAllowSubtypesCollection : List<SampleStructureAllowSubtypes>, ICloneable
+    #else
+    public partial class SampleStructureAllowSubtypesCollection : List<SampleStructureAllowSubtypes>
+    #endif
+    {
+        #region Constructors
+        /// <summary>
+        /// Initializes the collection with default values.
+        /// </summary>
+        public SampleStructureAllowSubtypesCollection() {}
+
+        /// <summary>
+        /// Initializes the collection with an initial capacity.
+        /// </summary>
+        public SampleStructureAllowSubtypesCollection(int capacity) : base(capacity) {}
+
+        /// <summary>
+        /// Initializes the collection with another collection.
+        /// </summary>
+        public SampleStructureAllowSubtypesCollection(IEnumerable<SampleStructureAllowSubtypes> collection) : base(collection) {}
+        #endregion
+
+        #region Static Operators
+        /// <summary>
+        /// Converts an array to a collection.
+        /// </summary>
+        public static implicit operator SampleStructureAllowSubtypesCollection(SampleStructureAllowSubtypes[] values)
+        {
+            if (values != null)
+            {
+                return new SampleStructureAllowSubtypesCollection(values);
+            }
+
+            return new SampleStructureAllowSubtypesCollection();
+        }
+
+        /// <summary>
+        /// Converts a collection to an array.
+        /// </summary>
+        public static explicit operator SampleStructureAllowSubtypes[](SampleStructureAllowSubtypesCollection values)
+        {
+            if (values != null)
+            {
+                return values.ToArray();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #if !NET_STANDARD
+        #region ICloneable Methods
+        /// <summary>
+        /// Creates a deep copy of the collection.
+        /// </summary>
+        public object Clone()
+        {
+            return (SampleStructureAllowSubtypesCollection)this.MemberwiseClone();
+        }
+        #endregion
+        #endif
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            SampleStructureAllowSubtypesCollection clone = new SampleStructureAllowSubtypesCollection(this.Count);
+
+            for (int ii = 0; ii < this.Count; ii++)
+            {
+                clone.Add((SampleStructureAllowSubtypes)Utils.Clone(this[ii]));
+            }
+
+            return clone;
+        }
+    }
+    #endregion
+    #endif
+    #endregion
 }

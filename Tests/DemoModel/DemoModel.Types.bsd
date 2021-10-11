@@ -64,4 +64,32 @@
     <opc:Field Name="StatusComments" TypeName="tns:WorkOrderStatusType" LengthField="NoOfStatusComments" />
   </opc:StructuredType>
 
+  <opc:StructuredType Name="SampleUnion" BaseType="ua:Union">
+    <opc:Field Name="FieldX" TypeName="opc:UInt32" />
+    <opc:Field Name="NoOfFieldY" TypeName="opc:Int32" />
+    <opc:Field Name="FieldY" TypeName="opc:String" LengthField="NoOfFieldY" />
+    <opc:Field Name="FieldZ" TypeName="opc:ByteString" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="SampleStructureWithOptionalFields" BaseType="ua:ExtensionObject">
+    <opc:Field Name="FieldX" TypeName="opc:UInt32" />
+    <opc:Field Name="NoOfFieldY" TypeName="opc:Int32" />
+    <opc:Field Name="FieldY" TypeName="opc:String" LengthField="NoOfFieldY" />
+    <opc:Field Name="FieldZ" TypeName="opc:ByteString" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="SampleUnionAllowSubtypes" BaseType="ua:Union">
+    <opc:Field Name="FieldX" TypeName="ua:ExtensionObject" />
+    <opc:Field Name="FieldY" TypeName="tns:WorkOrderStatusType" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="SampleStructureAllowSubtypes" BaseType="ua:ExtensionObject">
+    <opc:Field Name="FieldX" TypeName="ua:ExtensionObject" />
+    <opc:Field Name="NoOfFieldY" TypeName="opc:Int32" />
+    <opc:Field Name="FieldY" TypeName="ua:ExtensionObject" LengthField="NoOfFieldY" />
+    <opc:Field Name="NoOfFieldZ" TypeName="opc:Int32" />
+    <opc:Field Name="FieldZ" TypeName="ua:ExtensionObject" LengthField="NoOfFieldZ" />
+    <opc:Field Name="FieldW" TypeName="tns:WorkOrderStatusType" />
+  </opc:StructuredType>
+
 </opc:TypeDictionary>

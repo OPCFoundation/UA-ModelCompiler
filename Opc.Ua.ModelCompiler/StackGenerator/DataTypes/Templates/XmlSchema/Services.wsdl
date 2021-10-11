@@ -1,0 +1,66 @@
+<!--***START***-->
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions
+  targetNamespace="_ServicesNamespace_"
+  xmlns:tns="_ServicesNamespace_"
+  xmlns:s0="_TypesNamespace_"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+  <wsdl:types>
+    <xsd:schema targetNamespace="_Namespace_/Imports">
+      <xsd:import schemaLocation="_TypesNamespace_" namespace="_TypesNamespace_"/>
+    </xsd:schema>
+  </wsdl:types>
+
+  <wsdl:message name="InvokeServiceMessage">
+    <wsdl:part name="input" element="s0:InvokeServiceRequest"/>
+  </wsdl:message>
+  <wsdl:message name="InvokeServiceResponseMessage">
+    <wsdl:part name="output" element="s0:InvokeServiceResponse"/>
+  </wsdl:message>
+  <wsdl:message name="InvokeServiceFaultMessage">
+    <wsdl:part name="detail" element="s0:ServiceFault" />
+  </wsdl:message>
+
+  <!-- Message List -->
+
+  <wsdl:portType name="ISessionEndpoint">
+
+    <wsdl:operation name="InvokeService">
+      <wsdl:input wsaw:Action="_ServicesNamespace_/InvokeService" name="InvokeServiceMessage" message="tns:InvokeServiceMessage"/>
+      <wsdl:output wsaw:Action="_ServicesNamespace_/InvokeServiceResponse" name="InvokeServiceResponseMessage" message="tns:InvokeServiceResponseMessage"/>
+      <wsdl:fault wsaw:Action="_ServicesNamespace_/InvokeServiceFault" name="InvokeServiceFaultMessage" message="tns:InvokeServiceFaultMessage" />
+    </wsdl:operation>
+
+    <!-- Session Operation List -->
+
+  </wsdl:portType>
+
+  <wsdl:portType name="IDiscoveryEndpoint">
+
+    <wsdl:operation name="InvokeService">
+      <wsdl:input wsaw:Action="_ServicesNamespace_/InvokeService" name="InvokeServiceMessage" message="tns:InvokeServiceMessage"/>
+      <wsdl:output wsaw:Action="_ServicesNamespace_/InvokeServiceResponse" name="InvokeServiceResponseMessage" message="tns:InvokeServiceResponseMessage"/>
+      <wsdl:fault wsaw:Action="_ServicesNamespace_/InvokeServiceFault" name="InvokeServiceFaultMessage" message="tns:InvokeServiceFaultMessage" />
+    </wsdl:operation>
+
+    <!-- Discovery Operation List -->
+
+  </wsdl:portType>
+
+  <wsdl:portType name="IRegistrationEndpoint">
+
+    <wsdl:operation name="InvokeService">
+      <wsdl:input wsaw:Action="_ServicesNamespace_/InvokeService" name="InvokeServiceMessage" message="tns:InvokeServiceMessage"/>
+      <wsdl:output wsaw:Action="_ServicesNamespace_/InvokeServiceResponse" name="InvokeServiceResponseMessage" message="tns:InvokeServiceResponseMessage"/>
+      <wsdl:fault wsaw:Action="_ServicesNamespace_/InvokeServiceFault" name="InvokeServiceFaultMessage" message="tns:InvokeServiceFaultMessage" />
+    </wsdl:operation>
+
+    <!-- Registration Operation List -->
+
+  </wsdl:portType>
+
+</wsdl:definitions>
+<!--***END***-->

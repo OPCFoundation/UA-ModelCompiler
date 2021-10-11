@@ -1,0 +1,458 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net5.0</TargetFrameworks>
+    <IntermediateOutputPath>$(SolutionDir)build\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
+    <RootNamespace>ModelCompiler</RootNamespace>
+    <VersionSuffix>2.0.$([System.DateTime]::UtcNow.ToString(yyMM)).$([System.DateTime]::UtcNow.ToString(ddmm))</VersionSuffix>
+    <AssemblyVersion Condition=" '$(VersionSuffix)' == '' ">0.0.0.1</AssemblyVersion>
+    <AssemblyVersion Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</AssemblyVersion>
+    <Version Condition=" '$(VersionSuffix)' == '' ">0.0.1.0</Version>
+    <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</Version>
+    <Copyright>Copyright © OPC Foundation</Copyright>
+    <Product>OPC UA Model Compiler</Product>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>$(SolutionDir)build\bin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>$(SolutionDir)build\bin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Design.v105\**" />
+    <EmbeddedResource Remove="Design.v105\**" />
+    <None Remove="Design.v105\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="ExceptionDlg.cs" />
+    <Compile Remove="ExceptionDlg.Designer.cs" />
+    <Compile Remove="MainForm.cs" />
+    <Compile Remove="MainForm.Designer.cs" />
+    <Compile Remove="Properties\Resources.Designer.cs" />
+    <Compile Remove="Properties\Settings.Designer.cs" />
+    <Compile Remove="StackGenerator\DataTypes\Templates\Constants\Constant.cs" />
+    <Compile Remove="StackGenerator\DataTypes\Templates\Constants\DataTypes.cs" />
+    <Compile Remove="StackGenerator\DataTypes\Templates\Constants\Encodings.cs" />
+    <Compile Remove="StackGenerator\DataTypes\Templates\Constants\File.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Channels\BinaryMethodAsync.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Channels\File.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Channels\ServiceSet.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Channels\XmlMethodAsync.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Classes\Class.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Classes\ClassCollection.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Classes\Enumeration.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Classes\EnumerationCollection.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Classes\EnumerationValue.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Classes\EventType.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Classes\FieldValue.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Classes\File.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Classes\Property.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Classes\PropertyArray.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Classes\Service.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\ClientApi\File.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\ClientApi\Method.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\ClientApi\ServiceSet.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Endpoints\File.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Endpoints\Method.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Endpoints\ServiceSet.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Interfaces\File.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Interfaces\Operation.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Interfaces\OperationAsync.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Interfaces\OperationAsyncEndpoint.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\Interfaces\ServiceSet.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\ServerApi\File.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\ServerApi\InterfaceMethod.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\ServerApi\Method.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\ServerApi\ServiceSet.cs" />
+    <Compile Remove="Templates\Types\Identifiers.cs" />
+    <Compile Remove="Templates\Types\Name.cs" />
+    <Compile Remove="Templates\Types\Names.cs" />
+    <Compile Remove="Templates\Types\Namespaces.cs" />
+    <Compile Remove="Templates\Types\NamespaceUri.cs" />
+    <Compile Remove="Templates\Version2\BrowseName.cs" />
+    <Compile Remove="Templates\Version2\ConstantsFile.cs" />
+    <Compile Remove="Templates\Version2\CreateObjectChild.cs" />
+    <Compile Remove="Templates\Version2\CreateVariableChild.cs" />
+    <Compile Remove="Templates\Version2\DataTypes\ArrayProperty.cs" />
+    <Compile Remove="Templates\Version2\DataTypes\Class.cs" />
+    <Compile Remove="Templates\Version2\DataTypes\CollectionClass.cs" />
+    <Compile Remove="Templates\Version2\DataTypes\DerivedClass.cs" />
+    <Compile Remove="Templates\Version2\DataTypes\Enumeration.cs" />
+    <Compile Remove="Templates\Version2\DataTypes\EnumerationValue.cs" />
+    <Compile Remove="Templates\Version2\DataTypes\Property.cs" />
+    <Compile Remove="Templates\Version2\File.cs" />
+    <Compile Remove="Templates\Version2\FindChildCase.cs" />
+    <Compile Remove="Templates\Version2\FindChildMethods.cs" />
+    <Compile Remove="Templates\Version2\FindChildren.cs" />
+    <Compile Remove="Templates\Version2\IdClass.cs" />
+    <Compile Remove="Templates\Version2\IdDeclaration.cs" />
+    <Compile Remove="Templates\Version2\InitializeOptionalChild.cs" />
+    <Compile Remove="Templates\Version2\MandatoryChild.cs" />
+    <Compile Remove="Templates\Version2\MethodType.cs" />
+    <Compile Remove="Templates\Version2\NamespaceUri.cs" />
+    <Compile Remove="Templates\Version2\NodeIdClass.cs" />
+    <Compile Remove="Templates\Version2\NodeIdDeclaration.cs" />
+    <Compile Remove="Templates\Version2\NodeIdDeclarationAbsolute.cs" />
+    <Compile Remove="Templates\Version2\ObjectType.cs" />
+    <Compile Remove="Templates\Version2\Property.cs" />
+    <Compile Remove="Templates\Version2\PropertyOverride.cs" />
+    <Compile Remove="Templates\Version2\TypedVariableType.cs" />
+    <Compile Remove="Templates\Version2\TypesFile.cs" />
+    <Compile Remove="Templates\Version2\VariableType.cs" />
+    <Compile Remove="Templates\Version2\VariableTypeValue.cs" />
+    <Compile Remove="Templates\Version2\VariableTypeValueField.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="ExceptionDlg.resx" />
+    <EmbeddedResource Remove="MainForm.resx" />
+    <EmbeddedResource Remove="Properties\Resources.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="CSVs\DemoModel.csv" />
+    <None Remove="CSVs\MDIS.csv" />
+    <None Remove="CSVs\MTConnectModel.csv" />
+    <None Remove="CSVs\OpcUaAdiModel.csv" />
+    <None Remove="CSVs\OpcUaDiModel.csv" />
+    <None Remove="CSVs\OpcUaFdiPart5Model.csv" />
+    <None Remove="CSVs\OpcUaFdiPart7Model.csv" />
+    <None Remove="CSVs\OpcUaGdsModel.csv" />
+    <None Remove="CSVs\OpcUaNodeSetModel.csv" />
+    <None Remove="CSVs\OpcUaPLCopenModel.csv" />
+    <None Remove="CSVs\OpcUaProvisioningModel.csv" />
+    <None Remove="CSVs\rec20_latest_a1.csv" />
+    <None Remove="CSVs\rec20_latest_a2-3.csv" />
+    <None Remove="CSVs\rec20_Rev15e-2020.xls" />
+    <None Remove="CSVs\SercosModel.csv" />
+    <None Remove="CSVs\StandardTypes.csv" />
+    <None Remove="CSVs\UA Attributes.csv" />
+    <None Remove="CSVs\UA ServerCapabilities.csv" />
+    <None Remove="CSVs\UA Status Codes.csv" />
+    <None Remove="CSVs\UNECE_to_OPCUA.csv" />
+    <None Remove="Design.v103\BuiltInTypes.xml" />
+    <None Remove="Design.v103\DemoModel.xml" />
+    <None Remove="Design.v103\MDIS.xml" />
+    <None Remove="Design.v103\MTConnectModel.xml" />
+    <None Remove="Design.v103\OpcUaAdiModel.xml" />
+    <None Remove="Design.v103\OpcUaDiModel.xml" />
+    <None Remove="Design.v103\OpcUaFdiPart5Model.xml" />
+    <None Remove="Design.v103\OpcUaFdiPart7Model.xml" />
+    <None Remove="Design.v103\OpcUaGdsModel.xml" />
+    <None Remove="Design.v103\OpcUaPLCopenModel.xml" />
+    <None Remove="Design.v103\SercosModel.xml" />
+    <None Remove="Design.v103\StandardTypes.xml" />
+    <None Remove="Design.v103\UA Attributes.xml" />
+    <None Remove="Design.v103\UA Core Services.xml" />
+    <None Remove="Design.v103\UA Defined Types.xml" />
+    <None Remove="Design.v103\UA Status Codes.xml" />
+    <None Remove="Design.v104\BuiltInTypes.xml" />
+    <None Remove="Design.v104\DemoModel.xml" />
+    <None Remove="Design.v104\MDIS.xml" />
+    <None Remove="Design.v104\MTConnectModel.xml" />
+    <None Remove="Design.v104\OpcUaAdiModel.xml" />
+    <None Remove="Design.v104\OpcUaDiModel.xml" />
+    <None Remove="Design.v104\OpcUaFdiPart5Model.xml" />
+    <None Remove="Design.v104\OpcUaFdiPart7Model.xml" />
+    <None Remove="Design.v104\OpcUaGdsModel.xml" />
+    <None Remove="Design.v104\OpcUaPLCopenModel.xml" />
+    <None Remove="Design.v104\SercosModel.xml" />
+    <None Remove="Design.v104\StandardTypes.xml" />
+    <None Remove="Design.v104\UA Attributes.xml" />
+    <None Remove="Design.v104\UA Core Services.xml" />
+    <None Remove="Design.v104\UA Defined Types.xml" />
+    <None Remove="Design.v104\UA Status Codes.xml" />
+    <None Remove="License\NONE.txt" />
+    <None Remove="License\UA_MIT.txt" />
+    <None Remove="License\UA_MIT_XML.txt" />
+    <None Remove="Properties\Settings.settings" />
+    <None Remove="StackGenerator\AnsiC\Templates\ClientApi\File.c" />
+    <None Remove="StackGenerator\AnsiC\Templates\ClientApi\File.h" />
+    <None Remove="StackGenerator\AnsiC\Templates\ClientApi\Service.c" />
+    <None Remove="StackGenerator\AnsiC\Templates\ClientApi\Service.h" />
+    <None Remove="StackGenerator\AnsiC\Templates\ClientApi\ServiceExtendedAsync.c" />
+    <None Remove="StackGenerator\AnsiC\Templates\ClientApi\ServiceExtendedAsync.h" />
+    <None Remove="StackGenerator\AnsiC\Templates\ServerApi\File.c" />
+    <None Remove="StackGenerator\AnsiC\Templates\ServerApi\File.h" />
+    <None Remove="StackGenerator\AnsiC\Templates\ServerApi\Service.c" />
+    <None Remove="StackGenerator\AnsiC\Templates\ServerApi\Service.h" />
+    <None Remove="StackGenerator\AnsiC\Templates\Types\ComplexType.c" />
+    <None Remove="StackGenerator\AnsiC\Templates\Types\ComplexType.h" />
+    <None Remove="StackGenerator\AnsiC\Templates\Types\EnumeratedType.c" />
+    <None Remove="StackGenerator\AnsiC\Templates\Types\EnumeratedType.h" />
+    <None Remove="StackGenerator\AnsiC\Templates\Types\EnumeratedValue.c" />
+    <None Remove="StackGenerator\AnsiC\Templates\Types\File.c" />
+    <None Remove="StackGenerator\AnsiC\Templates\Types\File.h" />
+    <None Remove="StackGenerator\AnsiC\Templates\Types\ServiceType.c" />
+    <None Remove="StackGenerator\AnsiC\Templates\Types\ServiceType.h" />
+    <None Remove="StackGenerator\DataTypes\Templates\BinarySchema\BuiltInTypes.bsd" />
+    <None Remove="StackGenerator\DataTypes\Templates\BinarySchema\ComplexType.xml" />
+    <None Remove="StackGenerator\DataTypes\Templates\BinarySchema\EnumeratedType.xml" />
+    <None Remove="StackGenerator\DataTypes\Templates\BinarySchema\File.xml" />
+    <None Remove="StackGenerator\DataTypes\Templates\BinarySchema\OpaqueType.xml" />
+    <None Remove="StackGenerator\DataTypes\Templates\BinarySchema\ServiceType.xml" />
+    <None Remove="StackGenerator\DataTypes\Templates\Constants\Constant.csv" />
+    <None Remove="StackGenerator\DataTypes\Templates\Constants\Constant.h" />
+    <None Remove="StackGenerator\DataTypes\Templates\Constants\DataTypes.h" />
+    <None Remove="StackGenerator\DataTypes\Templates\Constants\Encodings.h" />
+    <None Remove="StackGenerator\DataTypes\Templates\Constants\File.csv" />
+    <None Remove="StackGenerator\DataTypes\Templates\Constants\File.h" />
+    <None Remove="StackGenerator\DataTypes\Templates\Nodes\DataType.xml" />
+    <None Remove="StackGenerator\DataTypes\Templates\Nodes\File.xml" />
+    <None Remove="StackGenerator\DataTypes\Templates\Nodes\Service.xml" />
+    <None Remove="StackGenerator\DataTypes\Templates\Nodes\ServiceType.xml" />
+    <None Remove="StackGenerator\DataTypes\Templates\Nodes\TypeDeclaration.xml" />
+    <None Remove="StackGenerator\DataTypes\Templates\XmlSchema\Array.xml" />
+    <None Remove="StackGenerator\DataTypes\Templates\XmlSchema\Binding.wsdl" />
+    <None Remove="StackGenerator\DataTypes\Templates\XmlSchema\BuiltInTypes.xsd" />
+    <None Remove="StackGenerator\DataTypes\Templates\XmlSchema\ComplexType.xml" />
+    <None Remove="StackGenerator\DataTypes\Templates\XmlSchema\DerivedType.xml" />
+    <None Remove="StackGenerator\DataTypes\Templates\XmlSchema\Endpoint.wsdl" />
+    <None Remove="StackGenerator\DataTypes\Templates\XmlSchema\EnumeratedType.xml" />
+    <None Remove="StackGenerator\DataTypes\Templates\XmlSchema\File.xml" />
+    <None Remove="StackGenerator\DataTypes\Templates\XmlSchema\Message.wsdl" />
+    <None Remove="StackGenerator\DataTypes\Templates\XmlSchema\PortType.wsdl" />
+    <None Remove="StackGenerator\DataTypes\Templates\XmlSchema\Services.wsdl" />
+    <None Remove="StackGenerator\DataTypes\Templates\XmlSchema\ServiceType.xml" />
+    <None Remove="StackGenerator\Validators\BuiltInTypes.xml" />
+    <None Remove="StackGenerator\Validators\Xml\BuiltInTypes.xsd" />
+    <None Remove="StackGenerator\Wireshark\Template\complexparserfunction.c" />
+    <None Remove="StackGenerator\Wireshark\Template\enumparser.c" />
+    <None Remove="StackGenerator\Wireshark\Template\enumregisterinfo.c" />
+    <None Remove="StackGenerator\Wireshark\Template\hfentries.c" />
+    <None Remove="StackGenerator\Wireshark\Template\hfentries.h" />
+    <None Remove="StackGenerator\Wireshark\Template\opcua_identifiers.h" />
+    <None Remove="StackGenerator\Wireshark\Template\serviceparserfunction.c" />
+    <None Remove="StackGenerator\Wireshark\Template\servicetable.c" />
+    <None Remove="Templates\BinarySchema\BuiltInTypes.bsd" />
+    <None Remove="Templates\BinarySchema\ComplexType.xml" />
+    <None Remove="Templates\BinarySchema\EnumeratedType.xml" />
+    <None Remove="Templates\BinarySchema\File.xml" />
+    <None Remove="Templates\BinarySchema\OpaqueType.xml" />
+    <None Remove="Templates\Types\Identifiers.h" />
+    <None Remove="Templates\XmlSchema\Array.xml" />
+    <None Remove="Templates\XmlSchema\BuiltInTypes.xsd" />
+    <None Remove="Templates\XmlSchema\CollectionType.xml" />
+    <None Remove="Templates\XmlSchema\ComplexType.xml" />
+    <None Remove="Templates\XmlSchema\DerivedType.xml" />
+    <None Remove="Templates\XmlSchema\Documentation.xml" />
+    <None Remove="Templates\XmlSchema\EnumeratedType.xml" />
+    <None Remove="Templates\XmlSchema\File.xml" />
+    <None Remove="Templates\XmlSchema\SimpleType.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="CSVs\DemoModel.csv" />
+    <EmbeddedResource Include="CSVs\MDIS.csv" />
+    <EmbeddedResource Include="CSVs\MTConnectModel.csv" />
+    <EmbeddedResource Include="CSVs\OpcUaAdiModel.csv" />
+    <EmbeddedResource Include="CSVs\OpcUaDiModel.csv" />
+    <EmbeddedResource Include="CSVs\OpcUaFdiPart5Model.csv" />
+    <EmbeddedResource Include="CSVs\OpcUaFdiPart7Model.csv" />
+    <EmbeddedResource Include="CSVs\OpcUaGdsModel.csv" />
+    <EmbeddedResource Include="CSVs\OpcUaNodeSetModel.csv" />
+    <EmbeddedResource Include="CSVs\OpcUaPLCopenModel.csv" />
+    <EmbeddedResource Include="CSVs\OpcUaProvisioningModel.csv" />
+    <EmbeddedResource Include="CSVs\rec20_latest_a1.csv" />
+    <EmbeddedResource Include="CSVs\rec20_latest_a2-3.csv" />
+    <EmbeddedResource Include="CSVs\rec20_Rev15e-2020.xls" />
+    <EmbeddedResource Include="CSVs\SercosModel.csv" />
+    <EmbeddedResource Include="CSVs\StandardTypes.csv" />
+    <EmbeddedResource Include="CSVs\UA Attributes.csv" />
+    <EmbeddedResource Include="CSVs\UA ServerCapabilities.csv" />
+    <EmbeddedResource Include="CSVs\UA Status Codes.csv" />
+    <EmbeddedResource Include="CSVs\UNECE_to_OPCUA.csv" />
+    <EmbeddedResource Include="Design.v103\BuiltInTypes.xml" />
+    <Content Include="Design.v103\DemoModel.xml" />
+    <Content Include="Design.v103\MDIS.xml" />
+    <Content Include="Design.v103\MTConnectModel.xml" />
+    <Content Include="Design.v103\OpcUaAdiModel.xml" />
+    <Content Include="Design.v103\OpcUaDiModel.xml" />
+    <Content Include="Design.v103\OpcUaFdiPart5Model.xml" />
+    <Content Include="Design.v103\OpcUaFdiPart7Model.xml" />
+    <Content Include="Design.v103\OpcUaGdsModel.xml" />
+    <Content Include="Design.v103\OpcUaPLCopenModel.xml" />
+    <Content Include="Design.v103\SercosModel.xml" />
+    <EmbeddedResource Include="Design.v103\StandardTypes.xml" />
+    <EmbeddedResource Include="Design.v103\UA Attributes.xml" />
+    <EmbeddedResource Include="Design.v103\UA Core Services.xml" />
+    <Content Include="Design.v103\UA Defined Types.xml" />
+    <EmbeddedResource Include="Design.v103\UA Status Codes.xml" />
+    <EmbeddedResource Include="Design.v104\BuiltInTypes.xml" />
+    <Content Include="Design.v104\DemoModel.xml" />
+    <Content Include="Design.v104\MDIS.xml" />
+    <Content Include="Design.v104\MTConnectModel.xml" />
+    <Content Include="Design.v104\OpcUaAdiModel.xml" />
+    <Content Include="Design.v104\OpcUaDiModel.xml" />
+    <Content Include="Design.v104\OpcUaFdiPart5Model.xml" />
+    <Content Include="Design.v104\OpcUaFdiPart7Model.xml" />
+    <Content Include="Design.v104\OpcUaGdsModel.xml" />
+    <Content Include="Design.v104\OpcUaPLCopenModel.xml" />
+    <Content Include="Design.v104\SercosModel.xml" />
+    <EmbeddedResource Include="Design.v104\StandardTypes.xml" />
+    <EmbeddedResource Include="Design.v104\UA Attributes.xml" />
+    <EmbeddedResource Include="Design.v104\UA Core Services.xml" />
+    <Content Include="Design.v104\UA Defined Types.xml" />
+    <EmbeddedResource Include="Design.v104\UA Status Codes.xml" />
+    <EmbeddedResource Include="License\NONE.txt" />
+    <EmbeddedResource Include="License\UA_MIT.txt" />
+    <EmbeddedResource Include="License\UA_MIT_XML.txt" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\ClientApi\File.c" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\ClientApi\File.h" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\ClientApi\Service.c" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\ClientApi\Service.h" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\ClientApi\ServiceExtendedAsync.c" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\ClientApi\ServiceExtendedAsync.h" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\ServerApi\File.c" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\ServerApi\File.h" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\ServerApi\Service.c" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\ServerApi\Service.h" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\Types\ComplexType.c" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\Types\ComplexType.h" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\Types\EnumeratedType.c" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\Types\EnumeratedType.h" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\Types\EnumeratedValue.c" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\Types\File.c" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\Types\File.h" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\Types\ServiceType.c" />
+    <EmbeddedResource Include="StackGenerator\AnsiC\Templates\Types\ServiceType.h" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\BinarySchema\BuiltInTypes.bsd" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\BinarySchema\ComplexType.xml" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\BinarySchema\EnumeratedType.xml" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\BinarySchema\File.xml" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\BinarySchema\OpaqueType.xml" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\BinarySchema\ServiceType.xml" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Constant.cs" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Constant.csv" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Constant.h" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\DataTypes.cs" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\DataTypes.h" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Encodings.cs" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Encodings.h" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.cs" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.csv" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.h" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Nodes\DataType.xml" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Nodes\File.xml" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Nodes\Service.xml" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Nodes\ServiceType.xml" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Nodes\TypeDeclaration.xml" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\Array.xml" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\Binding.wsdl" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\BuiltInTypes.xsd" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\ComplexType.xml" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\DerivedType.xml" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\Endpoint.wsdl" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\EnumeratedType.xml" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\File.xml" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\Message.wsdl" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\PortType.wsdl" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\Services.wsdl" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\ServiceType.xml" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\File.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\InterfaceMethod.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\Method.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\ServiceSet.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Channels\BinaryMethodAsync.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Channels\File.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Channels\ServiceSet.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Channels\XmlMethodAsync.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Classes\Class.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Classes\ClassCollection.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Classes\Enumeration.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Classes\EnumerationCollection.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Classes\EnumerationValue.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Classes\EventType.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Classes\FieldValue.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Classes\File.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Classes\Property.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Classes\PropertyArray.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Classes\Service.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ClientApi\File.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ClientApi\Method.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ClientApi\ServiceSet.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Endpoints\File.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Endpoints\Method.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Endpoints\ServiceSet.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Interfaces\File.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Interfaces\Operation.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Interfaces\OperationAsync.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Interfaces\OperationAsyncEndpoint.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\Interfaces\ServiceSet.cs" />
+    <EmbeddedResource Include="StackGenerator\Validators\BuiltInTypes.xml" />
+    <EmbeddedResource Include="StackGenerator\Validators\Xml\BuiltInTypes.xsd" />
+    <EmbeddedResource Include="StackGenerator\Wireshark\Template\complexparserfunction.c" />
+    <EmbeddedResource Include="StackGenerator\Wireshark\Template\enumparser.c" />
+    <EmbeddedResource Include="StackGenerator\Wireshark\Template\enumregisterinfo.c" />
+    <EmbeddedResource Include="StackGenerator\Wireshark\Template\hfentries.c" />
+    <EmbeddedResource Include="StackGenerator\Wireshark\Template\hfentries.h" />
+    <EmbeddedResource Include="StackGenerator\Wireshark\Template\opcua_identifiers.h" />
+    <EmbeddedResource Include="StackGenerator\Wireshark\Template\serviceparserfunction.c" />
+    <EmbeddedResource Include="StackGenerator\Wireshark\Template\servicetable.c" />
+    <EmbeddedResource Include="Templates\BinarySchema\BuiltInTypes.bsd" />
+    <EmbeddedResource Include="Templates\BinarySchema\ComplexType.xml" />
+    <EmbeddedResource Include="Templates\BinarySchema\EnumeratedType.xml" />
+    <EmbeddedResource Include="Templates\BinarySchema\File.xml" />
+    <EmbeddedResource Include="Templates\BinarySchema\OpaqueType.xml" />
+    <EmbeddedResource Include="Templates\Types\Identifiers.cs" />
+    <EmbeddedResource Include="Templates\Types\Identifiers.h" />
+    <EmbeddedResource Include="Templates\Types\Name.cs" />
+    <EmbeddedResource Include="Templates\Types\Names.cs" />
+    <EmbeddedResource Include="Templates\Types\Namespaces.cs" />
+    <EmbeddedResource Include="Templates\Types\NamespaceUri.cs" />
+    <EmbeddedResource Include="Templates\Version2\BrowseName.cs" />
+    <EmbeddedResource Include="Templates\Version2\ConstantsFile.cs" />
+    <EmbeddedResource Include="Templates\Version2\CreateObjectChild.cs" />
+    <EmbeddedResource Include="Templates\Version2\CreateVariableChild.cs" />
+    <EmbeddedResource Include="Templates\Version2\DataTypes\ArrayProperty.cs" />
+    <EmbeddedResource Include="Templates\Version2\DataTypes\Class.cs" />
+    <EmbeddedResource Include="Templates\Version2\DataTypes\CollectionClass.cs" />
+    <EmbeddedResource Include="Templates\Version2\DataTypes\DerivedClass.cs" />
+    <EmbeddedResource Include="Templates\Version2\DataTypes\Enumeration.cs" />
+    <EmbeddedResource Include="Templates\Version2\DataTypes\EnumerationValue.cs" />
+    <EmbeddedResource Include="Templates\Version2\DataTypes\Property.cs" />
+    <EmbeddedResource Include="Templates\Version2\File.cs" />
+    <EmbeddedResource Include="Templates\Version2\FindChildCase.cs" />
+    <EmbeddedResource Include="Templates\Version2\FindChildMethods.cs" />
+    <EmbeddedResource Include="Templates\Version2\FindChildren.cs" />
+    <EmbeddedResource Include="Templates\Version2\IdClass.cs" />
+    <EmbeddedResource Include="Templates\Version2\IdDeclaration.cs" />
+    <EmbeddedResource Include="Templates\Version2\InitializeOptionalChild.cs" />
+    <EmbeddedResource Include="Templates\Version2\MandatoryChild.cs" />
+    <EmbeddedResource Include="Templates\Version2\MethodType.cs" />
+    <EmbeddedResource Include="Templates\Version2\NamespaceUri.cs" />
+    <EmbeddedResource Include="Templates\Version2\NodeIdClass.cs" />
+    <EmbeddedResource Include="Templates\Version2\NodeIdDeclaration.cs" />
+    <EmbeddedResource Include="Templates\Version2\NodeIdDeclarationAbsolute.cs" />
+    <EmbeddedResource Include="Templates\Version2\ObjectType.cs" />
+    <EmbeddedResource Include="Templates\Version2\Property.cs" />
+    <EmbeddedResource Include="Templates\Version2\PropertyOverride.cs" />
+    <EmbeddedResource Include="Templates\Version2\TypedVariableType.cs" />
+    <EmbeddedResource Include="Templates\Version2\TypesFile.cs" />
+    <EmbeddedResource Include="Templates\Version2\VariableType.cs" />
+    <EmbeddedResource Include="Templates\Version2\VariableTypeValue.cs" />
+    <EmbeddedResource Include="Templates\Version2\VariableTypeValueField.cs" />
+    <EmbeddedResource Include="Templates\XmlSchema\Array.xml" />
+    <EmbeddedResource Include="Templates\XmlSchema\BuiltInTypes.xsd" />
+    <EmbeddedResource Include="Templates\XmlSchema\CollectionType.xml" />
+    <EmbeddedResource Include="Templates\XmlSchema\ComplexType.xml" />
+    <EmbeddedResource Include="Templates\XmlSchema\DerivedType.xml" />
+    <EmbeddedResource Include="Templates\XmlSchema\Documentation.xml" />
+    <EmbeddedResource Include="Templates\XmlSchema\EnumeratedType.xml" />
+    <EmbeddedResource Include="Templates\XmlSchema\File.xml" />
+    <EmbeddedResource Include="Templates\XmlSchema\SimpleType.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.4.367.41" />
+  </ItemGroup>
+  
+</Project>

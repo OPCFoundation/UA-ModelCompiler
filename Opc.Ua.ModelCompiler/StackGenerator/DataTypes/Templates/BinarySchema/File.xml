@@ -1,0 +1,15 @@
+<!--***START***-->
+<opc:TypeDictionary
+  xmlns:s0="ListOfNamespaces"
+  xmlns:opc="http://opcfoundation.org/BinarySchema/"
+  xmlns:ua="http://opcfoundation.org/UA/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  DefaultByteOrder="LittleEndian"
+  TargetNamespace="_DictionaryUri_"
+>
+  <!-- Imports -->
+
+  <!-- ListOfTypes -->
+
+</opc:TypeDictionary>
+<!--***END***-->

@@ -42,7 +42,7 @@
 
   <opc:Namespaces>
     <opc:Namespace Name="DemoModel" Prefix="DemoModel" XmlPrefix="DemoModel">http://www.opcfoundation.org/DemoModel/</opc:Namespace>
-    <opc:Namespace Name="OpcUa" Version="1.03" PublicationDate="2013-12-02T00:00:00Z" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
+    <opc:Namespace Name="OpcUa" Version="1.04" PublicationDate="2021-09-15T00:00:00Z" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
   </opc:Namespaces>
 
   <opc:View SymbolicName="TrafficView" SupportsEvents="true" ContainsNoLoops="true" >
@@ -109,4 +109,37 @@
     </opc:Fields>
   </opc:DataType>
 
+
+  <opc:DataType SymbolicName="SampleUnion" BaseType="ua:Union" IsUnion="true">
+    <opc:Fields>
+      <opc:Field Name="FieldX" DataType="ua:UInt32" />
+      <opc:Field Name="FieldY" DataType="ua:String" ValueRank="Array" />
+      <opc:Field Name="FieldZ" DataType="ua:ByteString" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="SampleStructureWithOptionalFields" BaseType="ua:Structure">
+    <opc:Fields>
+      <opc:Field Name="FieldX" DataType="ua:UInt32" />
+      <opc:Field Name="FieldY" DataType="ua:String" ValueRank="Array" IsOptional="true" />
+      <opc:Field Name="FieldZ" DataType="ua:ByteString" IsOptional="true" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="SampleUnionAllowSubtypes" BaseType="ua:Union" IsUnion="true">
+    <opc:Fields>
+      <opc:Field Name="FieldX" DataType="WorkOrderType" AllowSubtypes="true" />
+      <opc:Field Name="FieldY" DataType="WorkOrderStatusType" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="SampleStructureAllowSubtypes" BaseType="ua:Structure">
+    <opc:Fields>
+      <opc:Field Name="FieldX" DataType="Vector" AllowSubtypes="true" />
+      <opc:Field Name="FieldY" DataType="Vector" ValueRank="Array" AllowSubtypes="true" />
+      <opc:Field Name="FieldZ" DataType="Vector" ValueRank="ScalarOrArray" AllowSubtypes="true" />
+      <opc:Field Name="FieldW" DataType="WorkOrderStatusType" />
+    </opc:Fields>
+  </opc:DataType>
+    
 </opc:ModelDesign>
