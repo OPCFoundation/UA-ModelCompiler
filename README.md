@@ -35,7 +35,7 @@ The version in the member-only repository includes content that is only availabl
 
 In many cases, updates to the UA-ModelCompiler will require updates to [UA-.NETStandard](https://github.com/OPCFoundation/UA-.NETStandard) codebase. This means a complete release of the UA-ModelCompiler will need to wait for a update to UA-.NETStandard NuGet packages. The member only version links to a member only fork of [UA-.NETStandard](https://github.com/OPCF-Members/UA-.NETStandard-Prototypes) allows the changes to be viewed before they are merged with the public baseline.
 
-The public repository is updated as frequently as the OPC UA Specification (once every 3-5 months). When a release starts, all issues reported on the public repository will be reviewed and, if appropricate, incorporated into the member-only codebase. This includes any pull requests to this public repository, which are subject to the [OPC Foundation Contributor License Agreement (CLA)](https://cla-assistant.io/OPCFoundation/UA-ModelCompiler).
+The public repository is updated as frequently as the OPC UA Specification (once every 3-5 months). When a release starts, all issues reported on the public repository will be reviewed and, if appropricate, incorporated into the member-only codebase. This includes any pull requests to this public repository, which are subject to the [OPC Foundation Contributor License Agreement (CLA)](https://cla-assistant.io/OPCFoundation/UA-ModelCompiler). When the process completes all accepted public contributions will be merged back into the public codebase along with updates from the member-only codebase.
 
 ## License Model ##
 
