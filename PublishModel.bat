@@ -14,7 +14,7 @@ IF NOT "%3"=="" (set OUTPUT=%OUTPUT%\%3) else (set OUTPUT=%OUTPUT%\master)
 IF NOT "%3"=="" set VERSION=-version %3
 IF NOT "%4"=="" set EXCLUDE=-exclude %4
 
-IF "%3"=="v105" set OUTPUT=%ROOT%..\nodesets\master
+IF "%3"=="v105" set OUTPUT=%ROOT%..\nodesets\v105
 IF "%3"=="v103" set CSVINPUT=%INPUT%
 
 ECHO Building Model %TARGET%

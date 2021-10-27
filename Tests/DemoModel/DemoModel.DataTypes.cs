@@ -1465,18 +1465,32 @@ namespace DemoModel
         /// </summary>
         private void Initialize()
         {
-            m_fieldX = null;
+            m_fieldX = new WorkOrderType();
             m_fieldY = new WorkOrderStatusType();
         }
         #endregion
 
         #region Public Properties
-        /// <remarks />
+        /// <summary>
+        /// 
+        /// </summary>
         [DataMember(Name = "FieldX", IsRequired = false, Order = 1)]
-        public ExtensionObject FieldX
+        public WorkOrderType FieldX
         {
-            get { return m_fieldX;  }
-            set { m_fieldX = value; }
+            get
+            {
+                return m_fieldX;
+            }
+
+            set
+            {
+                m_fieldX = value;
+
+                if (value == null)
+                {
+                    m_fieldX = new WorkOrderType();
+                }
+            }
         }
 
         /// <summary>
@@ -1528,7 +1542,7 @@ namespace DemoModel
 
             encoder.PushNamespace(DemoModel.Namespaces.DemoModel);
 
-            encoder.WriteExtensionObject("FieldX", FieldX);
+            encoder.WriteExtensionObject("FieldX", new ExtensionObject(FieldX));
             encoder.WriteEncodeable("FieldY", FieldY, typeof(WorkOrderStatusType));
 
             encoder.PopNamespace();
@@ -1541,7 +1555,7 @@ namespace DemoModel
 
             decoder.PushNamespace(DemoModel.Namespaces.DemoModel);
 
-            FieldX = decoder.ReadExtensionObject("FieldX");
+            FieldX = (WorkOrderType)ExtensionObject.ToEncodeable(decoder.ReadExtensionObject("FieldX"));
             FieldY = (WorkOrderStatusType)decoder.ReadEncodeable("FieldY", typeof(WorkOrderStatusType));
 
             decoder.PopNamespace();
@@ -1582,7 +1596,7 @@ namespace DemoModel
         {
             SampleUnionAllowSubtypes clone = (SampleUnionAllowSubtypes)base.MemberwiseClone();
 
-            clone.m_fieldX = (ExtensionObject)Utils.Clone(this.m_fieldX);
+            clone.m_fieldX = (WorkOrderType)Utils.Clone(this.m_fieldX);
             clone.m_fieldY = (WorkOrderStatusType)Utils.Clone(this.m_fieldY);
 
             return clone;
@@ -1590,7 +1604,7 @@ namespace DemoModel
         #endregion
 
         #region Private Fields
-        private ExtensionObject m_fieldX;
+        private WorkOrderType m_fieldX;
         private WorkOrderStatusType m_fieldY;
         #endregion
     }
@@ -1715,27 +1729,41 @@ namespace DemoModel
         /// </summary>
         private void Initialize()
         {
-            m_fieldX = null;
-            m_fieldY = new ExtensionObjectCollection();
+            m_fieldX = new Vector();
+            m_fieldY = new VectorCollection();
             m_fieldZ = Variant.Null;
             m_fieldW = new WorkOrderStatusType();
         }
         #endregion
 
         #region Public Properties
-        /// <remarks />
+        /// <summary>
+        /// 
+        /// </summary>
         [DataMember(Name = "FieldX", IsRequired = false, Order = 1)]
-        public ExtensionObject FieldX
+        public Vector FieldX
         {
-            get { return m_fieldX;  }
-            set { m_fieldX = value; }
+            get
+            {
+                return m_fieldX;
+            }
+
+            set
+            {
+                m_fieldX = value;
+
+                if (value == null)
+                {
+                    m_fieldX = new Vector();
+                }
+            }
         }
 
         /// <summary>
         /// 
         /// </summary>
         [DataMember(Name = "FieldY", IsRequired = false, Order = 2)]
-        public ExtensionObjectCollection FieldY
+        public VectorCollection FieldY
         {
             get
             {
@@ -1748,7 +1776,7 @@ namespace DemoModel
 
                 if (value == null)
                 {
-                    m_fieldY = new ExtensionObjectCollection();
+                    m_fieldY = new VectorCollection();
                 }
             }
         }
@@ -1808,8 +1836,8 @@ namespace DemoModel
         {
             encoder.PushNamespace(DemoModel.Namespaces.DemoModel);
 
-            encoder.WriteExtensionObject("FieldX", FieldX);
-            encoder.WriteExtensionObjectArray("FieldY", FieldY);
+            encoder.WriteExtensionObject("FieldX", new ExtensionObject(FieldX));
+            encoder.WriteExtensionObjectArray("FieldY", ExtensionObjectCollection.ToExtensionObjects(FieldY));
             encoder.WriteVariant("FieldZ", FieldZ);
             encoder.WriteEncodeable("FieldW", FieldW, typeof(WorkOrderStatusType));
 
@@ -1821,8 +1849,8 @@ namespace DemoModel
         {
             decoder.PushNamespace(DemoModel.Namespaces.DemoModel);
 
-            FieldX = decoder.ReadExtensionObject("FieldX");
-            FieldY = decoder.ReadExtensionObjectArray("FieldY");
+            FieldX = (Vector)ExtensionObject.ToEncodeable(decoder.ReadExtensionObject("FieldX"));
+            FieldY = (Vector[])ExtensionObject.ToArray(decoder.ReadExtensionObjectArray("FieldY"), typeof(Vector));
             FieldZ = decoder.ReadVariant("FieldZ");
             FieldW = (WorkOrderStatusType)decoder.ReadEncodeable("FieldW", typeof(WorkOrderStatusType));
 
@@ -1865,8 +1893,8 @@ namespace DemoModel
         {
             SampleStructureAllowSubtypes clone = (SampleStructureAllowSubtypes)base.MemberwiseClone();
 
-            clone.m_fieldX = (ExtensionObject)Utils.Clone(this.m_fieldX);
-            clone.m_fieldY = (ExtensionObjectCollection)Utils.Clone(this.m_fieldY);
+            clone.m_fieldX = (Vector)Utils.Clone(this.m_fieldX);
+            clone.m_fieldY = (VectorCollection)Utils.Clone(this.m_fieldY);
             clone.m_fieldZ = (Variant)Utils.Clone(this.m_fieldZ);
             clone.m_fieldW = (WorkOrderStatusType)Utils.Clone(this.m_fieldW);
 
@@ -1875,8 +1903,8 @@ namespace DemoModel
         #endregion
 
         #region Private Fields
-        private ExtensionObject m_fieldX;
-        private ExtensionObjectCollection m_fieldY;
+        private Vector m_fieldX;
+        private VectorCollection m_fieldY;
         private Variant m_fieldZ;
         private WorkOrderStatusType m_fieldW;
         #endregion

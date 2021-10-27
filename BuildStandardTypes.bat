@@ -11,7 +11,7 @@ IF NOT "%1"=="" (set OUTPUT=%OUTPUT%\%1) else (set OUTPUT=%OUTPUT%\master)
 IF NOT "%1"=="" (set INPUT=%INPUT%.%1) else (set INPUT=%INPUT%.v105)
 IF NOT "%1"=="" (set VERSION=-version %1) else (set VERSION=-version v105)
 IF NOT "%2"=="" set EXCLUDE=-exclude %2
-IF "%1"=="v105" (set OUTPUT=..\nodesets\master)
+IF "%1"=="v105" (set OUTPUT=..\nodesets\v105)
 
 set ANSIC_TARGET=
 set DOTNET_TARGET=

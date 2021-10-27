@@ -17,8 +17,6 @@ SampleUnionAllowSubtypes,43,DataType
 SampleUnionAllowSubtypes_Encoding_DefaultBinary,47,Object
 SampleUnionAllowSubtypes_Encoding_DefaultJson,84,Object
 SampleUnionAllowSubtypes_Encoding_DefaultXml,64,Object
-Signal,36,Object
-TrafficView,40,View
 Vector,3,DataType
 Vector_Encoding_DefaultBinary,21,Object
 Vector_Encoding_DefaultJson,79,Object

@@ -31,8 +31,8 @@
 <xs:schema
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:ua="http://opcfoundation.org/UA/2008/02/Types.xsd"
-  xmlns:tns="http://www.opcfoundation.org/DemoModel/"
-  targetNamespace="http://www.opcfoundation.org/DemoModel/"
+  xmlns:tns="http://www.unifiedautomation.com/DemoServer/"
+  targetNamespace="http://www.unifiedautomation.com/DemoServer/"
   elementFormDefault="qualified"
 >
   <xs:import namespace="http://opcfoundation.org/UA/2008/02/Types.xsd" />
@@ -142,7 +142,7 @@
     <xs:complexContent mixed="false">
       <xs:extension base="ua:Union">
         <xs:sequence>
-          <xs:element name="FieldX" type="ua:ExtensionObject" minOccurs="0" nillable="true" />
+          <xs:element name="FieldX" type="tns:WorkOrderType" minOccurs="0" nillable="true" />
           <xs:element name="FieldY" type="tns:WorkOrderStatusType" minOccurs="0" nillable="true" />
         </xs:sequence>
       </xs:extension>
@@ -159,9 +159,9 @@
 
   <xs:complexType name="SampleStructureAllowSubtypes">
     <xs:sequence>
-      <xs:element name="FieldX" type="ua:ExtensionObject" minOccurs="0" nillable="true" />
-      <xs:element name="FieldY" type="ua:ListOfExtensionObject" minOccurs="0" nillable="true" />
-      <xs:element name="FieldZ" type="ua:ListOfExtensionObject" minOccurs="0" nillable="true" />
+      <xs:element name="FieldX" type="tns:Vector" minOccurs="0" nillable="true" />
+      <xs:element name="FieldY" type="tns:ListOfVector" minOccurs="0" nillable="true" />
+      <xs:element name="FieldZ" type="tns:ListOfVector" minOccurs="0" nillable="true" />
       <xs:element name="FieldW" type="tns:WorkOrderStatusType" minOccurs="0" nillable="true" />
     </xs:sequence>
   </xs:complexType>

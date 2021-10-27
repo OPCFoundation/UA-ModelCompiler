@@ -23,12 +23,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Design.v105\**" />
-    <EmbeddedResource Remove="Design.v105\**" />
-    <None Remove="Design.v105\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Remove="ExceptionDlg.cs" />
     <Compile Remove="ExceptionDlg.Designer.cs" />
     <Compile Remove="MainForm.cs" />
@@ -167,6 +161,17 @@
     <None Remove="Design.v104\UA Core Services.xml" />
     <None Remove="Design.v104\UA Defined Types.xml" />
     <None Remove="Design.v104\UA Status Codes.xml" />
+    <None Remove="Design.v105\BuiltInTypes.xml" />
+    <None Remove="Design.v105\DemoModel.xml" />
+    <None Remove="Design.v105\OpcUaDiModel.xml" />
+    <None Remove="Design.v105\OpcUaGdsModel.xml" />
+    <None Remove="Design.v105\OpcUaNodeSetModel.xml" />
+    <None Remove="Design.v105\OpcUaProvisioningModel.xml" />
+    <None Remove="Design.v105\StandardTypes.xml" />
+    <None Remove="Design.v105\UA Attributes.xml" />
+    <None Remove="Design.v105\UA Core Services.xml" />
+    <None Remove="Design.v105\UA Defined Types.xml" />
+    <None Remove="Design.v105\UA Status Codes.xml" />
     <None Remove="License\NONE.txt" />
     <None Remove="License\UA_MIT.txt" />
     <None Remove="License\UA_MIT_XML.txt" />
@@ -299,6 +304,17 @@
     <EmbeddedResource Include="Design.v104\UA Core Services.xml" />
     <Content Include="Design.v104\UA Defined Types.xml" />
     <EmbeddedResource Include="Design.v104\UA Status Codes.xml" />
+    <EmbeddedResource Include="Design.v105\BuiltInTypes.xml" />
+    <Content Include="Design.v105\DemoModel.xml" />
+    <Content Include="Design.v105\OpcUaDiModel.xml" />
+    <Content Include="Design.v105\OpcUaGdsModel.xml" />
+    <Content Include="Design.v105\OpcUaNodeSetModel.xml" />
+    <Content Include="Design.v105\OpcUaProvisioningModel.xml" />
+    <EmbeddedResource Include="Design.v105\StandardTypes.xml" />
+    <EmbeddedResource Include="Design.v105\UA Attributes.xml" />
+    <EmbeddedResource Include="Design.v105\UA Core Services.xml" />
+    <Content Include="Design.v105\UA Defined Types.xml" />
+    <EmbeddedResource Include="Design.v105\UA Status Codes.xml" />
     <EmbeddedResource Include="License\NONE.txt" />
     <EmbeddedResource Include="License\UA_MIT.txt" />
     <EmbeddedResource Include="License\UA_MIT_XML.txt" />
@@ -452,7 +468,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.4.367.41" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.4.367.42" />
   </ItemGroup>
   
 </Project>
