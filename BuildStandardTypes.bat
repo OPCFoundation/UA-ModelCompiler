@@ -71,6 +71,17 @@ COPY "%OUTPUT%\DotNet\Opc.Ua.StatusCodes.csv" "%OUTPUT%\Schema\StatusCode.csv"
 COPY ".\Schemas\UANodeSet.xsd" "%OUTPUT%\Schema\UANodeSet.xsd"
 COPY ".\Schemas\SecuredApplication.xsd" "%OUTPUT%\Schema\SecuredApplication.xsd"
 COPY ".\Schemas\OPCBinarySchema.xsd" "%OUTPUT%\Schema\OPCBinarySchema.xsd"
+DEL /Q "%OUTPUT%\Schema\Opc.Ua.NodeIds.csv"
+DEL /Q "%OUTPUT%\Schema\Opc.Ua.NodeIds.Services.csv"
+@ECHO OFF
+
+ECHO Moving .NET files to %OUTPUT%\DotNet\
+MOVE /Y "%OUTPUT%\Schema\Opc.Ua.Classes.cs" "%OUTPUT%\DotNet\Opc.Ua.Classes.cs"
+MOVE /Y "%OUTPUT%\Schema\Opc.Ua.Constants.cs" "%OUTPUT%\DotNet\Opc.Ua.Constants.cs"
+MOVE /Y "%OUTPUT%\Schema\Opc.Ua.DataTypes.cs" "%OUTPUT%\DotNet\Opc.Ua.DataTypes.cs"
+MOVE /Y "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.uanodes" "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.uanodes"
+MOVE /Y "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.xml" "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.xml"
+MOVE /Y "%OUTPUT%\Schema\Opc.Ua.NodeSet.xml" "%OUTPUT%\DotNet\Opc.Ua.NodeSet.xml"
 @ECHO OFF
 
 IF "%ANSIC_TARGET%" NEQ "" (
@@ -119,11 +130,11 @@ IF "%DOTNET_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\DotNet\Opc.Ua.ServerBase.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.ServerBase.cs"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.StatusCodes.cs" "%DOTNET_TARGET%\Types\Generated\Opc.Ua.StatusCodes.cs"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.Attributes.cs" "%DOTNET_TARGET%\Types\Generated\Opc.Ua.Attributes.cs"
-	COPY "%OUTPUT%\Schema\Opc.Ua.Classes.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Classes.cs"
-	COPY "%OUTPUT%\Schema\Opc.Ua.Constants.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Constants.cs"
-	COPY "%OUTPUT%\Schema\Opc.Ua.DataTypes.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.DataTypes.cs"
-	COPY "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.uanodes" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.PredefinedNodes.uanodes"
-	COPY "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.xml" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.PredefinedNodes.xml"
+	COPY "%OUTPUT%\DotNet\Opc.Ua.Classes.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Classes.cs"
+	COPY "%OUTPUT%\DotNet\Opc.Ua.Constants.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Constants.cs"
+	COPY "%OUTPUT%\DotNet\Opc.Ua.DataTypes.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.DataTypes.cs"
+	COPY "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.uanodes" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.PredefinedNodes.uanodes"
+	COPY "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.xml" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.PredefinedNodes.xml"
 )
 
 IF EXIST "%DEMOMODEL_TARGET%" (

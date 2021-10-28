@@ -327,28 +327,6 @@ namespace ModelCompiler
                 }
             }
 
-            // save the subsets.
-            foreach (KeyValuePair<uint,NodeStateCollection> entry in subsets)
-            {
-                string file = Path.Combine(filePath, String.Format(@"{0}.NodeSet2.Part{1}.xml", m_model.TargetNamespaceInfo.Prefix, entry.Key));
-
-                using (Stream ostrm = File.Open(file, FileMode.Create))
-                {
-                    entry.Value.SaveAsNodeSet2(
-                        context, 
-                        ostrm, 
-                        new Export.ModelTableEntry() 
-                        { 
-                            ModelUri = Opc.Ua.Namespaces.OpcUa,
-                            Version = m_model.TargetVersion,
-                            PublicationDate = m_model.TargetPublicationDate,
-                            PublicationDateSpecified = m_model.TargetPublicationDateSpecified
-                        },
-                        (m_model.TargetPublicationDate != DateTime.UtcNow)? m_model.TargetPublicationDate:DateTime.MinValue,
-                        true);
-                }
-            }
-
             // open the output file.
             string outputFile = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".PredefinedNodes.xml");
 
