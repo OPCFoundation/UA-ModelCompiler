@@ -1136,7 +1136,7 @@ namespace ModelCompiler
                              return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
                         }
 
-                        return String.Format("ua:Int32");
+                        return String.Format("xs:int");
                     }
 
                     string prefix = "tns";
@@ -1152,7 +1152,7 @@ namespace ModelCompiler
                                     return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
                                 }
 
-                                return String.Format("ua:Int32");
+                                return String.Format("xs:int");
                             }
 
                             prefix = "ua";
@@ -1691,7 +1691,7 @@ namespace ModelCompiler
                             return GetBinaryDataType((DataTypeDesign)dataType.BaseTypeNode);
                         }
 
-                        return String.Format("ua:Int32");
+                        return String.Format("opc:Int32");
                     }
 
                     string prefix = "tns";

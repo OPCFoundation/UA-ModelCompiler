@@ -433,7 +433,7 @@ namespace ModelCompiler
             }
 
             // load the identifiers
-            var identifiersFileName = Path.ChangeExtension(designFileName, ".csv");
+            var identifiersFileName = Path.ChangeExtension(Path.GetFileName(designFileName), ".csv");
             var identifiersFilePath = Path.Combine(Path.GetDirectoryName(designFilePath), Path.GetFileName(identifiersFileName));
 
             if (!File.Exists(identifiersFilePath))
