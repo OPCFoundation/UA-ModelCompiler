@@ -99,16 +99,16 @@
 
   <opc:DataType SymbolicName="SampleUnionAllowSubtypes" BaseType="ua:Union" IsUnion="true">
     <opc:Fields>
-      <opc:Field Name="FieldX" DataType="WorkOrderType" AllowSubtypes="true" />
+      <opc:Field Name="FieldX" DataType="WorkOrderType" AllowSubTypes="true" />
       <opc:Field Name="FieldY" DataType="WorkOrderStatusType" />
     </opc:Fields>
   </opc:DataType>
 
   <opc:DataType SymbolicName="SampleStructureAllowSubtypes" BaseType="ua:Structure">
     <opc:Fields>
-      <opc:Field Name="FieldX" DataType="Vector" AllowSubtypes="true" />
-      <opc:Field Name="FieldY" DataType="Vector" ValueRank="Array" AllowSubtypes="true" />
-      <opc:Field Name="FieldZ" DataType="Vector" ValueRank="ScalarOrArray" AllowSubtypes="true" />
+      <opc:Field Name="FieldX" DataType="Vector" AllowSubTypes="true" />
+      <opc:Field Name="FieldY" DataType="Vector" ValueRank="Array" AllowSubTypes="true" />
+      <opc:Field Name="FieldZ" DataType="Vector" ValueRank="ScalarOrArray" AllowSubTypes="true" />
       <opc:Field Name="FieldW" DataType="WorkOrderStatusType" />
     </opc:Fields>
   </opc:DataType>

@@ -52,9 +52,10 @@ namespace CodeGenerator
             string inputPath,
             string outputDirectory,
             Dictionary<string,string> knownFiles,
-            string resourcePath) 
+            string resourcePath,
+            IList<string> exclusions) 
         : 
-            base (inputPath, outputDirectory, knownFiles, resourcePath)
+            base (inputPath, outputDirectory, knownFiles, resourcePath, exclusions)
         {
         }
         #endregion
@@ -270,7 +271,15 @@ namespace CodeGenerator
             {
                 uint lengthInBits = 32;
                 bool isOptionSet = false;
-                List<EnumeratedValue> values = new List<EnumeratedValue>(enumeratedType.Value);
+                List<EnumeratedValue> values = new List<EnumeratedValue>();
+
+                foreach (var value in enumeratedType.Value)
+                {
+                    if (!TypeDictionaryValidator.IsExcluded(Exclusions, value))
+                    {
+                        values.Add(value);
+                    }
+                }
 
                 if (enumeratedType.IsOptionSet)
                 {

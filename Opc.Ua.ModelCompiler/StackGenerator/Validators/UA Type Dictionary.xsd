@@ -129,6 +129,7 @@
     <xs:attribute name="ValueRank" type="xs:int" default="-1" />
     <xs:attribute name="IsOptional" type="xs:boolean" default="false" />
     <xs:attribute name="AllowSubTypes" type="xs:boolean" default="false" />
+    <xs:attribute name="ReleaseStatus" type="ReleaseStatus" use="optional" default="Released" />
   </xs:complexType>
 
   <xs:complexType name="EnumeratedValue">
@@ -138,6 +139,7 @@
     <xs:attribute name="Name" type="xs:string" use="required" />
     <xs:attribute name="Value" type="xs:int" use="optional" />
     <xs:attribute name="BitMask" type="xs:string" use="optional" />
+    <xs:attribute name="ReleaseStatus" type="ReleaseStatus" use="optional" default="Released" />
   </xs:complexType>
 
   <xs:complexType name="EnumeratedType">

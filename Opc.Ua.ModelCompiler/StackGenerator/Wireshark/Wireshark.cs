@@ -48,16 +48,17 @@ namespace CodeGenerator
         /// Generates the code from the contents of the address space.
         /// </summary>
         public WiresharkGenerator(
-            string                    inputPath,
-            string                    outputDirectory,
+            string inputPath,
+            string outputDirectory,
             Dictionary<string,string> knownFiles,
-            string                    resourcePath)
+            string resourcePath,
+            IList<string> exclusions)
         :
-            base(inputPath, outputDirectory, knownFiles, resourcePath)
+            base(inputPath, outputDirectory, knownFiles, resourcePath, exclusions)
         {
             // load and validate type dictionary.
             m_validator = new TypeDictionaryValidator(knownFiles, resourcePath);
-            m_validator.Validate(inputPath);
+            m_validator.Validate(inputPath, exclusions);
 
             TargetLanguage = Language.Wireshark;
             m_lstFields = new List<HFEntry>();
@@ -435,12 +436,22 @@ namespace CodeGenerator
                         {
                             template.AddReplacement("// _BASE_", string.Format("  /* parse base class members */ \n  parse{0}(subtree, tvb, pOffset, \"[{0}]\");\n  /* parse additional members */", complextype.BaseType.Name));
                         }
+                        
+                        List<FieldType> fields = new List<FieldType>();
+
+                        foreach (var field in complextype.Field)
+                        {
+                            if (!TypeDictionaryValidator.IsExcluded(Exclusions, field))
+                            {
+                                fields.Add(field);
+                            }
+                        }
 
                         AddTemplate(
                             template,
                             "// _FIELDS_",
                             WiresharkTemplatePath + "complexparserfunction.c",
-                            complextype.Field,
+                            fields,
                             null,
                             new WriteTemplateEventHandler(WriteTemplate_Parser));
 

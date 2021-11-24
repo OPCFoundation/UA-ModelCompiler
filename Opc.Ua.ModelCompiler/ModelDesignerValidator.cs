@@ -47,16 +47,31 @@ namespace ModelCompiler
     /// <summary>
     /// Generates files used to describe data types.
     /// </summary>
-    public class ModelCompilerValidator : Opc.Ua.Schema.SchemaValidator
+    public partial class ModelCompilerValidator : Opc.Ua.Schema.SchemaValidator
     {
+
+        #region Private Fields
+        private ModelDesign m_dictionary;
+        private Dictionary<XmlQualifiedName, NodeDesign> m_nodes;
+        private Dictionary<NodeId, NodeDesign> m_nodesByNodeId;
+        private Dictionary<uint, NodeDesign> m_identifiers;
+        private string DefaultNamespace = Namespaces.OpcUa;
+        private ServiceMessageContext m_context;
+        private uint m_startId;
+        private IList<string> m_exclusions;
+        private Dictionary<XmlQualifiedName, string> m_browseNames = new Dictionary<XmlQualifiedName, string>();
+        private Dictionary<string, string> m_designLocations = new Dictionary<string, string>();
+        #endregion
+
         #region Constructors
         /// <summary>
         /// Intializes the object with default values.
         /// </summary>
-        public ModelCompilerValidator(uint startId)
+        public ModelCompilerValidator(uint startId, IList<string> exclusions)
         {
             m_context = ServiceMessageContext.GlobalContext;
             m_startId = startId;
+            m_exclusions = exclusions;
             EmbeddedModelDesignPath = "ModelCompiler.Design";
             EmbeddedCsvPath = "ModelCompiler.CSVs";
         }
@@ -95,6 +110,16 @@ namespace ModelCompiler
         public bool UseAllowSubtypes { get; set; }
 
         /// <summary>
+        /// ModelVersion
+        /// </summary>
+        public string ModelVersion { get; set; }
+
+        /// <summary>
+        /// ModelPublicationDate
+        /// </summary>
+        public string ModelPublicationDate { get; set; }
+
+        /// <summary>
         /// Finds the data type with the specified name.
         /// </summary>
         public NodeDesign FindType(XmlQualifiedName typeName)
@@ -119,19 +144,32 @@ namespace ModelCompiler
             UpdateNamespaceTables(m_dictionary);
 
             // import types from target dictionary.
+            List<NodeDesign> nodes = new List<NodeDesign>();
+
             foreach (NodeDesign node in m_dictionary.Items)
             {
-                Import(node, null);
+                if (Import(node, null))
+                {
+                    nodes.Add(node);
+                }
             }
+
+            m_dictionary.Items = nodes.ToArray();
 
             // validate node in target dictionary.
             ValidateDictionary(m_dictionary);
+
+            // build hierarchy.
+            foreach (NodeDesign node in m_dictionary.Items)
+            {
+                node.Hierarchy = BuildInstanceHierarchy2(m_dictionary, node);
+            }
 
             Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{EmbeddedCsvPath}.StandardTypes.csv");
 
             using (stream)
             {
-                LoadIdentifiersFromStream(stream);
+                LoadIdentifiersFromStream2(m_dictionary, stream);
             }
 
             // flag built-in types as declarations.
@@ -139,120 +177,6 @@ namespace ModelCompiler
             {
                 node.IsDeclaration = true;
             }
-        }
-
-        /// <summary>
-        /// Generates the code from the contents of the address space.
-        /// </summary>
-        public void Validate(string inputPath, string identifierFilePath, bool generateIds)
-        {
-            m_identifiers = new Dictionary<uint,NodeDesign>();
-            m_nodes = new Dictionary<XmlQualifiedName,NodeDesign>();
-            m_browseNames = new Dictionary<XmlQualifiedName,string>();
-
-            // set built in browse names.
-            m_browseNames.Add(new XmlQualifiedName("DefaultBinary", DefaultNamespace), "Default Binary");
-            m_browseNames.Add(new XmlQualifiedName("DefaultXml", DefaultNamespace), "Default XML");
-            m_browseNames.Add(new XmlQualifiedName("DefaultJson", DefaultNamespace), "Default JSON");
-            m_browseNames.Add(new XmlQualifiedName("InputArguments", DefaultNamespace), "InputArguments");
-            m_browseNames.Add(new XmlQualifiedName("OutputArguments", DefaultNamespace), "OutputArguments");
-
-            if (!inputPath.EndsWith("StandardTypes.xml"))
-            {
-                LoadBuiltInTypes();
-            }
-
-            m_dictionary = (ModelDesign)LoadInput(typeof(ModelDesign), inputPath);
-
-            if (String.IsNullOrEmpty(m_dictionary.TargetXmlNamespace))
-            {
-                m_dictionary.TargetXmlNamespace = m_dictionary.TargetNamespace;
-            }
-
-            // import types from target dictionary.
-            foreach (NodeDesign node in m_dictionary.Items)
-            {
-                Import(node, null);
-            }
-
-            // validate node in target dictionary.
-            foreach (NodeDesign node in m_dictionary.Items)
-            {
-                Validate(node);
-            }
-
-            // create data type descriptions.
-            foreach (NodeDesign node in m_dictionary.Items)
-            {
-                DictionaryDesign dictionary = node as DictionaryDesign;
-
-                if (dictionary == null)
-                {
-                    continue;
-                }
-
-                List<InstanceDesign> children = new List<InstanceDesign>();
-
-                if (dictionary.HasChildren)
-                {
-                    children.AddRange(dictionary.Children.Items);
-                }
-
-                // find encodings.
-                List<EncodingDesign> encodings = new List<EncodingDesign>();
-
-                foreach (NodeDesign encoding in m_nodes.Values)
-                {
-                    if (encoding is EncodingDesign)
-                    {
-                        encodings.Add((EncodingDesign)encoding);
-                    }
-                }
-
-                // create datatype descriptions.
-                foreach (EncodingDesign encoding in encodings)
-                {
-                    // check if datatype is in address space.
-                    if (((DataTypeDesign)encoding.Parent).NotInAddressSpace)
-                    {
-                        continue;
-                    }
-
-                    InstanceDesign description = CreateDataTypeDescription(dictionary, encoding);
-
-                    if (description != null)
-                    {
-                        children.Add(description);
-                    }
-                }
-
-                if (children.Count > 0)
-                {
-                    dictionary.Children = new ListOfChildren();
-                    dictionary.Children.Items = children.ToArray();
-                    dictionary.HasChildren = true;
-                }
-            }
-
-            // update overridden nodes.
-            foreach (NodeDesign node in m_dictionary.Items)
-            {
-                UpdateOverriddenNodes(node as TypeDesign);
-            }
-
-            // find instance declarations.
-            foreach (NodeDesign node in m_dictionary.Items)
-            {
-                UpdateInstanceDefinitions(node, false);
-            }
-
-            // assign unique ids.
-            if (generateIds)
-            {
-                File.Delete(identifierFilePath);
-            }
-
-            LoadIdentifiersFromFile(identifierFilePath);
         }
 
         /// <summary>
@@ -356,6 +280,7 @@ namespace ModelCompiler
                 modelInfo = new Export.ModelTableEntry()
                 {
                     ModelUri = m_dictionary.TargetNamespace,
+                    XmlSchemaUri = GetXmlNamespace(m_dictionary.TargetNamespace),
                     Version = m_dictionary.TargetVersion,
                     PublicationDate = m_dictionary.TargetPublicationDate,
                     PublicationDateSpecified = m_dictionary.TargetPublicationDateSpecified
@@ -369,6 +294,7 @@ namespace ModelCompiler
                 modelInfo = new Export.ModelTableEntry()
                 {
                     ModelUri = dictionary.TargetNamespace,
+                    XmlSchemaUri = GetXmlNamespace(m_dictionary.TargetNamespace),
                     Version = dictionary.TargetVersion,
                     PublicationDate = dictionary.TargetPublicationDate,
                     PublicationDateSpecified = dictionary.TargetPublicationDateSpecified
@@ -418,15 +344,22 @@ namespace ModelCompiler
             UpdateNamespaceTables(dictionary);
 
             // import types from target dictionary.
+            List<NodeDesign> nodes = new List<NodeDesign>();
+
             foreach (NodeDesign node in dictionary.Items)
             {
-                Import(node, null);
+                if (Import(node, null))
+                {
+                    nodes.Add(node);
+                }
             }
+
+            dictionary.Items = nodes.ToArray();
 
             // validate node in target dictionary.
             ValidateDictionary(dictionary);
 
-            // validate node in target dictionary.
+            // build hierarchy.
             foreach (NodeDesign node in dictionary.Items)
             {
                 node.Hierarchy = BuildInstanceHierarchy2(dictionary, node);
@@ -470,43 +403,6 @@ namespace ModelCompiler
             {
                 node.IsDeclaration = true;
             }
-        }
-
-        /// <summary>
-        /// Adds built-in types that need code generated to the standard types dictionary.
-        /// </summary>
-        private void DosStandardTypesHack(ModelDesign dictionary)
-        {
-            List<NodeDesign> items = new List<NodeDesign>();
-
-            NodeDesign node = m_nodes[new XmlQualifiedName("DataTypeDictionaryType", DefaultNamespace)];
-            node.IsDeclaration = false;
-            items.Add(node);
-            m_nodes.Remove(node.SymbolicId);
-
-            if (node.HasChildren)
-            {
-                foreach (NodeDesign child in node.Children.Items)
-                {
-                    m_nodes.Remove(child.SymbolicId);
-                }
-            }
-
-            node = m_nodes[new XmlQualifiedName("DataTypeDescriptionType", DefaultNamespace)];
-            node.IsDeclaration = false;
-            items.Add(node);
-            m_nodes.Remove(node.SymbolicId);
-
-            if (node.HasChildren)
-            {
-                foreach (NodeDesign child in node.Children.Items)
-                {
-                    m_nodes.Remove(child.SymbolicId);
-                }
-            }
-
-            items.AddRange(dictionary.Items);
-            m_dictionary.Items = items.ToArray();
         }
 
         #region Type Dictionary Import Functions
@@ -554,8 +450,9 @@ namespace ModelCompiler
             }
 
             parameter.IsOptional = field.IsOptional;
-            parameter.AllowSubtypes = field.AllowSubtypes;
+            parameter.AllowSubTypes = field.AllowSubTypes;
             parameter.DefaultValue = field.DefaultValue;
+            parameter.ReleaseStatus = (ReleaseStatus)(int)field.ReleaseStatus;
 
             return parameter;
         }
@@ -570,7 +467,8 @@ namespace ModelCompiler
             Parameter parameter = new Parameter();
 
             parameter.Name = value.Name;
-            // parameter.Description = ImportDocumentation(value.Documentation);
+            parameter.Description = ImportDocumentation(value.Documentation);
+            parameter.ReleaseStatus = (ReleaseStatus)(int)value.ReleaseStatus;
 
             if (value.ValueSpecified)
             {
@@ -613,7 +511,11 @@ namespace ModelCompiler
                 {
                     CodeGenerator.FieldType field = fields[jj];
                     Parameter parameter = ImportField(field);
-                    parameters.Add(parameter);
+
+                    if (!IsExcluded(parameter))
+                    {
+                        parameters.Add(parameter);
+                    }
                 }
 
                 design.Fields = parameters.ToArray();
@@ -630,9 +532,9 @@ namespace ModelCompiler
 
         private ModelDesign ImportTypeDictionary(Stream stream, string resourcePath)
         {
-            Dictionary<string,string> knownFiles = new Dictionary<string, string>();
+            Dictionary<string, string> knownFiles = new Dictionary<string, string>();
             CodeGenerator.TypeDictionaryValidator validator = new CodeGenerator.TypeDictionaryValidator(knownFiles, resourcePath);
-            validator.Validate(stream);
+            validator.Validate(stream, null);
 
             string namespaceUri = validator.Dictionary.TargetNamespace;
 
@@ -646,6 +548,11 @@ namespace ModelCompiler
             for (int ii = 0; ii < validator.Dictionary.Items.Length; ii++)
             {
                 CodeGenerator.DataType dataType = validator.Dictionary.Items[ii];
+
+                if (IsExcluded(dataType))
+                {
+                    continue;
+                }
 
                 DataTypeDesign design = new DataTypeDesign();
 
@@ -901,7 +808,7 @@ namespace ModelCompiler
             }
         }
 
-        private void SetStaticNodeIdRanges(ModelDesign dictionary)
+        private void UpdateNamespaceObject(ModelDesign dictionary)
         {
             ObjectDesign metadata = null;
 
@@ -929,6 +836,7 @@ namespace ModelCompiler
             {
                 return;
             }
+
 
             List<string> ranges = new List<string>();
 
@@ -995,6 +903,24 @@ namespace ModelCompiler
                         VariableDesign variable = child.Instance as VariableDesign;
                         variable.DecodedValue = ranges.ToArray();
                     }
+
+                    if (m_dictionary.TargetPublicationDateSpecified)
+                    {
+                        if (child.Instance.BrowseName == BrowseNames.NamespacePublicationDate)
+                        {
+                            VariableDesign variable = child.Instance as VariableDesign;
+                            variable.DecodedValue = m_dictionary.TargetPublicationDate;
+                        }
+                    }
+
+                    if (!String.IsNullOrEmpty(m_dictionary.TargetVersion))
+                    {
+                        if (child.Instance.BrowseName == BrowseNames.NamespaceVersion)
+                        {
+                            VariableDesign variable = child.Instance as VariableDesign;
+                            variable.DecodedValue = m_dictionary.TargetVersion;
+                        }
+                    }
                 }
             }
         }
@@ -1046,6 +972,17 @@ namespace ModelCompiler
             dictionary.TargetNamespaceInfo = targetNamespace;
         }
 
+        private void OutputError(string message)
+        {
+            if (message != null)
+            {
+                var original = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(message);
+                Console.ForegroundColor = original;
+            }
+        }
+
         private void Log(string format, params object[] args)
         {
             //using (StreamWriter writer = new StreamWriter(".\\Log.txt", true))
@@ -1077,6 +1014,7 @@ namespace ModelCompiler
             // initialize tables.
             m_identifiers = new Dictionary<uint, NodeDesign>();
             m_nodes = new Dictionary<XmlQualifiedName, NodeDesign>();
+            m_nodesByNodeId = new Dictionary<NodeId, NodeDesign>();
             m_browseNames = new Dictionary<XmlQualifiedName, string>();
             m_designLocations = new Dictionary<string, string>();
 
@@ -1130,15 +1068,16 @@ namespace ModelCompiler
                     }
                 }
 
+
                 if (dictionary != null)
                 {
+                    List<NodeDesign> nodes2 = new List<NodeDesign>();
+
                     // namespaces in primary dictionary replace all namespaces in secondary dictionaries.
-                    List<NodeDesign> nodes = new List<NodeDesign>();
+                    nodes2.AddRange(dictionary.Items);
+                    nodes2.AddRange(component.Items);
 
-                    nodes.AddRange(dictionary.Items);
-                    nodes.AddRange(component.Items);
-
-                    dictionary.Items = nodes.ToArray();
+                    dictionary.Items = nodes2.ToArray();
                     component = dictionary;
                 }
 
@@ -1149,6 +1088,7 @@ namespace ModelCompiler
                     var modelInfo = new Export.ModelTableEntry()
                     {
                         ModelUri = m_dictionary.TargetNamespace,
+                        XmlSchemaUri = GetXmlNamespace(m_dictionary.TargetNamespace),
                         Version = m_dictionary.TargetVersion,
                         PublicationDate = m_dictionary.TargetPublicationDate,
                         PublicationDateSpecified = m_dictionary.TargetPublicationDateSpecified
@@ -1164,6 +1104,18 @@ namespace ModelCompiler
             if (String.IsNullOrEmpty(dictionary.TargetXmlNamespace))
             {
                 dictionary.TargetXmlNamespace = dictionary.TargetNamespace;
+                
+                if (!String.IsNullOrEmpty(ModelVersion))
+                {
+                    dictionary.TargetVersion = ModelVersion;
+                }
+
+                if (!String.IsNullOrEmpty(ModelPublicationDate))
+                {
+                    var dt = DateTime.Parse(ModelPublicationDate, null, DateTimeStyles.AssumeUniversal);
+                    dictionary.TargetPublicationDate = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0, DateTimeKind.Utc);
+                    dictionary.TargetPublicationDateSpecified = true;
+                }
             }
 
             // mark the target namespace as found.
@@ -1222,12 +1174,20 @@ namespace ModelCompiler
 
             // build table of namespaces.
             UpdateNamespaceTables(m_dictionary);
+            m_dictionary.TargetXmlNamespace = GetXmlNamespace(m_dictionary.TargetNamespace);
 
             // import types from target dictionary.
+            List<NodeDesign> nodes = new List<NodeDesign>();
+
             foreach (NodeDesign node in m_dictionary.Items)
             {
-                Import(node, null);
+                if (Import(node, null))
+                {
+                    nodes.Add(node);
+                }
             }
+
+            m_dictionary.Items = nodes.ToArray();
 
             if (m_dictionary.Items == null || m_dictionary.Items.Length == 0)
             {
@@ -1252,7 +1212,7 @@ namespace ModelCompiler
 
             LoadIdentifiersFromFile2(m_dictionary, identifierFilePath);
 
-            SetStaticNodeIdRanges(m_dictionary);
+            UpdateNamespaceObject(m_dictionary);
 
             // update the references.
             foreach (NodeDesign node in m_dictionary.Items)
@@ -1261,6 +1221,21 @@ namespace ModelCompiler
             }
         }
         #endregion
+
+        private string GetXmlNamespace(string modelUri)
+        {
+            var ns = (
+                from x in m_dictionary.Namespaces
+                where x.Value == modelUri
+                select x.XmlNamespace).FirstOrDefault();
+
+            if (!String.IsNullOrEmpty(ns))
+            {
+                return ns;
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Adds the method arguments as children.
@@ -1540,111 +1515,6 @@ namespace ModelCompiler
             */
         }
 
-        /// <summary>
-        /// Finds the folder for the specified type.
-        /// </summary>
-        private ObjectDesign FindTypeFolder(
-            Namespace ns,
-            NodeDesign node,
-            NodeClass nodeClass,
-            uint partNo,
-            IList<NodeDesign> nodesToAdd)
-        {
-            string folderName = ns.Prefix;
-            string displayName = ns.Prefix;
-
-            if (ns.Value == DefaultNamespace)
-            {
-                if (partNo == 999)
-                {
-                    return null;
-                }
-
-                if (partNo != 0)
-                {
-                    folderName = "Part" + partNo.ToString();
-                    displayName = "Part " + partNo.ToString();
-                }
-            }
-
-            bool isEvent = false;
-            ObjectTypeDesign objectType = node as ObjectTypeDesign;
-
-            if (objectType != null)
-            {
-                while (objectType != null)
-                {
-                    if (objectType.SymbolicId == new XmlQualifiedName("BaseEventType", DefaultNamespace))
-                    {
-                        isEvent = true;
-                        break;
-                    }
-
-                    objectType = objectType.BaseTypeNode as ObjectTypeDesign;
-                }
-            }
-
-            XmlQualifiedName folderId = null;
-
-            if (isEvent)
-            {
-                folderId = new XmlQualifiedName(NodeDesign.CreateSymbolicId("EventTypes", folderName), ns.Value);
-            }
-            else
-            {
-                folderId = new XmlQualifiedName(NodeDesign.CreateSymbolicId(nodeClass.ToString() + "s", folderName), ns.Value);
-            }
-
-            NodeDesign target = null;
-
-            if (m_nodes.TryGetValue(folderId, out target))
-            {
-                return target as ObjectDesign;
-            }
-
-            ObjectDesign folder = new ObjectDesign();
-
-            folder.SymbolicId = folderId;
-            folder.SymbolicName = folder.SymbolicId;
-            folder.BrowseName = folderName;
-            folder.DisplayName = new LocalizedText();
-            folder.DisplayName.IsAutogenerated = false;
-            folder.DisplayName.Value = displayName;
-            // folder.Description = new LocalizedText();
-            // folder.Description.IsAutogenerated = true;
-            // folder.Description.Value = folder.BrowseName;
-            folder.WriteAccess = 0;
-            folder.TypeDefinition = new XmlQualifiedName("FolderType", DefaultNamespace);
-            folder.TypeDefinitionNode = (ObjectTypeDesign)FindNode(folder.TypeDefinition, typeof(ObjectTypeDesign), folder.SymbolicId.Name, "TypeDefinition");
-            folder.ModellingRule = ModellingRule.None;
-            folder.ModellingRuleSpecified = true;
-
-            Reference reference = new Reference();
-
-            reference.ReferenceType = new XmlQualifiedName("Organizes", DefaultNamespace);
-            reference.IsInverse = true;
-            reference.IsOneWay = false;
-
-            if (isEvent)
-            {
-                reference.TargetId = new XmlQualifiedName("EventTypesFolder", DefaultNamespace);
-            }
-            else
-            {
-                reference.TargetId = new XmlQualifiedName(nodeClass.ToString() + "sFolder", DefaultNamespace);
-            }
-
-            folder.References = new Reference[] { reference };
-            folder.HasReferences = true;
-
-            m_nodes[folder.SymbolicId] = folder;
-            Log("Added {1}: {0}", folder.SymbolicId.Name, folder.GetType().Name);
-            nodesToAdd.Add(folder);
-
-            return folder;
-        }
-
-
         private void AddDataTypeDictionary(
             ModelDesign nodes,
             Namespace ns,
@@ -1894,7 +1764,7 @@ namespace ModelCompiler
                     description.DecodedValue = Utils.Format("{0}", dataType.SymbolicName.Name);
                 }
 
-                if (!EmbeddedModelDesignPath.EndsWith("v103"))
+                if (description.ReleaseStatus == ReleaseStatus.Released && !EmbeddedModelDesignPath.EndsWith("v103"))
                 {
                     description.ReleaseStatus = ReleaseStatus.Deprecated;
                 }
@@ -2014,108 +1884,6 @@ namespace ModelCompiler
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Loads the identifiers from a CSV file.
-        /// </summary>
-        private void LoadIdentifiersFromFile(string filePath)
-        {
-            var uniqueIdentifiers = LoadIdentifiersFromStream(File.Open(filePath, FileMode.Open));
-
-            // update the CSV file.
-            StreamWriter writer = new StreamWriter(filePath, false);
-
-            try
-            {
-                foreach (var ii in uniqueIdentifiers)
-                {
-                    if (ii.Value is string)
-                    {
-                        writer.WriteLine("{0},{1},{2}", ii.Value, ii.Key, "Unassigned");
-                        continue;
-                    }
-
-                    var node = ii.Value as NodeDesign;
-
-                    // do not save identifiers for built-in types.
-                    if (node.NumericId < 256 && !filePath.EndsWith("BuiltInTypes.csv"))
-                    {
-                        continue;
-                    }
-
-                    NodeClass nodeClass = NodeClass.Unspecified;
-
-                    switch (node.GetType().Name)
-                    {
-                        case "ObjectTypeDesign":
-                        case "EventTypeDesign":
-                        {
-                            nodeClass = NodeClass.ObjectType;
-                            break;
-                        }
-
-                        case "VariableTypeDesign":
-                        {
-                            nodeClass = NodeClass.VariableType;
-                            break;
-                        }
-
-                        case "DataTypeDesign":
-                        {
-                            nodeClass = NodeClass.DataType;
-                            break;
-                        }
-
-                        case "ReferenceTypeDesign":
-                        {
-                            nodeClass = NodeClass.ReferenceType;
-                            break;
-                        }
-
-                        case "ObjectDesign":
-                        case "EncodingDesign":
-                        case "StateMachineDesign":
-                        {
-                            nodeClass = NodeClass.Object;
-                            break;
-                        }
-
-                        case "PropertyDesign":
-                        case "VariableDesign":
-                        case "DictionaryDesign":
-                        {
-                            nodeClass = NodeClass.Variable;
-                            break;
-                        }
-
-                        case "MethodDesign":
-                        {
-                            nodeClass = NodeClass.Method;
-                            break;
-                        }
-
-                        case "ViewDesign":
-                        {
-                            nodeClass = NodeClass.View;
-                            break;
-                        }
-                    }
-
-                    if (ii.Key is string)
-                    {
-                        writer.WriteLine("{0},\"{1}\",{2}", node.SymbolicId.Name, ii.Key, nodeClass);
-                    }
-                    else
-                    {
-                        writer.WriteLine("{0},{1},{2}", node.SymbolicId.Name, ii.Key, nodeClass);
-                    }
-                }
-            }
-            finally
-            {
-                writer.Close();
-            }
         }
 
         private class IdInfo
@@ -2542,10 +2310,21 @@ namespace ModelCompiler
         /// <summary>
         /// Imports a node.
         /// </summary>
-        private void Import(NodeDesign node, NodeDesign parent)
+        private bool Import(NodeDesign node, NodeDesign parent)
         {
             UpdateNamesAndIdentifiers(node, parent);
-            
+
+            if (node.NumericIdSpecified)
+            {
+                var ns = m_dictionary.NamespaceUris.GetIndex(node.SymbolicId.Namespace);
+                m_nodesByNodeId[new NodeId(node.NumericId, (ushort)ns)] = node;
+            }
+
+            if (IsExcluded(node))
+            {
+                return false;
+            }
+
             // assign default values for various subtypes.
             if (node is TypeDesign)
             {
@@ -2574,6 +2353,11 @@ namespace ModelCompiler
 
                 foreach (InstanceDesign child in node.Children.Items)
                 {
+                    if (IsExcluded(child))
+                    {
+                        continue;
+                    }
+
                     // filter any children with unhandled modelling rules.
                     if (child.ModellingRuleSpecified)
                     {
@@ -2603,9 +2387,10 @@ namespace ModelCompiler
                         child.ReleaseStatus = node.ReleaseStatus;
                     }
 
-                    children.Add(child);
-
-                    Import(child, node);
+                    if (Import(child, node))
+                    {
+                        children.Add(child);
+                    }
                 }
 
                 node.Children.Items = children.ToArray();
@@ -2621,6 +2406,8 @@ namespace ModelCompiler
                     ImportReference(node, reference);
                 }
             }
+
+            return true;
         }
 
         /// <summary>
@@ -2937,7 +2724,11 @@ namespace ModelCompiler
                 dataType.IsStructure = (dataType.BaseType == new XmlQualifiedName("Structure", DefaultNamespace));
                 dataType.IsEnumeration = (dataType.BaseType == new XmlQualifiedName("Enumeration", DefaultNamespace) || dataType.IsOptionSet);
                 dataType.IsUnion = (dataType.BaseType == new XmlQualifiedName("Union", DefaultNamespace) || dataType.IsUnion);
-                dataType.HasFields = ImportParameters(dataType, dataType.Fields, "Field");
+
+                Parameter[] parameters = dataType.Fields;
+                dataType.HasFields = ImportParameters(dataType, ref parameters, "Field");
+                dataType.Fields = parameters;
+
                 dataType.HasEncodings = ImportEncodings(dataType);
             }
 
@@ -3131,15 +2922,23 @@ namespace ModelCompiler
                     method.NonExecutableSpecified = false;
                 }
 
-                if (ImportParameters(method, method.InputArguments, "InputArgument"))
+                Parameter[] parameters = method.InputArguments;
+
+                if (ImportParameters(method, ref parameters, "InputArgument"))
+                {
+                    method.HasArguments = true;
+                }
+                
+                method.InputArguments = parameters;
+
+                parameters = method.OutputArguments;
+
+                if (ImportParameters(method, ref parameters, "OutputArgument"))
                 {
                     method.HasArguments = true;
                 }
 
-                if (ImportParameters(method, method.OutputArguments, "OutputArgument"))
-                {
-                    method.HasArguments = true;
-                }
+                method.OutputArguments = parameters;
             }
         }
 
@@ -3196,84 +2995,9 @@ namespace ModelCompiler
         }
 
         /// <summary>
-        /// Creates a data type description.
-        /// </summary>
-        private VariableDesign CreateDataTypeDescription(DictionaryDesign dictionary, EncodingDesign encoding)
-        {
-            DataTypeDesign datatype = encoding.Parent as DataTypeDesign;
-
-            if (datatype == null || (dictionary.BrowseName != "Opc.Ua" && datatype.IsDeclaration) || datatype.IsAbstract)
-            {
-                return null;
-            }
-
-            if (dictionary.EncodingName != encoding.SymbolicName)
-            {
-                return null;
-            }
-
-            VariableDesign description = new VariableDesign();
-
-            description.Parent = dictionary;
-            description.ReferenceType = new XmlQualifiedName("HasComponent", DefaultNamespace);
-            description.TypeDefinition = new XmlQualifiedName("DataTypeDescriptionType", DefaultNamespace);
-            description.SymbolicId = new XmlQualifiedName(NodeDesign.CreateSymbolicId(dictionary.SymbolicId, datatype.SymbolicName.Name), dictionary.SymbolicId.Namespace);
-            description.SymbolicName = datatype.SymbolicName;
-
-            // use the name to assign a browse name.
-            SetBrowseName(description);
-
-            description.AccessLevel = AccessLevel.Read;
-            description.ValueRank = ValueRank.Scalar;
-            description.DataType = new XmlQualifiedName("String", DefaultNamespace);
-            description.DecodedValue = null;
-            description.DefaultValue = null;
-            //description.Description = new LocalizedText();
-            //description.Description.Value  = String.Format("The description for the {1} encoding for the {0} datatype.", datatype.SymbolicName.Name, encoding.BrowseName);
-            //description.Description.Key = String.Format("{0}_Description", description.SymbolicId.Name);
-            //description.Description.IsAutogenerated = true;
-            description.DisplayName = new LocalizedText();
-            description.DisplayName.Value = description.BrowseName;
-            description.DisplayName.Key = String.Format("{0}_DisplayName", description.SymbolicId.Name);
-            description.DisplayName.IsAutogenerated = true;
-            description.ModellingRule = ModellingRule.Mandatory;
-            description.WriteAccess = 0;
-            description.NotInAddressSpace = datatype.NotInAddressSpace;
-            description.ReleaseStatus = datatype.ReleaseStatus;
-            description.Purpose = datatype.Purpose;
-
-            description.DataTypeNode = (DataTypeDesign)FindNode(
-                description.DataType,
-                typeof(DataTypeDesign),
-                datatype.SymbolicId.Name,
-                "DataType");
-
-            description.TypeDefinitionNode = (VariableTypeDesign)FindNode(
-                description.TypeDefinition,
-                typeof(VariableTypeDesign),
-                datatype.SymbolicId.Name,
-                "VariableType");
-
-            Reference reference = new Reference();
-
-            reference.ReferenceType = new XmlQualifiedName("HasDescription", DefaultNamespace);
-            reference.IsInverse = true;
-            reference.TargetId = encoding.SymbolicId;
-            reference.TargetNode = encoding;
-
-            description.References = new Reference[] { reference };
-            description.HasReferences = true;
-
-            m_nodes.Add(description.SymbolicId, description);
-            Log("Imported {1}: {0}", description.SymbolicId.Name, description.GetType().Name);
-
-            return description;
-        }
-
-        /// <summary>
         /// Imports a list of parameters.
         /// </summary>
-        private bool ImportParameters(NodeDesign node, Parameter[] parameters, string parameterType)
+        private bool ImportParameters(NodeDesign node, ref Parameter[] parameters, string parameterType)
         {
             if (parameters == null || parameters.Length == 0)
             {
@@ -3281,9 +3005,17 @@ namespace ModelCompiler
             }
 
             int id = 0;
+            List<Parameter> filteredParameters = new List<Parameter>();
 
             foreach (Parameter parameter in parameters)
             {
+                if (IsExcluded(parameter))
+                {
+                    continue;
+                }
+
+                filteredParameters.Add(parameter);
+
                 parameter.Parent = node;
 
                 // check name.
@@ -3358,6 +3090,13 @@ namespace ModelCompiler
                 }
             }
 
+            parameters = filteredParameters.ToArray();
+
+            if (parameters == null || parameters.Length == 0)
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -3406,10 +3145,22 @@ namespace ModelCompiler
 
             if (node.HasReferences)
             {
-                foreach (Reference reference in node.References)
+                List<Reference> references = new List<Reference>();
+
+                foreach (var reference in node.References)
                 {
-                    ValidateReference(reference);
+                    try
+                    {
+                        ValidateReference(reference);
+                        references.Add(reference);
+                    }
+                    catch (Exception e)
+                    {
+                        OutputError($"Ignoring InvalidReference {node.SymbolicId.Name} => {reference.TargetId.Name}. [{e.Message}]");
+                    }
                 }
+
+                node.References = references.ToArray();
             }
         }
 
@@ -3776,7 +3527,7 @@ namespace ModelCompiler
 
                     if (IsTypeOf(parameter.DataTypeNode, new XmlQualifiedName("Structure", DefaultNamespace)))
                     {
-                        if (parameter.AllowSubtypes && !UseAllowSubtypes)
+                        if (parameter.AllowSubTypes && !UseAllowSubtypes)
                         {
                             parameter.DataTypeNode = (DataTypeDesign)FindNode(
                                 new XmlQualifiedName("Structure", DefaultNamespace),
@@ -3913,23 +3664,80 @@ namespace ModelCompiler
             return encoding;
         }
 
-        /// <summary>
-        /// Returns the NodeClass for the node.
-        /// </summary>
-        private string GetNodeClassText(NodeDesign node)
+        public bool IsExcluded(NodeDesign node)
         {
-            if (node is PropertyDesign) return "Property";
-            if (node is ObjectDesign) return "Object";
-            if (node is ObjectTypeDesign) return "ObjectType";
-            if (node is DataTypeDesign) return "DataType";
-            if (node is ReferenceTypeDesign) return "ReferenceType";
-            if (node is MethodDesign) return "Method";
-            if (node is VariableDesign) return "Variable";
-            if (node is VariableTypeDesign) return "VariableType";
-            if (node is ViewDesign) return "View";
+            if (m_exclusions != null)
+            {
+                foreach (var exclusion in m_exclusions)
+                {
+                    if (exclusion == node.ReleaseStatus.ToString())
+                    {
+                        return true;
+                    }
 
-            return "node";
+                    if (exclusion == node.Purpose.ToString())
+                    {
+                        return true;
+                    }
+
+                    if (node.Category != null)
+                    {
+                        if (node.Category.Contains(exclusion))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
+
+        public bool IsExcluded(CodeGenerator.DataType dataType)
+        {
+            if (m_exclusions != null)
+            {
+                foreach (var exclusion in m_exclusions)
+                {
+                    if (exclusion == dataType.ReleaseStatus.ToString())
+                    {
+                        return true;
+                    }
+
+                    if (exclusion == dataType.Purpose.ToString())
+                    {
+                        return true;
+                    }
+
+                    if (dataType.Category != null)
+                    {
+                        if (dataType.Category.Contains(exclusion))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public bool IsExcluded(Parameter field)
+        {
+            if (m_exclusions != null)
+            {
+                foreach (var exclusion in m_exclusions)
+                {
+                    if (exclusion == field.ReleaseStatus.ToString())
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
 
         /// <summary>
         /// Returns the NodeClass for the node.
@@ -5610,7 +5418,7 @@ namespace ModelCompiler
 
                 if (design.MethodDeclarationNode != null)
                 {
-                    method.TypeDefinitionId = ConstructNodeId(design.MethodDeclarationNode, namespaceUris);
+                    method.MethodDeclarationId = ConstructNodeId(design.MethodDeclarationNode, namespaceUris);
                 }
             }
 
@@ -5846,103 +5654,6 @@ namespace ModelCompiler
            return state;
         }
 
-        private void CreateChildNodeStates(
-            NodeState state,
-            string basePath,
-            Hierarchy hierarchy,
-            bool explicitOnly,
-            bool isTypeDefinition,
-            NamespaceTable namespaceUris)
-        {
-            foreach (HierarchyNode current in hierarchy.NodeList)
-            {
-                if (String.IsNullOrEmpty(current.RelativePath))
-                {
-                    continue;
-                }
-
-                if (explicitOnly)
-                {
-                    if (!current.ExplicitlyDefined)
-                    {
-                        continue;
-                    }
-                }
-
-                string childName = current.RelativePath;
-
-                if (!String.IsNullOrEmpty(basePath))
-                {
-                    if (basePath == childName)
-                    {
-                        continue;
-                    }
-
-                    if (childName.StartsWith(basePath))
-                    {
-                        if (childName[basePath.Length] != NodeDesign.PathChar[0])
-                        {
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        continue;
-                    }
-
-                    childName = childName.Substring(basePath.Length + 1);
-                    childName = String.Format("{0}{1}{2}", basePath, NodeDesign.PathChar, childName);
-                }
-
-                if (!explicitOnly)
-                {
-                    InstanceDesign instance = current.Instance as InstanceDesign;
-
-                    if (instance != null && instance.ModellingRule != ModellingRule.Mandatory && !current.ExplicitlyDefined)
-                    {
-                        continue;
-                    }
-                }
-
-                current.Instance.State = CreateNodeState(
-                    state,
-                    childName,
-                    hierarchy,
-                    current.Instance,
-                    false,
-                    isTypeDefinition,
-                    namespaceUris);
-
-                current.Instance.State.Categories = state.Categories;
-                current.Instance.State.Specification = state.Specification;
-                current.Instance.State.ReleaseStatus = state.ReleaseStatus;
-
-                BaseInstanceState child = current.Instance.State as BaseInstanceState;
-
-                if (child != null)
-                {
-                    if (explicitOnly)
-                    {
-                        if (current.ExplicitlyDefined)
-                        {
-                            state.AddChild(child);
-                        }
-                    }
-                    else
-                    {
-                        if (child.ModellingRuleId == ObjectIds.ModellingRule_Mandatory)
-                        {
-                            state.AddChild(child);
-                        }
-                        else if (isTypeDefinition && current.ExplicitlyDefined && child.ModellingRuleId == ObjectIds.ModellingRule_Optional)
-                        {
-                            state.AddChild(child);
-                        }
-                    }
-                }
-            }
-        }
-
         private NodeState CreateNodeState(ObjectTypeDesign root, NamespaceTable namespaceUris)
         {
             BaseObjectTypeState state = new BaseObjectTypeState();
@@ -6124,15 +5835,15 @@ namespace ModelCompiler
                             break;
                         }
 
-                        if (field.AllowSubtypes)
+                        if (field.AllowSubTypes)
                         {
                             if (root.IsUnion)
                             {
-                                sd.StructureType = (StructureType)4; // StructureType.UnionWithSubtypedValues;
+                                sd.StructureType = StructureType.UnionWithSubtypedValues;
                                 break;
                             }
 
-                            sd.StructureType = (StructureType)3; // StructureType.StructureWithSubtypedValues;
+                            sd.StructureType = StructureType.StructureWithSubtypedValues;
                             break;
                         }
                     }
@@ -6242,7 +5953,7 @@ namespace ModelCompiler
                     else if (sd.StructureType == (StructureType)3 || // StructureType.StructureWithSubtypedValues || 
                              sd.StructureType == (StructureType)4)   // StructureType.UnionWithSubtypedValues)
                     {
-                        structureField.IsOptional = field.AllowSubtypes;
+                        structureField.IsOptional = field.AllowSubTypes;
                     }
 
                     if (field.Description != null && !field.Description.IsAutogenerated)
@@ -6314,12 +6025,12 @@ namespace ModelCompiler
             MethodState state = new MethodState(parent);
             state.Handle = root;
 
-            state.TypeDefinitionId = null;
             state.ReferenceTypeId = ConstructNodeId(root.ReferenceType, namespaceUris);
             state.ModellingRuleId = ConstructModellingRule(root.ModellingRule);
             state.Executable = state.UserExecutable = !root.NonExecutable;
             state.Categories = null;
             state.ReleaseStatus = (Export.ReleaseStatus)(int)root.ReleaseStatus;
+            state.MethodDeclarationId = ConstructNodeId(root.MethodDeclarationNode, namespaceUris);
 
             if (!String.IsNullOrEmpty(root.Category))
             {
@@ -6497,17 +6208,6 @@ namespace ModelCompiler
 
             return state;
         }
-        #endregion
-
-        #region Private Fields
-        private ModelDesign m_dictionary;
-        private Dictionary<XmlQualifiedName,NodeDesign> m_nodes;
-        private Dictionary<uint,NodeDesign> m_identifiers;
-        private string DefaultNamespace = Namespaces.OpcUa;
-        private ServiceMessageContext m_context;
-        private uint m_startId;
-        private Dictionary<XmlQualifiedName,string> m_browseNames = new Dictionary<XmlQualifiedName,string>();
-        private Dictionary<string, string> m_designLocations = new Dictionary<string, string>();
         #endregion
     }
 }

@@ -48,7 +48,15 @@ namespace CodeGenerator
         /// <summary>
         /// Generates the code from the contents of the address space.
         /// </summary>
-        public XmlSchemaGenerator(string inputPath, string outputDirectory, Dictionary<string,string> knownFiles, string resourcePath) : base (inputPath, outputDirectory, knownFiles, resourcePath)
+        public XmlSchemaGenerator(
+            string inputPath, 
+            string outputDirectory,
+            Dictionary<string,string> 
+            knownFiles, 
+            string resourcePath,
+            IList<string> exclusions) 
+        : 
+            base (inputPath, outputDirectory, knownFiles, resourcePath, exclusions)
         {
         }
         #endregion
@@ -64,7 +72,11 @@ namespace CodeGenerator
         /// <summary>
         /// Generates the datatype files.
         /// </summary>
-        public virtual void Generate(string fileName, string namespacePrefix, string dictionaryName, bool exportAll)
+        public virtual void Generate(
+            string fileName, 
+            string namespacePrefix,
+            string dictionaryName,
+            bool exportAll)
         {
             TargetNamespace = TypesNamespace;
             m_exportAll = exportAll;
@@ -430,11 +442,21 @@ namespace CodeGenerator
                     template.AddReplacement("_BaseType_", GetXmlSchemaTypeName(basetype.QName, -1));
                 }
 
+                List<FieldType> fields = new List<FieldType>();
+
+                foreach (var field in complexType.Field)
+                {
+                    if (!TypeDictionaryValidator.IsExcluded(Exclusions, field))
+                    {
+                        fields.Add(field);
+                    }
+                }
+
                 AddTemplate(
                     template,
                     "<!-- ListOfFields -->",
                     TemplatePath + "Field.xml",
-                    complexType.Field,
+                    fields,
                     new LoadTemplateEventHandler(LoadTemplate_Field),
                     null);
             }
@@ -443,12 +465,21 @@ namespace CodeGenerator
 
             if (enumeratedType != null)
             {
+                var values = new List<EnumeratedValue>();
+
+                foreach (var value in enumeratedType.Value)
+                {
+                    if (!TypeDictionaryValidator.IsExcluded(Exclusions, value))
+                    {
+                        values.Add(value);
+                    }
+                }
 
                 AddTemplate(
                     template,
                     "<!-- ListOfValues -->",
                     TemplatePath + "EnumeratedValue.xml",
-                    enumeratedType.Value,
+                    values,
                     new LoadTemplateEventHandler(LoadTemplate_EnumeratedValue),
                     null);
             }

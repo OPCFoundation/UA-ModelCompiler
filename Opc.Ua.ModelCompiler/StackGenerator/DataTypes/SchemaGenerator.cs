@@ -32,9 +32,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using System.Xml.Serialization;
-using System.IO;
-using System.Reflection;
 
 namespace CodeGenerator
 {
@@ -47,11 +44,17 @@ namespace CodeGenerator
         /// <summary>
         /// Loads and validates the type dictionary.
         /// </summary>
-        protected SchemaGenerator(string inputPath, string outputDirectory, Dictionary<string,string> knownFiles, string resourcePath)
+        protected SchemaGenerator(
+            string inputPath, 
+            string outputDirectory, 
+            Dictionary<string,string> knownFiles, 
+            string resourcePath,
+            IList<string> exclusions)
         {
             // load and validate type dictionary.
             m_validator = new TypeDictionaryValidator(knownFiles, resourcePath);
-            m_validator.Validate(inputPath);
+            m_validator.Validate(inputPath, exclusions);
+            Exclusions = exclusions;
 
             // save output directory.
             m_outputDirectory = outputDirectory;
@@ -62,6 +65,11 @@ namespace CodeGenerator
         #endregion
 
         #region Protected Properties
+        /// <summary>
+        /// 
+        /// </summary>
+        protected IList<string> Exclusions { get; set; }
+
         /// <summary>
         /// The validator used to verify the type dictionary.
         /// </summary>
@@ -162,7 +170,7 @@ namespace CodeGenerator
         /// <summary>
         /// Returns the datatypes in the dictionary.
         /// </summary>
-        protected void CollectDatatypes(TypeDictionary dictionary, Type type,  bool exportApi, List<DataType> datatypes)
+        protected void CollectDatatypes(TypeDictionary dictionary, Type type, bool exportApi, List<DataType> datatypes)
         {
             foreach (DataType datatype in dictionary.Items)
             {
@@ -399,7 +407,13 @@ namespace CodeGenerator
 
             if (complexType.Field != null)
             {
-                fields.AddRange(complexType.Field);
+                foreach (var field in complexType.Field)
+                {
+                    if (!TypeDictionaryValidator.IsExcluded(Exclusions, field))
+                    {
+                        fields.Add(field);
+                    }
+                }
             }
         }
         #endregion

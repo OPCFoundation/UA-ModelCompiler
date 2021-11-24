@@ -68,6 +68,26 @@ namespace ModelCompiler
             return true;
         }
 
+        public static void Process(string annex1, string annex2, string output)
+        {
+            List<Unit> units = new List<Unit>();
+
+            if (String.IsNullOrEmpty(annex1))
+            {
+                Read(annex1, false, units);
+            }
+
+            if (String.IsNullOrEmpty(annex2))
+            {
+                Read(annex2, false, units);
+            }
+
+            if (output != null)
+            {
+                Write(output, units);
+            }
+        }
+
         public static void Read(string filePath, bool isAnnex2, List<Unit> units)
         {
             var lines = File.ReadAllLines(filePath);

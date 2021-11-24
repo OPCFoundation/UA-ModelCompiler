@@ -2098,7 +2098,7 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
-
+  
   <!-- Part 5 Annex G - Dictionary Reference -->
 
   <opc:ObjectType SymbolicName="DictionaryEntryType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="5" ReleaseStatus="Released">
@@ -3381,7 +3381,7 @@
   <opc:ObjectType SymbolicName="HighlyManagedAlarmConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
   <opc:ObjectType SymbolicName="TrainingConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
   <opc:ObjectType SymbolicName="StatisticalConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
-  <opc:ObjectType SymbolicName="TestingConditionSubClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
+  <opc:ObjectType SymbolicName="TestingConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
   
   <opc:ObjectType SymbolicName="AuditConditionEventType" BaseType="AuditUpdateMethodEventType" PartNo="9" />
   <opc:ObjectType SymbolicName="AuditConditionEnableEventType" BaseType="AuditConditionEventType" PartNo="9" />
@@ -4588,7 +4588,7 @@
       <opc:Field Name="DataSetFolder" DataType="ua:String" ValueRank="Array"></opc:Field>
       <opc:Field Name="DataSetMetaData" DataType="DataSetMetaDataType" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="ExtensionFields" DataType="KeyValuePair" ValueRank="Array"></opc:Field>
-      <opc:Field Name="DataSetSource" DataType="ua:PublishedDataSetSourceDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="DataSetSource" DataType="ua:PublishedDataSetSourceDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -4641,8 +4641,8 @@
       <opc:Field Name="KeyFrameCount"  DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetName"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetWriterProperties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
-      <opc:Field Name="TransportSettings"  DataType="ua:DataSetWriterTransportDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
-      <opc:Field Name="MessageSettings"  DataType="ua:DataSetWriterMessageDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="TransportSettings"  DataType="ua:DataSetWriterTransportDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
+      <opc:Field Name="MessageSettings"  DataType="ua:DataSetWriterMessageDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -4669,8 +4669,8 @@
       <opc:Field Name="Priority" DataType="ua:Byte" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="LocaleIds" DataType="ua:LocaleId" ValueRank="Array"></opc:Field>
       <opc:Field Name="HeaderLayoutUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="TransportSettings" DataType="ua:WriterGroupTransportDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
-      <opc:Field Name="MessageSettings" DataType="ua:WriterGroupMessageDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="TransportSettings" DataType="ua:WriterGroupTransportDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
+      <opc:Field Name="MessageSettings" DataType="ua:WriterGroupMessageDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
       <opc:Field Name="DataSetWriters" DataType="DataSetWriterDataType" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
@@ -4684,9 +4684,9 @@
       <opc:Field Name="Enabled"  DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="PublisherId" DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="TransportProfileUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="Address" DataType="ua:NetworkAddressDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="Address" DataType="ua:NetworkAddressDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
       <opc:Field Name="ConnectionProperties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
-      <opc:Field Name="TransportSettings" DataType="ua:ConnectionTransportDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="TransportSettings" DataType="ua:ConnectionTransportDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
       <opc:Field Name="WriterGroups" DataType="WriterGroupDataType" ValueRank="Array"></opc:Field>
       <opc:Field Name="ReaderGroups" DataType="ReaderGroupDataType" ValueRank="Array"></opc:Field>
     </opc:Fields>
@@ -4708,8 +4708,8 @@
 
   <opc:DataType SymbolicName="ReaderGroupDataType" BaseType="PubSubGroupDataType" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="TransportSettings" DataType="ua:ReaderGroupTransportDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
-      <opc:Field Name="MessageSettings" DataType="ua:ReaderGroupMessageDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="TransportSettings" DataType="ua:ReaderGroupTransportDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
+      <opc:Field Name="MessageSettings" DataType="ua:ReaderGroupMessageDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
       <opc:Field Name="DataSetReaders" DataType="DataSetReaderDataType" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
@@ -4733,9 +4733,9 @@
       <opc:Field Name="SecurityGroupId"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="SecurityKeyServices"  DataType="ua:EndpointDescription" ValueRank="Array"></opc:Field>
       <opc:Field Name="DataSetReaderProperties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
-      <opc:Field Name="TransportSettings"  DataType="ua:DataSetReaderTransportDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
-      <opc:Field Name="MessageSettings"  DataType="ua:DataSetReaderMessageDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
-      <opc:Field Name="SubscribedDataSet"  DataType="ua:SubscribedDataSetDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="TransportSettings"  DataType="ua:DataSetReaderTransportDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
+      <opc:Field Name="MessageSettings"  DataType="ua:DataSetReaderMessageDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
+      <opc:Field Name="SubscribedDataSet"  DataType="ua:SubscribedDataSetDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 

@@ -28,11 +28,8 @@
  * ======================================================================*/
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml;
-using System.Xml.Serialization;
 using System.IO;
 using System.Reflection;
 using Opc.Ua.Schema;
@@ -128,24 +125,81 @@ namespace CodeGenerator
             return dataType;
         }
 
+        public static bool IsExcluded(IList<string> exclusions, DataType datatype)
+        {
+            if (exclusions != null)
+            {
+                foreach (var jj in exclusions)
+                {
+                    if (jj == datatype.ReleaseStatus.ToString())
+                    {
+                        return true;
+                    }
+
+                    if (jj == datatype.Purpose.ToString())
+                    {
+                        return true;
+                    }
+
+                    if (datatype.Category != null && datatype.Category.Contains(jj))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public static bool IsExcluded(IList<string> exclusions, EnumeratedValue value)
+        {
+            if (exclusions != null)
+            {
+                foreach (var jj in exclusions)
+                {
+                    if (jj == value.ReleaseStatus.ToString())
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public static bool IsExcluded(IList<string> exclusions, FieldType field)
+        {
+            if (exclusions != null)
+            {
+                foreach (var jj in exclusions)
+                {
+                    if (jj == field.ReleaseStatus.ToString())
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Generates the code from the contents of the address space.
         /// </summary>
-        public void Validate(string inputPath)
+        public void Validate(string inputPath, IList<string> exclusions)
         {
             using (Stream stream = File.OpenRead(inputPath))
             {
-                Validate(stream);
+                Validate(stream, exclusions);
             }
         }
 
         /// <summary>
         /// Generates the code from the contents of the address space.
         /// </summary>
-        public void Validate(Stream stream)
+        public void Validate(Stream stream, IList<string> exclusions)
         {
             m_dictionary = (TypeDictionary)LoadInput(typeof(TypeDictionary), stream);
-
             m_datatypes = new Dictionary<XmlQualifiedName,DataType>();
 
             // import types from referenced dictionaries.

@@ -43,7 +43,7 @@ namespace DemoModel
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = DemoModel.Namespaces.DemoModel)]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public enum HeaterStatus
     {
         /// <remarks />
@@ -65,7 +65,7 @@ namespace DemoModel
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfHeaterStatus", Namespace = DemoModel.Namespaces.DemoModel, ItemName = "HeaterStatus")]
+    [CollectionDataContract(Name = "ListOfHeaterStatus", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "HeaterStatus")]
     #if !NET_STANDARD
     public partial class HeaterStatusCollection : List<HeaterStatus>, ICloneable
     #else
@@ -153,7 +153,7 @@ namespace DemoModel
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = DemoModel.Namespaces.DemoModel)]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public partial class Vector : IEncodeable
     {
         #region Constructors
@@ -233,7 +233,7 @@ namespace DemoModel
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
         {
-            encoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
             encoder.WriteDouble("X", X);
             encoder.WriteDouble("Y", Y);
@@ -245,7 +245,7 @@ namespace DemoModel
         /// <summary cref="IEncodeable.Decode(IDecoder)" />
         public virtual void Decode(IDecoder decoder)
         {
-            decoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
             X = decoder.ReadDouble("X");
             Y = decoder.ReadDouble("Y");
@@ -310,7 +310,7 @@ namespace DemoModel
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfVector", Namespace = DemoModel.Namespaces.DemoModel, ItemName = "Vector")]
+    [CollectionDataContract(Name = "ListOfVector", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "Vector")]
     #if !NET_STANDARD
     public partial class VectorCollection : List<Vector>, ICloneable
     #else
@@ -398,7 +398,7 @@ namespace DemoModel
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = DemoModel.Namespaces.DemoModel)]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public partial class WorkOrderStatusType : IEncodeable
     {
         #region Constructors
@@ -478,7 +478,7 @@ namespace DemoModel
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
         {
-            encoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
             encoder.WriteString("Actor", Actor);
             encoder.WriteDateTime("Timestamp", Timestamp);
@@ -490,7 +490,7 @@ namespace DemoModel
         /// <summary cref="IEncodeable.Decode(IDecoder)" />
         public virtual void Decode(IDecoder decoder)
         {
-            decoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
             Actor = decoder.ReadString("Actor");
             Timestamp = decoder.ReadDateTime("Timestamp");
@@ -555,7 +555,7 @@ namespace DemoModel
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfWorkOrderStatusType", Namespace = DemoModel.Namespaces.DemoModel, ItemName = "WorkOrderStatusType")]
+    [CollectionDataContract(Name = "ListOfWorkOrderStatusType", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "WorkOrderStatusType")]
     #if !NET_STANDARD
     public partial class WorkOrderStatusTypeCollection : List<WorkOrderStatusType>, ICloneable
     #else
@@ -643,7 +643,7 @@ namespace DemoModel
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = DemoModel.Namespaces.DemoModel)]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public partial class WorkOrderType : IEncodeable
     {
         #region Constructors
@@ -746,7 +746,7 @@ namespace DemoModel
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
         {
-            encoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
             encoder.WriteGuid("ID", ID);
             encoder.WriteString("AssetID", AssetID);
@@ -759,7 +759,7 @@ namespace DemoModel
         /// <summary cref="IEncodeable.Decode(IDecoder)" />
         public virtual void Decode(IDecoder decoder)
         {
-            decoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
             ID = decoder.ReadGuid("ID");
             AssetID = decoder.ReadString("AssetID");
@@ -828,7 +828,7 @@ namespace DemoModel
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfWorkOrderType", Namespace = DemoModel.Namespaces.DemoModel, ItemName = "WorkOrderType")]
+    [CollectionDataContract(Name = "ListOfWorkOrderType", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "WorkOrderType")]
     #if !NET_STANDARD
     public partial class WorkOrderTypeCollection : List<WorkOrderType>, ICloneable
     #else
@@ -916,7 +916,7 @@ namespace DemoModel
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = DemoModel.Namespaces.DemoModel)]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public partial class SampleUnion : Union
     {
         #region Constructors
@@ -1012,7 +1012,7 @@ namespace DemoModel
         {
             base.Encode(encoder);
 
-            encoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
             encoder.WriteUInt32("FieldX", FieldX);
             encoder.WriteStringArray("FieldY", FieldY);
@@ -1026,7 +1026,7 @@ namespace DemoModel
         {
             base.Decode(decoder);
 
-            decoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
             FieldX = decoder.ReadUInt32("FieldX");
             FieldY = decoder.ReadStringArray("FieldY");
@@ -1092,7 +1092,7 @@ namespace DemoModel
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfSampleUnion", Namespace = DemoModel.Namespaces.DemoModel, ItemName = "SampleUnion")]
+    [CollectionDataContract(Name = "ListOfSampleUnion", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "SampleUnion")]
     #if !NET_STANDARD
     public partial class SampleUnionCollection : List<SampleUnion>, ICloneable
     #else
@@ -1180,7 +1180,7 @@ namespace DemoModel
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = DemoModel.Namespaces.DemoModel)]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public partial class SampleStructureWithOptionalFields : IEncodeable
     {
         #region Constructors
@@ -1274,7 +1274,7 @@ namespace DemoModel
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
         {
-            encoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
             encoder.WriteUInt32("FieldX", FieldX);
             encoder.WriteStringArray("FieldY", FieldY);
@@ -1286,7 +1286,7 @@ namespace DemoModel
         /// <summary cref="IEncodeable.Decode(IDecoder)" />
         public virtual void Decode(IDecoder decoder)
         {
-            decoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
             FieldX = decoder.ReadUInt32("FieldX");
             FieldY = decoder.ReadStringArray("FieldY");
@@ -1351,7 +1351,7 @@ namespace DemoModel
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfSampleStructureWithOptionalFields", Namespace = DemoModel.Namespaces.DemoModel, ItemName = "SampleStructureWithOptionalFields")]
+    [CollectionDataContract(Name = "ListOfSampleStructureWithOptionalFields", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "SampleStructureWithOptionalFields")]
     #if !NET_STANDARD
     public partial class SampleStructureWithOptionalFieldsCollection : List<SampleStructureWithOptionalFields>, ICloneable
     #else
@@ -1439,7 +1439,7 @@ namespace DemoModel
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = DemoModel.Namespaces.DemoModel)]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public partial class SampleUnionAllowSubtypes : Union
     {
         #region Constructors
@@ -1465,18 +1465,32 @@ namespace DemoModel
         /// </summary>
         private void Initialize()
         {
-            m_fieldX = null;
+            m_fieldX = new WorkOrderType();
             m_fieldY = new WorkOrderStatusType();
         }
         #endregion
 
         #region Public Properties
-        /// <remarks />
+        /// <summary>
+        /// 
+        /// </summary>
         [DataMember(Name = "FieldX", IsRequired = false, Order = 1)]
-        public ExtensionObject FieldX
+        public WorkOrderType FieldX
         {
-            get { return m_fieldX;  }
-            set { m_fieldX = value; }
+            get
+            {
+                return m_fieldX;
+            }
+
+            set
+            {
+                m_fieldX = value;
+
+                if (value == null)
+                {
+                    m_fieldX = new WorkOrderType();
+                }
+            }
         }
 
         /// <summary>
@@ -1526,9 +1540,9 @@ namespace DemoModel
         {
             base.Encode(encoder);
 
-            encoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
-            encoder.WriteExtensionObject("FieldX", FieldX);
+            encoder.WriteExtensionObject("FieldX", new ExtensionObject(FieldX));
             encoder.WriteEncodeable("FieldY", FieldY, typeof(WorkOrderStatusType));
 
             encoder.PopNamespace();
@@ -1539,9 +1553,9 @@ namespace DemoModel
         {
             base.Decode(decoder);
 
-            decoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
-            FieldX = decoder.ReadExtensionObject("FieldX");
+            FieldX = (WorkOrderType)ExtensionObject.ToEncodeable(decoder.ReadExtensionObject("FieldX"));
             FieldY = (WorkOrderStatusType)decoder.ReadEncodeable("FieldY", typeof(WorkOrderStatusType));
 
             decoder.PopNamespace();
@@ -1582,7 +1596,7 @@ namespace DemoModel
         {
             SampleUnionAllowSubtypes clone = (SampleUnionAllowSubtypes)base.MemberwiseClone();
 
-            clone.m_fieldX = (ExtensionObject)Utils.Clone(this.m_fieldX);
+            clone.m_fieldX = (WorkOrderType)Utils.Clone(this.m_fieldX);
             clone.m_fieldY = (WorkOrderStatusType)Utils.Clone(this.m_fieldY);
 
             return clone;
@@ -1590,7 +1604,7 @@ namespace DemoModel
         #endregion
 
         #region Private Fields
-        private ExtensionObject m_fieldX;
+        private WorkOrderType m_fieldX;
         private WorkOrderStatusType m_fieldY;
         #endregion
     }
@@ -1601,7 +1615,7 @@ namespace DemoModel
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfSampleUnionAllowSubtypes", Namespace = DemoModel.Namespaces.DemoModel, ItemName = "SampleUnionAllowSubtypes")]
+    [CollectionDataContract(Name = "ListOfSampleUnionAllowSubtypes", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "SampleUnionAllowSubtypes")]
     #if !NET_STANDARD
     public partial class SampleUnionAllowSubtypesCollection : List<SampleUnionAllowSubtypes>, ICloneable
     #else
@@ -1689,7 +1703,7 @@ namespace DemoModel
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [DataContract(Namespace = DemoModel.Namespaces.DemoModel)]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public partial class SampleStructureAllowSubtypes : IEncodeable
     {
         #region Constructors
@@ -1715,27 +1729,41 @@ namespace DemoModel
         /// </summary>
         private void Initialize()
         {
-            m_fieldX = null;
-            m_fieldY = new ExtensionObjectCollection();
+            m_fieldX = new Vector();
+            m_fieldY = new VectorCollection();
             m_fieldZ = Variant.Null;
             m_fieldW = new WorkOrderStatusType();
         }
         #endregion
 
         #region Public Properties
-        /// <remarks />
+        /// <summary>
+        /// 
+        /// </summary>
         [DataMember(Name = "FieldX", IsRequired = false, Order = 1)]
-        public ExtensionObject FieldX
+        public Vector FieldX
         {
-            get { return m_fieldX;  }
-            set { m_fieldX = value; }
+            get
+            {
+                return m_fieldX;
+            }
+
+            set
+            {
+                m_fieldX = value;
+
+                if (value == null)
+                {
+                    m_fieldX = new Vector();
+                }
+            }
         }
 
         /// <summary>
         /// 
         /// </summary>
         [DataMember(Name = "FieldY", IsRequired = false, Order = 2)]
-        public ExtensionObjectCollection FieldY
+        public VectorCollection FieldY
         {
             get
             {
@@ -1748,7 +1776,7 @@ namespace DemoModel
 
                 if (value == null)
                 {
-                    m_fieldY = new ExtensionObjectCollection();
+                    m_fieldY = new VectorCollection();
                 }
             }
         }
@@ -1806,10 +1834,10 @@ namespace DemoModel
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
         {
-            encoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
-            encoder.WriteExtensionObject("FieldX", FieldX);
-            encoder.WriteExtensionObjectArray("FieldY", FieldY);
+            encoder.WriteExtensionObject("FieldX", new ExtensionObject(FieldX));
+            encoder.WriteExtensionObjectArray("FieldY", ExtensionObjectCollection.ToExtensionObjects(FieldY));
             encoder.WriteVariant("FieldZ", FieldZ);
             encoder.WriteEncodeable("FieldW", FieldW, typeof(WorkOrderStatusType));
 
@@ -1819,10 +1847,10 @@ namespace DemoModel
         /// <summary cref="IEncodeable.Decode(IDecoder)" />
         public virtual void Decode(IDecoder decoder)
         {
-            decoder.PushNamespace(DemoModel.Namespaces.DemoModel);
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
-            FieldX = decoder.ReadExtensionObject("FieldX");
-            FieldY = decoder.ReadExtensionObjectArray("FieldY");
+            FieldX = (Vector)ExtensionObject.ToEncodeable(decoder.ReadExtensionObject("FieldX"));
+            FieldY = (Vector[])ExtensionObject.ToArray(decoder.ReadExtensionObjectArray("FieldY"), typeof(Vector));
             FieldZ = decoder.ReadVariant("FieldZ");
             FieldW = (WorkOrderStatusType)decoder.ReadEncodeable("FieldW", typeof(WorkOrderStatusType));
 
@@ -1865,8 +1893,8 @@ namespace DemoModel
         {
             SampleStructureAllowSubtypes clone = (SampleStructureAllowSubtypes)base.MemberwiseClone();
 
-            clone.m_fieldX = (ExtensionObject)Utils.Clone(this.m_fieldX);
-            clone.m_fieldY = (ExtensionObjectCollection)Utils.Clone(this.m_fieldY);
+            clone.m_fieldX = (Vector)Utils.Clone(this.m_fieldX);
+            clone.m_fieldY = (VectorCollection)Utils.Clone(this.m_fieldY);
             clone.m_fieldZ = (Variant)Utils.Clone(this.m_fieldZ);
             clone.m_fieldW = (WorkOrderStatusType)Utils.Clone(this.m_fieldW);
 
@@ -1875,8 +1903,8 @@ namespace DemoModel
         #endregion
 
         #region Private Fields
-        private ExtensionObject m_fieldX;
-        private ExtensionObjectCollection m_fieldY;
+        private Vector m_fieldX;
+        private VectorCollection m_fieldY;
         private Variant m_fieldZ;
         private WorkOrderStatusType m_fieldW;
         #endregion
@@ -1888,7 +1916,7 @@ namespace DemoModel
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    [CollectionDataContract(Name = "ListOfSampleStructureAllowSubtypes", Namespace = DemoModel.Namespaces.DemoModel, ItemName = "SampleStructureAllowSubtypes")]
+    [CollectionDataContract(Name = "ListOfSampleStructureAllowSubtypes", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "SampleStructureAllowSubtypes")]
     #if !NET_STANDARD
     public partial class SampleStructureAllowSubtypesCollection : List<SampleStructureAllowSubtypes>, ICloneable
     #else
