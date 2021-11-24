@@ -28,7 +28,7 @@ Tutorial by Stefan Profanter [here](https://opcua.rocks/custom-information-model
 |Version|Changes|
 |--|--|
 |2.0|Intial release with version tracking and .NET 5.0 support.|
-|2.1|Switched to Microsoft.Extensions.CommandLineUtils.<br/>Arguments are the same, however, the command 'compile' must be specified.<br/>Use --help for more details.<br/>Fixed bug in generating the 'uanodes' input for the .NET codebase.|
+|2.1|Added UA 1.05.00 support.<br/>Switched to Microsoft.Extensions.CommandLineUtils.<br/>Arguments are the same, however, the command 'compile' must be specified.<br/>Use --help for more details.<br/>Fixed bug in generating the 'uanodes' input for the .NET codebase.|
 
 The executable file version has the form 2.0.YYMM.DDHH where the last two fields are based on the time that it was built.
 

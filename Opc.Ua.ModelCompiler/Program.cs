@@ -32,6 +32,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 using Microsoft.Extensions.CommandLineUtils;
 using Opc.Ua;
 

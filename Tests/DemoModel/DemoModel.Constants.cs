@@ -666,12 +666,7 @@ namespace DemoModel
         /// <summary>
         /// The URI for the DemoModel namespace (.NET code namespace is 'DemoModel').
         /// </summary>
-        public const string DemoModel = "http://www.opcfoundation.org/DemoServer/";
-
-        /// <summary>
-        /// The URI for the DemoModelXsd namespace (.NET code namespace is 'DemoModel').
-        /// </summary>
-        public const string DemoModelXsd = "http://www.opcfoundation.org/DemoServer/Types.xsd";
+        public const string DemoModel = "http://www.unifiedautomation.com/DemoServer/";
 
         /// <summary>
         /// The URI for the OpcUa namespace (.NET code namespace is 'Opc.Ua').

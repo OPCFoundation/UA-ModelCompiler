@@ -28,6 +28,7 @@ namespace ModelCompiler
     {
         private SystemContext m_context;
         private NodeSet.UANodeSet m_nodeset;
+        private Dictionary<NodeId,NodeDesign> m_index;
 
         public NodeSetToModelDesign(SystemContext context, string filePath)
         {
@@ -35,6 +36,7 @@ namespace ModelCompiler
             if (filePath == null) throw new ArgumentNullException(nameof(filePath));
 
             m_context = context;
+            m_index = new Dictionary<NodeId, NodeDesign>();
 
             using (var istrm = File.OpenRead(filePath))
             {
@@ -55,14 +57,30 @@ namespace ModelCompiler
             }
         }
 
+        public static bool IsNodeSet(string filePath)
+        {
+            if (filePath == null) throw new ArgumentNullException(nameof(filePath));
+
+            var text = File.ReadAllText(filePath);
+
+            if (text.Contains("<UANodeSet"))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public IDictionary<XmlQualifiedName, NodeDesign> Nodes { get; set; }
 
         #region Public Methods
         /// <summary>
         /// Imports a node from the set.
         /// </summary>
-        public void Import(List<NodeDesign> nodes)
+        public ModelDesign Import(IDictionary<XmlQualifiedName, NodeDesign> nodes)
         {
+            ModelDesign dictionary = new ModelDesign();
+
             List<NodeDesign> list = new ();
 
             for (int ii = 0; ii < m_nodeset.Items.Length; ii++)
@@ -72,7 +90,7 @@ namespace ModelCompiler
                 list.Add(importedNode);
             }
 
-
+            return dictionary;
         }
         #endregion
 

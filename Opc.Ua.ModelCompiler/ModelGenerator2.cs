@@ -1142,7 +1142,7 @@ namespace ModelCompiler
                              return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
                         }
 
-                        return String.Format("ua:Int32");
+                        return String.Format("xs:int");
                     }
 
                     string prefix = "tns";
@@ -1158,7 +1158,7 @@ namespace ModelCompiler
                                     return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
                                 }
 
-                                return String.Format("ua:Int32");
+                                return String.Format("xs:int");
                             }
 
                             prefix = "ua";
@@ -1702,7 +1702,7 @@ namespace ModelCompiler
                             return GetBinaryDataType((DataTypeDesign)dataType.BaseTypeNode);
                         }
 
-                        return String.Format("ua:Int32");
+                        return String.Format("opc:Int32");
                     }
 
                     string prefix = "tns";
@@ -3896,7 +3896,7 @@ namespace ModelCompiler
                     {
                         if (field.DataTypeNode.BasicDataType == BasicDataType.UserDefined || field.ValueRank == ValueRank.Array)
                         {
-                            if (field.AllowSubTypes && (field.ValueRank != ValueRank.Array && field.ValueRank != ValueRank.Scalar))
+                            if (field.AllowSubTypes || (field.ValueRank != ValueRank.Array && field.ValueRank != ValueRank.Scalar))
                             {
                                 return TemplatePath + "Version2.DataTypes.Property.cs";
                             }

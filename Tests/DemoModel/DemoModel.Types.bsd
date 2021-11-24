@@ -32,9 +32,9 @@
   xmlns:opc="http://opcfoundation.org/BinarySchema/"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:ua="http://opcfoundation.org/UA/"
-  xmlns:tns="http://www.opcfoundation.org/DemoServer/"
+  xmlns:tns="http://www.unifiedautomation.com/DemoServer/"
   DefaultByteOrder="LittleEndian"
-  TargetNamespace="http://www.opcfoundation.org/DemoServer/"
+  TargetNamespace="http://www.unifiedautomation.com/DemoServer/"
 >
   <opc:Import Namespace="http://opcfoundation.org/UA/" Location="Opc.Ua.BinarySchema.bsd"/>
 

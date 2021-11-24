@@ -138,7 +138,7 @@ namespace ModelCompiler
 
         private static void UpdateHeaders(CommandLineApplication app)
         {
-            app.Description = "Updates the headers on all generated files.";
+            app.Description = "Updates all files in the output directory with the OPC Foundation MIT license header.";
             app.HelpOption("-?|-h|--help");
             AddUpdateHeadersOptions(app);
 
