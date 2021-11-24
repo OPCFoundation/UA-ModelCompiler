@@ -27,8 +27,10 @@ OPCUA_EXPORT OpcUa_StatusCode OpcUa_ClientApi__NAME_(
         &_TYPE_Request_EncodeableType,
         (OpcUa_Void**)&pResponse,
         &pResponseType);
-    
+
     OpcUa_GotoErrorIfBad(uStatus);
+    OpcUa_GotoErrorIfTrue(pResponse == OpcUa_Null, OpcUa_BadUnexpectedError);
+    OpcUa_GotoErrorIfTrue(pResponseType == OpcUa_Null, OpcUa_BadUnexpectedError);
 
     /* check for fault */
     if (pResponseType->TypeId == OpcUaId_ServiceFault)

@@ -48,13 +48,14 @@ namespace CodeGenerator
         /// Generates the code from the contents of the address space.
         /// </summary>
         public ConstantsGenerator(
-            Language                  targetLanguage,
-            string                    inputPath,
-            string                    outputDirectory,
+            Language targetLanguage,
+            string inputPath,
+            string outputDirectory,
             Dictionary<string,string> knownFiles,
-            string                    resourcePath)
+            string resourcePath,
+            IList<string> exclusions)
         :
-            base(inputPath, outputDirectory, knownFiles, resourcePath)
+            base(inputPath, outputDirectory, knownFiles, resourcePath, exclusions)
         {
             TargetLanguage = targetLanguage;
         }
@@ -357,6 +358,11 @@ namespace CodeGenerator
             // include identifiers from the target dictionary.
             foreach (DataType datatype in Dictionary.Items)
             {
+                if (TypeDictionaryValidator.IsExcluded(Exclusions, datatype))
+                {
+                    continue;
+                }
+
                 ServiceType serviceType = datatype as ServiceType;
 
                 if (serviceType == null)

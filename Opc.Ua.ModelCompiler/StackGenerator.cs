@@ -55,7 +55,13 @@ namespace ModelCompiler
             }
         }
 
-        static void ProcessDictionary(string name, string input, string output, Files files, string specificationVersion)
+        static void ProcessDictionary(
+            string name, 
+            string input, 
+            string output, 
+            Files files, 
+            string specificationVersion,
+            IList<string> exclusions)
         {
             var resourcePath = "ModelCompiler.Design";
 
@@ -65,12 +71,17 @@ namespace ModelCompiler
             }
 
             TypeDictionaryValidator validator = new TypeDictionaryValidator(resourcePath);
-            validator.Validate(input);
+            validator.Validate(input, exclusions);
 
             string basePath = String.Format(@"{0}\{1}", output, name);
             string fileName = String.Format("Opc.Ua{0}", name);
 
-            XmlSchemaGenerator generator1 = new XmlSchemaGenerator(input, output, files.TypeDictionaries, resourcePath);
+            XmlSchemaGenerator generator1 = new XmlSchemaGenerator(
+                input, 
+                output, 
+                files.TypeDictionaries, 
+                resourcePath,
+                exclusions);
 
             generator1.TypesNamespace = "http://opcfoundation.org/UA/2008/02/Types.xsd";
             generator1.ServicesNamespace = "http://opcfoundation.org/UA/2008/02/Services.wsdl";
@@ -85,7 +96,14 @@ namespace ModelCompiler
             System.IO.File.Delete(filePath);
 
             fileName = "Opc.Ua.Types";
-            BinarySchemaGenerator generator2 = new BinarySchemaGenerator(input, output, files.TypeDictionaries, resourcePath);
+            
+            BinarySchemaGenerator generator2 = new BinarySchemaGenerator(
+                input, 
+                output, 
+                files.TypeDictionaries, 
+                resourcePath,
+                exclusions);
+
             generator2.Generate(fileName, true, "http://opcfoundation.org/UA/");
             filePath = String.Format(@"{0}\{1}.bsd", output, fileName);
 
@@ -95,14 +113,21 @@ namespace ModelCompiler
             System.IO.File.Delete(filePath);
         }
 
-        static void GenerateAnsiC(Files files, string modelDir, string csvDir, string outputDir, string specificationVersion)
+        static void GenerateAnsiC(
+            Files files, 
+            string modelDir, 
+            string csvDir, 
+            string outputDir, 
+            string specificationVersion,
+            IList<string> exclusions)
         {
             ConstantsGenerator generator3 = new ConstantsGenerator(
                 Language.AnsiC,
                 $"{modelDir}UA Attributes.xml",
                 outputDir,
                 files.NodeDictionaries,
-                null);
+                null,
+                exclusions);
 
             generator3.Generate(
                 "OpcUa",
@@ -115,7 +140,8 @@ namespace ModelCompiler
                 $"{modelDir}UA Status Codes.xml",
                 outputDir,
                 files.NodeDictionaries,
-                null);
+                null,
+                exclusions);
 
             generator4.Generate(
                 "OpcUa",
@@ -127,19 +153,27 @@ namespace ModelCompiler
                 $"{modelDir}UA Core Services.xml",
                 outputDir,
                 files.TypeDictionaries,
-                null);
+                null,
+                exclusions);
 
             generator7.Generate("OpcUa", "Core", true);
         }
 
-        static void GenerateDotNet(Files files, string modelDir, string csvDir, string outputDir, string specificationVersion)
+        static void GenerateDotNet(
+            Files files, 
+            string modelDir, 
+            string csvDir, 
+            string outputDir, 
+            string specificationVersion,
+            IList<string> exclusions)
         {
             ConstantsGenerator generator7 = new ConstantsGenerator(
                 Language.DotNet,
                 $"{modelDir}UA Attributes.xml",
                 outputDir,
                 files.NodeDictionaries,
-                null);
+                null,
+                exclusions);
 
             generator7.Generate(
                 "Opc.Ua",
@@ -152,7 +186,8 @@ namespace ModelCompiler
                 $"{modelDir}UA Status Codes.xml",
                 outputDir,
                 files.NodeDictionaries,
-                null);
+                null,
+                exclusions);
 
             generator8.Generate(
                 "Opc.Ua",
@@ -165,7 +200,8 @@ namespace ModelCompiler
                 $"{modelDir}UA Status Codes.xml",
                 outputDir,
                 files.NodeDictionaries,
-                null);
+                null,
+                exclusions);
 
             generator9.Generate(
                 "Opc.Ua",
@@ -177,16 +213,18 @@ namespace ModelCompiler
                 $"{modelDir}UA Core Services.xml",
                 outputDir,
                 files.TypeDictionaries,
-                null);
+                null,
+                exclusions);
 
             generator10.Generate("Opc.Ua", "Core", true);
         }
 
         public static void GenerateDotNet(
             IList<string> designFilePaths,
-            string identifierFilePath, 
-            string rootDir, 
-            string specificationVersion)
+            string identifierFilePath,
+            string rootDir,
+            string specificationVersion,
+            IList<string> exclusions)
         {
             string modelDir = Path.GetDirectoryName(designFilePaths[0]) + "\\";
             string csvDir = Path.GetDirectoryName(identifierFilePath) + "\\";
@@ -198,16 +236,18 @@ namespace ModelCompiler
                 $"{modelDir}UA Core Services.xml",
                 rootDir,
                 files,
-                specificationVersion);
+                specificationVersion,
+                exclusions);
 
-            GenerateDotNet(files, modelDir, csvDir, rootDir, specificationVersion);
+            GenerateDotNet(files, modelDir, csvDir, rootDir, specificationVersion, exclusions);
         }
 
         public static void GenerateAnsiC(
             IList<string> designFilePaths,
             string identifierFilePath, 
             string rootDir, 
-            string specificationVersion)
+            string specificationVersion,
+            IList<string> exclusions)
         {
             string modelDir = Path.GetDirectoryName(designFilePaths[0]) + "\\";
             string csvDir = Path.GetDirectoryName(identifierFilePath) + "\\";
@@ -219,9 +259,10 @@ namespace ModelCompiler
                 $"{modelDir}UA Core Services.xml",
                 rootDir,
                 files,
-                specificationVersion);
+                specificationVersion,
+                exclusions);
 
-            GenerateAnsiC(files, modelDir, csvDir, rootDir, specificationVersion);
+            GenerateAnsiC(files, modelDir, csvDir, rootDir, specificationVersion, exclusions);
         }
     }
 }

@@ -28,7 +28,7 @@ REM STEP 1) Generate files.
 
 ECHO Building Unit File
 ECHO ON
-%MODELCOMPILER% -units -annex1 "%ANNEX1_SRCPATH%" -annex2 "%ANNEX2_SRCPATH%" -output "%OUTPUT_PATH%"
+%MODELCOMPILER% units -annex1 "%ANNEX1_SRCPATH%" -annex2 "%ANNEX2_SRCPATH%" -output "%OUTPUT_PATH%"
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %PARTNAME% & EXIT /B 1 )
 
 ECHO Copying CSV files to %OUTPUT%\Schema\

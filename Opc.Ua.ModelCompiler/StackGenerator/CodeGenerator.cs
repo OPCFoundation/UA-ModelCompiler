@@ -54,15 +54,21 @@ namespace CodeGenerator
         /// <summary>
         /// Generates the code from the contents of the address space.
         /// </summary>
-        public CodeGenerator(string inputPath, string outputDirectory, Dictionary<string,string> knownFiles, string resourcePath)
+        public CodeGenerator(
+            string inputPath, 
+            string outputDirectory, 
+            Dictionary<string,string> knownFiles, 
+            string resourcePath,
+            IList<string> exclusions)
         {
             // load and validate type dictionary.
             m_validator = new TypeDictionaryValidator(knownFiles, resourcePath);
-            m_validator.Validate(inputPath);
+            m_validator.Validate(inputPath, exclusions);
 
             // save output directory.
             m_outputDirectory = outputDirectory;
             m_dictionariesToExport = new List<string>();
+            Exclusions = exclusions;
         }
         #endregion
 
@@ -117,6 +123,14 @@ namespace CodeGenerator
         {
             get { return m_targetLanguage;  }
             set { m_targetLanguage = value; }
+        }
+
+        /// <summary>
+        /// The types to exclude.
+        /// </summary>
+        protected IList<string> Exclusions
+        {
+            get; set;
         }
         #endregion
 
@@ -221,7 +235,17 @@ namespace CodeGenerator
             // include identifiers from the target dictionary.
             CollectDatatypes(m_validator.Dictionary, type, datatypes, exportApi);
 
-            return datatypes;
+            List<DataType> datatypes2 = new List<DataType>();
+
+            foreach (var ii in datatypes)
+            {
+                if (!TypeDictionaryValidator.IsExcluded(Exclusions, ii))
+                {
+                    datatypes2.Add(ii);
+                }
+            }
+
+            return datatypes2;
         }
 
         /// <summary>

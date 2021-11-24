@@ -28,11 +28,8 @@
  * ======================================================================*/
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml;
-using System.Xml.Serialization;
 using System.IO;
 using System.Reflection;
 
@@ -48,12 +45,13 @@ namespace CodeGenerator
         /// Generates the code from the contents of the address space.
         /// </summary>
         public DotNetGenerator(
-            string                    inputPath,
-            string                    outputDirectory,
+            string inputPath,
+            string outputDirectory,
             Dictionary<string,string> knownFiles,
-            string                    resourcePath)
+            string resourcePath,
+            IList<string> exclusions)
         :
-            base(inputPath, outputDirectory, knownFiles, resourcePath)
+            base(inputPath, outputDirectory, knownFiles, resourcePath, exclusions)
         {
             TargetLanguage = Language.DotNet;
         }
@@ -1322,11 +1320,21 @@ namespace CodeGenerator
 
                 template.AddReplacement("_BASETYPE_", baseTypeName);
 
+                List<FieldType> fields = new List<FieldType>();
+
+                foreach (var field in complexType.Field)
+                {
+                    if (!TypeDictionaryValidator.IsExcluded(Exclusions, field))
+                    {
+                        fields.Add(field);
+                    }
+                }
+
                 AddTemplate(
                     template,
                     "// _DEFAULTLIST_",
                     null,
-                    complexType.Field,
+                    fields,
                     new LoadTemplateEventHandler(LoadTemplate_DefaultValue),
                     null);
 
@@ -1334,7 +1342,7 @@ namespace CodeGenerator
                     template,
                     "// _PROPERTYLIST_",
                     TemplatePath + "Classes.Property.cs",
-                    complexType.Field,
+                    fields,
                     new LoadTemplateEventHandler(LoadTemplate_Property),
                     new WriteTemplateEventHandler(WriteTemplate_Property));
 
@@ -1342,7 +1350,7 @@ namespace CodeGenerator
                     template,
                     "// _MEMBERLIST_",
                     null,
-                    complexType.Field,
+                    fields,
                     new LoadTemplateEventHandler(LoadTemplate_Member),
                     null);
 
@@ -1350,7 +1358,7 @@ namespace CodeGenerator
                     template,
                     "// _ENCODELIST_",
                     null,
-                    complexType.Field,
+                    fields,
                     new LoadTemplateEventHandler(LoadTemplate_Encode),
                     null);
 
@@ -1358,7 +1366,7 @@ namespace CodeGenerator
                     template,
                     "// _DECODELIST_",
                     null,
-                    complexType.Field,
+                    fields,
                     new LoadTemplateEventHandler(LoadTemplate_Decode),
                     null);
 
@@ -1366,7 +1374,7 @@ namespace CodeGenerator
                     template,
                     "// _ISEQUALLIST_",
                     null,
-                    complexType.Field,
+                    fields,
                     new LoadTemplateEventHandler(LoadTemplate_IsEqual),
                     null);
 
@@ -1374,7 +1382,7 @@ namespace CodeGenerator
                     template,
                     "// _CLONELIST_",
                     null,
-                    complexType.Field,
+                    fields,
                     new LoadTemplateEventHandler(LoadTemplate_Clone),
                     null);
 
@@ -1382,7 +1390,7 @@ namespace CodeGenerator
                     template,
                     "// _FIELDNAMES_",
                     null,
-                    complexType.Field,
+                    fields,
                     new LoadTemplateEventHandler(LoadTemplate_FieldNames),
                     null);
 
@@ -1390,7 +1398,7 @@ namespace CodeGenerator
                     template,
                     "// _FIELDNAMESWITCH_",
                     null,
-                    complexType.Field,
+                    fields,
                     new LoadTemplateEventHandler(LoadTemplate_GetFieldNameSwitch),
                     null);
             }
@@ -1399,11 +1407,21 @@ namespace CodeGenerator
 
             if (enumeratedType != null)
             {
+                var values = new List<EnumeratedValue>();
+
+                foreach (var value in enumeratedType.Value)
+                {
+                    if (!TypeDictionaryValidator.IsExcluded(Exclusions, value))
+                    {
+                        values.Add(value);
+                    }
+                }
+
                 AddTemplate(
                     template,
                     "// _VALUELIST_",
                     TemplatePath + "Classes.EnumerationValue.cs",
-                    enumeratedType.Value,
+                    values,
                     null,
                     new WriteTemplateEventHandler(WriteTemplate_EnumerationValue));
             }

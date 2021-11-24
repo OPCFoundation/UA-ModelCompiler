@@ -83,6 +83,8 @@ OpcUa_StatusCode OpcUa_Server_Begin_NAME_(
             &pFaultType);
 
         OpcUa_GotoErrorIfBad(uStatus);
+        OpcUa_GotoErrorIfTrue(pFault == OpcUa_Null, OpcUa_BadUnexpectedError);
+        OpcUa_GotoErrorIfTrue(pFaultType == OpcUa_Null, OpcUa_BadUnexpectedError);
 
         /* free the response */
         OpcUa_EncodeableObject_Delete(pResponseType, (OpcUa_Void**)&pResponse);

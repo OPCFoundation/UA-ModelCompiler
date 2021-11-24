@@ -83,6 +83,12 @@ namespace CodeGenerator {
         
         private string bitMaskField;
         
+        private ReleaseStatus releaseStatusField;
+        
+        public EnumeratedValue() {
+            this.releaseStatusField = ReleaseStatus.Released;
+        }
+        
         /// <remarks/>
         public Documentation Documentation {
             get {
@@ -136,6 +142,34 @@ namespace CodeGenerator {
                 this.bitMaskField = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(ReleaseStatus.Released)]
+        public ReleaseStatus ReleaseStatus {
+            get {
+                return this.releaseStatusField;
+            }
+            set {
+                this.releaseStatusField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://opcfoundation.org/UA/TypeDictionary/")]
+    public enum ReleaseStatus {
+        
+        /// <remarks/>
+        Released,
+        
+        /// <remarks/>
+        Draft,
+        
+        /// <remarks/>
+        Deprecated,
     }
     
     /// <remarks/>
@@ -160,12 +194,15 @@ namespace CodeGenerator {
         
         private bool isOptionalField;
         
-        private bool allowSubtypesField;
+        private bool allowSubTypesField;
+        
+        private ReleaseStatus releaseStatusField;
         
         public FieldType() {
             this.valueRankField = -1;
             this.isOptionalField = false;
-            this.allowSubtypesField = false;
+            this.allowSubTypesField = false;
+            this.releaseStatusField = ReleaseStatus.Released;
         }
         
         /// <remarks/>
@@ -247,12 +284,24 @@ namespace CodeGenerator {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
-        public bool AllowSubtypes {
+        public bool AllowSubTypes {
             get {
-                return this.allowSubtypesField;
+                return this.allowSubTypesField;
             }
             set {
-                this.allowSubtypesField = value;
+                this.allowSubTypesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(ReleaseStatus.Released)]
+        public ReleaseStatus ReleaseStatus {
+            get {
+                return this.releaseStatusField;
+            }
+            set {
+                this.releaseStatusField = value;
             }
         }
     }
@@ -511,22 +560,6 @@ namespace CodeGenerator {
                 this.purposeField = value;
             }
         }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://opcfoundation.org/UA/TypeDictionary/")]
-    public enum ReleaseStatus {
-        
-        /// <remarks/>
-        Released,
-        
-        /// <remarks/>
-        Draft,
-        
-        /// <remarks/>
-        Deprecated,
     }
     
     /// <remarks/>

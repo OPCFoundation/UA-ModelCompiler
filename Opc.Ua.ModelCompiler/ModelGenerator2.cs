@@ -60,7 +60,7 @@ namespace ModelCompiler
         private ModelDesign m_model;
         private bool m_useXmlInitializers;
         private bool m_includeDisplayNames;
-        private string[] m_excludedCategories;
+        private IList<string> m_exclusions;
         #endregion
 
         /// <summary>
@@ -87,9 +87,12 @@ namespace ModelCompiler
             string identifierFilePath, 
             uint startId, 
             string specificationVersion,
-            bool useAllowSubtypes)
+            bool useAllowSubtypes,
+            IList<string> exclusions,
+            string modelVersion,
+            string modelPublicationDate)
         {
-            m_validator = new ModelCompilerValidator(startId);
+            m_validator = new ModelCompilerValidator(startId, exclusions);
 
             if (!String.IsNullOrEmpty(specificationVersion))
             {
@@ -106,6 +109,8 @@ namespace ModelCompiler
             }
 
             m_validator.UseAllowSubtypes = useAllowSubtypes;
+            m_validator.ModelVersion = modelVersion;
+            m_validator.ModelPublicationDate = modelPublicationDate;
             m_validator.Validate2(designFilePaths, identifierFilePath, false);
             m_model = m_validator.Dictionary;
         }
@@ -116,7 +121,7 @@ namespace ModelCompiler
         public virtual void GenerateInternalSingleFile(string filePath, bool useXmlInitializers, string[] excludedCategories, bool includeDisplayNames)
         {
             m_useXmlInitializers = useXmlInitializers;
-            m_excludedCategories = excludedCategories;
+            m_exclusions = excludedCategories;
             m_includeDisplayNames = includeDisplayNames;
 
             // write type and object definitions.
@@ -136,10 +141,10 @@ namespace ModelCompiler
         /// <summary>
         /// Generates a single file containing all of the classes.
         /// </summary>
-        public virtual void GenerateMultipleFiles(string filePath, bool useXmlInitializers, string[] excludedCategories, bool includeDisplayNames)
+        public virtual void GenerateMultipleFiles(string filePath, bool useXmlInitializers, IList<string> excludedCategories, bool includeDisplayNames)
         {
             m_useXmlInitializers = useXmlInitializers;
-            m_excludedCategories = excludedCategories;
+            m_exclusions = excludedCategories;
             m_includeDisplayNames = includeDisplayNames;
 
             // write type and object definitions.
@@ -161,9 +166,9 @@ namespace ModelCompiler
         /// <summary>
         /// Generates the ANSI C identifiers.
         /// </summary>
-        public virtual void GenerateIdentifiersAndNamesForAnsiC(string filePath, string[] excludedCategories)
+        public virtual void GenerateIdentifiersAndNamesForAnsiC(string filePath, IList<string> excludedCategories)
         {
-            m_excludedCategories = excludedCategories;
+            m_exclusions = excludedCategories;
 
             List<NodeDesign> nodes = GetNodeList();
 
@@ -420,6 +425,7 @@ namespace ModelCompiler
                 var model = new Export.ModelTableEntry() 
                 { 
                     ModelUri = m_model.TargetNamespace,
+                    XmlSchemaUri = m_model.TargetXmlNamespace,
                     Version = m_model.TargetVersion,
                     PublicationDate = m_model.TargetPublicationDate,
                     PublicationDateSpecified = m_model.TargetPublicationDateSpecified,
@@ -503,7 +509,7 @@ namespace ModelCompiler
 
                 Template template = new Template(writer, TemplatePath + templateName, Assembly.GetExecutingAssembly());
 
-                SortedDictionary<string,List<NodeDesign>> identifiers = GetIdentifiers(nodes);
+                SortedDictionary<string,List<NodeDesign>> identifiers = GetIdentifiers();
 
                 template.AddReplacement("_Date_", DateTime.Now.ToShortDateString());
                 template.AddReplacement("_FileName_", String.Format("{0}_Identifiers", prefix));
@@ -1563,6 +1569,11 @@ namespace ModelCompiler
 
                 foreach (Parameter field in parent.Fields)
                 {
+                    if (IsExcluded(field))
+                    {
+                        continue;
+                    }
+
                     if (Object.ReferenceEquals(dataType, parent))
                     {
                         fields.Add(field);
@@ -1842,7 +1853,7 @@ namespace ModelCompiler
                     new LoadTemplateEventHandler(LoadTemplate_BrowseNames),
                     new WriteTemplateEventHandler(WriteTemplate_BrowseNames));
 
-                SortedDictionary<string, List<NodeDesign>> identifiers = GetIdentifiers(nodes);
+                SortedDictionary<string, List<NodeDesign>> identifiers = GetIdentifiers();
 
                 AddTemplate(
                     template,
@@ -1930,7 +1941,7 @@ namespace ModelCompiler
                     new LoadTemplateEventHandler(LoadTemplate_BrowseNames),
                     new WriteTemplateEventHandler(WriteTemplate_BrowseNames));
 
-                SortedDictionary<string, List<NodeDesign>> identifiers = GetIdentifiers(nodes);
+                SortedDictionary<string, List<NodeDesign>> identifiers = GetIdentifiers();
 
                 AddTemplate(
                     template,
@@ -2168,22 +2179,65 @@ namespace ModelCompiler
             return template.WriteTemplate(context);
         }
 
+        private bool IsParentExcluded(NodeDesign root, KeyValuePair<string, HierarchyNode> child)
+        {
+            var parentId = child.Key;
+            var parent = child.Value;
+
+            while (parentId != null)
+            {
+                int index = parentId.LastIndexOf("_");
+
+                if (index > 0)
+                {
+                    parentId = parentId.Substring(0, index);
+                }
+                                
+                if (!root.Hierarchy.Nodes.TryGetValue(parentId, out parent))
+                {
+                    return false;
+                }
+
+                if (IsExcluded(parent.Instance))
+                {
+                    return true;
+                }
+
+                if (index <= 0)
+                {
+                    break;
+                }
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Returns the identifiers for the nodes defined.
         /// </summary>
-        private SortedDictionary<string, List<NodeDesign>> GetIdentifiers(IList<NodeDesign> nodes)
+        private SortedDictionary<string, List<NodeDesign>> GetIdentifiers()
         {
             SortedDictionary<string, List<NodeDesign>> identifiers = new SortedDictionary<string, List<NodeDesign>>();
 
             for (int ii = 0; ii < m_model.Items.Length; ii++)
             {
                 NodeDesign node = m_model.Items[ii];
-
+                
                 if (IsExcluded(node))
                 {
                     continue;
                 }
 
+                InstanceDesign instance = node as InstanceDesign;
+                
+                if (instance != null && instance.TypeDefinitionNode != null)
+                {
+                    if (IsExcluded(instance.TypeDefinitionNode))
+                    {
+                        continue;
+                    }
+                }     
+                
                 if (IsMethodTypeNode(node))
                 {
                     continue;
@@ -2196,9 +2250,7 @@ namespace ModelCompiler
                     nodeClass = "ObjectType";
                 }
 
-                List<NodeDesign> nodesWithinClass = null;
-
-                if (!identifiers.TryGetValue(nodeClass, out nodesWithinClass))
+                if (!identifiers.TryGetValue(nodeClass, out List<NodeDesign> nodesWithinClass))
                 {
                     identifiers[nodeClass] = nodesWithinClass = new List<NodeDesign>();
                 }
@@ -2223,6 +2275,21 @@ namespace ModelCompiler
                     if (IsExcluded(current.Value.Instance))
                     {
                         continue;
+                    }
+
+                    if (IsParentExcluded(node, current))
+                    {
+                        continue;
+                    }
+
+                    var method = current.Value.Instance as MethodDesign;
+
+                    if (method?.MethodDeclarationNode != null)
+                    {
+                        if (IsExcluded(method?.MethodDeclarationNode))
+                        {
+                            continue;
+                        }
                     }
 
                     if (node is TypeDesign)
@@ -2343,6 +2410,11 @@ namespace ModelCompiler
 
             foreach (NodeDesign node in nodes)
             {
+                if (IsExcluded(node))
+                {
+                    continue;
+                }
+
                 if (IsMethodTypeNode(node))
                 {
                     continue;
@@ -2360,6 +2432,11 @@ namespace ModelCompiler
 
                 foreach (NodeDesign child in node.Children.Items)
                 {
+                    if (IsExcluded(child))
+                    {
+                        continue;
+                    }
+
                     if (child.SymbolicName.Namespace == m_model.TargetNamespace)
                     {
                         string browseName = null;
@@ -3333,7 +3410,7 @@ namespace ModelCompiler
 
                 case BasicDataType.UserDefined:
                 {
-                    if (field.AllowSubtypes)
+                    if (field.AllowSubTypes)
                     {
                         if (field.ValueRank == ValueRank.Array)
                         { 
@@ -3442,7 +3519,7 @@ namespace ModelCompiler
 
                 case BasicDataType.UserDefined:
                 {
-                    if (field.AllowSubtypes)
+                    if (field.AllowSubTypes)
                     {
                         template.Write($"{valueName} = ");
                         elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
@@ -3819,7 +3896,7 @@ namespace ModelCompiler
                     {
                         if (field.DataTypeNode.BasicDataType == BasicDataType.UserDefined || field.ValueRank == ValueRank.Array)
                         {
-                            if (field.AllowSubtypes && (field.ValueRank != ValueRank.Array && field.ValueRank != ValueRank.Scalar))
+                            if (field.AllowSubTypes && (field.ValueRank != ValueRank.Array && field.ValueRank != ValueRank.Scalar))
                             {
                                 return TemplatePath + "Version2.DataTypes.Property.cs";
                             }
@@ -4257,7 +4334,10 @@ namespace ModelCompiler
 
                 foreach (Parameter child in dataType.Fields)
                 {
-                    fields.Add(child);
+                    if (!IsExcluded(child))
+                    {
+                        fields.Add(child);
+                    }
                 }
 
                 return fields.ToArray();
@@ -5416,9 +5496,9 @@ namespace ModelCompiler
 
         private bool IsExcluded(NodeState node)
         {
-            if (m_excludedCategories != null)
+            if (m_exclusions != null)
             {
-                foreach (var jj in m_excludedCategories)
+                foreach (var jj in m_exclusions)
                 {
                     if (jj == node.ReleaseStatus.ToString())
                     {
@@ -5448,9 +5528,14 @@ namespace ModelCompiler
 
         private bool IsExcluded(NodeDesign node)
         {
-            if (m_excludedCategories != null)
+            if (node == null)
             {
-                foreach (var jj in m_excludedCategories)
+                return false;
+            }
+
+            if (m_exclusions != null)
+            {
+                foreach (var jj in m_exclusions)
                 {
                     if (jj == node.ReleaseStatus.ToString())
                     {
@@ -5475,6 +5560,26 @@ namespace ModelCompiler
             return false;
         }
 
+        private bool IsExcluded(Parameter parameter)
+        {
+            if (parameter == null)
+            {
+                return false;
+            }
+
+            if (m_exclusions != null)
+            {
+                foreach (var jj in m_exclusions)
+                {
+                    if (jj == parameter.ReleaseStatus.ToString())
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
         /// <summary>
         /// Returns a list of nodes to process.
         /// </summary>
@@ -5484,7 +5589,6 @@ namespace ModelCompiler
 
             foreach (NodeDesign node in m_model.Items)
             {
-
                 if (!IsExcluded(node) && !node.IsDeclaration)
                 {
                     nodes.Add(node);

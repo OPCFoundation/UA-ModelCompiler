@@ -6,12 +6,17 @@ set MODELCOMPILER=%ROOT%build\bin\Release\net5.0\Opc.Ua.ModelCompiler.exe
 set OUTPUT=%ROOT%..\nodesets
 set INPUT=%ROOT%Opc.Ua.ModelCompiler\Design
 set CSVINPUT=%ROOT%Opc.Ua.ModelCompiler\CSVs
+set SCHEMAINPUT=.\Schemas
 
 IF NOT "%1"=="" (set OUTPUT=%OUTPUT%\%1) else (set OUTPUT=%OUTPUT%\master)
-IF NOT "%1"=="" (set INPUT=%INPUT%.%1) else (set INPUT=%INPUT%.v105)
-IF NOT "%1"=="" (set VERSION=-version %1) else (set VERSION=-version v105)
+IF NOT "%1"=="" (set INPUT=%INPUT%.%1) else (set INPUT=%INPUT%.v104)
+IF NOT "%1"=="" (set VERSION=-version %1) else (set VERSION=-version v104)
 IF NOT "%2"=="" set EXCLUDE=-exclude %2
 IF "%1"=="v105" (set OUTPUT=..\nodesets\v105)
+
+IF EXIST "%INPUT%\Schemas" (
+	set SCHEMAINPUT=%INPUT%\Schemas
+)
 
 set ANSIC_TARGET=
 set DOTNET_TARGET=
@@ -30,11 +35,17 @@ IF NOT EXIST %OUTPUT%\DotNet MKDIR %OUTPUT%\DotNet
 IF NOT EXIST %OUTPUT%\AnsiC MKDIR %OUTPUT%\AnsiC
 
 set USEALLOWSUBTYPES=-useAllowSubtypes
+set MODELVERSION=
 
-REM Set overrides for older versions.
+REM Set overrides for older versions. set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
+IF "%1"=="v105" (
+	set MODELVERSION=-mv 1.05 -pd 2021-10-26
+)
+
 IF "%1"=="v104" (
-	set USEALLOWSUBTYPES=
 	set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
+	set USEALLOWSUBTYPES=
+	set MODELVERSION=-mv 1.04.10 -pd 2021-09-15
 )
 
 IF "%1"=="v103" (
@@ -46,8 +57,8 @@ IF NOT "%3"=="" GOTO skipcore
 
 SET MODELNAME="CORE"
 ECHO Building Model %MODELNAME%
-ECHO %MODELCOMPILER% -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\\" -stack "%OUTPUT%\DotNet\\" -ansic "%OUTPUT%\AnsiC\\" %USEALLOWSUBTYPES%
-%MODELCOMPILER% -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\\" -stack "%OUTPUT%\DotNet\\" -ansic "%OUTPUT%\AnsiC\\" %USEALLOWSUBTYPES%
+ECHO %MODELCOMPILER% compile -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\\" -stack "%OUTPUT%\DotNet\\" -ansic "%OUTPUT%\AnsiC\\" %USEALLOWSUBTYPES% %MODELVERSION%
+%MODELCOMPILER% compile -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\\" -stack "%OUTPUT%\DotNet\\" -ansic "%OUTPUT%\AnsiC\\" %USEALLOWSUBTYPES% %MODELVERSION%
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %MODELNAME% & EXIT /B 1 )
 
 IF EXIST %INPUT%\DemoModel.xml (
@@ -68,9 +79,9 @@ TYPE "%CSVINPUT%\StandardTypes.csv" | FINDSTR /V /E Unspecified > "%OUTPUT%\Sche
 COPY "%CSVINPUT%\UA Attributes.csv" "%OUTPUT%\Schema\AttributeIds.csv"
 COPY "%CSVINPUT%\UA ServerCapabilities.csv" "%OUTPUT%\Schema\ServerCapabilities.csv"
 COPY "%OUTPUT%\DotNet\Opc.Ua.StatusCodes.csv" "%OUTPUT%\Schema\StatusCode.csv"
-COPY ".\Schemas\UANodeSet.xsd" "%OUTPUT%\Schema\UANodeSet.xsd"
-COPY ".\Schemas\SecuredApplication.xsd" "%OUTPUT%\Schema\SecuredApplication.xsd"
-COPY ".\Schemas\OPCBinarySchema.xsd" "%OUTPUT%\Schema\OPCBinarySchema.xsd"
+COPY "%SCHEMAINPUT%\UANodeSet.xsd" "%OUTPUT%\Schema\UANodeSet.xsd"
+COPY "%SCHEMAINPUT%\Schemas\SecuredApplication.xsd" "%OUTPUT%\Schema\SecuredApplication.xsd"
+COPY "%SCHEMAINPUT%\Schemas\OPCBinarySchema.xsd" "%OUTPUT%\Schema\OPCBinarySchema.xsd"
 DEL /Q "%OUTPUT%\Schema\Opc.Ua.NodeIds.csv"
 DEL /Q "%OUTPUT%\Schema\Opc.Ua.NodeIds.Services.csv"
 @ECHO OFF
@@ -108,9 +119,9 @@ IF "%DOTNET_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\Schema\AttributeIds.csv" "%DOTNET_TARGET%\Schema\AttributeIds.csv"
 	COPY "%OUTPUT%\Schema\ServerCapabilities.csv" "%DOTNET_TARGET%\Schema\ServerCapabilities.csv"
 	COPY "%OUTPUT%\Schema\StatusCode.csv" "%DOTNET_TARGET%\Schema\Opc.Ua.StatusCodes.csv"
-	COPY ".\Schemas\UANodeSet.xsd" "%DOTNET_TARGET%\Schema\UANodeSet.xsd"
-	COPY ".\Schemas\SecuredApplication.xsd" "%DOTNET_TARGET%\Schema\SecuredApplication.xsd"
-	COPY ".\Schemas\OPCBinarySchema.xsd" "%DOTNET_TARGET%\Types\Schemas\OPCBinarySchema.xsd"
+	COPY "%SCHEMAINPUT%\Schemas\UANodeSet.xsd" "%DOTNET_TARGET%\Schema\UANodeSet.xsd"
+	COPY "%SCHEMAINPUT%\Schemas\SecuredApplication.xsd" "%DOTNET_TARGET%\Schema\SecuredApplication.xsd"
+	COPY "%SCHEMAINPUT%\Schemas\OPCBinarySchema.xsd" "%DOTNET_TARGET%\Types\Schemas\OPCBinarySchema.xsd"
 
 	CD "%DOTNET_TARGET%\Schema\"
 	CALL BuildSchema

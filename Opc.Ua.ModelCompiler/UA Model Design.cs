@@ -375,14 +375,17 @@ namespace ModelCompiler {
         
         private string arrayDimensionsField;
         
-        private bool allowSubtypesField;
+        private bool allowSubTypesField;
         
         private bool isOptionalField;
         
+        private ReleaseStatus releaseStatusField;
+        
         public Parameter() {
             this.valueRankField = ValueRank.Scalar;
-            this.allowSubtypesField = false;
+            this.allowSubTypesField = false;
             this.isOptionalField = false;
+            this.releaseStatusField = ReleaseStatus.Released;
         }
         
         /// <remarks/>
@@ -486,12 +489,12 @@ namespace ModelCompiler {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         [System.ComponentModel.DefaultValueAttribute(false)]
-        public bool AllowSubtypes {
+        public bool AllowSubTypes {
             get {
-                return this.allowSubtypesField;
+                return this.allowSubTypesField;
             }
             set {
-                this.allowSubtypesField = value;
+                this.allowSubTypesField = value;
             }
         }
         
@@ -504,6 +507,18 @@ namespace ModelCompiler {
             }
             set {
                 this.isOptionalField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(ReleaseStatus.Released)]
+        public ReleaseStatus ReleaseStatus {
+            get {
+                return this.releaseStatusField;
+            }
+            set {
+                this.releaseStatusField = value;
             }
         }
     }
@@ -565,6 +580,22 @@ namespace ModelCompiler {
         
         /// <remarks/>
         OneOrMoreDimensions,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://opcfoundation.org/UA/ModelDesign.xsd")]
+    public enum ReleaseStatus {
+        
+        /// <remarks/>
+        Released,
+        
+        /// <remarks/>
+        Draft,
+        
+        /// <remarks/>
+        Deprecated,
     }
     
     /// <remarks/>
@@ -1081,22 +1112,6 @@ namespace ModelCompiler {
                 this.isDynamicField = value;
             }
         }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
-    [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://opcfoundation.org/UA/ModelDesign.xsd")]
-    public enum ReleaseStatus {
-        
-        /// <remarks/>
-        Released,
-        
-        /// <remarks/>
-        Draft,
-        
-        /// <remarks/>
-        Deprecated,
     }
     
     /// <remarks/>
