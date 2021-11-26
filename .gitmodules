@@ -1,0 +1,3 @@
+[submodule "Stack"]
+	path = Stack
+	url = https://github.com/OPCFoundation/UA-.NETStandard.git
