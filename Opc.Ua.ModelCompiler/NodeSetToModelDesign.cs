@@ -81,6 +81,22 @@ namespace ModelCompiler
         {
             ModelDesign dictionary = new ModelDesign();
 
+            if (m_nodeset.Models != null)
+            {
+                var model = m_nodeset.Models[0];
+
+                dictionary.TargetNamespace = model.ModelUri;
+                dictionary.TargetXmlNamespace = model.XmlSchemaUri;
+                dictionary.TargetPublicationDate = model.PublicationDate;
+                dictionary.TargetPublicationDateSpecified = model.PublicationDateSpecified;
+                dictionary.TargetVersion = model.Version;
+
+                if (model.RequiredModel != null)
+                {
+                    // TBD
+                }
+            }
+
             List<NodeDesign> list = new ();
 
             for (int ii = 0; ii < m_nodeset.Items.Length; ii++)
