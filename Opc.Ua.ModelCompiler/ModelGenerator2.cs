@@ -332,6 +332,34 @@ namespace ModelCompiler
                 }
             }
 
+            var documentationFile = m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.documentation.csv";
+
+            if (File.Exists(documentationFile))
+            {
+                Dictionary<NodeId, NodeState> index = new Dictionary<NodeId, NodeState>();
+
+                ushort namespaceIndex = 0;
+
+                foreach (var ii in collectionWithServices)
+                {
+                    index[ii.NodeId] = ii;
+                    namespaceIndex = ii.NodeId.NamespaceIndex;
+                }
+
+                var rows = NodeDocumentationReader.Load(documentationFile);
+
+                foreach (var row in rows)
+                {
+                    var nodeId = new NodeId(row.Id, namespaceIndex);
+
+                    if (index.TryGetValue(nodeId, out NodeState target))
+                    {
+                        target.NodeSetDocumentation = row.Link;
+                        target.Categories = row.ConformanceUnits;
+                    }
+                }
+            }
+
             // open the output file.
             string outputFile = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".PredefinedNodes.xml");
 

@@ -21,13 +21,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schemas", "Schemas", "{FE9D
 		Schemas\UANodeSet.xsd = Schemas\UANodeSet.xsd
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NodeSetTests", "Tests\NodeSetTest\NodeSetTests.csproj", "{84F28087-E78A-4C05-B8FA-2B227F2A53CD}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B2CE7166-F060-4903-A2FD-47808C80E04F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Opc.Ua.Security.Certificates", "Stack\Libraries\Opc.Ua.Security.Certificates\Opc.Ua.Security.Certificates.csproj", "{0C989274-A365-4C02-837E-57F3EC14F4AC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoModel", "Tests\DemoModel\DemoModel.csproj", "{169BF3BA-22D9-497D-A64D-6651A6128E7F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Opc.Ua.ModelCompiler.Debug", "Opc.Ua.ModelCompiler\Opc.Ua.ModelCompiler.Debug.csproj", "{C752125D-DF9B-4CBA-9139-F0689A887EF6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Opc.Ua.ModelCompiler", "Opc.Ua.ModelCompiler\Opc.Ua.ModelCompiler.Debug.csproj", "{C752125D-DF9B-4CBA-9139-F0689A887EF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,18 @@ Global
 		{4A8E0903-F30E-4A9A-A73E-2EA63C9931CB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4A8E0903-F30E-4A9A-A73E-2EA63C9931CB}.Release|Win32.ActiveCfg = Release|Any CPU
 		{4A8E0903-F30E-4A9A-A73E-2EA63C9931CB}.Release|Win32.Build.0 = Release|Any CPU
+		{84F28087-E78A-4C05-B8FA-2B227F2A53CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84F28087-E78A-4C05-B8FA-2B227F2A53CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84F28087-E78A-4C05-B8FA-2B227F2A53CD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{84F28087-E78A-4C05-B8FA-2B227F2A53CD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{84F28087-E78A-4C05-B8FA-2B227F2A53CD}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{84F28087-E78A-4C05-B8FA-2B227F2A53CD}.Debug|Win32.Build.0 = Debug|Any CPU
+		{84F28087-E78A-4C05-B8FA-2B227F2A53CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84F28087-E78A-4C05-B8FA-2B227F2A53CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84F28087-E78A-4C05-B8FA-2B227F2A53CD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{84F28087-E78A-4C05-B8FA-2B227F2A53CD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{84F28087-E78A-4C05-B8FA-2B227F2A53CD}.Release|Win32.ActiveCfg = Release|Any CPU
+		{84F28087-E78A-4C05-B8FA-2B227F2A53CD}.Release|Win32.Build.0 = Release|Any CPU
 		{0C989274-A365-4C02-837E-57F3EC14F4AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0C989274-A365-4C02-837E-57F3EC14F4AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C989274-A365-4C02-837E-57F3EC14F4AC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -92,6 +106,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{84F28087-E78A-4C05-B8FA-2B227F2A53CD} = {B2CE7166-F060-4903-A2FD-47808C80E04F}
 		{169BF3BA-22D9-497D-A64D-6651A6128E7F} = {B2CE7166-F060-4903-A2FD-47808C80E04F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

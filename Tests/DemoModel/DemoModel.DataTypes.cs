@@ -1731,26 +1731,12 @@ namespace DemoModel
             set { m_fieldX = value; }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <remarks />
         [DataMember(Name = "FieldY", IsRequired = false, Order = 2)]
         public ExtensionObjectCollection FieldY
         {
-            get
-            {
-                return m_fieldY;
-            }
-
-            set
-            {
-                m_fieldY = value;
-
-                if (value == null)
-                {
-                    m_fieldY = new ExtensionObjectCollection();
-                }
-            }
+            get { return m_fieldY;  }
+            set { m_fieldY = value; }
         }
 
         /// <remarks />
