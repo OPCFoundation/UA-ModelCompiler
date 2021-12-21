@@ -31,7 +31,7 @@ jobs:
     - name: Prepare Tag Repo Info
       run: |
         echo IMAGE_REPOSITORY=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]' | awk '{gsub(/-|\./, "")}1')/modelcompiler >> $GITHUB_ENV
-        echo IMAGE_VERSION=${{ env.NBGV_SimpleVersion }}${{ env.NBGV_PrereleaseVersion }} >> $GITHUB_ENV
+        echo IMAGE_VERSION=$(echo ${{ env.NBGV_SimpleVersion }}${{ env.NBGV_PrereleaseVersion }}) >> $GITHUB_ENV
 
     - name: Prepare Tag Branch info
       if: env.NBGV_PublicRelease == 'False'
