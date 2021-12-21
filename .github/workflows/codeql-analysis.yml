@@ -27,7 +27,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
       with:
-        fetch-depth: 0      
+        fetch-depth: 0     
+        submodules: false
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
