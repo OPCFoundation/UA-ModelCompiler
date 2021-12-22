@@ -56,7 +56,7 @@ The compiled version of this model compiler is available in GitHub Packages as [
 
 If you like to build your own container, just use the provided Dockerfile and dockerbuild script in this repo.
 
-###Usage 
+### Usage 
 
 Assume the model `myModel.xml` and `myModel.csv` are on the host system in `$HOME/myModel`. If not change the path in the next command.
 
@@ -106,7 +106,6 @@ Trying file: ./Design/OpcUaDiModel.xml
 Trying file: /model/OpcUaDiModel.csv
 Trying file: ./Design/OpcUaDiModel.csv
 Copying Model files to /model/Published/my_model
-
 ```
 
 ## Example Generation ##
@@ -119,8 +118,8 @@ The following process will demonstrate how to generate code using the supplied n
 ### XML Files ###
 #### Model Design example ####
 An excerpt of the Model Design file is shown here:
-```
-?xml version="1.0" encoding="utf-8" ?>
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
 <opc:ModelDesign
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
