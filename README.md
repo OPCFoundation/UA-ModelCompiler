@@ -52,28 +52,29 @@ The ModelCompiler code is [MIT license](https://github.com/OPCFoundation/UA-Mode
   
 ## Docker Build
 
-The compiled version of this model compiler is available in DockerHub as [sailavid/ua-modelcompiler](https://cloud.docker.com/u/sailavid/repository/docker/sailavid/ua-modelcompiler).
-TODO: Change URL to use official OPCF Docker container!
+The compiled version of this model compiler is available in GitHub Packages as [ghcr.io/opcfoundation/ua-modelcompiler](https://github.com/OPCFoundation/UA-ModelCompiler/pkgs/container/uamodelcompiler).
 
-If you like to build your own container, just use the provided Dockerfile in this repo.
+If you like to build your own container, just use the provided Dockerfile and dockerbuild script in this repo.
 
-We assume you have your `myModel.xml` and `myModel.csv` on your host system in `$HOME/myModel`. If not change the path in the next command.
+###Usage 
+
+Assume the model `myModel.xml` and `myModel.csv` are on the host system in `$HOME/myModel`. If not change the path in the next command.
 
 The Docker container uses the model compiler executable as entry point.
-This means that any parameter you pass to the `docker run` command will be directly passed to the model compiler executable.
+This means that any parameter passed to the `docker run` command will be directly passed to the model compiler executable.
 
-This is an examplary call to docker run:
+This is an exemplary call to docker run:
 
 ```bash
 docker run \
   --mount type=bind,source=$HOME/myModel,target=/model \
-  sailavid/ua-modelcompiler -- \
-   -console -d2 /model/myModel.xml -cg /model/myModel.csv -o2 /model/Published/my_model
+  ghcr.io/opcfoundation/uamodelcompiler -- \
+   -console compile -d2 /model/myModel.xml -cg /model/myModel.csv -o2 /model/Published/my_model
 ```
 
-Note that here we are binding `$HOME/myModel` to the path `/model` inside the container.
+Note the binding `$HOME/myModel` to the path `/model` inside the container.
 
-You need to make sure that the output directory already exists before running this command.
+Ensure that the output directory already exists before running this command.
 
 The expected output is:
 ```
@@ -92,7 +93,7 @@ To use the `PublishModel.sh` script you can also override the entrypoint. The Pu
 docker run \
   --mount type=bind,source=$HOME/myModel,target=/model \
   --entrypoint "/app/PublishModel.sh" \
-  sailavid/ua-modelcompiler \
+  ghcr.io/opcfoundation/uamodelcompiler \
    /model/myModel my_model /model/Published
 ```
 
@@ -108,10 +109,9 @@ Copying Model files to /model/Published/my_model
 
 ```
 
-
 ## Example Generation ##
 The following process will demonstrate how to generate code using the supplied nodeset files:
- 1. Clone the repository and then build the source in Visual Studio 2015, in Release mode.
+ 1. Clone the repository and then build the source in Visual Studio 2019, in Release mode.
  2. Open a Command prompt and then launch the BuildStandardTypes.bat
  3. After the script completes, navigate to the .\Published folder to view the output.
  4. Optionally, modify the BAT file and specify the location of your UA Stack(s) to automatically copy the generated files.
