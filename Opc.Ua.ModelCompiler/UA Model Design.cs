@@ -592,6 +592,9 @@ namespace ModelCompiler {
         Released,
         
         /// <remarks/>
+        RC,
+        
+        /// <remarks/>
         Draft,
         
         /// <remarks/>

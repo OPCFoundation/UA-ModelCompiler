@@ -109,6 +109,8 @@ namespace ModelCompiler
         /// </summary>
         public bool UseAllowSubtypes { get; set; }
 
+        public bool ReleaseCandidate { get; set; }
+
         /// <summary>
         /// ModelVersion
         /// </summary>
@@ -806,6 +808,14 @@ namespace ModelCompiler
                     }
                 }
             }
+
+            foreach (var node in m_nodes.Values)
+            {
+                if (ReleaseCandidate && node.ReleaseStatus == ReleaseStatus.RC)
+                {
+                    node.ReleaseStatus = ReleaseStatus.Released;
+                }
+            }
         }
 
         private void UpdateNamespaceObject(ModelDesign dictionary)
@@ -991,6 +1001,80 @@ namespace ModelCompiler
             //}
         }
 
+        private ModelDesign LoadDesignFile(ModelDesign dictionary, string designFilePath)
+        {
+            Log("Loading DesignFile: {0}", designFilePath);
+
+            ModelDesign component = null;
+
+            try
+            {
+                if (NodeSetToModelDesign.IsNodeSet(designFilePath))
+                {
+                    var reader = new NodeSetToModelDesign(
+                        new NodeSetReaderSettings()
+                        {
+                            NodesByQName = m_nodes,
+                            DesignFilePaths = m_designLocations
+                        },
+                        designFilePath
+                     );
+
+                    component = reader.Import();
+                }
+                else
+                {
+                    component = (ModelDesign)LoadInput(typeof(ModelDesign), designFilePath);
+
+                    if (component.Items == null)
+                    {
+                        component.Items = new NodeDesign[0];
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                try
+                {
+                    component = ImportTypeDictionary(designFilePath, EmbeddedModelDesignPath);
+                }
+                catch (Exception e2)
+                {
+                    throw new AggregateException("Error parsing file " + designFilePath, e, e2);
+                }
+            }
+
+            if (dictionary != null)
+            {
+                List<NodeDesign> nodes2 = new List<NodeDesign>();
+
+                // namespaces in primary dictionary replace all namespaces in secondary dictionaries.
+                nodes2.AddRange(dictionary.Items);
+                nodes2.AddRange(component.Items);
+
+                dictionary.Items = nodes2.ToArray();
+                component = dictionary;
+            }
+
+            if (component.Dependencies == null && m_dictionary != null)
+            {
+                component.Dependencies = new Dictionary<string, Export.ModelTableEntry>();
+
+                var modelInfo = new Export.ModelTableEntry()
+                {
+                    ModelUri = m_dictionary.TargetNamespace,
+                    XmlSchemaUri = GetXmlNamespace(m_dictionary.TargetNamespace),
+                    Version = m_dictionary.TargetVersion,
+                    PublicationDate = m_dictionary.TargetPublicationDate,
+                    PublicationDateSpecified = m_dictionary.TargetPublicationDateSpecified
+                };
+
+                component.Dependencies[m_dictionary.TargetNamespace] = modelInfo;
+            }
+
+            return component;
+        }
+
         /// <summary>
         /// Validates the design in the specified file.
         /// </summary>
@@ -1043,61 +1127,7 @@ namespace ModelCompiler
 
             for (int ii = 0; ii < designFilePaths.Count; ii++)
             {
-                Log("Loading DesignFile: {0}", designFilePaths[ii]);
-
-                ModelDesign component = null;
-
-                try
-                {
-                    component = (ModelDesign)LoadInput(typeof(ModelDesign), designFilePaths[ii]);
-
-                    if (component.Items == null)
-                    {
-                        component.Items = new NodeDesign[0];
-                    }
-                }
-                catch (Exception e)
-                {
-                    try
-                    {
-                        component = ImportTypeDictionary(designFilePaths[ii], EmbeddedModelDesignPath);
-                    }
-                    catch (Exception e2)
-                    {
-                        throw new AggregateException("Error parsing file " + designFilePaths[ii], e, e2);
-                    }
-                }
-
-
-                if (dictionary != null)
-                {
-                    List<NodeDesign> nodes2 = new List<NodeDesign>();
-
-                    // namespaces in primary dictionary replace all namespaces in secondary dictionaries.
-                    nodes2.AddRange(dictionary.Items);
-                    nodes2.AddRange(component.Items);
-
-                    dictionary.Items = nodes2.ToArray();
-                    component = dictionary;
-                }
-
-                if (component.Dependencies == null && m_dictionary != null)
-                {
-                    component.Dependencies = new Dictionary<string, Export.ModelTableEntry>();
-
-                    var modelInfo = new Export.ModelTableEntry()
-                    {
-                        ModelUri = m_dictionary.TargetNamespace,
-                        XmlSchemaUri = GetXmlNamespace(m_dictionary.TargetNamespace),
-                        Version = m_dictionary.TargetVersion,
-                        PublicationDate = m_dictionary.TargetPublicationDate,
-                        PublicationDateSpecified = m_dictionary.TargetPublicationDateSpecified
-                    };
-
-                    component.Dependencies[m_dictionary.TargetNamespace] = modelInfo;
-                }
-
-                dictionary = component;
+                dictionary = LoadDesignFile(dictionary, designFilePaths[ii]);
             }
 
             // set a default xml namespace.
@@ -5262,6 +5292,17 @@ namespace ModelCompiler
             }
         }
 
+        private Export.ReleaseStatus ToReleaseStatus(ReleaseStatus input)
+        {
+            switch (input)
+            {
+                default:
+                case ReleaseStatus.Released: { return Export.ReleaseStatus.Released; }
+                case ReleaseStatus.Deprecated: { return Export.ReleaseStatus.Deprecated; }
+                case ReleaseStatus.RC:
+                case ReleaseStatus.Draft: { return Export.ReleaseStatus.Draft; }
+            }
+        }
         private void CreateNodeState(NodeDesign root, NamespaceTable namespaceUris)
         {
             if (root is InstanceDesign)
@@ -5289,7 +5330,7 @@ namespace ModelCompiler
                     namespaceUris);
 
                 root.State.Categories = null;
-                root.State.ReleaseStatus = (Export.ReleaseStatus)(int)root.ReleaseStatus;
+                root.State.ReleaseStatus = ToReleaseStatus(root.ReleaseStatus);
 
                 if (!String.IsNullOrEmpty(root.Category))
                 {
@@ -5333,7 +5374,7 @@ namespace ModelCompiler
                     if (root.InstanceState.ReleaseStatus == Export.ReleaseStatus.Released || root.InstanceState.Categories != null)
                     {
                         root.InstanceState.Categories = null;
-                        root.InstanceState.ReleaseStatus = (Export.ReleaseStatus)(int)hierarchyNode.Instance.ReleaseStatus;
+                        root.InstanceState.ReleaseStatus = ToReleaseStatus(hierarchyNode.Instance.ReleaseStatus);
 
                         if (!String.IsNullOrEmpty(root.Category))
                         {
@@ -5978,7 +6019,7 @@ namespace ModelCompiler
             state.ModellingRuleId = ConstructModellingRule(root.ModellingRule);
             state.EventNotifier = ConstructEventNotifier(root.SupportsEvents);
             state.Categories = null;
-            state.ReleaseStatus = (Export.ReleaseStatus)(int)root.ReleaseStatus;
+            state.ReleaseStatus = ToReleaseStatus(root.ReleaseStatus);
 
             if (!String.IsNullOrEmpty(root.Category))
             {
@@ -6005,7 +6046,7 @@ namespace ModelCompiler
             state.EventNotifier = ConstructEventNotifier(root.SupportsEvents);
             state.ContainsNoLoops = root.ContainsNoLoops;
             state.Categories = null;
-            state.ReleaseStatus = (Export.ReleaseStatus)(int)root.ReleaseStatus;
+            state.ReleaseStatus = ToReleaseStatus(root.ReleaseStatus);
 
             if (!String.IsNullOrEmpty(root.Category))
             {
@@ -6029,7 +6070,7 @@ namespace ModelCompiler
             state.ModellingRuleId = ConstructModellingRule(root.ModellingRule);
             state.Executable = state.UserExecutable = !root.NonExecutable;
             state.Categories = null;
-            state.ReleaseStatus = (Export.ReleaseStatus)(int)root.ReleaseStatus;
+            state.ReleaseStatus = ToReleaseStatus(root.ReleaseStatus);
             state.MethodDeclarationId = ConstructNodeId(root.MethodDeclarationNode, namespaceUris);
 
             if (!String.IsNullOrEmpty(root.Category))
@@ -6137,7 +6178,7 @@ namespace ModelCompiler
             state.ReferenceTypeId = ConstructNodeId(root.ReferenceType, namespaceUris);
             state.ModellingRuleId = ConstructModellingRule(root.ModellingRule);
             state.Categories = null;
-            state.ReleaseStatus = (Export.ReleaseStatus)(int)root.ReleaseStatus;
+            state.ReleaseStatus = ToReleaseStatus(root.ReleaseStatus);
 
             if (!String.IsNullOrEmpty(root.Category))
             {

@@ -14,6 +14,7 @@ using Opc.Ua;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -21,39 +22,61 @@ using NodeSet = Opc.Ua.Export;
 
 namespace ModelCompiler
 {
+    public class NodeSetReaderSettings
+    {
+        public NodeSetReaderSettings()
+        {
+        }
+
+        public NamespaceTable NamespaceUris { get; private set; }
+
+        public IDictionary<string, string> DesignFilePaths { get; set; }
+        
+        public IDictionary<XmlQualifiedName, NodeDesign> NodesByQName { get; set; }
+
+        public IDictionary<NodeId, NodeDesign> NodesById { get; set; }
+    }
+
     /// <summary>
     /// A set of nodes in an address space.
     /// </summary>
     public partial class NodeSetToModelDesign
     {
-        private SystemContext m_context;
+        private NodeSetReaderSettings m_settings;
+        private NamespaceTable m_namespaceUris = new NamespaceTable();
+        private StringTable m_serverUris = new StringTable();
         private NodeSet.UANodeSet m_nodeset;
-        private Dictionary<NodeId,NodeDesign> m_index;
+        private Dictionary<string,NodeId> m_aliases = new Dictionary<string, NodeId>();
+        private Dictionary<NodeId,NodeSet.UANode> m_index;
+        ushort[] m_nsMapping;
 
-        public NodeSetToModelDesign(SystemContext context, string filePath)
+        public NodeSetToModelDesign(NodeSetReaderSettings settings, string filePath)
         {
-            if (context == null) throw new ArgumentNullException(nameof(context));
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
             if (filePath == null) throw new ArgumentNullException(nameof(filePath));
 
-            m_context = context;
-            m_index = new Dictionary<NodeId, NodeDesign>();
+            m_settings = settings;
+            m_index = new Dictionary<NodeId, NodeSet.UANode>();
 
             using (var istrm = File.OpenRead(filePath))
             {
                 m_nodeset = Opc.Ua.Export.UANodeSet.Read(istrm);
-            }
-        }
 
-        public NodeSetToModelDesign(SystemContext context, Stream istrm)
-        {
-            if (context == null) throw new ArgumentNullException(nameof(context));
-            if (istrm == null) throw new ArgumentNullException(nameof(istrm));
+                if (m_nodeset.NamespaceUris != null)
+                {
+                    foreach (var ns in m_nodeset.NamespaceUris)
+                    {
+                        m_namespaceUris.Append(ns);
+                    }
+                }
 
-            m_context = context;
-
-            using (istrm)
-            {
-                m_nodeset = Opc.Ua.Export.UANodeSet.Read(istrm);
+                if (m_nodeset.Aliases != null)
+                {
+                    foreach (var ii in m_nodeset.Aliases)
+                    {
+;                        m_aliases[ii.Alias] = ImportNodeId(ii.Value, false);
+                    }
+                }
             }
         }
 
@@ -61,23 +84,795 @@ namespace ModelCompiler
         {
             if (filePath == null) throw new ArgumentNullException(nameof(filePath));
 
-            var text = File.ReadAllText(filePath);
+            var lines = File.ReadAllLines(filePath);
 
-            if (text.Contains("<UANodeSet"))
+            for (int ii = 0; ii < 40; ii++)
             {
-                return true;
+                var line = lines[ii].TrimStart();
+
+                if (line.StartsWith("<?") || line.StartsWith("<!") || !line.StartsWith("<") || String.IsNullOrEmpty(line))
+                {
+                    continue;
+                }
+
+                var fields = line.Split();
+
+                if (fields.Length == 0)
+                {
+                    break;
+                }
+
+                return fields[0].Contains("UANodeSet");
             }
 
             return false;
         }
 
-        public IDictionary<XmlQualifiedName, NodeDesign> Nodes { get; set; }
+
+        private void ImportModel(IList<Namespace> namespaces, NodeSet.ModelTableEntry model)
+        {
+            var ns = (from x in namespaces where x.Value == model.ModelUri select x).FirstOrDefault();
+
+            if (ns != null)
+            {
+                return;
+            }
+
+            ns = new Namespace()
+            {
+                Value = model.ModelUri,
+                XmlNamespace = model.XmlSchemaUri,
+                PublicationDate = model.PublicationDate.ToString("yyyy-MM-ddT00:00:00Z"),
+                Version = model.Version
+            };
+
+            namespaces.Add(ns);
+
+            if (model.RequiredModel != null)
+            {
+                foreach (var ii in model.RequiredModel)
+                {
+                    ImportModel(namespaces, ii);
+                }
+            }
+        }
+
+        private bool IsTypeOf(NodeId subTypeId, NodeId superTypeId)
+        {
+            if (!m_settings.NodesById.TryGetValue(subTypeId, out NodeDesign node1))
+            {
+                return false;
+            }
+
+            if (!m_settings.NodesById.TryGetValue(superTypeId, out NodeDesign node2))
+            {
+                return false;
+            }
+
+            if (node1 is TypeDesign td1 && node2 is TypeDesign td2)
+            {
+                XmlQualifiedName parentId = td1.BaseType;
+
+                while (parentId != null)
+                {
+                    if (parentId == td2.SymbolicId)
+                    {
+                        return true;
+                    }
+
+                    if (!m_settings.NodesByQName.TryGetValue(parentId, out NodeDesign parent))
+                    {
+                        return false;
+                    }
+
+                    parentId = parent.SymbolicId;
+                }
+            }
+
+            return false;
+        }
+
+        private XmlQualifiedName ImportSymbolicName(NodeSet.UANode input)
+        {
+            var browseName = ImportQualifiedName(input.BrowseName);
+
+            if (!String.IsNullOrEmpty(input.SymbolicName))
+            {
+                return new XmlQualifiedName(input.SymbolicName, browseName.Namespace);               
+            }
+            
+            return browseName;
+        }
+
+        private string ImportCategories(IList<string> input)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            if (input != null)
+            {
+                foreach (var ii in input)
+                {
+                    if (builder.Length > 0)
+                    {
+                        builder.Append(',');
+                    }
+
+                    builder.Append(ii);
+                }
+            }
+
+            return builder.ToString();
+        }
+
+        private LocalizedText ImportLocalizedText(IList<NodeSet.LocalizedText> input)
+        {
+            if (input != null && input.Count > 0)
+            {
+                return new LocalizedText() { Value = input[0].Value, IsAutogenerated = false };
+            }
+
+            return null;
+        }
+
+        private NodeId MapNodeId(ExpandedNodeId nodeId)
+        {
+            if (!nodeId.IsAbsolute)
+            {
+                return new NodeId(nodeId.Identifier, m_nsMapping[nodeId.NamespaceIndex]);
+            }
+
+            return null;
+        }
+
+        private XmlQualifiedName NodeIdToQName(ExpandedNodeId nodeId)
+        {
+            if (!nodeId.IsAbsolute)
+            {
+                if (m_settings.NodesById.TryGetValue(MapNodeId(nodeId), out NodeDesign design))
+                {
+                    return design.SymbolicId;
+                }
+            }
+
+            return null;
+        }
+
+        private ReferenceTypeDesign FindReferenceType(ExpandedNodeId targetId) 
+        {
+            if (m_settings.NodesById.TryGetValue(MapNodeId(targetId), out NodeDesign design))
+            {
+                return design as ReferenceTypeDesign;
+            }
+
+            if (m_index.TryGetValue((NodeId)targetId, out NodeSet.UANode node))
+            {
+                if (node is NodeSet.UAReferenceType rt)
+                {
+                    return ImportReferenceType(rt);
+                }
+            }
+
+            return null;
+        }
+
+        private T FindNode<T>(ExpandedNodeId targetId) where T : NodeDesign
+        {
+            if (m_settings.NodesById.TryGetValue(MapNodeId(targetId), out NodeDesign design))
+            {
+                return design as T;
+            }
+
+            if (m_index.TryGetValue((NodeId)targetId, out NodeSet.UANode node))
+            {
+                return ImportNode(node) as T;
+            }
+
+            return null;
+        }
+
+        private T FindSuperType<T>(NodeSet.UAType source) where T : TypeDesign
+        {
+            if (source.References != null)
+            {
+                foreach (var reference in source.References)
+                {
+                    var rtid = ImportNodeId(reference.ReferenceType);
+
+                    if (ReferenceTypeIds.HasSubtype != rtid && !reference.IsForward)
+                    {
+                        continue;
+                    }
+
+                    var targetId = ImportNodeId(reference.Value);
+                    return FindNode<T>(targetId) as T;
+                }
+            }
+
+            return null;
+        }
+
+        private ReferenceTypeDesign ImportReferenceType(NodeSet.UAReferenceType input)
+        {
+            NodeId nodeId = ImportNodeId(input.NodeId);
+            NodeId importedNodeId = new NodeId(nodeId.Identifier, m_nsMapping[nodeId.NamespaceIndex]);
+
+            if (m_settings.NodesById.TryGetValue(importedNodeId, out NodeDesign existing))
+            {
+                if (existing is ReferenceTypeDesign rt)
+                {
+                    return rt;
+                }
+
+                throw new InvalidDataException($"Node exists and it is not a ReferenceType: {existing.SymbolicId}'.");
+            }
+
+            var output = new ReferenceTypeDesign();
+            
+            output.SymbolicName = ImportSymbolicName(input);
+            output.SymbolicId = output.SymbolicName;
+            output.BrowseName = QualifiedName.Parse(input.BrowseName).Name;
+            output.Description = ImportLocalizedText(input.Description);
+            output.DisplayName = ImportLocalizedText(input.DisplayName);
+            output.IsAbstract = input.IsAbstract;
+            output.InverseName = ImportLocalizedText(input.InverseName);
+            output.Symmetric = input.Symmetric;
+            output.SymmetricSpecified = true;
+            output.ReleaseStatus = ImportReleaseStatus(input.ReleaseStatus);
+            output.Category = ImportCategories(input.Category);
+
+            if (nodeId.Identifier is uint id)
+            {
+                output.NumericId = id;
+                output.NumericIdSpecified = true;
+            }
+
+            foreach (var ii in input.References)
+            {
+                var reference = ImportReference(ii);
+
+                if (reference.ReferenceTypeId == Opc.Ua.ReferenceTypes.HasSubtype && reference.IsInverse)
+                {
+                    var superType = FindReferenceType(reference.TargetId);
+
+                    if (superType != null)
+                    {
+                        output.BaseType = superType.SymbolicId;
+                        output.BaseTypeNode = superType;
+                    }
+
+                    break;
+                }
+            }
+
+            if (output.BaseType == null)
+            {
+                throw new InvalidDataException($"Could not find supertype for '{input.BrowseName}'.");
+            }
+
+            m_settings.NodesByQName[output.SymbolicId] = output;
+            m_settings.NodesById[importedNodeId] = output;
+
+            return output;
+        }
+
+
+        private NodeDesign CreateNodeDesign(NodeSet.UANode input)
+        {
+            if (input is NodeSet.UAObjectType)
+            {
+                return new ObjectTypeDesign();
+            }
+
+            if (input is NodeSet.UAVariableType)
+            {
+                return new VariableTypeDesign();
+            }
+
+            if (input is NodeSet.UADataType)
+            {
+                return new DataTypeDesign();
+            }
+
+            if (input is NodeSet.UAReferenceType)
+            {
+                return new ReferenceTypeDesign();
+            }
+
+            if (input is NodeSet.UAObject)
+            {
+                return new ObjectTypeDesign();
+            }
+
+            if (input is NodeSet.UAVariable)
+            {
+                return new VariableTypeDesign();
+            }
+
+            if (input is NodeSet.UAMethod)
+            {
+                return new MethodDesign();
+            }
+
+            if (input is NodeSet.UAView)
+            {
+                return new ViewDesign();
+            }
+
+            throw new InvalidDataException($"Object is not a valid NodeClass: '{input.BrowseName}/{input.GetType().Name}'.");
+        }
+
+        private void UpdateTypeDesign(NodeSet.UAType input, TypeDesign output)
+        {
+            if (input == null || output == null)
+            {
+                return;
+            }
+
+            output.IsAbstract = input.IsAbstract;
+
+            foreach (var ii in input.References)
+            {
+                var reference = ImportReference(ii);
+
+                if (reference.ReferenceTypeId == Opc.Ua.ReferenceTypes.HasSubtype && reference.IsInverse)
+                {
+                    var superType = FindReferenceType(reference.TargetId);
+
+                    if (superType != null)
+                    {
+                        output.BaseType = superType.SymbolicId;
+                        output.BaseTypeNode = superType;
+                    }
+
+                    break;
+                }
+            }
+
+            if (output.BaseType == null)
+            {
+                throw new InvalidDataException($"Could not find supertype for '{input.BrowseName}'.");
+            }
+        }
+
+        private void UpdateVariableTypeDesign(NodeSet.UAVariableType input, VariableTypeDesign output)
+        {
+            if (input == null || output == null)
+            {
+                return;
+            }
+
+            output.DefaultValue = input.Value;
+            output.ValueRank = ImportValueRank(input.ValueRank);
+            output.ArrayDimensions = input.ArrayDimensions;
+
+            var dataType = FindNode<DataTypeDesign>(ImportNodeId(input.DataType));
+
+            if (dataType == null)
+            {
+                throw new InvalidDataException($"Could not find DataType Node for '{input.BrowseName}/{input.DataType}'.");
+            }
+
+            output.DataType = dataType.SymbolicId;
+            output.DataTypeNode = dataType;
+        }
+
+        private void UpdateReferenceTypeDesign(NodeSet.UAReferenceType input, ReferenceTypeDesign output)
+        {
+            if (input == null || output == null)
+            {
+                return;
+            }
+
+            output.InverseName = ImportLocalizedText(input.InverseName);
+            output.Symmetric = input.Symmetric;
+            output.SymmetricSpecified = true;
+        }
+
+        private bool IsTypeOf(NodeSet.UAType subtype, NodeId superTypeId)
+        {
+            NodeId nodeId = ImportNodeId(subtype.NodeId);
+            NodeId importedNodeId = new NodeId(nodeId.Identifier, m_nsMapping[nodeId.NamespaceIndex]);
+
+            if (importedNodeId == superTypeId)
+            {
+                return true;
+            }
+
+            var parent = FindSuperType<TypeDesign>(subtype);
+
+            while (parent != null)
+            {
+                var parentId = new NodeId(parent.NumericId, (ushort)m_settings.NamespaceUris.GetIndex(parent.SymbolicId.Namespace));
+
+                if (parentId == superTypeId)
+                {
+                    return true;
+                }
+
+                if (parent.BaseTypeNode == null)
+                {
+                    return false;
+                }
+
+                parent = parent.BaseTypeNode;
+            }
+
+            return false;
+        }
+
+        private void UpdateDataTypeDesign(NodeSet.UADataType input, DataTypeDesign output)
+        {
+            if (input == null || output == null)
+            {
+                return;
+            }
+
+            if (input.Definition != null)
+            {
+                output.IsOptionSet = input.Definition.IsOptionSet;
+                output.IsUnion = input.Definition.IsUnion;
+
+                if (IsTypeOf(input, DataTypeIds.Enumeration))
+                {
+                    output.IsEnumeration = true;
+                }
+
+                var fields = new List<Parameter>();
+
+                if (input.Definition.Field != null)
+                {
+                    foreach (var ii in input.Definition.Field)
+                    {
+                        var field = new Parameter()
+                        {
+                            Name = ii.Name,
+                            Description = ImportLocalizedText(ii.Description),
+                            ArrayDimensions = ii.ArrayDimensions,
+                            ValueRank = ImportValueRank(ii.ValueRank)
+                        };
+
+                        if (!String.IsNullOrEmpty(ii.SymbolicName))
+                        {
+                            field.Name = ii.SymbolicName;
+                        }
+
+                        var dataType = FindNode<DataTypeDesign>(ImportNodeId(ii.DataType));
+
+                        if (dataType == null)
+                        {
+                            throw new InvalidDataException($"Could not find DataType Node for Field '{input.BrowseName}/{ii.Name}/{ii.DataType}'.");
+                        }
+
+                        field.DataType = dataType.SymbolicId;
+                        field.DataTypeNode = dataType;
+                        field.AllowSubTypes = ii.AllowSubTypes;
+
+                        if (output.IsOptionSet)
+                        {
+                            long mask = 1 << ii.Value;
+                            field.BitMask = $"{mask:X8}";
+                            field.Identifier = 0;
+                            field.IdentifierSpecified = false;
+                        }
+                        else if (output.IsEnumeration)
+                        {
+                            field.BitMask = null;
+                            field.Identifier = ii.Value;
+                            field.IdentifierSpecified = true;
+                        }
+
+                        fields.Add(field);
+                    }
+                }
+
+                output.Fields = fields.ToArray();
+            }
+        }
+
+        private void UpdateInstanceDesign(NodeSet.UAInstance input, InstanceDesign output)
+        {
+            if (input == null || output == null)
+            {
+                return;
+            }
+
+            output.ModellingRule = ModellingRule.None;
+            output.ModellingRuleSpecified = false;
+
+            foreach (var ii in input.References)
+            {
+                var reference = ImportReference(ii);
+
+                if (reference.ReferenceTypeId == Opc.Ua.ReferenceTypes.HasTypeDefinition && !reference.IsInverse)
+                {
+                    var typeDefinition = FindNode<TypeDesign>(reference.TargetId);
+
+                    if (typeDefinition != null)
+                    {
+                        output.TypeDefinition = typeDefinition.SymbolicId;
+                        output.TypeDefinitionNode = typeDefinition;
+                    }
+                }
+
+                if (reference.ReferenceTypeId == Opc.Ua.ReferenceTypes.HasModellingRule && !reference.IsInverse)
+                {
+                    output.ModellingRule = ImportModellingRule(reference.TargetId);
+                    output.ModellingRuleSpecified = true;
+                }
+            }
+
+            if (output.TypeDefinition == null)
+            {
+                throw new InvalidDataException($"Could not find TypeDefinition for '{input.BrowseName}'.");
+            }
+        }
+
+        private void UpdateObjectDesign(NodeSet.UAObject input, ObjectDesign output)
+        {
+            if (input == null || output == null)
+            {
+                return;
+            }
+
+            output.SupportsEvents = (input.EventNotifier & EventNotifiers.SubscribeToEvents) != 0;
+        }
+
+        private void UpdateViewDesign(NodeSet.UAView input, ViewDesign output)
+        {
+            if (input == null || output == null)
+            {
+                return;
+            }
+
+            output.SupportsEvents = (input.EventNotifier & EventNotifiers.SubscribeToEvents) != 0;
+        }
+
+        private void UpdateVariableDesign(NodeSet.UAVariable input, VariableDesign output)
+        {
+            if (input == null || output == null)
+            {
+                return;
+            }
+
+            output.DefaultValue = input.Value;
+            output.ValueRank = ImportValueRank(input.ValueRank);
+            output.ArrayDimensions = input.ArrayDimensions;
+            output.MinimumSamplingInterval = (int)input.MinimumSamplingInterval;
+            output.MinimumSamplingIntervalSpecified = true;
+            output.Historizing = input.Historizing;
+            output.AccessLevel = ImportAccessLevel(input.AccessLevel);
+            output.AccessLevelSpecified = true;
+ 
+            var dataType = FindNode<DataTypeDesign>(ImportNodeId(input.DataType));
+
+            if (dataType == null)
+            {
+                throw new InvalidDataException($"Could not find DataType Node for '{input.BrowseName}/{input.DataType}'.");
+            }
+
+            output.DataType = dataType.SymbolicId;
+            output.DataTypeNode = dataType;
+        }
+        
+        private List<Parameter> ImportArguments(XmlElement input)
+        {
+            List<Parameter> output = new List<Parameter>();
+
+            if (input != null)
+            {
+                XmlDecoder decoder = CreateDecoder(input);
+                TypeInfo typeInfo = null;
+                var value = decoder.ReadVariantContents(out typeInfo);
+                decoder.Close();
+
+            }
+
+            return output;
+        }
+
+        private void UpdateMethodDesign(NodeSet.UAMethod input, MethodDesign output)
+        {
+            if (input == null || output == null)
+            {
+                return;
+            }
+
+            output.NonExecutable = !input.Executable;
+            output.NonExecutableSpecified = !input.Executable;
+
+            foreach (var ii in input.References)
+            {
+                var reference = ImportReference(ii);
+
+                if (reference.ReferenceTypeId == Opc.Ua.ReferenceTypes.HasProperty && !reference.IsInverse)
+                {
+                    var property = FindNode<VariableDesign>(reference.TargetId);
+
+                    if (property != null && property.DefaultValue != null)
+                    {
+                        if (property.BrowseName == BrowseNames.InputArguments)
+                        {
+                            output.InputArguments = ImportArguments(property.DefaultValue).ToArray();
+                        }
+                        else if (property.BrowseName == BrowseNames.OutputArguments)
+                        {
+                            output.OutputArguments = ImportArguments(property.DefaultValue).ToArray();
+                        }
+                    }
+                }
+            }
+        }
+
+        private NodeDesign ImportNode(NodeSet.UANode input)
+        {
+            NodeId nodeId = ImportNodeId(input.NodeId);
+            NodeId importedNodeId = new NodeId(nodeId.Identifier, m_nsMapping[nodeId.NamespaceIndex]);
+
+            if (m_settings.NodesById.TryGetValue(importedNodeId, out NodeDesign existing))
+            {
+                return existing;
+            }
+
+            var output = CreateNodeDesign(input);
+
+            output.SymbolicName = ImportSymbolicName(input);
+            output.SymbolicId = output.SymbolicName;
+            output.BrowseName = QualifiedName.Parse(input.BrowseName).Name;
+            output.Description = ImportLocalizedText(input.Description);
+            output.DisplayName = ImportLocalizedText(input.DisplayName);
+            output.ReleaseStatus = ImportReleaseStatus(input.ReleaseStatus);
+            output.Category = ImportCategories(input.Category);
+
+            if (nodeId.Identifier is uint id)
+            {
+                output.NumericId = id;
+                output.NumericIdSpecified = true;
+            }
+
+            if (output is TypeDesign type)
+            {
+                UpdateTypeDesign(input as NodeSet.UAType, type);
+            }
+
+            if (output is VariableTypeDesign vt)
+            {
+                UpdateVariableTypeDesign(input as NodeSet.UAVariableType, vt);
+            }
+            else if (output is ReferenceTypeDesign rt)
+            {
+                UpdateReferenceTypeDesign(input as NodeSet.UAReferenceType, rt);
+            }
+            else if (output is DataTypeDesign dt)
+            {
+                UpdateDataTypeDesign(input as NodeSet.UADataType, dt);
+            }
+            else if (output is ObjectDesign oi)
+            {
+                UpdateObjectDesign(input as NodeSet.UAObject, oi);
+            }
+            else if (output is VariableDesign vi)
+            {
+                UpdateVariableDesign(input as NodeSet.UAVariable, vi);
+            }
+            else if (output is MethodDesign mi)
+            {
+                UpdateMethodDesign(input as NodeSet.UAMethod, mi);
+            }
+            else if (output is ViewDesign wi)
+            {
+                UpdateViewDesign(input as NodeSet.UAView, wi);
+            }
+
+            m_settings.NodesByQName[output.SymbolicId] = output;
+            m_settings.NodesById[importedNodeId] = output;
+
+            return output;
+        }
+
+        private void AddChildIfNotExists(NodeDesign parent, InstanceDesign child)
+        {
+            if (parent == null || child == null)
+            {
+                return;
+            }
+
+            List<InstanceDesign> children = new List<InstanceDesign>();
+
+            if (parent.Children?.Items != null)
+            {
+                children.AddRange(parent.Children?.Items);
+
+                foreach (var ii in parent.Children.Items)
+                {
+                    if (ii.SymbolicId == child.SymbolicId)
+                    {
+                        return;
+                    }
+                }
+            }
+
+            child.Parent = parent;
+            children.Add(child);
+
+            parent.Children = new ListOfChildren()
+            {
+                Items = children.ToArray()
+            };
+
+            parent.HasChildren = true;
+        }
+
+        private void ImportReferences(NodeSet.UANode input)
+        {
+            NodeId nodeId = ImportNodeId(input.NodeId);
+            NodeId importedNodeId = new NodeId(nodeId.Identifier, m_nsMapping[nodeId.NamespaceIndex]);
+
+            if (!m_settings.NodesById.TryGetValue(importedNodeId, out NodeDesign existing))
+            {
+                return;
+            }
+
+            NodeDesign parent = null;
+
+            if (input is NodeSet.UAInstance instance)
+            {
+                if (!String.IsNullOrEmpty(instance.ParentNodeId))
+                {
+                    NodeId parentId = ImportNodeId(instance.ParentNodeId);
+                    parent = FindNode<NodeDesign>(parentId);
+                    AddChildIfNotExists(parent, existing as InstanceDesign);
+                }
+            }
+
+            List<Reference> references = new List<Reference>();
+
+            foreach (var ii in input.References)
+            {
+                NodeId referenceTypeId = ImportNodeId(ii.ReferenceType);
+                
+                var referenceType = FindNode<NodeDesign>(ii.Value);
+
+                if (referenceType == null)
+                {
+                    continue;
+                }
+
+                NodeId targetId = ImportNodeId(ii.Value);
+
+                var target = FindNode<NodeDesign>(ii.Value);
+
+                if (target ==  null)
+                {
+                    continue;
+                }
+
+                if (IsTypeOf(referenceTypeId, ReferenceTypeIds.NonHierarchicalReferences))
+                {
+                    if (referenceTypeId == ReferenceTypeIds.HasTypeDefinition ||
+                        referenceTypeId == ReferenceTypeIds.HasSubtype ||
+                        referenceTypeId == ReferenceTypeIds.HasModellingRule)
+                    {
+                        continue;
+                    }
+
+                    references.Add(new Reference()
+                    { 
+                        ReferenceType = referenceType.SymbolicId,
+                        IsInverse = !ii.IsForward,
+                        TargetId = target.SymbolicId,
+                        TargetNode = target
+                    });
+
+                    continue;
+                }
+            }
+        }
 
         #region Public Methods
         /// <summary>
         /// Imports a node from the set.
         /// </summary>
-        public ModelDesign Import(IDictionary<XmlQualifiedName, NodeDesign> nodes)
+        public ModelDesign Import()
         {
             ModelDesign dictionary = new ModelDesign();
 
@@ -91,21 +886,59 @@ namespace ModelCompiler
                 dictionary.TargetPublicationDateSpecified = model.PublicationDateSpecified;
                 dictionary.TargetVersion = model.Version;
 
-                if (model.RequiredModel != null)
+                List<Namespace> namespaces = new ();
+                ImportModel(namespaces, model);
+                dictionary.Namespaces = namespaces.ToArray();
+            }
+
+            m_nsMapping = m_namespaceUris.CreateMapping(m_settings.NamespaceUris, true);
+
+            foreach (var node in m_nodeset.Items)
+            {
+                ImportNode(node);
+            }
+
+            foreach (var node in m_nodeset.Items)
+            {
+                ImportReferences(node);
+            }
+
+
+            Dictionary<NodeId, List<Opc.Ua.ReferenceNode>> references = new();
+
+            foreach (var node in m_nodeset.Items)
+            {
+                var nid = ImportNodeId(node.NodeId, true);
+                m_index[nid] = node;
+
+                if (node.References != null)
                 {
-                    // TBD
+                    if (!references.TryGetValue(nid, out List<Opc.Ua.ReferenceNode> list))
+                    {
+                        references[nid] = list = new List<ReferenceNode>();
+                    }
+
+                    foreach (var ii in node.References)
+                    {
+                        var reference = ImportReference(ii);
+                        list.Add(reference);
+                    }
                 }
             }
 
-            List<NodeDesign> list = new ();
 
+            List<NodeDesign> items = new ();
+
+            /*
             for (int ii = 0; ii < m_nodeset.Items.Length; ii++)
             {
                 var node = m_nodeset.Items[ii];
-                NodeDesign importedNode = Import(m_context, node);
+                NodeDesign importedNode = Import(node);
                 list.Add(importedNode);
             }
+            */
 
+            dictionary.Items = items.ToArray();
             return dictionary;
         }
         #endregion
@@ -114,12 +947,12 @@ namespace ModelCompiler
         /// <summary>
         /// Creates an decoder to restore Variant values.
         /// </summary>
-        private XmlDecoder CreateDecoder(ISystemContext context, XmlElement source)
+        private XmlDecoder CreateDecoder(XmlElement source)
         {
             IServiceMessageContext messageContext = new ServiceMessageContext() {
-                NamespaceUris = context.NamespaceUris,
-                ServerUris = context.ServerUris,
-                Factory = context.EncodeableFactory
+                NamespaceUris = m_namespaceUris,
+                ServerUris = m_serverUris,
+                Factory = ServiceMessageContext.GlobalContext.Factory
             };
 
             XmlDecoder decoder = new XmlDecoder(source, messageContext);
@@ -138,7 +971,7 @@ namespace ModelCompiler
 
             if (m_nodeset.ServerUris != null)
             {
-                serverUris.Append(context.ServerUris.GetString(0));
+                serverUris.Append(m_serverUris.GetString(0));
 
                 for (int ii = 0; ii < m_nodeset.ServerUris.Length; ii++)
                 {
@@ -196,6 +1029,36 @@ namespace ModelCompiler
                 (<= -2) => ValueRank.ScalarOrArray
             };
 
+        private ModellingRule ImportModellingRule(ExpandedNodeId input)
+        {
+            if (input == ObjectIds.ModellingRule_Mandatory)
+            {
+                return ModellingRule.Mandatory;
+            }
+
+            if (input == ObjectIds.ModellingRule_Optional)
+            {
+                return ModellingRule.Optional;
+            }
+
+            if (input == ObjectIds.ModellingRule_MandatoryPlaceholder)
+            {
+                return ModellingRule.MandatoryPlaceholder;
+            }
+
+            if (input == ObjectIds.ModellingRule_OptionalPlaceholder)
+            {
+                return ModellingRule.OptionalPlaceholder;
+            }
+
+            if (input == ObjectIds.ModellingRule_ExposesItsArray)
+            {
+                return ModellingRule.ExposesItsArray;
+            }
+
+            return ModellingRule.None;
+        }
+
         /// <summary>
         /// Imports a node from the set.
         /// </summary>
@@ -235,9 +1098,9 @@ namespace ModelCompiler
                     {
                         for (int ii = 0; ii < node.References.Length; ii++)
                         {
-                            Opc.Ua.NodeId referenceTypeId = ImportNodeId(node.References[ii].ReferenceType, context.NamespaceUris, true);
+                            Opc.Ua.NodeId referenceTypeId = ImportNodeId(node.References[ii].ReferenceType, true);
                             bool isInverse = !node.References[ii].IsForward;
-                            Opc.Ua.ExpandedNodeId targetId = ImportExpandedNodeId(node.References[ii].Value, context.NamespaceUris, context.ServerUris);
+                            Opc.Ua.ExpandedNodeId targetId = ImportExpandedNodeId(node.References[ii].Value);
 
                             if (referenceTypeId == ReferenceTypeIds.HasTypeDefinition && !isInverse)
                             {
@@ -249,7 +1112,7 @@ namespace ModelCompiler
 
                     VariableDesign value = new ();
 
-                    value.DataType = NodeIdToQName(ImportNodeId(o.DataType, context.NamespaceUris, true));
+                    value.DataType = NodeIdToQName(ImportNodeId(o.DataType, true));
                     value.ValueRank = ImportValueRank(o.ValueRank);
                     value.ValueRankSpecified = true;
                     value.ArrayDimensions = o.ArrayDimensions;
@@ -263,7 +1126,7 @@ namespace ModelCompiler
 
                     if (o.Value != null)
                     {
-                        XmlDecoder decoder = CreateDecoder(context, o.Value);
+                        XmlDecoder decoder = CreateDecoder(o.Value);
                         TypeInfo typeInfo = null;
                         value.DecodedValue = decoder.ReadVariantContents(out typeInfo);
                         decoder.Close();
@@ -278,7 +1141,7 @@ namespace ModelCompiler
                     NodeSet.UAMethod o = (NodeSet.UAMethod)node;
                     MethodDesign value = new ();
                     value.NonExecutable = !o.Executable;
-                    value.Declaration = NodeIdToQName(ImportNodeId(o.MethodDeclarationId, context.NamespaceUris, true));
+                    value.Declaration = NodeIdToQName(ImportNodeId(o.MethodDeclarationId, true));
                     importedNode = value;
                     break;
                 }
@@ -305,7 +1168,7 @@ namespace ModelCompiler
                 {
                     NodeSet.UAVariableType o = (NodeSet.UAVariableType)node;
                     VariableTypeDesign value = new ();
-                    value.IsAbstract = o.IsAbstract; value.DataType = NodeIdToQName(ImportNodeId(o.DataType, context.NamespaceUris, true));
+                    value.IsAbstract = o.IsAbstract; value.DataType = NodeIdToQName(ImportNodeId(o.DataType, true));
                     value.ValueRank = ImportValueRank(o.ValueRank);
                     value.ValueRankSpecified = true;
                     value.ArrayDimensions = o.ArrayDimensions;
@@ -313,7 +1176,7 @@ namespace ModelCompiler
 
                     if (o.Value != null)
                     {
-                        XmlDecoder decoder = CreateDecoder(context, o.Value);
+                        XmlDecoder decoder = CreateDecoder(o.Value);
                         TypeInfo typeInfo = null;
                         value.DecodedValue = decoder.ReadVariantContents(out typeInfo);
                         decoder.Close();
@@ -350,8 +1213,8 @@ namespace ModelCompiler
                 }
             }
 
-            importedNode.SymbolicId = NodeIdToQName(ImportNodeId(node.NodeId, context.NamespaceUris, false));
-            importedNode.SymbolicName = ImportQualifiedName(node.BrowseName, context.NamespaceUris);
+            importedNode.SymbolicId = NodeIdToQName(ImportNodeId(node.NodeId, false));
+            importedNode.SymbolicName = ImportQualifiedName(node.BrowseName);
             importedNode.DisplayName = Import(node.DisplayName);
 
             if (importedNode.DisplayName == null)
@@ -370,9 +1233,9 @@ namespace ModelCompiler
 
                 for (int ii = 0; ii < node.References.Length; ii++)
                 {
-                    Opc.Ua.NodeId referenceTypeId = ImportNodeId(node.References[ii].ReferenceType, context.NamespaceUris, true);
+                    Opc.Ua.NodeId referenceTypeId = ImportNodeId(node.References[ii].ReferenceType, true);
                     bool isInverse = !node.References[ii].IsForward;
-                    Opc.Ua.ExpandedNodeId targetId = ImportExpandedNodeId(node.References[ii].Value, context.NamespaceUris, context.ServerUris);
+                    Opc.Ua.ExpandedNodeId targetId = ImportExpandedNodeId(node.References[ii].Value);
 
                     List<Reference> references = new List<Reference>();
 
@@ -380,7 +1243,7 @@ namespace ModelCompiler
                     {
                         if (referenceTypeId == ReferenceTypeIds.HasModellingRule && !isInverse)
                         {
-                            instance.ModellingRule = ImportModellingRule(targetId, context.NamespaceUris);
+                            instance.ModellingRule = ImportModellingRule(targetId);
                             continue;
                         }
 
@@ -412,11 +1275,6 @@ namespace ModelCompiler
             return importedNode;
         }
 
-        private ModellingRule ImportModellingRule(ExpandedNodeId targetId, NamespaceTable namespaceUris)
-        {
-            throw new NotImplementedException();
-        }
-
         private string ImportCategories(string[] category)
         {
             throw new NotImplementedException();
@@ -443,7 +1301,28 @@ namespace ModelCompiler
         /// <summary>
         ///  Imports a NodeId
         /// </summary>
-        private Opc.Ua.NodeId ImportNodeId(string source, NamespaceTable namespaceUris, bool lookupAlias)
+        private Opc.Ua.ReferenceNode ImportReference(NodeSet.Reference source)
+        {
+            if (source == null)
+            {
+                return null;
+            }
+
+            var referenceTypeId = ImportNodeId(source.ReferenceType, true);
+            var targetId = ImportExpandedNodeId(source.Value);
+
+            return new ReferenceNode()
+            {
+                ReferenceTypeId = referenceTypeId,
+                IsInverse = !source.IsForward,
+                TargetId = targetId
+            };
+        }
+
+        /// <summary>
+        ///  Imports a NodeId
+        /// </summary>
+        private Opc.Ua.NodeId ImportNodeId(string source, bool lookupAlias = true)
         {
             if (String.IsNullOrEmpty(source))
             {
@@ -451,25 +1330,18 @@ namespace ModelCompiler
             }
 
             // lookup alias.
-            if (lookupAlias && m_nodeset.Aliases != null)
+            if (lookupAlias && m_aliases.TryGetValue(source, out NodeId nodeId))
             {
-                for (int ii = 0; ii < m_nodeset.Aliases.Length; ii++)
-                {
-                    if (m_nodeset.Aliases[ii].Alias == source)
-                    {
-                        source = m_nodeset.Aliases[ii].Value;
-                        break;
-                    }
-                }
+                return nodeId;
             }
 
             // parse the string.
-            Opc.Ua.NodeId nodeId = Opc.Ua.NodeId.Parse(source);
+            nodeId = NodeId.Parse(source);
 
             if (nodeId.NamespaceIndex > 0)
             {
-                ushort namespaceIndex = ImportNamespaceIndex(nodeId.NamespaceIndex, namespaceUris);
-                nodeId = new Opc.Ua.NodeId(nodeId.Identifier, namespaceIndex);
+                ushort namespaceIndex = ImportNamespaceIndex(nodeId.NamespaceIndex, m_namespaceUris);
+                nodeId = new NodeId(nodeId.Identifier, namespaceIndex);
             }
 
             return nodeId;
@@ -478,12 +1350,13 @@ namespace ModelCompiler
         /// <summary>
         /// Imports a ExpandedNodeId
         /// </summary>
-        private Opc.Ua.ExpandedNodeId ImportExpandedNodeId(string source, NamespaceTable namespaceUris, StringTable serverUris)
+        private Opc.Ua.ExpandedNodeId ImportExpandedNodeId(string source)
         {
             if (String.IsNullOrEmpty(source))
             {
                 return Opc.Ua.ExpandedNodeId.Null;
             }
+
             // lookup aliases
             if (m_nodeset.Aliases != null)
             {
@@ -505,8 +1378,8 @@ namespace ModelCompiler
                 return nodeId;
             }
 
-            uint serverIndex = ImportServerIndex(nodeId.ServerIndex, serverUris);
-            ushort namespaceIndex = ImportNamespaceIndex(nodeId.NamespaceIndex, namespaceUris);
+            uint serverIndex = ImportServerIndex(nodeId.ServerIndex, m_serverUris);
+            ushort namespaceIndex = ImportNamespaceIndex(nodeId.NamespaceIndex, m_namespaceUris);
 
             if (serverIndex > 0)
             {
@@ -514,7 +1387,7 @@ namespace ModelCompiler
 
                 if (String.IsNullOrEmpty(nodeId.NamespaceUri))
                 {
-                    namespaceUri = namespaceUris.GetString(namespaceIndex);
+                    namespaceUri = m_namespaceUris.GetString(namespaceIndex);
                 }
 
                 nodeId = new Opc.Ua.ExpandedNodeId(nodeId.Identifier, 0, namespaceUri, serverIndex);
@@ -546,7 +1419,7 @@ namespace ModelCompiler
                 if (isStructure)
                 {
                     DataTypeDesign sd = new ();
-                    sd.BaseType = NodeIdToQName(ImportNodeId(source.BaseType, namespaceUris, true));
+                    sd.BaseType = NodeIdToQName(ImportNodeId(source.BaseType, true));
 
                     if (source.IsUnion)
                     {
@@ -568,7 +1441,7 @@ namespace ModelCompiler
 
                             output.Name = field.Name;
                             output.Description = Import(field.Description);
-                            output.DataType = NodeIdToQName(ImportNodeId(field.DataType, namespaceUris, true));
+                            output.DataType = NodeIdToQName(ImportNodeId(field.DataType, true));
                             output.ValueRank = ImportValueRank(field.ValueRank);
 
                             if (!String.IsNullOrWhiteSpace(field.ArrayDimensions))
@@ -618,7 +1491,7 @@ namespace ModelCompiler
         /// <summary>
         /// Imports a QualifiedName
         /// </summary>
-        private XmlQualifiedName ImportQualifiedName(string source, NamespaceTable namespaceUris)
+        private XmlQualifiedName ImportQualifiedName(string source)
         {
             if (String.IsNullOrEmpty(source))
             {
@@ -627,15 +1500,38 @@ namespace ModelCompiler
 
             var qname = Opc.Ua.QualifiedName.Parse(source);
 
-            if (qname.NamespaceIndex > 0)
+            StringBuilder builder = new StringBuilder();
+
+            foreach (var ch in qname.Name)
             {
-                ushort namespaceIndex = ImportNamespaceIndex(qname.NamespaceIndex, namespaceUris);
-                return new XmlQualifiedName(qname.Name, namespaceUris.GetString(namespaceIndex));
+                if (builder.Length == 0)
+                {
+                    if (!Char.IsLetter(ch) && ch != '_')
+                    {
+                        builder.Append('_');
+                        continue;
+                    }
+                }
+                else
+                {
+                    if (!Char.IsLetterOrDigit(ch) && ch != '_' && ch != '.' && ch != '+')
+                    {
+                        builder.Append('_');
+                        continue;
+                    }
+                }
+
+                builder.Append(ch);
             }
 
-            return new XmlQualifiedName(qname.Name, namespaceUris.GetString(0));
-        }
+            if (qname.NamespaceIndex > 0)
+            {
+                ushort namespaceIndex = ImportNamespaceIndex(qname.NamespaceIndex, m_namespaceUris);
+                return new XmlQualifiedName(builder.ToString(), m_namespaceUris.GetString(namespaceIndex));
+            }
 
+            return new XmlQualifiedName(builder.ToString(), m_namespaceUris.GetString(0));
+        }
 
         /// <summary>
         /// Imports the array dimensions.

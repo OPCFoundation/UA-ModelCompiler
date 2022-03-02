@@ -96,11 +96,6 @@ namespace DemoModel
     public static partial class Objects
     {
         /// <summary>
-        /// The identifier for the Signal Object.
-        /// </summary>
-        public const uint Signal = 36;
-
-        /// <summary>
         /// The identifier for the Vector_Encoding_DefaultBinary Object.
         /// </summary>
         public const uint Vector_Encoding_DefaultBinary = 21;
@@ -216,21 +211,6 @@ namespace DemoModel
     public static partial class Variables
     {
         /// <summary>
-        /// The identifier for the Signal_Red Variable.
-        /// </summary>
-        public const uint Signal_Red = 37;
-
-        /// <summary>
-        /// The identifier for the Signal_Yellow Variable.
-        /// </summary>
-        public const uint Signal_Yellow = 38;
-
-        /// <summary>
-        /// The identifier for the Signal_Green Variable.
-        /// </summary>
-        public const uint Signal_Green = 39;
-
-        /// <summary>
         /// The identifier for the HeaterStatus_EnumStrings Variable.
         /// </summary>
         public const uint HeaterStatus_EnumStrings = 2;
@@ -337,21 +317,6 @@ namespace DemoModel
     }
     #endregion
 
-    #region View Identifiers
-    /// <summary>
-    /// A class that declares constants for all Views in the Model Design.
-    /// </summary>
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    public static partial class Views
-    {
-        /// <summary>
-        /// The identifier for the TrafficView View.
-        /// </summary>
-        public const uint TrafficView = 40;
-    }
-    #endregion
-
     #region DataType Node Identifiers
     /// <summary>
     /// A class that declares constants for all DataTypes in the Model Design.
@@ -410,11 +375,6 @@ namespace DemoModel
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     public static partial class ObjectIds
     {
-        /// <summary>
-        /// The identifier for the Signal Object.
-        /// </summary>
-        public static readonly ExpandedNodeId Signal = new ExpandedNodeId(DemoModel.Objects.Signal, DemoModel.Namespaces.DemoModel);
-
         /// <summary>
         /// The identifier for the Vector_Encoding_DefaultBinary Object.
         /// </summary>
@@ -531,21 +491,6 @@ namespace DemoModel
     public static partial class VariableIds
     {
         /// <summary>
-        /// The identifier for the Signal_Red Variable.
-        /// </summary>
-        public static readonly ExpandedNodeId Signal_Red = new ExpandedNodeId(DemoModel.Variables.Signal_Red, DemoModel.Namespaces.DemoModel);
-
-        /// <summary>
-        /// The identifier for the Signal_Yellow Variable.
-        /// </summary>
-        public static readonly ExpandedNodeId Signal_Yellow = new ExpandedNodeId(DemoModel.Variables.Signal_Yellow, DemoModel.Namespaces.DemoModel);
-
-        /// <summary>
-        /// The identifier for the Signal_Green Variable.
-        /// </summary>
-        public static readonly ExpandedNodeId Signal_Green = new ExpandedNodeId(DemoModel.Variables.Signal_Green, DemoModel.Namespaces.DemoModel);
-
-        /// <summary>
         /// The identifier for the HeaterStatus_EnumStrings Variable.
         /// </summary>
         public static readonly ExpandedNodeId HeaterStatus_EnumStrings = new ExpandedNodeId(DemoModel.Variables.HeaterStatus_EnumStrings, DemoModel.Namespaces.DemoModel);
@@ -652,21 +597,6 @@ namespace DemoModel
     }
     #endregion
 
-    #region View Node Identifiers
-    /// <summary>
-    /// A class that declares constants for all Views in the Model Design.
-    /// </summary>
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    public static partial class ViewIds
-    {
-        /// <summary>
-        /// The identifier for the TrafficView View.
-        /// </summary>
-        public static readonly ExpandedNodeId TrafficView = new ExpandedNodeId(DemoModel.Views.TrafficView, DemoModel.Namespaces.DemoModel);
-    }
-    #endregion
-
     #region BrowseName Declarations
     /// <summary>
     /// Declares all of the BrowseNames used in the Model Design.
@@ -685,19 +615,9 @@ namespace DemoModel
         public const string DemoModel_XmlSchema = "DemoModel";
 
         /// <summary>
-        /// The BrowseName for the Green component.
-        /// </summary>
-        public const string Green = "Green";
-
-        /// <summary>
         /// The BrowseName for the HeaterStatus component.
         /// </summary>
         public const string HeaterStatus = "HeaterStatus";
-
-        /// <summary>
-        /// The BrowseName for the Red component.
-        /// </summary>
-        public const string Red = "Red";
 
         /// <summary>
         /// The BrowseName for the SampleStructureAllowSubtypes component.
@@ -720,16 +640,6 @@ namespace DemoModel
         public const string SampleUnionAllowSubtypes = "SampleUnionAllowSubtypes";
 
         /// <summary>
-        /// The BrowseName for the Signal component.
-        /// </summary>
-        public const string Signal = "Signal";
-
-        /// <summary>
-        /// The BrowseName for the TrafficView component.
-        /// </summary>
-        public const string TrafficView = "TrafficView";
-
-        /// <summary>
         /// The BrowseName for the Vector component.
         /// </summary>
         public const string Vector = "Vector";
@@ -743,11 +653,6 @@ namespace DemoModel
         /// The BrowseName for the WorkOrderType component.
         /// </summary>
         public const string WorkOrderType = "WorkOrderType";
-
-        /// <summary>
-        /// The BrowseName for the Yellow component.
-        /// </summary>
-        public const string Yellow = "Yellow";
     }
     #endregion
 
@@ -761,7 +666,12 @@ namespace DemoModel
         /// <summary>
         /// The URI for the DemoModel namespace (.NET code namespace is 'DemoModel').
         /// </summary>
-        public const string DemoModel = "http://www.opcfoundation.org/DemoModel/";
+        public const string DemoModel = "http://www.opcfoundation.org/DemoServer/";
+
+        /// <summary>
+        /// The URI for the DemoModelXsd namespace (.NET code namespace is 'DemoModel').
+        /// </summary>
+        public const string DemoModelXsd = "http://www.opcfoundation.org/DemoServer/Types.xsd";
 
         /// <summary>
         /// The URI for the OpcUa namespace (.NET code namespace is 'Opc.Ua').

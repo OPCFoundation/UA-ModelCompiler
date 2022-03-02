@@ -79,7 +79,8 @@ namespace ModelCompiler
                     options.UseAllowSubtypes,
                     options.Exclusions,
                     options.ModelVersion,
-                    options.ModelPublicationDate);
+                    options.ModelPublicationDate,
+                    options.ReleaseCandidate);
 
                 if (!String.IsNullOrEmpty(options.DotNetStackPath))
                 {
@@ -171,6 +172,7 @@ namespace ModelCompiler
             public const string UnitsOutputPath = "output";
             public const string ModelVersion = "mv";
             public const string ModelPublicationDate = "pd";
+            public const string ReleaseCandidate = "rc";
         }
 
         private class OptionValues
@@ -187,6 +189,7 @@ namespace ModelCompiler
             public IList<string> Exclusions;
             public string ModelVersion;
             public string ModelPublicationDate;
+            public bool ReleaseCandidate;
             public string InputPath;
             public string FilePattern;
             public HeaderUpdateTool.LicenseType LicenseType;
@@ -256,6 +259,11 @@ namespace ModelCompiler
                 $"-{OptionsNames.ModelPublicationDate}",
                 "The publication date of the model to produce.",
                 CommandOptionType.SingleValue);
+
+            app.Option(
+                $"-{OptionsNames.ReleaseCandidate}",
+                "Indicates that a release candidate nodeset is being generated.",
+                CommandOptionType.NoValue);
         }
 
         private static OptionValues GetCompileOptions(CommandLineApplication app)
@@ -271,6 +279,7 @@ namespace ModelCompiler
                 UseAllowSubtypes = app.IsOptionSet(OptionsNames.UseAllowSubtypes),
                 ModelVersion = app.GetOption(OptionsNames.ModelVersion),
                 ModelPublicationDate = app.GetOption(OptionsNames.ModelPublicationDate),
+                ReleaseCandidate = app.IsOptionSet(OptionsNames.ReleaseCandidate)
             };
 
             var path = app.GetOption(OptionsNames.GenerateIdentifierFile);

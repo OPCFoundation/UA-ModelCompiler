@@ -90,7 +90,8 @@ namespace ModelCompiler
             bool useAllowSubtypes,
             IList<string> exclusions,
             string modelVersion,
-            string modelPublicationDate)
+            string modelPublicationDate,
+            bool releaseCandidate)
         {
             m_validator = new ModelCompilerValidator(startId, exclusions);
 
@@ -109,6 +110,7 @@ namespace ModelCompiler
             }
 
             m_validator.UseAllowSubtypes = useAllowSubtypes;
+            m_validator.ReleaseCandidate = releaseCandidate;
             m_validator.ModelVersion = modelVersion;
             m_validator.ModelPublicationDate = modelPublicationDate;
             m_validator.Validate2(designFilePaths, identifierFilePath, false);
@@ -1269,7 +1271,14 @@ namespace ModelCompiler
 
             if (field.ValueRank != ValueRank.Scalar)
             {
-                template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" nillable=\"true\" />", field.Name, GetXmlDataType(field.DataTypeNode, field.ValueRank));
+                var fieldDataType = GetXmlDataType(field.DataTypeNode, field.ValueRank);
+
+                if (basicType == BasicDataType.UserDefined && field.AllowSubTypes)
+                {
+                    fieldDataType = "ua:ListOfExtensionObject";
+                }
+
+                template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" nillable=\"true\" />", field.Name, fieldDataType);
             }
             else
             {
@@ -1298,7 +1307,14 @@ namespace ModelCompiler
 
                     case BasicDataType.UserDefined:
                     {
-                        template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" nillable=\"true\" />", field.Name, GetXmlDataType(field.DataTypeNode, field.ValueRank));
+                        var fieldDataType = GetXmlDataType(field.DataTypeNode, field.ValueRank);
+
+                        if (field.AllowSubTypes)
+                        {
+                            fieldDataType = "ua:ExtensionObject";
+                        }
+                        
+                        template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" nillable=\"true\" />", field.Name, fieldDataType);
                         break;
                     }
 
@@ -1619,7 +1635,13 @@ namespace ModelCompiler
                         IsInherited = true,
                         Name = field.Name,
                         Parent = field.Parent,
-                        ValueRank = field.ValueRank
+                        ValueRank = field.ValueRank,
+                        ArrayDimensions = field.ArrayDimensions,
+                        AllowSubTypes = field.AllowSubTypes,
+                        IsOptional = field.IsOptional,
+                        BitMask = field.BitMask,
+                        DefaultValue = field.DefaultValue,
+                        ReleaseStatus = field.ReleaseStatus
                     });
                 }
             }
@@ -1775,6 +1797,13 @@ namespace ModelCompiler
 
             BasicDataType basicType = dataType.BasicDataType;
 
+            var fieldDataType = GetBinaryDataType(field.DataTypeNode);
+
+            if (field.AllowSubTypes)
+            {
+                fieldDataType = "ua:ExtensionObject";
+            }
+
             if (basicType == BasicDataType.Enumeration)
             {
                 template.WriteNextLine(context.Prefix);
@@ -1787,7 +1816,7 @@ namespace ModelCompiler
                 template.WriteNextLine(context.Prefix);
                 template.Write("<opc:Field Name=\"NoOf{0}\" TypeName=\"opc:Int32\" />", field.Name);
                 template.WriteNextLine(context.Prefix);
-                template.Write("<opc:Field Name=\"{0}\" TypeName=\"{1}\" LengthField=\"NoOf{0}\" />", field.Name, GetBinaryDataType(field.DataTypeNode));
+                template.Write("<opc:Field Name=\"{0}\" TypeName=\"{1}\" LengthField=\"NoOf{0}\" />", field.Name, fieldDataType);
                 return null;
             }
 
@@ -1795,12 +1824,13 @@ namespace ModelCompiler
 
             if (field.IsInherited)
             {
-                template.Write("<opc:Field Name=\"{0}\" TypeName=\"{1}\" SourceType=\"{2}\" />", field.Name, GetBinaryDataType(field.DataTypeNode), GetBinaryDataType(field.Parent as DataTypeDesign));
+                template.Write("<opc:Field Name=\"{0}\" TypeName=\"{1}\" SourceType=\"{2}\" />", field.Name, fieldDataType, GetBinaryDataType(field.Parent as DataTypeDesign));
             }
             else
             {
-                template.Write("<opc:Field Name=\"{0}\" TypeName=\"{1}\" />", field.Name, GetBinaryDataType(field.DataTypeNode));
+                template.Write("<opc:Field Name=\"{0}\" TypeName=\"{1}\" />", field.Name, fieldDataType);
             }
+
             return null;
         }
         #endregion

@@ -7,8 +7,8 @@
   xmlns="http://opcfoundation.org/UA/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
-  TargetVersion="1.05"
-  TargetPublicationDate="2021-10-26T00:00:00Z"
+  TargetVersion="1.05.01"
+  TargetPublicationDate="2021-11-18T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -158,6 +158,7 @@
 
   <opc:ReferenceType SymbolicName="HierarchicalReferences" BaseType="References" IsAbstract="true" PartNo="3">
     <opc:Description>The abstract base type for all hierarchical references.</opc:Description>
+    <opc:InverseName>InverseHierarchicalReferences</opc:InverseName>
   </opc:ReferenceType>
 
   <opc:ReferenceType SymbolicName="HasChild" BaseType="HierarchicalReferences"  IsAbstract="true" PartNo="3">
@@ -270,7 +271,6 @@
   </opc:ReferenceType>
 
   <opc:ReferenceType SymbolicName="AssociatedWith" BaseType="ua:NonHierarchicalReferences" Symmetric="true" PartNo="5">
-    <opc:InverseName>AssociatedWith</opc:InverseName>
   </opc:ReferenceType>
 
   <opc:ObjectType SymbolicName="BaseObjectType" PartNo="5">

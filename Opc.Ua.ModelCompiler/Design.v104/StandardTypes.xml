@@ -566,6 +566,8 @@
       <opc:Property SymbolicName="RequestedLifetime" DataType="Duration">
         <opc:Description>The lifetime of the channel requested by the client.</opc:Description>
       </opc:Property>
+      <opc:Property SymbolicName="CertificateErrorEventId" DataType="ua:String" ModellingRule="Optional" >
+      </opc:Property>
     </opc:Children>
   </opc:ObjectType>
 

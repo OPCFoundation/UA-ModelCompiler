@@ -847,4 +847,9 @@
     <opc:Documentation>The value is accurate, and the signal source supports cascade handshaking.</opc:Documentation>
   </opc:Constant>
 
+  <!-- FLC Codes  -->
+  <opc:Constant Name="Bad_DataSetIdInvalid">
+    <opc:Documentation>The DataSet specified for the DataSetWriter creation is invalid.</opc:Documentation>
+  </opc:Constant>
+  
 </opc:TypeDictionary>

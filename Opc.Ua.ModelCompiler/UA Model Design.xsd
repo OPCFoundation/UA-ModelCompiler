@@ -151,6 +151,7 @@
   <xs:simpleType name="ReleaseStatus">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Released" />
+      <xs:enumeration value="RC" />
       <xs:enumeration value="Draft" />
       <xs:enumeration value="Deprecated" />
     </xs:restriction>

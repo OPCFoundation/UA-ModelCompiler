@@ -7,8 +7,8 @@
   xmlns="http://opcfoundation.org/UA/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
-  TargetVersion="1.05"
-  TargetPublicationDate="2021-10-26T00:00:00Z"
+  TargetVersion="1.05.01"
+  TargetPublicationDate="2021-11-18T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -24,12 +24,12 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespaceVersion" DataType="ua:String">
         <opc:DefaultValue>
-          <uax:String>1.05</uax:String>
+          <uax:String>1.05.01</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2021-10-26T00:00:00</uax:DateTime>
+          <uax:DateTime>2021-11-18T00:00:00</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -426,6 +426,7 @@
       <opc:Property SymbolicName="OpenCount" DataType="ua:UInt16" />
       <opc:Property SymbolicName="MimeType" DataType="ua:String" ModellingRule="Optional" />
       <opc:Property SymbolicName="MaxByteStringLength" DataType="ua:UInt32" ModellingRule="Optional" />
+      <opc:Property SymbolicName="LastModifiedTime" DataType="ua:DateTime" ModellingRule="Optional" />
       <opc:Method SymbolicName="Open" TypeDefinition="OpenMethodType" />
       <opc:Method SymbolicName="Close" TypeDefinition="CloseMethodType" />
       <opc:Method SymbolicName="Read" TypeDefinition="ReadMethodType" />
@@ -474,6 +475,7 @@
       <opc:Property SymbolicName="DefaultRolePermissions" DataType="ua:RolePermissionType" ValueRank="Array" ModellingRule="Optional" />
       <opc:Property SymbolicName="DefaultUserRolePermissions" DataType="ua:RolePermissionType" ValueRank="Array" ModellingRule="Optional" />
       <opc:Property SymbolicName="DefaultAccessRestrictions" DataType="ua:AccessRestrictionType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ConfigurationVersion" DataType="ua:VersionTime" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -723,6 +725,22 @@
     </opc:Children>
   </opc:ObjectType>
 
+  <opc:ObjectType SymbolicName="AuditClientEventType" BaseType="AuditEventType" IsAbstract="true" PartNo="5">
+    <opc:Children>
+      <opc:Property SymbolicName="ServerUri" DataType="UriString" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="AuditClientUpdateMethodResultEventType" BaseType="AuditClientEventType" IsAbstract="false" PartNo="5">
+    <opc:Children>
+      <opc:Property SymbolicName="ObjectId" DataType="NodeId" />
+      <opc:Property SymbolicName="MethodId" DataType="NodeId" />
+      <opc:Property SymbolicName="StatusCodeId" DataType="StatusCode" />
+      <opc:Property SymbolicName="InputArguments" DataType="Argument" ValueRank="Array" />
+      <opc:Property SymbolicName="OutputArguments" DataType="Argument" ValueRank="Array" />
+    </opc:Children>
+  </opc:ObjectType>
+  
   <!-- ModellingRuleType BuiltInTypes.xml -->
   <!-- FolderType BuiltInTypes.xml -->
   <!-- DataTypeEncodingType BuiltInTypes.xml -->
@@ -1134,10 +1152,6 @@
 
   <opc:ReferenceType SymbolicName="IsDeprecated" BaseType="NonHierarchicalReferences" PartNo="5">
     <opc:InverseName>Deprecates</opc:InverseName>
-  </opc:ReferenceType>
-
-  <opc:ReferenceType SymbolicName="LinksTo" BaseType="NonHierarchicalReferences" Symmetric="true" PartNo="5" ReleaseStatus="Draft">
-    <opc:InverseName>LinksTo</opc:InverseName>    
   </opc:ReferenceType>
   
   <opc:DataType SymbolicName="BitFieldMaskDataType" BaseType="UInt64" PartNo="5">
@@ -1981,10 +1995,11 @@
     <opc:DisplayName>AuthenticatedUser</opc:DisplayName>
     <opc:Description>The Role has limited access for use when a Session has valid non-anonymous credentials but has not been explicity granted access to a Role.</opc:Description>
     <opc:Children>
-      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="CustomConfiguration" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
@@ -2005,10 +2020,11 @@
     <opc:DisplayName>Observer</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
     <opc:Children>
-      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="CustomConfiguration" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
@@ -2029,10 +2045,11 @@
     <opc:DisplayName>Operator</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
     <opc:Children>
-      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="CustomConfiguration" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
@@ -2053,10 +2070,11 @@
     <opc:DisplayName>Engineer</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read and update historical data/events, call methods or subscribe to data/events.</opc:Description>
     <opc:Children>
-      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="CustomConfiguration" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
@@ -2077,10 +2095,11 @@
     <opc:DisplayName>Supervisor</opc:DisplayName>
     <opc:Description>The Role is allowed to browse, read live data, read and historical data/events, call methods or subscribe to data/events.</opc:Description>
     <opc:Children>
-      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="CustomConfiguration" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
@@ -2101,10 +2120,11 @@
     <opc:DisplayName>ConfigureAdmin</opc:DisplayName>
     <opc:Description>The Role is allowed to change the non-security related configuration settings.</opc:Description>
     <opc:Children>
-      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="CustomConfiguration" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
@@ -2125,10 +2145,86 @@
     <opc:DisplayName>SecurityAdmin</opc:DisplayName>
     <opc:Description>The Role is allowed to change security related settings.</opc:Description>
     <opc:Children>
-      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="CustomConfiguration" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveEndpoint" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:Object SymbolicName="WellKnownRole_SecurityKeyServerAdmin" TypeDefinition="RoleType" PartNo="14">
+    <opc:BrowseName>SecurityKeyServerAdmin</opc:BrowseName>
+    <opc:DisplayName>SecurityKeyServerAdmin</opc:DisplayName>
+    <opc:Description>The role is allowed to manage SecurityGroups and PushTargets. This includes executing methods related to management of SecurityGroups and PushTargets on an SKS. It is intended to be a non-human Role.</opc:Description>
+    <opc:Children>
+      <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="CustomConfiguration" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveEndpoint" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:Object SymbolicName="WellKnownRole_SecurityKeyServer" TypeDefinition="RoleType" PartNo="14">
+    <opc:BrowseName>SecurityKeyServer</opc:BrowseName>
+    <opc:DisplayName>SecurityKeyServer</opc:DisplayName>
+    <opc:Description>This role is allowed to manage SecurityGroups and distribute keys. This includes executing methods related to PubSub security. It is intended to be a non-human Role.</opc:Description>
+    <opc:Children>
+      <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="CustomConfiguration" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveEndpoint" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:Object SymbolicName="WellKnownRole_SecurityKeyAccess" TypeDefinition="RoleType" PartNo="14">
+    <opc:BrowseName>SecurityKeyAccess</opc:BrowseName>
+    <opc:DisplayName>SecurityKeyAccess</opc:DisplayName>
+    <opc:Description>This role is allowed to access an SKS to pull keys. It is intended to be a non-human Role.</opc:Description>
+    <opc:Children>
+      <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="CustomConfiguration" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
@@ -2564,14 +2660,27 @@
           </opc:Reference>
         </opc:References>
       </opc:Method>
+      <opc:Method SymbolicName="Respond2" TypeDefinition="DialogResponse2MethodType" ModellingRule="Mandatory">
+        <opc:References>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
+            <opc:TargetId>AuditConditionRespondEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Method>
     </opc:Children>
   </opc:ObjectType>
 
   <opc:Method SymbolicName="DialogResponseMethodType" ModellingRule="Mandatory" PartNo="9">
     <opc:InputArguments>
-      <opc:Argument Name="SelectedResponse" DataType="ua:Int32">
-        <opc:Description>The response to the dialog condition.</opc:Description>
-      </opc:Argument>
+      <opc:Argument Name="SelectedResponse" DataType="ua:Int32" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="DialogResponse2MethodType" ModellingRule="Mandatory" PartNo="9">
+    <opc:InputArguments>
+      <opc:Argument Name="SelectedResponse" DataType="ua:Int32" />
+      <opc:Argument Name="Comment" DataType="ua:LocalizedText" />
     </opc:InputArguments>
   </opc:Method>
 
@@ -2818,7 +2927,23 @@
           </opc:Reference>
         </opc:References>
       </opc:Method>
+      <opc:Method SymbolicName="Suppress2" TypeDefinition="WithCommentMethodType" ModellingRule="Optional">
+        <opc:References>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
+            <opc:TargetId>AuditConditionSuppressionEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Method>
       <opc:Method SymbolicName="Unsuppress" ModellingRule="Optional">
+        <opc:References>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
+            <opc:TargetId>AuditConditionSuppressionEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Method>
+      <opc:Method SymbolicName="Unsuppress2" TypeDefinition="WithCommentMethodType" ModellingRule="Optional">
         <opc:References>
           <opc:Reference IsOneWay="true">
             <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
@@ -2834,7 +2959,23 @@
           </opc:Reference>
         </opc:References>
       </opc:Method>
+      <opc:Method SymbolicName="RemoveFromService2" TypeDefinition="WithCommentMethodType" ModellingRule="Optional">
+        <opc:References>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
+            <opc:TargetId>AuditConditionOutOfServiceEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Method>
       <opc:Method SymbolicName="PlaceInService" ModellingRule="Optional">
+        <opc:References>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
+            <opc:TargetId>AuditConditionOutOfServiceEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Method>
+      <opc:Method SymbolicName="PlaceInService2" TypeDefinition="WithCommentMethodType" ModellingRule="Optional">
         <opc:References>
           <opc:Reference IsOneWay="true">
             <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
@@ -2850,8 +2991,30 @@
           </opc:Reference>
         </opc:References>
       </opc:Method>
+      <opc:Method SymbolicName="Reset2" TypeDefinition="WithCommentMethodType" ModellingRule="Optional">
+        <opc:References>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
+            <opc:TargetId>AuditConditionResetEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Method>
+      <opc:Method SymbolicName="GetGroupMemberships" TypeDefinition="GetGroupMembershipsMethodType" ModellingRule="Optional">
+      </opc:Method>
     </opc:Children>
   </opc:ObjectType>
+
+  <opc:Method SymbolicName="WithCommentMethodType" PartNo="9">
+    <opc:InputArguments>
+      <opc:Argument Name="Comment" DataType="LocalizedText" />
+    </opc:InputArguments>
+  </opc:Method>
+  
+  <opc:Method SymbolicName="GetGroupMembershipsMethodType" PartNo="9">
+    <opc:OutputArguments>
+      <opc:Argument Name="Groups" DataType="NodeId" ValueRank="Array" />
+    </opc:OutputArguments>
+  </opc:Method>
 
   <opc:ObjectType SymbolicName="AlarmGroupType" BaseType="FolderType" PartNo="9">
     <opc:Children>
@@ -2919,6 +3082,10 @@
             <opc:ReferenceType>HasCause</opc:ReferenceType>
             <opc:TargetId>ShelvedStateMachineType_TimedShelve</opc:TargetId>
           </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>HasCause</opc:ReferenceType>
+            <opc:TargetId>ShelvedStateMachineType_TimedShelve2</opc:TargetId>
+          </opc:Reference>
         </opc:References>
       </opc:Object>
 
@@ -2946,6 +3113,10 @@
           <opc:Reference>
             <opc:ReferenceType>HasCause</opc:ReferenceType>
             <opc:TargetId>ShelvedStateMachineType_OneShotShelve</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>HasCause</opc:ReferenceType>
+            <opc:TargetId>ShelvedStateMachineType_OneShotShelve2</opc:TargetId>
           </opc:Reference>
         </opc:References>
       </opc:Object>
@@ -2975,6 +3146,10 @@
             <opc:ReferenceType>HasCause</opc:ReferenceType>
             <opc:TargetId>ShelvedStateMachineType_Unshelve</opc:TargetId>
           </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>HasCause</opc:ReferenceType>
+            <opc:TargetId>ShelvedStateMachineType_Unshelve2</opc:TargetId>
+          </opc:Reference>
         </opc:References>
       </opc:Object>
 
@@ -3002,6 +3177,10 @@
           <opc:Reference>
             <opc:ReferenceType>HasCause</opc:ReferenceType>
             <opc:TargetId>ShelvedStateMachineType_OneShotShelve</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>HasCause</opc:ReferenceType>
+            <opc:TargetId>ShelvedStateMachineType_OneShotShelve2</opc:TargetId>
           </opc:Reference>
         </opc:References>
       </opc:Object>
@@ -3031,6 +3210,10 @@
             <opc:ReferenceType>HasCause</opc:ReferenceType>
             <opc:TargetId>ShelvedStateMachineType_Unshelve</opc:TargetId>
           </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>HasCause</opc:ReferenceType>
+            <opc:TargetId>ShelvedStateMachineType_Unshelve2</opc:TargetId>
+          </opc:Reference>
         </opc:References>
       </opc:Object>
 
@@ -3059,10 +3242,22 @@
             <opc:ReferenceType>HasCause</opc:ReferenceType>
             <opc:TargetId>ShelvedStateMachineType_TimedShelve</opc:TargetId>
           </opc:Reference>
+          <opc:Reference>
+            <opc:ReferenceType>HasCause</opc:ReferenceType>
+            <opc:TargetId>ShelvedStateMachineType_TimedShelve2</opc:TargetId>
+          </opc:Reference>
         </opc:References>
       </opc:Object>
 
       <opc:Method SymbolicName="TimedShelve" TypeDefinition="TimedShelveMethodType" ModellingRule="Mandatory">
+        <opc:References>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
+            <opc:TargetId>AuditConditionShelvingEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Method>
+      <opc:Method SymbolicName="TimedShelve2" TypeDefinition="TimedShelve2MethodType" ModellingRule="Optional">
         <opc:References>
           <opc:Reference IsOneWay="true">
             <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
@@ -3078,7 +3273,23 @@
           </opc:Reference>
         </opc:References>
       </opc:Method>
+      <opc:Method SymbolicName="Unshelve2" TypeDefinition="WithCommentMethodType" ModellingRule="Optional">
+        <opc:References>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
+            <opc:TargetId>AuditConditionShelvingEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Method>
       <opc:Method SymbolicName="OneShotShelve" ModellingRule="Mandatory">
+        <opc:References>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
+            <opc:TargetId>AuditConditionShelvingEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+      </opc:Method>
+      <opc:Method SymbolicName="OneShotShelve2" TypeDefinition="WithCommentMethodType" ModellingRule="Optional">
         <opc:References>
           <opc:Reference IsOneWay="true">
             <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
@@ -3091,9 +3302,14 @@
 
   <opc:Method SymbolicName="TimedShelveMethodType" ModellingRule="Mandatory" PartNo="9">
     <opc:InputArguments>
-      <opc:Argument Name="ShelvingTime" DataType="Duration">
-        <opc:Description>If not 0, this parameter specifies a fixed time for which the Alarm is to be shelved.</opc:Description>
-      </opc:Argument>
+      <opc:Argument Name="ShelvingTime" DataType="Duration" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="TimedShelve2MethodType" ModellingRule="Mandatory" PartNo="9">
+    <opc:InputArguments>
+      <opc:Argument Name="ShelvingTime" DataType="Duration" />
+      <opc:Argument Name="Comment" DataType="LocalizedText" />
     </opc:InputArguments>
   </opc:Method>
 
@@ -3107,6 +3323,14 @@
       <opc:Property SymbolicName="BaseHighLimit" DataType="ua:Double" ModellingRule="Optional" />
       <opc:Property SymbolicName="BaseLowLimit" DataType="ua:Double" ModellingRule="Optional" />
       <opc:Property SymbolicName="BaseLowLowLimit" DataType="ua:Double" ModellingRule="Optional" />
+      <opc:Property SymbolicName="SeverityHighHigh" DataType="ua:UInt16" ModellingRule="Optional" />
+      <opc:Property SymbolicName="SeverityHigh" DataType="ua:UInt16" ModellingRule="Optional" />
+      <opc:Property SymbolicName="SeverityLow" DataType="ua:UInt16" ModellingRule="Optional" />
+      <opc:Property SymbolicName="SeverityLowLow" DataType="ua:UInt16" ModellingRule="Optional" />
+      <opc:Property SymbolicName="HighHighDeadband" DataType="ua:Double" ModellingRule="Optional" />
+      <opc:Property SymbolicName="HighDeadband" DataType="ua:Double" ModellingRule="Optional" />
+      <opc:Property SymbolicName="LowDeadband" DataType="ua:Double" ModellingRule="Optional" />
+      <opc:Property SymbolicName="LowLowDeadband" DataType="ua:Double" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -3166,6 +3390,10 @@
             <opc:ReferenceType>ToState</opc:ReferenceType>
             <opc:TargetId>ExclusiveLimitStateMachineType_Low</opc:TargetId>
           </opc:Reference>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>HasEffect</opc:ReferenceType>
+            <opc:TargetId>AlarmConditionType</opc:TargetId>
+          </opc:Reference>
         </opc:References>
       </opc:Object>
       <opc:Object SymbolicName="LowToLowLow" TypeDefinition="TransitionType" ModellingRule="None">
@@ -3184,6 +3412,10 @@
           <opc:Reference>
             <opc:ReferenceType>ToState</opc:ReferenceType>
             <opc:TargetId>ExclusiveLimitStateMachineType_LowLow</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>HasEffect</opc:ReferenceType>
+            <opc:TargetId>AlarmConditionType</opc:TargetId>
           </opc:Reference>
         </opc:References>
       </opc:Object>
@@ -3204,6 +3436,10 @@
             <opc:ReferenceType>ToState</opc:ReferenceType>
             <opc:TargetId>ExclusiveLimitStateMachineType_High</opc:TargetId>
           </opc:Reference>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>HasEffect</opc:ReferenceType>
+            <opc:TargetId>AlarmConditionType</opc:TargetId>
+          </opc:Reference>
         </opc:References>
       </opc:Object>
       <opc:Object SymbolicName="HighToHighHigh" TypeDefinition="TransitionType" ModellingRule="None">
@@ -3222,6 +3458,10 @@
           <opc:Reference>
             <opc:ReferenceType>ToState</opc:ReferenceType>
             <opc:TargetId>ExclusiveLimitStateMachineType_HighHigh</opc:TargetId>
+          </opc:Reference>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>HasEffect</opc:ReferenceType>
+            <opc:TargetId>AlarmConditionType</opc:TargetId>
           </opc:Reference>
         </opc:References>
       </opc:Object>
@@ -3426,7 +3666,7 @@
   <opc:ObjectType SymbolicName="HighlyManagedAlarmConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
   <opc:ObjectType SymbolicName="TrainingConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
   <opc:ObjectType SymbolicName="StatisticalConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
-  <opc:ObjectType SymbolicName="TestingConditionSubClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
+  <opc:ObjectType SymbolicName="TestingConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
 
   <opc:ObjectType SymbolicName="AuditConditionEventType" BaseType="AuditUpdateMethodEventType" PartNo="9" />
   <opc:ObjectType SymbolicName="AuditConditionEnableEventType" BaseType="AuditConditionEventType" PartNo="9" />
@@ -4084,7 +4324,7 @@
     <opc:Children>
       <opc:Property SymbolicName="LastUpdateTime" DataType="ua:UtcTime" />
       <opc:Property SymbolicName="UpdateFrequency" DataType="ua:Duration" ModellingRule="Optional" />
-      <opc:Property SymbolicName="DefaultValidationOptions" DataType="TrustListValidationOptions" ModellingRule="Optional"  ReleaseStatus="Draft" />
+      <opc:Property SymbolicName="DefaultValidationOptions" DataType="TrustListValidationOptions" ModellingRule="Optional" ReleaseStatus="Draft" />
       <opc:Method SymbolicName="OpenWithMasks" TypeDefinition="OpenWithMasksMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="CloseAndUpdate" TypeDefinition="CloseAndUpdateMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddCertificate" TypeDefinition="AddCertificateMethodType" ModellingRule="Optional" />
@@ -4222,7 +4462,7 @@
       <opc:Property SymbolicName="SupportedPrivateKeyFormats" DataType="ua:String" ValueRank="Array" />
       <opc:Property SymbolicName="MaxTrustListSize" DataType="ua:UInt32" />
       <opc:Property SymbolicName="MulticastDnsEnabled" DataType="ua:Boolean" />
-      <opc:Property SymbolicName="HasSecureElement" DataType="ua:Boolean" ModellingRule="Optional" />
+      <opc:Property SymbolicName="HasSecureElement" DataType="ua:Boolean" ModellingRule="Optional" ReleaseStatus="Draft" />
 
       <opc:Method SymbolicName="UpdateCertificate" TypeDefinition="UpdateCertificateMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="ApplyChanges" ModellingRule="Mandatory" />
@@ -4240,7 +4480,7 @@
 
   <opc:Object SymbolicName="ServerConfiguration" TypeDefinition="ServerConfigurationType">
     <opc:Children>
-      <opc:Property SymbolicName="HasSecureElement" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="HasSecureElement" ModellingRule="Mandatory" ReleaseStatus="Draft" />
 
       <opc:Object SymbolicName="CertificateGroups" TypeDefinition="CertificateGroupFolderType" ModellingRule="Mandatory">
         <opc:Children>
@@ -4724,7 +4964,7 @@
       <opc:Field Name="DataSetFolder" DataType="ua:String" ValueRank="Array"></opc:Field>
       <opc:Field Name="DataSetMetaData" DataType="DataSetMetaDataType" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="ExtensionFields" DataType="KeyValuePair" ValueRank="Array"></opc:Field>
-      <opc:Field Name="DataSetSource" DataType="ua:PublishedDataSetSourceDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="DataSetSource" DataType="ua:PublishedDataSetSourceDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -4757,6 +4997,12 @@
     </opc:Fields>
   </opc:DataType>
 
+  <opc:DataType SymbolicName="PublishedDataSetCustomSourceDataType" BaseType="PublishedDataSetSourceDataType" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="CyclicDataSet"  DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
   <opc:DataType SymbolicName="DataSetFieldContentMask" BaseType="UInt32" IsOptionSet="true" PartNo="14">
     <opc:Fields>
       <opc:Field Name="StatusCode" BitMask="0001"></opc:Field>
@@ -4777,8 +5023,8 @@
       <opc:Field Name="KeyFrameCount"  DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetName"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetWriterProperties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
-      <opc:Field Name="TransportSettings"  DataType="ua:DataSetWriterTransportDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
-      <opc:Field Name="MessageSettings"  DataType="ua:DataSetWriterMessageDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="TransportSettings"  DataType="ua:DataSetWriterTransportDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
+      <opc:Field Name="MessageSettings"  DataType="ua:DataSetWriterMessageDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -4805,8 +5051,8 @@
       <opc:Field Name="Priority" DataType="ua:Byte" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="LocaleIds" DataType="ua:LocaleId" ValueRank="Array"></opc:Field>
       <opc:Field Name="HeaderLayoutUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="TransportSettings" DataType="ua:WriterGroupTransportDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
-      <opc:Field Name="MessageSettings" DataType="ua:WriterGroupMessageDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="TransportSettings" DataType="ua:WriterGroupTransportDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
+      <opc:Field Name="MessageSettings" DataType="ua:WriterGroupMessageDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
       <opc:Field Name="DataSetWriters" DataType="DataSetWriterDataType" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
@@ -4820,9 +5066,9 @@
       <opc:Field Name="Enabled"  DataType="ua:Boolean" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="PublisherId" DataType="ua:BaseDataType" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="TransportProfileUri" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="Address" DataType="ua:NetworkAddressDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="Address" DataType="ua:NetworkAddressDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
       <opc:Field Name="ConnectionProperties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
-      <opc:Field Name="TransportSettings" DataType="ua:ConnectionTransportDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="TransportSettings" DataType="ua:ConnectionTransportDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
       <opc:Field Name="WriterGroups" DataType="WriterGroupDataType" ValueRank="Array"></opc:Field>
       <opc:Field Name="ReaderGroups" DataType="ReaderGroupDataType" ValueRank="Array"></opc:Field>
     </opc:Fields>
@@ -4842,16 +5088,10 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="NetworkAddressUrlLayer2DataType" BaseType="NetworkAddressUrlDataType" PartNo="14" ReleaseStatus="Draft">
-    <opc:Fields>
-      <opc:Field Name="UrlLayer2" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
   <opc:DataType SymbolicName="ReaderGroupDataType" BaseType="PubSubGroupDataType" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="TransportSettings" DataType="ua:ReaderGroupTransportDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
-      <opc:Field Name="MessageSettings" DataType="ua:ReaderGroupMessageDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="TransportSettings" DataType="ua:ReaderGroupTransportDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
+      <opc:Field Name="MessageSettings" DataType="ua:ReaderGroupMessageDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
       <opc:Field Name="DataSetReaders" DataType="DataSetReaderDataType" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
@@ -4875,9 +5115,9 @@
       <opc:Field Name="SecurityGroupId"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="SecurityKeyServices"  DataType="ua:EndpointDescription" ValueRank="Array"></opc:Field>
       <opc:Field Name="DataSetReaderProperties" DataType="ua:KeyValuePair" ValueRank="Array"></opc:Field>
-      <opc:Field Name="TransportSettings"  DataType="ua:DataSetReaderTransportDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
-      <opc:Field Name="MessageSettings"  DataType="ua:DataSetReaderMessageDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
-      <opc:Field Name="SubscribedDataSet"  DataType="ua:SubscribedDataSetDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="TransportSettings"  DataType="ua:DataSetReaderTransportDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
+      <opc:Field Name="MessageSettings"  DataType="ua:DataSetReaderMessageDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
+      <opc:Field Name="SubscribedDataSet"  DataType="ua:SubscribedDataSetDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -4927,22 +5167,22 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="StandaloneSubscribedDataSetRefDataType" BaseType="SubscribedDataSetDataType" PartNo="14" ReleaseStatus="Draft">
+  <opc:DataType SymbolicName="StandaloneSubscribedDataSetRefDataType" BaseType="SubscribedDataSetDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="DataSetName"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="StandaloneSubscribedDataSetDataType" BaseType="SubscribedDataSetDataType" PartNo="14" ReleaseStatus="Draft">
+  <opc:DataType SymbolicName="StandaloneSubscribedDataSetDataType" BaseType="SubscribedDataSetDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="Name"  DataType="ua:String" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DataSetFolder"  DataType="ua:String" ValueRank="Array"></opc:Field>
       <opc:Field Name="DataSetMetaData"  DataType="DataSetMetaDataType" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="SubscribedDataSet"  DataType="SubscribedDataSetDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="SubscribedDataSet"  DataType="SubscribedDataSetDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="SecurityGroupDataType" BaseType="ua:Structure" PartNo="14" ReleaseStatus="Draft">
+  <opc:DataType SymbolicName="SecurityGroupDataType" BaseType="ua:Structure" PartNo="14">
     <opc:Fields>
       <opc:Field Name="Name" DataType="String"></opc:Field>
       <opc:Field Name="SecurityGroupFolder" DataType="String" ValueRank="Array"></opc:Field>
@@ -4956,10 +5196,28 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="PubSubConfiguration2DataType" BaseType="PubSubConfigurationDataType" PartNo="14" ReleaseStatus="Draft">
+  <opc:DataType SymbolicName="PubSubKeyPushTargetDataType" BaseType="ua:Structure" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="ApplicationUri" DataType="String"></opc:Field>
+      <opc:Field Name="PushTargetFolder" DataType="String" ValueRank="Array"></opc:Field>
+      <opc:Field Name="EndpointUrl" DataType="String"></opc:Field>
+      <opc:Field Name="SecurityPolicyUri" DataType="String"></opc:Field>
+      <opc:Field Name="UserTokenType" DataType="UserTokenPolicy"></opc:Field>
+      <opc:Field Name="RequestedKeyCount" DataType="UInt16"></opc:Field>
+      <opc:Field Name="RetryInterval" DataType="Duration"></opc:Field>
+      <opc:Field Name="PushTargetProperties" DataType="KeyValuePair" ValueRank="Array"></opc:Field>
+      <opc:Field Name="SecurityGroups" DataType="String" ValueRank="Array"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="PubSubConfiguration2DataType" BaseType="PubSubConfigurationDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="SubscribedDataSets"  DataType="StandaloneSubscribedDataSetDataType" ValueRank="Array"></opc:Field>
+      <opc:Field Name="DataSetClasses"  DataType="DataSetMetaDataType" ValueRank="Array"></opc:Field>
+      <opc:Field Name="DefaultSecurityKeyServices"  DataType="EndpointDescription" ValueRank="Array"></opc:Field>
       <opc:Field Name="SecurityGroups"  DataType="SecurityGroupDataType" ValueRank="Array"></opc:Field>
+      <opc:Field Name="PubSubKeyPushTargets"  DataType="PubSubKeyPushTargetDataType" ValueRank="Array"></opc:Field>
+      <opc:Field Name="ConfigurationVersion"  DataType="VersionTime"></opc:Field>
       <opc:Field Name="ConfigurationProperties"  DataType="KeyValuePair" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
@@ -5057,6 +5315,8 @@
       <opc:Field Name="Timestamp" BitMask="0008"></opc:Field>
       <opc:Field Name="Status" BitMask="0010"></opc:Field>
       <opc:Field Name="MessageType" BitMask="0020"></opc:Field>
+      <opc:Field Name="DataSetWriterName" BitMask="0040"></opc:Field>
+      <opc:Field Name="ReversibleFieldEncoding" BitMask="0080"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -5073,66 +5333,39 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="QosDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14" ReleaseStatus="Draft">
+  <opc:DataType SymbolicName="QosDataType" BaseType="ua:Structure" IsAbstract="true" PartNo="14">
   </opc:DataType>
 
-  <opc:DataType SymbolicName="TransmitQosDataType" BaseType="QosDataType" IsAbstract="true" PartNo="14" ReleaseStatus="Draft">
+  <opc:DataType SymbolicName="TransmitQosDataType" BaseType="QosDataType" IsAbstract="true" PartNo="14">
   </opc:DataType>
 
-  <opc:DataType SymbolicName="TransmitQosPriorityDataType" BaseType="TransmitQosDataType" PartNo="14" ReleaseStatus="Draft">
+  <opc:DataType SymbolicName="TransmitQosPriorityDataType" BaseType="TransmitQosDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="PriorityLabel" DataType="ua:String" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="TransmitQosBandwidthDataType" BaseType="TransmitQosDataType" PartNo="14" ReleaseStatus="Draft">
-    <opc:Fields>
-      <opc:Field Name="MaxBytesPerInterval" DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="MaxMessagesPerInterval" DataType="ua:UInt16" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
+  <opc:DataType SymbolicName="ReceiveQosDataType" BaseType="QosDataType" IsAbstract="true" PartNo="14">
   </opc:DataType>
 
-  <opc:DataType SymbolicName="TransmitQosOffsetDataType" BaseType="TransmitQosDataType" PartNo="14" ReleaseStatus="Draft">
-    <opc:Fields>
-      <opc:Field Name="TransmissionOffsetMin" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="TransmissionOffsetMax" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="TransmissionJitter" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="ReceiveQosDataType" BaseType="QosDataType" IsAbstract="true" PartNo="14" ReleaseStatus="Draft">
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="ReceiveQosPriorityDataType" BaseType="ReceiveQosDataType" PartNo="14" ReleaseStatus="Draft">
+  <opc:DataType SymbolicName="ReceiveQosPriorityDataType" BaseType="ReceiveQosDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="PriorityLabel" DataType="ua:String" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="ReceiveQosLatencyDataType" BaseType="ReceiveQosDataType" PartNo="14" ReleaseStatus="Draft">
-    <opc:Fields>
-      <opc:Field Name="LatencyMax" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
-    </opc:Fields>
-  </opc:DataType>
-
-  <opc:DataType SymbolicName="ReceiveQosOffsetDataType" BaseType="ReceiveQosDataType" PartNo="14" ReleaseStatus="Draft">
-    <opc:Fields>
-      <opc:Field Name="ReceiveOffsetMin" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="ReceiveOffsetMax" DataType="ua:Duration" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
   <opc:DataType SymbolicName="DatagramConnectionTransportDataType" BaseType="ConnectionTransportDataType" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="DiscoveryAddress" DataType="ua:NetworkAddressDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="DiscoveryAddress" DataType="ua:NetworkAddressDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
     </opc:Fields>
-  </opc:DataType>
+  </opc:DataType>                                                                                                                                                       
 
-  <opc:DataType SymbolicName="DatagramConnectionTransport2DataType" BaseType="ConnectionTransportDataType" PartNo="14" ReleaseStatus="Draft">
+  <opc:DataType SymbolicName="DatagramConnectionTransport2DataType" BaseType="DatagramConnectionTransportDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="DiscoveryAnnounceRate" DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="DiscoveryMaxMessageSize" DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
-      <opc:Field Name="DatagramQoS" DataType="QosDataType" ValueRank="Array" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="QosCategory" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DatagramQos" DataType="QosDataType" ValueRank="Array" AllowSubTypes="true"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -5143,19 +5376,21 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="DatagramWriterGroupTransport2DataType" BaseType="DatagramWriterGroupTransportDataType" PartNo="14" ReleaseStatus="Draft">
+  <opc:DataType SymbolicName="DatagramWriterGroupTransport2DataType" BaseType="DatagramWriterGroupTransportDataType" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="Address" DataType="ua:NetworkAddressDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
-      <opc:Field Name="DatagramQoS" DataType="ua:TransmitQosDataType" ValueRank="Array" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="Address" DataType="ua:NetworkAddressDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
+      <opc:Field Name="QosCategory" DataType="ua:String" ValueRank="Scalar"></opc:Field>
+      <opc:Field Name="DatagramQos" DataType="ua:TransmitQosDataType" ValueRank="Array" AllowSubTypes="true"></opc:Field>
       <opc:Field Name="DiscoveryAnnounceRate" DataType="ua:UInt32" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Topic" DataType="ua:String" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="DatagramDataSetReaderTransportDataType" BaseType="DataSetWriterTransportDataType" PartNo="14" ReleaseStatus="Draft">
+  <opc:DataType SymbolicName="DatagramDataSetReaderTransportDataType" BaseType="DataSetReaderTransportDataType" PartNo="14">
     <opc:Fields>
-      <opc:Field Name="Address" DataType="ua:NetworkAddressDataType" ValueRank="Scalar" AllowSubtypes="true"></opc:Field>
-      <opc:Field Name="DatagramQoS" DataType="ua:ReceiveQosDataType" ValueRank="Array" AllowSubtypes="true"></opc:Field>
+      <opc:Field Name="Address" DataType="ua:NetworkAddressDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
+      <opc:Field Name="QosCategory" DataType="ua:String"></opc:Field>
+      <opc:Field Name="DatagramQos" DataType="ua:ReceiveQosDataType" ValueRank="Array" AllowSubTypes="true"></opc:Field>
       <opc:Field Name="Topic" DataType="ua:String" ValueRank="Scalar"></opc:Field>
     </opc:Fields>
   </opc:DataType>
@@ -5212,10 +5447,11 @@
       <opc:Method SymbolicName="GetSecurityKeys" TypeDefinition="GetSecurityKeysMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="GetSecurityGroup" TypeDefinition="GetSecurityGroupMethodType" ModellingRule="Optional" />
       <opc:Object SymbolicName="SecurityGroups" TypeDefinition="SecurityGroupFolderType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="KeyPushTargets" TypeDefinition="PubSubKeyPushTargetFolderType" ModellingRule="Optional"  />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Method SymbolicName="GetSecurityKeysMethodType">
+  <opc:Method SymbolicName="GetSecurityKeysMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
       <opc:Argument Name="StartingTokenId" DataType="ua:IntegerId"></opc:Argument>
@@ -5230,7 +5466,7 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="GetSecurityGroupMethodType">
+  <opc:Method SymbolicName="GetSecurityGroupMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
     </opc:InputArguments>
@@ -5239,7 +5475,7 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="AddSecurityGroupMethodType">
+  <opc:Method SymbolicName="AddSecurityGroupMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="SecurityGroupName" DataType="ua:String" />
       <opc:Argument Name="KeyLifetime" DataType="ua:Duration" />
@@ -5253,12 +5489,27 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="RemoveSecurityGroupMethodType">
+  <opc:Method SymbolicName="RemoveSecurityGroupMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="SecurityGroupNodeId" DataType="ua:NodeId" />
     </opc:InputArguments>
   </opc:Method>
 
+  <opc:Method SymbolicName="AddSecurityGroupFolderMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="Name" DataType="ua:String" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="SecurityGroupFolderNodeId" DataType="ua:NodeId" />
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="RemoveSecurityGroupFolderMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="SecurityGroupFolderNodeId" DataType="ua:NodeId" />
+    </opc:InputArguments>
+  </opc:Method>
+  
   <opc:ObjectType SymbolicName="SecurityGroupFolderType" BaseType="ua:FolderType" PartNo="14">
     <opc:Children>
       <opc:Object SymbolicName="SecurityGroupFolderName_Placeholder" TypeDefinition="SecurityGroupFolderType" ModellingRule="OptionalPlaceholder">
@@ -5270,6 +5521,9 @@
       </opc:Object>
       <opc:Method SymbolicName="AddSecurityGroup" TypeDefinition="AddSecurityGroupMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RemoveSecurityGroup" TypeDefinition="RemoveSecurityGroupMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddSecurityGroupFolder" TypeDefinition="AddSecurityGroupFolderMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="RemoveSecurityGroupFolder" TypeDefinition="RemoveSecurityGroupFolderMethodType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="SupportedSecurityPolicyUris" DataType="String" ValueRank="Array" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -5279,10 +5533,106 @@
       <opc:Property SymbolicName="KeyLifetime" DataType="Duration" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="SecurityPolicyUri" DataType="String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MaxFutureKeyCount" DataType="UInt32" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="MaxPastKeyCount" DataType="UInt32" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MaxPastKeyCount" DataType="UInt32" ModellingRule="Mandatory" />   
+      <opc:Method SymbolicName="InvalidateKeys" ModellingRule="Optional" />
+      <opc:Method SymbolicName="ForceKeyRotation" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
+  <opc:Method SymbolicName="ConnectSecurityGroupsMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="SecurityGroupIds" DataType="ua:NodeId" ValueRank="Array" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="ConnectResults" DataType="ua:StatusCode" ValueRank="Array" />
+    </opc:OutputArguments>
+  </opc:Method>
+  
+  <opc:Method SymbolicName="DisconnectSecurityGroupsMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="SecurityGroupIds" DataType="ua:NodeId" ValueRank="Array" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="DisconnectResults" DataType="ua:StatusCode" ValueRank="Array" />
+    </opc:OutputArguments>
+  </opc:Method>
+  
+  <opc:ReferenceType SymbolicName="HasPushedSecurityGroup" BaseType="HierarchicalReferences" PartNo="14">
+    <opc:InverseName>HasPushTarget</opc:InverseName>
+  </opc:ReferenceType>
+  
+  <opc:ObjectType SymbolicName="PubSubKeyPushTargetType" BaseType="ua:BaseObjectType" PartNo="14">
+    <opc:Children>
+      <opc:Object SymbolicName="SecurityGroupName_Placeholder" TypeDefinition="SecurityGroupType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;SecurityGroupName&gt;</opc:BrowseName>
+        <opc:ReferenceType>HasPushedSecurityGroup</opc:ReferenceType>
+      </opc:Object>
+      <opc:Property SymbolicName="ApplicationUri" DataType="String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="EndpointUrl" DataType="String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="SecurityPolicyUri" DataType="String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="UserTokenType" DataType="UserTokenPolicy" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="RequestedKeyCount" DataType="UInt16" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="RetryInterval" DataType="Duration" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="LastPushExecutionTime" DataType="DateTime" ModellingRule="Mandatory" />   
+      <opc:Property SymbolicName="LastPushErrorTime" DataType="DateTime" ModellingRule="Mandatory" />   
+      <opc:Method SymbolicName="ConnectSecurityGroups" TypeDefinition="ConnectSecurityGroupsMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="DisconnectSecurityGroups" TypeDefinition="DisconnectSecurityGroupsMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="TriggerKeyUpdate" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="PubSubKeyPushTargetFolderType" BaseType="ua:FolderType" PartNo="14">
+    <opc:Children>
+      <opc:Object SymbolicName="PushTargetFolderName_Placeholder" TypeDefinition="PubSubKeyPushTargetFolderType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;PushTargetFolderName&gt;</opc:BrowseName>
+        <opc:ReferenceType>Organizes</opc:ReferenceType>
+      </opc:Object>
+      <opc:Object SymbolicName="PushTargetName_Placeholder" TypeDefinition="PubSubKeyPushTargetType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;PushTargetName&gt;</opc:BrowseName>
+        <opc:ReferenceType>HasComponent</opc:ReferenceType>
+      </opc:Object>
+      <opc:Method SymbolicName="AddPushTarget" TypeDefinition="AddPushTargetMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemovePushTarget" TypeDefinition="RemovePushTargetMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddPushTargetFolder" TypeDefinition="AddPushTargetFolderMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="RemovePushTargetFolder" TypeDefinition="RemovePushTargetFolderMethodType" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:ObjectType>
+  
+  <opc:Method SymbolicName="AddPushTargetMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="ApplicationUri" DataType="ua:String" ValueRank="Scalar" />
+      <opc:Argument Name="EndpointUrl" DataType="ua:String" ValueRank="Scalar" />
+      <opc:Argument Name="SecurityPolicyUri" DataType="ua:String" ValueRank="Scalar" />
+      <opc:Argument Name="UserTokenType" DataType="ua:UserTokenPolicy" ValueRank="Scalar" />
+      <opc:Argument Name="RequestedKeyCount" DataType="ua:UInt16" ValueRank="Scalar" />
+      <opc:Argument Name="RetryInterval" DataType="ua:Duration" ValueRank="Scalar" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="PushTargetId" DataType="ua:NodeId" ValueRank="Scalar" />
+    </opc:OutputArguments>
+  </opc:Method>
+  
+  <opc:Method SymbolicName="RemovePushTargetMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="PushTargetId" DataType="ua:NodeId" ValueRank="Scalar" />
+    </opc:InputArguments>
+  </opc:Method>
+  
+  <opc:Method SymbolicName="AddPushTargetFolderMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="Name" DataType="ua:String" ValueRank="Scalar" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="PushTargetFolderNodeId" DataType="ua:NodeId" ValueRank="Scalar" />
+    </opc:OutputArguments>
+  </opc:Method>
+  
+  <opc:Method SymbolicName="RemovePushTargetFolderMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="PushTargetFolderNodeId" DataType="ua:NodeId" ValueRank="Scalar" />
+    </opc:InputArguments>
+  </opc:Method>
+  
   <opc:ObjectType SymbolicName="PublishSubscribeType" BaseType="PubSubKeyServiceType" PartNo="14">
     <opc:Children>
       <opc:Object SymbolicName="ConnectionName_Placeholder" TypeDefinition="PubSubConnectionType" ModellingRule="OptionalPlaceholder">
@@ -5293,11 +5643,12 @@
       <opc:Method SymbolicName="AddConnection" TypeDefinition="AddConnectionMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveConnection" TypeDefinition="RemoveConnectionMethodType" ModellingRule="Optional" />
       <opc:Object SymbolicName="PublishedDataSets" TypeDefinition="DataSetFolderType" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="SubscribedDataSets" TypeDefinition="SubscribedDataSetFolderType" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Object SymbolicName="SubscribedDataSets" TypeDefinition="SubscribedDataSetFolderType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="PubSubConfiguration" TypeDefinition="PubSubConfigurationType" ModellingRule="Optional" />
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsRootType" ModellingRule="Optional" />
-      <opc:Object SymbolicName="PubSubCapablities" TypeDefinition="PubSubCapabilitiesType" ModellingRule="Optional" ReleaseStatus="Draft" />
-      <opc:Object SymbolicName="DataSetClasses" TypeDefinition="FolderType" ModellingRule="Optional" ReleaseStatus="Draft">
+      <opc:Object SymbolicName="PubSubCapablities" TypeDefinition="PubSubCapabilitiesType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="DataSetClasses" TypeDefinition="FolderType" ModellingRule="Optional">
         <opc:Children>
           <opc:Variable SymbolicName="DataSetName_Placeholder" DataType="DataSetMetaDataType" ModellingRule="OptionalPlaceholder">
             <opc:BrowseName>&lt;DataSetName&gt;</opc:BrowseName>
@@ -5305,20 +5656,30 @@
         </opc:Children>
       </opc:Object>
       <opc:Property SymbolicName="SupportedTransportProfiles" DataType="String" ValueRank="Array" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ConfigCheckSum" DataType="ByteString" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Property SymbolicName="DefaultDatagramPublisherId" DataType="UInt64" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ConfigurationVersion" DataType="VersionTime" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
   <opc:Object SymbolicName="PublishSubscribe" TypeDefinition="PublishSubscribeType" PartNo="14">
-    <opc:Children>
+    <opc:Children>    
       <opc:Method SymbolicName="GetSecurityKeys" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="GetSecurityGroup" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="SecurityGroups" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="KeyPushTargets" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="SetSecurityKeys" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="AddConnection" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RemoveConnection" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="PublishedDataSets" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="SubscribedDataSets" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="PubSubConfiguration" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Status" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="PubSubCapablities" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="DataSetClasses" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="SupportedTransportProfiles" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="DefaultDatagramPublisherId" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ConfigurationVersion" ModellingRule="Mandatory" />
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -5359,6 +5720,88 @@
     <opc:InverseName>PubSubConnectionOf</opc:InverseName>
   </opc:ReferenceType>
 
+  <opc:ObjectType SymbolicName="PubSubConfigurationType" BaseType="ua:FileType" PartNo="14">
+    <opc:Children>
+      <opc:Method SymbolicName="ReserveIds" TypeDefinition="PubSubConfigurationTypeReserveIdsMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="CloseAndUpdate" TypeDefinition="PubSubConfigurationTypeCloseAndUpdateMethodType" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:Method SymbolicName="PubSubConfigurationTypeReserveIdsMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="TransportProfileUri" DataType="ua:String" />
+      <opc:Argument Name="NumReqWriterGroupIds" DataType="ua:UInt16" />
+      <opc:Argument Name="NumReqDataSetWriterIds" DataType="ua:UInt16" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="DefaultPublisherId" DataType="ua:BaseDataType" />
+      <opc:Argument Name="WriterGroupIds" DataType="ua:UInt16" />
+      <opc:Argument Name="DataSetWriterIds" DataType="ua:UInt16" />
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="PubSubConfigurationTypeCloseAndUpdateMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="FileHandle" DataType="ua:UInt32" />
+      <opc:Argument Name="RequireCompleteUpdate" DataType="ua:Boolean" />
+      <opc:Argument Name="ConfigurationReferences" DataType="PubSubConfigurationRefDataType" ValueRank="Array" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="ChangesApplied" DataType="ua:Boolean" />
+      <opc:Argument Name="ReferencesResults" DataType="ua:StatusCode" ValueRank="Array" />
+      <opc:Argument Name="ConfigurationValues" DataType="PubSubConfigurationValueDataType" ValueRank="Array" />
+      <opc:Argument Name="ConfigurationObjects" DataType="ua:NodeId" ValueRank="Array" />
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:DataType SymbolicName="PubSubConfigurationRefMask" BaseType="UInt32" IsOptionSet="true" PartNo="14">
+    <opc:Fields>
+      <opc:Field Name="ElementAdd" BitMask="0001">
+      </opc:Field>
+      <opc:Field Name="ElementMatch" BitMask="0002">
+      </opc:Field>
+      <opc:Field Name="ElementModify" BitMask="0004">
+      </opc:Field>
+      <opc:Field Name="ElementRemove" BitMask="0008">
+      </opc:Field>
+      <opc:Field Name="ReferenceWriter" BitMask="0010">
+      </opc:Field>
+      <opc:Field Name="ReferenceReader" BitMask="0020">
+      </opc:Field>
+      <opc:Field Name="ReferenceWriterGroup" BitMask="0040">
+      </opc:Field>
+      <opc:Field Name="ReferenceReaderGroup" BitMask="0080">
+      </opc:Field>
+      <opc:Field Name="ReferenceConnection" BitMask="0100">
+      </opc:Field>
+      <opc:Field Name="ReferencePubDataset" BitMask="0200">
+      </opc:Field>
+      <opc:Field Name="ReferenceSubDataset" BitMask="0400">
+      </opc:Field>
+      <opc:Field Name="ReferenceSecurityGroup" BitMask="0800">
+      </opc:Field>
+      <opc:Field Name="ReferencePushTarget" BitMask="1000">
+      </opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="PubSubConfigurationRefDataType" BaseType="Structure" PartNo="18">
+    <opc:Fields>
+      <opc:Field Name="ConfigurationMask" DataType="PubSubConfigurationRefMask" />
+      <opc:Field Name="ElementIndex" DataType="UInt16" />
+      <opc:Field Name="ConnectionIndex" DataType="UInt16" />
+      <opc:Field Name="GroupIndex" DataType="UInt16" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="PubSubConfigurationValueDataType" BaseType="Structure" PartNo="18">
+    <opc:Fields>
+      <opc:Field Name="ConfigurationElement" DataType="PubSubConfigurationRefDataType" />
+      <opc:Field Name="Name" DataType="String" />
+      <opc:Field Name="Identifier" DataType="BaseDataType" />
+    </opc:Fields>
+  </opc:DataType>
+  
   <opc:ObjectType SymbolicName="PublishedDataSetType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
       <opc:Object SymbolicName="DataSetWriterName_Placeholder" TypeDefinition="DataSetWriterType" ModellingRule="OptionalPlaceholder">
@@ -5368,6 +5811,7 @@
       <opc:Property SymbolicName="ConfigurationVersion" DataType="ConfigurationVersionDataType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetMetaData" DataType="DataSetMetaDataType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetClassId" DataType="ua:Guid" ModellingRule="Optional" />
+      <opc:Property SymbolicName="CyclicDataSet" DataType="ua:Boolean" ModellingRule="Optional" />
       <opc:Object SymbolicName="ExtensionFields" TypeDefinition="ExtensionFieldsType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
@@ -5445,18 +5889,6 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Method SymbolicName="PublishedEventsTypeModifyFieldSelectionMethodType" PartNo="14">
-    <opc:InputArguments>
-      <opc:Argument Name="ConfigurationVersion" DataType="ConfigurationVersionDataType" />
-      <opc:Argument Name="FieldNameAliases" DataType="ua:String"  ValueRank="Array" />
-      <opc:Argument Name="PromotedFields" DataType="ua:Boolean"  ValueRank="Array" />
-      <opc:Argument Name="SelectedFields" DataType="ua:SimpleAttributeOperand" ValueRank="Array" />
-    </opc:InputArguments>
-    <opc:OutputArguments>
-      <opc:Argument Name="NewConfigurationVersion" DataType="ConfigurationVersionDataType" />
-    </opc:OutputArguments>
-  </opc:Method>
-
   <opc:ObjectType SymbolicName="DataSetFolderType" BaseType="ua:FolderType" PartNo="14">
     <opc:Children>
       <opc:Object SymbolicName="DataSetFolderName_Placeholder" TypeDefinition="DataSetFolderType" ModellingRule="OptionalPlaceholder">
@@ -5475,6 +5907,18 @@
       <opc:Method SymbolicName="RemoveDataSetFolder" TypeDefinition="RemoveDataSetFolderMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
+  
+  <opc:Method SymbolicName="PublishedEventsTypeModifyFieldSelectionMethodType" PartNo="14">
+    <opc:InputArguments>
+      <opc:Argument Name="ConfigurationVersion" DataType="ConfigurationVersionDataType" />
+      <opc:Argument Name="FieldNameAliases" DataType="ua:String"  ValueRank="Array" />
+      <opc:Argument Name="PromotedFields" DataType="ua:Boolean"  ValueRank="Array" />
+      <opc:Argument Name="SelectedFields" DataType="ua:SimpleAttributeOperand" ValueRank="Array" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="NewConfigurationVersion" DataType="ConfigurationVersionDataType" />
+    </opc:OutputArguments>
+  </opc:Method>
 
   <opc:Method SymbolicName="AddPublishedDataItemsMethodType" PartNo="14">
     <opc:InputArguments>
@@ -5550,7 +5994,7 @@
       <opc:Argument Name="DataSetFolderNodeId" DataType="ua:NodeId" />
     </opc:InputArguments>
   </opc:Method>
-
+  
   <opc:ObjectType SymbolicName="PubSubConnectionType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="PublisherId" DataType="ua:BaseDataType" ModellingRule="Mandatory" />
@@ -5568,16 +6012,13 @@
       </opc:Object>
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsConnectionType" ModellingRule="Optional" />
-      <opc:Property SymbolicName="ConfigCheckSum" DataType="ua:ByteString" ModellingRule="Optional" ReleaseStatus="Draft" />
-      <opc:Method SymbolicName="GetConnection" TypeDefinition="GetConnectionMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
-      <opc:Method SymbolicName="ModifyConnection" TypeDefinition="ModifyConnectionMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
       <opc:Method SymbolicName="AddWriterGroup" TypeDefinition="PubSubConnectionTypeAddWriterGroupMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddReaderGroup" TypeDefinition="PubSubConnectionAddReaderGroupGroupMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveGroup" TypeDefinition="PubSubConnectionTypeRemoveGroupMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Method SymbolicName="GetConnectionMethodType" PartNo="14" ReleaseStatus="Draft">
+  <opc:Method SymbolicName="GetConnectionMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="IncludeChildren" DataType="ua:Boolean" />
     </opc:InputArguments>
@@ -5587,7 +6028,7 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="ModifyConnectionMethodType" PartNo="14" ReleaseStatus="Draft">
+  <opc:Method SymbolicName="ModifyConnectionMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="Configuration" DataType="PubSubConnectionDataType" />
       <opc:Argument Name="ModifyChildren" DataType="ua:Boolean" />
@@ -5651,15 +6092,12 @@
         <opc:ReferenceType>HasDataSetWriter</opc:ReferenceType>
       </opc:Object>
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsWriterGroupType" ModellingRule="Optional" />
-      <opc:Property SymbolicName="ConfigCheckSum" DataType="ua:ByteString" ModellingRule="Optional" ReleaseStatus="Draft"/>
-      <opc:Method SymbolicName="GetWriterGroup" TypeDefinition="GetWriterGroupMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
-      <opc:Method SymbolicName="ModifyWriterGroup" TypeDefinition="ModifyWriterGroupMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
       <opc:Method SymbolicName="AddDataSetWriter" TypeDefinition="PubSubGroupTypeAddWriterMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveDataSetWriter" TypeDefinition="PubSubGroupTypeRemoveWriterMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Method SymbolicName="GetWriterGroupMethodType" PartNo="14" ReleaseStatus="Draft">
+  <opc:Method SymbolicName="GetWriterGroupMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="IncludeChildren" DataType="ua:Boolean" />
     </opc:InputArguments>
@@ -5669,7 +6107,7 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="ModifyWriterGroupMethodType" PartNo="14" ReleaseStatus="Draft">
+  <opc:Method SymbolicName="ModifyWriterGroupMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="Configuration" DataType="WriterGroupDataType" />
       <opc:Argument Name="ModifyChildren" DataType="ua:Boolean" />
@@ -5716,15 +6154,12 @@
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsReaderGroupType" ModellingRule="Optional" />
       <opc:Object SymbolicName="TransportSettings" TypeDefinition="ReaderGroupTransportType" ModellingRule="Optional" />
       <opc:Object SymbolicName="MessageSettings" TypeDefinition="ReaderGroupMessageType" ModellingRule="Optional" />
-      <opc:Property SymbolicName="ConfigCheckSum" DataType="ua:ByteString" ModellingRule="Optional" ReleaseStatus="Draft"/>
-      <opc:Method SymbolicName="GetReaderGroup" TypeDefinition="GetReaderGroupMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
-      <opc:Method SymbolicName="ModifyReaderGroup" TypeDefinition="ModifyReaderGroupMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
       <opc:Method SymbolicName="AddDataSetReader" TypeDefinition="PubSubGroupTypeAddReaderMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="RemoveDataSetReader" TypeDefinition="PubSubGroupTypeRemoveReaderMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Method SymbolicName="GetReaderGroupMethodType" PartNo="14" ReleaseStatus="Draft">
+  <opc:Method SymbolicName="GetReaderGroupMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="IncludeChildren" DataType="ua:Boolean" />
     </opc:InputArguments>
@@ -5734,7 +6169,7 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="ModifyReaderGroupMethodType" PartNo="14" ReleaseStatus="Draft">
+  <opc:Method SymbolicName="ModifyReaderGroupMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="Configuration" DataType="ReaderGroupDataType" />
       <opc:Argument Name="ModifyChildren" DataType="ua:Boolean" />
@@ -5782,20 +6217,17 @@
       <opc:Object SymbolicName="MessageSettings" TypeDefinition="DataSetWriterMessageType" ModellingRule="Optional" />
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsDataSetWriterType" ModellingRule="Optional" />
-      <opc:Property SymbolicName="ConfigCheckSum" DataType="ua:ByteString" ModellingRule="Optional" ReleaseStatus="Draft" />
-      <opc:Method SymbolicName="GetDataSetWriter" TypeDefinition="GetDataSetWriterMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
-      <opc:Method SymbolicName="ModifyDataSetWriter" TypeDefinition="ModifyDataSetWriterMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Method SymbolicName="GetDataSetWriterMethodType" PartNo="14" ReleaseStatus="Draft">
+  <opc:Method SymbolicName="GetDataSetWriterMethodType" PartNo="14">
     <opc:OutputArguments>
       <opc:Argument Name="Configuration" DataType="DataSetWriterDataType" />
       <opc:Argument Name="CheckSum" DataType="ua:ByteString" />
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="ModifyDataSetWriterMethodType" PartNo="14" ReleaseStatus="Draft">
+  <opc:Method SymbolicName="ModifyDataSetWriterMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="Configuration" DataType="DataSetWriterDataType" />
       <opc:Argument Name="CheckSum" DataType="ua:ByteString" />
@@ -5828,9 +6260,6 @@
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsDataSetReaderType" ModellingRule="Optional" />
       <opc:Object SymbolicName="SubscribedDataSet" TypeDefinition="SubscribedDataSetType" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ConfigCheckSum" DataType="ua:ByteString" ModellingRule="Optional" ReleaseStatus="Draft"/>
-      <opc:Method SymbolicName="GetDataSetReader" TypeDefinition="GetDataSetReaderMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
-      <opc:Method SymbolicName="ModifyDataSetReader" TypeDefinition="ModifyDataSetReaderMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
       <opc:Method SymbolicName="CreateTargetVariables" TypeDefinition="DataSetReaderTypeCreateTargetVariablesMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="CreateDataSetMirror" TypeDefinition="DataSetReaderTypeCreateDataSetMirrorMethodType" ModellingRule="Optional" />
     </opc:Children>
@@ -5839,14 +6268,14 @@
   <opc:ObjectType SymbolicName="DataSetReaderTransportType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14" />
   <opc:ObjectType SymbolicName="DataSetReaderMessageType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="14" />
 
-  <opc:Method SymbolicName="GetDataSetReaderMethodType" PartNo="14" ReleaseStatus="Draft">
+  <opc:Method SymbolicName="GetDataSetReaderMethodType" PartNo="14">
     <opc:OutputArguments>
       <opc:Argument Name="Configuration" DataType="DataSetReaderDataType" />
       <opc:Argument Name="CheckSum" DataType="ua:ByteString" />
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="ModifyDataSetReaderMethodType" PartNo="14" ReleaseStatus="Draft">
+  <opc:Method SymbolicName="ModifyDataSetReaderMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="Configuration" DataType="DataSetReaderDataType" />
       <opc:Argument Name="CheckSum" DataType="ua:ByteString" />
@@ -5910,24 +6339,24 @@
 
   <opc:ObjectType SymbolicName="SubscribedDataSetMirrorType" BaseType="SubscribedDataSetType" IsAbstract="false" PartNo="14" />
 
-  <opc:ObjectType SymbolicName="SubscribedDataSetFolderType" BaseType="ua:FolderType" PartNo="14" ReleaseStatus="Draft">
+  <opc:ObjectType SymbolicName="SubscribedDataSetFolderType" BaseType="ua:FolderType" PartNo="14">
     <opc:Children>
-      <opc:Object SymbolicName="SubscribedDataSetFolderName_Placeholder" TypeDefinition="SubscribedDataSetFolderType"  ModellingRule="OptionalPlaceholder" ReleaseStatus="Draft">
+      <opc:Object SymbolicName="SubscribedDataSetFolderName_Placeholder" TypeDefinition="SubscribedDataSetFolderType"  ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;SubscribedDataSetFolderName&gt;</opc:BrowseName>
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
-      <opc:Object SymbolicName="StandaloneSubscribedDataSetName_Placeholder" TypeDefinition="StandaloneSubscribedDataSetType"  ModellingRule="OptionalPlaceholder" ReleaseStatus="Draft">
+      <opc:Object SymbolicName="StandaloneSubscribedDataSetName_Placeholder" TypeDefinition="StandaloneSubscribedDataSetType"  ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;StandaloneSubscribedDataSetName&gt;</opc:BrowseName>
         <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
       </opc:Object>
-      <opc:Method SymbolicName="AddSubscribedDataSet" TypeDefinition="AddSubscribedDataSetMethodType" ModellingRule="Optional" ReleaseStatus="Draft"/>
-      <opc:Method SymbolicName="RemoveSubscribedDataSet" TypeDefinition="RemoveSubscribedDataSetMethodType" ModellingRule="Optional" ReleaseStatus="Draft" />
-      <opc:Method SymbolicName="AddDataSetFolder" TypeDefinition="AddDataSetFolderMethodType" ModellingRule="Optional" ReleaseStatus="Draft" />
-      <opc:Method SymbolicName="RemoveDataSetFolder" TypeDefinition="RemoveDataSetFolderMethodType" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Method SymbolicName="AddSubscribedDataSet" TypeDefinition="AddSubscribedDataSetMethodType" ModellingRule="Optional"/>
+      <opc:Method SymbolicName="RemoveSubscribedDataSet" TypeDefinition="RemoveSubscribedDataSetMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddDataSetFolder" TypeDefinition="AddDataSetFolderMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="RemoveDataSetFolder" TypeDefinition="RemoveDataSetFolderMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Method SymbolicName="AddSubscribedDataSetMethodType" PartNo="14" ReleaseStatus="Draft">
+  <opc:Method SymbolicName="AddSubscribedDataSetMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="SubscribedDataSet" DataType="StandaloneSubscribedDataSetDataType" />
     </opc:InputArguments>
@@ -5936,19 +6365,13 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="RemoveSubscribedDataSetMethodType" PartNo="14" ReleaseStatus="Draft">
+  <opc:Method SymbolicName="RemoveSubscribedDataSetMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="SubscribedDataSetNodeId" DataType="ua:NodeId" />
     </opc:InputArguments>
   </opc:Method>
 
-  <opc:Method SymbolicName="RemoveDataSetFolder" PartNo="14" ReleaseStatus="Draft">
-    <opc:InputArguments>
-      <opc:Argument Name="DataSetFolderNodeId" DataType="ua:NodeId" />
-    </opc:InputArguments>
-  </opc:Method>
-
-  <opc:ObjectType SymbolicName="StandaloneSubscribedDataSetType" BaseType="ua:BaseObjectType" PartNo="14" ReleaseStatus="Draft">
+  <opc:ObjectType SymbolicName="StandaloneSubscribedDataSetType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
       <opc:Object SymbolicName="SubscribedDataSet" TypeDefinition="SubscribedDataSetType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DataSetMetaData" DataType="DataSetMetaDataType" ModellingRule="Mandatory" />
@@ -6474,7 +6897,7 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="PubSubCapabilitiesType" BaseType="ua:BaseObjectType" PartNo="14" ReleaseStatus="Draft">
+  <opc:ObjectType SymbolicName="PubSubCapabilitiesType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="MaxPubSubConnections" DataType="ua:UInt32" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MaxWriterGroups" DataType="ua:UInt32" ModellingRule="Mandatory" />
@@ -6561,9 +6984,10 @@
   <opc:ObjectType SymbolicName="DatagramConnectionTransportType" BaseType="ConnectionTransportType" PartNo="14">
     <opc:Children>
       <opc:Object SymbolicName="DiscoveryAddress" TypeDefinition="NetworkAddressType" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="DiscoveryAnnounceRate" DataType="UInt32" ModellingRule="Optional" ReleaseStatus="Draft" />
-      <opc:Property SymbolicName="DiscoveryMaxMessageSize" DataType="UInt32" ModellingRule="Optional" ReleaseStatus="Draft" />
-      <opc:Property SymbolicName="DatagramQoS" DataType="QosDataType" ValueRank="Array" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Property SymbolicName="DiscoveryAnnounceRate" DataType="UInt32" ModellingRule="Optional" />
+      <opc:Property SymbolicName="DiscoveryMaxMessageSize" DataType="UInt32" ModellingRule="Optional" />
+      <opc:Property SymbolicName="QosCategory" DataType="String" ModellingRule="Optional" />
+      <opc:Property SymbolicName="DatagramQos" DataType="QosDataType" ValueRank="Array" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -6571,18 +6995,20 @@
     <opc:Children>
       <opc:Property SymbolicName="MessageRepeatCount" DataType="ua:Byte" ModellingRule="Optional" />
       <opc:Property SymbolicName="MessageRepeatDelay" DataType="ua:Duration" ModellingRule="Optional" />
-      <opc:Object SymbolicName="Address" TypeDefinition="NetworkAddressType" ModellingRule="Optional" ReleaseStatus="Draft" />
-      <opc:Property SymbolicName="DatagramQos" DataType="TransmitQosDataType" ValueRank="Array" ModellingRule="Optional" ReleaseStatus="Draft" />
-      <opc:Property SymbolicName="DiscoveryAnnounceRate" DataType="ua:UInt32" ModellingRule="Optional" ReleaseStatus="Draft" />
-      <opc:Property SymbolicName="Topic" DataType="ua:String" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Object SymbolicName="Address" TypeDefinition="NetworkAddressType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="QosCategory" DataType="String" ModellingRule="Optional" />
+      <opc:Property SymbolicName="DatagramQos" DataType="TransmitQosDataType" ValueRank="Array" ModellingRule="Optional" />
+      <opc:Property SymbolicName="DiscoveryAnnounceRate" DataType="ua:UInt32" ModellingRule="Optional" />
+      <opc:Property SymbolicName="Topic" DataType="ua:String" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="DatagramDataSetReaderTransportType" BaseType="WriterGroupTransportType" PartNo="14" ReleaseStatus="Draft">
+  <opc:ObjectType SymbolicName="DatagramDataSetReaderTransportType" BaseType="WriterGroupTransportType" PartNo="14">
     <opc:Children>
-      <opc:Object SymbolicName="Address" TypeDefinition="NetworkAddressType" ModellingRule="Optional" ReleaseStatus="Draft" />
-      <opc:Property SymbolicName="DatagramQos" DataType="ReceiveQosDataType" ValueRank="Array" ModellingRule="Optional" ReleaseStatus="Draft" />
-      <opc:Property SymbolicName="Topic" DataType="ua:String" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Object SymbolicName="Address" TypeDefinition="NetworkAddressType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="QosCategory" DataType="String" ModellingRule="Optional" />
+      <opc:Property SymbolicName="DatagramQos" DataType="ReceiveQosDataType" ValueRank="Array" ModellingRule="Optional" />
+      <opc:Property SymbolicName="Topic" DataType="ua:String" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -6706,6 +7132,124 @@
     </opc:References>
   </opc:Object>
 
+  <!-- Part 18 -->
+
+  <opc:ObjectType SymbolicName="UserManagementType" BaseType="BaseObjectType" IsAbstract="false" PartNo="18">
+    <opc:Children>
+      <opc:Property SymbolicName="Users" DataType="UserManagementDataType" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="PasswordLength" DataType="Range" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="PasswordOptions" DataType="PasswordOptionsMask" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="PasswordRestrictions" DataType="LocalizedText" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddUser" TypeDefinition="AddUserMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ModifyUser" TypeDefinition="AddUserMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveUser" TypeDefinition="AddUserMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ChangePassword" TypeDefinition="AddUserMethodType" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:DataType SymbolicName="PasswordOptionsMask" BaseType="UInt32" IsOptionSet="true" PartNo="18">
+    <opc:Fields>
+      <opc:Field Name="SupportInitialPasswordChange" BitMask="0001">
+        <opc:Description>Indicates if the server supports the feature to require a password change after the creation of the user.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="SupportDisableUser" BitMask="0002">
+        <opc:Description>Indicates if the server supports to disable a user.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="SupportDisableDeleteForUser" BitMask="0004">
+        <opc:Description>Indicates if the server supports the configuration NoDelete for a user.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="SupportNoChangeForUser" BitMask="0008">
+        <opc:Description>Indicates if the server supports the configuration NoChangeByUser for a user.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="SupportDescriptionForUser" BitMask="0010">
+        <opc:Description>Indicates if the server supports to management of a description for the user.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="RequiresUpperCaseCharacters" BitMask="0020">
+        <opc:Description>Indicates if a upper case ASCII character is required in a password.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="RequiresLowerCaseCharacters" BitMask="0040">
+        <opc:Description>Indicates if a lower case ASCII character is required in a password.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="RequiresDigitCharacters" BitMask="0080">
+        <opc:Description>Indicates if a digit ASCII character is required in a password.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="RequiresSpecialCharacters" BitMask="0100">
+        <opc:Description>Indicates if a special character is required in a password.</opc:Description>
+      </opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UserConfigurationMask" BaseType="UInt32" IsOptionSet="true" PartNo="18">
+    <opc:Fields>
+      <opc:Field Name="NoDelete" BitMask="0001">
+        <opc:Description>The user cannot be deleted.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="Disabled" BitMask="0002">
+        <opc:Description>The user is disabled.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="NoChangeByUser" BitMask="0004">
+        <opc:Description>The user cannot change the password.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="MustChangePassword" BitMask="0008">
+        <opc:Description>The user must change the password to get the assigned roles. If the password is not changed, the user has only the Role Anonymous.</opc:Description>
+      </opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="UserManagementDataType" BaseType="Structure" PartNo="18">
+    <opc:Fields>
+      <opc:Field Name="UserName" DataType="String" />
+      <opc:Field Name="UserConfiguration" DataType="UserConfigurationMask" />
+      <opc:Field Name="Description" DataType="String" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:Method SymbolicName="AddUserMethodType" PartNo="18">
+    <opc:InputArguments>
+      <opc:Argument Name="UserName" DataType="ua:String" />
+      <opc:Argument Name="Password" DataType="ua:String" />
+      <opc:Argument Name="UserConfiguration" DataType="UserConfigurationMask" />
+      <opc:Argument Name="Description" DataType="ua:String" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="ModifyUserMethodType" PartNo="18">
+    <opc:InputArguments>
+      <opc:Argument Name="UserName" DataType="ua:String" />
+      <opc:Argument Name="ModifyPassword" DataType="ua:Boolean" />
+      <opc:Argument Name="Password" DataType="ua:String" />
+      <opc:Argument Name="ModifyUserConfiguration" DataType="ua:Boolean" />
+      <opc:Argument Name="UserConfiguration" DataType="UserConfigurationMask" />
+      <opc:Argument Name="ModifyDescription" DataType="ua:Boolean" />
+      <opc:Argument Name="Description" DataType="ua:String" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="RemoveUserMethodType" PartNo="18">
+    <opc:InputArguments>
+      <opc:Argument Name="UserName" DataType="ua:String" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="ChangePasswordMethodType" PartNo="18">
+    <opc:InputArguments>
+      <opc:Argument Name="OldPassword" DataType="ua:String" />
+      <opc:Argument Name="NewPassword" DataType="ua:String" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:Object SymbolicName="UserManagement" TypeDefinition="UserManagementType" PartNo="18">
+    <opc:Children>
+      <opc:Property SymbolicName="PasswordRestrictions" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>HasComponent</opc:ReferenceType>
+        <opc:TargetId>ServerConfiguration</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+  
   <!-- Part 19 -->
 
   <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteBaseType" BaseType="ua:MultiStateValueDiscreteType" DataType="Number" ValueRank="Scalar" PartNo="19" ReleaseStatus="Released">
@@ -6801,6 +7345,12 @@
   <opc:ObjectType SymbolicName="IBaseEthernetCapabilitiesType" BaseType="BaseInterfaceType" IsAbstract="true" PartNo="22">
     <opc:Children>
       <opc:Variable SymbolicName="VlanTagCapable" DataType="Boolean" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="IVlanIdType" BaseType="BaseInterfaceType" IsAbstract="true" PartNo="22">
+    <opc:Children>
+      <opc:Variable SymbolicName="VlanId" DataType="UInt16" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -7089,6 +7639,15 @@
     </opc:Fields>
   </opc:DataType>
 
+  <opc:DataType SymbolicName="PriorityMappingEntryType" BaseType="Structure" PartNo="22">
+    <opc:Fields>
+      <opc:Field Name="MappingUri" DataType="String" />
+      <opc:Field Name="PriorityLabel" DataType="String" />
+      <opc:Field Name="PriorityValue_PCP" DataType="Byte" />
+      <opc:Field Name="PriorityValue_DSCP" DataType="UInt32" />
+    </opc:Fields>
+  </opc:DataType>
+  
   <opc:Object SymbolicName="Resources" TypeDefinition="FolderType" ModellingRule="None" PartNo="22">
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -7151,5 +7710,137 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
+
+  <opc:ObjectType SymbolicName="IetfBaseNetworkInterfaceType" BaseType="BaseObjectType" PartNo="22">
+    <opc:Children>
+      <opc:Variable SymbolicName="AdminStatus" DataType="InterfaceAdminStatus" ModellingRule="Mandatory" />
+      <opc:Variable SymbolicName="OperStatus" DataType="InterfaceOperStatus" ModellingRule="Mandatory" />
+      <opc:Variable SymbolicName="PhysAddress" DataType="String" ModellingRule="Optional" />
+      <opc:Variable SymbolicName="Speed" DataType="UInt64" TypeDefinition="AnalogUnitType" ModellingRule="Mandatory">
+        <opc:Children>
+          <opc:Property SymbolicName="EngineeringUnits" DataType="EUInformation" ModellingRule="Mandatory">
+            <opc:DefaultValue>
+              <uax:ExtensionObject>
+                <uax:TypeId>
+                  <uax:Identifier>i=888</uax:Identifier>
+                </uax:TypeId>
+                <uax:Body>
+                  <uax:EUInformation>
+                    <uax:NamespaceUri>http://www.opcfoundation.org/UA/units/un/cefact</uax:NamespaceUri>
+                    <uax:UnitId>4337968</uax:UnitId>
+                    <uax:DisplayName>
+                      <uax:Locale>en</uax:Locale>
+                      <uax:Text>bit/s</uax:Text>
+                    </uax:DisplayName>
+                    <uax:Description>
+                      <uax:Locale>en</uax:Locale>
+                      <uax:Text>bit per second</uax:Text>
+                    </uax:Description>
+                  </uax:EUInformation>
+                </uax:Body>
+              </uax:ExtensionObject>
+            </opc:DefaultValue>
+          </opc:Property>
+        </opc:Children>
+      </opc:Variable>
+      <opc:Object SymbolicName="InterfaceName_Placeholder" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;InterfaceName&gt;</opc:BrowseName>
+        <opc:References>
+          <opc:Reference IsOneWay="true">
+            <opc:ReferenceType>HasInterface</opc:ReferenceType>
+            <opc:TargetId>IIetfBaseNetworkInterfaceType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
+        <opc:ReferenceType>HasLowerLayerInterface</opc:ReferenceType>
+      </opc:Object>
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsOneWay="true">
+        <opc:ReferenceType>HasInterface</opc:ReferenceType>
+        <opc:TargetId>IIetfBaseNetworkInterfaceType</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="PriorityMappingTableType" BaseType="BaseObjectType" PartNo="22">
+    <opc:Children>
+      <opc:Property SymbolicName="PriorityMapppingEntries" DataType="PriorityMappingEntryType" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddPriorityMappingEntry" TypeDefinition="AddPriorityMappingEntryMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="DeletePriorityMappingEntry" TypeDefinition="DeletePriorityMappingEntryMethodType" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:Method SymbolicName="AddPriorityMappingEntryMethodType" PartNo="22">
+    <opc:InputArguments>
+      <opc:Argument Name="MappingUri" DataType="String" />
+      <opc:Argument Name="PriorityLabel" DataType="String" />
+      <opc:Argument Name="PriorityValue_PCP" DataType="Byte" />
+      <opc:Argument Name="PriorityValue_DSCP" DataType="UInt32" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:Method SymbolicName="DeletePriorityMappingEntryMethodType" PartNo="22">
+    <opc:InputArguments>
+      <opc:Argument Name="MappingUri" DataType="String" />
+      <opc:Argument Name="PriorityLabel" DataType="String" />
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:ReferenceType SymbolicName="UsesPriorityMappingTable" BaseType="NonHierarchicalReferences" PartNo="22">
+    <opc:InverseName>UsedByNetworkInterface</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasLowerLayerInterface" BaseType="HierarchicalReferences" PartNo="22">
+    <opc:InverseName>HasHigherLayerInterface</opc:InverseName>
+  </opc:ReferenceType>
+
+  <!-- Part 23 -->
+  <opc:ReferenceType SymbolicName="IsExecutableOn" BaseType="NonHierarchicalReferences" PartNo="23">
+    <opc:InverseName>CanExecute</opc:InverseName>
+  </opc:ReferenceType>
+  
+  <opc:ReferenceType SymbolicName="Controls" BaseType="HierarchicalReferences" PartNo="23">
+    <opc:InverseName>IsControlledBy</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="Utilizes" BaseType="NonHierarchicalReferences" PartNo="23">
+    <opc:InverseName>IsUtilizedBy</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="IsExecutingOn" BaseType="Utilizes" PartNo="23">
+    <opc:InverseName>Executes</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="Requires" BaseType="HierarchicalReferences" PartNo="23">
+    <opc:InverseName>IsRequiredBy</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="IsPhysicallyConnectedTo" Symmetric="true" BaseType="NonHierarchicalReferences" PartNo="23">
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="RepresentsSameEntityAs" Symmetric="true" BaseType="NonHierarchicalReferences" PartNo="23">
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="RepresentsSameHardwareAs" Symmetric="true" BaseType="RepresentsSameEntityAs" PartNo="23">
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="RepresentsSameFunctionalityAs" Symmetric="true" BaseType="RepresentsSameEntityAs" PartNo="23">
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="IsHostedBy" BaseType="Utilizes" PartNo="23">
+    <opc:InverseName>Hosts</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasPhysicalComponent" BaseType="HasComponent" PartNo="23">
+    <opc:InverseName>PhysicalComponentOf</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasContainedComponent" BaseType="HasPhysicalComponent" PartNo="23">
+    <opc:InverseName>ContainedComponentOf</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasAttachedComponent" BaseType="HasPhysicalComponent" PartNo="23">
+    <opc:InverseName>AttachedComponentOf</opc:InverseName>
+  </opc:ReferenceType>
 
 </opc:ModelDesign>

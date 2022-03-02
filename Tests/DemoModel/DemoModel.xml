@@ -34,48 +34,17 @@
   xmlns:ua="http://opcfoundation.org/UA/"
   xmlns:opc="http://opcfoundation.org/UA/ModelDesign.xsd"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns="http://www.opcfoundation.org/DemoModel/"
-  TargetNamespace="http://www.opcfoundation.org/DemoModel/"
-  TargetXmlNamespace="http://www.opcfoundation.org/DemoModel/"
-  TargetVersion="1.00"
-  TargetPublicationDate="2013-12-31T00:00:00Z">
+  xmlns="http://www.opcfoundation.org/DemoServer/"
+  TargetNamespace="http://www.opcfoundation.org/DemoServer/"
+  TargetXmlNamespace="http://www.opcfoundation.org/DemoServer/"
+  TargetVersion="1.05"
+  TargetPublicationDate="2021-02-12T00:00:00Z">
 
   <opc:Namespaces>
-    <opc:Namespace Name="DemoModel" Prefix="DemoModel" XmlPrefix="DemoModel">http://www.opcfoundation.org/DemoModel/</opc:Namespace>
-    <opc:Namespace Name="OpcUa" Version="1.04" PublicationDate="2021-09-15T00:00:00Z" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
+    <opc:Namespace Name="DemoModel" Prefix="DemoModel"  XmlNamespace="http://www.opcfoundation.org/DemoServer/Types.xsd"  XmlPrefix="DemoModel">http://www.opcfoundation.org/DemoServer/</opc:Namespace>
+    <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" Version="1.05" PublicationDate="2021-09-15T00:00:00Z" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
   </opc:Namespaces>
 
-  <opc:View SymbolicName="TrafficView" SupportsEvents="true" ContainsNoLoops="true" >
-    <opc:References>
-      <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:ViewsFolder</opc:TargetId>
-      </opc:Reference>
-    </opc:References>
-  </opc:View>
-
-  <opc:Object SymbolicName="Signal" TypeDefinition="ua:BaseObjectType">
-    <opc:Children>
-      <opc:Property SymbolicName="Red" DataType="ua:String" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="Yellow" DataType="ua:UInt32" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="Green" DataType="ua:Guid" ModellingRule="Mandatory" />
-    </opc:Children>
-    <opc:References>
-      <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:ObjectsFolder</opc:TargetId>
-      </opc:Reference>
-      <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-        <opc:TargetId>ua:Server_VendorServerInfo</opc:TargetId>
-      </opc:Reference>
-      <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:HasNotifier</opc:ReferenceType>
-        <opc:TargetId>TrafficView</opc:TargetId>
-      </opc:Reference>
-    </opc:References>
-  </opc:Object>
-  
   <opc:DataType SymbolicName="HeaterStatus" BaseType="ua:Enumeration">
     <opc:Fields>
       <opc:Field Name="Off" Identifier="0" />
@@ -109,7 +78,6 @@
     </opc:Fields>
   </opc:DataType>
 
-
   <opc:DataType SymbolicName="SampleUnion" BaseType="ua:Union" IsUnion="true">
     <opc:Fields>
       <opc:Field Name="FieldX" DataType="ua:UInt32" />
@@ -141,5 +109,5 @@
       <opc:Field Name="FieldW" DataType="WorkOrderStatusType" />
     </opc:Fields>
   </opc:DataType>
-    
+
 </opc:ModelDesign>

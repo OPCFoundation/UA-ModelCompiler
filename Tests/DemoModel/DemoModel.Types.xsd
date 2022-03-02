@@ -31,8 +31,8 @@
 <xs:schema
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:ua="http://opcfoundation.org/UA/2008/02/Types.xsd"
-  xmlns:tns="http://www.opcfoundation.org/DemoModel/"
-  targetNamespace="http://www.opcfoundation.org/DemoModel/"
+  xmlns:tns="http://www.opcfoundation.org/DemoServer/Types.xsd"
+  targetNamespace="http://www.opcfoundation.org/DemoServer/Types.xsd"
   elementFormDefault="qualified"
 >
   <xs:import namespace="http://opcfoundation.org/UA/2008/02/Types.xsd" />

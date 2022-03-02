@@ -225,7 +225,7 @@ Bad_DependentValueChanged,227
 Bad_RequestNotAllowed,228
 Bad_TooManyArguments,229
 Bad_SecurityModeInsufficient,230
-Bad_DataSetIdInvalid,231,Unassigned
+Bad_DataSetIdInvalid,231
 Bad_CertificateChainIncomplete,269
 Bad_LicenseExpired,270
 Bad_LicenseLimitsExceeded,271
