@@ -72,14 +72,14 @@ namespace ModelCompiler
         {
             List<Unit> units = new List<Unit>();
 
-            if (String.IsNullOrEmpty(annex1))
+            if (!String.IsNullOrEmpty(annex1))
             {
                 Read(annex1, false, units);
             }
 
-            if (String.IsNullOrEmpty(annex2))
+            if (!String.IsNullOrEmpty(annex2))
             {
-                Read(annex2, false, units);
+                Read(annex2, true, units);
             }
 
             if (output != null)
@@ -144,6 +144,9 @@ namespace ModelCompiler
         {
             Dictionary<string, Unit> index = new Dictionary<string, Unit>();
 
+            int duplicates = 0;
+            int noSymbol = 0;
+
             foreach (var unit in units)
             {
                 if (unit.Status == "X")
@@ -151,16 +154,34 @@ namespace ModelCompiler
                     continue;
                 }
 
-                if (String.IsNullOrWhiteSpace(unit.Code) || String.IsNullOrWhiteSpace(unit.Symbol))
+                if (String.IsNullOrWhiteSpace(unit.Code))
                 {
+                    noSymbol++;
                     continue;
                 }
 
-                if (!index.ContainsKey(unit.Code))
+                if (String.IsNullOrWhiteSpace(unit.Symbol))
+                {
+                    unit.Symbol = unit.Name;
+                }
+
+                if (!index.TryGetValue(unit.Code, out Unit existing))
                 {
                     index[unit.Code] = unit;
                 }
+                else
+                {
+                    if (existing.Status == "D")
+                    {
+                        index[unit.Code] = unit;
+                        continue;
+                    }
+
+                    duplicates++;
+                }
             }
+
+            Console.WriteLine($"Duplicates: {duplicates} | NoSymbol: {noSymbol}");
 
             using (StreamWriter writer = new StreamWriter(filePath, false, new UTF8Encoding(true)))
             {

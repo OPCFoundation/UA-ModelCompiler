@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.03.8" TargetPublicationDate="2021-09-15T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.03.9" TargetPublicationDate="2022-03-29T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -236,7 +236,7 @@
   </VariableType>
   <ObjectType SymbolicName="tns:DataTypeSystemType" PartNo="5" BaseType="tns:BaseObjectType" />
   <ObjectType SymbolicName="tns:DataTypeEncodingType" PartNo="5" BaseType="tns:BaseObjectType" />
-  <DataType SymbolicName="tns:NamingRuleType" PartNo="3" BaseType="tns:Enumeration">
+  <DataType SymbolicName="tns:NamingRuleType" PartNo="3" ReleaseStatus="Deprecated" BaseType="tns:Enumeration">
     <Description>Describes a value that specifies the significance of the BrowseName for an instance declaration.</Description>
     <Fields>
       <Field Name="Mandatory" Identifier="1">
@@ -252,80 +252,30 @@
   </DataType>
   <ObjectType SymbolicName="tns:ModellingRuleType" PartNo="5" BaseType="tns:BaseObjectType">
     <Description>The type for an object that describes how an instance declaration is used when a type is instantiated.</Description>
-    <Children>
-      <Property SymbolicName="tns:NamingRule" DataType="tns:NamingRuleType">
-        <Description>Specified the significances of the BrowseName when a type is instantiated.</Description>
-        <DefaultValue>
-          <uax:Int32>1</uax:Int32>
-        </DefaultValue>
-      </Property>
-    </Children>
   </ObjectType>
   <Object SymbolicName="tns:ModellingRule_Mandatory" PartNo="5" TypeDefinition="tns:ModellingRuleType" ModellingRule="None">
     <BrowseName>Mandatory</BrowseName>
     <Description>Specifies that an instance with the attributes and references of the instance declaration must appear when a type is instantiated.</Description>
-    <Children>
-      <Property Declaration="tns:ModellingRuleType_NamingRule">
-        <DefaultValue>
-          <uax:Int32>1</uax:Int32>
-        </DefaultValue>
-      </Property>
-    </Children>
   </Object>
   <Object SymbolicName="tns:ModellingRule_Optional" PartNo="5" TypeDefinition="tns:ModellingRuleType" ModellingRule="None">
     <BrowseName>Optional</BrowseName>
     <Description>Specifies that an instance with the attributes and references of the instance declaration may appear when a type is instantiated.</Description>
-    <Children>
-      <Property Declaration="tns:ModellingRuleType_NamingRule">
-        <DefaultValue>
-          <uax:Int32>2</uax:Int32>
-        </DefaultValue>
-      </Property>
-    </Children>
   </Object>
   <Object SymbolicName="tns:ModellingRule_ExposesItsArray" PartNo="5" TypeDefinition="tns:ModellingRuleType" ModellingRule="None">
     <BrowseName>ExposesItsArray</BrowseName>
     <Description>Specifies that an instance appears for each element of the containing array variable.</Description>
-    <Children>
-      <Property Declaration="tns:ModellingRuleType_NamingRule">
-        <DefaultValue>
-          <uax:Int32>3</uax:Int32>
-        </DefaultValue>
-      </Property>
-    </Children>
   </Object>
   <Object SymbolicName="tns:ModellingRule_MandatoryShared" PartNo="5" TypeDefinition="tns:ModellingRuleType" ModellingRule="None">
     <BrowseName>MandatoryShared</BrowseName>
     <Description>Specifies that a reference to a shared instance must appear in when a type is instantiated.</Description>
-    <Children>
-      <Property Declaration="tns:ModellingRuleType_NamingRule">
-        <DefaultValue>
-          <uax:Int32>1</uax:Int32>
-        </DefaultValue>
-      </Property>
-    </Children>
   </Object>
   <Object SymbolicName="tns:ModellingRule_OptionalPlaceholder" PartNo="5" TypeDefinition="tns:ModellingRuleType" ModellingRule="None">
     <BrowseName>OptionalPlaceholder</BrowseName>
     <Description>Specifies that zero or more instances with the attributes and references of the instance declaration may appear when a type is instantiated.</Description>
-    <Children>
-      <Property Declaration="tns:ModellingRuleType_NamingRule">
-        <DefaultValue>
-          <uax:Int32>2</uax:Int32>
-        </DefaultValue>
-      </Property>
-    </Children>
   </Object>
   <Object SymbolicName="tns:ModellingRule_MandatoryPlaceholder" PartNo="5" TypeDefinition="tns:ModellingRuleType" ModellingRule="None">
     <BrowseName>MandatoryPlaceholder</BrowseName>
     <Description>Specifies that one or more instances with the attributes and references of the instance declaration must appear when a type is instantiated.</Description>
-    <Children>
-      <Property Declaration="tns:ModellingRuleType_NamingRule">
-        <DefaultValue>
-          <uax:Int32>1</uax:Int32>
-        </DefaultValue>
-      </Property>
-    </Children>
   </Object>
   <Object SymbolicName="tns:RootFolder" PartNo="5" TypeDefinition="tns:FolderType" ModellingRule="None">
     <BrowseName>Root</BrowseName>
@@ -1285,12 +1235,12 @@
               </Property>
               <Property SymbolicName="tns:NamespaceVersion" DataType="tns:String">
                 <DefaultValue>
-                  <uax:String>1.03</uax:String>
+                  <uax:String>1.03.9</uax:String>
                 </DefaultValue>
               </Property>
               <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
                 <DefaultValue>
-                  <uax:DateTime>2021-09-15</uax:DateTime>
+                  <uax:DateTime>2022-03-29</uax:DateTime>
                 </DefaultValue>
               </Property>
               <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
@@ -3101,23 +3051,49 @@
   </Object>
   <DataType SymbolicName="tns:IdType" SymbolicId="tns:IdType" PartNo="3" BaseType="tns:Enumeration">
     <Fields>
-      <Field Name="Numeric" Identifier="0" />
-      <Field Name="String" Identifier="1" />
-      <Field Name="Guid" Identifier="2" />
-      <Field Name="Opaque" Identifier="3" />
+      <Field Name="Numeric" Identifier="0">
+        <Description>The identifier is a numeric value. 0 is a null value.</Description>
+      </Field>
+      <Field Name="String" Identifier="1">
+        <Description>The identifier is a string value. An empty string is a null value.</Description>
+      </Field>
+      <Field Name="Guid" Identifier="2">
+        <Description>The identifier is a 16 byte structure. 16 zero bytes is a null value.</Description>
+      </Field>
+      <Field Name="Opaque" Identifier="3">
+        <Description>The identifier is an array of bytes. A zero length array is a null value.</Description>
+      </Field>
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:NodeClass" SymbolicId="tns:NodeClass" PartNo="3" BaseType="tns:Enumeration" NoArraysAllowed="true">
     <Fields>
-      <Field Name="Unspecified" Identifier="0" />
-      <Field Name="Object" Identifier="1" />
-      <Field Name="Variable" Identifier="2" />
-      <Field Name="Method" Identifier="4" />
-      <Field Name="ObjectType" Identifier="8" />
-      <Field Name="VariableType" Identifier="16" />
-      <Field Name="ReferenceType" Identifier="32" />
-      <Field Name="DataType" Identifier="64" />
-      <Field Name="View" Identifier="128" />
+      <Field Name="Unspecified" Identifier="0">
+        <Description>No classes are selected.</Description>
+      </Field>
+      <Field Name="Object" Identifier="1">
+        <Description>The node is an object.</Description>
+      </Field>
+      <Field Name="Variable" Identifier="2">
+        <Description>The node is a variable.</Description>
+      </Field>
+      <Field Name="Method" Identifier="4">
+        <Description>The node is a method.</Description>
+      </Field>
+      <Field Name="ObjectType" Identifier="8">
+        <Description>The node is an object type.</Description>
+      </Field>
+      <Field Name="VariableType" Identifier="16">
+        <Description>The node is an variable type.</Description>
+      </Field>
+      <Field Name="ReferenceType" Identifier="32">
+        <Description>The node is a reference type.</Description>
+      </Field>
+      <Field Name="DataType" Identifier="64">
+        <Description>The node is a data type.</Description>
+      </Field>
+      <Field Name="View" Identifier="128">
+        <Description>The node is a view.</Description>
+      </Field>
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:Node" SymbolicId="tns:Node" PartNo="3" NotInAddressSpace="true" BaseType="tns:Structure" NoClassGeneration="true">
@@ -3236,10 +3212,18 @@
   <DataType SymbolicName="tns:IntegerId" SymbolicId="tns:IntegerId" PartNo="4" BaseType="tns:UInt32" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:ApplicationType" SymbolicId="tns:ApplicationType" PartNo="4" BaseType="tns:Enumeration" NoArraysAllowed="true">
     <Fields>
-      <Field Name="Server" Identifier="0" />
-      <Field Name="Client" Identifier="1" />
-      <Field Name="ClientAndServer" Identifier="2" />
-      <Field Name="DiscoveryServer" Identifier="3" />
+      <Field Name="Server" Identifier="0">
+        <Description>The application is a server.</Description>
+      </Field>
+      <Field Name="Client" Identifier="1">
+        <Description>The application is a client.</Description>
+      </Field>
+      <Field Name="ClientAndServer" Identifier="2">
+        <Description>The application is a client and a server.</Description>
+      </Field>
+      <Field Name="DiscoveryServer" Identifier="3">
+        <Description>The application is a discovery server.</Description>
+      </Field>
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ApplicationDescription" SymbolicId="tns:ApplicationDescription" PartNo="4" BaseType="tns:Structure">
@@ -3319,18 +3303,34 @@
   <DataType SymbolicName="tns:ApplicationInstanceCertificate" SymbolicId="tns:ApplicationInstanceCertificate" PartNo="4" BaseType="tns:ByteString" NoArraysAllowed="true" />
   <DataType SymbolicName="tns:MessageSecurityMode" SymbolicId="tns:MessageSecurityMode" PartNo="4" BaseType="tns:Enumeration" NoArraysAllowed="true">
     <Fields>
-      <Field Name="Invalid" Identifier="0" />
-      <Field Name="None" Identifier="1" />
-      <Field Name="Sign" Identifier="2" />
-      <Field Name="SignAndEncrypt" Identifier="3" />
+      <Field Name="Invalid" Identifier="0">
+        <Description>An invalid mode.</Description>
+      </Field>
+      <Field Name="None" Identifier="1">
+        <Description>No security is used.</Description>
+      </Field>
+      <Field Name="Sign" Identifier="2">
+        <Description>The message is signed.</Description>
+      </Field>
+      <Field Name="SignAndEncrypt" Identifier="3">
+        <Description>The message is signed and encrypted.</Description>
+      </Field>
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:UserTokenType" SymbolicId="tns:UserTokenType" PartNo="4" BaseType="tns:Enumeration" NoArraysAllowed="true">
     <Fields>
-      <Field Name="Anonymous" Identifier="0" />
-      <Field Name="UserName" Identifier="1" />
-      <Field Name="Certificate" Identifier="2" />
-      <Field Name="IssuedToken" Identifier="3" />
+      <Field Name="Anonymous" Identifier="0">
+        <Description>An anonymous user.</Description>
+      </Field>
+      <Field Name="UserName" Identifier="1">
+        <Description>A user identified by a user name and password.</Description>
+      </Field>
+      <Field Name="Certificate" Identifier="2">
+        <Description>A user identified by an X509 certificate.</Description>
+      </Field>
+      <Field Name="IssuedToken" Identifier="3">
+        <Description>A user identified by WS-Security XML token.</Description>
+      </Field>
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:UserTokenPolicy" SymbolicId="tns:UserTokenPolicy" PartNo="4" BaseType="tns:Structure">
@@ -3414,8 +3414,12 @@
   </DataType>
   <DataType SymbolicName="tns:SecurityTokenRequestType" SymbolicId="tns:SecurityTokenRequestType" PartNo="4" BaseType="tns:Enumeration" NoArraysAllowed="true">
     <Fields>
-      <Field Name="Issue" Identifier="0" />
-      <Field Name="Renew" Identifier="1" />
+      <Field Name="Issue" Identifier="0">
+        <Description>The channel is being created.</Description>
+      </Field>
+      <Field Name="Renew" Identifier="1">
+        <Description>The channel is being renewed.</Description>
+      </Field>
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ChannelSecurityToken" SymbolicId="tns:ChannelSecurityToken" PartNo="4" NotInAddressSpace="true" BaseType="tns:Structure" NoClassGeneration="true" NoArraysAllowed="true">
@@ -3561,38 +3565,102 @@
   </DataType>
   <DataType SymbolicName="tns:NodeAttributesMask" SymbolicId="tns:NodeAttributesMask" PartNo="4" BaseType="tns:Enumeration" NoArraysAllowed="true">
     <Fields>
-      <Field Name="None" Identifier="0" />
-      <Field Name="AccessLevel" Identifier="1" />
-      <Field Name="ArrayDimensions" Identifier="2" />
-      <Field Name="BrowseName" Identifier="4" />
-      <Field Name="ContainsNoLoops" Identifier="8" />
-      <Field Name="DataType" Identifier="16" />
-      <Field Name="Description" Identifier="32" />
-      <Field Name="DisplayName" Identifier="64" />
-      <Field Name="EventNotifier" Identifier="128" />
-      <Field Name="Executable" Identifier="256" />
-      <Field Name="Historizing" Identifier="512" />
-      <Field Name="InverseName" Identifier="1024" />
-      <Field Name="IsAbstract" Identifier="2048" />
-      <Field Name="MinimumSamplingInterval" Identifier="4096" />
-      <Field Name="NodeClass" Identifier="8192" />
-      <Field Name="NodeId" Identifier="16384" />
-      <Field Name="Symmetric" Identifier="32768" />
-      <Field Name="UserAccessLevel" Identifier="65536" />
-      <Field Name="UserExecutable" Identifier="131072" />
-      <Field Name="UserWriteMask" Identifier="262144" />
-      <Field Name="ValueRank" Identifier="524288" />
-      <Field Name="WriteMask" Identifier="1048576" />
-      <Field Name="Value" Identifier="2097152" />
-      <Field Name="All" Identifier="4194303" />
-      <Field Name="BaseNode" Identifier="1335396" />
-      <Field Name="Object" Identifier="1335524" />
-      <Field Name="ObjectTypeOrDataType" Identifier="1337444" />
-      <Field Name="Variable" Identifier="4026999" />
-      <Field Name="VariableType" Identifier="3958902" />
-      <Field Name="Method" Identifier="1466724" />
-      <Field Name="ReferenceType" Identifier="1371236" />
-      <Field Name="View" Identifier="1335532" />
+      <Field Name="None" Identifier="0">
+        <Description>No attribuites provided.</Description>
+      </Field>
+      <Field Name="AccessLevel" Identifier="1">
+        <Description>The access level attribute is specified.</Description>
+      </Field>
+      <Field Name="ArrayDimensions" Identifier="2">
+        <Description>The array dimensions attribute is specified.</Description>
+      </Field>
+      <Field Name="BrowseName" Identifier="4">
+        <Description>The browse name attribute is specified.</Description>
+      </Field>
+      <Field Name="ContainsNoLoops" Identifier="8">
+        <Description>The contains no loops attribute is specified.</Description>
+      </Field>
+      <Field Name="DataType" Identifier="16">
+        <Description>The data type attribute is specified.</Description>
+      </Field>
+      <Field Name="Description" Identifier="32">
+        <Description>The description attribute is specified.</Description>
+      </Field>
+      <Field Name="DisplayName" Identifier="64">
+        <Description>The display name attribute is specified.</Description>
+      </Field>
+      <Field Name="EventNotifier" Identifier="128">
+        <Description>The event notifier attribute is specified.</Description>
+      </Field>
+      <Field Name="Executable" Identifier="256">
+        <Description>The executable attribute is specified.</Description>
+      </Field>
+      <Field Name="Historizing" Identifier="512">
+        <Description>The historizing attribute is specified.</Description>
+      </Field>
+      <Field Name="InverseName" Identifier="1024">
+        <Description>The inverse name attribute is specified.</Description>
+      </Field>
+      <Field Name="IsAbstract" Identifier="2048">
+        <Description>The is abstract attribute is specified.</Description>
+      </Field>
+      <Field Name="MinimumSamplingInterval" Identifier="4096">
+        <Description>The minimum sampling interval attribute is specified.</Description>
+      </Field>
+      <Field Name="NodeClass" Identifier="8192">
+        <Description>The node class attribute is specified.</Description>
+      </Field>
+      <Field Name="NodeId" Identifier="16384">
+        <Description>The node id attribute is specified.</Description>
+      </Field>
+      <Field Name="Symmetric" Identifier="32768">
+        <Description>The symmetric attribute is specified.</Description>
+      </Field>
+      <Field Name="UserAccessLevel" Identifier="65536">
+        <Description>The user access level attribute is specified.</Description>
+      </Field>
+      <Field Name="UserExecutable" Identifier="131072">
+        <Description>The user executable attribute is specified.</Description>
+      </Field>
+      <Field Name="UserWriteMask" Identifier="262144">
+        <Description>The user write mask attribute is specified.</Description>
+      </Field>
+      <Field Name="ValueRank" Identifier="524288">
+        <Description>The value rank attribute is specified.</Description>
+      </Field>
+      <Field Name="WriteMask" Identifier="1048576">
+        <Description>The write mask attribute is specified.</Description>
+      </Field>
+      <Field Name="Value" Identifier="2097152">
+        <Description>The value attribute is specified.</Description>
+      </Field>
+      <Field Name="All" Identifier="4194303">
+        <Description>All attributes are specified.</Description>
+      </Field>
+      <Field Name="BaseNode" Identifier="1335396">
+        <Description>All base attributes are specified.</Description>
+      </Field>
+      <Field Name="Object" Identifier="1335524">
+        <Description>All object attributes are specified.</Description>
+      </Field>
+      <Field Name="ObjectTypeOrDataType" Identifier="1337444">
+        <Description>All object type or data type attributes are specified.</Description>
+      </Field>
+      <Field Name="Variable" Identifier="4026999">
+        <Description>All variable attributes are specified.</Description>
+      </Field>
+      <Field Name="VariableType" Identifier="3958902">
+        <Description>All variable type attributes are specified.</Description>
+      </Field>
+      <Field Name="Method" Identifier="1466724">
+        <Description>All method attributes are specified.</Description>
+      </Field>
+      <Field Name="ReferenceType" Identifier="1371236">
+        <Description>All reference type attributes are specified.</Description>
+      </Field>
+      <Field Name="View" Identifier="1335532">
+        <Description>All view attributes are specified.</Description>
+      </Field>
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:NodeAttributes" SymbolicId="tns:NodeAttributes" PartNo="4" NotInAddressSpace="true" BaseType="tns:Structure" NoClassGeneration="true" NoArraysAllowed="true">
@@ -3755,36 +3823,88 @@
   </DataType>
   <DataType SymbolicName="tns:AttributeWriteMask" SymbolicId="tns:AttributeWriteMask" PartNo="4" BaseType="tns:Enumeration" NoArraysAllowed="true">
     <Fields>
-      <Field Name="None" Identifier="0" />
-      <Field Name="AccessLevel" Identifier="1" />
-      <Field Name="ArrayDimensions" Identifier="2" />
-      <Field Name="BrowseName" Identifier="4" />
-      <Field Name="ContainsNoLoops" Identifier="8" />
-      <Field Name="DataType" Identifier="16" />
-      <Field Name="Description" Identifier="32" />
-      <Field Name="DisplayName" Identifier="64" />
-      <Field Name="EventNotifier" Identifier="128" />
-      <Field Name="Executable" Identifier="256" />
-      <Field Name="Historizing" Identifier="512" />
-      <Field Name="InverseName" Identifier="1024" />
-      <Field Name="IsAbstract" Identifier="2048" />
-      <Field Name="MinimumSamplingInterval" Identifier="4096" />
-      <Field Name="NodeClass" Identifier="8192" />
-      <Field Name="NodeId" Identifier="16384" />
-      <Field Name="Symmetric" Identifier="32768" />
-      <Field Name="UserAccessLevel" Identifier="65536" />
-      <Field Name="UserExecutable" Identifier="131072" />
-      <Field Name="UserWriteMask" Identifier="262144" />
-      <Field Name="ValueRank" Identifier="524288" />
-      <Field Name="WriteMask" Identifier="1048576" />
-      <Field Name="ValueForVariableType" Identifier="2097152" />
+      <Field Name="None" Identifier="0">
+        <Description>No attributes are writable.</Description>
+      </Field>
+      <Field Name="AccessLevel" Identifier="1">
+        <Description>The access level attribute is writable.</Description>
+      </Field>
+      <Field Name="ArrayDimensions" Identifier="2">
+        <Description>The array dimensions attribute is writable.</Description>
+      </Field>
+      <Field Name="BrowseName" Identifier="4">
+        <Description>The browse name attribute is writable.</Description>
+      </Field>
+      <Field Name="ContainsNoLoops" Identifier="8">
+        <Description>The contains no loops attribute is writable.</Description>
+      </Field>
+      <Field Name="DataType" Identifier="16">
+        <Description>The data type attribute is writable.</Description>
+      </Field>
+      <Field Name="Description" Identifier="32">
+        <Description>The description attribute is writable.</Description>
+      </Field>
+      <Field Name="DisplayName" Identifier="64">
+        <Description>The display name attribute is writable.</Description>
+      </Field>
+      <Field Name="EventNotifier" Identifier="128">
+        <Description>The event notifier attribute is writable.</Description>
+      </Field>
+      <Field Name="Executable" Identifier="256">
+        <Description>The executable attribute is writable.</Description>
+      </Field>
+      <Field Name="Historizing" Identifier="512">
+        <Description>The historizing attribute is writable.</Description>
+      </Field>
+      <Field Name="InverseName" Identifier="1024">
+        <Description>The inverse name attribute is writable.</Description>
+      </Field>
+      <Field Name="IsAbstract" Identifier="2048">
+        <Description>The is abstract attribute is writable.</Description>
+      </Field>
+      <Field Name="MinimumSamplingInterval" Identifier="4096">
+        <Description>The minimum sampling interval attribute is writable.</Description>
+      </Field>
+      <Field Name="NodeClass" Identifier="8192">
+        <Description>The node class attribute is writable.</Description>
+      </Field>
+      <Field Name="NodeId" Identifier="16384">
+        <Description>The node id attribute is writable.</Description>
+      </Field>
+      <Field Name="Symmetric" Identifier="32768">
+        <Description>The symmetric attribute is writable.</Description>
+      </Field>
+      <Field Name="UserAccessLevel" Identifier="65536">
+        <Description>The user access level attribute is writable.</Description>
+      </Field>
+      <Field Name="UserExecutable" Identifier="131072">
+        <Description>The user executable attribute is writable.</Description>
+      </Field>
+      <Field Name="UserWriteMask" Identifier="262144">
+        <Description>The user write mask attribute is writable.</Description>
+      </Field>
+      <Field Name="ValueRank" Identifier="524288">
+        <Description>The value rank attribute is writable.</Description>
+      </Field>
+      <Field Name="WriteMask" Identifier="1048576">
+        <Description>The write mask attribute is writable.</Description>
+      </Field>
+      <Field Name="ValueForVariableType" Identifier="2097152">
+        <Description>The value attribute is writable.</Description>
+      </Field>
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:BrowseDirection" SymbolicId="tns:BrowseDirection" PartNo="4" NotInAddressSpace="true" BaseType="tns:Enumeration" NoClassGeneration="true" NoArraysAllowed="true">
     <Fields>
-      <Field Name="Forward" Identifier="0" />
-      <Field Name="Inverse" Identifier="1" />
-      <Field Name="Both" Identifier="2" />
+      <Field Name="Forward" Identifier="0">
+        <Description>Return forward references.</Description>
+      </Field>
+      <Field Name="Inverse" Identifier="1">
+        <Description>Return inverse references.</Description>
+      </Field>
+      <Field Name="Both" Identifier="2">
+        <Description>Return forward and inverse references.</Description>
+      </Field>
       <Field Name="Invalid" Identifier="3" />
     </Fields>
   </DataType>
@@ -3807,16 +3927,36 @@
   </DataType>
   <DataType SymbolicName="tns:BrowseResultMask" SymbolicId="tns:BrowseResultMask" PartNo="4" NotInAddressSpace="true" BaseType="tns:Enumeration" NoClassGeneration="true" NoArraysAllowed="true">
     <Fields>
-      <Field Name="None" Identifier="0" />
-      <Field Name="ReferenceTypeId" Identifier="1" />
-      <Field Name="IsForward" Identifier="2" />
-      <Field Name="NodeClass" Identifier="4" />
-      <Field Name="BrowseName" Identifier="8" />
-      <Field Name="DisplayName" Identifier="16" />
-      <Field Name="TypeDefinition" Identifier="32" />
-      <Field Name="All" Identifier="63" />
-      <Field Name="ReferenceTypeInfo" Identifier="3" />
-      <Field Name="TargetInfo" Identifier="60" />
+      <Field Name="None" Identifier="0">
+        <Description>Return only the node id.</Description>
+      </Field>
+      <Field Name="ReferenceTypeId" Identifier="1">
+        <Description>Return the reference type id.</Description>
+      </Field>
+      <Field Name="IsForward" Identifier="2">
+        <Description>Return the flag indicating whether the reference is a forward reference.</Description>
+      </Field>
+      <Field Name="NodeClass" Identifier="4">
+        <Description>Return the node class.</Description>
+      </Field>
+      <Field Name="BrowseName" Identifier="8">
+        <Description>Return the browse name.</Description>
+      </Field>
+      <Field Name="DisplayName" Identifier="16">
+        <Description>Return the display name.</Description>
+      </Field>
+      <Field Name="TypeDefinition" Identifier="32">
+        <Description>Return the type definition.</Description>
+      </Field>
+      <Field Name="All" Identifier="63">
+        <Description>Return all fields.</Description>
+      </Field>
+      <Field Name="ReferenceTypeInfo" Identifier="3">
+        <Description>Return the reference type information.</Description>
+      </Field>
+      <Field Name="TargetInfo" Identifier="60">
+        <Description>Return the information about the target node.</Description>
+      </Field>
     </Fields>
   </DataType>
   <DataType SymbolicName="tns:ReferenceDescription" SymbolicId="tns:ReferenceDescription" PartNo="4" NotInAddressSpace="true" BaseType="tns:Structure" NoClassGeneration="true">

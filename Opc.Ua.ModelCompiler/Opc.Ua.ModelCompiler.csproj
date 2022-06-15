@@ -1,9 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net5.0</TargetFrameworks>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
     <IntermediateOutputPath>$(SolutionDir)build\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
+    <AssemblyName>Opc.Ua.ModelCompiler</AssemblyName>
     <RootNamespace>ModelCompiler</RootNamespace>
     <VersionSuffix>2.0.$([System.DateTime]::UtcNow.ToString(yyMM)).$([System.DateTime]::UtcNow.ToString(ddmm))</VersionSuffix>
     <AssemblyVersion Condition=" '$(VersionSuffix)' == '' ">0.0.0.1</AssemblyVersion>
@@ -27,8 +30,6 @@
     <Compile Remove="ExceptionDlg.Designer.cs" />
     <Compile Remove="MainForm.cs" />
     <Compile Remove="MainForm.Designer.cs" />
-    <Compile Remove="Properties\Resources.Designer.cs" />
-    <Compile Remove="Properties\Settings.Designer.cs" />
     <Compile Remove="StackGenerator\DataTypes\Templates\Constants\Constant.cs" />
     <Compile Remove="StackGenerator\DataTypes\Templates\Constants\DataTypes.cs" />
     <Compile Remove="StackGenerator\DataTypes\Templates\Constants\Encodings.cs" />
@@ -105,7 +106,6 @@
   <ItemGroup>
     <EmbeddedResource Remove="ExceptionDlg.resx" />
     <EmbeddedResource Remove="MainForm.resx" />
-    <EmbeddedResource Remove="Properties\Resources.resx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -130,20 +130,25 @@
     <None Remove="CSVs\UA Status Codes.csv" />
     <None Remove="CSVs\UNECE_to_OPCUA.csv" />
     <None Remove="Design.v103\BuiltInTypes.xml" />
-    <None Remove="Design.v103\DemoModel.xml" />
     <None Remove="Design.v103\MDIS.xml" />
     <None Remove="Design.v103\MTConnectModel.xml" />
     <None Remove="Design.v103\OpcUaAdiModel.xml" />
+    <None Remove="Design.v103\OpcUaDiModel.csv" />
     <None Remove="Design.v103\OpcUaDiModel.xml" />
     <None Remove="Design.v103\OpcUaFdiPart5Model.xml" />
     <None Remove="Design.v103\OpcUaFdiPart7Model.xml" />
+    <None Remove="Design.v103\OpcUaGdsModel.csv" />
     <None Remove="Design.v103\OpcUaGdsModel.xml" />
     <None Remove="Design.v103\OpcUaPLCopenModel.xml" />
     <None Remove="Design.v103\SercosModel.xml" />
+    <None Remove="Design.v103\StandardTypes.csv" />
     <None Remove="Design.v103\StandardTypes.xml" />
+    <None Remove="Design.v103\UA Attributes.csv" />
     <None Remove="Design.v103\UA Attributes.xml" />
     <None Remove="Design.v103\UA Core Services.xml" />
     <None Remove="Design.v103\UA Defined Types.xml" />
+    <None Remove="Design.v103\UA ServerCapabilities.csv" />
+    <None Remove="Design.v103\UA Status Codes.csv" />
     <None Remove="Design.v103\UA Status Codes.xml" />
     <None Remove="Design.v104\BuiltInTypes.xml" />
     <None Remove="Design.v104\DemoModel.xml" />
@@ -175,7 +180,6 @@
     <None Remove="License\NONE.txt" />
     <None Remove="License\UA_MIT.txt" />
     <None Remove="License\UA_MIT_XML.txt" />
-    <None Remove="Properties\Settings.settings" />
     <None Remove="StackGenerator\AnsiC\Templates\ClientApi\File.c" />
     <None Remove="StackGenerator\AnsiC\Templates\ClientApi\File.h" />
     <None Remove="StackGenerator\AnsiC\Templates\ClientApi\Service.c" />
@@ -225,7 +229,6 @@
     <None Remove="StackGenerator\DataTypes\Templates\XmlSchema\Services.wsdl" />
     <None Remove="StackGenerator\DataTypes\Templates\XmlSchema\ServiceType.xml" />
     <None Remove="StackGenerator\Validators\BuiltInTypes.xml" />
-    <None Remove="StackGenerator\Validators\Xml\BuiltInTypes.xsd" />
     <None Remove="StackGenerator\Wireshark\Template\complexparserfunction.c" />
     <None Remove="StackGenerator\Wireshark\Template\enumparser.c" />
     <None Remove="StackGenerator\Wireshark\Template\enumregisterinfo.c" />
@@ -252,6 +255,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="License\NONE.txt" />
+    <Resource Include="License\UA_MIT.txt" />
+    <Resource Include="License\UA_MIT_XML.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="CSVs\DemoModel.csv" />
     <EmbeddedResource Include="CSVs\MDIS.csv" />
     <EmbeddedResource Include="CSVs\MTConnectModel.csv" />
@@ -265,7 +274,6 @@
     <EmbeddedResource Include="CSVs\OpcUaProvisioningModel.csv" />
     <EmbeddedResource Include="CSVs\rec20_latest_a1.csv" />
     <EmbeddedResource Include="CSVs\rec20_latest_a2-3.csv" />
-    <EmbeddedResource Include="CSVs\rec20_Rev15e-2020.xls" />
     <EmbeddedResource Include="CSVs\SercosModel.csv" />
     <EmbeddedResource Include="CSVs\StandardTypes.csv" />
     <EmbeddedResource Include="CSVs\UA Attributes.csv" />
@@ -273,47 +281,51 @@
     <EmbeddedResource Include="CSVs\UA Status Codes.csv" />
     <EmbeddedResource Include="CSVs\UNECE_to_OPCUA.csv" />
     <EmbeddedResource Include="Design.v103\BuiltInTypes.xml" />
-    <Content Include="Design.v103\DemoModel.xml" />
-    <Content Include="Design.v103\MDIS.xml" />
-    <Content Include="Design.v103\MTConnectModel.xml" />
-    <Content Include="Design.v103\OpcUaAdiModel.xml" />
-    <Content Include="Design.v103\OpcUaDiModel.xml" />
-    <Content Include="Design.v103\OpcUaFdiPart5Model.xml" />
-    <Content Include="Design.v103\OpcUaFdiPart7Model.xml" />
-    <Content Include="Design.v103\OpcUaGdsModel.xml" />
-    <Content Include="Design.v103\OpcUaPLCopenModel.xml" />
-    <Content Include="Design.v103\SercosModel.xml" />
+    <EmbeddedResource Include="Design.v103\MDIS.xml" />
+    <EmbeddedResource Include="Design.v103\MTConnectModel.xml" />
+    <EmbeddedResource Include="Design.v103\OpcUaAdiModel.xml" />
+    <EmbeddedResource Include="Design.v103\OpcUaDiModel.csv" />
+    <EmbeddedResource Include="Design.v103\OpcUaDiModel.xml" />
+    <EmbeddedResource Include="Design.v103\OpcUaFdiPart5Model.xml" />
+    <EmbeddedResource Include="Design.v103\OpcUaFdiPart7Model.xml" />
+    <EmbeddedResource Include="Design.v103\OpcUaGdsModel.csv" />
+    <EmbeddedResource Include="Design.v103\OpcUaGdsModel.xml" />
+    <EmbeddedResource Include="Design.v103\OpcUaPLCopenModel.xml" />
+    <EmbeddedResource Include="Design.v103\SercosModel.xml" />
+    <EmbeddedResource Include="Design.v103\StandardTypes.csv" />
     <EmbeddedResource Include="Design.v103\StandardTypes.xml" />
+    <EmbeddedResource Include="Design.v103\UA Attributes.csv" />
     <EmbeddedResource Include="Design.v103\UA Attributes.xml" />
     <EmbeddedResource Include="Design.v103\UA Core Services.xml" />
-    <Content Include="Design.v103\UA Defined Types.xml" />
+    <EmbeddedResource Include="Design.v103\UA Defined Types.xml" />
+    <EmbeddedResource Include="Design.v103\UA ServerCapabilities.csv" />
+    <EmbeddedResource Include="Design.v103\UA Status Codes.csv" />
     <EmbeddedResource Include="Design.v103\UA Status Codes.xml" />
     <EmbeddedResource Include="Design.v104\BuiltInTypes.xml" />
-    <Content Include="Design.v104\DemoModel.xml" />
-    <Content Include="Design.v104\MDIS.xml" />
-    <Content Include="Design.v104\MTConnectModel.xml" />
-    <Content Include="Design.v104\OpcUaAdiModel.xml" />
-    <Content Include="Design.v104\OpcUaDiModel.xml" />
-    <Content Include="Design.v104\OpcUaFdiPart5Model.xml" />
-    <Content Include="Design.v104\OpcUaFdiPart7Model.xml" />
-    <Content Include="Design.v104\OpcUaGdsModel.xml" />
-    <Content Include="Design.v104\OpcUaPLCopenModel.xml" />
-    <Content Include="Design.v104\SercosModel.xml" />
+    <EmbeddedResource Include="Design.v104\DemoModel.xml" />
+    <EmbeddedResource Include="Design.v104\MDIS.xml" />
+    <EmbeddedResource Include="Design.v104\MTConnectModel.xml" />
+    <EmbeddedResource Include="Design.v104\OpcUaAdiModel.xml" />
+    <EmbeddedResource Include="Design.v104\OpcUaDiModel.xml" />
+    <EmbeddedResource Include="Design.v104\OpcUaFdiPart5Model.xml" />
+    <EmbeddedResource Include="Design.v104\OpcUaFdiPart7Model.xml" />
+    <EmbeddedResource Include="Design.v104\OpcUaGdsModel.xml" />
+    <EmbeddedResource Include="Design.v104\OpcUaPLCopenModel.xml" />
+    <EmbeddedResource Include="Design.v104\SercosModel.xml" />
     <EmbeddedResource Include="Design.v104\StandardTypes.xml" />
     <EmbeddedResource Include="Design.v104\UA Attributes.xml" />
     <EmbeddedResource Include="Design.v104\UA Core Services.xml" />
-    <Content Include="Design.v104\UA Defined Types.xml" />
+    <EmbeddedResource Include="Design.v104\UA Defined Types.xml" />
     <EmbeddedResource Include="Design.v104\UA Status Codes.xml" />
     <EmbeddedResource Include="Design.v105\BuiltInTypes.xml" />
-    <Content Include="Design.v105\DemoModel.xml" />
-    <Content Include="Design.v105\OpcUaDiModel.xml" />
-    <Content Include="Design.v105\OpcUaGdsModel.xml" />
-    <Content Include="Design.v105\OpcUaNodeSetModel.xml" />
-    <Content Include="Design.v105\OpcUaProvisioningModel.xml" />
+    <EmbeddedResource Include="Design.v105\DemoModel.xml" />
+    <EmbeddedResource Include="Design.v105\OpcUaDiModel.xml" />
+    <EmbeddedResource Include="Design.v105\OpcUaGdsModel.xml" />
+    <EmbeddedResource Include="Design.v105\OpcUaNodeSetModel.xml" />
     <EmbeddedResource Include="Design.v105\StandardTypes.xml" />
     <EmbeddedResource Include="Design.v105\UA Attributes.xml" />
     <EmbeddedResource Include="Design.v105\UA Core Services.xml" />
-    <Content Include="Design.v105\UA Defined Types.xml" />
+    <EmbeddedResource Include="Design.v105\UA Defined Types.xml" />
     <EmbeddedResource Include="Design.v105\UA Status Codes.xml" />
     <EmbeddedResource Include="License\NONE.txt" />
     <EmbeddedResource Include="License\UA_MIT.txt" />
@@ -370,13 +382,6 @@
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\PortType.wsdl" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\Services.wsdl" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\XmlSchema\ServiceType.xml" />
-    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\File.cs" />
-    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\InterfaceMethod.cs" />
-    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\Method.cs" />
-    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\ServiceSet.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\Channels\BinaryMethodAsync.cs" />
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\Channels\File.cs" />
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\Channels\ServiceSet.cs" />
@@ -403,8 +408,11 @@
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\Interfaces\OperationAsync.cs" />
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\Interfaces\OperationAsyncEndpoint.cs" />
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\Interfaces\ServiceSet.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\File.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\InterfaceMethod.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\Method.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\ServiceSet.cs" />
     <EmbeddedResource Include="StackGenerator\Validators\BuiltInTypes.xml" />
-    <EmbeddedResource Include="StackGenerator\Validators\Xml\BuiltInTypes.xsd" />
     <EmbeddedResource Include="StackGenerator\Wireshark\Template\complexparserfunction.c" />
     <EmbeddedResource Include="StackGenerator\Wireshark\Template\enumparser.c" />
     <EmbeddedResource Include="StackGenerator\Wireshark\Template\enumregisterinfo.c" />
@@ -470,7 +478,7 @@
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="27.2.1" />
     <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.4.368.33" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.4.368.58" />
   </ItemGroup>
-  
+
 </Project>

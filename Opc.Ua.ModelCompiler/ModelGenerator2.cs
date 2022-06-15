@@ -220,6 +220,21 @@ namespace ModelCompiler
              }
         }
 
+        private ushort CollectNodes(SystemContext context, Dictionary<NodeId, NodeState> index, NodeState node)
+        {
+            index[node.NodeId] = node;
+
+            List<BaseInstanceState> children = new List<BaseInstanceState>();
+            node.GetChildren(context, children);
+
+            foreach (var child in children)
+            {
+                CollectNodes(context, index, child);
+            }
+
+            return node.NodeId.NamespaceIndex;
+        }
+
         /// <summary>
         /// Writes the schema information to a static XML export file.
         /// </summary>
@@ -227,6 +242,7 @@ namespace ModelCompiler
         {
             SystemContext context = new SystemContext();
             context.NamespaceUris = m_model.NamespaceUris;
+            context.ServerUris = new StringTable();
 
             // collect the nodes to write.
             NodeStateCollection collection = new NodeStateCollection();
@@ -334,7 +350,7 @@ namespace ModelCompiler
                 }
             }
 
-            var documentationFile = m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.documentation.csv";
+            string documentationFile = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.documentation.csv");
 
             if (File.Exists(documentationFile))
             {
@@ -345,7 +361,7 @@ namespace ModelCompiler
                 foreach (var ii in collectionWithServices)
                 {
                     index[ii.NodeId] = ii;
-                    namespaceIndex = ii.NodeId.NamespaceIndex;
+                    namespaceIndex = CollectNodes(context, index, ii);
                 }
 
                 var rows = NodeDocumentationReader.Load(documentationFile);

@@ -33,11 +33,11 @@ DemoModel_BinarySchema_WorkOrderStatusType_DictionaryFragment,32,Variable
 DemoModel_BinarySchema_WorkOrderType,33,Variable
 DemoModel_BinarySchema_WorkOrderType_DataTypeVersion,34,Variable
 DemoModel_BinarySchema_WorkOrderType_DictionaryFragment,35,Variable
-Signal,36,Unspecified
-Signal_Red,37,Unspecified
-Signal_Yellow,38,Unspecified
-Signal_Green,39,Unspecified
-TrafficView,40,Unspecified
+Signal,36,Object
+Signal_Red,37,Variable
+Signal_Yellow,38,Variable
+Signal_Green,39,Variable
+TrafficView,40,View
 SampleUnion,41,DataType
 SampleStructureWithOptionalFields,42,DataType
 SampleUnionAllowSubtypes,43,DataType

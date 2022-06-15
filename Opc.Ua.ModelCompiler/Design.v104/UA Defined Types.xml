@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ModelDesign xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04.11-RC" TargetPublicationDate="2021-11-25T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
+<ModelDesign xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" TargetNamespace="http://opcfoundation.org/UA/" TargetVersion="1.04.11" TargetPublicationDate="2022-03-29T00:00:00Z" TargetXmlNamespace="http://opcfoundation.org/UA/" tns:ns="http://opcfoundation.org/UA/" uax:ns="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:tns="http://opcfoundation.org/UA/" xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
   <Namespaces>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
@@ -239,7 +239,7 @@
   </VariableType>
   <ObjectType SymbolicName="tns:DataTypeSystemType" PartNo="5" ReleaseStatus="Deprecated" BaseType="tns:BaseObjectType" />
   <ObjectType SymbolicName="tns:DataTypeEncodingType" PartNo="5" BaseType="tns:BaseObjectType" />
-  <DataType SymbolicName="tns:NamingRuleType" PartNo="3" BaseType="tns:Enumeration">
+  <DataType SymbolicName="tns:NamingRuleType" PartNo="3" ReleaseStatus="Deprecated" BaseType="tns:Enumeration">
     <Description>Describes a value that specifies the significance of the BrowseName for an instance declaration.</Description>
     <Fields>
       <Field Name="Mandatory" Identifier="1">
@@ -255,68 +255,26 @@
   </DataType>
   <ObjectType SymbolicName="tns:ModellingRuleType" PartNo="5" BaseType="tns:BaseObjectType">
     <Description>The type for an object that describes how an instance declaration is used when a type is instantiated.</Description>
-    <Children>
-      <Property SymbolicName="tns:NamingRule" DataType="tns:NamingRuleType">
-        <DefaultValue>
-          <uax:Int32>1</uax:Int32>
-        </DefaultValue>
-      </Property>
-    </Children>
   </ObjectType>
   <Object SymbolicName="tns:ModellingRule_Mandatory" PartNo="5" TypeDefinition="tns:ModellingRuleType" ModellingRule="None">
     <BrowseName>Mandatory</BrowseName>
     <Description>Specifies that an instance with the attributes and references of the instance declaration must appear when a type is instantiated.</Description>
-    <Children>
-      <Property Declaration="tns:ModellingRuleType_NamingRule">
-        <DefaultValue>
-          <uax:Int32>1</uax:Int32>
-        </DefaultValue>
-      </Property>
-    </Children>
   </Object>
   <Object SymbolicName="tns:ModellingRule_Optional" PartNo="5" TypeDefinition="tns:ModellingRuleType" ModellingRule="None">
     <BrowseName>Optional</BrowseName>
     <Description>Specifies that an instance with the attributes and references of the instance declaration may appear when a type is instantiated.</Description>
-    <Children>
-      <Property Declaration="tns:ModellingRuleType_NamingRule">
-        <DefaultValue>
-          <uax:Int32>2</uax:Int32>
-        </DefaultValue>
-      </Property>
-    </Children>
   </Object>
   <Object SymbolicName="tns:ModellingRule_ExposesItsArray" PartNo="5" TypeDefinition="tns:ModellingRuleType" ModellingRule="None">
     <BrowseName>ExposesItsArray</BrowseName>
     <Description>Specifies that an instance appears for each element of the containing array variable.</Description>
-    <Children>
-      <Property Declaration="tns:ModellingRuleType_NamingRule">
-        <DefaultValue>
-          <uax:Int32>3</uax:Int32>
-        </DefaultValue>
-      </Property>
-    </Children>
   </Object>
   <Object SymbolicName="tns:ModellingRule_OptionalPlaceholder" PartNo="5" TypeDefinition="tns:ModellingRuleType" ModellingRule="None">
     <BrowseName>OptionalPlaceholder</BrowseName>
     <Description>Specifies that zero or more instances with the attributes and references of the instance declaration may appear when a type is instantiated.</Description>
-    <Children>
-      <Property Declaration="tns:ModellingRuleType_NamingRule">
-        <DefaultValue>
-          <uax:Int32>2</uax:Int32>
-        </DefaultValue>
-      </Property>
-    </Children>
   </Object>
   <Object SymbolicName="tns:ModellingRule_MandatoryPlaceholder" PartNo="5" TypeDefinition="tns:ModellingRuleType" ModellingRule="None">
     <BrowseName>MandatoryPlaceholder</BrowseName>
     <Description>Specifies that one or more instances with the attributes and references of the instance declaration must appear when a type is instantiated.</Description>
-    <Children>
-      <Property Declaration="tns:ModellingRuleType_NamingRule">
-        <DefaultValue>
-          <uax:Int32>1</uax:Int32>
-        </DefaultValue>
-      </Property>
-    </Children>
   </Object>
   <Object SymbolicName="tns:RootFolder" PartNo="5" TypeDefinition="tns:FolderType" ModellingRule="None">
     <BrowseName>Root</BrowseName>
@@ -444,12 +402,12 @@
       </Property>
       <Property SymbolicName="tns:NamespaceVersion" DataType="tns:String">
         <DefaultValue>
-          <uax:String>1.04.10</uax:String>
+          <uax:String>1.04.11</uax:String>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:NamespacePublicationDate" DataType="tns:DateTime">
         <DefaultValue>
-          <uax:DateTime>2021-09-15T00:00:00</uax:DateTime>
+          <uax:DateTime>2022-03-29T00:00:00</uax:DateTime>
         </DefaultValue>
       </Property>
       <Property SymbolicName="tns:IsNamespaceSubset" DataType="tns:Boolean">
@@ -939,6 +897,7 @@
       <Property SymbolicName="tns:RequestedLifetime" DataType="tns:Duration">
         <Description>The lifetime of the channel requested by the client.</Description>
       </Property>
+      <Property SymbolicName="tns:CertificateErrorEventId" ModellingRule="Optional" DataType="tns:String" />
     </Children>
   </ObjectType>
   <ObjectType SymbolicName="tns:AuditSessionEventType" PartNo="5" BaseType="tns:AuditSecurityEventType" IsAbstract="true">
