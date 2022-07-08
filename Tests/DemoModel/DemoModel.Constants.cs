@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2021 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -48,42 +48,42 @@ namespace DemoModel
         /// <summary>
         /// The identifier for the HeaterStatus DataType.
         /// </summary>
-        public const uint HeaterStatus = 1;
+        public const uint HeaterStatus = 6;
 
         /// <summary>
         /// The identifier for the Vector DataType.
         /// </summary>
-        public const uint Vector = 3;
+        public const uint Vector = 8;
 
         /// <summary>
         /// The identifier for the WorkOrderStatusType DataType.
         /// </summary>
-        public const uint WorkOrderStatusType = 4;
+        public const uint WorkOrderStatusType = 9;
 
         /// <summary>
         /// The identifier for the WorkOrderType DataType.
         /// </summary>
-        public const uint WorkOrderType = 5;
+        public const uint WorkOrderType = 10;
 
         /// <summary>
         /// The identifier for the SampleUnion DataType.
         /// </summary>
-        public const uint SampleUnion = 41;
+        public const uint SampleUnion = 11;
 
         /// <summary>
         /// The identifier for the SampleStructureWithOptionalFields DataType.
         /// </summary>
-        public const uint SampleStructureWithOptionalFields = 42;
+        public const uint SampleStructureWithOptionalFields = 12;
 
         /// <summary>
         /// The identifier for the SampleUnionAllowSubtypes DataType.
         /// </summary>
-        public const uint SampleUnionAllowSubtypes = 43;
+        public const uint SampleUnionAllowSubtypes = 13;
 
         /// <summary>
         /// The identifier for the SampleStructureAllowSubtypes DataType.
         /// </summary>
-        public const uint SampleStructureAllowSubtypes = 44;
+        public const uint SampleStructureAllowSubtypes = 14;
     }
     #endregion
 
@@ -98,77 +98,77 @@ namespace DemoModel
         /// <summary>
         /// The identifier for the Signal Object.
         /// </summary>
-        public const uint Signal = 36;
+        public const uint Signal = 2;
 
         /// <summary>
         /// The identifier for the Vector_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint Vector_Encoding_DefaultBinary = 21;
+        public const uint Vector_Encoding_DefaultBinary = 15;
 
         /// <summary>
         /// The identifier for the WorkOrderStatusType_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint WorkOrderStatusType_Encoding_DefaultBinary = 22;
+        public const uint WorkOrderStatusType_Encoding_DefaultBinary = 16;
 
         /// <summary>
         /// The identifier for the WorkOrderType_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint WorkOrderType_Encoding_DefaultBinary = 23;
+        public const uint WorkOrderType_Encoding_DefaultBinary = 17;
 
         /// <summary>
         /// The identifier for the SampleUnion_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint SampleUnion_Encoding_DefaultBinary = 45;
+        public const uint SampleUnion_Encoding_DefaultBinary = 18;
 
         /// <summary>
         /// The identifier for the SampleStructureWithOptionalFields_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint SampleStructureWithOptionalFields_Encoding_DefaultBinary = 46;
+        public const uint SampleStructureWithOptionalFields_Encoding_DefaultBinary = 19;
 
         /// <summary>
         /// The identifier for the SampleUnionAllowSubtypes_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint SampleUnionAllowSubtypes_Encoding_DefaultBinary = 47;
+        public const uint SampleUnionAllowSubtypes_Encoding_DefaultBinary = 20;
 
         /// <summary>
         /// The identifier for the SampleStructureAllowSubtypes_Encoding_DefaultBinary Object.
         /// </summary>
-        public const uint SampleStructureAllowSubtypes_Encoding_DefaultBinary = 48;
+        public const uint SampleStructureAllowSubtypes_Encoding_DefaultBinary = 21;
 
         /// <summary>
         /// The identifier for the Vector_Encoding_DefaultXml Object.
         /// </summary>
-        public const uint Vector_Encoding_DefaultXml = 6;
+        public const uint Vector_Encoding_DefaultXml = 47;
 
         /// <summary>
         /// The identifier for the WorkOrderStatusType_Encoding_DefaultXml Object.
         /// </summary>
-        public const uint WorkOrderStatusType_Encoding_DefaultXml = 7;
+        public const uint WorkOrderStatusType_Encoding_DefaultXml = 48;
 
         /// <summary>
         /// The identifier for the WorkOrderType_Encoding_DefaultXml Object.
         /// </summary>
-        public const uint WorkOrderType_Encoding_DefaultXml = 8;
+        public const uint WorkOrderType_Encoding_DefaultXml = 49;
 
         /// <summary>
         /// The identifier for the SampleUnion_Encoding_DefaultXml Object.
         /// </summary>
-        public const uint SampleUnion_Encoding_DefaultXml = 62;
+        public const uint SampleUnion_Encoding_DefaultXml = 50;
 
         /// <summary>
         /// The identifier for the SampleStructureWithOptionalFields_Encoding_DefaultXml Object.
         /// </summary>
-        public const uint SampleStructureWithOptionalFields_Encoding_DefaultXml = 63;
+        public const uint SampleStructureWithOptionalFields_Encoding_DefaultXml = 51;
 
         /// <summary>
         /// The identifier for the SampleUnionAllowSubtypes_Encoding_DefaultXml Object.
         /// </summary>
-        public const uint SampleUnionAllowSubtypes_Encoding_DefaultXml = 64;
+        public const uint SampleUnionAllowSubtypes_Encoding_DefaultXml = 52;
 
         /// <summary>
         /// The identifier for the SampleStructureAllowSubtypes_Encoding_DefaultXml Object.
         /// </summary>
-        public const uint SampleStructureAllowSubtypes_Encoding_DefaultXml = 65;
+        public const uint SampleStructureAllowSubtypes_Encoding_DefaultXml = 53;
 
         /// <summary>
         /// The identifier for the Vector_Encoding_DefaultJson Object.
@@ -218,102 +218,102 @@ namespace DemoModel
         /// <summary>
         /// The identifier for the Signal_Red Variable.
         /// </summary>
-        public const uint Signal_Red = 37;
+        public const uint Signal_Red = 3;
 
         /// <summary>
         /// The identifier for the Signal_Yellow Variable.
         /// </summary>
-        public const uint Signal_Yellow = 38;
+        public const uint Signal_Yellow = 4;
 
         /// <summary>
         /// The identifier for the Signal_Green Variable.
         /// </summary>
-        public const uint Signal_Green = 39;
+        public const uint Signal_Green = 5;
 
         /// <summary>
         /// The identifier for the HeaterStatus_EnumStrings Variable.
         /// </summary>
-        public const uint HeaterStatus_EnumStrings = 2;
+        public const uint HeaterStatus_EnumStrings = 7;
 
         /// <summary>
         /// The identifier for the DemoModel_BinarySchema Variable.
         /// </summary>
-        public const uint DemoModel_BinarySchema = 24;
+        public const uint DemoModel_BinarySchema = 22;
 
         /// <summary>
         /// The identifier for the DemoModel_BinarySchema_NamespaceUri Variable.
         /// </summary>
-        public const uint DemoModel_BinarySchema_NamespaceUri = 26;
+        public const uint DemoModel_BinarySchema_NamespaceUri = 24;
 
         /// <summary>
         /// The identifier for the DemoModel_BinarySchema_Deprecated Variable.
         /// </summary>
-        public const uint DemoModel_BinarySchema_Deprecated = 49;
+        public const uint DemoModel_BinarySchema_Deprecated = 25;
 
         /// <summary>
         /// The identifier for the DemoModel_BinarySchema_Vector Variable.
         /// </summary>
-        public const uint DemoModel_BinarySchema_Vector = 27;
+        public const uint DemoModel_BinarySchema_Vector = 26;
 
         /// <summary>
         /// The identifier for the DemoModel_BinarySchema_WorkOrderStatusType Variable.
         /// </summary>
-        public const uint DemoModel_BinarySchema_WorkOrderStatusType = 30;
+        public const uint DemoModel_BinarySchema_WorkOrderStatusType = 29;
 
         /// <summary>
         /// The identifier for the DemoModel_BinarySchema_WorkOrderType Variable.
         /// </summary>
-        public const uint DemoModel_BinarySchema_WorkOrderType = 33;
+        public const uint DemoModel_BinarySchema_WorkOrderType = 32;
 
         /// <summary>
         /// The identifier for the DemoModel_BinarySchema_SampleUnion Variable.
         /// </summary>
-        public const uint DemoModel_BinarySchema_SampleUnion = 50;
+        public const uint DemoModel_BinarySchema_SampleUnion = 35;
 
         /// <summary>
         /// The identifier for the DemoModel_BinarySchema_SampleStructureWithOptionalFields Variable.
         /// </summary>
-        public const uint DemoModel_BinarySchema_SampleStructureWithOptionalFields = 53;
+        public const uint DemoModel_BinarySchema_SampleStructureWithOptionalFields = 38;
 
         /// <summary>
         /// The identifier for the DemoModel_BinarySchema_SampleUnionAllowSubtypes Variable.
         /// </summary>
-        public const uint DemoModel_BinarySchema_SampleUnionAllowSubtypes = 56;
+        public const uint DemoModel_BinarySchema_SampleUnionAllowSubtypes = 41;
 
         /// <summary>
         /// The identifier for the DemoModel_BinarySchema_SampleStructureAllowSubtypes Variable.
         /// </summary>
-        public const uint DemoModel_BinarySchema_SampleStructureAllowSubtypes = 59;
+        public const uint DemoModel_BinarySchema_SampleStructureAllowSubtypes = 44;
 
         /// <summary>
         /// The identifier for the DemoModel_XmlSchema Variable.
         /// </summary>
-        public const uint DemoModel_XmlSchema = 9;
+        public const uint DemoModel_XmlSchema = 54;
 
         /// <summary>
         /// The identifier for the DemoModel_XmlSchema_NamespaceUri Variable.
         /// </summary>
-        public const uint DemoModel_XmlSchema_NamespaceUri = 11;
+        public const uint DemoModel_XmlSchema_NamespaceUri = 56;
 
         /// <summary>
         /// The identifier for the DemoModel_XmlSchema_Deprecated Variable.
         /// </summary>
-        public const uint DemoModel_XmlSchema_Deprecated = 66;
+        public const uint DemoModel_XmlSchema_Deprecated = 57;
 
         /// <summary>
         /// The identifier for the DemoModel_XmlSchema_Vector Variable.
         /// </summary>
-        public const uint DemoModel_XmlSchema_Vector = 12;
+        public const uint DemoModel_XmlSchema_Vector = 58;
 
         /// <summary>
         /// The identifier for the DemoModel_XmlSchema_WorkOrderStatusType Variable.
         /// </summary>
-        public const uint DemoModel_XmlSchema_WorkOrderStatusType = 15;
+        public const uint DemoModel_XmlSchema_WorkOrderStatusType = 61;
 
         /// <summary>
         /// The identifier for the DemoModel_XmlSchema_WorkOrderType Variable.
         /// </summary>
-        public const uint DemoModel_XmlSchema_WorkOrderType = 18;
+        public const uint DemoModel_XmlSchema_WorkOrderType = 64;
 
         /// <summary>
         /// The identifier for the DemoModel_XmlSchema_SampleUnion Variable.
@@ -348,7 +348,7 @@ namespace DemoModel
         /// <summary>
         /// The identifier for the TrafficView View.
         /// </summary>
-        public const uint TrafficView = 40;
+        public const uint TrafficView = 1;
     }
     #endregion
 
