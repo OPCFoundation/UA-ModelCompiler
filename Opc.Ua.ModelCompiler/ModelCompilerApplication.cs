@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Extensions.CommandLineUtils;
+﻿using System.Linq;
+using McMaster.Extensions.CommandLineUtils;
 using Opc.Ua;
 
 namespace ModelCompiler
@@ -381,19 +379,25 @@ namespace ModelCompiler
 
         private static List<string> GetOptionList(this CommandLineApplication application, string name)
         {
-            var option = application.Options.Find((ii) => { return ii.ShortName == name && ii.HasValue(); });
+            var option = application.Options
+                .Where(x => x.ShortName == name && x.HasValue())
+                .Select(x => x)
+                .FirstOrDefault();
 
             if (option == null)
             {
                 return new List<string>();
             }
 
-            return option.Values;
+            return new List<string>(option.Values);
         }
 
         private static string GetOption(this CommandLineApplication application, string name, string defaultValue = "")
         {
-            var option = application.Options.Find((ii) => { return ii.ShortName == name && ii.HasValue(); });
+            var option = application.Options
+                .Where(x => x.ShortName == name && x.HasValue())
+                .Select(x => x)
+                .FirstOrDefault();
 
             if (option == null)
             {
@@ -405,8 +409,10 @@ namespace ModelCompiler
 
         private static bool IsOptionSet(this CommandLineApplication application, string name, bool defaultValue = false)
         {
-            application.Options[0].HasValue();
-            var option = application.Options.Find((ii) => { return ii.ShortName == name && ii.HasValue(); });
+            var option = application.Options
+                .Where(x => x.ShortName == name && x.HasValue())
+                .Select(x => x)
+                .FirstOrDefault();
 
             if (option == null)
             {

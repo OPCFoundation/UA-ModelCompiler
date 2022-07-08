@@ -32,7 +32,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.4.367.42" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.4.369.30" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="GDS\" />
+    <Folder Include="Scheduler\" />
+    <Folder Include="Onboarding\" />
   </ItemGroup>
 
 </Project>

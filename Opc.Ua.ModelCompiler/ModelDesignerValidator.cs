@@ -2373,16 +2373,26 @@ namespace ModelCompiler
             if (node is TypeDesign)
             {
                 ImportType((TypeDesign)node);
+
+                if (node.SymbolicId.Namespace == "http://opcfoundation.org/UA/")
+                {
+                    node.Description = null;
+                }
             }
 
             if (node is InstanceDesign)
             {
                 ImportInstance((InstanceDesign)node);
-            }
 
-            if (node.SymbolicId.Namespace == "http://opcfoundation.org/UA/")
-            {
-                node.Description = null;
+                if (parent != null && parent.SymbolicId.Namespace == "http://opcfoundation.org/UA/")
+                {
+                    node.Description = null;
+                }
+
+                if (parent == null && node.SymbolicId.Namespace == "http://opcfoundation.org/UA/")
+                {
+                    node.Description = null;
+                }
             }
 
             m_nodes.Add(node.SymbolicId, node);
@@ -4948,7 +4958,7 @@ namespace ModelCompiler
             if (parent.Children != null && parent.Children.Items != null)
             {
                 bool isTypeDefinition = (parent.Parent is TypeDesign);
-                
+
                 for (int ii = 0; ii < parent.Children.Items.Length; ii++)
                 {
                     InstanceDesign instance = parent.Children.Items[ii];
@@ -4961,11 +4971,19 @@ namespace ModelCompiler
                     child.Instance = instance;
                     child.Inherited = inherited;
 
-                    if (isTypeDefinition  && !(parent is MethodDesign) && instance.OveriddenNode == null)
+                    if (isTypeDefinition && !(parent is MethodDesign))
                     {
-                        child.AdHocInstance = true;
-                    }
+                        if (instance.OveriddenNode == null)
+                        {
+                            child.AdHocInstance = true;
+                        }
 
+                        if (instance.ModellingRule == ModellingRule.None && instance is VariableDesign && instance.OveriddenNode != null)
+                        {
+                            child.StaticValue = true;
+                        }
+                    }
+                     
                     nodes.Add(child);
 
                     BuildInstanceHierarchy2(instance, browsePath, nodes, references, inherited);
@@ -5269,6 +5287,7 @@ namespace ModelCompiler
                 else
                 {
                     UpdateMergedInstance((InstanceDesign)mergedNode.Instance, node.Instance);
+                    mergedNode.StaticValue = node.StaticValue;
                 }
 
                 if (mergedNode.OverriddenNodes == null)
@@ -5689,6 +5708,10 @@ namespace ModelCompiler
                             state.AddChild(child);
                         }
                         else if (current.ExplicitlyDefined && (child.ModellingRuleId == ObjectIds.ModellingRule_ExposesItsArray || child.ModellingRuleId == ObjectIds.ModellingRule_OptionalPlaceholder || child.ModellingRuleId == ObjectIds.ModellingRule_MandatoryPlaceholder))
+                        {
+                            state.AddChild(child);
+                        }
+                        else if (current.StaticValue && !current.Inherited)
                         {
                             state.AddChild(child);
                         }

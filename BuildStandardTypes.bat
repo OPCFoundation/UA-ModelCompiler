@@ -2,7 +2,7 @@
 SETLOCAL
 
 set ROOT=%~dp0
-set MODELCOMPILER=%ROOT%build\bin\Release\net5.0\Opc.Ua.ModelCompiler.exe
+set MODELCOMPILER=%ROOT%build\bin\Release\net6.0\Opc.Ua.ModelCompiler.exe
 set OUTPUT=%ROOT%..\nodesets
 set INPUT=%ROOT%Opc.Ua.ModelCompiler\Design
 set CSVINPUT=%ROOT%Opc.Ua.ModelCompiler\CSVs
@@ -25,7 +25,9 @@ set DI_TARGET=
 set ADI_TARGET=
 set NODESET_TARGET=.\Tests\NodeSetTest
 set DEMOMODEL_TARGET=.\Tests\DemoModel
-set PROVISIONING_TARGET=.\Tests\Provisioning\
+set ONBOARDING_TARGET=.\Tests\DemoModel\Onboarding\
+set GDS_TARGET=.\Tests\DemoModel\GDS\
+set SCHEDULER_TARGET=.\Tests\DemoModel\Scheduler\
 
 REM Make sure that all of our output locations exist.
 IF NOT EXIST %MODELCOMPILER% GOTO noModelCompiler
@@ -40,18 +42,20 @@ set MODELVERSION=
 REM Set overrides for older versions. set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
 IF "%1"=="v105" (
 	set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
-	set MODELVERSION=-mv 1.05.01 -pd 2022-02-25
+	set MODELVERSION=-mv 1.05.01 -pd 2021-11-18
 	set USEALLOWSUBTYPES=
 )
 
 IF "%1"=="v104" (
+	set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
 	set USEALLOWSUBTYPES=
-	set MODELVERSION=-mv 1.04.11-RC -pd 2021-11-25
+	set MODELVERSION=-mv 1.04.11 -pd 2022-03-29
 )
 
 IF "%1"=="v103" (
 	set USEALLOWSUBTYPES=
 	set CSVINPUT=%INPUT%
+	set MODELVERSION=-mv 1.03.9 -pd 2022-03-29
 )
 
 IF NOT "%3"=="" GOTO skipcore
@@ -59,7 +63,7 @@ IF NOT "%3"=="" GOTO skipcore
 SET MODELNAME="CORE"
 ECHO Building Model %MODELNAME%
 ECHO %MODELCOMPILER% compile -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\\" -stack "%OUTPUT%\DotNet\\" -ansic "%OUTPUT%\AnsiC\\" %USEALLOWSUBTYPES% %MODELVERSION%
-%MODELCOMPILER% compile -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\\" -stack "%OUTPUT%\DotNet\\" -ansic "%OUTPUT%\AnsiC\\" %USEALLOWSUBTYPES% %MODELVERSION%
+%MODELCOMPILER% compile -rc -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\\" -stack "%OUTPUT%\DotNet\\" -ansic "%OUTPUT%\AnsiC\\" %USEALLOWSUBTYPES% %MODELVERSION%
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %MODELNAME% & EXIT /B 1 )
 
 IF EXIST %INPUT%\DemoModel.xml (
@@ -77,8 +81,9 @@ CALL UpdateLicense "%OUTPUT%\AnsiC"
 ECHO Copying CSV files to %OUTPUT%\Schema\
 ECHO ON
 TYPE "%CSVINPUT%\StandardTypes.csv" | FINDSTR /V /E Unspecified > "%OUTPUT%\Schema\NodeIds.csv"
-COPY "%CSVINPUT%\UA Attributes.csv" "%OUTPUT%\Schema\AttributeIds.csv"
-COPY "%CSVINPUT%\UA ServerCapabilities.csv" "%OUTPUT%\Schema\ServerCapabilities.csv"
+COPY "%CSVINPUT%\Attributes.csv" "%OUTPUT%\Schema\AttributeIds.csv"
+COPY "%CSVINPUT%\ServerCapabilities.csv" "%OUTPUT%\Schema\ServerCapabilities.csv"
+COPY "%CSVINPUT%\AggregateExamples.csv" "%OUTPUT%\Schema\AggregateExamples.csv"
 COPY "%OUTPUT%\DotNet\Opc.Ua.StatusCodes.csv" "%OUTPUT%\Schema\StatusCode.csv"
 COPY "%SCHEMAINPUT%\UANodeSet.xsd" "%OUTPUT%\Schema\UANodeSet.xsd"
 COPY "%SCHEMAINPUT%\SecuredApplication.xsd" "%OUTPUT%\Schema\SecuredApplication.xsd"
@@ -166,9 +171,9 @@ IF "%GDS_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.NodeSet2.xml" "%DOTNET_TARGET%\Schema\Opc.Ua.Gds.NodeSet2.xml"
 	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Constants.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Gds.Constants.cs"
 	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.DataTypes.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Gds.DataTypes.cs"
-	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Classes.cs" "%GDS_TARGET%\Model\Opc.Ua.Gds.Classes.cs"
-	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.PredefinedNodes.uanodes" "%GDS_TARGET%\Model\Opc.Ua.Gds.PredefinedNodes.uanodes"
-	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.PredefinedNodes.xml" "%GDS_TARGET%\Model\Opc.Ua.Gds.PredefinedNodes.xml"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Classes.cs" "%GDS_TARGET%\Opc.Ua.Gds.Classes.cs"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.PredefinedNodes.uanodes" "%GDS_TARGET%\Opc.Ua.Gds.PredefinedNodes.uanodes"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.PredefinedNodes.xml" "%GDS_TARGET%\Opc.Ua.Gds.PredefinedNodes.xml"
 )
 :skipGDS
 
@@ -192,15 +197,34 @@ IF EXIST "%ADI_TARGET%" (
 )
 :skipADI
 
-IF NOT "%3"=="Provisioning" GOTO skipProvisioning
-CALL PublishModel OpcUaProvisioningModel Provisioning %1 %2
-CALL UpdateLicense "%OUTPUT%\Provisioning"
+IF NOT "%3"=="Onboarding" GOTO skipOnboarding
+ECHO Building Model Onboarding
+IF NOT EXIST "%OUTPUT%\Onboarding" MKDIR "%OUTPUT%\Onboarding"
+ECHO %MODELCOMPILER% compile %VERSION% %EXCLUDE% -d2 "%INPUT%\OpcUaOnboardingModel.xml" -cg "%CSVINPUT%\OpcUaOnboardingModel.csv" -o2 "%OUTPUT%\Onboarding\\" %USEALLOWSUBTYPES%
+%MODELCOMPILER% compile %VERSION% %EXCLUDE% -d2 "%INPUT%\OpcUaOnboardingModel.xml" -cg "%CSVINPUT%\OpcUaOnboardingModel.csv" -o2 "%OUTPUT%\Onboarding\\" %USEALLOWSUBTYPES%
 
-IF EXIST "%PROVISIONING_TARGET%" (
-	ECHO Copying .NET code to %PROVISIONING_TARGET%
-	COPY "%OUTPUT%\Provisioning\*.*" "%PROVISIONING_TARGET%"
+ECHO Copying Model files to %OUTPUT%
+COPY "%INPUT%\OpcUaOnboardingModel.xml" "%OUTPUT%\Onboarding\OpcUaOnboardingModel.xml"
+TYPE "%CSVINPUT%\OpcUaOnboardingModel.csv" | FINDSTR /V /E Unspecified > "%OUTPUT%\Onboarding\OpcUaOnboardingModel.csv"
+DEL /f /q "%OUTPUT%\Onboarding\*NodeSet.xml"
+
+CALL UpdateLicense "%OUTPUT%\Onboarding"
+
+IF EXIST "%ONBOARDING_TARGET%" (
+	ECHO Copying .NET code to %ONBOARDING_TARGET%
+	COPY "%OUTPUT%\Onboarding\*.*" "%ONBOARDING_TARGET%"
 )
-:skipProvisioning
+:skipOnboarding
+
+IF NOT "%3"=="Scheduler" GOTO skipScheduler
+CALL PublishModel OpcUaSchedulerModel Scheduler %1 %2
+CALL UpdateLicense "%OUTPUT%\Scheduler"
+
+IF EXIST "%SCHEDULER_TARGET%" (
+	ECHO Copying .NET code to %SCHEDULER_TARGET%
+	COPY "%OUTPUT%\Scheduler\*.*" "%SCHEDULER_TARGET%"
+)
+:skipScheduler 
 
 IF NOT "%3"=="NodeSet" GOTO skipNodeSet
 CALL PublishModel OpcUaNodeSetModel NodeSet %1 %2

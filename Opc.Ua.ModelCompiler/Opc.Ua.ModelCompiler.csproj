@@ -271,14 +271,10 @@
     <EmbeddedResource Include="CSVs\OpcUaGdsModel.csv" />
     <EmbeddedResource Include="CSVs\OpcUaNodeSetModel.csv" />
     <EmbeddedResource Include="CSVs\OpcUaPLCopenModel.csv" />
-    <EmbeddedResource Include="CSVs\OpcUaProvisioningModel.csv" />
     <EmbeddedResource Include="CSVs\rec20_latest_a1.csv" />
     <EmbeddedResource Include="CSVs\rec20_latest_a2-3.csv" />
     <EmbeddedResource Include="CSVs\SercosModel.csv" />
     <EmbeddedResource Include="CSVs\StandardTypes.csv" />
-    <EmbeddedResource Include="CSVs\UA Attributes.csv" />
-    <EmbeddedResource Include="CSVs\UA ServerCapabilities.csv" />
-    <EmbeddedResource Include="CSVs\UA Status Codes.csv" />
     <EmbeddedResource Include="CSVs\UNECE_to_OPCUA.csv" />
     <EmbeddedResource Include="Design.v103\BuiltInTypes.xml" />
     <EmbeddedResource Include="Design.v103\MDIS.xml" />
@@ -477,8 +473,8 @@
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="27.2.1" />
-    <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.4.368.58" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.0.1" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.4.369.30" />
   </ItemGroup>
 
 </Project>

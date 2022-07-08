@@ -1,13 +1,13 @@
 ﻿using ModelCompiler;
-using Microsoft.Extensions.CommandLineUtils;
+using McMaster.Extensions.CommandLineUtils;
 
 try
 {
     for (int ii = 0; ii < args.Length; ii++)
-    {;
+    {
         args[ii] = args[ii].Replace("\n", "\\n");
-
     }
+
     ModelCompilerApplication.Run(args);
 }
 catch (CommandParsingException e)

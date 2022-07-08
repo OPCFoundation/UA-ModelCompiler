@@ -109,6 +109,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="CSVs\Attributes.csv" />
     <None Remove="CSVs\DemoModel.csv" />
     <None Remove="CSVs\MDIS.csv" />
     <None Remove="CSVs\MTConnectModel.csv" />
@@ -124,10 +125,9 @@
     <None Remove="CSVs\rec20_latest_a2-3.csv" />
     <None Remove="CSVs\rec20_Rev15e-2020.xls" />
     <None Remove="CSVs\SercosModel.csv" />
+    <None Remove="CSVs\ServerCapabilities.csv" />
     <None Remove="CSVs\StandardTypes.csv" />
-    <None Remove="CSVs\UA Attributes.csv" />
-    <None Remove="CSVs\UA ServerCapabilities.csv" />
-    <None Remove="CSVs\UA Status Codes.csv" />
+    <None Remove="CSVs\Status Codes.csv" />
     <None Remove="CSVs\UNECE_to_OPCUA.csv" />
     <None Remove="Design.v103\BuiltInTypes.xml" />
     <None Remove="Design.v103\MDIS.xml" />
@@ -271,14 +271,13 @@
     <EmbeddedResource Include="CSVs\OpcUaGdsModel.csv" />
     <EmbeddedResource Include="CSVs\OpcUaNodeSetModel.csv" />
     <EmbeddedResource Include="CSVs\OpcUaPLCopenModel.csv" />
-    <EmbeddedResource Include="CSVs\OpcUaProvisioningModel.csv" />
     <EmbeddedResource Include="CSVs\rec20_latest_a1.csv" />
     <EmbeddedResource Include="CSVs\rec20_latest_a2-3.csv" />
     <EmbeddedResource Include="CSVs\SercosModel.csv" />
     <EmbeddedResource Include="CSVs\StandardTypes.csv" />
-    <EmbeddedResource Include="CSVs\UA Attributes.csv" />
-    <EmbeddedResource Include="CSVs\UA ServerCapabilities.csv" />
-    <EmbeddedResource Include="CSVs\UA Status Codes.csv" />
+    <EmbeddedResource Include="CSVs\Attributes.csv" />
+    <EmbeddedResource Include="CSVs\ServerCapabilities.csv" />
+    <EmbeddedResource Include="CSVs\Status Codes.csv" />
     <EmbeddedResource Include="CSVs\UNECE_to_OPCUA.csv" />
     <EmbeddedResource Include="Design.v103\BuiltInTypes.xml" />
     <EmbeddedResource Include="Design.v103\MDIS.xml" />
@@ -477,7 +476,7 @@
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="27.2.1" />
-    <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>
