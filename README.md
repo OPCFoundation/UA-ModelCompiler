@@ -37,7 +37,9 @@ Please clone this repository as shown:
 ```
 git clone https://github.com/OPCFoundation/UA-ModelCompiler
 ```
-The are submodules which non-members will not have access to which will give errors of the recursive flag is specified. The 'ModelCompiler Solution.sln' solution does not require these submodules.
+There are submodules which non-members will not have access to if the --recursive flag is specified. 
+
+The 'ModelCompiler Solution.sln' solution does not require these submodules.
 
 This repository is not updated directly. All changes are first made in a member-only version that can be found [here](https://github.com/OPCF-Members/UA-ModelCompiler).
 
