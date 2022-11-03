@@ -132,7 +132,7 @@ docker run -v %CD%:/data --rm ghcr.io/opcfoundation/ua-modelcompiler:latest comp
 The tool can also automatically find all NodeSet dependencies if it is run from a directory with all necessary NodeSets (i.e. [UA-Nodeset](https://github.com/OPCFoundation/UA-Nodeset)). The command to run from the nodeset directory is:
 
 ```
-run -v %CD%:/nodesets --rm ghcr.io/opcf-members/ua-modelcompiler:latest compile-nodesets -input /nodesets -o2 /nodesets/generated -uri http://opcfoundation.org/UA/Machinery/ -uri http://opcfoundation.org/UA/DI/
+run -v %CD%:/nodesets --rm ghcr.io/opcfoundation/ua-modelcompiler:latest compile-nodesets -input /nodesets -o2 /nodesets/generated -uri http://opcfoundation.org/UA/Machinery/ -uri http://opcfoundation.org/UA/DI/
 ```
 
 The docker image can be rebuilt from source with this command:
