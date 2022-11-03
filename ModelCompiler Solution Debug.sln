@@ -13,11 +13,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		BuildEngineeringUnits.bat = BuildEngineeringUnits.bat
 		BuildStandardTypes.bat = BuildStandardTypes.bat
-		PublishModel.bat = PublishModel.bat
+		CompileNodeSets.bat = CompileNodeSets.bat
+		TestNodeSets.bat = TestNodeSets.bat
 		UpdateLicense.bat = UpdateLicense.bat
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoModel", "Tests\DemoModel\DemoModel.csproj", "{3026C8C1-4D22-4084-9291-5667F28589A5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schemas", "Schemas", "{73283DC9-2FF0-4A6A-999F-85F6BEF7F29A}"
+	ProjectSection(SolutionItems) = preProject
+		Schemas\OPCBinarySchema.xsd = Schemas\OPCBinarySchema.xsd
+		Schemas\SecuredApplication.xsd = Schemas\SecuredApplication.xsd
+		Schemas\ServerCapabilities.csv = Schemas\ServerCapabilities.csv
+		Schemas\UANodeSet.xsd = Schemas\UANodeSet.xsd
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Opc.Ua.Server", "Stack\Libraries\Opc.Ua.Server\Opc.Ua.Server.csproj", "{246DB0BA-8D41-4794-ADDE-CEFF56CDA039}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoModel.Debug", "Tests\DemoModel\DemoModel.Debug.csproj", "{1324C0F9-4927-4D4E-A499-B42FD8ABD690}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Opc.Ua.Configuration", "..\UA-ModelCompiler\Stack\Libraries\Opc.Ua.Configuration\Opc.Ua.Configuration.csproj", "{F35E795C-2F63-4692-B0E2-BCBCB1068643}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +50,18 @@ Global
 		{5FCD3D0D-81ED-4AFE-AE4E-0F9B6F2B3E71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FCD3D0D-81ED-4AFE-AE4E-0F9B6F2B3E71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FCD3D0D-81ED-4AFE-AE4E-0F9B6F2B3E71}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3026C8C1-4D22-4084-9291-5667F28589A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3026C8C1-4D22-4084-9291-5667F28589A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3026C8C1-4D22-4084-9291-5667F28589A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3026C8C1-4D22-4084-9291-5667F28589A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{246DB0BA-8D41-4794-ADDE-CEFF56CDA039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{246DB0BA-8D41-4794-ADDE-CEFF56CDA039}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{246DB0BA-8D41-4794-ADDE-CEFF56CDA039}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{246DB0BA-8D41-4794-ADDE-CEFF56CDA039}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1324C0F9-4927-4D4E-A499-B42FD8ABD690}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1324C0F9-4927-4D4E-A499-B42FD8ABD690}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1324C0F9-4927-4D4E-A499-B42FD8ABD690}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1324C0F9-4927-4D4E-A499-B42FD8ABD690}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F35E795C-2F63-4692-B0E2-BCBCB1068643}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F35E795C-2F63-4692-B0E2-BCBCB1068643}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F35E795C-2F63-4692-B0E2-BCBCB1068643}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F35E795C-2F63-4692-B0E2-BCBCB1068643}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

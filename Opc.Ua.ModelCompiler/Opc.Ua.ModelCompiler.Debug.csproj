@@ -8,7 +8,7 @@
     <IntermediateOutputPath>$(SolutionDir)build\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <AssemblyName>Opc.Ua.ModelCompiler</AssemblyName>
     <RootNamespace>ModelCompiler</RootNamespace>
-    <VersionSuffix>2.0.$([System.DateTime]::UtcNow.ToString(yyMM)).$([System.DateTime]::UtcNow.ToString(ddmm))</VersionSuffix>
+    <VersionSuffix>2.2.$([System.DateTime]::UtcNow.ToString(yyMM)).$([System.DateTime]::UtcNow.ToString(ddmm))</VersionSuffix>
     <AssemblyVersion Condition=" '$(VersionSuffix)' == '' ">0.0.0.1</AssemblyVersion>
     <AssemblyVersion Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</AssemblyVersion>
     <Version Condition=" '$(VersionSuffix)' == '' ">0.0.1.0</Version>
@@ -30,6 +30,7 @@
     <Compile Remove="ExceptionDlg.Designer.cs" />
     <Compile Remove="MainForm.cs" />
     <Compile Remove="MainForm.Designer.cs" />
+    <Compile Remove="ModelDesignerValidator - Copy.cs" />
     <Compile Remove="StackGenerator\DataTypes\Templates\Constants\Constant.cs" />
     <Compile Remove="StackGenerator\DataTypes\Templates\Constants\DataTypes.cs" />
     <Compile Remove="StackGenerator\DataTypes\Templates\Constants\Encodings.cs" />
@@ -50,6 +51,7 @@
     <Compile Remove="StackGenerator\DotNet\Templates\Classes\PropertyArray.cs" />
     <Compile Remove="StackGenerator\DotNet\Templates\Classes\Service.cs" />
     <Compile Remove="StackGenerator\DotNet\Templates\ClientApi\File.cs" />
+    <Compile Remove="StackGenerator\DotNet\Templates\ClientApi\Interface.cs" />
     <Compile Remove="StackGenerator\DotNet\Templates\ClientApi\Method.cs" />
     <Compile Remove="StackGenerator\DotNet\Templates\ClientApi\ServiceSet.cs" />
     <Compile Remove="StackGenerator\DotNet\Templates\Endpoints\File.cs" />
@@ -75,11 +77,13 @@
     <Compile Remove="Templates\Version2\CreateVariableChild.cs" />
     <Compile Remove="Templates\Version2\DataTypes\ArrayProperty.cs" />
     <Compile Remove="Templates\Version2\DataTypes\Class.cs" />
+    <Compile Remove="Templates\Version2\DataTypes\ClassWithOptionalFIelds.cs" />
     <Compile Remove="Templates\Version2\DataTypes\CollectionClass.cs" />
     <Compile Remove="Templates\Version2\DataTypes\DerivedClass.cs" />
     <Compile Remove="Templates\Version2\DataTypes\Enumeration.cs" />
     <Compile Remove="Templates\Version2\DataTypes\EnumerationValue.cs" />
     <Compile Remove="Templates\Version2\DataTypes\Property.cs" />
+    <Compile Remove="Templates\Version2\DataTypes\Union.cs" />
     <Compile Remove="Templates\Version2\File.cs" />
     <Compile Remove="Templates\Version2\FindChildCase.cs" />
     <Compile Remove="Templates\Version2\FindChildMethods.cs" />
@@ -146,7 +150,6 @@
     <None Remove="Design.v103\UA Attributes.csv" />
     <None Remove="Design.v103\UA Attributes.xml" />
     <None Remove="Design.v103\UA Core Services.xml" />
-    <None Remove="Design.v103\UA Defined Types.xml" />
     <None Remove="Design.v103\UA ServerCapabilities.csv" />
     <None Remove="Design.v103\UA Status Codes.csv" />
     <None Remove="Design.v103\UA Status Codes.xml" />
@@ -164,7 +167,6 @@
     <None Remove="Design.v104\StandardTypes.xml" />
     <None Remove="Design.v104\UA Attributes.xml" />
     <None Remove="Design.v104\UA Core Services.xml" />
-    <None Remove="Design.v104\UA Defined Types.xml" />
     <None Remove="Design.v104\UA Status Codes.xml" />
     <None Remove="Design.v105\BuiltInTypes.xml" />
     <None Remove="Design.v105\DemoModel.xml" />
@@ -175,7 +177,6 @@
     <None Remove="Design.v105\StandardTypes.xml" />
     <None Remove="Design.v105\UA Attributes.xml" />
     <None Remove="Design.v105\UA Core Services.xml" />
-    <None Remove="Design.v105\UA Defined Types.xml" />
     <None Remove="Design.v105\UA Status Codes.xml" />
     <None Remove="License\NONE.txt" />
     <None Remove="License\UA_MIT.txt" />
@@ -271,6 +272,7 @@
     <EmbeddedResource Include="CSVs\OpcUaGdsModel.csv" />
     <EmbeddedResource Include="CSVs\OpcUaNodeSetModel.csv" />
     <EmbeddedResource Include="CSVs\OpcUaPLCopenModel.csv" />
+    <EmbeddedResource Include="CSVs\OpcUaProvisioningModel.csv" />
     <EmbeddedResource Include="CSVs\rec20_latest_a1.csv" />
     <EmbeddedResource Include="CSVs\rec20_latest_a2-3.csv" />
     <EmbeddedResource Include="CSVs\SercosModel.csv" />
@@ -296,7 +298,6 @@
     <EmbeddedResource Include="Design.v103\UA Attributes.csv" />
     <EmbeddedResource Include="Design.v103\UA Attributes.xml" />
     <EmbeddedResource Include="Design.v103\UA Core Services.xml" />
-    <EmbeddedResource Include="Design.v103\UA Defined Types.xml" />
     <EmbeddedResource Include="Design.v103\UA ServerCapabilities.csv" />
     <EmbeddedResource Include="Design.v103\UA Status Codes.csv" />
     <EmbeddedResource Include="Design.v103\UA Status Codes.xml" />
@@ -314,7 +315,6 @@
     <EmbeddedResource Include="Design.v104\StandardTypes.xml" />
     <EmbeddedResource Include="Design.v104\UA Attributes.xml" />
     <EmbeddedResource Include="Design.v104\UA Core Services.xml" />
-    <EmbeddedResource Include="Design.v104\UA Defined Types.xml" />
     <EmbeddedResource Include="Design.v104\UA Status Codes.xml" />
     <EmbeddedResource Include="Design.v105\BuiltInTypes.xml" />
     <EmbeddedResource Include="Design.v105\DemoModel.xml" />
@@ -324,7 +324,6 @@
     <EmbeddedResource Include="Design.v105\StandardTypes.xml" />
     <EmbeddedResource Include="Design.v105\UA Attributes.xml" />
     <EmbeddedResource Include="Design.v105\UA Core Services.xml" />
-    <EmbeddedResource Include="Design.v105\UA Defined Types.xml" />
     <EmbeddedResource Include="Design.v105\UA Status Codes.xml" />
     <EmbeddedResource Include="License\NONE.txt" />
     <EmbeddedResource Include="License\UA_MIT.txt" />
@@ -359,8 +358,6 @@
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Constant.h" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\DataTypes.cs" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\DataTypes.h" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Encodings.cs" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Encodings.h" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.cs" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.csv" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.h" />
@@ -397,6 +394,7 @@
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\Classes\PropertyArray.cs" />
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\Classes\Service.cs" />
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\ClientApi\File.cs" />
+    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ClientApi\Interface.cs" />
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\ClientApi\Method.cs" />
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\ClientApi\ServiceSet.cs" />
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\Endpoints\File.cs" />
@@ -433,9 +431,9 @@
     <EmbeddedResource Include="Templates\Types\NamespaceUri.cs" />
     <EmbeddedResource Include="Templates\Version2\BrowseName.cs" />
     <EmbeddedResource Include="Templates\Version2\ConstantsFile.cs" />
-    <EmbeddedResource Include="Templates\Version2\CreateObjectChild.cs" />
-    <EmbeddedResource Include="Templates\Version2\CreateVariableChild.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\ArrayProperty.cs" />
+    <EmbeddedResource Include="Templates\Version2\DataTypes\ClassWithOptionalFields.cs" />
+    <EmbeddedResource Include="Templates\Version2\DataTypes\Union.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\Class.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\CollectionClass.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\DerivedClass.cs" />
@@ -449,7 +447,6 @@
     <EmbeddedResource Include="Templates\Version2\IdClass.cs" />
     <EmbeddedResource Include="Templates\Version2\IdDeclaration.cs" />
     <EmbeddedResource Include="Templates\Version2\InitializeOptionalChild.cs" />
-    <EmbeddedResource Include="Templates\Version2\MandatoryChild.cs" />
     <EmbeddedResource Include="Templates\Version2\MethodType.cs" />
     <EmbeddedResource Include="Templates\Version2\NamespaceUri.cs" />
     <EmbeddedResource Include="Templates\Version2\NodeIdClass.cs" />
@@ -475,7 +472,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="27.2.1" />
+    <PackageReference Include="CsvHelper" Version="30.0.0" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.0.1" />
   </ItemGroup>
 

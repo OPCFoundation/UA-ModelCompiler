@@ -6,8 +6,8 @@
   xmlns="http://opcfoundation.org/UA/Core/" 
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" 
   TargetNamespace="http://opcfoundation.org/UA/Core/" 
-  TargetVersion="1.05.01" 
-  TargetPublicationDate="2021-11-18T00:00:00Z" 
+  TargetVersion="1.05.02" 
+  TargetPublicationDate="2022-06-28T00:00:00Z" 
   xmlns:opc="http://opcfoundation.org/UA/TypeDictionary/"
 >
   <opc:Import Namespace="http://opcfoundation.org/UA/BuiltInTypes/" />
@@ -91,8 +91,8 @@
     <opc:Value Name="NonatomicWrite" BitMask="000200" />
     <opc:Value Name="WriteFullArrayOnly" BitMask="000400" />
     <opc:Value Name="NoSubDataTypes" BitMask="000800" />
-    <opc:Value Name="NonVolatile" BitMask="001000" ReleaseStatus="Draft" />
-    <opc:Value Name="Constant" BitMask="002000" ReleaseStatus="Draft" />
+    <opc:Value Name="NonVolatile" BitMask="001000" />
+    <opc:Value Name="Constant" BitMask="002000" />
   </opc:EnumeratedType>
 
   <opc:EnumeratedType Name="EventNotifierType" PartNo="3" IsOptionSet="true" BaseType="s0:Byte">

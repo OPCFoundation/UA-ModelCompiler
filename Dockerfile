@@ -1,17 +1,16 @@
-FROM mono:latest
-ADD . /tmp/app-build
-WORKDIR /tmp/app-build
-ADD https://dist.nuget.org/win-x86-commandline/latest/nuget.exe /tmp/app-build/nuget.exe
-RUN mono nuget.exe install -OutputDirectory packages ModelCompiler/packages.config
-RUN msbuild "ModelCompiler Solution.sln" /t:Restore /t:Build /p:Configuration=Release
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /source
 
-# Only keep the compiled files
-RUN mv /tmp/app-build/Bin/Release /app
-# Copy the necessary design files used by the model compiler
-RUN mv /tmp/app-build/ModelCompiler/Design* /app
-RUN mv /tmp/app-build/PublishModel.* /app
+# copy csproj and restore as distinct layers
+COPY . .
+RUN dotnet restore "ModelCompiler Solution.sln"
 
+# copy and publish app and libraries
+COPY . .
+RUN dotnet publish "ModelCompiler Solution.sln" -f net6.0 -c Release -o /app 
+
+# final stage/image
+FROM mcr.microsoft.com/dotnet/runtime:6.0
 WORKDIR /app
-RUN rm -rf /tmp/app-build
-
-ENTRYPOINT ["mono", "/app/Opc.Ua.ModelCompiler.exe"]
+COPY --from=build /app .
+ENTRYPOINT ["dotnet", "/app/Opc.Ua.ModelCompiler.dll"]

@@ -1,9 +1,7 @@
 public class _ClassName_Value {
 // ***START***
 #region _ChildName_ Access Methods
-/// <summary>
-/// Reads the value of the variable child.
-/// </summary>
+/// <remarks />
 private ServiceResult OnRead__ChildName_(
     ISystemContext context,
     NodeState node,
@@ -26,9 +24,7 @@ private ServiceResult OnRead__ChildName_(
     }
 }
 
-/// <summary>
-/// Writes the value of the variable child.
-/// </summary>
+/// <remarks />
 private ServiceResult OnWrite__ChildName_(ISystemContext context, NodeState node, ref object value)
 {
     lock (Lock)

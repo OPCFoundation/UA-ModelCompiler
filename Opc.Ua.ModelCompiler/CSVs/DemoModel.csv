@@ -83,3 +83,10 @@ SampleUnion_Encoding_DefaultJson,82,Object
 SampleStructureWithOptionalFields_Encoding_DefaultJson,83,Object
 SampleUnionAllowSubtypes_Encoding_DefaultJson,84,Object
 SampleStructureAllowSubtypes_Encoding_DefaultJson,85,Object
+ProgramArrayType,86,Unspecified
+ProgramArrayType_Program,87,Unspecified
+ProgramArrayType_Program_Id,88,Unspecified
+ProgramArrayType_Program_Name,89,Unspecified
+ProgramType,90,Unspecified
+ProgramType_Id,91,Unspecified
+ProgramType_Name,92,Unspecified

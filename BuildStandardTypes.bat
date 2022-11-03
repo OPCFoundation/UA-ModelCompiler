@@ -19,12 +19,12 @@ IF EXIST "%INPUT%\Schemas" (
 )
 
 set ANSIC_TARGET=
-set DOTNET_TARGET=
+set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
 set GDS_TARGET=
 set DI_TARGET=
 set ADI_TARGET=
 set NODESET_TARGET=.\Tests\NodeSetTest
-set DEMOMODEL_TARGET=.\Tests\DemoModel
+set DEMOMODEL_TARGET=.\Tests\DemoModel\DemoModel\
 set ONBOARDING_TARGET=.\Tests\DemoModel\Onboarding\
 set GDS_TARGET=.\Tests\DemoModel\GDS\
 set SCHEDULER_TARGET=.\Tests\DemoModel\Scheduler\
@@ -42,7 +42,7 @@ set MODELVERSION=
 REM Set overrides for older versions. set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
 IF "%1"=="v105" (
 	set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
-	set MODELVERSION=-mv 1.05.01 -pd 2021-11-18
+	set MODELVERSION=-mv 1.05.02 -pd 2022-11-01
 	set USEALLOWSUBTYPES=
 )
 
@@ -200,8 +200,8 @@ IF EXIST "%ADI_TARGET%" (
 IF NOT "%3"=="Onboarding" GOTO skipOnboarding
 ECHO Building Model Onboarding
 IF NOT EXIST "%OUTPUT%\Onboarding" MKDIR "%OUTPUT%\Onboarding"
-ECHO %MODELCOMPILER% compile %VERSION% %EXCLUDE% -d2 "%INPUT%\OpcUaOnboardingModel.xml" -cg "%CSVINPUT%\OpcUaOnboardingModel.csv" -o2 "%OUTPUT%\Onboarding\\" %USEALLOWSUBTYPES%
-%MODELCOMPILER% compile %VERSION% %EXCLUDE% -d2 "%INPUT%\OpcUaOnboardingModel.xml" -cg "%CSVINPUT%\OpcUaOnboardingModel.csv" -o2 "%OUTPUT%\Onboarding\\" %USEALLOWSUBTYPES%
+ECHO %MODELCOMPILER% compile %VERSION% %EXCLUDE% -d2 "%INPUT%\OpcUaOnboardingModel.xml" -d2 "%INPUT%\OpcUaGdsModel.xml" -c "%CSVINPUT%\OpcUaOnboardingModel.csv" -o2 "%OUTPUT%\Onboarding\\" %USEALLOWSUBTYPES%
+%MODELCOMPILER% compile %VERSION% %EXCLUDE% -d2 "%INPUT%\OpcUaOnboardingModel.xml" -d2 "%INPUT%\OpcUaGdsModel.xml" -c "%CSVINPUT%\OpcUaOnboardingModel.csv" -o2 "%OUTPUT%\Onboarding\\" %USEALLOWSUBTYPES%
 
 ECHO Copying Model files to %OUTPUT%
 COPY "%INPUT%\OpcUaOnboardingModel.xml" "%OUTPUT%\Onboarding\OpcUaOnboardingModel.xml"

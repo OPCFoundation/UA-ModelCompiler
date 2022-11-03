@@ -1,31 +1,22 @@
 #region _TypeName_State Class
-/// <summary>
-/// Stores the _BrowseName_ _NodeClass_.
-/// </summary>
+/// <remarks />
+/// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 public partial class _TypeName_State : _BaseType_State<BaseT>
 {
     #region Constructors
-    /// <summary>
-    /// Initializes the type with its default attribute values.
-    /// </summary>
+    /// <remarks />
     public _TypeName_State()
     {
     }
 
-    /// <summary>
-    /// Constructs an instance of a node.
-    /// </summary>
-    /// <param name="parent">The parent.</param>
-    /// <returns>The new node.</returns>
+    /// <remarks />
     public new static NodeState Construct(NodeState parent)
     {
         return new _TypeName_State();
     }
 
-    /// <summary>
-    /// Initializes the type.
-    /// </summary>
+    /// <remarks />
     public override void Initialize(ISystemContext context)
     {
         base.Initialize(context);
@@ -43,9 +34,7 @@ public partial class _TypeName_State : _BaseType_State<BaseT>
     #endregion
 
     #region Overridden Methods
-    /// <summary>
-    /// Constructs a instance of the type.
-    /// </summary>
+    /// <remarks />
     public override BaseInstanceState CreateInstance(NodeState parent)
     {
         return new _ClassName_State(parent);
@@ -62,33 +51,25 @@ public partial class _TypeName_State : _BaseType_State<BaseT>
 // ***START***
 #region _ClassName_State Class
 #if (!OPCUA_EXCLUDE__ClassName_State)
-/// <summary>
-/// Stores an instance of the _BrowseName_ _NodeClass_.
-/// </summary>
+/// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 public partial class _ClassName_State : _BaseClassName_State<BaseT>
 {
     #region Constructors
-    /// <summary>
-    /// Initializes the type with its default attribute values.
-    /// </summary>
+    /// <remarks />
     public _ClassName_State(NodeState parent) : base(parent)
     {
     }
 
-    /// <summary>
-    /// Returns the id of the default type definition node for the instance.
-    /// </summary>
+    /// <remarks />
     protected override NodeId GetDefaultTypeDefinitionId(NamespaceTable namespaceUris)
     {
         return Opc.Ua.NodeId.Create(_NamespacePrefix_.ObjectTypes._TypeName_, _NamespaceUri_, namespaceUris);
     }
 
     #if (!OPCUA_EXCLUDE_InitializationStrings)
-    /// <summary>
-    /// Initializes the instance.
-    /// </summary>
+    /// <remarks />
     protected override void Initialize(ISystemContext context)
     {
         base.Initialize(context);
@@ -96,18 +77,14 @@ public partial class _ClassName_State : _BaseClassName_State<BaseT>
         InitializeOptionalChildren(context);
     }
 
-    /// <summary>
-    /// Initializes the instance with a node.
-    /// </summary>
+    /// <remarks />
     protected override void Initialize(ISystemContext context, NodeState source)
     {
         InitializeOptionalChildren(context);
         base.Initialize(context, source);
     }
 
-    /// <summary>
-    /// Initializes the any option children defined for the instance.
-    /// </summary>
+    /// <remarks />
     protected override void InitializeOptionalChildren(ISystemContext context)
     {
         base.InitializeOptionalChildren(context);

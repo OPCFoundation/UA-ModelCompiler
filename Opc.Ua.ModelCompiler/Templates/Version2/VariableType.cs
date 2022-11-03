@@ -63,49 +63,37 @@ public partial class _TypeName_State : _BaseType_State<BaseT>
 // ***START***
 #region _ClassName_State Class
 #if (!OPCUA_EXCLUDE__ClassName_State)
-/// <summary>
-/// Stores an instance of the _BrowseName_ _NodeClass_.
-/// </summary>
+/// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 public partial class _ClassName_State : _BaseClassName_State<BaseT>
 {
     #region Constructors
-    /// <summary>
-    /// Initializes the type with its default attribute values.
-    /// </summary>
+    /// <remarks />
     public _ClassName_State(NodeState parent) : base(parent)
     {
     }
 
-    /// <summary>
-    /// Returns the id of the default type definition node for the instance.
-    /// </summary>
+    /// <remarks />
     protected override NodeId GetDefaultTypeDefinitionId(NamespaceTable namespaceUris)
     {
         return Opc.Ua.NodeId.Create(_NamespacePrefix_.VariableTypes._TypeName_, _NamespaceUri_, namespaceUris);
     }
 
-    /// <summary>
-    /// Returns the id of the default data type node for the instance.
-    /// </summary>
+    /// <remarks />
     protected override NodeId GetDefaultDataTypeId(NamespaceTable namespaceUris)
     {
         return Opc.Ua.NodeId.Create(_DataTypeNamespacePrefix_.DataTypes._DataType_, _DataTypeNamespaceUri_, namespaceUris);
     }
 
-    /// <summary>
-    /// Returns the id of the default value rank for the instance.
-    /// </summary>
+    /// <remarks />
     protected override int GetDefaultValueRank()
     {
         return _ValueRank_;
     }
 
     #if (!OPCUA_EXCLUDE_InitializationStrings)
-    /// <summary>
-    /// Initializes the instance.
-    /// </summary>
+    /// <remarks />
     protected override void Initialize(ISystemContext context)
     {
         base.Initialize(context);
@@ -113,18 +101,14 @@ public partial class _ClassName_State : _BaseClassName_State<BaseT>
         InitializeOptionalChildren(context);
     }
 
-    /// <summary>
-    /// Initializes the instance with a node.
-    /// </summary>
+    /// <remarks />
     protected override void Initialize(ISystemContext context, NodeState source)
     {
         InitializeOptionalChildren(context);
         base.Initialize(context, source);
     }
 
-    /// <summary>
-    /// Initializes the any option children defined for the instance.
-    /// </summary>
+    /// <remarks />
     protected override void InitializeOptionalChildren(ISystemContext context)
     {
         base.InitializeOptionalChildren(context);

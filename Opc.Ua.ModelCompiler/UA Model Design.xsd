@@ -226,6 +226,25 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="RolePermissions" type="ListOfRolePermissions" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <html:p>
+              The RolePermissions specify the permissions that apply to the Node. They override the DefaultRolePermissions for thr Namespace.
+              RolePermissions specified on a parent always override the RolePermissions for the children unless a child has its own RolePermissions set.
+            </html:p>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="AccessRestrictions" type="ListOfAccessRestrictions" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <html:p>
+              A comment seperated list AccessRestrictions assigned to the node. All children inheirit the AccessRestriction.
+            </html:p>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
     <xs:attribute name="SymbolicName" type="xs:QName" use="optional">
       <xs:annotation>
@@ -308,7 +327,7 @@
       <xs:annotation>
         <xs:documentation>
           <html:p>
-            A comment seperated list of categories assigned to the node (e.g. Part4/Services or Part5/StateMachines).
+            A comma seperated list of categories assigned to the node (e.g. Part4/Services or Part5/StateMachines).
           </html:p>
         </xs:documentation>
       </xs:annotation>
@@ -607,6 +626,64 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:simpleType name="AccessRestrictions">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SigningRequired" />
+      <xs:enumeration value="EncryptionRequired" />
+      <xs:enumeration value="SessionRequired" />
+      <xs:enumeration value="ApplyRestrictionsToBrowse" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:complexType name="ListOfAccessRestrictions">
+    <xs:sequence>
+      <xs:element name="AccessRestriction" type="AccessRestrictions" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="Permissions">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Browse" />
+      <xs:enumeration value="ReadRolePermissions" />
+      <xs:enumeration value="WriteAttribute" />
+      <xs:enumeration value="WriteHistorizing" />
+      <xs:enumeration value="Read" />
+      <xs:enumeration value="Write" />
+      <xs:enumeration value="ReadHistory" />
+      <xs:enumeration value="InsertHistory" />
+      <xs:enumeration value="ModifyHistory" />
+      <xs:enumeration value="DeleteHistory" />
+      <xs:enumeration value="ReceiveEvents" />
+      <xs:enumeration value="Call" />
+      <xs:enumeration value="AddReference" />
+      <xs:enumeration value="DeleteNode" />
+      <xs:enumeration value="AddNode" />
+      <xs:enumeration value="All" />
+      <xs:enumeration value="AllRead" />
+      <xs:enumeration value="None" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="RolePermission">
+    <xs:annotation>
+      <xs:documentation>
+        <html:p>
+          Defines the permissions for a node assigned to a role.
+        </html:p>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Permission" type="Permissions" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="Role" type="xs:QName" use="required" />
+  </xs:complexType>
+
+  <xs:complexType name="ListOfRolePermissions">
+    <xs:sequence>
+      <xs:element name="RolePermission" type="RolePermission" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="Reference">
     <xs:annotation>
       <xs:documentation>
@@ -646,6 +723,7 @@
     <xs:sequence>
       <xs:element name="Description" type="LocalizedText" minOccurs="0" />
       <xs:element name="DefaultValue" type="DefaultValue" minOccurs="0" />
+      <xs:element name="DisplayName" type="LocalizedText" minOccurs="0" />
     </xs:sequence>
     <xs:attribute name="Name" type="xs:string" use="optional" />
     <xs:attribute name="Identifier" type="xs:int" use="optional" />
@@ -719,6 +797,7 @@
       <xs:enumeration value="Array" />
       <xs:enumeration value="ScalarOrArray" />
       <xs:enumeration value="OneOrMoreDimensions" />
+      <xs:enumeration value="ScalarOrOneDimension" />
     </xs:restriction>
   </xs:simpleType>
 

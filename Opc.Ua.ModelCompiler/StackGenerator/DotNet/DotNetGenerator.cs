@@ -583,6 +583,14 @@ namespace CodeGenerator
 
             AddTemplate(
                 template,
+                "// _ClientInterface_",
+                TemplatePath + "ClientApi.Interface.cs",
+                datatypes,
+                null,
+                new WriteTemplateEventHandler(WriteTemplate_Method));
+
+            AddTemplate(
+                template,
                 "// _ClientApi_",
                 TemplatePath + "ClientApi.Method.cs",
                 datatypes,
@@ -604,12 +612,14 @@ namespace CodeGenerator
                 return false;
             }
 
+            bool semicolon = context.Token.Contains("Interface");
+
             template.AddReplacement("_NAME_", serviceType.Name);
             template.AddReplacement("_Namespace_", m_namespaceConstant);
 
             AddTemplate(
                 template,
-                "void SyncCall()",
+                $"void SyncCall(){((semicolon) ? ";" : "")}",
                 null,
                 new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_SyncParameters),
@@ -617,7 +627,7 @@ namespace CodeGenerator
 
             AddTemplate(
                 template,
-                "void AsyncCall()",
+                $"void AsyncCall(){((semicolon) ? ";" : "")}",
                 null,
                 new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_AsyncParameters),
@@ -625,7 +635,7 @@ namespace CodeGenerator
 
             AddTemplate(
                 template,
-                "void BeginAsyncCall()",
+                $"void BeginAsyncCall(){((semicolon) ? ";" : "")}",
                 null,
                 new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_BeginAsyncParameters),
@@ -633,7 +643,7 @@ namespace CodeGenerator
 
             AddTemplate(
                 template,
-                "void EndAsyncCall()",
+                $"void EndAsyncCall(){((semicolon) ? ";" : "")}",
                 null,
                 new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_EndAsyncParameters),
@@ -683,7 +693,7 @@ namespace CodeGenerator
             template.Write(context.Prefix);
 
             // write method type if not writing an interface declaration.
-            if (context.Token.IndexOf("Interface") == -1)
+            if (!context.Token.Contains(";"))
             {
                 template.Write("public virtual ");
             }
@@ -693,7 +703,7 @@ namespace CodeGenerator
             WriteParameters(template, context, types, names, length);
 
             // write closing semicolon for interface.
-            if (context.Token.IndexOf("Interface") != -1)
+            if (context.Token.Contains(";"))
             {
                 template.Write(";");
             }
@@ -721,10 +731,12 @@ namespace CodeGenerator
             CollectParameters(serviceType.Request, false, types, names, ref length);
 
             string tokenType = "CancellationToken";
+            
             if (tokenType.Length > length)
             {
                 length = tokenType.Length;
             }
+
             types.Add(tokenType);
             names.Add("ct");
 
@@ -733,7 +745,7 @@ namespace CodeGenerator
             template.Write(context.Prefix);
 
             // write method type if not writing an interface declaration.
-            if (context.Token.IndexOf("Interface") == -1)
+            if (!context.Token.Contains(";"))
             {
                 template.Write("public virtual async ");
             }
@@ -743,7 +755,7 @@ namespace CodeGenerator
             WriteParameters(template, context, types, names, length);
 
             // write closing semicolon for interface.
-            if (context.Token.IndexOf("Interface") != -1)
+            if (context.Token.Contains(";"))
             {
                 template.Write(";");
             }
@@ -779,9 +791,21 @@ namespace CodeGenerator
             // write method declaration.
             template.WriteLine(String.Empty);
             template.Write(context.Prefix);
-            template.Write("public IAsyncResult Begin{0}(", serviceType.Name);
+
+            if (!context.Token.Contains(";"))
+            {
+                template.Write("public virtual ");
+            }
+
+            template.Write("IAsyncResult Begin{0}(", serviceType.Name);
 
             WriteParameters(template, context, types, names, length);
+
+            // write closing semicolon for interface.
+            if (context.Token.Contains(";"))
+            {
+                template.Write(";");
+            }
 
             return null;
         }
@@ -811,9 +835,21 @@ namespace CodeGenerator
             // write method declaration.
             template.WriteLine(String.Empty);
             template.Write(context.Prefix);
-            template.Write("public {0} End{1}(", GetReturnType(serviceType), serviceType.Name);
+
+            if (!context.Token.Contains(";"))
+            {
+                template.Write("public virtual ");
+            }
+
+            template.Write("{0} End{1}(", GetReturnType(serviceType), serviceType.Name);
 
             WriteParameters(template, context, types, names, length);
+
+            // write closing semicolon for interface.
+            if (context.Token.Contains(";"))
+            {
+                template.Write(";");
+            }
 
             return null;
         }
@@ -1305,7 +1341,7 @@ namespace CodeGenerator
                 }
                 else
                 {
-                    baseTypeName = "IEncodeable";
+                    baseTypeName = "IEncodeable, IJsonEncodeable";
                 }
 
                 if (context.Token == "// _RequestMessage_")

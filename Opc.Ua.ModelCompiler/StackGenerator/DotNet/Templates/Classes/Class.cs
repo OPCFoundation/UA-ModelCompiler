@@ -42,28 +42,16 @@ public partial class _NAME_ : _BASETYPE_
 
     #region IEncodeable Members
     /// <summary cref="IEncodeable.TypeId" />
-    public override ExpandedNodeId TypeId
-    {
-        get { return m_TypeId; }
-    }
-
-    private static ExpandedNodeId m_TypeId = new ExpandedNodeId(DataTypes._NAME_);
+    public override ExpandedNodeId TypeId => DataTypeIds._NAME_;
 
     /// <summary cref="IEncodeable.BinaryEncodingId" />
-    public override ExpandedNodeId BinaryEncodingId
-    {
-        get { return m_BinaryEncodingId; }
-    }
-
-    private static ExpandedNodeId m_BinaryEncodingId = new ExpandedNodeId(Objects._NAME__Encoding_DefaultBinary);
+    public override ExpandedNodeId BinaryEncodingId => ObjectIds._NAME__Encoding_DefaultBinary;
 
     /// <summary cref="IEncodeable.XmlEncodingId" />
-    public override ExpandedNodeId XmlEncodingId
-    {
-        get { return m_XmlEncodingId; }
-    }
+    public override ExpandedNodeId XmlEncodingId => ObjectIds._NAME__Encoding_DefaultXml;
 
-    private static ExpandedNodeId m_XmlEncodingId = new ExpandedNodeId(Objects._NAME__Encoding_DefaultXml);
+    /// <summary cref="IJsonEncodeable.JsonEncodingId" />
+    public override ExpandedNodeId JsonEncodingId => ObjectIds._NAME__Encoding_DefaultJson;
 
     /// <summary cref="IEncodeable.Encode(IEncoder)" />
     public override void Encode(IEncoder encoder)

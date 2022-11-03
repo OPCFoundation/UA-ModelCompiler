@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>DemoModel</AssemblyName>
+    <IntermediateOutputPath>$(SolutionDir)build\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
+    <RootNamespace>DemoModel</RootNamespace>
+    <RootNamespace>ModelCompiler</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>$(SolutionDir)build\bin\$(Configuration)\$(MSBuildProjectName)\</OutputPath>
+    <DefineConstants>NET_STANDARD</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>$(SolutionDir)build\bin\$(Configuration)\$(MSBuildProjectName)\</OutputPath>
+    <DefineConstants>TRACE;NET_STANDARD</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="build\**" />
+    <EmbeddedResource Remove="build\**" />
+    <None Remove="build\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="ConsoleUtils.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="DemoModel\DemoModel.PredefinedNodes.uanodes" />
+    <None Remove="Opc.Ua.NodeSet.NodeIds.csv" />
+    <None Remove="Opc.Ua.NodeSet.NodeSet2.Part6.xml" />
+    <None Remove="Opc.Ua.NodeSet.NodeSet2.xml" />
+    <None Remove="Opc.Ua.NodeSet.PredefinedNodes.uanodes" />
+    <None Remove="Opc.Ua.NodeSet.PredefinedNodes.xml" />
+    <None Remove="Opc.Ua.NodeSet.Types.bsd" />
+    <None Remove="Opc.Ua.NodeSet.Types.xsd" />
+    <None Remove="OpcUaNodeSetModel.csv" />
+    <None Remove="OpcUaNodeSetModel.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="DemoModel\DemoModel.PredefinedNodes.uanodes" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Scheduler\" />
+    <Folder Include="Onboarding\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\UA-ModelCompiler\Stack\Libraries\Opc.Ua.Configuration\Opc.Ua.Configuration.csproj" />
+    <ProjectReference Include="..\..\Stack\Libraries\Opc.Ua.Server\Opc.Ua.Server.csproj" />
+    <ProjectReference Include="..\..\Stack\Stack\Opc.Ua.Core\Opc.Ua.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Quickstarts.ReferenceServer.Config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -5,22 +5,28 @@
   xmlns:ua="http://opcfoundation.org/UA/"
   xmlns:opc="http://opcfoundation.org/UA/ModelDesign.xsd"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns="http://www.opcfoundation.org/DemoServer/"
-  TargetNamespace="http://www.opcfoundation.org/DemoServer/"
-  TargetXmlNamespace="http://www.opcfoundation.org/DemoServer/"
+  xmlns="http://www.opcfoundation.org/DemoModel/"
+  TargetNamespace="http://www.opcfoundation.org/DemoModel/"
+  TargetXmlNamespace="http://www.opcfoundation.org/DemoModel/"
   TargetVersion="1.05"
   TargetPublicationDate="2021-02-12T00:00:00Z">
 
   <opc:Namespaces>
-    <opc:Namespace Name="DemoModel" Prefix="DemoModel"  XmlNamespace="http://www.opcfoundation.org/DemoServer/Types.xsd"  XmlPrefix="DemoModel">http://www.opcfoundation.org/DemoServer/</opc:Namespace>
+    <opc:Namespace Name="DemoModel" Prefix="DemoModel"  XmlNamespace="http://www.opcfoundation.org/DemoModel/Types.xsd"  XmlPrefix="DemoModel">http://www.opcfoundation.org/DemoModel/</opc:Namespace>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" Version="1.05.02" PublicationDate="2022-06-28T00:00:00Z" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
   </opc:Namespaces>
 
   <opc:DataType SymbolicName="HeaterStatus" BaseType="ua:Enumeration">
     <opc:Fields>
-      <opc:Field Name="Off" Identifier="0" />
-      <opc:Field Name="Heating" Identifier="1" />
-      <opc:Field Name="Cooling" Identifier="2" />
+      <opc:Field Name="Off" Identifier="0">
+        <opc:DisplayName>It is really off!</opc:DisplayName>
+      </opc:Field>
+      <opc:Field Name="Heating" Identifier="1">
+        <opc:DisplayName>暖房</opc:DisplayName>
+      </opc:Field>
+      <opc:Field Name="Cooling" Identifier="2">
+        <opc:DisplayName>200_冷房</opc:DisplayName>
+      </opc:Field>
     </opc:Fields>  
   </opc:DataType>
 
@@ -80,5 +86,11 @@
       <opc:Field Name="FieldW" DataType="WorkOrderStatusType" />
     </opc:Fields>
   </opc:DataType>
-
+  
+  <ObjectType SymbolicName="WithTwoDimensionalVariableType" BaseType="ua:BaseObjectType">
+    <Children>
+      <Variable SymbolicName="X" DataType="ua:Int32" ValueRank="OneOrMoreDimensions" ArrayDimensions="0,0" ModellingRule="Optional"/>
+    </Children>
+  </ObjectType>
+  
 </opc:ModelDesign>

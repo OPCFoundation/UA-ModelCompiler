@@ -36,8 +36,8 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   TargetNamespace="http://opcfoundation.org/UA/DI/"
   TargetXmlNamespace="http://opcfoundation.org/UA/DI/"
-  TargetVersion="1.03.1"
-  TargetPublicationDate="2021-09-07T00:00:00Z"
+  TargetVersion="1.04.0"
+  TargetPublicationDate="2022-08-01T00:00:00Z"
   xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
 
   <Namespaces>
@@ -55,12 +55,12 @@
       </Property>
       <Property SymbolicName="OpcUa:NamespaceVersion" DataType="OpcUa:String">
         <DefaultValue>
-          <uax:String>1.03.1</uax:String>
+          <uax:String>1.04.0</uax:String>
         </DefaultValue>
       </Property>
       <Property SymbolicName="OpcUa:NamespacePublicationDate" DataType="OpcUa:DateTime">
         <DefaultValue>
-          <uax:DateTime>2021-09-07</uax:DateTime>
+          <uax:DateTime>2022-08-01</uax:DateTime>
         </DefaultValue>
       </Property>
       <Property SymbolicName="OpcUa:IsNamespaceSubset" DataType="OpcUa:Boolean">
@@ -225,6 +225,13 @@
           <Variable SymbolicName="DI:DocumentIdentifier" DataType="OpcUa:ByteString" ModellingRule="MandatoryPlaceholder">
             <BrowseName>&lt;DocumentIdentifier&gt;</BrowseName>
           </Variable>
+        </Children>
+      </Object>
+      <Object SymbolicName="DI:DocumentationFiles" TypeDefinition="OpcUa:FolderType" ModellingRule="Optional">
+        <Children>
+          <Object SymbolicName="DI:DocumentFileId" TypeDefinition="OpcUa:FileType" ModellingRule="MandatoryPlaceholder">
+            <BrowseName>&lt;DocumentFileId&gt;</BrowseName>
+          </Object>
         </Children>
       </Object>
       <Object SymbolicName="DI:ProtocolSupport" TypeDefinition="OpcUa:FolderType" ModellingRule="Optional">
@@ -406,6 +413,52 @@
     </Children>
   </ObjectType>
 
+  <VariableType SymbolicName="DI:LifetimeVariableType" DataType="OpcUa:Number" ValueRank="Scalar" BaseType="OpcUa:AnalogUnitType">
+    <Description>Remaining lifetime</Description>
+    <Children>
+      <Property SymbolicName="DI:StartValue" DataType="OpcUa:Number" ModellingRule="Mandatory">
+        <Description>StartValue indicates the initial value, when there is still the full lifetime left.</Description>
+      </Property>
+      <Property SymbolicName="DI:LimitValue" DataType="OpcUa:Number" ModellingRule="Mandatory">
+        <Description>LimitValue indicates when the end of lifetime has been reached.</Description>
+      </Property>
+      <Property SymbolicName="DI:Indication" DataType="OpcUa:NodeId" ModellingRule="Optional">
+        <Description>Indication gives an indication of what is actually measured / represented by the Value of the Variable and the StartValue and LimitValue.</Description>
+      </Property>
+      <Property SymbolicName="DI:WarningValues" DataType="OpcUa:Number" ValueRank="ScalarOrOneDimension" ModellingRule="Optional">
+        <Description>WarningValues indicates one or more levels when the end of lifetime is reached soon and may be used to inform the user when reached.</Description>
+      </Property>
+    </Children>
+  </VariableType>
+
+  <ObjectType SymbolicName="DI:BaseLifetimeIndicationType" BaseType="OpcUa:BaseObjectType" IsAbstract="true">
+    <Description>Base indication type not further defining a semantic</Description>
+  </ObjectType>
+
+  <ObjectType SymbolicName="DI:TimeIndicationType" BaseType="DI:BaseLifetimeIndicationType" IsAbstract="true">
+    <Description>Indicates the time the entity has been in use or can still be used</Description>
+  </ObjectType>
+  
+  <ObjectType SymbolicName="DI:NumberOfPartsIndicationType" BaseType="DI:BaseLifetimeIndicationType" IsAbstract="true">
+    <Description>Indicates the total number of parts that have been produced or can still be produced.</Description>
+  </ObjectType>
+
+  <ObjectType SymbolicName="DI:NumberOfUsagesIndicationType" BaseType="DI:BaseLifetimeIndicationType" IsAbstract="true">
+    <Description>Indicates counting the process steps the entity has been used or can still be used for (for example usages of a punching tool).</Description>
+  </ObjectType>
+  
+  <ObjectType SymbolicName="DI:LengthIndicationType" BaseType="DI:BaseLifetimeIndicationType" IsAbstract="true">
+    <Description>Indicates the abraded length, for example of a drill.</Description>
+  </ObjectType>
+
+  <ObjectType SymbolicName="DI:DiameterIndicationType" BaseType="DI:BaseLifetimeIndicationType" IsAbstract="true">
+    <Description>Indicates the abraded diameter, for example of a drill.</Description>
+  </ObjectType>
+
+  <ObjectType SymbolicName="DI:SubstanceVolumeIndicationType" BaseType="DI:BaseLifetimeIndicationType" IsAbstract="true">
+    <Description>Indicates the volume of a substance, for example of a liquid.</Description>
+  </ObjectType>
+
   <ObjectType SymbolicName="DI:FunctionalGroupType" BaseType="OpcUa:FolderType">
     <Description>FolderType is used to organize the Parameters and Methods from the complete set (ParameterSet, MethodSet) with regard to their application</Description>
     <Children>
@@ -443,6 +496,21 @@
     </Fields>
   </DataType>
 
+  <ObjectType SymbolicName="DI:IOperationCounterType" BaseType="OpcUa:BaseInterfaceType" IsAbstract="true">
+    <Description>Interface defining counters for the duration of operation</Description>
+    <Children>
+      <Property SymbolicName="DI:PowerOnDuration" DataType="OpcUa:Duration" ModellingRule="Optional">
+        <Description>PowerOnDuration is the duration the Device has been powered. The main purpose is to determine the time in which degradation of the Device occurred. The details, when the time is counted, is implementation-specific. Companion specifications might define specific rules. Typically, when the Device has supply voltage and the main CPU is running, the time is counted. This may include any kind of sleep mode, but may not include pure Wake on LAN. This value shall only increase during the lifetime of the Device and shall not be reset when the Device is restarted. The PowerOnDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application.</Description>
+      </Property>
+      <Property SymbolicName="DI:OperationDuration" DataType="OpcUa:Duration" ModellingRule="Optional">
+        <Description>OperationDuration is the duration the Device has been powered and performing an activity. This counter is intended for Devices where a distinction is made between switched on and in operation. For example, a drive might be powered on but not operating. It is not intended for Devices always performing an activity like sensors always measuring data. This value shall only increase during the lifetime of the Device and shall not be reset when the Device is restarted. The OperationDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application.</Description>
+      </Property>
+      <Property SymbolicName="DI:OperationCycleCounter" DataType="OpcUa:UInteger" ModellingRule="Optional">
+        <Description>OperationCycleCounter is counting the times the Device switches from not performing an activity to performing an activity. For example, each time a valve starts moving, is counted. This value shall only increase during the lifetime of the Device and shall not be reset when the Device is restarted.</Description>
+      </Property>
+    </Children>
+  </ObjectType>
+  
   <VariableType SymbolicName="DI:UIElementType" BaseType="OpcUa:BaseDataVariableType" DataType="OpcUa:BaseDataType" ValueRank="Scalar" IsAbstract="true">
     <Description>The base type for all UI Element Types.</Description>
   </VariableType>
@@ -1196,8 +1264,6 @@
 	  <Argument Name="PatchIdentifiers" DataType="OpcUa:String" ValueRank="Array"/>
 	  <Argument Name="Hash" DataType="OpcUa:ByteString" />
 	</InputArguments>
-	<OutputArguments>
-	</OutputArguments>
   </Method>
 
   <Method SymbolicName="DI:InstallFilesMethodType">

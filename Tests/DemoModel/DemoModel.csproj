@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -20,6 +20,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="build\**" />
+    <Compile Remove="GDS\**" />
+    <Compile Remove="Onboarding\**" />
+    <Compile Remove="Scheduler\**" />
+    <EmbeddedResource Remove="build\**" />
+    <EmbeddedResource Remove="GDS\**" />
+    <EmbeddedResource Remove="Onboarding\**" />
+    <EmbeddedResource Remove="Scheduler\**" />
+    <None Remove="build\**" />
+    <None Remove="GDS\**" />
+    <None Remove="Onboarding\**" />
+    <None Remove="Scheduler\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="ConsoleUtils.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="DemoModel\DemoModel.PredefinedNodes.uanodes" />
     <None Remove="Opc.Ua.NodeSet.NodeIds.csv" />
     <None Remove="Opc.Ua.NodeSet.NodeSet2.Part6.xml" />
     <None Remove="Opc.Ua.NodeSet.NodeSet2.xml" />
@@ -32,13 +52,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.4.369.30" />
+    <EmbeddedResource Include="DemoModel\DemoModel.PredefinedNodes.uanodes" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="GDS\" />
-    <Folder Include="Scheduler\" />
-    <Folder Include="Onboarding\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.371.3-beta" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Server" Version="1.5.371.3-beta" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Quickstarts.ReferenceServer.Config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

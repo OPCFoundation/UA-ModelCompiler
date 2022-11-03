@@ -7,8 +7,8 @@
   xmlns="http://opcfoundation.org/UA/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
-  TargetVersion="1.05.01"
-  TargetPublicationDate="2021-11-18T00:00:00Z"
+  TargetVersion="1.05.02"
+  TargetPublicationDate="2022-06-28T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -24,12 +24,12 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespaceVersion" DataType="ua:String">
         <opc:DefaultValue>
-          <uax:String>1.05.01</uax:String>
+          <uax:String>1.05.02</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2021-11-18T00:00:00</uax:DateTime>
+          <uax:DateTime>2022-06-28T00:00:00</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -122,6 +122,10 @@
 
   <opc:Property SymbolicName="OptionSetValues" DataType="LocalizedText" ValueRank="Array" PartNo="3">
     <opc:Description>Contains the human-readable representation for each bit of the bit mask.</opc:Description>
+  </opc:Property>
+
+  <opc:Property SymbolicName="OptionSetLength" DataType="UInt32" ValueRank="Scalar" PartNo="3">
+    <opc:Description>Specifies the length, in bytes, of the OptionSet.</opc:Description>
   </opc:Property>
 
   <opc:Property SymbolicName="InputArguments" DataType="Argument" ValueRank="Array" PartNo="3">
@@ -277,6 +281,7 @@
       <opc:Property SymbolicName="MaxMonitoredItemsPerSubscription" DataType="ua:UInt32" ModellingRule="Optional" />
       <opc:Property SymbolicName="MaxSelectClauseParameters" DataType="ua:UInt32" ModellingRule="Optional" />
       <opc:Property SymbolicName="MaxWhereClauseParameters" DataType="ua:UInt32" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MaxMonitoredItemsQueueSize" DataType="ua:UInt32" ModellingRule="Optional" />
 
       <opc:Property SymbolicName="ConformanceUnits" DataType="ua:QualifiedName" ValueRank="Array" ModellingRule="Optional" />
 
@@ -489,35 +494,20 @@
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="BaseEventType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="5">
-    <opc:Description>The base type for all events.</opc:Description>
     <opc:Children>
-      <opc:Property SymbolicName="EventId" DataType="ua:ByteString">
-        <opc:Description>A globally unique identifier for the event.</opc:Description>
-      </opc:Property>
-      <opc:Property SymbolicName="EventType" DataType="ua:NodeId">
-        <opc:Description>The identifier for the event type.</opc:Description>
-      </opc:Property>
-      <opc:Property SymbolicName="SourceNode" DataType="ua:NodeId">
-        <opc:Description>The source of the event.</opc:Description>
-      </opc:Property>
-      <opc:Property SymbolicName="SourceName" DataType="ua:String">
-        <opc:Description>A description of the source of the event.</opc:Description>
-      </opc:Property>
-      <opc:Property SymbolicName="Time" DataType="UtcTime">
-        <opc:Description>When the event occurred.</opc:Description>
-      </opc:Property>
-      <opc:Property SymbolicName="ReceiveTime" DataType="UtcTime">
-        <opc:Description>When the server received the event from the underlying system.</opc:Description>
-      </opc:Property>
-      <opc:Property SymbolicName="LocalTime" DataType="ua:TimeZoneDataType" ModellingRule="Optional">
-        <opc:Description>Information about the local time where the event originated.</opc:Description>
-      </opc:Property>
-      <opc:Property SymbolicName="Message" DataType="ua:LocalizedText">
-        <opc:Description>A localized description of the event.</opc:Description>
-      </opc:Property>
-      <opc:Property SymbolicName="Severity" DataType="ua:UInt16">
-        <opc:Description>Indicates how urgent an event is.</opc:Description>
-      </opc:Property>
+      <opc:Property SymbolicName="EventId" DataType="ua:ByteString" />
+      <opc:Property SymbolicName="EventType" DataType="ua:NodeId" />
+      <opc:Property SymbolicName="SourceNode" DataType="ua:NodeId" />
+      <opc:Property SymbolicName="SourceName" DataType="ua:String" />
+      <opc:Property SymbolicName="Time" DataType="UtcTime" />
+      <opc:Property SymbolicName="ReceiveTime" DataType="UtcTime" />
+      <opc:Property SymbolicName="LocalTime" DataType="ua:TimeZoneDataType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="Message" DataType="ua:LocalizedText" />
+      <opc:Property SymbolicName="Severity" DataType="ua:UInt16" />
+      <opc:Property SymbolicName="ConditionClassId" DataType="ua:NodeId" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ConditionClassName" DataType="ua:LocalizedText" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ConditionSubClassId" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ConditionSubClassName" DataType="ua:LocalizedText"  ValueRank="Array" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -747,8 +737,6 @@
   <!-- DataTypeSystemType BuiltInTypes.xml -->
 
   <opc:ObjectType SymbolicName="AggregateFunctionType" BaseType="ua:BaseObjectType" PartNo="5" />
-
-  <opc:ObjectType SymbolicName="InformationModelVersionType" BaseType="ua:BaseObjectType" PartNo="5" ReleaseStatus="Draft" />
 
   <!-- Part 5 - Standard Variable Types -->
 
@@ -981,6 +969,16 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
+  
+  <opc:Object SymbolicName="Locations" TypeDefinition="FolderType" ModellingRule="None" PartNo="5">
+    <opc:BrowseName>Locations</opc:BrowseName>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:ObjectsFolder</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
 
   <opc:Object SymbolicName="Server" TypeDefinition="ServerType" ModellingRule="None" SupportsEvents="true" PartNo="5" IsDynamic="true">
     <opc:Children>
@@ -1017,6 +1015,7 @@
           <opc:Property SymbolicName="MaxMonitoredItemsPerSubscription" DataType="ua:UInt32" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="MaxSelectClauseParameters" DataType="ua:UInt32" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="MaxWhereClauseParameters" DataType="ua:UInt32" ModellingRule="Mandatory" />
+          <opc:Property SymbolicName="MaxMonitoredItemsQueueSize" DataType="ua:UInt32" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="ConformanceUnits" DataType="ua:QualifiedName" ValueRank="Array" ModellingRule="Mandatory" />
         </opc:Children>
       </opc:Object>
@@ -1170,13 +1169,13 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="AdditionalParametersType" BaseType="Structure" NoArraysAllowed="true" PartNo="5" ReleaseStatus="Released">
+  <opc:DataType SymbolicName="AdditionalParametersType" BaseType="Structure" NoArraysAllowed="true" PartNo="5">
     <opc:Fields>
       <opc:Field Name="Parameters" DataType="KeyValuePair" ValueRank="Array" />
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="EphemeralKeyType" BaseType="Structure" NoArraysAllowed="true" PartNo="5" ReleaseStatus="Released">
+  <opc:DataType SymbolicName="EphemeralKeyType" BaseType="Structure" NoArraysAllowed="true" PartNo="5">
     <opc:Fields>
       <opc:Field Name="PublicKey" DataType="ua:ByteString" />
       <opc:Field Name="Signature" DataType="ua:ByteString" />
@@ -1192,6 +1191,9 @@
     </opc:Fields>
   </opc:DataType>
 
+  <opc:DataType SymbolicName="Handle" BaseType="UInt32" PartNo="5"></opc:DataType>
+  <opc:DataType SymbolicName="TrimmedString" BaseType="String" PartNo="5"></opc:DataType>
+  
   <!-- Part 5 Annex B - State Machines -->
 
   <opc:ObjectType SymbolicName="StateMachineType" PartNo="5">
@@ -1921,7 +1923,7 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:DataType SymbolicName="IdentityMappingRuleType" BaseType="ua:Structure" IsAbstract="true" PartNo="5">
+  <opc:DataType SymbolicName="IdentityMappingRuleType" BaseType="ua:Structure" PartNo="5">
     <opc:Fields>
       <opc:Field Name="CriteriaType" DataType="IdentityCriteriaType" ValueRank="Scalar"></opc:Field>
       <opc:Field Name="Criteria" DataType="ua:String" ValueRank="Scalar"></opc:Field>
@@ -2168,7 +2170,7 @@
   <opc:Object SymbolicName="WellKnownRole_SecurityKeyServerAdmin" TypeDefinition="RoleType" PartNo="14">
     <opc:BrowseName>SecurityKeyServerAdmin</opc:BrowseName>
     <opc:DisplayName>SecurityKeyServerAdmin</opc:DisplayName>
-    <opc:Description>The role is allowed to manage SecurityGroups and PushTargets. This includes executing methods related to management of SecurityGroups and PushTargets on an SKS. It is intended to be a non-human Role.</opc:Description>
+    <opc:Description>This Role allows an administrator to manage SecurityGroups and PushTargets on a SKS. This includes executing methods related to management of SecurityGroups and PushTargets on an SKS.</opc:Description>
     <opc:Children>
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
@@ -2190,10 +2192,12 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Object SymbolicName="WellKnownRole_SecurityKeyServer" TypeDefinition="RoleType" PartNo="14">
-    <opc:BrowseName>SecurityKeyServer</opc:BrowseName>
-    <opc:DisplayName>SecurityKeyServer</opc:DisplayName>
-    <opc:Description>This role is allowed to manage SecurityGroups and distribute keys. This includes executing methods related to PubSub security. It is intended to be a non-human Role.</opc:Description>
+  <opc:Object SymbolicName="WellKnownRole_SecurityKeyServerAccess" TypeDefinition="RoleType" PartNo="14">
+    <opc:BrowseName>SecurityKeyServerAccess</opc:BrowseName>
+    <opc:DisplayName>SecurityKeyServerAccess</opc:DisplayName>
+    <opc:Description>
+      This Role allows a PubSub Application to access an SKS to pull keys. It is the default Role for pull but it is expected that different custom Roles are used for different SecurityGroups.
+    </opc:Description>
     <opc:Children>
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
@@ -2215,10 +2219,12 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Object SymbolicName="WellKnownRole_SecurityKeyAccess" TypeDefinition="RoleType" PartNo="14">
-    <opc:BrowseName>SecurityKeyAccess</opc:BrowseName>
-    <opc:DisplayName>SecurityKeyAccess</opc:DisplayName>
-    <opc:Description>This role is allowed to access an SKS to pull keys. It is intended to be a non-human Role.</opc:Description>
+  <opc:Object SymbolicName="WellKnownRole_SecurityKeyServerPush" TypeDefinition="RoleType" PartNo="14">
+    <opc:BrowseName>SecurityKeyServerPush</opc:BrowseName>
+    <opc:DisplayName>SecurityKeyServerPush</opc:DisplayName>
+    <opc:Description>
+      This Role allows an SKS to push security keys to PubSub Applications. This includes executing methods related to PubSub security.
+    </opc:Description>
     <opc:Children>
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
@@ -2239,10 +2245,10 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
-
+  
   <!-- Part 5 Annex G - Dictionary Reference -->
 
-  <opc:ObjectType SymbolicName="DictionaryEntryType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="5" ReleaseStatus="Released">
+  <opc:ObjectType SymbolicName="DictionaryEntryType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="5">
     <opc:Children>
       <opc:Object SymbolicName="DictionaryEntryName_Placeholder" TypeDefinition="DictionaryEntryType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;DictionaryEntryName&gt;</opc:BrowseName>
@@ -2250,7 +2256,7 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="DictionaryFolderType" BaseType="ua:FolderType" PartNo="5" ReleaseStatus="Released">
+  <opc:ObjectType SymbolicName="DictionaryFolderType" BaseType="ua:FolderType" PartNo="5">
     <opc:Children>
       <opc:Object SymbolicName="DictionaryFolderName_Placeholder" TypeDefinition="DictionaryFolderType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;DictionaryFolderName&gt;</opc:BrowseName>
@@ -2261,7 +2267,7 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Object SymbolicName="Dictionaries" TypeDefinition="DictionaryFolderType" ModellingRule="None" PartNo="5" ReleaseStatus="Released">
+  <opc:Object SymbolicName="Dictionaries" TypeDefinition="DictionaryFolderType" ModellingRule="None" PartNo="5">
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
@@ -2270,20 +2276,20 @@
     </opc:References>
   </opc:Object>
 
-  <opc:ReferenceType SymbolicName="HasDictionaryEntry" BaseType="ua:NonHierarchicalReferences" PartNo="5" ReleaseStatus="Released">
+  <opc:ReferenceType SymbolicName="HasDictionaryEntry" BaseType="ua:NonHierarchicalReferences" PartNo="5">
     <opc:InverseName>DictionaryEntryOf</opc:InverseName>
   </opc:ReferenceType>
 
-  <opc:ObjectType SymbolicName="IrdiDictionaryEntryType" BaseType="ua:DictionaryEntryType" PartNo="5" ReleaseStatus="Released">
+  <opc:ObjectType SymbolicName="IrdiDictionaryEntryType" BaseType="ua:DictionaryEntryType" PartNo="5">
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="UriDictionaryEntryType" BaseType="ua:DictionaryEntryType" PartNo="5" ReleaseStatus="Released">
+  <opc:ObjectType SymbolicName="UriDictionaryEntryType" BaseType="ua:DictionaryEntryType" PartNo="5">
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="BaseInterfaceType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="5" ReleaseStatus="Released">
+  <opc:ObjectType SymbolicName="BaseInterfaceType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="5">
   </opc:ObjectType>
 
-  <opc:Object SymbolicName="InterfaceTypes" TypeDefinition="FolderType" ModellingRule="None" PartNo="5" ReleaseStatus="Released">
+  <opc:Object SymbolicName="InterfaceTypes" TypeDefinition="FolderType" ModellingRule="None" PartNo="5">
     <opc:References>
       <opc:Reference IsInverse="false">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
@@ -2295,18 +2301,18 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
-
-  <opc:ReferenceType SymbolicName="HasInterface" BaseType="ua:NonHierarchicalReferences" PartNo="5" ReleaseStatus="Released">
+  
+  <opc:ReferenceType SymbolicName="HasInterface" BaseType="ua:NonHierarchicalReferences" PartNo="5">
     <opc:InverseName>InterfaceOf</opc:InverseName>
   </opc:ReferenceType>
 
-  <opc:ReferenceType SymbolicName="HasAddIn" BaseType="ua:HasComponent" PartNo="5" ReleaseStatus="Released">
+  <opc:ReferenceType SymbolicName="HasAddIn" BaseType="ua:HasComponent" PartNo="5">
     <opc:InverseName>AddInOf</opc:InverseName>
   </opc:ReferenceType>
 
   <!-- Part 5 - Amendment 10 -->
 
-  <opc:DataType SymbolicName="CurrencyUnitType" PartNo="5" BaseType="ua:Structure" ReleaseStatus="Released">
+  <opc:DataType SymbolicName="CurrencyUnitType" PartNo="5" BaseType="ua:Structure">
     <opc:Fields>
       <opc:Field Name="NumericCode"  DataType="ua:Int16" />
       <opc:Field Name="Exponent"  DataType="ua:SByte" />
@@ -2315,17 +2321,17 @@
     </opc:Fields>
   </opc:DataType>
 
-  <opc:Property SymbolicName="CurrencyUnit" DataType="ua:CurrencyUnitType" PartNo="3" ReleaseStatus="Released" />
+  <opc:Property SymbolicName="CurrencyUnit" DataType="ua:CurrencyUnitType" PartNo="3" />
 
   <!-- Part 5 - Amendment 13 -->
 
-  <opc:ObjectType SymbolicName="IOrderedObjectType" BaseType="ua:BaseInterfaceType" IsAbstract="true" PartNo="5" ReleaseStatus="Released">
+  <opc:ObjectType SymbolicName="IOrderedObjectType" BaseType="ua:BaseInterfaceType" IsAbstract="true" PartNo="5">
     <opc:Children>
       <opc:Property SymbolicName="NumberInList" DataType="Number" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="OrderedListType" BaseType="ua:BaseObjectType" PartNo="5" ReleaseStatus="Released">
+  <opc:ObjectType SymbolicName="OrderedListType" BaseType="ua:BaseObjectType" PartNo="5">
     <opc:Children>
       <opc:Object SymbolicName="OrderedObject_Placeholder" TypeDefinition="BaseObjectType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;OrderedObject&gt;</opc:BrowseName>
@@ -2495,23 +2501,26 @@
   <opc:ReferenceType SymbolicName="AlarmGroupMember" BaseType="ua:Organizes" PartNo="9">
     <opc:InverseName>MemberOfAlarmGroup</opc:InverseName>
   </opc:ReferenceType>
+  
+  <opc:ReferenceType SymbolicName="AlarmSuppressionGroupMember" BaseType="AlarmGroupMember" PartNo="9">
+    <opc:InverseName>MemberOfAlarmSuppressionGroup</opc:InverseName>
+  </opc:ReferenceType>
 
   <opc:ObjectType SymbolicName="ConditionType" BaseType="BaseEventType" IsAbstract="true" PartNo="9">
     <opc:Children>
       <opc:Property SymbolicName="ConditionClassId" DataType="ua:NodeId" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ConditionClassName" DataType="ua:LocalizedText" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ConditionSubClassId" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Optional" />
-      <opc:Property SymbolicName="ConditionSubClassName" DataType="ua:LocalizedText" ValueRank="Array" ModellingRule="Optional" />
       <opc:Property SymbolicName="ConditionName" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="BranchId" DataType="ua:NodeId" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Retain" DataType="ua:Boolean" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="SupportsFilteredRetain" DataType="ua:Boolean" ModellingRule="None" />
       <opc:Variable SymbolicName="EnabledState" TypeDefinition="TwoStateVariableType" ModellingRule="Mandatory">
         <opc:Children>
           <opc:Property SymbolicName="Id" DataType="ua:Boolean" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="EffectiveDisplayName" DataType="ua:LocalizedText" ModellingRule="Optional" />
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
           <opc:Property SymbolicName="EffectiveTransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2519,7 +2528,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2628,7 +2637,7 @@
         <opc:Children>
           <opc:Property SymbolicName="Id" DataType="ua:Boolean" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2636,7 +2645,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2660,7 +2669,7 @@
           </opc:Reference>
         </opc:References>
       </opc:Method>
-      <opc:Method SymbolicName="Respond2" TypeDefinition="DialogResponse2MethodType" ModellingRule="Mandatory">
+      <opc:Method SymbolicName="Respond2" TypeDefinition="DialogResponse2MethodType" ModellingRule="Optional">
         <opc:References>
           <opc:Reference IsOneWay="true">
             <opc:ReferenceType>AlwaysGeneratesEvent</opc:ReferenceType>
@@ -2702,7 +2711,7 @@
         <opc:Children>
           <opc:Property SymbolicName="Id" DataType="ua:Boolean" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2710,7 +2719,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2724,7 +2733,7 @@
         <opc:Children>
           <opc:Property SymbolicName="Id" DataType="ua:Boolean" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2732,7 +2741,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2785,7 +2794,7 @@
           <opc:Property SymbolicName="EffectiveDisplayName" DataType="ua:LocalizedText" ModellingRule="Optional" />
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
           <opc:Property SymbolicName="EffectiveTransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2793,7 +2802,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2807,7 +2816,7 @@
       <opc:Variable SymbolicName="SuppressedState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2815,7 +2824,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2828,7 +2837,7 @@
       <opc:Variable SymbolicName="OutOfServiceState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2836,7 +2845,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2862,7 +2871,7 @@
       <opc:Variable SymbolicName="SilenceState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2870,7 +2879,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2887,7 +2896,7 @@
       <opc:Variable SymbolicName="LatchedState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -2895,7 +2904,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -3025,6 +3034,15 @@
     </opc:Children>
   </opc:ObjectType>
 
+  <opc:ObjectType SymbolicName="AlarmSuppressionGroupType" BaseType="AlarmGroupType" PartNo="9">
+    <opc:Children>
+      <opc:Variable SymbolicName="DigitalVariable_Placeholder" TypeDefinition="BaseDataVariableType" DataType="ua:Boolean" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;DigitalVariable&gt;</opc:BrowseName>
+        <opc:ReferenceType>ua:AlarmSuppressionGroupMember</opc:ReferenceType>
+      </opc:Variable>
+    </opc:Children>
+  </opc:ObjectType>  
+  
   <opc:ObjectType SymbolicName="ShelvedStateMachineType" BaseType="FiniteStateMachineType" PartNo="9">
     <opc:Children>
       <opc:Property SymbolicName="UnshelveTime" DataType="Duration" ModellingRule="Mandatory" />
@@ -3515,7 +3533,7 @@
       <opc:Variable SymbolicName="HighHighState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -3523,7 +3541,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -3536,7 +3554,7 @@
       <opc:Variable SymbolicName="HighState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -3544,7 +3562,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -3557,7 +3575,7 @@
       <opc:Variable SymbolicName="LowState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -3565,7 +3583,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -3578,7 +3596,7 @@
       <opc:Variable SymbolicName="LowLowState" TypeDefinition="TwoStateVariableType" ModellingRule="Optional">
         <opc:Children>
           <opc:Property SymbolicName="TransitionTime" DataType="UtcTime" ModellingRule="Optional" />
-          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="TrueState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -3586,7 +3604,7 @@
               </uax:LocalizedText>
             </opc:DefaultValue>
           </opc:Property>
-          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="Optional">
+          <opc:Property SymbolicName="FalseState" DataType="ua:LocalizedText" ModellingRule="None">
             <opc:DefaultValue>
               <uax:LocalizedText>
                 <uax:Locale>en</uax:Locale>
@@ -3761,6 +3779,25 @@
       <opc:Property SymbolicName="Rate" DataType="ua:UInt16" />
     </opc:Children>
   </opc:VariableType>
+
+  <opc:VariableType SymbolicName="AlarmStateVariableType" DataType="AlarmMask" ValueRank="Scalar" PartNo="9">
+    <opc:Children>
+      <opc:Property SymbolicName="HighestActiveSeverity" DataType="ua:UInt16" />
+      <opc:Property SymbolicName="HighestUnackSeverity" DataType="ua:UInt16" />
+      <opc:Property SymbolicName="ActiveCount" DataType="ua:UInt32" />
+      <opc:Property SymbolicName="UnacknowledgedCount" DataType="ua:UInt32" />
+      <opc:Property SymbolicName="UnconfirmedCount" DataType="ua:UInt32" />
+      <opc:Property SymbolicName="Filter" DataType="ua:ContentFilter" />
+    </opc:Children>
+  </opc:VariableType>
+
+  <opc:DataType SymbolicName="AlarmMask" BaseType="UInt16" IsOptionSet="true" PartNo="9">
+    <opc:Fields>
+      <opc:Field Name="Active" BitMask="0001"></opc:Field>
+      <opc:Field Name="Unacknowledged" BitMask="0002"></opc:Field>
+      <opc:Field Name="Unconfirmed" BitMask="0004"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
 
   <!-- Part 10 -->
 
@@ -4324,34 +4361,61 @@
     <opc:Children>
       <opc:Property SymbolicName="LastUpdateTime" DataType="ua:UtcTime" />
       <opc:Property SymbolicName="UpdateFrequency" DataType="ua:Duration" ModellingRule="Optional" />
-      <opc:Property SymbolicName="DefaultValidationOptions" DataType="TrustListValidationOptions" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Property SymbolicName="ActivityTimeout" DataType="ua:Duration" ModellingRule="Optional" />
+      <opc:Property SymbolicName="DefaultValidationOptions" DataType="TrustListValidationOptions" ModellingRule="Optional" />
       <opc:Method SymbolicName="OpenWithMasks" TypeDefinition="OpenWithMasksMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="CloseAndUpdate" TypeDefinition="CloseAndUpdateMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddCertificate" TypeDefinition="AddCertificateMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveCertificate" TypeDefinition="RemoveCertificateMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="CloseAndUpdate" TypeDefinition="CloseAndUpdateMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddCertificate" TypeDefinition="AddCertificateMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveCertificate" TypeDefinition="RemoveCertificateMethodType" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:DataType SymbolicName="TrustListValidationOptions" PartNo="12" BaseType="ua:UInt32" IsOptionSet="true" NoArraysAllowed="true" ReleaseStatus="Draft">
+  <opc:DataType SymbolicName="TrustListValidationOptions" PartNo="12" BaseType="ua:UInt32" IsOptionSet="true" NoArraysAllowed="true">
     <opc:Fields>
-      <opc:Field Name="SuppressCertificateExpired" BitMask="0001" />
-      <opc:Field Name="SuppressHostNameInvalid" BitMask="0002" />
-      <opc:Field Name="SuppressRevocationStatusUnknown" BitMask="0004" />
-      <opc:Field Name="SuppressIssuerCertificateExpired" BitMask="0008" />
-      <opc:Field Name="SuppressIssuerRevocationStatusUnknown" BitMask="0010" />
-      <opc:Field Name="CheckRevocationStatusOnline" BitMask="0020" />
-      <opc:Field Name="CheckRevocationStatusOffine" BitMask="0040" />
+      <opc:Field Name="SuppressCertificateExpired" BitMask="0001">
+        <opc:Description>Ignore errors related to the validity time of the Certificate.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="SuppressHostNameInvalid" BitMask="0002">
+        <opc:Description>Ignore mismatches between the host name or ApplicationUri.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="SuppressRevocationStatusUnknown" BitMask="0004">
+        <opc:Description>Ignore errors if the revocation list cannot be found for the issuer of the Certificate.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="SuppressIssuerCertificateExpired" BitMask="0008">
+        <opc:Description>Ignore errors if an issuer has an expired Certificate.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="SuppressIssuerRevocationStatusUnknown" BitMask="0010">
+        <opc:Description>Ignore errors if the revocation list cannot be found for any issuer of issuer Certificates.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="CheckRevocationStatusOnline" BitMask="0020">
+        <opc:Description>Check the revocation status online.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="CheckRevocationStatusOffline" BitMask="0040">
+        <opc:Description>Check the revocation status offline.</opc:Description>
+      </opc:Field>
     </opc:Fields>
   </opc:DataType>
 
   <opc:DataType SymbolicName="TrustListMasks" PartNo="12" BaseType="ua:Enumeration" NoArraysAllowed="true">
     <opc:Fields>
-      <opc:Field Name="None" Identifier="0" />
-      <opc:Field Name="TrustedCertificates" Identifier="1" />
-      <opc:Field Name="TrustedCrls" Identifier="2" />
-      <opc:Field Name="IssuerCertificates" Identifier="4" />
-      <opc:Field Name="IssuerCrls" Identifier="8" />
-      <opc:Field Name="All" Identifier="15" />
+      <opc:Field Name="None" Identifier="0">
+        <opc:Description>No fields are provided.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="TrustedCertificates" Identifier="1">
+        <opc:Description>The TrustedCertificates are provided.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="TrustedCrls" Identifier="2">
+        <opc:Description>The TrustedCrls are provided.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="IssuerCertificates" Identifier="4">
+        <opc:Description>The IssuerCertificates are provided.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="IssuerCrls" Identifier="8">
+        <opc:Description>The IssuerCrls are provided.</opc:Description>
+      </opc:Field>
+      <opc:Field Name="All" Identifier="15">
+        <opc:Description>All fields are provided.</opc:Description>
+      </opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -4381,18 +4445,24 @@
       <opc:Object SymbolicName="CertificateExpired" TypeDefinition="CertificateExpirationAlarmType" ModellingRule="Optional" />
       <opc:Object SymbolicName="TrustListOutOfDate" TypeDefinition="TrustListOutOfDateAlarmType" ModellingRule="Optional" />
     </opc:Children>
+    <opc:References>
+      <opc:Reference>
+        <opc:ReferenceType>ua:HasCondition</opc:ReferenceType>
+        <opc:TargetId>ua:CertificateExpirationAlarmType</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="CertificateGroupFolderType" BaseType="ua:FolderType" PartNo="12">
     <opc:Children>
       <opc:Object SymbolicName="DefaultApplicationGroup" TypeDefinition="CertificateGroupType" ModellingRule="Mandatory">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
       </opc:Object>
-      <opc:Object SymbolicName="DefaultHttpsGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Optional">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+      <opc:Object SymbolicName="DefaultHttpsGroup" TypeDefinition="CertificateGroupType" ModellingRule="Optional">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
       </opc:Object>
       <opc:Object SymbolicName="DefaultUserTokenGroup" TypeDefinition="CertificateGroupType"  ModellingRule="Optional">
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
       </opc:Object>
       <opc:Object SymbolicName="AdditionalGroup_Placeholder" TypeDefinition="CertificateGroupType"  ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;AdditionalGroup&gt;</opc:BrowseName>
@@ -4408,15 +4478,21 @@
   <opc:ObjectType SymbolicName="RsaMinApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12"></opc:ObjectType>
   <opc:ObjectType SymbolicName="RsaSha256ApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12"></opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="EccApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12" ReleaseStatus="Released"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccNistP256ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Released"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccNistP384ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Released"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccBrainpoolP256r1ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Released"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccBrainpoolP384r1ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Released"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccCurve25519ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Released"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="EccCurve448ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12" ReleaseStatus="Released"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccNistP256ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccNistP384ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccBrainpoolP256r1ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccBrainpoolP384r1ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccCurve25519ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12"></opc:ObjectType>
+  <opc:ObjectType SymbolicName="EccCurve448ApplicationCertificateType" BaseType="EccApplicationCertificateType" PartNo="12"></opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="TrustListUpdatedAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true" PartNo="12">
+  <opc:ObjectType SymbolicName="TrustListUpdateRequestedAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true" PartNo="12">
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="TrustListUpdatedAuditEventType" BaseType="ua:AuditEventType" IsAbstract="true" PartNo="12">
+    <opc:Children>
+      <opc:Property SymbolicName="TrustListId" DataType="NodeId" ModellingRule="Mandatory" />
+    </opc:Children>
   </opc:ObjectType>
 
   <opc:Method SymbolicName="UpdateCertificateMethodType">
@@ -4451,27 +4527,177 @@
       <opc:Argument Name="Certificates" DataType="ua:ByteString" ValueRank="Array"></opc:Argument>
     </opc:OutputArguments>
   </opc:Method>
+  
+  <opc:Method SymbolicName="GetCertificatesMethodType">
+    <opc:InputArguments>
+      <opc:Argument Name="CertificateGroupId" DataType="ua:NodeId"></opc:Argument>
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="CertificateTypeIds" DataType="ua:NodeId" ValueRank="Array"></opc:Argument>
+      <opc:Argument Name="Certificates" DataType="ua:ByteString" ValueRank="Array"></opc:Argument>
+    </opc:OutputArguments>
+  </opc:Method>
 
+
+  <opc:DataType SymbolicName="TransactionErrorType" BaseType="ua:Structure" PartNo="12">
+    <opc:Fields>
+      <opc:Field Name="TargetId" DataType="ua:NodeId" />
+      <opc:Field Name="Error" DataType="ua:StatusCode" />
+      <opc:Field Name="Message" DataType="ua:LocalizedText" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:ObjectType SymbolicName="TransactionDiagnosticsType" BaseType="ua:BaseObjectType" PartNo="12">
+    <opc:Children>
+      <opc:Property SymbolicName="StartTime" DataType="UtcTime" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="EndTime" DataType="UtcTime" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Result" DataType="StatusCode" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="AffectedTrustLists" DataType="NodeId" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="AffectedCertificateGroups" DataType="NodeId" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Errors" DataType="TransactionErrorType" ValueRank="Array" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+  
   <opc:ObjectType SymbolicName="ServerConfigurationType" BaseType="ua:BaseObjectType" PartNo="12">
     <opc:Children>
       <opc:Object SymbolicName="CertificateGroups" TypeDefinition="CertificateGroupFolderType" ModellingRule="Mandatory">
         <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
       </opc:Object>
 
+      <opc:Property SymbolicName="ApplicationUri" DataType="ua:UriString" ModellingRule="Optional"/>
+      <opc:Property SymbolicName="ProductUri" DataType="ua:UriString" ModellingRule="Optional"/>
+      <opc:Property SymbolicName="ApplicationType" DataType="ua:ApplicationType" ModellingRule="Optional" />
       <opc:Property SymbolicName="ServerCapabilities" DataType="ua:String" ValueRank="Array" />
       <opc:Property SymbolicName="SupportedPrivateKeyFormats" DataType="ua:String" ValueRank="Array" />
       <opc:Property SymbolicName="MaxTrustListSize" DataType="ua:UInt32" />
       <opc:Property SymbolicName="MulticastDnsEnabled" DataType="ua:Boolean" />
-      <opc:Property SymbolicName="HasSecureElement" DataType="ua:Boolean" ModellingRule="Optional" ReleaseStatus="Draft" />
+      <opc:Property SymbolicName="HasSecureElement" DataType="ua:Boolean" ModellingRule="Optional" />
 
-      <opc:Method SymbolicName="UpdateCertificate" TypeDefinition="UpdateCertificateMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="ApplyChanges" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="CreateSigningRequest" TypeDefinition="CreateSigningRequestMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="GetRejectedList" TypeDefinition="GetRejectedListMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="UpdateCertificate" TypeDefinition="UpdateCertificateMethodType" ModellingRule="Mandatory">
+        <opc:RolePermissions>
+          <opc:RolePermission Role="WellKnownRole_Anonymous">
+            <opc:Permission>None</opc:Permission>
+          </opc:RolePermission>
+          <opc:RolePermission Role="WellKnownRole_AuthenticatedUser">
+            <opc:Permission>None</opc:Permission>
+          </opc:RolePermission>
+          <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
+            <opc:Permission>Browse</opc:Permission>
+            <opc:Permission>Call</opc:Permission>
+          </opc:RolePermission>
+        </opc:RolePermissions>
+        <opc:AccessRestrictions>
+          <opc:AccessRestriction>EncryptionRequired</opc:AccessRestriction>
+        </opc:AccessRestrictions>
+      </opc:Method>
+
+      <opc:Method SymbolicName="GetCertificates" TypeDefinition="GetCertificatesMethodType" ModellingRule="Optional">
+        <opc:RolePermissions>
+          <opc:RolePermission Role="WellKnownRole_Anonymous" />
+          <opc:RolePermission Role="WellKnownRole_AuthenticatedUser" />
+          <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
+            <opc:Permission>Browse</opc:Permission>
+            <opc:Permission>Call</opc:Permission>
+          </opc:RolePermission>
+        </opc:RolePermissions>
+        <opc:AccessRestrictions>
+          <opc:AccessRestriction>SigningRequired</opc:AccessRestriction>
+        </opc:AccessRestrictions>
+      </opc:Method>
+
+      <opc:Method SymbolicName="ApplyChanges" ModellingRule="Mandatory">
+        <opc:RolePermissions>
+          <opc:RolePermission Role="WellKnownRole_Anonymous" />
+          <opc:RolePermission Role="WellKnownRole_AuthenticatedUser" />
+          <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
+            <opc:Permission>Browse</opc:Permission>
+            <opc:Permission>Call</opc:Permission>
+          </opc:RolePermission>
+        </opc:RolePermissions>
+        <opc:AccessRestrictions>
+          <opc:AccessRestriction>SigningRequired</opc:AccessRestriction>
+          <opc:AccessRestriction>SessionRequired</opc:AccessRestriction>
+        </opc:AccessRestrictions>
+      </opc:Method>
+
+      <opc:Method SymbolicName="CancelChanges" ModellingRule="Optional">
+        <opc:RolePermissions>
+          <opc:RolePermission Role="WellKnownRole_Anonymous" />
+          <opc:RolePermission Role="WellKnownRole_AuthenticatedUser" />
+          <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
+            <opc:Permission>Browse</opc:Permission>
+            <opc:Permission>Call</opc:Permission>
+          </opc:RolePermission>
+        </opc:RolePermissions>
+        <opc:AccessRestrictions>
+          <opc:AccessRestriction>SigningRequired</opc:AccessRestriction>
+          <opc:AccessRestriction>SessionRequired</opc:AccessRestriction>
+        </opc:AccessRestrictions>
+      </opc:Method>
+
+      <opc:Method SymbolicName="CreateSigningRequest" TypeDefinition="CreateSigningRequestMethodType" ModellingRule="Mandatory">
+        <opc:RolePermissions>
+          <opc:RolePermission Role="WellKnownRole_Anonymous" />
+          <opc:RolePermission Role="WellKnownRole_AuthenticatedUser" />
+          <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
+            <opc:Permission>Browse</opc:Permission>
+            <opc:Permission>Call</opc:Permission>
+          </opc:RolePermission>
+        </opc:RolePermissions>
+        <opc:AccessRestrictions>
+          <opc:AccessRestriction>EncryptionRequired</opc:AccessRestriction>
+        </opc:AccessRestrictions>
+      </opc:Method>
+      
+      <opc:Method SymbolicName="GetRejectedList" TypeDefinition="GetRejectedListMethodType" ModellingRule="Mandatory">
+        <opc:RolePermissions>
+          <opc:RolePermission Role="WellKnownRole_Anonymous" />
+          <opc:RolePermission Role="WellKnownRole_AuthenticatedUser" />
+          <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
+            <opc:Permission>Browse</opc:Permission>
+            <opc:Permission>Call</opc:Permission>
+          </opc:RolePermission>
+        </opc:RolePermissions>
+        <opc:AccessRestrictions>
+          <opc:AccessRestriction>SigningRequired</opc:AccessRestriction>
+        </opc:AccessRestrictions>
+      </opc:Method>
+
+      <opc:Method SymbolicName="ResetToServerDefaults" ModellingRule="Optional">
+        <opc:RolePermissions>
+          <opc:RolePermission Role="WellKnownRole_Anonymous" />
+          <opc:RolePermission Role="WellKnownRole_AuthenticatedUser" />
+          <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
+            <opc:Permission>Browse</opc:Permission>
+            <opc:Permission>Call</opc:Permission>
+          </opc:RolePermission>
+        </opc:RolePermissions>
+        <opc:AccessRestrictions>
+          <opc:AccessRestriction>SigningRequired</opc:AccessRestriction>
+        </opc:AccessRestrictions>
+      </opc:Method>
+
+      <opc:Object SymbolicName="TransactionDiagnostics" TypeDefinition="TransactionDiagnosticsType" ModellingRule="Optional">
+        <opc:RolePermissions>
+          <opc:RolePermission Role="WellKnownRole_Anonymous" />
+          <opc:RolePermission Role="WellKnownRole_AuthenticatedUser" />
+          <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
+            <opc:Permission>Browse</opc:Permission>
+            <opc:Permission>Read</opc:Permission>
+          </opc:RolePermission>
+        </opc:RolePermissions>
+        <opc:AccessRestrictions>
+          <opc:AccessRestriction>SigningRequired</opc:AccessRestriction>
+        </opc:AccessRestrictions>
+      </opc:Object>    
+      
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="CertificateUpdatedAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true" PartNo="12">
+  <opc:ObjectType SymbolicName="CertificateUpdateRequestedAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true" PartNo="12">
+  </opc:ObjectType>
+  
+  <opc:ObjectType SymbolicName="CertificateUpdatedAuditEventType" BaseType="ua:AuditEventType" IsAbstract="true" PartNo="12">
     <opc:Children>
       <opc:Property SymbolicName="CertificateGroup" DataType="ua:NodeId" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="CertificateType" DataType="ua:NodeId" ModellingRule="Mandatory" />
@@ -4480,7 +4706,13 @@
 
   <opc:Object SymbolicName="ServerConfiguration" TypeDefinition="ServerConfigurationType">
     <opc:Children>
-      <opc:Property SymbolicName="HasSecureElement" ModellingRule="Mandatory" ReleaseStatus="Draft" />
+      <opc:Property SymbolicName="ApplicationUri" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ProductUri" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ApplicationType" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="HasSecureElement" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="CancelChanges" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ResetToServerDefaults" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="SetAdminPassword" ModellingRule="Mandatory" />
 
       <opc:Object SymbolicName="CertificateGroups" TypeDefinition="CertificateGroupFolderType" ModellingRule="Mandatory">
         <opc:Children>
@@ -4537,10 +4769,12 @@
         <opc:TargetId>ua:Server</opc:TargetId>
       </opc:Reference>
     </opc:References>
+    
   </opc:Object>
 
   <opc:Method SymbolicName="CreateCredentialMethodType" PartNo="12">
     <opc:InputArguments>
+      <opc:Argument Name="Name" DataType="ua:String" />
       <opc:Argument Name="ResourceUri" DataType="ua:String" />
       <opc:Argument Name="ProfileUri" DataType="ua:String" />
       <opc:Argument Name="EndpointUrls" DataType="ua:String" ValueRank="Array"></opc:Argument>
@@ -4569,14 +4803,14 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Method SymbolicName="GetEncryptingKeyMethodType" PartNo="12" ReleaseStatus="Released">
+  <opc:Method SymbolicName="GetEncryptingKeyMethodType" PartNo="12">
     <opc:InputArguments>
       <opc:Argument Name="CredentialId" DataType="ua:String" />
       <opc:Argument Name="RequestedSecurityPolicyUri" DataType="ua:String" />
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="PublicKey" DataType="ua:ByteString"></opc:Argument>
-      <opc:Argument Name="RevisedSecurityPolicyUri" DataType="ua:NodeId"></opc:Argument>
+      <opc:Argument Name="RevisedSecurityPolicyUri" DataType="ua:String"></opc:Argument>
     </opc:OutputArguments>
   </opc:Method>
 
@@ -5658,11 +5892,43 @@
       <opc:Property SymbolicName="SupportedTransportProfiles" DataType="String" ValueRank="Array" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DefaultDatagramPublisherId" DataType="UInt64" ModellingRule="Optional" />
       <opc:Property SymbolicName="ConfigurationVersion" DataType="VersionTime" ModellingRule="Optional" />
+      <opc:Property SymbolicName="DefaultSecurityKeyServices" DataType="EndpointDescription" ValueRank="Array" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ConfigurationProperties" DataType="KeyValuePair" ValueRank="Array" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
   <opc:Object SymbolicName="PublishSubscribe" TypeDefinition="PublishSubscribeType" PartNo="14">
     <opc:Children>    
+      <opc:Method SymbolicName="GetSecurityKeys" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="GetSecurityGroup" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="SecurityGroups" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="KeyPushTargets" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="SetSecurityKeys" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddConnection" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveConnection" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="PublishedDataSets" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="SubscribedDataSets" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="PubSubConfiguration" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="Status" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="Diagnostics" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="PubSubCapablities" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="DataSetClasses" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="SupportedTransportProfiles" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="DefaultDatagramPublisherId" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ConfigurationVersion" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="DefaultSecurityKeyServices" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ConfigurationProperties" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+        <opc:TargetId>ua:Server</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:Object SymbolicName="DataSetClasses" TypeDefinition="PublishSubscribeType" PartNo="14">
+    <opc:Children>
       <opc:Method SymbolicName="GetSecurityKeys" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="GetSecurityGroup" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="SecurityGroups" ModellingRule="Mandatory" />
@@ -5688,7 +5954,7 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
-
+  
   <opc:Method SymbolicName="SetSecurityKeysMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
@@ -5735,8 +6001,8 @@
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="DefaultPublisherId" DataType="ua:BaseDataType" />
-      <opc:Argument Name="WriterGroupIds" DataType="ua:UInt16" />
-      <opc:Argument Name="DataSetWriterIds" DataType="ua:UInt16" />
+      <opc:Argument Name="WriterGroupIds" DataType="ua:UInt16" ValueRank="Array" />
+      <opc:Argument Name="DataSetWriterIds" DataType="ua:UInt16" ValueRank="Array" />
     </opc:OutputArguments>
   </opc:Method>
 
@@ -5829,7 +6095,7 @@
   <opc:Method SymbolicName="AddExtensionFieldMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="FieldName" DataType="ua:QualifiedName" ValueRank="Scalar" />
-      <opc:Argument Name="FieldValue" DataType="ua:BaseDataType" ValueRank="ScalarOrArray" />
+      <opc:Argument Name="FieldValue" DataType="ua:BaseDataType" ValueRank="Scalar" />
     </opc:InputArguments>
     <opc:OutputArguments>
       <opc:Argument Name="FieldId" DataType="ua:NodeId"  ValueRank="Scalar" />
@@ -6905,6 +7171,11 @@
       <opc:Property SymbolicName="MaxDataSetWriters" DataType="ua:UInt32" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MaxDataSetReaders" DataType="ua:UInt32" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MaxFieldsPerDataSet" DataType="ua:UInt32" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MaxDataSetWritersPerGroup" DataType="ua:UInt32" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MaxNetworkMessageSizeDatagram" DataType="ua:UInt32" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MaxNetworkMessageSizeBroker" DataType="ua:UInt32" ModellingRule="Optional" />
+      <opc:Property SymbolicName="SupportSecurityKeyPull" DataType="ua:Boolean" ModellingRule="Optional" />
+      <opc:Property SymbolicName="SupportSecurityKeyPush" DataType="ua:Boolean" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -7003,7 +7274,7 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="DatagramDataSetReaderTransportType" BaseType="WriterGroupTransportType" PartNo="14">
+  <opc:ObjectType SymbolicName="DatagramDataSetReaderTransportType" BaseType="DataSetReaderTransportType" PartNo="14">
     <opc:Children>
       <opc:Object SymbolicName="Address" TypeDefinition="NetworkAddressType" ModellingRule="Optional" />
       <opc:Property SymbolicName="QosCategory" DataType="String" ModellingRule="Optional" />
@@ -7063,10 +7334,10 @@
 
   <!-- Part 17 -->
 
-  <opc:ObjectType SymbolicName="AliasNameType" BaseType="ua:BaseObjectType" PartNo="17" ReleaseStatus="Released">
+  <opc:ObjectType SymbolicName="AliasNameType" BaseType="ua:BaseObjectType" PartNo="17">
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AliasNameCategoryType" BaseType="ua:FolderType" PartNo="17" ReleaseStatus="Released">
+  <opc:ObjectType SymbolicName="AliasNameCategoryType" BaseType="ua:FolderType" PartNo="17">
     <opc:Children>
       <opc:Object SymbolicName="Alias_Placeholder" TypeDefinition="AliasNameType"  ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;Alias&gt;</opc:BrowseName>
@@ -7081,7 +7352,7 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:Method SymbolicName="FindAliasMethodType" PartNo="17" ReleaseStatus="Released">
+  <opc:Method SymbolicName="FindAliasMethodType" PartNo="17">
     <opc:InputArguments>
       <opc:Argument Name="AliasNameSearchPattern" DataType="ua:String" />
       <opc:Argument Name="ReferenceTypeFilter" DataType="ua:NodeId" />
@@ -7091,18 +7362,18 @@
     </opc:OutputArguments>
   </opc:Method>
 
-  <opc:DataType SymbolicName="AliasNameDataType" BaseType="Structure" PartNo="17" ReleaseStatus="Released">
+  <opc:DataType SymbolicName="AliasNameDataType" BaseType="Structure" PartNo="17">
     <opc:Fields>
       <opc:Field Name="AliasName" DataType="ua:QualifiedName" />
       <opc:Field Name="ReferencedNodes" DataType="ua:ExpandedNodeId" ValueRank="Array" />
     </opc:Fields>
   </opc:DataType>
 
-  <opc:ReferenceType SymbolicName="AliasFor" BaseType="ua:NonHierarchicalReferences" PartNo="17" ReleaseStatus="Released">
+  <opc:ReferenceType SymbolicName="AliasFor" BaseType="ua:NonHierarchicalReferences" PartNo="17">
     <opc:InverseName>HasAlias</opc:InverseName>
   </opc:ReferenceType>
 
-  <opc:Object SymbolicName="Aliases" TypeDefinition="AliasNameCategoryType" ModellingRule="None" PartNo="17" ReleaseStatus="Released">
+  <opc:Object SymbolicName="Aliases" TypeDefinition="AliasNameCategoryType" ModellingRule="None" PartNo="17">
     <opc:BrowseName>Aliases</opc:BrowseName>
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -7112,7 +7383,7 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Object SymbolicName="TagVariables" TypeDefinition="AliasNameCategoryType" ModellingRule="None" PartNo="17" ReleaseStatus="Released">
+  <opc:Object SymbolicName="TagVariables" TypeDefinition="AliasNameCategoryType" ModellingRule="None" PartNo="17">
     <opc:BrowseName>TagVariables</opc:BrowseName>
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -7122,7 +7393,7 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Object SymbolicName="Topics" TypeDefinition="AliasNameCategoryType" ModellingRule="None" PartNo="17" ReleaseStatus="Released">
+  <opc:Object SymbolicName="Topics" TypeDefinition="AliasNameCategoryType" ModellingRule="None" PartNo="17">
     <opc:BrowseName>Topics</opc:BrowseName>
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -7141,9 +7412,9 @@
       <opc:Property SymbolicName="PasswordOptions" DataType="PasswordOptionsMask" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="PasswordRestrictions" DataType="LocalizedText" ModellingRule="Optional" />
       <opc:Method SymbolicName="AddUser" TypeDefinition="AddUserMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="ModifyUser" TypeDefinition="AddUserMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="RemoveUser" TypeDefinition="AddUserMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="ChangePassword" TypeDefinition="AddUserMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ModifyUser" TypeDefinition="ModifyUserMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveUser" TypeDefinition="RemoveUserMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ChangePassword" TypeDefinition="ChangePasswordMethodType" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -7252,18 +7523,63 @@
   
   <!-- Part 19 -->
 
-  <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteBaseType" BaseType="ua:MultiStateValueDiscreteType" DataType="Number" ValueRank="Scalar" PartNo="19" ReleaseStatus="Released">
+  <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteBaseType" BaseType="ua:MultiStateValueDiscreteType" DataType="Number" ValueRank="Scalar" PartNo="19">
     <opc:Children>
       <opc:Property SymbolicName="EnumDictionaryEntries" DataType="ua:NodeId" ValueRank="OneOrMoreDimensions" ArrayDimensions="0,0"  ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ValueAsDictionaryEntries" DataType="ua:NodeId" ValueRank="Array" ArrayDimensions="0"  ModellingRule="Optional" />
     </opc:Children>
   </opc:VariableType>
 
-  <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteType" BaseType="MultiStateDictionaryEntryDiscreteBaseType" DataType="Number" ValueRank="Scalar" PartNo="19" ReleaseStatus="Released">
+  <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteType" BaseType="MultiStateDictionaryEntryDiscreteBaseType" DataType="Number" ValueRank="Scalar" PartNo="19">
     <opc:Children>
       <opc:Property SymbolicName="ValueAsDictionaryEntries" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:VariableType>
+
+  <!-- Part 21 -->
+  
+  <opc:DataType SymbolicName="EncodedTicket" BaseType="String" PartNo="21" />
+  
+  <opc:Method SymbolicName="RequestTicketsMethodType">
+    <opc:OutputArguments>
+      <opc:Argument Name="Tickets" DataType="ua:EncodedTicket" ValueRank="Array"></opc:Argument>
+    </opc:OutputArguments>
+  </opc:Method>
+  
+  <opc:Method SymbolicName="SetRegistrarEndpointsMethodType">
+    <opc:InputArguments>
+      <opc:Argument Name="Registrars" DataType="ua:ApplicationDescription" ValueRank="Array"></opc:Argument>
+    </opc:InputArguments>
+  </opc:Method>
+
+  <opc:ObjectType SymbolicName="ApplicationConfigurationType" BaseType="ua:ServerConfigurationType" PartNo="21">
+    <opc:Children>
+      <opc:Property SymbolicName="Enabled" DataType="ua:Boolean" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ProductUri" DataType="ua:UriString" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ApplicationUri" DataType="ua:UriString" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ApplicationType" DataType="ua:ApplicationType" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="ProvisionableDeviceType" BaseType="BaseObjectType" PartNo="21">
+    <opc:Children>
+      <opc:Property SymbolicName="IsSingleton" DataType="ua:Boolean" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RequestTickets" TypeDefinition="RequestTicketsMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="SetRegistrarEndpoints" TypeDefinition="SetRegistrarEndpointsMethodType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="ApplicationName_Placeholder" TypeDefinition="ApplicationConfigurationType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;ApplicationName&gt;</opc:BrowseName>
+      </opc:Object>
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:Object SymbolicName="ProvisionableDevice" TypeDefinition="ProvisionableDeviceType">
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:Resources</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
 
   <!-- Part 22 -->
 
@@ -7843,4 +8159,32 @@
     <opc:InverseName>AttachedComponentOf</opc:InverseName>
   </opc:ReferenceType>
 
+  <opc:ReferenceType SymbolicName="HasReferenceDescription" BaseType="HasChild" PartNo="23">
+    <opc:InverseName>ReferenceDescriptionOf</opc:InverseName>
+  </opc:ReferenceType>
+  
+  <opc:VariableType SymbolicName="ReferenceDescriptionVariableType" BaseType="BaseDataVariableType" DataType="ReferenceDescriptionDataType" ValueRank="Scalar" PartNo="23">
+    <opc:Children>
+      <opc:Property SymbolicName="ReferenceRefinement" DataType="ReferenceListEntryDataType" ValueRank="Array" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:VariableType>
+
+  <opc:DataType SymbolicName="ReferenceDescriptionDataType" BaseType="Structure" PartNo="23">
+    <opc:Fields>
+      <opc:Field Name="SourceNode" DataType="NodeId" />
+      <opc:Field Name="ReferenceType" DataType="NodeId" />
+      <opc:Field Name="IsForward" DataType="Boolean" />
+      <opc:Field Name="TargetNode" DataType="ExpandedNodeId" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="ReferenceListEntryDataType" BaseType="Structure" PartNo="23">
+    <opc:Fields>
+      <opc:Field Name="ReferenceType" DataType="NodeId" />
+      <opc:Field Name="IsForward" DataType="Boolean" />
+      <opc:Field Name="TargetNode" DataType="ExpandedNodeId" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <!-- Part 24 -->
 </opc:ModelDesign>
