@@ -115,7 +115,7 @@ A Docker build with the UA Model Compiler is available in GitHub as [ua-modelcom
 
 It can be downloaded with this command:
 ```
-docker pull ghcr.io/opcf-members/ua-modelcompiler:latest
+docker pull ghcr.io/opcfoundation/ua-modelcompiler:latest
 ```
 
 You may need to use this command before downloading the docker image:
@@ -126,7 +126,7 @@ docker login ghcr.io -u <user> -p <person access token>
 Running the image requires a local directory with the source files which is specified with the -v option (the %CD% is using Windows cmd prompt syntax. Use $(pwd) if using bash). The following command is run from the directory where the source files are:
 
 ```
-docker run -v %CD%:/data --rm ghcr.io/opcf-members/ua-modelcompiler:latest compile -d2 /data/Opc.Ua.Di.NodeSet2.xml,Opc.Ua.DI,DI -o2 /data/generated 
+docker run -v %CD%:/data --rm ghcr.io/opcfoundation/ua-modelcompiler:latest compile -d2 /data/Opc.Ua.Di.NodeSet2.xml,Opc.Ua.DI,DI -o2 /data/generated 
 ```
 
 The tool can also automatically find all NodeSet dependencies if it is run from a directory with all necessary NodeSets (i.e. [UA-Nodeset](https://github.com/OPCFoundation/UA-Nodeset)). The command to run from the nodeset directory is:
