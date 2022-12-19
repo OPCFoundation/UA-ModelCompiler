@@ -5881,7 +5881,9 @@
       <opc:Object SymbolicName="PubSubConfiguration" TypeDefinition="PubSubConfigurationType" ModellingRule="Optional" />
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsRootType" ModellingRule="Optional" />
-      <opc:Object SymbolicName="PubSubCapablities" TypeDefinition="PubSubCapabilitiesType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="PubSubCapablities" TypeDefinition="PubSubCapabilitiesType" ModellingRule="Optional">
+        <opc:DisplayName>PubSubCapabilities</opc:DisplayName>
+      </opc:Object>
       <opc:Object SymbolicName="DataSetClasses" TypeDefinition="FolderType" ModellingRule="Optional">
         <opc:Children>
           <opc:Variable SymbolicName="DataSetName_Placeholder" DataType="DataSetMetaDataType" ModellingRule="OptionalPlaceholder">
@@ -5911,41 +5913,21 @@
       <opc:Object SymbolicName="PubSubConfiguration" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Status" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="PubSubCapablities" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="PubSubCapablities" ModellingRule="Mandatory">
+        <opc:Children>
+          <opc:Property SymbolicName="MaxDataSetWritersPerGroup" ModellingRule="Mandatory" />
+          <opc:Property SymbolicName="MaxNetworkMessageSizeDatagram" ModellingRule="Mandatory" />
+          <opc:Property SymbolicName="MaxNetworkMessageSizeBroker" ModellingRule="Mandatory" />
+          <opc:Property SymbolicName="SupportSecurityKeyPull" ModellingRule="Mandatory" />
+          <opc:Property SymbolicName="SupportSecurityKeyPush" ModellingRule="Mandatory" />
+        </opc:Children>
+      </opc:Object>
       <opc:Object SymbolicName="DataSetClasses" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="SupportedTransportProfiles" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DefaultDatagramPublisherId" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ConfigurationVersion" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="DefaultSecurityKeyServices" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ConfigurationProperties" ModellingRule="Mandatory" />
-    </opc:Children>
-    <opc:References>
-      <opc:Reference IsInverse="true">
-        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
-        <opc:TargetId>ua:Server</opc:TargetId>
-      </opc:Reference>
-    </opc:References>
-  </opc:Object>
-
-  <opc:Object SymbolicName="DataSetClasses" TypeDefinition="PublishSubscribeType" PartNo="14">
-    <opc:Children>
-      <opc:Method SymbolicName="GetSecurityKeys" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="GetSecurityGroup" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="SecurityGroups" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="KeyPushTargets" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="SetSecurityKeys" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="AddConnection" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="RemoveConnection" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="PublishedDataSets" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="SubscribedDataSets" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="PubSubConfiguration" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="Status" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="Diagnostics" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="PubSubCapablities" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="DataSetClasses" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="SupportedTransportProfiles" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="DefaultDatagramPublisherId" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ConfigurationVersion" ModellingRule="Mandatory" />
     </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">

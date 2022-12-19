@@ -286,6 +286,10 @@
     <opc:Field Name="DiscoveryUrls" DataType="s0:String" ValueRank="0" />
   </opc:ComplexType>
 
+  <opc:ComplexType Name="PublisherDescription" BaseType="ApplicationDescription" ReleaseStatus="Draft" AllowArrays="true" PartNo="14" >
+    <opc:Field Name="ServerCapabilities" DataType="s0:String" ValueRank="0" />
+  </opc:ComplexType>
+
   <opc:ComplexType Name="RequestHeader" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly">
     <opc:Field Name="AuthenticationToken" DataType="SessionAuthenticationToken" />
     <opc:Field Name="Timestamp" DataType="UtcTime" />

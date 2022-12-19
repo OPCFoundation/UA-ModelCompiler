@@ -2250,11 +2250,25 @@ namespace ModelCompiler
                 return false;
             }
 
+            object id;
+            string idType;
+            if (node.NumericIdSpecified)
+            {
+                id = node.NumericId;
+                idType = "uint";
+            }
+            else
+            {
+                id = $"\"{node.StringId}\"";
+                idType = "string";
+            }
+
             template.AddReplacement("_NodeClass_", GetNodeClass(node));
             template.AddReplacement("_SymbolicName_", node.SymbolicId.Name);
-            template.AddReplacement("_Identifier_", node.NumericId);
+            template.AddReplacement("_Identifier_", id);
             template.AddReplacement("_NamespaceUri_", GetConstantForNamespace(node.SymbolicId.Namespace));
             template.AddReplacement("_NamespacePrefix_", GetNamespacePrefix(node.SymbolicId.Namespace));
+            template.AddReplacement("_IdType_", idType);
 
             return template.WriteTemplate(context);
         }
@@ -3757,16 +3771,34 @@ namespace ModelCompiler
                         if (field.ValueRank == ValueRank.Array)
                         { 
                             template.Write($"({elementName}[])ExtensionObject.ToArray(decoder.ReadExtensionObjectArray(\"{field.Name}\"), typeof({elementName}));");
+
+                            if (isUnion)
+                            {
+                                template.Write(" break; }");
+                            }
+                            
                             return context.TemplatePath;
                         }
 
                         if (field.ValueRank == ValueRank.Scalar)
                         {
                             template.Write($"({elementName})ExtensionObject.ToEncodeable(decoder.ReadExtensionObject(\"{field.Name}\"));");
+
+                            if (isUnion)
+                            {
+                                template.Write(" break; }");
+                            }
+                            
                             return context.TemplatePath;
                         }
 
                         template.Write($"decoder.ReadVariant(\"{field.Name}\");");
+                        
+                        if (isUnion)
+                        {
+                            template.Write(" break; }");
+                        }
+
                         return context.TemplatePath;
                     }
 
@@ -4690,8 +4722,7 @@ namespace ModelCompiler
                 {
                     className = className.Substring(0, className.Length - "MethodType".Length);
                 }
-
-                if (className.EndsWith("Type"))
+                else if (className.EndsWith("Type"))
                 {
                     className = className.Substring(0, className.Length - "Type".Length);
                 }

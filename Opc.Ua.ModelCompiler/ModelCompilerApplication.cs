@@ -75,7 +75,7 @@ namespace ModelCompiler
                 path = path.Substring(7);
             }
 
-            return path.Trim('/').Replace('/', '.').Replace('-', '_').Replace('+', '_');
+            return path.Trim('/').Replace("/", "").Replace('-', '_').Replace('+', '_');
         }
 
         private static void LoadNodeSet(FileInfo file, Dictionary<string, NodeSetInfo> nodesets)
@@ -378,9 +378,9 @@ namespace ModelCompiler
 
                     found.Add(modelUri);
 
-                    Dictionary<string, NodeSetInfo> dependecies = new();
+                    Dictionary<string, NodeSetInfo> dependencies = new();
                     
-                    if (!CollectDependencies(nodeset, nodesets, dependecies))
+                    if (!CollectDependencies(nodeset, nodesets, dependencies))
                     {
                         continue;
                     }
@@ -389,7 +389,7 @@ namespace ModelCompiler
 
                     try
                     {
-                        GenerateCode(input.FullName, options.OutputPath, nodeset, dependecies);
+                        GenerateCode(input.FullName, options.OutputPath, nodeset, dependencies);
                     }
                     catch (Exception e)
                     {

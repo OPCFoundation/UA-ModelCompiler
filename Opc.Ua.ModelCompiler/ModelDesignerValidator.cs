@@ -57,6 +57,7 @@ namespace ModelCompiler
         private IList<string> m_exclusions;
         private Dictionary<XmlQualifiedName, string> m_browseNames = new Dictionary<XmlQualifiedName, string>();
         private Dictionary<string, string> m_designLocations = new Dictionary<string, string>();
+        private Dictionary<XmlQualifiedName, NodeId> m_symbolicIdToNodeId = new Dictionary<XmlQualifiedName, NodeId>();
         #endregion
 
         #region Constructors
@@ -70,7 +71,7 @@ namespace ModelCompiler
             m_exclusions = exclusions;
             EmbeddedModelDesignPath = "ModelCompiler.Design";
             EmbeddedCsvPath = "ModelCompiler.CSVs";
-            MaxRecursionDepth = 30;
+            MaxRecursionDepth = 100;
         }
         #endregion
 
@@ -998,6 +999,10 @@ namespace ModelCompiler
             else
             {
                 model = LoadModelDesign(fileToLoad, identifierFilePath, generateIds);
+
+                var ns = model.Namespaces.Where(x => x.Value == model.TargetNamespace).FirstOrDefault();
+                if (name != null) ns.Name = name;
+                if (prefix != null) ns.XmlPrefix = ns.Prefix = prefix;
             }
 
             return model;
@@ -1224,7 +1229,12 @@ namespace ModelCompiler
                 else
                 {
                     var design = (ModelDesign)LoadFile(typeof(ModelDesign), fileToLoad);
-                    design.Namespaces[0].FilePath = path;
+                    
+                    foreach (var ns in design.Namespaces)
+                    {
+                        ns.FilePath = (ns.Value == design.TargetNamespace) ? path : null;
+                    }
+
                     fileNamespaces = design.Namespaces.Where(x => x.Name != "OpcUa").Reverse();
                 }
 
@@ -1235,9 +1245,46 @@ namespace ModelCompiler
                         MergeNamespace(namespaces, ns);
                     }
                 }
+
+                var target = fileNamespaces.Last();
+
+                foreach (var ns in fileNamespaces)
+                {
+                    if (ns.Value == target.Value)
+                    {
+                        break;
+                    }
+
+                    if (ns.Value == Opc.Ua.Namespaces.OpcUa)
+                    {
+                        continue;
+                    }
+
+                    int index1 = FindNamespace(namespaces, target.Value);
+                    int index2 = FindNamespace(namespaces, ns.Value);
+
+                    if (index1 > index2)
+                    {
+                        namespaces.Insert(index2, namespaces[index1]);
+                        namespaces.RemoveAt(index1+1);
+                    }
+                }
             }
 
             return namespaces;
+        }
+
+        private int FindNamespace(List<Namespace> namespaces, string uri)
+        {
+            for (int ii = 0; ii < namespaces.Count; ii++)
+            {
+                if (uri == namespaces[ii].Value)
+                {
+                    return ii;
+                }
+            }
+
+            return -1;
         }
 
         public void ValidateModel(IList<string> designFilePaths, string identifierFilePath, bool generateIds)
@@ -1259,7 +1306,7 @@ namespace ModelCompiler
             // load the design files.
             var namespaces = GetNamespaceList(designFilePaths);
 
-            for (int ii = 0; ii < namespaces.Count-1; ii++)
+            for (int ii = namespaces.Count - 1; ii > 0; ii--)
             {
                 if (namespaces[ii].FilePath == null)
                 {
@@ -2129,7 +2176,7 @@ namespace ModelCompiler
 
         private uint FindUnusedId(HashSet<uint> identifiers, string ns)
         {
-            uint id = (uint)((ns == Namespaces.OpcUa) ? 15000 : 0);
+            uint id = (uint)((ns == Namespaces.OpcUa) ? 15000 : m_startId);
             while (identifiers.Contains(++id));
             identifiers.Add(id);
             return id;
@@ -2147,7 +2194,15 @@ namespace ModelCompiler
 
             if (!identifiers.TryGetValue(node.SymbolicId.Name, out id))
             {
-                id = FindUnusedId(assignedIds, node.SymbolicId.Namespace);
+                if (m_symbolicIdToNodeId.TryGetValue(node.SymbolicId, out var nodeId))
+                {
+                    id = nodeId.Identifier;
+                }
+                else
+                {
+                    id = FindUnusedId(assignedIds, node.SymbolicId.Namespace);
+                }
+
                 identifiers.Add(node.SymbolicId.Name, id);
             }
 
@@ -2192,8 +2247,20 @@ namespace ModelCompiler
         /// </summary>
         private IDictionary<object, IdInfo> LoadIdentifiersFromStream2(ModelDesign dictionary, Stream istrm)
         {
+            var uniqueIdentifiersComparer = Comparer<object>.Create((lhs, rhs) =>
+            {
+                var lhst = lhs.GetType();
+                var rhst = rhs.GetType();
+                if (lhst == rhst && lhs is IComparable c)
+                {
+                    return c.CompareTo(rhs);
+                }
+
+                return lhst.Name.CompareTo(rhst.Name);
+            });
+
             Dictionary<string, object> identifiers = ParseFile(istrm);
-            SortedDictionary<object, IdInfo> uniqueIdentifiers = new SortedDictionary<object, IdInfo>();
+            SortedDictionary<object, IdInfo> uniqueIdentifiers = new SortedDictionary<object, IdInfo>(uniqueIdentifiersComparer);
             Dictionary<string, object> duplicateIdentifiers = new Dictionary<string, object>();
             HashSet<uint> assignedIds = new HashSet<uint>();
 
@@ -2205,6 +2272,12 @@ namespace ModelCompiler
                 {
                     assignedIds.Add(numericId.Value);
                 }
+            }
+
+            // Remove identifiers that are already known
+            foreach (var symbolicId in m_symbolicIdToNodeId.Keys)
+            {
+                identifiers.Remove(symbolicId.Name);
             }
 
             // assign identifiers.
@@ -2310,183 +2383,26 @@ namespace ModelCompiler
         }
 
         /// <summary>
-        /// Loads the identifiers from a CSV file.
-        /// </summary>
-        private IDictionary<object,object> LoadIdentifiersFromStream(Stream istrm)
-        {
-            Dictionary<string,object> identifiers = new Dictionary<string,object>();
-
-            StreamReader reader = new StreamReader(istrm);
-
-            HashSet<uint> assignedIds = new HashSet<uint>();
-
-            try
-            {
-                while (!reader.EndOfStream)
-                {
-                    string line = reader.ReadLine();
-
-                    if (String.IsNullOrEmpty(line) || line.StartsWith("#"))
-                    {
-                        continue;
-                    }
-
-                    int index = line.IndexOf(',');
-
-                    if (index == -1)
-                    {
-                        continue;
-                    }
-
-                    // remove the node class if it is present.
-                    int lastIndex = line.LastIndexOf(',');
-
-                    if (lastIndex != -1 && index != lastIndex)
-                    {
-                        line = line.Substring(0, lastIndex);
-                    }
-
-                    try
-                    {
-                        string name = line.Substring(0,index).Trim();
-
-                        string id = line.Substring(index+1).Trim();
-
-                        if (id.StartsWith("\""))
-                        {
-                            identifiers[name] = id.Substring(1, id.Length-2);
-                        }
-                        else
-                        {
-                            uint numericId = Convert.ToUInt32(id);
-                            assignedIds.Add(numericId);
-                            identifiers[name] = numericId;
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        continue;
-                    }
-                }
-            }
-            finally
-            {
-                reader.Close();
-            }
-
-            // check for predefined ids.
-            foreach (NodeDesign node in m_nodes.Values)
-            {
-                if (IsDeclaration(node))
-                {
-                    continue;
-                }
-
-                if (node.NumericIdSpecified)
-                {
-                    identifiers[node.SymbolicId.Name] = node.NumericId;
-                    assignedIds.Add(node.NumericId);
-                }
-            }
-
-            var uniqueIdentifiers = new SortedDictionary<object,object>();
-            var duplicateIdentifiers = new Dictionary<string,object>();
-
-            foreach (NodeDesign node in m_nodes.Values)
-            {
-                if (IsDeclaration(node) || !IsPublished(node))
-                {
-                    continue;
-                }
-
-                object id = null;
-
-                if (!identifiers.ContainsKey(node.SymbolicId.Name))
-                {
-                    id = node.NumericId = FindUnusedId(assignedIds, node.SymbolicId.Namespace);
-                    node.NumericIdSpecified = true;
-                    identifiers.Add(node.SymbolicId.Name, id);
-                }
-                else
-                {
-                    id = identifiers[node.SymbolicId.Name];
-
-                    if (id is uint)
-                    {
-                        node.NumericId = Convert.ToUInt32(id);
-                        node.NumericIdSpecified = true;
-                    }
-                    else
-                    {
-                        node.NumericId = 0;
-                        node.NumericIdSpecified = false;
-                        node.StringId = Convert.ToString(id);
-                    }
-                }
-
-                if (uniqueIdentifiers.ContainsKey(id))
-                {
-                    duplicateIdentifiers.Add(node.SymbolicId.Name, id);
-                }
-                else
-                {
-                    uniqueIdentifiers.Add(id, node);
-                }
-            }
-
-            // check for duplicate nodes.
-            if (duplicateIdentifiers.Count > 0)
-            {
-                StringBuilder buffer = new StringBuilder();
-
-                buffer.Append("Duplicate identifiers for these nodes:\r\n");
-
-                foreach (KeyValuePair<string,object> current in duplicateIdentifiers)
-                {
-                    buffer.AppendFormat("{0},{1}\r\n", current.Key, current.Value);
-                }
-
-                throw new InvalidOperationException(buffer.ToString());
-            }
-
-            foreach (var ii in identifiers)
-            {
-                if (!uniqueIdentifiers.ContainsKey(ii.Value))
-                {
-                    uniqueIdentifiers[ii.Value] = ii.Key;
-                }
-            }
-
-            return uniqueIdentifiers;
-        }
-
-        /// <summary>
-        /// Returns true is the node is published.
-        /// </summary>
-        private bool IsPublished(NodeDesign node)
-        {
-            // globally declared methods are a special case that do not appear in the address space.
-            MethodDesign method = node as MethodDesign;
-
-            if (method != null && method.Parent == null)
-            {
-                return false;
-            }
-
-            return (node != null);
-        }
-
-        /// <summary>
         /// Imports a node.
         /// </summary>
         private bool Import(ModelDesign model, NodeDesign node, NodeDesign parent)
         {
             UpdateNamesAndIdentifiers(node, parent);
 
-            if (node.NumericIdSpecified)
+            if (node.NumericId != 0)
             {
-                var ns = model.NamespaceUris.GetIndex(node.SymbolicId.Namespace);
-                m_nodesByNodeId[new NodeId(node.NumericId, (ushort)ns)] = node;
+                var ns = m_context.NamespaceUris.GetIndex(node.SymbolicId.Namespace);
+                var nodeId = new NodeId(node.NumericId, (ushort)ns);
+                m_nodesByNodeId[nodeId] = node;
+                m_symbolicIdToNodeId[node.SymbolicId] = nodeId;
+                node.NumericIdSpecified = true;
+            }
+            else if (!string.IsNullOrWhiteSpace(node.StringId))
+            {
+                var ns = m_context.NamespaceUris.GetIndex(node.SymbolicId.Namespace);
+                var nodeId = new NodeId(node.StringId, (ushort)ns);
+                m_nodesByNodeId[nodeId] = node;
+                m_symbolicIdToNodeId[node.SymbolicId] = nodeId;
             }
 
             if (IsExcluded(node))
@@ -4877,11 +4793,12 @@ namespace ModelCompiler
             TypeDesign type,
             string basePath,
             Dictionary<string,InstanceDesign> nodes,
-            int depth)
+            int depth,
+            bool fromInstance)
         {
             if (type.BaseTypeNode != null)
             {
-                SetOverriddenNodes(type.BaseTypeNode, basePath, nodes, depth + 1);
+                SetOverriddenNodes(type.BaseTypeNode, basePath, nodes, depth + 1, fromInstance);
             }
 
             if (type.Children != null && type.Children.Items != null)
@@ -4952,7 +4869,7 @@ namespace ModelCompiler
 
             if (parent.TypeDefinitionNode != null)
             {
-                SetOverriddenNodes(parent.TypeDefinitionNode, basePath, nodes, depth + 1);
+                SetOverriddenNodes(parent.TypeDefinitionNode, basePath, nodes, depth + 1, true);
             }
 
             if (parent.Children != null && parent.Children.Items != null)
@@ -4960,6 +4877,11 @@ namespace ModelCompiler
                 for (int ii = 0; ii < parent.Children.Items.Length; ii++)
                 {
                     InstanceDesign instance = parent.Children.Items[ii];
+
+                    if (instance.ModellingRule == ModellingRule.ExposesItsArray || instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
+                    {
+                        continue;
+                    }
 
                     string browsePath = GetBrowsePath(basePath, instance);
 
@@ -5012,7 +4934,7 @@ namespace ModelCompiler
 
             if (type != null)
             {
-                SetOverriddenNodes(type, String.Empty, nodes, depth + 1);
+                SetOverriddenNodes(type, String.Empty, nodes, depth + 1, false);
                 return;
             }
 
@@ -5122,6 +5044,14 @@ namespace ModelCompiler
                 for (int ii = 0; ii < parent.Children.Items.Length; ii++)
                 {
                     InstanceDesign instance = parent.Children.Items[ii];
+
+                    if (inherited)
+                    {
+                        if (!String.IsNullOrEmpty(basePath) && (instance.ModellingRule == ModellingRule.ExposesItsArray || instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder))
+                        {
+                            continue;
+                        }
+                    }
 
                     string browsePath = GetBrowsePath(basePath, instance);
 
@@ -5302,6 +5232,11 @@ namespace ModelCompiler
             // no common root.
             if (targetRoot == null)
             {
+                if (currentPathParts.Length < sourcePath.Length)
+                {
+                    return mergedReference;
+                }
+
                 targetRoot = new string[currentPathParts.Length - sourcePath.Length];
                 Array.Copy(currentPathParts, 0, targetRoot, 0, targetRoot.Length);
             }

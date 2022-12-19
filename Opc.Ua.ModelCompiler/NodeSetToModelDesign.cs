@@ -666,7 +666,7 @@ namespace ModelCompiler
             return basicType;
         }
 
-        private bool IsLetterOrDigit(char ch)
+        private static bool IsLetterOrDigit(char ch)
         {
             if (ch >= '0' && ch <= '9')
             {
@@ -686,7 +686,7 @@ namespace ModelCompiler
             return false;
         }
 
-        private string[] Keywords = new string[]
+        private static readonly string[] Keywords = new string[]
         {
             "private",
             "public",
@@ -708,7 +708,7 @@ namespace ModelCompiler
             "string"
         };
 
-        private string ToSymbolicName(string name)
+        public static string ToSymbolicName(string name)
         {
             if (Keywords.Contains(name))
             {
@@ -998,15 +998,18 @@ namespace ModelCompiler
             output.ModellingRule = ModellingRule.None;
             output.ModellingRuleSpecified = false;
 
-            foreach (var ii in input.References)
+            if (input.References != null)
             {
-                var reference = ImportReference(ii);
-
-                if (reference.ReferenceTypeId == Opc.Ua.ReferenceTypes.HasModellingRule && !reference.IsInverse)
+                foreach (var ii in input.References)
                 {
-                    output.ModellingRule = ImportModellingRule(reference.TargetId);
-                    output.ModellingRuleSpecified = true;
-                    break;
+                    var reference = ImportReference(ii);
+
+                    if (reference.ReferenceTypeId == Opc.Ua.ReferenceTypes.HasModellingRule && !reference.IsInverse)
+                    {
+                        output.ModellingRule = ImportModellingRule(reference.TargetId);
+                        output.ModellingRuleSpecified = true;
+                        break;
+                    }
                 }
             }
 
@@ -1019,25 +1022,28 @@ namespace ModelCompiler
                 output.MethodDeclarationNode = FindNode<MethodDesign>(methodId);
             }
 
-            foreach (var ii in input.References)
+            if (input.References != null)
             {
-                var reference = ImportReference(ii);
-
-                if (reference.ReferenceTypeId == Opc.Ua.ReferenceTypes.HasProperty && !reference.IsInverse)
+                foreach (var ii in input.References)
                 {
-                    var property = FindNode<VariableDesign>(reference.TargetId);
+                    var reference = ImportReference(ii);
 
-                    if (property != null && property.DefaultValue != null)
+                    if (reference.ReferenceTypeId == Opc.Ua.ReferenceTypes.HasProperty && !reference.IsInverse)
                     {
-                        if (property.BrowseName == BrowseNames.InputArguments)
+                        var property = FindNode<VariableDesign>(reference.TargetId);
+
+                        if (property != null && property.DefaultValue != null)
                         {
-                            output.InputArguments = ImportArguments(output, property.DefaultValue).ToArray();
-                            output.HasArguments = true;
-                        }
-                        else if (property.BrowseName == BrowseNames.OutputArguments)
-                        {
-                            output.OutputArguments = ImportArguments(output, property.DefaultValue).ToArray();
-                            output.HasArguments = true;
+                            if (property.BrowseName == BrowseNames.InputArguments)
+                            {
+                                output.InputArguments = ImportArguments(output, property.DefaultValue).ToArray();
+                                output.HasArguments = true;
+                            }
+                            else if (property.BrowseName == BrowseNames.OutputArguments)
+                            {
+                                output.OutputArguments = ImportArguments(output, property.DefaultValue).ToArray();
+                                output.HasArguments = true;
+                            }
                         }
                     }
                 }
@@ -1333,62 +1339,34 @@ namespace ModelCompiler
                 references.AddRange(existing.References);
             }
 
-            foreach (var ii in input.References)
+            if (input.References != null)
             {
-                NodeId referenceTypeId = ImportNodeId(ii.ReferenceType);
-                var referenceType = FindNode<NodeDesign>(referenceTypeId);
-
-                if (referenceType == null)
+                foreach (var ii in input.References)
                 {
-                    continue;
-                }
+                    NodeId referenceTypeId = ImportNodeId(ii.ReferenceType);
+                    var referenceType = FindNode<NodeDesign>(referenceTypeId);
 
-                NodeId targetId = ImportNodeId(ii.Value);
-                var target = FindNode<NodeDesign>(targetId);
-
-                if (target == null)
-                {
-                    continue;
-                }
-
-                if (referenceTypeId == ReferenceTypeIds.HasTypeDefinition ||
-                    referenceTypeId == ReferenceTypeIds.HasSubtype ||
-                    referenceTypeId == ReferenceTypeIds.HasModellingRule)
-                {
-                    continue;
-                }
-
-                if (targetId.NamespaceIndex != nodeId.NamespaceIndex || IsTypeOf(referenceTypeId, ReferenceTypeIds.NonHierarchicalReferences))
-                {
-                    references.Add(new Reference()
+                    if (referenceType == null)
                     {
-                        ReferenceType = referenceType.SymbolicId,
-                        IsInverse = !ii.IsForward,
-                        TargetId = target.SymbolicId,
-                        TargetNode = target,
-                        SourceNode = existing
-                    });
-
-                    continue;
-                }
-
-                if (!ii.IsForward)
-                {
-                    bool found = false;
-
-                    if (target.Children?.Items != null)
-                    {
-                        foreach (var child in target.Children.Items)
-                        {
-                            if (existing.SymbolicId == child.SymbolicId)
-                            {
-                                found = true;
-                                break;
-                            }
-                        }
+                        continue;
                     }
 
-                    if (!found)
+                    NodeId targetId = ImportNodeId(ii.Value);
+                    var target = FindNode<NodeDesign>(targetId);
+
+                    if (target == null)
+                    {
+                        continue;
+                    }
+
+                    if (referenceTypeId == ReferenceTypeIds.HasTypeDefinition ||
+                        referenceTypeId == ReferenceTypeIds.HasSubtype ||
+                        referenceTypeId == ReferenceTypeIds.HasModellingRule)
+                    {
+                        continue;
+                    }
+
+                    if (targetId.NamespaceIndex != nodeId.NamespaceIndex || IsTypeOf(referenceTypeId, ReferenceTypeIds.NonHierarchicalReferences))
                     {
                         references.Add(new Reference()
                         {
@@ -1398,6 +1376,37 @@ namespace ModelCompiler
                             TargetNode = target,
                             SourceNode = existing
                         });
+
+                        continue;
+                    }
+
+                    if (!ii.IsForward)
+                    {
+                        bool found = false;
+
+                        if (target.Children?.Items != null)
+                        {
+                            foreach (var child in target.Children.Items)
+                            {
+                                if (existing.SymbolicId == child.SymbolicId)
+                                {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!found)
+                        {
+                            references.Add(new Reference()
+                            {
+                                ReferenceType = referenceType.SymbolicId,
+                                IsInverse = !ii.IsForward,
+                                TargetId = target.SymbolicId,
+                                TargetNode = target,
+                                SourceNode = existing
+                            });
+                        }
                     }
                 }
             }
@@ -1518,7 +1527,7 @@ namespace ModelCompiler
                     if (parentId.NamespaceIndex != childId.NamespaceIndex)
                     {
                         instance.ParentNodeId = null;
-                    }                    
+                    }
                 }
 
                 var symbolicId = BuildSymbolicId(node);

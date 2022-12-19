@@ -16,6 +16,17 @@
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" Version="1.05.02" PublicationDate="2022-06-28T00:00:00Z" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
   </opc:Namespaces>
 
+  <opc:Object SymbolicName="Test_Error" TypeDefinition="ua:BaseObjectType" />
+
+  <opc:Object SymbolicName="Test_ErrorComponent" TypeDefinition="ua:BaseObjectType">
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+          <opc:TargetId>Test_Error</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+  
   <opc:DataType SymbolicName="HeaterStatus" BaseType="ua:Enumeration">
     <opc:Fields>
       <opc:Field Name="Off" Identifier="0">
