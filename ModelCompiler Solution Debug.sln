@@ -30,7 +30,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Opc.Ua.Server", "Stack\Libr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoModel.Debug", "Tests\DemoModel\DemoModel.Debug.csproj", "{1324C0F9-4927-4D4E-A499-B42FD8ABD690}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Opc.Ua.Configuration", "..\UA-ModelCompiler\Stack\Libraries\Opc.Ua.Configuration\Opc.Ua.Configuration.csproj", "{F35E795C-2F63-4692-B0E2-BCBCB1068643}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Opc.Ua.Configuration", "Stack\Libraries\Opc.Ua.Configuration\Opc.Ua.Configuration.csproj", "{925150DE-73BE-47FB-BCF9-22C90975240A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,10 +58,10 @@ Global
 		{1324C0F9-4927-4D4E-A499-B42FD8ABD690}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1324C0F9-4927-4D4E-A499-B42FD8ABD690}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1324C0F9-4927-4D4E-A499-B42FD8ABD690}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F35E795C-2F63-4692-B0E2-BCBCB1068643}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F35E795C-2F63-4692-B0E2-BCBCB1068643}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F35E795C-2F63-4692-B0E2-BCBCB1068643}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F35E795C-2F63-4692-B0E2-BCBCB1068643}.Release|Any CPU.Build.0 = Release|Any CPU
+		{925150DE-73BE-47FB-BCF9-22C90975240A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{925150DE-73BE-47FB-BCF9-22C90975240A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{925150DE-73BE-47FB-BCF9-22C90975240A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{925150DE-73BE-47FB-BCF9-22C90975240A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
