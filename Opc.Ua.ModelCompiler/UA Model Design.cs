@@ -289,6 +289,102 @@ namespace ModelCompiler {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://opcfoundation.org/UA/ModelDesign.xsd")]
+    public partial class RolePermission {
+        
+        private Permissions[] permissionField;
+        
+        private System.Xml.XmlQualifiedName roleField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Permission")]
+        public Permissions[] Permission {
+            get {
+                return this.permissionField;
+            }
+            set {
+                this.permissionField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public System.Xml.XmlQualifiedName Role {
+            get {
+                return this.roleField;
+            }
+            set {
+                this.roleField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://opcfoundation.org/UA/ModelDesign.xsd")]
+    public enum Permissions {
+        
+        /// <remarks/>
+        Browse,
+        
+        /// <remarks/>
+        ReadRolePermissions,
+        
+        /// <remarks/>
+        WriteAttribute,
+        
+        /// <remarks/>
+        WriteHistorizing,
+        
+        /// <remarks/>
+        Read,
+        
+        /// <remarks/>
+        Write,
+        
+        /// <remarks/>
+        ReadHistory,
+        
+        /// <remarks/>
+        InsertHistory,
+        
+        /// <remarks/>
+        ModifyHistory,
+        
+        /// <remarks/>
+        DeleteHistory,
+        
+        /// <remarks/>
+        ReceiveEvents,
+        
+        /// <remarks/>
+        Call,
+        
+        /// <remarks/>
+        AddReference,
+        
+        /// <remarks/>
+        DeleteNode,
+        
+        /// <remarks/>
+        AddNode,
+        
+        /// <remarks/>
+        All,
+        
+        /// <remarks/>
+        AllRead,
+        
+        /// <remarks/>
+        None,
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://opcfoundation.org/UA/ModelDesign.xsd")]
     public partial class Reference {
         
         private System.Xml.XmlQualifiedName referenceTypeField;
@@ -361,6 +457,8 @@ namespace ModelCompiler {
         
         private System.Xml.XmlElement defaultValueField;
         
+        private LocalizedText displayNameField;
+        
         private string nameField;
         
         private int identifierField;
@@ -405,6 +503,16 @@ namespace ModelCompiler {
             }
             set {
                 this.defaultValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public LocalizedText DisplayName {
+            get {
+                return this.displayNameField;
+            }
+            set {
+                this.displayNameField = value;
             }
         }
         
@@ -580,6 +688,9 @@ namespace ModelCompiler {
         
         /// <remarks/>
         OneOrMoreDimensions,
+        
+        /// <remarks/>
+        ScalarOrOneDimension,
     }
     
     /// <remarks/>
@@ -590,6 +701,9 @@ namespace ModelCompiler {
         
         /// <remarks/>
         Released,
+        
+        /// <remarks/>
+        RC,
         
         /// <remarks/>
         Draft,
@@ -874,6 +988,10 @@ namespace ModelCompiler {
         
         private Reference[] referencesField;
         
+        private RolePermission[] rolePermissionsField;
+        
+        private AccessRestrictions[] accessRestrictionsField;
+        
         private System.Xml.XmlQualifiedName symbolicNameField;
         
         private System.Xml.XmlQualifiedName symbolicIdField;
@@ -959,6 +1077,28 @@ namespace ModelCompiler {
             }
             set {
                 this.referencesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute(IsNullable=false)]
+        public RolePermission[] RolePermissions {
+            get {
+                return this.rolePermissionsField;
+            }
+            set {
+                this.rolePermissionsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("AccessRestriction", IsNullable=false)]
+        public AccessRestrictions[] AccessRestrictions {
+            get {
+                return this.accessRestrictionsField;
+            }
+            set {
+                this.accessRestrictionsField = value;
             }
         }
         
@@ -1112,6 +1252,25 @@ namespace ModelCompiler {
                 this.isDynamicField = value;
             }
         }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.8.3928.0")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://opcfoundation.org/UA/ModelDesign.xsd")]
+    public enum AccessRestrictions {
+        
+        /// <remarks/>
+        SigningRequired,
+        
+        /// <remarks/>
+        EncryptionRequired,
+        
+        /// <remarks/>
+        SessionRequired,
+        
+        /// <remarks/>
+        ApplyRestrictionsToBrowse,
     }
     
     /// <remarks/>

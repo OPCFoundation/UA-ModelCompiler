@@ -1,16 +1,12 @@
 // ***START***
 #region _ClassName_Value Class
-/// <summary>
-/// A typed version of the _BrowseName_ variable.
-/// </summary>
+/// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 public class _ClassName_Value : BaseVariableValue
 {
     #region Constructors
-    /// <summary>
-    /// Initializes the instance with its defalt attribute values.
-    /// </summary>
+    /// <remarks />
     public _ClassName_Value(_ClassName_State variable, _DataType_ value, object dataLock) : base(dataLock)
     {
         m_value = value;
@@ -25,17 +21,13 @@ public class _ClassName_Value : BaseVariableValue
     #endregion
 
     #region Public Members
-    /// <summary>
-    /// The variable that the value belongs to.
-    /// </summary>
+    /// <remarks />
     public _ClassName_State Variable
     {
         get { return m_variable; }
     }
 
-    /// <summary>
-    /// The value of the variable.
-    /// </summary>
+    /// <remarks />
     public _DataType_ Value
     {
         get { return m_value;  }
@@ -44,9 +36,6 @@ public class _ClassName_Value : BaseVariableValue
     #endregion
 
     #region Private Methods
-    /// <summary>
-    /// Initializes the object.
-    /// </summary>
     private void Initialize(_ClassName_State variable)
     {
         lock (Lock)
@@ -68,9 +57,7 @@ public class _ClassName_Value : BaseVariableValue
         }
     }
 
-    /// <summary>
-    /// Reads the value of the variable.
-    /// </summary>
+    /// <remarks />
     protected ServiceResult OnReadValue(
         ISystemContext context,
         NodeState node,
@@ -93,9 +80,6 @@ public class _ClassName_Value : BaseVariableValue
         }
     }
 
-    /// <summary>
-    /// Writes the value of the variable.
-    /// </summary>
     private ServiceResult OnWriteValue(ISystemContext context, NodeState node, ref object value)
     {
         lock (Lock)

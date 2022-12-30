@@ -1,23 +1,17 @@
 #region _TypeName_State<T> Class
-/// <summary>
-/// A typed version of the _BrowseName_ variable type.
-/// </summary>
+/// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 public class _TypeName_State<T> : _TypeName_State
 {
     #region Constructors
-    /// <summary>
-    /// Initializes the instance with its defalt attribute values.
-    /// </summary>
+    /// <remarks />
     public _TypeName_State()
     {
         Value = default(T);
     }
 
-    /// <summary>
-    /// Initializes the instance with the default values.
-    /// </summary>
+    /// <remarks />
     protected override void Initialize(ISystemContext context)
     {
         base.Initialize(context);
@@ -29,20 +23,16 @@ public class _TypeName_State<T> : _TypeName_State
     #endregion
 
     #region Public Members
-    /// <summary>
-    /// The value of the variable.
-    /// </summary>
+    /// <remarks />
     public new T Value
     {
-        get { return (T)base.Value; }
-        set { base.Value = value; }
+        get { return (T)((BaseVariableState)this).Value; }
+        set { ((BaseVariableState)this).Value = value; }
     }
     #endregion
 
     #region Overridden Methods
-    /// <summary>
-    /// Constructs a instance of the type.
-    /// </summary>
+    /// <remarks />
     public override BaseInstanceState CreateInstance(NodeState parent)
     {
         return new _ClassName_State<T>(parent);
@@ -52,25 +42,19 @@ public class _TypeName_State<T> : _TypeName_State
 #endregion
 // ***START***
 #region _ClassName_State<T> Class
-/// <summary>
-/// A typed version of the _BrowseName_ variable.
-/// </summary>
+/// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 public class _ClassName_State<T> : _ClassName_State
 {
     #region Constructors
-    /// <summary>
-    /// Initializes the instance with its defalt attribute values.
-    /// </summary>
+    /// <remarks />
     public _ClassName_State(NodeState parent) : base(parent)
     {
         Value = default(T);
     }
 
-    /// <summary>
-    /// Initializes the instance with the default values.
-    /// </summary>
+    /// <remarks />
     protected override void Initialize(ISystemContext context)
     {
         base.Initialize(context);
@@ -80,9 +64,7 @@ public class _ClassName_State<T> : _ClassName_State
         ValueRank = TypeInfo.GetValueRank(typeof(T));
     }
 
-    /// <summary>
-    /// Initializes the instance with a node.
-    /// </summary>
+    /// <remarks />
     protected override void Initialize(ISystemContext context, NodeState source)
     {
         InitializeOptionalChildren(context);
@@ -91,19 +73,17 @@ public class _ClassName_State<T> : _ClassName_State
     #endregion
 
     #region Public Members
-    /// <summary>
-    /// The value of the variable.
-    /// </summary>
+    /// <remarks />
     public new T Value
     {
         get
         {
-            return CheckTypeBeforeCast<T>(base.Value, true);
+            return CheckTypeBeforeCast<T>(((BaseVariableState)this).Value, true);
         }
 
         set
         {
-            base.Value = value;
+            ((BaseVariableState)this).Value = value;
         }
     }
     #endregion

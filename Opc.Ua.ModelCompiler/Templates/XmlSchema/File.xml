@@ -7,6 +7,12 @@
   targetNamespace="_Namespace_"
   elementFormDefault="qualified"
 >
+  <xs:annotation>
+    <xs:appinfo>
+      <tns:Model />
+    </xs:appinfo>
+  </xs:annotation>
+  
   <!-- Imports -->
   <!-- BuiltInTypes -->
   <!-- ListOfTypes -->

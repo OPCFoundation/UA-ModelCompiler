@@ -1,8 +1,6 @@
 // ***START***
 #region _BrowseName_Collection Class
-/// <summary>
-/// A collection of _BrowseName_ objects.
-/// </summary>
+/// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 [CollectionDataContract(Name = "ListOf_BrowseName_", Namespace = _XmlNamespaceUri_, ItemName = "_BrowseName_")]
@@ -13,26 +11,18 @@ public partial class _BrowseName_Collection : List<_BrowseName_>
 #endif
 {
     #region Constructors
-    /// <summary>
-    /// Initializes the collection with default values.
-    /// </summary>
+    /// <remarks />
     public _BrowseName_Collection() {}
 
-    /// <summary>
-    /// Initializes the collection with an initial capacity.
-    /// </summary>
+    /// <remarks />
     public _BrowseName_Collection(int capacity) : base(capacity) {}
 
-    /// <summary>
-    /// Initializes the collection with another collection.
-    /// </summary>
+    /// <remarks />
     public _BrowseName_Collection(IEnumerable<_BrowseName_> collection) : base(collection) {}
     #endregion
 
     #region Static Operators
-    /// <summary>
-    /// Converts an array to a collection.
-    /// </summary>
+    /// <remarks />
     public static implicit operator _BrowseName_Collection(_BrowseName_[] values)
     {
         if (values != null)
@@ -43,9 +33,7 @@ public partial class _BrowseName_Collection : List<_BrowseName_>
         return new _BrowseName_Collection();
     }
 
-    /// <summary>
-    /// Converts a collection to an array.
-    /// </summary>
+    /// <remarks />
     public static explicit operator _BrowseName_[](_BrowseName_Collection values)
     {
         if (values != null)
@@ -59,9 +47,7 @@ public partial class _BrowseName_Collection : List<_BrowseName_>
 
     #if !NET_STANDARD
     #region ICloneable Methods
-    /// <summary>
-    /// Creates a deep copy of the collection.
-    /// </summary>
+    /// <remarks />
     public object Clone()
     {
         return (_BrowseName_Collection)this.MemberwiseClone();

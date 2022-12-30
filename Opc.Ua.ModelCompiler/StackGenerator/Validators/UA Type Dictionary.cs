@@ -166,6 +166,9 @@ namespace CodeGenerator {
         Released,
         
         /// <remarks/>
+        RC,
+        
+        /// <remarks/>
         Draft,
         
         /// <remarks/>

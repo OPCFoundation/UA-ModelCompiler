@@ -5,22 +5,39 @@
   xmlns:ua="http://opcfoundation.org/UA/"
   xmlns:opc="http://opcfoundation.org/UA/ModelDesign.xsd"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns="http://www.unifiedautomation.com/DemoServer/"
-  TargetNamespace="http://www.unifiedautomation.com/DemoServer/"
-  TargetXmlNamespace="http://www.unifiedautomation.com/DemoServer/"
+  xmlns="http://www.opcfoundation.org/DemoModel/"
+  TargetNamespace="http://www.opcfoundation.org/DemoModel/"
+  TargetXmlNamespace="http://www.opcfoundation.org/DemoModel/"
   TargetVersion="1.05"
   TargetPublicationDate="2021-02-12T00:00:00Z">
 
   <opc:Namespaces>
-    <opc:Namespace Name="DemoModel" Prefix="DemoModel" XmlPrefix="DemoModel">http://www.unifiedautomation.com/DemoServer/</opc:Namespace>
-    <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" Version="1.05" PublicationDate="2021-09-15T00:00:00Z" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
+    <opc:Namespace Name="DemoModel" Prefix="DemoModel"  XmlNamespace="http://www.opcfoundation.org/DemoModel/Types.xsd"  XmlPrefix="DemoModel">http://www.opcfoundation.org/DemoModel/</opc:Namespace>
+    <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" Version="1.05.02" PublicationDate="2022-06-28T00:00:00Z" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
   </opc:Namespaces>
 
+  <opc:Object SymbolicName="Test_Error" TypeDefinition="ua:BaseObjectType" />
+
+  <opc:Object SymbolicName="Test_ErrorComponent" TypeDefinition="ua:BaseObjectType">
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+          <opc:TargetId>Test_Error</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+  
   <opc:DataType SymbolicName="HeaterStatus" BaseType="ua:Enumeration">
     <opc:Fields>
-      <opc:Field Name="Off" Identifier="0" />
-      <opc:Field Name="Heating" Identifier="1" />
-      <opc:Field Name="Cooling" Identifier="2" />
+      <opc:Field Name="Off" Identifier="0">
+        <opc:DisplayName>It is really off!</opc:DisplayName>
+      </opc:Field>
+      <opc:Field Name="Heating" Identifier="1">
+        <opc:DisplayName>暖房</opc:DisplayName>
+      </opc:Field>
+      <opc:Field Name="Cooling" Identifier="2">
+        <opc:DisplayName>200_冷房</opc:DisplayName>
+      </opc:Field>
     </opc:Fields>  
   </opc:DataType>
 
@@ -67,18 +84,24 @@
 
   <opc:DataType SymbolicName="SampleUnionAllowSubtypes" BaseType="ua:Union" IsUnion="true">
     <opc:Fields>
-      <opc:Field Name="FieldX" DataType="WorkOrderType" AllowSubtypes="true" />
+      <opc:Field Name="FieldX" DataType="WorkOrderType" AllowSubTypes="true" />
       <opc:Field Name="FieldY" DataType="WorkOrderStatusType" />
     </opc:Fields>
   </opc:DataType>
 
   <opc:DataType SymbolicName="SampleStructureAllowSubtypes" BaseType="ua:Structure">
     <opc:Fields>
-      <opc:Field Name="FieldX" DataType="Vector" AllowSubtypes="true" />
-      <opc:Field Name="FieldY" DataType="Vector" ValueRank="Array" AllowSubtypes="true" />
-      <opc:Field Name="FieldZ" DataType="Vector" ValueRank="ScalarOrArray" AllowSubtypes="true" />
+      <opc:Field Name="FieldX" DataType="Vector" AllowSubTypes="true" />
+      <opc:Field Name="FieldY" DataType="Vector" ValueRank="Array" AllowSubTypes="true" />
+      <opc:Field Name="FieldZ" DataType="Vector" ValueRank="ScalarOrArray" AllowSubTypes="true" />
       <opc:Field Name="FieldW" DataType="WorkOrderStatusType" />
     </opc:Fields>
   </opc:DataType>
-
+  
+  <ObjectType SymbolicName="WithTwoDimensionalVariableType" BaseType="ua:BaseObjectType">
+    <Children>
+      <Variable SymbolicName="X" DataType="ua:Int32" ValueRank="OneOrMoreDimensions" ArrayDimensions="0,0" ModellingRule="Optional"/>
+    </Children>
+  </ObjectType>
+  
 </opc:ModelDesign>

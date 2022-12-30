@@ -1,10 +1,6 @@
 class _Name_{
 // ***START***
-/// <summary>
-/// Populates a list with the children that belong to the node.
-/// </summary>
-/// <param name="context">The context for the system being accessed.</param>
-/// <param name="children">The list of children to populate.</param>
+/// <remarks />
 public override void GetChildren(
     ISystemContext context,
     IList<BaseInstanceState> children)
@@ -13,10 +9,8 @@ public override void GetChildren(
 
     base.GetChildren(context, children);
 }
-
-/// <summary>
-/// Finds the child with the specified browse name.
-/// </summary>
+    
+/// <remarks />
 protected override BaseInstanceState FindChild(
     ISystemContext context,
     QualifiedName browseName,

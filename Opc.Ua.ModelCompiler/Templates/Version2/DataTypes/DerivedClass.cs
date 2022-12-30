@@ -2,35 +2,25 @@ namespace X {
 // ***START***
 #region _BrowseName_ Class
 #if (!OPCUA_EXCLUDE__BrowseName_)
-/// <summary>
-/// _Description_
-/// </summary>
+/// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 [DataContract(Namespace = _XmlNamespaceUri_)]
 public partial class _BrowseName_ : _BaseType_
 {
     #region Constructors
-    /// <summary>
-    /// The default constructor.
-    /// </summary>
+    /// <remarks />
     public _BrowseName_()
     {
         Initialize();
     }
 
-    /// <summary>
-    /// Called by the .NET framework during deserialization.
-    /// </summary>
     [OnDeserializing]
     private void Initialize(StreamingContext context)
     {
         Initialize();
     }
 
-    /// <summary>
-    /// Sets private members to default values.
-    /// </summary>
     private void Initialize()
     {
         // ListOfFieldInitializers
@@ -43,22 +33,16 @@ public partial class _BrowseName_ : _BaseType_
 
     #region IEncodeable Members
     /// <summary cref="IEncodeable.TypeId" />
-    public override ExpandedNodeId TypeId
-    {
-        get { return DataTypeIds._BrowseName_; }
-    }
+    public override ExpandedNodeId TypeId => DataTypeIds._BrowseName_; 
 
     /// <summary cref="IEncodeable.BinaryEncodingId" />
-    public override ExpandedNodeId BinaryEncodingId
-    {
-        get { return ObjectIds._BrowseName__Encoding_DefaultBinary; }
-    }
+    public override ExpandedNodeId BinaryEncodingId => ObjectIds._BrowseName__Encoding_DefaultBinary;
 
     /// <summary cref="IEncodeable.XmlEncodingId" />
-    public override ExpandedNodeId XmlEncodingId
-    {
-        get { return ObjectIds._BrowseName__Encoding_DefaultXml; }
-    }
+    public override ExpandedNodeId XmlEncodingId => ObjectIds._BrowseName__Encoding_DefaultXml;
+        
+    /// <summary cref="IJsonEncodeable.JsonEncodingId" />
+    public override ExpandedNodeId JsonEncodingId => ObjectIds._BrowseName__Encoding_DefaultJson; 
 
     /// <summary cref="IEncodeable.Encode(IEncoder)" />
     public override void Encode(IEncoder encoder)

@@ -2,35 +2,25 @@ namespace X {
 // ***START***
 #region _BrowseName_ Class
 #if (!OPCUA_EXCLUDE__BrowseName_)
-/// <summary>
-/// _Description_
-/// </summary>
+/// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 [DataContract(Namespace = _XmlNamespaceUri_)]
-public partial class _BrowseName_ : IEncodeable
+public partial class _BrowseName_ : IEncodeable, IJsonEncodeable
 {
     #region Constructors
-    /// <summary>
-    /// The default constructor.
-    /// </summary>
+    /// <remarks />
     public _BrowseName_()
     {
         Initialize();
     }
-
-    /// <summary>
-    /// Called by the .NET framework during deserialization.
-    /// </summary>
+        
     [OnDeserializing]
     private void Initialize(StreamingContext context)
     {
         Initialize();
     }
-
-    /// <summary>
-    /// Sets private members to default values.
-    /// </summary>
+        
     private void Initialize()
     {
         // ListOfFieldInitializers
@@ -43,22 +33,16 @@ public partial class _BrowseName_ : IEncodeable
 
     #region IEncodeable Members
     /// <summary cref="IEncodeable.TypeId" />
-    public virtual ExpandedNodeId TypeId
-    {
-        get { return DataTypeIds._BrowseName_; }
-    }
+    public virtual ExpandedNodeId TypeId => DataTypeIds._BrowseName_; 
 
     /// <summary cref="IEncodeable.BinaryEncodingId" />
-    public virtual ExpandedNodeId BinaryEncodingId
-    {
-        get { return ObjectIds._BrowseName__Encoding_DefaultBinary; }
-    }
+    public virtual ExpandedNodeId BinaryEncodingId => ObjectIds._BrowseName__Encoding_DefaultBinary;
 
     /// <summary cref="IEncodeable.XmlEncodingId" />
-    public virtual ExpandedNodeId XmlEncodingId
-    {
-        get { return ObjectIds._BrowseName__Encoding_DefaultXml; }
-    }
+    public virtual ExpandedNodeId XmlEncodingId => ObjectIds._BrowseName__Encoding_DefaultXml;
+                
+    /// <summary cref="IJsonEncodeable.JsonEncodingId" />
+    public virtual ExpandedNodeId JsonEncodingId => ObjectIds._BrowseName__Encoding_DefaultJson; 
 
     /// <summary cref="IEncodeable.Encode(IEncoder)" />
     public virtual void Encode(IEncoder encoder)

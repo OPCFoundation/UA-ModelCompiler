@@ -132,7 +132,7 @@ namespace ModelCompiler
             generator3.Generate(
                 "OpcUa",
                 "Attributes",
-                $"{csvDir}UA Attributes.csv",
+                $"{csvDir}Attributes.csv",
                 false);
 
             ConstantsGenerator generator4 = new ConstantsGenerator(
@@ -146,7 +146,7 @@ namespace ModelCompiler
             generator4.Generate(
                 "OpcUa",
                 "StatusCodes",
-                $"{csvDir}UA Status Codes.csv",
+                $"{csvDir}Status Codes.csv",
                 false);
 
             AnsiCGenerator generator7 = new AnsiCGenerator(
@@ -178,7 +178,7 @@ namespace ModelCompiler
             generator7.Generate(
                 "Opc.Ua",
                 "Attributes",
-                $"{csvDir}UA Attributes.csv",
+                $"{csvDir}Attributes.csv",
                 false);
 
             ConstantsGenerator generator8 = new ConstantsGenerator(
@@ -192,7 +192,7 @@ namespace ModelCompiler
             generator8.Generate(
                 "Opc.Ua",
                 "StatusCodes",
-                $"{csvDir}UA Status Codes.csv",
+                $"{csvDir}Status Codes.csv",
                 false);
 
             ConstantsGenerator generator9 = new ConstantsGenerator(
@@ -206,7 +206,7 @@ namespace ModelCompiler
             generator9.Generate(
                 "Opc.Ua",
                 "StatusCodes",
-                $"{csvDir}UA Status Codes.csv",
+                $"{csvDir}Status Codes.csv",
                 false);
 
             DotNetGenerator generator10 = new DotNetGenerator(

@@ -2,7 +2,7 @@
 SETLOCAL
 
 set ROOT=%~dp0
-set MODELCOMPILER=%ROOT%build\bin\Release\net5.0\Opc.Ua.ModelCompiler.exe
+set MODELCOMPILER=%ROOT%build\bin\Release\net6.0\Opc.Ua.ModelCompiler.exe
 set SOURCE=%1
 set TARGET=%2
 set OUTPUT=%ROOT%..\nodesets

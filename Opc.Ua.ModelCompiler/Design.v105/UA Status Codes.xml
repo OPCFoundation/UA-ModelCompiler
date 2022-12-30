@@ -675,7 +675,7 @@
     <opc:Documentation>No data exists for the requested time range or event filter.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Good_MoreData">
-    <opc:Documentation>The data or event field was successfully replaced in the historical database.</opc:Documentation>
+    <opc:Documentation>More data is available in the time range beyond the number of values requested.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_AggregateListMismatch">
     <opc:Documentation>The requested number of Aggregates does not match the requested number of NodeIds.</opc:Documentation>
@@ -700,6 +700,9 @@
   <opc:Constant Name="Bad_RequestNotComplete">
     <opc:Documentation>The request has not been processed by the server yet.</opc:Documentation>
   </opc:Constant>
+  <opc:Constant Name="Bad_TransactionPending">
+    <opc:Documentation>The operation is not allowed because a transaction is in progress.</opc:Documentation>
+  </opc:Constant>
 
   <!-- Part 21 -->
   <opc:Constant Name="Bad_TicketRequired">
@@ -707,6 +710,11 @@
   </opc:Constant>
   <opc:Constant Name="Bad_TicketInvalid">
     <opc:Documentation>The device identity needs a ticket before it can be accepted.</opc:Documentation>
+  </opc:Constant>
+
+  <!-- DI -->
+  <opc:Constant Name="Bad_Locked">
+    <opc:Documentation>The requested operation is not allowed, because the Node is locked by a different application.</opc:Documentation>
   </opc:Constant>
   
   <!-- FDI -->
@@ -847,4 +855,9 @@
     <opc:Documentation>The value is accurate, and the signal source supports cascade handshaking.</opc:Documentation>
   </opc:Constant>
 
+  <!-- FLC Codes  -->
+  <opc:Constant Name="Bad_DataSetIdInvalid">
+    <opc:Documentation>The DataSet specified for the DataSetWriter creation is invalid.</opc:Documentation>
+  </opc:Constant>
+  
 </opc:TypeDictionary>

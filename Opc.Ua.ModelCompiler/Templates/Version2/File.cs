@@ -42,9 +42,7 @@ namespace _Namespace_
     // ListOfNodeIds
 
     #region BrowseName Declarations
-    /// <summary>
-    /// Declares all of the BrowseNames used in the Model Design.
-    /// </summary>
+    /// <remarks />
     public static partial class BrowseNames
     {
         // ListOfBrowseNames
@@ -52,9 +50,7 @@ namespace _Namespace_
     #endregion
 
     #region Namespace Declarations
-    /// <summary>
-    /// Defines constants for all namespaces referenced by the model design.
-    /// </summary>
+    /// <remarks />
     public static partial class Namespaces
     {
         // ListOfNamespaceUris

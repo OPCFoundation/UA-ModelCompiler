@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Extensions.CommandLineUtils;
+﻿using McMaster.Extensions.CommandLineUtils;
+using Newtonsoft.Json;
 using Opc.Ua;
+using System.Reflection;
 
 namespace ModelCompiler
 {
@@ -21,6 +20,7 @@ namespace ModelCompiler
             app.Command("compile", (e) => Compile(e));
             app.Command("units", (e) => Units(e));
             app.Command("update-headers", (e) => UpdateHeaders(e));
+            app.Command("compile-nodesets", (e) => Test(e));
 
             app.OnExecute(() =>
             {
@@ -29,6 +29,384 @@ namespace ModelCompiler
             });
 
             app.Execute(args);
+        }
+
+        private static void WriteLine(string message, ConsoleColor color)
+        {
+            var current = System.Console.ForegroundColor;
+            System.Console.ForegroundColor = color;
+            System.Console.WriteLine(message);
+            System.Console.ForegroundColor = current;
+        }
+
+        public class NodeSetInfo
+        {
+            public string FileName { get; set; }
+            public string ModelUri { get; set; }
+            public string Name { get; set; }
+            public string Prefix { get; set; }
+            public bool Ignore { get; set; }
+            public string Version { get; set; }
+
+            [JsonIgnore]
+            public Opc.Ua.Export.UANodeSet NodeSet { get; set; }
+
+            [JsonIgnore]
+            public List<NodeSetInfo> PreviousVersions { get; set; }
+        }
+
+        public class NodeSetFile
+        {
+            public List<NodeSetInfo> NodeSets { get; set; }
+        }
+
+        private static string GetNameFromUri(string uri)
+        {
+            var builder = new Uri(uri);
+            var path = builder.LocalPath.TrimEnd('/');
+
+            if (path.StartsWith("/UA/"))
+            {
+                path = path.Substring(4);
+            }
+
+            if (path.StartsWith("/OpcUa/"))
+            {
+                path = path.Substring(7);
+            }
+
+            return path.Trim('/').Replace("/", "").Replace('-', '_').Replace('+', '_');
+        }
+
+        private static void LoadNodeSet(FileInfo file, Dictionary<string, NodeSetInfo> nodesets)
+        {
+            try
+            {
+                if (!NodeSetToModelDesign.IsNodeSet(file.FullName))
+                {
+                    return;
+                }
+
+                using (var istrm = file.OpenRead())
+                {
+                    SystemContext context = new SystemContext();
+                    Opc.Ua.Export.UANodeSet nodeset = Opc.Ua.Export.UANodeSet.Read(istrm);
+                    var collection = new NodeStateCollection();
+                    
+                    try
+                    {
+                        nodeset.Import(context, collection);
+                    }
+                    catch (Exception e)
+                    {
+                        WriteLine($"NodeSet could not be loaded ({file.FullName}): {e.Message}", ConsoleColor.Red);
+                        return;
+                    }
+
+                    if (nodeset.Models == null || nodeset.Models.Length == 0 || String.IsNullOrEmpty(nodeset.Models[0].ModelUri))
+                    {
+                        WriteLine($"NodeSet is missing model definition ({file.FullName}).", ConsoleColor.Red);
+                        return;
+                    }
+
+                    var model = nodeset.Models[0];
+
+                    if (!Uri.IsWellFormedUriString(model.ModelUri, UriKind.Absolute))
+                    {
+                        WriteLine($"NodeSet ModelURI is not valid ({model.ModelUri}).", ConsoleColor.Red);
+                        return;
+                    }
+
+                    // skip OPC UA namespace.
+                    if (model.ModelUri == Opc.Ua.Namespaces.OpcUa)
+                    {
+                        return;
+                    }
+
+                    var name = GetNameFromUri(model.ModelUri);
+
+                    var info = new NodeSetInfo()
+                    {
+                        FileName = file.FullName,
+                        ModelUri = model.ModelUri,
+                        Version = model.PublicationDate.ToString("yyyy-MM-dd"),
+                        Name = name,
+                        Prefix = "UAModel." + name,
+                        Ignore = false,
+                        NodeSet = nodeset
+                    };
+
+                    if (nodesets.TryGetValue(model.ModelUri, out var existing))
+                    {
+                        if (existing.Version.CompareTo(info.Version) < 0)
+                        {
+                            info.PreviousVersions = new List<NodeSetInfo>();
+
+                            if (existing.PreviousVersions != null)
+                            {
+                                info.PreviousVersions.AddRange(existing.PreviousVersions);
+                            }
+
+                            existing.PreviousVersions = null;
+                            info.PreviousVersions.Add(existing);
+                        }
+                    }
+
+                    nodesets[model.ModelUri] = info;
+                    // WriteLine($"NodeSet ({model.ModelUri}) found.", ConsoleColor.Cyan);
+                }
+            }
+            catch (Exception e)
+            {
+                WriteLine($"Could not parse NodeSet ({file.Name}): {e.Message}.", ConsoleColor.Red);
+            }
+        }
+
+        private static NodeSetFile LoadConfigFile(DirectoryInfo directory)
+        {
+            var path = Path.Combine(directory.FullName, ".modelcompiler.json");
+
+            NodeSetFile config = null;
+
+            if (File.Exists(path))
+            {
+                using (var reader = new StreamReader(path))
+                {
+                    config = JsonConvert.DeserializeObject<NodeSetFile>(reader.ReadToEnd());
+                }
+            }
+
+            return config;
+        }
+
+        private static void ApplyConfigFile(DirectoryInfo directory, NodeSetFile config, Dictionary<string, NodeSetInfo> nodesets)
+        {
+            if (config?.NodeSets != null)
+            {
+                foreach (var nodeset in config.NodeSets)
+                {
+                    if (String.IsNullOrEmpty(nodeset.ModelUri))
+                    {
+                        continue;
+                    }
+
+                    if (nodesets.TryGetValue(nodeset.ModelUri, out var existing))
+                    {
+                        if (existing.FileName == null || ComparePaths(Path.GetDirectoryName(existing.FileName), directory.FullName))
+                        {
+                            existing.Name = nodeset.Name;
+                            existing.Prefix = nodeset.Prefix;
+                            existing.Ignore = nodeset.Ignore;
+                        }
+                    }
+                }
+            }
+        }
+
+        private static bool ComparePaths(string path1, string path2)
+        {
+            if (path1 == null || path2 == null)
+            {
+                return false;
+            }
+
+            var a = new FileInfo(".\\" + path1).FullName.ToUpperInvariant().Trim(new char[] { '\\', '/' });
+            var b = new FileInfo(path2).FullName.ToUpperInvariant().Trim(new char[] { '\\', '/' });
+
+            return a == b;
+        }
+
+        private static void CollectNodeSets(DirectoryInfo directory, Dictionary<string, NodeSetInfo> nodesets)
+        {
+            var config = LoadConfigFile(directory);
+
+            foreach (var file in directory.GetFiles("*.xml"))
+            {
+                if (config != null && config.NodeSets.Where(x => ComparePaths(x.FileName, file.Name) && x.Ignore).Any())
+                {
+                    continue;
+                }
+
+                LoadNodeSet(file, nodesets);
+            }
+
+            ApplyConfigFile(directory, config, nodesets);
+
+            foreach (var child in directory.GetDirectories())
+            {
+                CollectNodeSets(child, nodesets);
+            }
+        }
+
+        private static bool CollectDependencies(NodeSetInfo target, Dictionary<string, NodeSetInfo> nodesets, Dictionary<string, NodeSetInfo> dependencies)
+        {
+            if (target.NodeSet.NamespaceUris == null)
+            {
+                return true;
+            }
+
+            foreach (var ns in target.NodeSet.NamespaceUris)
+            {
+                if (dependencies.ContainsKey(ns) || ns == target.ModelUri)
+                {
+                    continue;
+                }
+
+                if (!nodesets.TryGetValue(ns, out NodeSetInfo nodeset))
+                {
+                    WriteLine($"NodeSet ({target.ModelUri}) dependency is missing ({ns}).", ConsoleColor.Red);
+                    return false;
+                }
+
+                dependencies[ns] = nodeset;
+
+                if (!CollectDependencies(nodeset, nodesets, dependencies))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static void GenerateCode(string inputPath, string outputPath, NodeSetInfo nodeset, Dictionary<string, NodeSetInfo> dependecies)
+        {
+            ModelGenerator2 generator = new ModelGenerator2();
+
+            generator.LogMessage += (e) =>
+            {
+                WriteLine(e.Message, (e.Severity > 0) ? ConsoleColor.Red : ConsoleColor.Yellow);
+                return Task.CompletedTask;
+            };
+
+            List<string> files = new List<string>();
+            files.Add($"{nodeset.FileName},{nodeset.Prefix},{nodeset.Name}");
+
+            foreach (var dependency in dependecies.Values)
+            {
+                files.Add($"{dependency.FileName},{dependency.Prefix},{dependency.Name}");
+            }
+
+            string[] exclusions = new string[] { "Draft" };
+
+            generator.ValidateAndUpdateIds(
+                files.ToArray(),
+                null,
+                0,
+                "v105",
+                true,
+                exclusions,
+                null,
+                null,
+                true,
+                false);
+
+            WriteLine($"NodeSet ({nodeset.ModelUri}) loaded.", ConsoleColor.DarkYellow);
+
+            var relativePath = new FileInfo(nodeset.FileName).DirectoryName.Substring(new DirectoryInfo(inputPath).FullName.Length);
+
+            var output = Path.Join(outputPath, relativePath);
+            Directory.CreateDirectory(output);
+
+            generator.GenerateMultipleFiles(output, false, exclusions, false);
+
+            WriteLine($"NodeSet ({nodeset.ModelUri}) code generated ({output}).", ConsoleColor.DarkGreen);
+        }
+
+        private static void Test(CommandLineApplication app)
+        {
+            app.Description = "Searches a directory tree for nodesets and generates code for the specified model URIs.";
+            app.HelpOption("-?|-h|--help"); 
+            
+            app.Option(
+                $"-{OptionsNames.InputPath}",
+                "The path to the directory containing the nodesets.",
+                CommandOptionType.SingleValue);
+
+            app.Option(
+                $"-{OptionsNames.OutputPath}",
+                "The path to the directory to use to write the generated files.",
+                CommandOptionType.SingleValue);
+
+            app.Option(
+                $"-{OptionsNames.ModelUris}",
+                "The URI of the model to generate.",
+                CommandOptionType.MultipleValue);
+
+            app.OnExecute(() =>
+            {
+                var options = GetCompileOptions(app);
+
+                var input = new DirectoryInfo(options.InputPath);
+
+                if (!input.Exists)
+                {
+                    throw new ArgumentException($"The input directory does not exist ({options.InputPath}).");
+                }
+
+                Dictionary<string, NodeSetInfo> nodesets = new();
+                CollectNodeSets(input, nodesets);
+                WriteLine($"{nodesets.Count} NodeSets found.", ConsoleColor.Cyan);
+                WriteLine($"Writing output to {options.OutputPath}", ConsoleColor.Cyan);
+
+                HashSet<string> found = new();
+
+                foreach (var modelUri in options.ModelUris)
+                {
+                    if (!nodesets.TryGetValue(modelUri, out NodeSetInfo nodeset))
+                    {
+                        continue;
+                    }
+
+                    var relativePath = new FileInfo(nodeset.FileName).DirectoryName.Substring(new DirectoryInfo(input.FullName).FullName.Length);
+
+                    var output = Path.Join(options.OutputPath, relativePath);
+
+                    if (Directory.Exists(output))
+                    {
+                        Directory.Delete(output, true);
+                    }
+                }
+                 
+                foreach (var modelUri in options.ModelUris)
+                {
+                    if (!nodesets.TryGetValue(modelUri, out NodeSetInfo nodeset))
+                    {
+                        continue;
+                    }
+
+
+                    found.Add(modelUri);
+
+                    Dictionary<string, NodeSetInfo> dependencies = new();
+                    
+                    if (!CollectDependencies(nodeset, nodesets, dependencies))
+                    {
+                        continue;
+                    }
+
+                    WriteLine($"NodeSet ({nodeset.ModelUri}) dependencies found.", ConsoleColor.DarkYellow);
+
+                    try
+                    {
+                        GenerateCode(input.FullName, options.OutputPath, nodeset, dependencies);
+                    }
+                    catch (Exception e)
+                    {
+                        WriteLine($"NodeSet ({nodeset.ModelUri}) code generation failed: {e.Message}", ConsoleColor.Red);
+                    }
+                }
+
+                foreach (var uri in options.ModelUris)
+                {
+                    if (!found.Contains(uri))
+                    {
+                        WriteLine($"NodeSet ({uri}) not found!", ConsoleColor.Red);
+                    }
+                }
+
+                return 0;
+            });
         }
 
         private static void Compile(CommandLineApplication app)
@@ -43,6 +421,12 @@ namespace ModelCompiler
 
                 ModelGenerator2 generator = new ModelGenerator2();
 
+                generator.LogMessage += (e) =>
+                {
+                    WriteLine(e.Message, (e.Severity > 0) ? ConsoleColor.Red : ConsoleColor.Yellow);
+                    return Task.CompletedTask;
+                };
+
                 for (int ii = 0; ii < options.DesignFiles.Count; ii++)
                 {
                     if (String.IsNullOrEmpty(options.DesignFiles[ii]))
@@ -50,7 +434,9 @@ namespace ModelCompiler
                         throw new ArgumentException("No design file specified.");
                     }
 
-                    if (!new FileInfo(options.DesignFiles[ii]).Exists)
+                    var file = options.DesignFiles[ii].Split(',');
+
+                    if (!new FileInfo(file[0]).Exists)
                     {
                         throw new ArgumentException("The design file does not exist: " + options.DesignFiles[ii]);
                     }
@@ -58,10 +444,10 @@ namespace ModelCompiler
 
                 if (String.IsNullOrEmpty(options.IdentifierFile))
                 {
-                    throw new ArgumentException("No identifier file specified.");
+                    // throw new ArgumentException("No identifier file specified.");
                 }
 
-                if (!new FileInfo(options.IdentifierFile).Exists)
+                else if (!new FileInfo(options.IdentifierFile).Exists)
                 {
                     if (!options.CreateIdentifierFile)
                     {
@@ -79,7 +465,9 @@ namespace ModelCompiler
                     options.UseAllowSubtypes,
                     options.Exclusions,
                     options.ModelVersion,
-                    options.ModelPublicationDate);
+                    options.ModelPublicationDate,
+                    options.ReleaseCandidate,
+                    false);
 
                 if (!String.IsNullOrEmpty(options.DotNetStackPath))
                 {
@@ -171,6 +559,8 @@ namespace ModelCompiler
             public const string UnitsOutputPath = "output";
             public const string ModelVersion = "mv";
             public const string ModelPublicationDate = "pd";
+            public const string ReleaseCandidate = "rc";
+            public const string ModelUris = "uri";
         }
 
         private class OptionValues
@@ -187,24 +577,26 @@ namespace ModelCompiler
             public IList<string> Exclusions;
             public string ModelVersion;
             public string ModelPublicationDate;
+            public bool ReleaseCandidate;
             public string InputPath;
             public string FilePattern;
             public HeaderUpdateTool.LicenseType LicenseType;
             public bool Silent;
             public string Annex1Path;
-            public string Annex2Path;
+            public string Annex2Path;            
+            public IList<string> ModelUris;
         }
 
         private static void AddCompileOptions(CommandLineApplication app)
         {
             app.Option(
                 $"-{OptionsNames.DesignFiles}",
-                "The path to the ModelDesign file which contains the UA information model.",
+                "The path to the ModelDesign or NodeSet2 file which contains the UA information model. The first file specified is the model to generate. The rest are included models. The file path may be followed by the namespace prefix and a short name for model. Commas seperate each field.",
                 CommandOptionType.MultipleValue);
 
             app.Option(
                 $"-{OptionsNames.IdentifierFile}",
-                "The path to the CSV file which contains the unique identifiers for the types defined in the UA information model.",
+                "The path to the CSV file which contains the unique identifiers for the types defined in the UA information model. Not used if the target is a NodeSet2 file.",
                 CommandOptionType.SingleValue);
 
             app.Option(
@@ -219,12 +611,12 @@ namespace ModelCompiler
 
             app.Option(
                 $"-{OptionsNames.AnsiCStackPath}",
-                "The path to use when generating ANSI C stack code.",
+                "The path to use when generating ANSI C stack code (internal use only).",
                 CommandOptionType.SingleValue);
 
             app.Option(
                 $"-{OptionsNames.DotNetStackPath}",
-                "The path to use when generating .NET stack code.",
+                "The path to use when generating .NET stack code (internal use only).",
                 CommandOptionType.SingleValue);
 
             app.Option(
@@ -256,6 +648,11 @@ namespace ModelCompiler
                 $"-{OptionsNames.ModelPublicationDate}",
                 "The publication date of the model to produce.",
                 CommandOptionType.SingleValue);
+
+            app.Option(
+                $"-{OptionsNames.ReleaseCandidate}",
+                "Indicates that a release candidate nodeset is being generated.",
+                CommandOptionType.NoValue);
         }
 
         private static OptionValues GetCompileOptions(CommandLineApplication app)
@@ -265,12 +662,15 @@ namespace ModelCompiler
                 DesignFiles = app.GetOptionList(OptionsNames.DesignFiles),
                 IdentifierFile = app.GetOption(OptionsNames.IdentifierFile),
                 OutputPath = app.GetOption(OptionsNames.OutputPath),
+                InputPath = app.GetOption(OptionsNames.InputPath),
                 AnsiCStackPath = app.GetOption(OptionsNames.AnsiCStackPath),
                 DotNetStackPath = app.GetOption(OptionsNames.DotNetStackPath),
                 Version = app.GetOption(OptionsNames.Version),
                 UseAllowSubtypes = app.IsOptionSet(OptionsNames.UseAllowSubtypes),
                 ModelVersion = app.GetOption(OptionsNames.ModelVersion),
                 ModelPublicationDate = app.GetOption(OptionsNames.ModelPublicationDate),
+                ReleaseCandidate = app.IsOptionSet(OptionsNames.ReleaseCandidate),
+                ModelUris = app.GetOptionList(OptionsNames.ModelUris),
             };
 
             var path = app.GetOption(OptionsNames.GenerateIdentifierFile);
@@ -288,11 +688,11 @@ namespace ModelCompiler
                 options.StartId = UInt32.Parse(startId);
             }
 
-            var categories = app.GetOption(OptionsNames.Exclusions);
+            var exclusions = app.GetOption(OptionsNames.Exclusions);
 
-            if (!String.IsNullOrEmpty(categories))
+            if (!String.IsNullOrEmpty(exclusions))
             {
-                options.Exclusions = new List<string>(categories.Split(',', '+'));
+                options.Exclusions = new List<string>(exclusions.Split(',', '+'));
             }
 
             return options;
@@ -372,19 +772,25 @@ namespace ModelCompiler
 
         private static List<string> GetOptionList(this CommandLineApplication application, string name)
         {
-            var option = application.Options.Find((ii) => { return ii.ShortName == name && ii.HasValue(); });
+            var option = application.Options
+                .Where(x => x.ShortName == name && x.HasValue())
+                .Select(x => x)
+                .FirstOrDefault();
 
             if (option == null)
             {
                 return new List<string>();
             }
 
-            return option.Values;
+            return new List<string>(option.Values);
         }
 
         private static string GetOption(this CommandLineApplication application, string name, string defaultValue = "")
         {
-            var option = application.Options.Find((ii) => { return ii.ShortName == name && ii.HasValue(); });
+            var option = application.Options
+                .Where(x => x.ShortName == name && x.HasValue())
+                .Select(x => x)
+                .FirstOrDefault();
 
             if (option == null)
             {
@@ -396,8 +802,10 @@ namespace ModelCompiler
 
         private static bool IsOptionSet(this CommandLineApplication application, string name, bool defaultValue = false)
         {
-            application.Options[0].HasValue();
-            var option = application.Options.Find((ii) => { return ii.ShortName == name && ii.HasValue(); });
+            var option = application.Options
+                .Where(x => x.ShortName == name && x.HasValue())
+                .Select(x => x)
+                .FirstOrDefault();
 
             if (option == null)
             {

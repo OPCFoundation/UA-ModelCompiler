@@ -61,6 +61,7 @@ namespace ModelCompiler
         public List<NodeDesign> OverriddenNodes;
         public bool ExplicitlyDefined;
         public bool AdHocInstance;
+        public bool StaticValue;
         public bool Inherited;
         public object Identifier;
 
