@@ -42,11 +42,13 @@ jobs:
       run: dotnet pack --no-build --configuration Release "ModelCompiler Solution.sln"
 
     - name: Publish NuGet
-      if: ${{ github.event_name != 'pull_request' }} 
+      # if: ${{ github.event_name != 'pull_request' }} 
+      if: false
       run: dotnet nuget push **/OPCFoundation.*.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
 
     - name: Publish NuGet Symbols
-      if: ${{ github.event_name != 'pull_request' }} 
+      # if: ${{ github.event_name != 'pull_request' }} 
+      if: false
       run: dotnet nuget push **/OPCFoundation.*.snupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       
       
