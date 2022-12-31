@@ -8,13 +8,47 @@
     <IntermediateOutputPath>$(SolutionDir)build\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <AssemblyName>Opc.Ua.ModelCompiler</AssemblyName>
     <RootNamespace>ModelCompiler</RootNamespace>
-    <VersionSuffix>2.0.$([System.DateTime]::UtcNow.ToString(yyMM)).$([System.DateTime]::UtcNow.ToString(ddmm))</VersionSuffix>
-    <AssemblyVersion Condition=" '$(VersionSuffix)' == '' ">0.0.0.1</AssemblyVersion>
-    <AssemblyVersion Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</AssemblyVersion>
-    <Version Condition=" '$(VersionSuffix)' == '' ">0.0.1.0</Version>
-    <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</Version>
     <Copyright>Copyright © OPC Foundation</Copyright>
     <Product>OPC UA Model Compiler</Product>
+  </PropertyGroup>
+
+  <!-- Package for dotnet tool build -->
+  <PropertyGroup>
+    <PackageId>OPCFoundation.Opc.Ua.ModelCompiler</PackageId>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>Opc.Ua.ModelCompiler</ToolCommandName>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+  </PropertyGroup>
+  
+  <!-- License info-->
+  <PropertyGroup>
+    <PackageIcon>images/logo.jpg</PackageIcon>
+    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>$(RepositoryUrl)/releases</PackageReleaseNotes>
+    <PackageTags>OPCFoundation OPC UA netstandard modelcompiler</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(IsPackable)' != 'false' AND '$(PackageLicenseExpression)' == 'MIT'">
+    <None Include="$(MSBuildThisFileDirectory)/License/UA_MIT.txt" Pack="true" PackagePath="$(PackageLicenseFile)"/>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(IsPackable)' != 'false'">
+    <None Include="$(MSBuildThisFileDirectory)/License/logo.jpg" Pack="true" PackagePath="$(PackageIcon)"/>
+  </ItemGroup>
+
+  <!-- Add source link in cloud build -->
+  <ItemGroup Condition="'$(TF_BUILD)' == 'true' OR '$(GITHUB_ACTIONS)' == 'true'">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+  </ItemGroup>
+
+  <!-- Deterministic cloud build -->
+  <PropertyGroup Condition="'$(TF_BUILD)' == 'true' OR '$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -474,6 +508,10 @@
     <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.0.2" />
     <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.371.3-beta" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.119">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
