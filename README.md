@@ -111,7 +111,7 @@ The ModelCompiler code is [MIT license](https://github.com/OPCFoundation/UA-Mode
   
 ## Docker Build
 
-A Docker build with the UA Model Compiler is available in GitHub as [ua-modelcompiler](https://github.com/OPCFoundation/UA-ModelCompiler/pkgs/container/uamodelcompiler).
+A Docker build with the UA Model Compiler is available in GitHub as [ua-modelcompiler](https://github.com/OPCFoundation/UA-ModelCompiler/pkgs/container/ua-modelcompiler).
 
 It can be downloaded with this command:
 ```
