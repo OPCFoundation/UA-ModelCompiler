@@ -111,7 +111,7 @@ The ModelCompiler code is [MIT license](https://github.com/OPCFoundation/UA-Mode
   
 ## Docker Build
 
-A Docker build with the UA Model Compiler is available in GitHub as [ua-modelcompiler](https://github.com/OPCF-Members/UA-ModelCompiler/pkgs/container/ua-modelcompiler).
+A Docker build with the UA Model Compiler is available in GitHub as [ua-modelcompiler](https://github.com/OPCFoundation/UA-ModelCompiler/pkgs/container/ua-modelcompiler).
 
 It can be downloaded with this command:
 ```
@@ -151,8 +151,8 @@ The following process will demonstrate how to generate code using the supplied n
 ### XML Files ###
 #### Model Design example ####
 An excerpt of the Model Design file is shown here:
-```
-?xml version="1.0" encoding="utf-8" ?>
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
 <opc:ModelDesign
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -178,4 +178,4 @@ An excerpt of the Model Design file is shown here:
 ## Other Repositories ##
 This ModelCompiler is used to generate the content of the [Nodeset GitHub repository](https://github.com/OPCFoundation/UA-Nodeset).
 
-This ModelCompiler is used to generate the content of the [.NET Samples GitHub repository](https://github.com/OPCFoundation/UA-.NET).
+This ModelCompiler is used to generate the content of the [.NET Samples GitHub repository](https://github.com/OPCFoundation/UA-.NETStandard-Samples).

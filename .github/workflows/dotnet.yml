@@ -1,0 +1,55 @@
+name: ModelCompiler .NET Tool build
+
+on:
+  push:
+    branches: [ master, nuget* ]
+  pull_request:
+    branches: [ master ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  PUBLISHNUGET: false
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        submodules: true
+        
+    - name: Set up .NET 6
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.x'
+
+    - name: Setup NuGet.exe
+      uses: NuGet/setup-nuget@v1.1.1
+      
+    - name: Set Version
+      shell: pwsh
+      run: ./.azurepipelines/set-version.ps1        
+      
+    - name: Restore dependencies
+      run: dotnet restore "ModelCompiler Solution.sln" 
+      
+    - name: Build
+      run: dotnet build --no-restore --configuration Release "ModelCompiler Solution.sln" 
+      
+    - name: Pack Nuget Tool
+      run: dotnet pack --no-build --configuration Release "ModelCompiler Solution.sln"
+
+    - name: Publish NuGet
+      if: github.event_name != 'pull_request' && env.PUBLISHNUGET == 'true'
+      run: dotnet nuget push **/OPCFoundation.*.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+
+    - name: Publish NuGet Symbols
+      if: github.event_name != 'pull_request' && env.PUBLISHNUGET == 'true'
+      run: dotnet nuget push **/OPCFoundation.*.snupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+      
+      
