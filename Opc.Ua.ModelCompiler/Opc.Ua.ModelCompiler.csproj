@@ -10,6 +10,7 @@
     <RootNamespace>ModelCompiler</RootNamespace>
     <Copyright>Copyright © OPC Foundation</Copyright>
     <Product>OPC UA Model Compiler</Product>
+    <Configurations>Debug;Release;Docker</Configurations>
   </PropertyGroup>
 
   <!-- Package for dotnet tool build -->
@@ -56,6 +57,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>$(SolutionDir)build\bin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Docker|AnyCPU'">
     <OutputPath>$(SolutionDir)build\bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
 
@@ -512,10 +517,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Tests\DemoModel\DemoModel.csproj" />
   </ItemGroup>
 
 </Project>

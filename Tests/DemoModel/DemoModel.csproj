@@ -6,6 +6,7 @@
     <AssemblyName>DemoModel</AssemblyName>
     <RootNamespace>DemoModel</RootNamespace>
     <RootNamespace>ModelCompiler</RootNamespace>
+    <Configurations>Debug;Release;Docker</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
