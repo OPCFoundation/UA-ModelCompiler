@@ -46,10 +46,10 @@ jobs:
 
     - name: Publish NuGet
       if: github.event_name != 'pull_request' && env.PUBLISHNUGET == 'true'
-      run: dotnet nuget push **/OPCFoundation.*.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+      run: dotnet nuget push **/OPCFoundation.*.nupkg -k ${{ secrets.DOCKER_UPLOAD }} -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
 
     - name: Publish NuGet Symbols
       if: github.event_name != 'pull_request' && env.PUBLISHNUGET == 'true'
-      run: dotnet nuget push **/OPCFoundation.*.snupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+      run: dotnet nuget push **/OPCFoundation.*.snupkg -k ${{ secrets.DOCKER_UPLOAD }} -s https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
       
       
