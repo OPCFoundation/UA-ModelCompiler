@@ -14,8 +14,7 @@ concurrency:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  # TODO set to false
-  DOCKERSIGN: true
+  DOCKERSIGN: false
 
 jobs:
   build-and-push-image:
@@ -55,8 +54,7 @@ jobs:
       with:
         registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
-        # TODO DOCKER_UPLOAD
-        password: ${{ secrets.GITHUB_TOKEN }}
+        password: ${{ secrets.DOCKER_UPLOAD }}
 
     - name: Prepare Tag Repo Info
       run: |
