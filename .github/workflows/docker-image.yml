@@ -3,6 +3,7 @@ name: Docker ModelCompiler CI
 on:
   push:
     branches: [ master, docker* ]
+    tags: [ '*' ]       
   pull_request:
     branches: [ master ]
 
@@ -13,7 +14,8 @@ concurrency:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  DOCKERSIGN: false
+  # TODO set to false
+  DOCKERSIGN: true
 
 jobs:
   build-and-push-image:
@@ -33,10 +35,6 @@ jobs:
       with:
         dotnet-version: '6.x'
         
-    - name: Set Version
-      shell: pwsh
-      run: ./.azurepipelines/set-version.ps1
-
     # Install the cosign tool except on PR
     # https://github.com/sigstore/cosign-installer
     - name: Install cosign
@@ -57,22 +55,34 @@ jobs:
       with:
         registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
-        password: ${{ secrets.DOCKER_UPLOAD }}
+        # TODO DOCKER_UPLOAD
+        password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Prepare Tag Repo Info
       run: |
         echo IMAGE_REPOSITORY=${{ env.REGISTRY }}/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]' | awk '{gsub(/|\./, "")}1') >> $GITHUB_ENV
-        echo IMAGE_VERSION=$(echo ${{ env.NBGV_SimpleVersion }}${{ env.NBGV_PrereleaseVersion }}) >> $GITHUB_ENV
+        echo IMAGE_VERSION= >> $GITHUB_ENV
+
+    - name: Set image version from tag
+      if: github.ref_type == 'tag'
+      run: |
+        echo IMAGE_VERSION=$(echo ${{ github.ref_name }}) >> $GITHUB_ENV
 
     - name: Prepare Tag Branch info
-      if: env.NBGV_PublicRelease == 'False'
+      if: github.ref_name != 'master' && github.ref_type == 'branch'
       run: |
-        echo IMAGE_TAG=-$(echo ${{ github.ref }} | tr '[:upper:]' '[:lower:]' |  awk '{sub(/([^\/]*\/){2}/,""); gsub(/\/|_/, "-")}1') >> $GITHUB_ENV
+        echo IMAGE_BRANCH=-$(echo ${{ github.ref }} | tr '[:upper:]' '[:lower:]' |  awk '{sub(/([^\/]*\/){2}/,""); gsub(/\/|_/, "-")}1') >> $GITHUB_ENV
 
     - name: Prepare version and latest tag
       run: |
-        echo TAG_BRANCH=$(echo ${{ env.IMAGE_REPOSITORY }}:${{ env.IMAGE_VERSION }}${{ env.IMAGE_TAG }}) >> $GITHUB_ENV
-        echo TAG_LATEST=$(echo ${{ env.IMAGE_REPOSITORY }}:latest${{ env.IMAGE_TAG }}) >> $GITHUB_ENV
+        echo TAG_BRANCH=$(echo ${{ env.IMAGE_REPOSITORY }}:${{ env.IMAGE_VERSION }}${{ env.IMAGE_BRANCH }}) >> $GITHUB_ENV
+        echo TAG_LATEST=$(echo ,${{ env.IMAGE_REPOSITORY }}:latest${{ env.IMAGE_BRANCH }}) >> $GITHUB_ENV
+
+    - name: Only use preview tag if no github tag info
+      if: github.ref_type == 'branch'
+      run: |
+        echo TAG_BRANCH= >> $GITHUB_ENV
+        echo TAG_LATEST=$(echo ${{ env.IMAGE_REPOSITORY }}:preview${{ env.IMAGE_BRANCH }}) >> $GITHUB_ENV
 
     # Extract metadata (tags, labels) for Docker
     # https://github.com/docker/metadata-action
@@ -90,7 +100,7 @@ jobs:
       with:
         context: .
         push: ${{ github.event_name != 'pull_request' }}
-        tags: ${{ env.TAG_BRANCH }},${{ env.TAG_LATEST }}
+        tags: ${{ env.TAG_BRANCH }} ${{ env.TAG_LATEST }}
         platforms: linux/amd64,linux/arm64
         file: ./Dockerfile
         labels: ${{ steps.meta.outputs.labels }}
