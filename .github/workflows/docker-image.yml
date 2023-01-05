@@ -77,7 +77,7 @@ jobs:
         echo IMAGE_VERSION=$(echo ${{ github.ref_name }}) >> $GITHUB_ENV
 
     - name: Prepare Tag Branch info
-      if: env.NBGV_PublicRelease == 'False'
+      if: env.NBGV_PublicRelease == 'False' && github.ref_type == 'branch'
       run: |
         echo IMAGE_BRANCH=-$(echo ${{ github.ref }} | tr '[:upper:]' '[:lower:]' |  awk '{sub(/([^\/]*\/){2}/,""); gsub(/\/|_/, "-")}1') >> $GITHUB_ENV
 
