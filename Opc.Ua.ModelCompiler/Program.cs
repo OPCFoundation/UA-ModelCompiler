@@ -15,6 +15,9 @@ try
     {
         args[ii] = args[ii].Replace("\n", "\\n");
     }
+    
+    Console.WriteLine($"Running {Assembly.GetExecutingAssembly().GetName().FullName}");
+    Console.WriteLine($"With {typeof(Opc.Ua.NodeId).Assembly.GetName().FullName}");
 
     ModelCompilerApplication.Run(args);
 }
