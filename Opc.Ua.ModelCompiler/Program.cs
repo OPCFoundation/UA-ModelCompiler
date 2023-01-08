@@ -4,6 +4,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Numerics;
 using System.Reflection;
 using System;
+using System.Diagnostics;
 
 try
 {
@@ -15,9 +16,10 @@ try
     {
         args[ii] = args[ii].Replace("\n", "\\n");
     }
-    
-    Console.WriteLine($"Running {Assembly.GetExecutingAssembly().GetName().FullName}");
-    Console.WriteLine($"With {typeof(Opc.Ua.NodeId).Assembly.GetName().FullName}");
+
+    Console.WriteLine($"Version: {Assembly.GetExecutingAssembly().GetName().Version}");
+    Console.WriteLine($"FileVersion: {FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}");
+    Console.WriteLine($"Opc.Ua.Core: {typeof(Opc.Ua.NodeId).Assembly.GetName().FullName}");
 
     ModelCompilerApplication.Run(args);
 }

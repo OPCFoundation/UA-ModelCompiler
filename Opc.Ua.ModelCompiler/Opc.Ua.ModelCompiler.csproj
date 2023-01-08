@@ -9,8 +9,9 @@
     <AssemblyName>Opc.Ua.ModelCompiler</AssemblyName>
     <RootNamespace>ModelCompiler</RootNamespace>
     <VersionSuffix>2.3.$([System.DateTime]::UtcNow.ToString(yyMM)).$([System.DateTime]::UtcNow.ToString(ddmm))</VersionSuffix>
+    <Version>2.3.0.0</Version>
     <AssemblyVersion>2.3.0.0</AssemblyVersion>
-    <Version>$(VersionSuffix)</Version>
+    <FileVersion>$(VersionSuffix)</FileVersion>
     <Copyright>Copyright © OPC Foundation</Copyright>
     <Product>OPC UA Model Compiler</Product>
     <Configurations>Debug;Release;Docker</Configurations>
