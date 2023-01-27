@@ -17,9 +17,12 @@ try
         args[ii] = args[ii].Replace("\n", "\\n");
     }
 
-    Console.WriteLine($"Version: {Assembly.GetExecutingAssembly().GetName().Version}");
-    Console.WriteLine($"FileVersion: {FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}");
-    Console.WriteLine($"Opc.Ua.Core: {typeof(Opc.Ua.NodeId).Assembly.GetName().FullName}");
+    if (args.Length < 2) 
+    {
+        Console.WriteLine($"Version: {Assembly.GetExecutingAssembly().GetName().FullName}");
+        Console.WriteLine($"FileVersion: {FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}");
+        Console.WriteLine($"Opc.Ua.Core: {typeof(Opc.Ua.NodeId).Assembly.GetName().FullName}");
+    }
 
     ModelCompilerApplication.Run(args);
 }

@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 		BuildEngineeringUnits.bat = BuildEngineeringUnits.bat
 		BuildStandardTypes.bat = BuildStandardTypes.bat
 		CompileNodeSets.bat = CompileNodeSets.bat
+		PublishNodeSet.bat = PublishNodeSet.bat
 		TestNodeSets.bat = TestNodeSets.bat
 		UpdateLicense.bat = UpdateLicense.bat
 	EndProjectSection

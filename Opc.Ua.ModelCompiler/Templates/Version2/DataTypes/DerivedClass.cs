@@ -85,7 +85,7 @@ public partial class _BrowseName_ : _BaseType_
 
         // ListOfComparedFields
 
-        return true;
+        return base.IsEqual(encodeable);
     }    
 
     #if !NET_STANDARD

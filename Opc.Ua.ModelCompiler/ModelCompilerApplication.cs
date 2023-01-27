@@ -20,7 +20,7 @@ namespace ModelCompiler
             app.Command("compile", (e) => Compile(e));
             app.Command("units", (e) => Units(e));
             app.Command("update-headers", (e) => UpdateHeaders(e));
-            app.Command("compile-nodesets", (e) => Test(e));
+            app.Command("compile-nodesets", (e) => CompileNodeSets(e));
 
             app.OnExecute(() =>
             {
@@ -306,14 +306,25 @@ namespace ModelCompiler
             var relativePath = new FileInfo(nodeset.FileName).DirectoryName.Substring(new DirectoryInfo(inputPath).FullName.Length);
 
             var output = Path.Join(outputPath, relativePath);
-            Directory.CreateDirectory(output);
+
+            if (!Directory.Exists(output))
+            {
+                Directory.CreateDirectory(output);
+            }
+
+            var documentation = new FileInfo(nodeset.FileName.Replace(".xml", ".documentation.csv"));
+
+            if (documentation.Exists)
+            {
+                documentation.CopyTo(Path.Join(output, $"{nodeset.Prefix}.NodeSet2.documentation.csv"));
+            }
 
             generator.GenerateMultipleFiles(output, false, exclusions, false);
 
             WriteLine($"NodeSet ({nodeset.ModelUri}) code generated ({output}).", ConsoleColor.DarkGreen);
         }
 
-        private static void Test(CommandLineApplication app)
+        private static void CompileNodeSets(CommandLineApplication app)
         {
             app.Description = "Searches a directory tree for nodesets and generates code for the specified model URIs.";
             app.HelpOption("-?|-h|--help"); 
@@ -326,6 +337,11 @@ namespace ModelCompiler
             app.Option(
                 $"-{OptionsNames.OutputPath}",
                 "The path to the directory to use to write the generated files.",
+                CommandOptionType.SingleValue);
+
+            app.Option(
+                $"-{OptionsNames.OutputPrefix}",
+                "The prefix on generated files.",
                 CommandOptionType.SingleValue);
 
             app.Option(
@@ -375,7 +391,6 @@ namespace ModelCompiler
                         continue;
                     }
 
-
                     found.Add(modelUri);
 
                     Dictionary<string, NodeSetInfo> dependencies = new();
@@ -386,6 +401,11 @@ namespace ModelCompiler
                     }
 
                     WriteLine($"NodeSet ({nodeset.ModelUri}) dependencies found.", ConsoleColor.DarkYellow);
+
+                    if (!String.IsNullOrEmpty(options.OutputPrefix))
+                    {
+                        nodeset.Prefix = options.OutputPrefix;
+                    }
 
                     try
                     {
@@ -561,6 +581,7 @@ namespace ModelCompiler
             public const string ModelPublicationDate = "pd";
             public const string ReleaseCandidate = "rc";
             public const string ModelUris = "uri";
+            public const string OutputPrefix = "prefix";
         }
 
         private class OptionValues
@@ -585,6 +606,7 @@ namespace ModelCompiler
             public string Annex1Path;
             public string Annex2Path;            
             public IList<string> ModelUris;
+            public string OutputPrefix;
         }
 
         private static void AddCompileOptions(CommandLineApplication app)
@@ -653,6 +675,11 @@ namespace ModelCompiler
                 $"-{OptionsNames.ReleaseCandidate}",
                 "Indicates that a release candidate nodeset is being generated.",
                 CommandOptionType.NoValue);
+
+            app.Option(
+                $"-{OptionsNames.OutputPrefix}",
+                "The prefix to use on the generated files names.",
+                CommandOptionType.SingleValue);
         }
 
         private static OptionValues GetCompileOptions(CommandLineApplication app)
@@ -671,6 +698,7 @@ namespace ModelCompiler
                 ModelPublicationDate = app.GetOption(OptionsNames.ModelPublicationDate),
                 ReleaseCandidate = app.IsOptionSet(OptionsNames.ReleaseCandidate),
                 ModelUris = app.GetOptionList(OptionsNames.ModelUris),
+                OutputPrefix = app.GetOption(OptionsNames.OutputPrefix),
             };
 
             var path = app.GetOption(OptionsNames.GenerateIdentifierFile);

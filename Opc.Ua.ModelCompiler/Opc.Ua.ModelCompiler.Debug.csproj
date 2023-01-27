@@ -253,6 +253,7 @@
     <None Remove="Templates\XmlSchema\EnumeratedType.xml" />
     <None Remove="Templates\XmlSchema\File.xml" />
     <None Remove="Templates\XmlSchema\SimpleType.xml" />
+    <None Remove="Templates\XmlSchema\Union.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -463,6 +464,7 @@
     <EmbeddedResource Include="Templates\XmlSchema\Array.xml" />
     <EmbeddedResource Include="Templates\XmlSchema\BuiltInTypes.xsd" />
     <EmbeddedResource Include="Templates\XmlSchema\CollectionType.xml" />
+    <EmbeddedResource Include="Templates\XmlSchema\Union.xml" />
     <EmbeddedResource Include="Templates\XmlSchema\ComplexType.xml" />
     <EmbeddedResource Include="Templates\XmlSchema\DerivedType.xml" />
     <EmbeddedResource Include="Templates\XmlSchema\Documentation.xml" />
