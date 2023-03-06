@@ -84,13 +84,11 @@ public partial class _BrowseName_ : IEncodeable, IJsonEncodeable
         return true;
     }
 
-    #if !NET_STANDARD
     /// <summary cref="ICloneable.Clone" />
     public virtual object Clone()
     {
         return (_BrowseName_)this.MemberwiseClone();
     }
-    #endif
 
     /// <summary cref="Object.MemberwiseClone" />
     public new object MemberwiseClone()

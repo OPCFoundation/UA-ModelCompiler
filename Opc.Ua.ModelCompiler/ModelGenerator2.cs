@@ -3395,6 +3395,14 @@ namespace ModelCompiler
 
             AddTemplate(
                 template,
+                "// ListOfUpdateChildrenChangeMasks",
+                null,
+                fields,
+                new LoadTemplateEventHandler(WriteTemplate_VariableTypeValueUpdateChildrenChangeMasks),
+                null);
+
+            AddTemplate(
+                template,
                 "// ListOfChildMethods",
                 TemplatePath + "Version2.VariableTypeValueField.cs",
                 fields,
@@ -3427,13 +3435,48 @@ namespace ModelCompiler
             template.Write("instance = m_variable.{0};", path);
 
             template.WriteNextLine(context.Prefix);
-            template.Write("instance.OnReadValue = OnRead_{0};", name);
+            template.Write("if (instance != null)");
 
             template.WriteNextLine(context.Prefix);
-            template.Write("instance.OnSimpleWriteValue = OnWrite_{0};", name);
+            template.Write("{");
 
             template.WriteNextLine(context.Prefix);
-            template.Write("updateList.Add(instance);");
+            template.Write("    instance.OnReadValue = OnRead_{0};", name);
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("    instance.OnWriteValue = OnWrite_{0};", name);
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("    updateList.Add(instance);");
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("}");
+
+            return context.TemplatePath;
+        }
+        #endregion
+
+        #region "// ListOfUpdateChildrenChangeMasks"
+        private string WriteTemplate_VariableTypeValueUpdateChildrenChangeMasks(Template template, Context context)
+        {
+            KeyValuePair<string, Parameter>? field = context.Target as KeyValuePair<string, Parameter>?;
+
+            if (field == null)
+            {
+                return null;
+            }
+
+            if (!context.FirstInList)
+            {
+                template.WriteNextLine(context.Prefix);
+            }
+
+            string name = field.Value.Key;
+            // string path = field.Value.Key.Replace('_', '.');
+            string path = field.Value.Key;
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("if (!Utils.IsEqual(m_value.{0}, newValue.{0})) UpdateChildVariableStatus(m_variable.{0}, ref statusCode, ref timestamp);", path);
 
             return context.TemplatePath;
         }

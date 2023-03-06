@@ -30,7 +30,7 @@ public class _ClassName_Value : BaseVariableValue
     /// <remarks />
     public _DataType_ Value
     {
-        get { return m_value;  }
+        get { return m_value; }
         set { m_value = value; }
     }
     #endregion
@@ -45,7 +45,7 @@ public class _ClassName_Value : BaseVariableValue
             variable.Value = m_value;
 
             variable.OnReadValue = OnReadValue;
-            variable.OnSimpleWriteValue = OnWriteValue;
+            variable.OnWriteValue = OnWriteValue;
 
             BaseVariableState instance = null;
             List<BaseInstanceState> updateList = new List<BaseInstanceState>();
@@ -80,14 +80,60 @@ public class _ClassName_Value : BaseVariableValue
         }
     }
 
-    private ServiceResult OnWriteValue(ISystemContext context, NodeState node, ref object value)
+    private ServiceResult OnWriteValue(
+        ISystemContext context,
+        NodeState node,
+        NumericRange indexRange,
+        QualifiedName dataEncoding,
+        ref object value,
+        ref StatusCode statusCode,
+        ref DateTime timestamp)
     {
         lock (Lock)
         {
-            m_value = (_DataType_)Write(value);
+            _DataType_ newValue;
+            if (value is ExtensionObject extensionObject)
+            {
+                newValue = (_DataType_)extensionObject.Body;
+            }
+            else
+            {
+                newValue = (_DataType_)value;
+            }
+
+            if (!Utils.IsEqual(m_value, newValue))
+            {
+                UpdateChildrenChangeMasks(context, ref newValue, ref statusCode, ref timestamp);
+                Timestamp = timestamp;
+                m_value = (_DataType_)Write(newValue);
+                m_variable.UpdateChangeMasks(NodeStateChangeMasks.Value);
+            }
         }
 
         return ServiceResult.Good;
+    }
+
+    private void UpdateChildrenChangeMasks(ISystemContext context, ref _DataType_ newValue, ref StatusCode statusCode, ref DateTime timestamp)
+    {
+        // ListOfUpdateChildrenChangeMasks
+    }
+
+    private void UpdateParent(ISystemContext context, ref StatusCode statusCode, ref DateTime timestamp)
+    {
+        Timestamp = timestamp;
+        m_variable.UpdateChangeMasks(NodeStateChangeMasks.Value);
+        m_variable.ClearChangeMasks(context, false);
+    }
+
+    private void UpdateChildVariableStatus(BaseDataVariableState child, ref StatusCode statusCode, ref DateTime timestamp)
+    {
+        if (child == null) return;
+        child.StatusCode = statusCode;
+        if (timestamp == DateTime.MinValue)
+        {
+            timestamp = DateTime.UtcNow;
+        }
+        child.Timestamp = timestamp;
     }
 
     // ListOfChildMethods
