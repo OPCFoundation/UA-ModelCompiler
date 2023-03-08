@@ -125,7 +125,7 @@ public class _ClassName_Value : BaseVariableValue
         m_variable.ClearChangeMasks(context, false);
     }
 
-    private void UpdateChildVariableStatus(BaseDataVariableState child, ref StatusCode statusCode, ref DateTime timestamp)
+    private void UpdateChildVariableStatus(BaseVariableState child, ref StatusCode statusCode, ref DateTime timestamp)
     {
         if (child == null) return;
         child.StatusCode = statusCode;
