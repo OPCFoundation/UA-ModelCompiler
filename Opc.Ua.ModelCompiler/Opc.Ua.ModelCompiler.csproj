@@ -298,6 +298,7 @@
     <None Remove="Templates\XmlSchema\EnumeratedType.xml" />
     <None Remove="Templates\XmlSchema\File.xml" />
     <None Remove="Templates\XmlSchema\SimpleType.xml" />
+    <None Remove="Templates\XmlSchema\Union.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -511,6 +512,7 @@
     <EmbeddedResource Include="Templates\XmlSchema\EnumeratedType.xml" />
     <EmbeddedResource Include="Templates\XmlSchema\File.xml" />
     <EmbeddedResource Include="Templates\XmlSchema\SimpleType.xml" />
+    <EmbeddedResource Include="Templates\XmlSchema\Union.xml" />
   </ItemGroup>
 
   <ItemGroup>
