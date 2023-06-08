@@ -178,9 +178,23 @@ namespace ModelCompiler
 
         private static Namespace CreateNamespace(ModelTableEntry model)
         {
+            var httpPrefix = "http://";
+
+            // If the URI stars with "http://opcfoundation.org/UA/", then remove this prefix.
+            // Otherwise, if the URI stars with "http://", then remove that prefix.
+            var name = model.ModelUri;
+            if (name.StartsWith(Namespaces.OpcUa))
+            {
+                name = name.Substring(Namespaces.OpcUa.Length);
+            }
+            else if (name.StartsWith(httpPrefix))
+            {
+                name = name.Substring(httpPrefix.Length);
+            }
+
             var ns = new Namespace()
             {
-                Name = model.ModelUri.Substring(Namespaces.OpcUa.Length).Replace("/", " ").Trim().Replace(" ", "."),
+                Name = name.Replace("/", " ").Trim().Replace(" ", "."),
                 Value = model.ModelUri,
                 XmlNamespace = model.XmlSchemaUri,
                 PublicationDate = model.PublicationDate.ToString("yyyy-MM-ddT00:00:00Z"),
