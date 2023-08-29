@@ -31,6 +31,8 @@
 
   <ItemGroup>
     <None Remove="DemoModel\DemoModel.PredefinedNodes.uanodes" />
+    <None Remove="GDS\Opc.Ua.Gds.PredefinedNodes.uanodes" />
+    <None Remove="Onboarding\Opc.Ua.Onboarding.PredefinedNodes.uanodes" />
     <None Remove="Opc.Ua.NodeSet.NodeIds.csv" />
     <None Remove="Opc.Ua.NodeSet.NodeSet2.Part6.xml" />
     <None Remove="Opc.Ua.NodeSet.NodeSet2.xml" />
@@ -40,16 +42,18 @@
     <None Remove="Opc.Ua.NodeSet.Types.xsd" />
     <None Remove="OpcUaNodeSetModel.csv" />
     <None Remove="OpcUaNodeSetModel.xml" />
+    <None Remove="Scheduler\Opc.Ua.Scheduler.PredefinedNodes.uanodes" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="DemoModel\DemoModel.PredefinedNodes.uanodes" />
+    <EmbeddedResource Include="GDS\Opc.Ua.Gds.PredefinedNodes.uanodes" />
+    <EmbeddedResource Include="Onboarding\Opc.Ua.Onboarding.PredefinedNodes.uanodes" />
+    <EmbeddedResource Include="Scheduler\Opc.Ua.Scheduler.PredefinedNodes.uanodes" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="Scheduler\" />
-    <Folder Include="Onboarding\" />
   </ItemGroup>
 
   <ItemGroup>
