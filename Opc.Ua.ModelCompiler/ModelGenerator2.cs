@@ -4376,7 +4376,8 @@ namespace ModelCompiler
         {
             "Description",
             "Save",
-            "Value"
+            "Handle",
+            "Specification"
         };
 
         private bool IsIndeterminateType(InstanceDesign instance)
@@ -4469,7 +4470,7 @@ namespace ModelCompiler
 
             if (!IsOverridden(instance))
             {
-                if (!BuiltInPropertyNames.Contains(instance.SymbolicName.Name))
+                if (!BuiltInPropertyNames.Contains(instance.SymbolicName.Name) || (instance is VariableDesign && instance.SymbolicName.Name == "Value"))
                 {
                     template.AddReplacement("public new", "public");
                 }

@@ -6,6 +6,7 @@ set MODEL=DemoModel
 set VERSION=v105
 set EXCLUDE=Draft
 set INPUT=.
+set CSVINPUT=.
 set OUTPUT=.
 set USEALLOWSUBTYPES=-useAllowSubtypes
 

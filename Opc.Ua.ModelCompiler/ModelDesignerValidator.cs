@@ -5073,7 +5073,15 @@ namespace ModelCompiler
                             child.StaticValue = true;
                         }
                     }
-                     
+
+                    if (instance.ModellingRule == ModellingRule.OptionalPlaceholder || instance.ModellingRule == ModellingRule.MandatoryPlaceholder)
+                    {
+                        if (depth > 3)
+                        {
+                            continue;
+                        }
+                    }
+
                     nodes.Add(child);
 
                     BuildInstanceHierarchy2(instance, browsePath, nodes, references, inherited, depth + 1);
