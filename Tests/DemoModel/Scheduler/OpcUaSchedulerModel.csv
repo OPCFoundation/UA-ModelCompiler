@@ -191,3 +191,4 @@ TimeType_Encoding_DefaultJson,192,Object
 DailyScheduleType_Encoding_DefaultJson,193,Object
 Month_EnumStrings,194,Variable
 DayOfMonth_EnumStrings,195,Variable
+OPCUASchedulerNamespaceMetadata_ModelVersion,196,Variable

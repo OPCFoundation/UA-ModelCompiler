@@ -287,7 +287,7 @@
   <opc:Constant Name="Bad_NumericOverflow">
     <opc:Documentation>The number was not accepted because of a numeric overflow.</opc:Documentation>
   </opc:Constant>
-
+  
   <!-- RegisterServer -->
   <opc:Constant Name="Bad_ServerUriInvalid">
     <opc:Documentation>The ServerUri is not a valid URI.</opc:Documentation>

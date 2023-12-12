@@ -7,12 +7,120 @@
   xmlns="http://opcfoundation.org/UA/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
-  TargetVersion="1.05.02"
-  TargetPublicationDate="2022-06-28T00:00:00Z"
+  TargetVersion="1.05.03"
+  TargetPublicationDate="2023-12-15T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
   </opc:Namespaces>
+
+
+  <opc:PermissionSets>
+
+    <opc:PermissionSet Name="ConfigureAdminOrAnonymousWithCall">
+      <opc:RolePermission Role="WellKnownRole_Anonymous">
+        <opc:Permission>Browse</opc:Permission>
+        <opc:Permission>Read</opc:Permission>
+        <opc:Permission>Call</opc:Permission>
+      </opc:RolePermission>
+      <opc:RolePermission Role="WellKnownRole_ConfigureAdmin">
+        <opc:Permission>All</opc:Permission>
+      </opc:RolePermission>
+    </opc:PermissionSet>
+
+    <opc:PermissionSet Name="SecurityAdminOrAnonymousWithCall">
+      <opc:RolePermission Role="WellKnownRole_Anonymous">
+        <opc:Permission>Browse</opc:Permission>
+        <opc:Permission>Read</opc:Permission>
+        <opc:Permission>Call</opc:Permission>
+      </opc:RolePermission>
+      <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
+        <opc:Permission>All</opc:Permission>
+      </opc:RolePermission>
+    </opc:PermissionSet>
+
+    <opc:PermissionSet Name="AnonymousReadOnly">
+      <opc:RolePermission Role="WellKnownRole_Anonymous">
+        <opc:Permission>Browse</opc:Permission>
+        <opc:Permission>Read</opc:Permission>
+      </opc:RolePermission>
+    </opc:PermissionSet>
+
+    <opc:PermissionSet Name="SecurityAdminOrAnonymous">
+      <opc:RolePermission Role="WellKnownRole_Anonymous">
+        <opc:Permission>Browse</opc:Permission>
+        <opc:Permission>Read</opc:Permission>
+      </opc:RolePermission>
+      <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
+        <opc:Permission>All</opc:Permission>
+      </opc:RolePermission>
+    </opc:PermissionSet>
+
+    <opc:PermissionSet Name="SecurityAdminOnly">
+      <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
+        <opc:Permission>All</opc:Permission>
+      </opc:RolePermission>
+    </opc:PermissionSet>
+
+    <opc:PermissionSet Name="ConfigureAdminOnly">
+      <opc:RolePermission Role="WellKnownRole_ConfigureAdmin">
+        <opc:Permission>All</opc:Permission>
+      </opc:RolePermission>
+    </opc:PermissionSet>
+
+    <opc:PermissionSet Name="ConfigureOrSecurityAdmin">
+      <opc:RolePermission Role="WellKnownRole_Anonymous">
+        <opc:Permission>Browse</opc:Permission>
+        <opc:Permission>Read</opc:Permission>
+      </opc:RolePermission>
+      <opc:RolePermission Role="WellKnownRole_ConfigureAdmin">
+        <opc:Permission>All</opc:Permission>
+      </opc:RolePermission>
+      <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
+        <opc:Permission>All</opc:Permission>
+      </opc:RolePermission>
+    </opc:PermissionSet>
+
+    <opc:PermissionSet Name="ConfigureOrSecurityAdminOnly">
+      <opc:RolePermission Role="WellKnownRole_ConfigureAdmin">
+        <opc:Permission>All</opc:Permission>
+      </opc:RolePermission>
+      <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
+        <opc:Permission>All</opc:Permission>
+      </opc:RolePermission>
+    </opc:PermissionSet>
+
+    <opc:PermissionSet Name="SecurityKeyServerAdminOnly">
+      <opc:RolePermission Role="WellKnownRole_SecurityKeyServerAdmin">
+        <opc:Permission>All</opc:Permission>
+      </opc:RolePermission>
+    </opc:PermissionSet>
+
+    <opc:PermissionSet Name="SecurityKeyServerAdminOrAnonymous">
+      <opc:RolePermission Role="WellKnownRole_Anonymous">
+        <opc:Permission>Browse</opc:Permission>
+        <opc:Permission>Read</opc:Permission>
+        <opc:Permission>Call</opc:Permission>
+      </opc:RolePermission>
+      <opc:RolePermission Role="WellKnownRole_SecurityKeyServerAdmin">
+        <opc:Permission>All</opc:Permission>
+      </opc:RolePermission>
+    </opc:PermissionSet>
+
+    <opc:PermissionSet Name="SecurityKeyServerPush">
+      <opc:RolePermission Role="WellKnownRole_Anonymous">
+        <opc:Permission>Browse</opc:Permission>
+        <opc:Permission>Read</opc:Permission>
+      </opc:RolePermission>
+      <opc:RolePermission Role="WellKnownRole_SecurityKeyServerPush">
+        <opc:Permission>All</opc:Permission>
+      </opc:RolePermission>
+      <opc:RolePermission Role="WellKnownRole_SecurityKeyServerAdmin">
+        <opc:Permission>All</opc:Permission>
+      </opc:RolePermission>
+    </opc:PermissionSet>
+
+  </opc:PermissionSets>
 
   <opc:Object SymbolicName="OPCUANamespaceMetadata" TypeDefinition="ua:NamespaceMetadataType" PartNo="5">
     <opc:BrowseName>http://opcfoundation.org/UA/</opc:BrowseName>
@@ -24,12 +132,17 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespaceVersion" DataType="ua:String">
         <opc:DefaultValue>
-          <uax:String>1.05.02</uax:String>
+          <uax:String>1.05.03</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2022-06-28T00:00:00</uax:DateTime>
+          <uax:DateTime>2023-12-15T00:00:00</uax:DateTime>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="ModelVersion" DataType="ua:SemanticVersionString">
+        <opc:DefaultValue>
+          <uax:String>1.5.3</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -165,7 +278,7 @@
 
   <opc:DataType SymbolicName="UriString" IsAbstract="false" BaseType="ua:String" PartNo="3">
   </opc:DataType>
-  
+
   <!-- Part 5 - Standard Object Types -->
   <!-- BaseObjectType BuiltInTypes.xml -->
 
@@ -221,7 +334,8 @@
         <opc:Description>Sets the durable state for the subscription.</opc:Description>
       </opc:Method>
       <opc:Method SymbolicName="RequestServerStateChange" TypeDefinition="RequestServerStateChangeMethodType" ModellingRule="Optional">
-        <opc:Description>Requests a state change in the server.</opc:Description>
+        <opc:DefaultRolePermissions Name="ConfigureOrSecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
       </opc:Method>
     </opc:Children>
     <opc:ClassName>ServerObject</opc:ClassName>
@@ -272,8 +386,8 @@
       <opc:Variable SymbolicName="VendorCapability_Placeholder" TypeDefinition="ServerVendorCapabilityType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;VendorCapability&gt;</opc:BrowseName>
       </opc:Variable>
-      <opc:Object SymbolicName="RoleSet" TypeDefinition="RoleSetType" ModellingRule="Optional"></opc:Object>
-
+      <opc:Object SymbolicName="RoleSet" TypeDefinition="RoleSetType" ModellingRule="Optional">
+      </opc:Object>
       <opc:Property SymbolicName="MaxSessions" DataType="ua:UInt32" ModellingRule="Optional" />
       <opc:Property SymbolicName="MaxSubscriptions" DataType="ua:UInt32" ModellingRule="Optional" />
       <opc:Property SymbolicName="MaxMonitoredItems" DataType="ua:UInt32" ModellingRule="Optional" />
@@ -310,13 +424,12 @@
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="SessionsDiagnosticsSummaryType" BaseType="ua:BaseObjectType" PartNo="5">
-    <opc:Description>Provides a summary of session level diagnostics.</opc:Description>
     <opc:Children>
       <opc:Variable SymbolicName="SessionDiagnosticsArray" TypeDefinition="SessionDiagnosticsArrayType">
-        <opc:Description>A list of diagnostics for each active session.</opc:Description>
       </opc:Variable>
       <opc:Variable SymbolicName="SessionSecurityDiagnosticsArray" TypeDefinition="SessionSecurityDiagnosticsArrayType">
-        <opc:Description>A list of security related diagnostics for each active session.</opc:Description>
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
       </opc:Variable>
       <opc:Object SymbolicName="ClientName_Placeholder" TypeDefinition="SessionDiagnosticsObjectType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ClientName&gt;</opc:BrowseName>
@@ -325,16 +438,14 @@
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="SessionDiagnosticsObjectType" BaseType="ua:BaseObjectType" PartNo="5">
-    <opc:Description>A container for session level diagnostics information.</opc:Description>
     <opc:Children>
       <opc:Variable SymbolicName="SessionDiagnostics" TypeDefinition="SessionDiagnosticsVariableType">
-        <opc:Description>Diagnostics information for an active session.</opc:Description>
       </opc:Variable>
       <opc:Variable SymbolicName="SessionSecurityDiagnostics" TypeDefinition="SessionSecurityDiagnosticsType">
-        <opc:Description>Security related diagnostics information for an active session.</opc:Description>
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
       </opc:Variable>
       <opc:Variable SymbolicName="SubscriptionDiagnosticsArray" DataType="SubscriptionDiagnosticsDataType" ValueRank="Array" TypeDefinition="SubscriptionDiagnosticsArrayType">
-        <opc:Description>A list of diagnostics for each subscription owned by the session.</opc:Description>
       </opc:Variable>
     </opc:Children>
   </opc:ObjectType>
@@ -344,41 +455,47 @@
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="ServerRedundancyType" BaseType="ua:BaseObjectType" PartNo="5">
-    <opc:Description>A base type for an object that describe how a server supports redundancy.</opc:Description>
     <opc:Children>
-      <opc:Property SymbolicName="RedundancySupport" DataType="RedundancySupport">
-        <opc:Description>Indicates what style of redundancy is supported by the server.</opc:Description>
-      </opc:Property>
+      <opc:Property SymbolicName="RedundancySupport" DataType="RedundancySupport" />
+      <opc:Property SymbolicName="RedundantServerArray" DataType="RedundantServerDataType" ValueRank="Array" ModellingRule="Optional"/>
     </opc:Children>
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="TransparentRedundancyType" BaseType="ServerRedundancyType" PartNo="5">
-    <opc:Description>Identifies the capabilties of server that supports transparent redundancy.</opc:Description>
     <opc:Children>
-      <opc:Property SymbolicName="CurrentServerId" DataType="ua:String">
-        <opc:Description>The ID of the server that is currently in use.</opc:Description>
-      </opc:Property>
-      <opc:Property SymbolicName="RedundantServerArray" DataType="RedundantServerDataType" ValueRank="Array">
-        <opc:Description>A list of servers in the same redundant set.</opc:Description>
-      </opc:Property>
+      <opc:Property SymbolicName="CurrentServerId" DataType="ua:String" />
+      <opc:Property SymbolicName="RedundantServerArray" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="NonTransparentRedundancyType" BaseType="ServerRedundancyType" PartNo="5">
-    <opc:Description>Identifies the capabilties of server that supports non-transparent redundancy.</opc:Description>
     <opc:Children>
-      <opc:Property SymbolicName="ServerUriArray" DataType="ua:String" ValueRank="Array">
-        <opc:Description>A list of servers in the same redundant set.</opc:Description>
-      </opc:Property>
+      <opc:Property SymbolicName="ServerUriArray" DataType="ua:String" ValueRank="Array" />
     </opc:Children>
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="NonTransparentNetworkRedundancyType" BaseType="NonTransparentRedundancyType" PartNo="5">
     <opc:Children>
-      <opc:Property SymbolicName="ServerNetworkGroups" DataType="NetworkGroupDataType" ValueRank="Array">
-      </opc:Property>
+      <opc:Property SymbolicName="ServerNetworkGroups" DataType="NetworkGroupDataType" ValueRank="Array" />
     </opc:Children>
   </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="NonTransparentBackupRedundancyType" BaseType="NonTransparentRedundancyType" PartNo="5">
+    <opc:Children>
+      <opc:Property SymbolicName="RedundantServerArray" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Mode" DataType="RedundantServerMode" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="Failover" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:DataType SymbolicName="RedundantServerMode" BaseType="Enumeration" PartNo="5">
+    <opc:Fields>
+      <opc:Field Name="PrimaryWithBackup" Identifier="0"></opc:Field>
+      <opc:Field Name="PrimaryOnly" Identifier="1"></opc:Field>
+      <opc:Field Name="BackupReady" Identifier="2"></opc:Field>
+      <opc:Field Name="BackupNotReady" Identifier="3"></opc:Field>
+    </opc:Fields>
+  </opc:DataType>
 
   <opc:ObjectType SymbolicName="OperationLimitsType" BaseType="ua:FolderType" PartNo="5">
     <opc:Description>Identifies the operation limits imposed by the server.</opc:Description>
@@ -481,6 +598,7 @@
       <opc:Property SymbolicName="DefaultUserRolePermissions" DataType="ua:RolePermissionType" ValueRank="Array" ModellingRule="Optional" />
       <opc:Property SymbolicName="DefaultAccessRestrictions" DataType="ua:AccessRestrictionType" ModellingRule="Optional" />
       <opc:Property SymbolicName="ConfigurationVersion" DataType="ua:VersionTime" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ModelVersion" DataType="ua:SemanticVersionString" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -562,7 +680,7 @@
       </opc:Property>
       <opc:Property SymbolicName="RequestedLifetime" DataType="Duration">
       </opc:Property>
-      <opc:Property SymbolicName="CertificateErrorEventId" DataType="ua:String" ModellingRule="Optional" >
+      <opc:Property SymbolicName="CertificateErrorEventId" DataType="ua:ByteString" ModellingRule="Optional" >
       </opc:Property>
     </opc:Children>
   </opc:ObjectType>
@@ -726,11 +844,11 @@
       <opc:Property SymbolicName="ObjectId" DataType="NodeId" />
       <opc:Property SymbolicName="MethodId" DataType="NodeId" />
       <opc:Property SymbolicName="StatusCodeId" DataType="StatusCode" />
-      <opc:Property SymbolicName="InputArguments" DataType="Argument" ValueRank="Array" />
-      <opc:Property SymbolicName="OutputArguments" DataType="Argument" ValueRank="Array" />
+      <opc:Property SymbolicName="InputArguments" DataType="BaseDataType" ValueRank="Array" />
+      <opc:Property SymbolicName="OutputArguments" DataType="BaseDataType" ValueRank="Array" />
     </opc:Children>
   </opc:ObjectType>
-  
+
   <!-- ModellingRuleType BuiltInTypes.xml -->
   <!-- FolderType BuiltInTypes.xml -->
   <!-- DataTypeEncodingType BuiltInTypes.xml -->
@@ -969,7 +1087,7 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
-  
+
   <opc:Object SymbolicName="Locations" TypeDefinition="FolderType" ModellingRule="None" PartNo="5">
     <opc:BrowseName>Locations</opc:BrowseName>
     <opc:References>
@@ -990,7 +1108,6 @@
           <opc:Property SymbolicName="MaxArrayLength" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="MaxStringLength" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="MaxByteStringLength" ModellingRule="Mandatory" />
-          
           <opc:Object SymbolicName="OperationLimits" ModellingRule="Mandatory">
             <opc:Children>
               <opc:Property SymbolicName="MaxNodesPerRead" ModellingRule="Mandatory" />
@@ -1007,7 +1124,9 @@
               <opc:Property SymbolicName="MaxMonitoredItemsPerCall" ModellingRule="Mandatory" />
             </opc:Children>
           </opc:Object>
-          <opc:Object SymbolicName="RoleSet" ModellingRule="Mandatory" />
+          <opc:Object SymbolicName="RoleSet" ModellingRule="Mandatory">
+            <opc:RolePermissions Name="SecurityAdminOrAnonymous" DoNotInheirit="true" />
+          </opc:Object>
           <opc:Property SymbolicName="MaxSessions" DataType="ua:UInt32" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="MaxSubscriptions" DataType="ua:UInt32" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="MaxMonitoredItems" DataType="ua:UInt32" ModellingRule="Mandatory" />
@@ -1046,10 +1165,6 @@
     <opc:BrowseName>CurrentServerId</opc:BrowseName>
   </opc:Variable>
 
-  <opc:Variable SymbolicName="Server_ServerRedundancy_RedundantServerArray" DataType="RedundantServerDataType" ValueRank="Array" TypeDefinition="PropertyType" IsDynamic="true">
-    <opc:BrowseName>RedundantServerArray</opc:BrowseName>
-  </opc:Variable>
-
   <opc:Variable SymbolicName="Server_ServerRedundancy_ServerUriArray" DataType="ua:String" ValueRank="Array" TypeDefinition="PropertyType" IsDynamic="true">
     <opc:BrowseName>ServerUriArray</opc:BrowseName>
   </opc:Variable>
@@ -1057,8 +1172,12 @@
   <opc:Variable SymbolicName="Server_ServerRedundancy_ServerNetworkGroups"  DataType="NetworkGroupDataType" ValueRank="Array" TypeDefinition="PropertyType" IsDynamic="true">
     <opc:BrowseName>ServerNetworkGroups</opc:BrowseName>
   </opc:Variable>
+
   <opc:Object SymbolicName="HistoryServerCapabilities" TypeDefinition="HistoryServerCapabilitiesType" ModellingRule="None" PartNo="11" IsDynamic="true">
     <opc:BrowseName>HistoryServerCapabilities</opc:BrowseName>
+    <opc:Children>
+      <opc:Property SymbolicName="ServerTimestampSupported" ModellingRule="Mandatory" />
+    </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
@@ -1152,16 +1271,16 @@
   <opc:ReferenceType SymbolicName="IsDeprecated" BaseType="NonHierarchicalReferences" PartNo="5">
     <opc:InverseName>Deprecates</opc:InverseName>
   </opc:ReferenceType>
-  
+
   <opc:DataType SymbolicName="BitFieldMaskDataType" BaseType="UInt64" PartNo="5">
     <opc:Description>A mask of 32 bits that can be updated individually by using the top 32 bits as a mask.</opc:Description>
   </opc:DataType>
 
   <!-- NetworkGroupDataType UA Core Services.xml -->
   <!-- EndpointUrlListDataType UA Core Services.xml -->
-  
+
   <opc:DataType SymbolicName="SemanticVersionString" BaseType="String" PartNo="5"></opc:DataType>
-  
+
   <opc:DataType SymbolicName="KeyValuePair" BaseType="Structure" PartNo="5">
     <opc:Fields>
       <opc:Field Name="Key" DataType="ua:QualifiedName" />
@@ -1193,7 +1312,7 @@
 
   <opc:DataType SymbolicName="Handle" BaseType="UInt32" PartNo="5"></opc:DataType>
   <opc:DataType SymbolicName="TrimmedString" BaseType="String" PartNo="5"></opc:DataType>
-  
+
   <!-- Part 5 Annex B - State Machines -->
 
   <opc:ObjectType SymbolicName="StateMachineType" PartNo="5">
@@ -1350,6 +1469,28 @@
       <opc:Variable SymbolicName="Orientation" DataType="ThreeDOrientation" TypeDefinition="ThreeDOrientationType" ModellingRule="Mandatory"></opc:Variable>
     </opc:Children>
   </opc:VariableType>
+
+  <opc:VariableType SymbolicName="BitFieldType" DataType="UInteger" ValueRank="Scalar" IsAbstract="true" PartNo="5">
+    <opc:Children>
+      <opc:Property SymbolicName="BitFieldsDefinitions" DataType="BitFieldDefinition" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Variable SymbolicName="FieldName_Placeholder" DataType="ua:BaseDataType" TypeDefinition="BaseVariableType" ModellingRule="MandatoryPlaceholder">
+        <opc:BrowseName>&lt;FieldName&gt;</opc:BrowseName>
+      </opc:Variable>
+      <opc:Variable SymbolicName="OptionalFieldNamee_Placeholder" DataType="ua:BaseDataType" TypeDefinition="BaseVariableType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;OptionalFieldName&gt;</opc:BrowseName>
+      </opc:Variable>
+    </opc:Children>
+  </opc:VariableType>
+
+  <opc:DataType SymbolicName="BitFieldDefinition" BaseType="Structure" PartNo="5">
+    <opc:Fields>
+      <opc:Field Name="Name" DataType="ua:String" />
+      <opc:Field Name="Description" DataType="ua:LocalizedText" />
+      <opc:Field Name="Reserved" DataType="ua:Boolean" />
+      <opc:Field Name="StartingBitPosition" DataType="ua:UInt32" />
+      <opc:Field Name="EndingBitPosition" DataType="ua:UInt32" />
+    </opc:Fields>
+  </opc:DataType>
 
   <opc:DataType SymbolicName="RationalNumber" BaseType="Structure" PartNo="5">
     <opc:Fields>
@@ -1856,8 +1997,14 @@
       <opc:Object SymbolicName="RoleName_Placeholder" TypeDefinition="RoleType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;RoleName&gt;</opc:BrowseName>
       </opc:Object>
-      <opc:Method SymbolicName="AddRole" TypeDefinition="AddRoleMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="RemoveRole" TypeDefinition="RemoveRoleMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddRole" TypeDefinition="AddRoleMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveRole" TypeDefinition="RemoveRoleMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
     </opc:Children>
   </opc:ObjectType>
 
@@ -1879,19 +2026,56 @@
 
   <opc:ObjectType SymbolicName="RoleType" BaseType="BaseObjectType" PartNo="5">
     <opc:Children>
-      <opc:Property SymbolicName="Identities" DataType="IdentityMappingRuleType" ValueRank="Array"></opc:Property>
-      <opc:Property SymbolicName="ApplicationsExclude" DataType="ua:Boolean" ModellingRule="Optional"></opc:Property>
-      <opc:Property SymbolicName="Applications" DataType="ua:String" ValueRank="Array" ModellingRule="Optional"></opc:Property>
-      <opc:Property SymbolicName="EndpointsExclude" DataType="ua:Boolean" ModellingRule="Optional"></opc:Property>
-      <opc:Property SymbolicName="Endpoints" DataType="ua:EndpointType" ValueRank="Array" ModellingRule="Optional"></opc:Property>
-      <opc:Property SymbolicName="CustomConfiguration" DataType="ua:Boolean" ModellingRule="Optional"></opc:Property>
-      <opc:Method SymbolicName="AddIdentity" TypeDefinition="AddIdentityMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveIdentity" TypeDefinition="RemoveIdentityMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddApplication" TypeDefinition="AddApplicationMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveApplication" TypeDefinition="RemoveApplicationMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddEndpoint" TypeDefinition="AddEndpointMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveEndpoint" TypeDefinition="RemoveEndpointMethodType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="Identities" DataType="IdentityMappingRuleType" ValueRank="Array">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Property>
+      <opc:Property SymbolicName="ApplicationsExclude" DataType="ua:Boolean" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Property>
+      <opc:Property SymbolicName="Applications" DataType="ua:String" ValueRank="Array" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Property>
+      <opc:Property SymbolicName="EndpointsExclude" DataType="ua:Boolean" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Property>
+      <opc:Property SymbolicName="Endpoints" DataType="ua:EndpointType" ValueRank="Array" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Property>
+      <opc:Property SymbolicName="CustomConfiguration" DataType="ua:Boolean" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Property>
+      <opc:Method SymbolicName="AddIdentity" TypeDefinition="AddIdentityMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveIdentity" TypeDefinition="RemoveIdentityMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="AddApplication" TypeDefinition="AddApplicationMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveApplication" TypeDefinition="RemoveApplicationMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="AddEndpoint" TypeDefinition="AddEndpointMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveEndpoint" TypeDefinition="RemoveEndpointMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
     </opc:Children>
+    <opc:DefaultRolePermissions Name="SecurityAdminOrAnonymous" DoNotInheirit="true" />
   </opc:ObjectType>
 
   <opc:DataType SymbolicName="IdentityCriteriaType" BaseType="ua:Enumeration" PartNo="5">
@@ -1971,7 +2155,7 @@
   <opc:Object SymbolicName="WellKnownRole_Anonymous" TypeDefinition="RoleType" PartNo="5">
     <opc:BrowseName>Anonymous</opc:BrowseName>
     <opc:DisplayName>Anonymous</opc:DisplayName>
-    <opc:Description>The Role has very limited access for use when a Session has anonymous credentials.</opc:Description>
+    <opc:Description DoNotIgnore="true">The Role has very limited access for use when a Session has anonymous credentials.</opc:Description>
     <opc:Children>
       <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
@@ -1995,7 +2179,7 @@
   <opc:Object SymbolicName="WellKnownRole_AuthenticatedUser" TypeDefinition="RoleType" PartNo="5">
     <opc:BrowseName>AuthenticatedUser</opc:BrowseName>
     <opc:DisplayName>AuthenticatedUser</opc:DisplayName>
-    <opc:Description>The Role has limited access for use when a Session has valid non-anonymous credentials but has not been explicity granted access to a Role.</opc:Description>
+    <opc:Description DoNotIgnore="true">The Role has limited access for use when a Session has valid non-anonymous credentials but has not been explicity granted access to a Role.</opc:Description>
     <opc:Children>
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
@@ -2020,7 +2204,7 @@
   <opc:Object SymbolicName="WellKnownRole_Observer" TypeDefinition="RoleType" PartNo="5">
     <opc:BrowseName>Observer</opc:BrowseName>
     <opc:DisplayName>Observer</opc:DisplayName>
-    <opc:Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
+    <opc:Description DoNotIgnore="true">The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
     <opc:Children>
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
@@ -2045,7 +2229,7 @@
   <opc:Object SymbolicName="WellKnownRole_Operator" TypeDefinition="RoleType" PartNo="5">
     <opc:BrowseName>Operator</opc:BrowseName>
     <opc:DisplayName>Operator</opc:DisplayName>
-    <opc:Description>The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
+    <opc:Description DoNotIgnore="true">The Role is allowed to browse, read live data, read historical data/events or subscribe to data/events.</opc:Description>
     <opc:Children>
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
@@ -2070,7 +2254,7 @@
   <opc:Object SymbolicName="WellKnownRole_Engineer" TypeDefinition="RoleType" PartNo="5">
     <opc:BrowseName>Engineer</opc:BrowseName>
     <opc:DisplayName>Engineer</opc:DisplayName>
-    <opc:Description>The Role is allowed to browse, read live data, read and update historical data/events, call methods or subscribe to data/events.</opc:Description>
+    <opc:Description DoNotIgnore="true">The Role is allowed to browse, read live data, read and update historical data/events, call methods or subscribe to data/events.</opc:Description>
     <opc:Children>
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
@@ -2095,7 +2279,7 @@
   <opc:Object SymbolicName="WellKnownRole_Supervisor" TypeDefinition="RoleType" PartNo="5">
     <opc:BrowseName>Supervisor</opc:BrowseName>
     <opc:DisplayName>Supervisor</opc:DisplayName>
-    <opc:Description>The Role is allowed to browse, read live data, read and historical data/events, call methods or subscribe to data/events.</opc:Description>
+    <opc:Description DoNotIgnore="true">The Role is allowed to browse, read live data, read and historical data/events, call methods or subscribe to data/events.</opc:Description>
     <opc:Children>
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
@@ -2120,7 +2304,7 @@
   <opc:Object SymbolicName="WellKnownRole_ConfigureAdmin" TypeDefinition="RoleType" PartNo="5">
     <opc:BrowseName>ConfigureAdmin</opc:BrowseName>
     <opc:DisplayName>ConfigureAdmin</opc:DisplayName>
-    <opc:Description>The Role is allowed to change the non-security related configuration settings.</opc:Description>
+    <opc:Description DoNotIgnore="true">The Role is allowed to change the non-security related configuration settings.</opc:Description>
     <opc:Children>
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
@@ -2145,7 +2329,7 @@
   <opc:Object SymbolicName="WellKnownRole_SecurityAdmin" TypeDefinition="RoleType" PartNo="5">
     <opc:BrowseName>SecurityAdmin</opc:BrowseName>
     <opc:DisplayName>SecurityAdmin</opc:DisplayName>
-    <opc:Description>The Role is allowed to change security related settings.</opc:Description>
+    <opc:Description DoNotIgnore="true">The Role is allowed to change security related settings.</opc:Description>
     <opc:Children>
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
@@ -2170,7 +2354,7 @@
   <opc:Object SymbolicName="WellKnownRole_SecurityKeyServerAdmin" TypeDefinition="RoleType" PartNo="14">
     <opc:BrowseName>SecurityKeyServerAdmin</opc:BrowseName>
     <opc:DisplayName>SecurityKeyServerAdmin</opc:DisplayName>
-    <opc:Description>This Role allows an administrator to manage SecurityGroups and PushTargets on a SKS. This includes executing methods related to management of SecurityGroups and PushTargets on an SKS.</opc:Description>
+    <opc:Description DoNotIgnore="true">This Role allows an administrator to manage SecurityGroups and PushTargets on a SKS. This includes executing methods related to management of SecurityGroups and PushTargets on an SKS.</opc:Description>
     <opc:Children>
       <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
@@ -2195,7 +2379,7 @@
   <opc:Object SymbolicName="WellKnownRole_SecurityKeyServerAccess" TypeDefinition="RoleType" PartNo="14">
     <opc:BrowseName>SecurityKeyServerAccess</opc:BrowseName>
     <opc:DisplayName>SecurityKeyServerAccess</opc:DisplayName>
-    <opc:Description>
+    <opc:Description DoNotIgnore="true">
       This Role allows a PubSub Application to access an SKS to pull keys. It is the default Role for pull but it is expected that different custom Roles are used for different SecurityGroups.
     </opc:Description>
     <opc:Children>
@@ -2222,7 +2406,7 @@
   <opc:Object SymbolicName="WellKnownRole_SecurityKeyServerPush" TypeDefinition="RoleType" PartNo="14">
     <opc:BrowseName>SecurityKeyServerPush</opc:BrowseName>
     <opc:DisplayName>SecurityKeyServerPush</opc:DisplayName>
-    <opc:Description>
+    <opc:Description DoNotIgnore="true">
       This Role allows an SKS to push security keys to PubSub Applications. This includes executing methods related to PubSub security.
     </opc:Description>
     <opc:Children>
@@ -2245,7 +2429,7 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
-  
+
   <!-- Part 5 Annex G - Dictionary Reference -->
 
   <opc:ObjectType SymbolicName="DictionaryEntryType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="5">
@@ -2301,7 +2485,7 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
-  
+
   <opc:ReferenceType SymbolicName="HasInterface" BaseType="ua:NonHierarchicalReferences" PartNo="5">
     <opc:InverseName>InterfaceOf</opc:InverseName>
   </opc:ReferenceType>
@@ -2466,6 +2650,125 @@
     </opc:Children>
   </opc:VariableType>
 
+  <opc:DataType SymbolicName="AnnotationDataType" BaseType="ua:Structure" PartNo="8">
+    <opc:Fields>
+      <opc:Field Name="Annotation" DataType="ua:String" />
+      <opc:Field Name="Discipline" DataType="ua:String" />
+      <opc:Field Name="Uri" DataType="ua:String" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="LinearConversionDataType" BaseType="ua:Structure" PartNo="8">
+    <opc:Fields>
+      <opc:Field Name="InitialAddend" DataType="ua:Float" />
+      <opc:Field Name="Multiplicand" DataType="ua:Float" />
+      <opc:Field Name="Divisor" DataType="ua:Float" />
+      <opc:Field Name="FinalAddend" DataType="ua:Float" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="ConversionLimitEnum" BaseType="ua:Enumeration" PartNo="8">
+    <opc:Fields>
+      <opc:Field Name="NoConversion" Identifier="0" />
+      <opc:Field Name="Limited" Identifier="1" />
+      <opc:Field Name="Unlimited" Identifier="2" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="QuantityDimension" BaseType="ua:Structure" PartNo="8">
+    <opc:Fields>
+      <opc:Field Name="MassExponent" DataType="ua:SByte" />
+      <opc:Field Name="LengthExponent" DataType="ua:SByte" />
+      <opc:Field Name="TimeExponent" DataType="ua:SByte" />
+      <opc:Field Name="ElectricCurrentExponent" DataType="ua:SByte" />
+      <opc:Field Name="AmountOfSubstanceExponent" DataType="ua:SByte" />
+      <opc:Field Name="LuminousIntensityExponent" DataType="ua:SByte" />
+      <opc:Field Name="AbsoluteTemperatureExponent" DataType="ua:SByte" />
+      <opc:Field Name="DimensionlessExponent" DataType="ua:SByte" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:ObjectType SymbolicName="SyntaxReferenceEntryType" BaseType="ua:DictionaryEntryType" PartNo="8">
+    <opc:Children>
+      <opc:Property SymbolicName="CommonName" DataType="ua:String" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="UnitType" BaseType="ua:BaseObjectType" IsAbstract="true" PartNo="8">
+    <opc:Children>
+      <opc:Property SymbolicName="Symbol" DataType="LocalizedText" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Description" DataType="LocalizedText" ModellingRule="Optional" />
+      <opc:Property SymbolicName="UnitSystem" DataType="String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Discipline" DataType="String" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="ServerUnitType" BaseType="ua:UnitType" PartNo="8">
+    <opc:Children>
+      <opc:Object SymbolicName="AlternativeUnits" TypeDefinition="BaseObjectType" ModellingRule="Optional">
+        <opc:Children>
+          <opc:Object SymbolicName="AlternativeUnit_Placeholder" TypeDefinition="ua:AlternativeUnitType" ModellingRule="MandatoryPlaceholder">
+            <opc:BrowseName>&lt;AlternativeUnit&gt;</opc:BrowseName>
+          </opc:Object>
+        </opc:Children>
+      </opc:Object>
+      <opc:Property SymbolicName="ConversionLimit" DataType="ConversionLimitEnum" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="CoherentUnit" TypeDefinition="UnitType" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="AlternativeUnitType" BaseType="ua:UnitType" PartNo="8">
+    <opc:Children>
+      <opc:Property SymbolicName="LinearConversion" DataType="LinearConversionDataType" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MathMLConversion" DataType="ua:String" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MathMLInverseConversion" DataType="ua:String" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="QuantityType" BaseType="ua:BaseObjectType" PartNo="8">
+    <opc:Children>
+      <opc:Property SymbolicName="Symbol" DataType="LocalizedText" ModellingRule="Optional" />
+      <opc:Property SymbolicName="Description" DataType="LocalizedText" ModellingRule="Optional" />
+      <opc:Property SymbolicName="Annotation" DataType="AnnotationDataType" ValueRank="Array" ModellingRule="Optional" />
+      <opc:Property SymbolicName="ConversionService" DataType="UriString" ModellingRule="Optional" />
+      <opc:Property SymbolicName="Dimension" DataType="QuantityDimension" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="ServerUnits" TypeDefinition="BaseObjectType" ModellingRule="Mandatory">
+        <opc:Children>
+          <opc:Object SymbolicName="ServerUnit_Placeholder" TypeDefinition="ua:ServerUnitType" ModellingRule="MandatoryPlaceholder">
+            <opc:BrowseName>&lt;ServerUnit&gt;</opc:BrowseName>
+          </opc:Object>
+        </opc:Children>
+      </opc:Object>
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="QuantitiesFolderType" BaseType="ua:FolderType" PartNo="8">
+    <opc:Children>
+      <opc:Object SymbolicName="Quantity_Placeholder" TypeDefinition="ua:QuantityType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;Quantity&gt;</opc:BrowseName>
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+      </opc:Object>
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:Object SymbolicName="Quantities" TypeDefinition="QuantitiesFolderType" PartNo="8">
+    <opc:Description DoNotIgnore="true">This Object is the entry point to quantities and their units managed in the Server.</opc:Description>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:Server</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:ReferenceType SymbolicName="HasEngineeringUnitDetails" BaseType="ua:NonHierarchicalReferences" PartNo="8">
+    <opc:InverseName>EngineeringUnitDetailsOf</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasQuantity" BaseType="ua:NonHierarchicalReferences" PartNo="8">
+    <opc:InverseName>QuantityOf</opc:InverseName>
+  </opc:ReferenceType>
+
   <!-- Range UA Core Services.xml -->
   <!-- EUInformation UA Core Services.xml -->
 
@@ -2501,16 +2804,18 @@
   <opc:ReferenceType SymbolicName="AlarmGroupMember" BaseType="ua:Organizes" PartNo="9">
     <opc:InverseName>MemberOfAlarmGroup</opc:InverseName>
   </opc:ReferenceType>
-  
+
   <opc:ReferenceType SymbolicName="AlarmSuppressionGroupMember" BaseType="AlarmGroupMember" PartNo="9">
     <opc:InverseName>MemberOfAlarmSuppressionGroup</opc:InverseName>
   </opc:ReferenceType>
 
   <opc:ObjectType SymbolicName="ConditionType" BaseType="BaseEventType" IsAbstract="true" PartNo="9">
     <opc:Children>
+      <opc:Property SymbolicName="ConditionName" DataType="ua:String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ConditionClassId" DataType="ua:NodeId" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ConditionClassName" DataType="ua:LocalizedText" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="ConditionName" DataType="ua:String" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ConditionSubClassId" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ConditionSubClassName" DataType="ua:LocalizedText"  ValueRank="Array" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="BranchId" DataType="ua:NodeId" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Retain" DataType="ua:Boolean" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="SupportsFilteredRetain" DataType="ua:Boolean" ModellingRule="None" />
@@ -3018,7 +3323,7 @@
       <opc:Argument Name="Comment" DataType="LocalizedText" />
     </opc:InputArguments>
   </opc:Method>
-  
+
   <opc:Method SymbolicName="GetGroupMembershipsMethodType" PartNo="9">
     <opc:OutputArguments>
       <opc:Argument Name="Groups" DataType="NodeId" ValueRank="Array" />
@@ -3041,8 +3346,8 @@
         <opc:ReferenceType>ua:AlarmSuppressionGroupMember</opc:ReferenceType>
       </opc:Variable>
     </opc:Children>
-  </opc:ObjectType>  
-  
+  </opc:ObjectType>
+
   <opc:ObjectType SymbolicName="ShelvedStateMachineType" BaseType="FiniteStateMachineType" PartNo="9">
     <opc:Children>
       <opc:Property SymbolicName="UnshelveTime" DataType="Duration" ModellingRule="Mandatory" />
@@ -4212,7 +4517,7 @@
       <opc:Variable SymbolicName="LastMethodReturnStatus" DataType="ua:StatusCode" />
     </opc:Children>
   </opc:VariableType>
-  
+
   <!-- Part 11 -->
 
   <opc:Variable SymbolicName="Annotations" TypeDefinition="PropertyType" DataType="Annotation" ModellingRule="None" PartNo="11">
@@ -4232,13 +4537,79 @@
       <opc:Property SymbolicName="StartOfArchive" DataType="ua:UtcTime" ModellingRule="Optional" />
       <opc:Property SymbolicName="StartOfOnlineArchive" DataType="ua:UtcTime" ModellingRule="Optional" />
       <opc:Property SymbolicName="ServerTimestampSupported" DataType="ua:Boolean" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MaxTimeStoredValues" DataType="ua:Duration" ModellingRule="Optional"  />
+      <opc:Property SymbolicName="MaxCountStoredValues" DataType="ua:UInt32" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="HistoricalEventConfigurationType" BaseType="ua:BaseObjectType" PartNo="11">
+    <opc:Children>
+      <opc:Object SymbolicName="EventTypes" TypeDefinition="FolderType" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="StartOfArchive" DataType="ua:UtcTime" ModellingRule="Optional" />
+      <opc:Property SymbolicName="StartOfOnlineArchive" DataType="ua:UtcTime" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="HistoricalExternalEventSourceType" BaseType="ua:BaseObjectType" PartNo="11">
+    <opc:Children>
+      <opc:Property SymbolicName="Server" DataType="ua:String" ModellingRule="Optional" />
+      <opc:Property SymbolicName="EndpointUrl" DataType="ua:String" ModellingRule="Optional" />
+      <opc:Property SymbolicName="SecurityMode" DataType="ua:MessageSecurityMode" ModellingRule="Optional" />
+      <opc:Property SymbolicName="SecurityPolicyUri" DataType="ua:String" ModellingRule="Optional" />
+      <opc:Property SymbolicName="IdentityTokenPolicy" DataType="ua:UserTokenPolicy" ModellingRule="Optional" />
+      <opc:Property SymbolicName="TransportProfileUri" DataType="ua:String" ModellingRule="Optional" />
+      <opc:Property SymbolicName="HistoricalEventFilter" DataType="ua:EventFilter" ModellingRule="Mandatory" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ReferenceType SymbolicName="HasCurrentData" BaseType="NonHierarchicalReferences" PartNo="11">
+    <opc:InverseName>HasHistoricalData</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasCurrentEvent" BaseType="NonHierarchicalReferences" PartNo="11">
+    <opc:InverseName>HasHistoricalEvent</opc:InverseName>
+  </opc:ReferenceType>
 
   <!-- HasHistoricalConfiguration BuildInTypes.xml -->
 
   <opc:Object SymbolicName="HAConfiguration" TypeDefinition="HistoricalDataConfigurationType" ModellingRule="None" PartNo="11">
     <opc:BrowseName>HA Configuration</opc:BrowseName>
+  </opc:Object>
+
+  <opc:Object SymbolicName="DefaultHAConfiguration" TypeDefinition="HistoricalDataConfigurationType" ModellingRule="None" PartNo="11">
+    <opc:Children>
+      <opc:Object SymbolicName="AggregateFunctions" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Stepped" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Definition" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MaxTimeInterval" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MinTimeInterval" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ExceptionDeviation" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ExceptionDeviationFormat" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="StartOfArchive" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="StartOfOnlineArchive" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ServerTimestampSupported" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="MaxTimeStoredValues" ModellingRule="Mandatory"  />
+      <opc:Property SymbolicName="MaxCountStoredValues" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:Server</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:Object SymbolicName="DefaultHEConfiguration" TypeDefinition="HistoricalEventConfigurationType" ModellingRule="None" PartNo="11">
+    <opc:Children>
+      <opc:Property SymbolicName="StartOfArchive" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="StartOfOnlineArchive" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:Server</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
   </opc:Object>
 
   <opc:Variable SymbolicName="HistoricalEventFilter" TypeDefinition="PropertyType" DataType="EventFilter" ModellingRule="None" PartNo="11">
@@ -4262,13 +4633,13 @@
       <opc:Property SymbolicName="DeleteEventCapability" DataType="ua:Boolean" />
       <opc:Property SymbolicName="InsertAnnotationCapability" DataType="ua:Boolean" />
       <opc:Object SymbolicName="AggregateFunctions" TypeDefinition="FolderType" />
-      <opc:Property SymbolicName="ServerTimestampSupported" DataType="ua:Boolean" />
+      <opc:Property SymbolicName="ServerTimestampSupported" DataType="ua:Boolean" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
   <!-- Annotation UA Core Services.xml -->
 
-  <opc:ObjectType SymbolicName="AuditHistoryEventUpdateEventType" BaseType="AuditHistoryUpdateEventType" IsAbstract="true" PartNo="11">
+  <opc:ObjectType SymbolicName="AuditHistoryEventUpdateEventType" BaseType="AuditHistoryUpdateEventType" PartNo="11">
     <opc:Children>
       <opc:Property SymbolicName="UpdatedNode" DataType="ua:NodeId" />
       <opc:Property SymbolicName="PerformInsertReplace" DataType="PerformUpdateType" />
@@ -4278,7 +4649,7 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AuditHistoryValueUpdateEventType" BaseType="AuditHistoryUpdateEventType" IsAbstract="true" PartNo="11">
+  <opc:ObjectType SymbolicName="AuditHistoryValueUpdateEventType" BaseType="AuditHistoryUpdateEventType" PartNo="11">
     <opc:Children>
       <opc:Property SymbolicName="UpdatedNode" DataType="ua:NodeId" />
       <opc:Property SymbolicName="PerformInsertReplace" DataType="PerformUpdateType" />
@@ -4287,21 +4658,21 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AuditHistoryAnnotationUpdateEventType" BaseType="AuditHistoryUpdateEventType" IsAbstract="true" PartNo="11">
+  <opc:ObjectType SymbolicName="AuditHistoryAnnotationUpdateEventType" BaseType="AuditHistoryUpdateEventType" PartNo="11">
     <opc:Children>
       <opc:Property SymbolicName="PerformInsertReplace" DataType="PerformUpdateType" />
-      <opc:Property SymbolicName="NewValues" DataType="ua:DataValue" ValueRank="Array" />
-      <opc:Property SymbolicName="OldValues" DataType="ua:DataValue" ValueRank="Array" />
+      <opc:Property SymbolicName="NewValues" DataType="ua:Annotation" ValueRank="Array" />
+      <opc:Property SymbolicName="OldValues" DataType="ua:Annotation" ValueRank="Array" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AuditHistoryDeleteEventType" BaseType="AuditHistoryUpdateEventType" IsAbstract="true" PartNo="11">
+  <opc:ObjectType SymbolicName="AuditHistoryDeleteEventType" BaseType="AuditHistoryUpdateEventType" PartNo="11">
     <opc:Children>
       <opc:Property SymbolicName="UpdatedNode" DataType="ua:NodeId" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AuditHistoryRawModifyDeleteEventType" BaseType="AuditHistoryDeleteEventType" IsAbstract="true" PartNo="11">
+  <opc:ObjectType SymbolicName="AuditHistoryRawModifyDeleteEventType" BaseType="AuditHistoryDeleteEventType" PartNo="11">
     <opc:Children>
       <opc:Property SymbolicName="IsDeleteModified" DataType="ua:Boolean" />
       <opc:Property SymbolicName="StartTime" DataType="ua:UtcTime" />
@@ -4310,17 +4681,28 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AuditHistoryAtTimeDeleteEventType" BaseType="AuditHistoryDeleteEventType" IsAbstract="true" PartNo="11">
+  <opc:ObjectType SymbolicName="AuditHistoryAtTimeDeleteEventType" BaseType="AuditHistoryDeleteEventType" PartNo="11">
     <opc:Children>
       <opc:Property SymbolicName="ReqTimes" DataType="ua:UtcTime" ValueRank="Array"  />
       <opc:Property SymbolicName="OldValues" DataType="ua:DataValue" ValueRank="Array" />
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AuditHistoryEventDeleteEventType" BaseType="AuditHistoryDeleteEventType" IsAbstract="true" PartNo="11">
+  <opc:ObjectType SymbolicName="AuditHistoryEventDeleteEventType" BaseType="AuditHistoryDeleteEventType" PartNo="11">
     <opc:Children>
       <opc:Property SymbolicName="EventIds" DataType="ua:ByteString" ValueRank="Array"  />
       <opc:Property SymbolicName="OldValues" DataType="ua:HistoryEventFieldList" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="AuditHistoryConfigurationChangeEventType" BaseType="AuditEventType" PartNo="11">
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="AuditHistoryBulkInsertEventType" BaseType="AuditEventType" PartNo="11">
+    <opc:Children>
+      <opc:Property SymbolicName="UpdatedNode" DataType="ua:NodeId" />
+      <opc:Property SymbolicName="StartTime" DataType="ua:UtcTime" />
+      <opc:Property SymbolicName="EndTime" DataType="ua:UtcTime" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -4362,12 +4744,18 @@
       <opc:Property SymbolicName="LastUpdateTime" DataType="ua:UtcTime" />
       <opc:Property SymbolicName="UpdateFrequency" DataType="ua:Duration" ModellingRule="Optional" />
       <opc:Property SymbolicName="ActivityTimeout" DataType="ua:Duration" ModellingRule="Optional" />
-      <opc:Property SymbolicName="DefaultValidationOptions" DataType="TrustListValidationOptions" ModellingRule="Optional" />
-      <opc:Method SymbolicName="OpenWithMasks" TypeDefinition="OpenWithMasksMethodType" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="DefaultValidationOptions" DataType="TrustListValidationOptions" ModellingRule="Optional">
+      </opc:Property>
+      <opc:Method SymbolicName="OpenWithMasks" TypeDefinition="OpenWithMasksMethodType" ModellingRule="Mandatory">
+      </opc:Method>
       <opc:Method SymbolicName="CloseAndUpdate" TypeDefinition="CloseAndUpdateMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="AddCertificate" TypeDefinition="AddCertificateMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="RemoveCertificate" TypeDefinition="RemoveCertificateMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddCertificate" TypeDefinition="AddCertificateMethodType" ModellingRule="Mandatory">
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveCertificate" TypeDefinition="RemoveCertificateMethodType" ModellingRule="Mandatory">
+      </opc:Method>
     </opc:Children>
+    <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+    <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
   </opc:ObjectType>
 
   <opc:DataType SymbolicName="TrustListValidationOptions" PartNo="12" BaseType="ua:UInt32" IsOptionSet="true" NoArraysAllowed="true">
@@ -4441,7 +4829,7 @@
     <opc:Children>
       <opc:Object SymbolicName="TrustList" TypeDefinition="TrustListType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="CertificateTypes" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="GetRejectedList" TypeDefinition="GetRejectedListMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="GetRejectedList" TypeDefinition="GetRejectedListMethodType" ModellingRule="Optional"/>
       <opc:Object SymbolicName="CertificateExpired" TypeDefinition="CertificateExpirationAlarmType" ModellingRule="Optional" />
       <opc:Object SymbolicName="TrustListOutOfDate" TypeDefinition="TrustListOutOfDateAlarmType" ModellingRule="Optional" />
     </opc:Children>
@@ -4451,6 +4839,8 @@
         <opc:TargetId>ua:CertificateExpirationAlarmType</opc:TargetId>
       </opc:Reference>
     </opc:References>
+    <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+    <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="CertificateGroupFolderType" BaseType="ua:FolderType" PartNo="12">
@@ -4527,7 +4917,7 @@
       <opc:Argument Name="Certificates" DataType="ua:ByteString" ValueRank="Array"></opc:Argument>
     </opc:OutputArguments>
   </opc:Method>
-  
+
   <opc:Method SymbolicName="GetCertificatesMethodType">
     <opc:InputArguments>
       <opc:Argument Name="CertificateGroupId" DataType="ua:NodeId"></opc:Argument>
@@ -4557,7 +4947,7 @@
       <opc:Property SymbolicName="Errors" DataType="TransactionErrorType" ValueRank="Array" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
-  
+
   <opc:ObjectType SymbolicName="ServerConfigurationType" BaseType="ua:BaseObjectType" PartNo="12">
     <opc:Children>
       <opc:Object SymbolicName="CertificateGroups" TypeDefinition="CertificateGroupFolderType" ModellingRule="Mandatory">
@@ -4574,129 +4964,52 @@
       <opc:Property SymbolicName="HasSecureElement" DataType="ua:Boolean" ModellingRule="Optional" />
 
       <opc:Method SymbolicName="UpdateCertificate" TypeDefinition="UpdateCertificateMethodType" ModellingRule="Mandatory">
-        <opc:RolePermissions>
-          <opc:RolePermission Role="WellKnownRole_Anonymous">
-            <opc:Permission>None</opc:Permission>
-          </opc:RolePermission>
-          <opc:RolePermission Role="WellKnownRole_AuthenticatedUser">
-            <opc:Permission>None</opc:Permission>
-          </opc:RolePermission>
-          <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
-            <opc:Permission>Browse</opc:Permission>
-            <opc:Permission>Call</opc:Permission>
-          </opc:RolePermission>
-        </opc:RolePermissions>
-        <opc:AccessRestrictions>
-          <opc:AccessRestriction>EncryptionRequired</opc:AccessRestriction>
-        </opc:AccessRestrictions>
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
       </opc:Method>
 
       <opc:Method SymbolicName="GetCertificates" TypeDefinition="GetCertificatesMethodType" ModellingRule="Optional">
-        <opc:RolePermissions>
-          <opc:RolePermission Role="WellKnownRole_Anonymous" />
-          <opc:RolePermission Role="WellKnownRole_AuthenticatedUser" />
-          <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
-            <opc:Permission>Browse</opc:Permission>
-            <opc:Permission>Call</opc:Permission>
-          </opc:RolePermission>
-        </opc:RolePermissions>
-        <opc:AccessRestrictions>
-          <opc:AccessRestriction>SigningRequired</opc:AccessRestriction>
-        </opc:AccessRestrictions>
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
       </opc:Method>
 
       <opc:Method SymbolicName="ApplyChanges" ModellingRule="Mandatory">
-        <opc:RolePermissions>
-          <opc:RolePermission Role="WellKnownRole_Anonymous" />
-          <opc:RolePermission Role="WellKnownRole_AuthenticatedUser" />
-          <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
-            <opc:Permission>Browse</opc:Permission>
-            <opc:Permission>Call</opc:Permission>
-          </opc:RolePermission>
-        </opc:RolePermissions>
-        <opc:AccessRestrictions>
-          <opc:AccessRestriction>SigningRequired</opc:AccessRestriction>
-          <opc:AccessRestriction>SessionRequired</opc:AccessRestriction>
-        </opc:AccessRestrictions>
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>SessionWithSigningRequired</opc:DefaultAccessRestrictions>
       </opc:Method>
 
       <opc:Method SymbolicName="CancelChanges" ModellingRule="Optional">
-        <opc:RolePermissions>
-          <opc:RolePermission Role="WellKnownRole_Anonymous" />
-          <opc:RolePermission Role="WellKnownRole_AuthenticatedUser" />
-          <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
-            <opc:Permission>Browse</opc:Permission>
-            <opc:Permission>Call</opc:Permission>
-          </opc:RolePermission>
-        </opc:RolePermissions>
-        <opc:AccessRestrictions>
-          <opc:AccessRestriction>SigningRequired</opc:AccessRestriction>
-          <opc:AccessRestriction>SessionRequired</opc:AccessRestriction>
-        </opc:AccessRestrictions>
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>SessionWithSigningRequired</opc:DefaultAccessRestrictions>
       </opc:Method>
 
       <opc:Method SymbolicName="CreateSigningRequest" TypeDefinition="CreateSigningRequestMethodType" ModellingRule="Mandatory">
-        <opc:RolePermissions>
-          <opc:RolePermission Role="WellKnownRole_Anonymous" />
-          <opc:RolePermission Role="WellKnownRole_AuthenticatedUser" />
-          <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
-            <opc:Permission>Browse</opc:Permission>
-            <opc:Permission>Call</opc:Permission>
-          </opc:RolePermission>
-        </opc:RolePermissions>
-        <opc:AccessRestrictions>
-          <opc:AccessRestriction>EncryptionRequired</opc:AccessRestriction>
-        </opc:AccessRestrictions>
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
       </opc:Method>
-      
+
       <opc:Method SymbolicName="GetRejectedList" TypeDefinition="GetRejectedListMethodType" ModellingRule="Mandatory">
-        <opc:RolePermissions>
-          <opc:RolePermission Role="WellKnownRole_Anonymous" />
-          <opc:RolePermission Role="WellKnownRole_AuthenticatedUser" />
-          <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
-            <opc:Permission>Browse</opc:Permission>
-            <opc:Permission>Call</opc:Permission>
-          </opc:RolePermission>
-        </opc:RolePermissions>
-        <opc:AccessRestrictions>
-          <opc:AccessRestriction>SigningRequired</opc:AccessRestriction>
-        </opc:AccessRestrictions>
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
       </opc:Method>
 
       <opc:Method SymbolicName="ResetToServerDefaults" ModellingRule="Optional">
-        <opc:RolePermissions>
-          <opc:RolePermission Role="WellKnownRole_Anonymous" />
-          <opc:RolePermission Role="WellKnownRole_AuthenticatedUser" />
-          <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
-            <opc:Permission>Browse</opc:Permission>
-            <opc:Permission>Call</opc:Permission>
-          </opc:RolePermission>
-        </opc:RolePermissions>
-        <opc:AccessRestrictions>
-          <opc:AccessRestriction>SigningRequired</opc:AccessRestriction>
-        </opc:AccessRestrictions>
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
       </opc:Method>
 
       <opc:Object SymbolicName="TransactionDiagnostics" TypeDefinition="TransactionDiagnosticsType" ModellingRule="Optional">
-        <opc:RolePermissions>
-          <opc:RolePermission Role="WellKnownRole_Anonymous" />
-          <opc:RolePermission Role="WellKnownRole_AuthenticatedUser" />
-          <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
-            <opc:Permission>Browse</opc:Permission>
-            <opc:Permission>Read</opc:Permission>
-          </opc:RolePermission>
-        </opc:RolePermissions>
-        <opc:AccessRestrictions>
-          <opc:AccessRestriction>SigningRequired</opc:AccessRestriction>
-        </opc:AccessRestrictions>
-      </opc:Object>    
-      
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Object>
+
     </opc:Children>
+    <opc:DefaultRolePermissions Name="ConfigureOrSecurityAdmin" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="CertificateUpdateRequestedAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true" PartNo="12">
   </opc:ObjectType>
-  
+
   <opc:ObjectType SymbolicName="CertificateUpdatedAuditEventType" BaseType="ua:AuditEventType" IsAbstract="true" PartNo="12">
     <opc:Children>
       <opc:Property SymbolicName="CertificateGroup" DataType="ua:NodeId" ModellingRule="Mandatory" />
@@ -4712,7 +5025,6 @@
       <opc:Property SymbolicName="HasSecureElement" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="CancelChanges" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="ResetToServerDefaults" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="SetAdminPassword" ModellingRule="Mandatory" />
 
       <opc:Object SymbolicName="CertificateGroups" TypeDefinition="CertificateGroupFolderType" ModellingRule="Mandatory">
         <opc:Children>
@@ -4769,7 +5081,7 @@
         <opc:TargetId>ua:Server</opc:TargetId>
       </opc:Reference>
     </opc:References>
-    
+
   </opc:Object>
 
   <opc:Method SymbolicName="CreateCredentialMethodType" PartNo="12">
@@ -4790,7 +5102,10 @@
         <opc:BrowseName>&lt;ServiceName&gt;</opc:BrowseName>
         <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
       </opc:Object>
-      <opc:Method SymbolicName="CreateCredential" TypeDefinition="CreateCredentialMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="CreateCredential" TypeDefinition="CreateCredentialMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
     </opc:Children>
   </opc:ObjectType>
 
@@ -4820,9 +5135,18 @@
       <opc:Property SymbolicName="ProfileUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="EndpointUrls"  DataType="ua:String" ValueRank="Array" ModellingRule="Optional" />
       <opc:Property SymbolicName="ServiceStatus"  DataType="ua:StatusCode" ValueRank="Scalar" ModellingRule="Optional" />
-      <opc:Method SymbolicName="GetEncryptingKey" TypeDefinition="GetEncryptingKeyMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="UpdateCredential" TypeDefinition="KeyCredentialUpdateMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="DeleteCredential" ModellingRule="Optional" />
+      <opc:Method SymbolicName="GetEncryptingKey" TypeDefinition="GetEncryptingKeyMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="UpdateCredential" TypeDefinition="KeyCredentialUpdateMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="DeleteCredential" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
     </opc:Children>
   </opc:ObjectType>
 
@@ -5143,7 +5467,7 @@
       <opc:Field Name="Denominator"  DataType="ua:UInt32"></opc:Field>
     </opc:Fields>
   </opc:DataType>
-  
+
   <opc:DataType SymbolicName="PubSubState" BaseType="Enumeration" PartNo="14">
     <opc:Fields>
       <opc:Field Name="Disabled" Identifier="0"></opc:Field>
@@ -5443,7 +5767,7 @@
       <opc:Field Name="SecurityGroups" DataType="String" ValueRank="Array"></opc:Field>
     </opc:Fields>
   </opc:DataType>
-  
+
   <opc:DataType SymbolicName="PubSubConfiguration2DataType" BaseType="PubSubConfigurationDataType" PartNo="14">
     <opc:Fields>
       <opc:Field Name="SubscribedDataSets"  DataType="StandaloneSubscribedDataSetDataType" ValueRank="Array"></opc:Field>
@@ -5532,6 +5856,7 @@
       <opc:Field Name="PublisherId" BitMask="0008"></opc:Field>
       <opc:Field Name="DataSetClassId" BitMask="0010"></opc:Field>
       <opc:Field Name="ReplyTo" BitMask="0020"></opc:Field>
+      <opc:Field Name="WriterGroupName" BitMask="0040"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -5551,6 +5876,9 @@
       <opc:Field Name="MessageType" BitMask="0020"></opc:Field>
       <opc:Field Name="DataSetWriterName" BitMask="0040"></opc:Field>
       <opc:Field Name="ReversibleFieldEncoding" BitMask="0080"></opc:Field>
+      <opc:Field Name="PublisherId" BitMask="0100"></opc:Field>
+      <opc:Field Name="WriterGroupName" BitMask="0200"></opc:Field>
+      <opc:Field Name="MinorVersion" BitMask="0400"></opc:Field>
     </opc:Fields>
   </opc:DataType>
 
@@ -5592,7 +5920,7 @@
     <opc:Fields>
       <opc:Field Name="DiscoveryAddress" DataType="ua:NetworkAddressDataType" ValueRank="Scalar" AllowSubTypes="true"></opc:Field>
     </opc:Fields>
-  </opc:DataType>                                                                                                                                                       
+  </opc:DataType>
 
   <opc:DataType SymbolicName="DatagramConnectionTransport2DataType" BaseType="DatagramConnectionTransportDataType" PartNo="14">
     <opc:Fields>
@@ -5678,8 +6006,14 @@
 
   <opc:ObjectType SymbolicName="PubSubKeyServiceType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
-      <opc:Method SymbolicName="GetSecurityKeys" TypeDefinition="GetSecurityKeysMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="GetSecurityGroup" TypeDefinition="GetSecurityGroupMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="GetSecurityKeys" TypeDefinition="GetSecurityKeysMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOrAnonymous" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="GetSecurityGroup" TypeDefinition="GetSecurityGroupMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOrAnonymous" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
       <opc:Object SymbolicName="SecurityGroups" TypeDefinition="SecurityGroupFolderType" ModellingRule="Optional" />
       <opc:Object SymbolicName="KeyPushTargets" TypeDefinition="PubSubKeyPushTargetFolderType" ModellingRule="Optional"  />
     </opc:Children>
@@ -5743,7 +6077,7 @@
       <opc:Argument Name="SecurityGroupFolderNodeId" DataType="ua:NodeId" />
     </opc:InputArguments>
   </opc:Method>
-  
+
   <opc:ObjectType SymbolicName="SecurityGroupFolderType" BaseType="ua:FolderType" PartNo="14">
     <opc:Children>
       <opc:Object SymbolicName="SecurityGroupFolderName_Placeholder" TypeDefinition="SecurityGroupFolderType" ModellingRule="OptionalPlaceholder">
@@ -5753,12 +6087,26 @@
       <opc:Object SymbolicName="SecurityGroupName_Placeholder" TypeDefinition="SecurityGroupType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;SecurityGroupName&gt;</opc:BrowseName>
       </opc:Object>
-      <opc:Method SymbolicName="AddSecurityGroup" TypeDefinition="AddSecurityGroupMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="RemoveSecurityGroup" TypeDefinition="RemoveSecurityGroupMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="AddSecurityGroupFolder" TypeDefinition="AddSecurityGroupFolderMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveSecurityGroupFolder" TypeDefinition="RemoveSecurityGroupFolderMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddSecurityGroup" TypeDefinition="AddSecurityGroupMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveSecurityGroup" TypeDefinition="RemoveSecurityGroupMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="AddSecurityGroupFolder" TypeDefinition="AddSecurityGroupFolderMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveSecurityGroupFolder" TypeDefinition="RemoveSecurityGroupFolderMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
       <opc:Property SymbolicName="SupportedSecurityPolicyUris" DataType="String" ValueRank="Array" ModellingRule="Optional" />
     </opc:Children>
+    <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOnly" />
+    <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="SecurityGroupType" BaseType="ua:BaseObjectType" PartNo="14">
@@ -5767,10 +6115,18 @@
       <opc:Property SymbolicName="KeyLifetime" DataType="Duration" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="SecurityPolicyUri" DataType="String" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MaxFutureKeyCount" DataType="UInt32" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="MaxPastKeyCount" DataType="UInt32" ModellingRule="Mandatory" />   
-      <opc:Method SymbolicName="InvalidateKeys" ModellingRule="Optional" />
-      <opc:Method SymbolicName="ForceKeyRotation" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MaxPastKeyCount" DataType="UInt32" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="InvalidateKeys" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="ForceKeyRotation" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
     </opc:Children>
+    <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOnly" />
+    <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
   </opc:ObjectType>
 
   <opc:Method SymbolicName="ConnectSecurityGroupsMethodType" PartNo="14">
@@ -5781,7 +6137,7 @@
       <opc:Argument Name="ConnectResults" DataType="ua:StatusCode" ValueRank="Array" />
     </opc:OutputArguments>
   </opc:Method>
-  
+
   <opc:Method SymbolicName="DisconnectSecurityGroupsMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="SecurityGroupIds" DataType="ua:NodeId" ValueRank="Array" />
@@ -5790,11 +6146,11 @@
       <opc:Argument Name="DisconnectResults" DataType="ua:StatusCode" ValueRank="Array" />
     </opc:OutputArguments>
   </opc:Method>
-  
+
   <opc:ReferenceType SymbolicName="HasPushedSecurityGroup" BaseType="HierarchicalReferences" PartNo="14">
     <opc:InverseName>HasPushTarget</opc:InverseName>
   </opc:ReferenceType>
-  
+
   <opc:ObjectType SymbolicName="PubSubKeyPushTargetType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
       <opc:Object SymbolicName="SecurityGroupName_Placeholder" TypeDefinition="SecurityGroupType" ModellingRule="OptionalPlaceholder">
@@ -5807,12 +6163,23 @@
       <opc:Property SymbolicName="UserTokenType" DataType="UserTokenPolicy" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="RequestedKeyCount" DataType="UInt16" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="RetryInterval" DataType="Duration" ModellingRule="Mandatory" />
-      <opc:Property SymbolicName="LastPushExecutionTime" DataType="DateTime" ModellingRule="Mandatory" />   
-      <opc:Property SymbolicName="LastPushErrorTime" DataType="DateTime" ModellingRule="Mandatory" />   
-      <opc:Method SymbolicName="ConnectSecurityGroups" TypeDefinition="ConnectSecurityGroupsMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="DisconnectSecurityGroups" TypeDefinition="DisconnectSecurityGroupsMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="TriggerKeyUpdate" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="LastPushExecutionTime" DataType="DateTime" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="LastPushErrorTime" DataType="DateTime" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ConnectSecurityGroups" TypeDefinition="ConnectSecurityGroupsMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="DisconnectSecurityGroups" TypeDefinition="DisconnectSecurityGroupsMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="TriggerKeyUpdate" ModellingRule="Mandatory" >
+        <opc:DefaultRolePermissions Name="SecurityKeyServerPush" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
     </opc:Children>
+    <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOnly" />
+    <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="PubSubKeyPushTargetFolderType" BaseType="ua:FolderType" PartNo="14">
@@ -5825,13 +6192,27 @@
         <opc:BrowseName>&lt;PushTargetName&gt;</opc:BrowseName>
         <opc:ReferenceType>HasComponent</opc:ReferenceType>
       </opc:Object>
-      <opc:Method SymbolicName="AddPushTarget" TypeDefinition="AddPushTargetMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="RemovePushTarget" TypeDefinition="RemovePushTargetMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="AddPushTargetFolder" TypeDefinition="AddPushTargetFolderMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemovePushTargetFolder" TypeDefinition="RemovePushTargetFolderMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddPushTarget" TypeDefinition="AddPushTargetMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="RemovePushTarget" TypeDefinition="RemovePushTargetMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="AddPushTargetFolder" TypeDefinition="AddPushTargetFolderMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="RemovePushTargetFolder" TypeDefinition="RemovePushTargetFolderMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOnly" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
     </opc:Children>
+    <opc:DefaultRolePermissions Name="SecurityKeyServerAdminOnly" />
+    <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
   </opc:ObjectType>
-  
+
   <opc:Method SymbolicName="AddPushTargetMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="ApplicationUri" DataType="ua:String" ValueRank="Scalar" />
@@ -5845,13 +6226,13 @@
       <opc:Argument Name="PushTargetId" DataType="ua:NodeId" ValueRank="Scalar" />
     </opc:OutputArguments>
   </opc:Method>
-  
+
   <opc:Method SymbolicName="RemovePushTargetMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="PushTargetId" DataType="ua:NodeId" ValueRank="Scalar" />
     </opc:InputArguments>
   </opc:Method>
-  
+
   <opc:Method SymbolicName="AddPushTargetFolderMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="Name" DataType="ua:String" ValueRank="Scalar" />
@@ -5860,25 +6241,33 @@
       <opc:Argument Name="PushTargetFolderNodeId" DataType="ua:NodeId" ValueRank="Scalar" />
     </opc:OutputArguments>
   </opc:Method>
-  
+
   <opc:Method SymbolicName="RemovePushTargetFolderMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="PushTargetFolderNodeId" DataType="ua:NodeId" ValueRank="Scalar" />
     </opc:InputArguments>
   </opc:Method>
-  
+
   <opc:ObjectType SymbolicName="PublishSubscribeType" BaseType="PubSubKeyServiceType" PartNo="14">
     <opc:Children>
       <opc:Object SymbolicName="ConnectionName_Placeholder" TypeDefinition="PubSubConnectionType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;ConnectionName&gt;</opc:BrowseName>
         <opc:ReferenceType>HasPubSubConnection</opc:ReferenceType>
       </opc:Object>
-      <opc:Method SymbolicName="SetSecurityKeys" TypeDefinition="SetSecurityKeysMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddConnection" TypeDefinition="AddConnectionMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveConnection" TypeDefinition="RemoveConnectionMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="SetSecurityKeys" TypeDefinition="SetSecurityKeysMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="SecurityKeyServerPush" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="AddConnection" TypeDefinition="AddConnectionMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveConnection" TypeDefinition="RemoveConnectionMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
       <opc:Object SymbolicName="PublishedDataSets" TypeDefinition="DataSetFolderType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="SubscribedDataSets" TypeDefinition="SubscribedDataSetFolderType" ModellingRule="Optional" />
-      <opc:Object SymbolicName="PubSubConfiguration" TypeDefinition="PubSubConfigurationType" ModellingRule="Optional" />
+      <opc:Object SymbolicName="PubSubConfiguration" TypeDefinition="PubSubConfigurationType" ModellingRule="Optional">
+      </opc:Object>
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsRootType" ModellingRule="Optional" />
       <opc:Object SymbolicName="PubSubCapablities" TypeDefinition="PubSubCapabilitiesType" ModellingRule="Optional">
@@ -5900,7 +6289,7 @@
   </opc:ObjectType>
 
   <opc:Object SymbolicName="PublishSubscribe" TypeDefinition="PublishSubscribeType" PartNo="14">
-    <opc:Children>    
+    <opc:Children>
       <opc:Method SymbolicName="GetSecurityKeys" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="GetSecurityGroup" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="SecurityGroups" ModellingRule="Mandatory" />
@@ -5910,16 +6299,29 @@
       <opc:Method SymbolicName="RemoveConnection" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="PublishedDataSets" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="SubscribedDataSets" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="PubSubConfiguration" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="PubSubConfiguration" ModellingRule="Mandatory">
+        <opc:Children>
+          <opc:Method SymbolicName="Write" ModellingRule="Mandatory">
+            <opc:RolePermissions Name="ConfigureAdminOnly" />
+          </opc:Method>
+        </opc:Children>
+      </opc:Object>
       <opc:Object SymbolicName="Status" ModellingRule="Mandatory" />
-      <opc:Object SymbolicName="Diagnostics" ModellingRule="Mandatory" />
+      <opc:Object SymbolicName="Diagnostics" ModellingRule="Mandatory">
+        <opc:RolePermissions Name="ConfigureAdminOrAnonymousWithCall" DoNotInheirit="true" />
+      </opc:Object>
       <opc:Object SymbolicName="PubSubCapablities" ModellingRule="Mandatory">
         <opc:Children>
           <opc:Property SymbolicName="MaxDataSetWritersPerGroup" ModellingRule="Mandatory" />
+          <opc:Property SymbolicName="MaxSecurityGroups" ModellingRule="Mandatory" />
+          <opc:Property SymbolicName="MaxPushTargets" ModellingRule="Mandatory" />
+          <opc:Property SymbolicName="MaxPublishedDataSets" ModellingRule="Mandatory" />
+          <opc:Property SymbolicName="MaxStandaloneSubscribedDataSets" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="MaxNetworkMessageSizeDatagram" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="MaxNetworkMessageSizeBroker" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="SupportSecurityKeyPull" ModellingRule="Mandatory" />
           <opc:Property SymbolicName="SupportSecurityKeyPush" ModellingRule="Mandatory" />
+          <opc:Property SymbolicName="SupportSecurityKeyServer" ModellingRule="Mandatory" />
         </opc:Children>
       </opc:Object>
       <opc:Object SymbolicName="DataSetClasses" ModellingRule="Mandatory" />
@@ -5935,8 +6337,9 @@
         <opc:TargetId>ua:Server</opc:TargetId>
       </opc:Reference>
     </opc:References>
+    <opc:RolePermissions Name="ConfigureAdminOrAnonymousWithCall" DoNotInheirit="true" />
   </opc:Object>
-  
+
   <opc:Method SymbolicName="SetSecurityKeysMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="SecurityGroupId" DataType="ua:String" />
@@ -5970,9 +6373,14 @@
 
   <opc:ObjectType SymbolicName="PubSubConfigurationType" BaseType="ua:FileType" PartNo="14">
     <opc:Children>
-      <opc:Method SymbolicName="ReserveIds" TypeDefinition="PubSubConfigurationTypeReserveIdsMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="CloseAndUpdate" TypeDefinition="PubSubConfigurationTypeCloseAndUpdateMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ReserveIds" TypeDefinition="PubSubConfigurationTypeReserveIdsMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
+      <opc:Method SymbolicName="CloseAndUpdate" TypeDefinition="PubSubConfigurationTypeCloseAndUpdateMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
     </opc:Children>
+    <opc:DefaultRolePermissions Name="ConfigureAdminOrAnonymousWithCall" />
   </opc:ObjectType>
 
   <opc:Method SymbolicName="PubSubConfigurationTypeReserveIdsMethodType" PartNo="14">
@@ -6049,7 +6457,7 @@
       <opc:Field Name="Identifier" DataType="BaseDataType" />
     </opc:Fields>
   </opc:DataType>
-  
+
   <opc:ObjectType SymbolicName="PublishedDataSetType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
       <opc:Object SymbolicName="DataSetWriterName_Placeholder" TypeDefinition="DataSetWriterType" ModellingRule="OptionalPlaceholder">
@@ -6146,16 +6554,30 @@
       <opc:Object SymbolicName="PublishedDataSetName_Placeholder" TypeDefinition="PublishedDataSetType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;PublishedDataSetName&gt;</opc:BrowseName>
       </opc:Object>
-      <opc:Method SymbolicName="AddPublishedDataItems" TypeDefinition="AddPublishedDataItemsMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddPublishedEvents" TypeDefinition="AddPublishedEventsMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddPublishedDataItemsTemplate" TypeDefinition="AddPublishedDataItemsTemplateMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddPublishedEventsTemplate" TypeDefinition="AddPublishedEventsTemplateMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemovePublishedDataSet" TypeDefinition="RemovePublishedDataSetMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddDataSetFolder" TypeDefinition="AddDataSetFolderMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveDataSetFolder" TypeDefinition="RemoveDataSetFolderMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddPublishedDataItems" TypeDefinition="AddPublishedDataItemsMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
+      <opc:Method SymbolicName="AddPublishedEvents" TypeDefinition="AddPublishedEventsMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
+      <opc:Method SymbolicName="AddPublishedDataItemsTemplate" TypeDefinition="AddPublishedDataItemsTemplateMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
+      <opc:Method SymbolicName="AddPublishedEventsTemplate" TypeDefinition="AddPublishedEventsTemplateMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
+      <opc:Method SymbolicName="RemovePublishedDataSet" TypeDefinition="RemovePublishedDataSetMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
+      <opc:Method SymbolicName="AddDataSetFolder" TypeDefinition="AddDataSetFolderMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveDataSetFolder" TypeDefinition="RemoveDataSetFolderMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
     </opc:Children>
   </opc:ObjectType>
-  
+
   <opc:Method SymbolicName="PublishedEventsTypeModifyFieldSelectionMethodType" PartNo="14">
     <opc:InputArguments>
       <opc:Argument Name="ConfigurationVersion" DataType="ConfigurationVersionDataType" />
@@ -6242,7 +6664,7 @@
       <opc:Argument Name="DataSetFolderNodeId" DataType="ua:NodeId" />
     </opc:InputArguments>
   </opc:Method>
-  
+
   <opc:ObjectType SymbolicName="PubSubConnectionType" BaseType="ua:BaseObjectType" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="PublisherId" DataType="ua:BaseDataType" ModellingRule="Mandatory" />
@@ -6260,9 +6682,15 @@
       </opc:Object>
       <opc:Object SymbolicName="Status" TypeDefinition="PubSubStatusType" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsConnectionType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddWriterGroup" TypeDefinition="PubSubConnectionTypeAddWriterGroupMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddReaderGroup" TypeDefinition="PubSubConnectionAddReaderGroupGroupMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveGroup" TypeDefinition="PubSubConnectionTypeRemoveGroupMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddWriterGroup" TypeDefinition="PubSubConnectionTypeAddWriterGroupMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
+      <opc:Method SymbolicName="AddReaderGroup" TypeDefinition="PubSubConnectionAddReaderGroupGroupMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveGroup" TypeDefinition="PubSubConnectionTypeRemoveGroupMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
     </opc:Children>
   </opc:ObjectType>
 
@@ -6340,8 +6768,12 @@
         <opc:ReferenceType>HasDataSetWriter</opc:ReferenceType>
       </opc:Object>
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsWriterGroupType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddDataSetWriter" TypeDefinition="PubSubGroupTypeAddWriterMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveDataSetWriter" TypeDefinition="PubSubGroupTypeRemoveWriterMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddDataSetWriter" TypeDefinition="PubSubGroupTypeAddWriterMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveDataSetWriter" TypeDefinition="PubSubGroupTypeRemoveWriterMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
     </opc:Children>
   </opc:ObjectType>
 
@@ -6402,8 +6834,12 @@
       <opc:Object SymbolicName="Diagnostics" TypeDefinition="PubSubDiagnosticsReaderGroupType" ModellingRule="Optional" />
       <opc:Object SymbolicName="TransportSettings" TypeDefinition="ReaderGroupTransportType" ModellingRule="Optional" />
       <opc:Object SymbolicName="MessageSettings" TypeDefinition="ReaderGroupMessageType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddDataSetReader" TypeDefinition="PubSubGroupTypeAddReaderMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveDataSetReader" TypeDefinition="PubSubGroupTypeRemoveReaderMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddDataSetReader" TypeDefinition="PubSubGroupTypeAddReaderMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveDataSetReader" TypeDefinition="PubSubGroupTypeRemoveReaderMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
     </opc:Children>
   </opc:ObjectType>
 
@@ -6560,8 +6996,12 @@
   <opc:ObjectType SymbolicName="TargetVariablesType" BaseType="SubscribedDataSetType" IsAbstract="false" PartNo="14">
     <opc:Children>
       <opc:Property SymbolicName="TargetVariables" DataType="FieldTargetDataType" ValueRank="Array" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="AddTargetVariables" TypeDefinition="TargetVariablesTypeAddTargetVariablesMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveTargetVariables" TypeDefinition="TargetVariablesTypeRemoveTargetVariablesMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddTargetVariables" TypeDefinition="TargetVariablesTypeAddTargetVariablesMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveTargetVariables" TypeDefinition="TargetVariablesTypeRemoveTargetVariablesMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
     </opc:Children>
   </opc:ObjectType>
 
@@ -6597,10 +7037,18 @@
         <opc:BrowseName>&lt;StandaloneSubscribedDataSetName&gt;</opc:BrowseName>
         <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
       </opc:Object>
-      <opc:Method SymbolicName="AddSubscribedDataSet" TypeDefinition="AddSubscribedDataSetMethodType" ModellingRule="Optional"/>
-      <opc:Method SymbolicName="RemoveSubscribedDataSet" TypeDefinition="RemoveSubscribedDataSetMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddDataSetFolder" TypeDefinition="AddDataSetFolderMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="RemoveDataSetFolder" TypeDefinition="RemoveDataSetFolderMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="AddSubscribedDataSet" TypeDefinition="AddSubscribedDataSetMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveSubscribedDataSet" TypeDefinition="RemoveSubscribedDataSetMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
+      <opc:Method SymbolicName="AddDataSetFolder" TypeDefinition="AddDataSetFolderMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveDataSetFolder" TypeDefinition="RemoveDataSetFolderMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
     </opc:Children>
   </opc:ObjectType>
 
@@ -6640,7 +7088,9 @@
       <opc:Variable SymbolicName="DiagnosticsLevel" DataType="DiagnosticsLevel" ModellingRule="Mandatory" />
       <opc:Variable SymbolicName="TotalInformation" DataType="ua:UInt32" TypeDefinition="PubSubDiagnosticsCounterType" ModellingRule="Mandatory" />
       <opc:Variable SymbolicName="TotalError" DataType="ua:UInt32" TypeDefinition="PubSubDiagnosticsCounterType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="Reset" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="Reset" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="ConfigureAdminOnly" />
+      </opc:Method>
       <opc:Variable SymbolicName="SubError" DataType="ua:Boolean" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="Counters" ModellingRule="Mandatory">
         <opc:Children>
@@ -7154,10 +7604,15 @@
       <opc:Property SymbolicName="MaxDataSetReaders" DataType="ua:UInt32" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MaxFieldsPerDataSet" DataType="ua:UInt32" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="MaxDataSetWritersPerGroup" DataType="ua:UInt32" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MaxSecurityGroups" DataType="ua:UInt32" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MaxPushTargets" DataType="ua:UInt32" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MaxPublishedDataSets" DataType="ua:UInt32" ModellingRule="Optional" />
+      <opc:Property SymbolicName="MaxStandaloneSubscribedDataSets" DataType="ua:UInt32" ModellingRule="Optional" />
       <opc:Property SymbolicName="MaxNetworkMessageSizeDatagram" DataType="ua:UInt32" ModellingRule="Optional" />
       <opc:Property SymbolicName="MaxNetworkMessageSizeBroker" DataType="ua:UInt32" ModellingRule="Optional" />
       <opc:Property SymbolicName="SupportSecurityKeyPull" DataType="ua:Boolean" ModellingRule="Optional" />
       <opc:Property SymbolicName="SupportSecurityKeyPush" DataType="ua:Boolean" ModellingRule="Optional" />
+      <opc:Property SymbolicName="SupportSecurityKeyServer" DataType="ua:Boolean" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -7331,6 +7786,7 @@
       </opc:Object>
       <opc:Method SymbolicName="FindAlias" TypeDefinition="FindAliasMethodType" ModellingRule="Mandatory">
       </opc:Method>
+      <opc:Property SymbolicName="LastChange" DataType="VersionTime" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
 
@@ -7357,6 +7813,9 @@
 
   <opc:Object SymbolicName="Aliases" TypeDefinition="AliasNameCategoryType" ModellingRule="None" PartNo="17">
     <opc:BrowseName>Aliases</opc:BrowseName>
+    <opc:Children>
+      <opc:Property SymbolicName="LastChange" ModellingRule="Mandatory" />
+    </opc:Children>
     <opc:References>
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
@@ -7389,15 +7848,31 @@
 
   <opc:ObjectType SymbolicName="UserManagementType" BaseType="BaseObjectType" IsAbstract="false" PartNo="18">
     <opc:Children>
-      <opc:Property SymbolicName="Users" DataType="UserManagementDataType" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Users" DataType="UserManagementDataType" ValueRank="Array" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Property>
       <opc:Property SymbolicName="PasswordLength" DataType="Range" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="PasswordOptions" DataType="PasswordOptionsMask" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="PasswordRestrictions" DataType="LocalizedText" ModellingRule="Optional" />
-      <opc:Method SymbolicName="AddUser" TypeDefinition="AddUserMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="ModifyUser" TypeDefinition="ModifyUserMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="RemoveUser" TypeDefinition="RemoveUserMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="ChangePassword" TypeDefinition="ChangePasswordMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddUser" TypeDefinition="AddUserMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="ModifyUser" TypeDefinition="ModifyUserMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="RemoveUser" TypeDefinition="RemoveUserMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="ChangePassword" TypeDefinition="ChangePasswordMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="SecurityAdminOrAnonymousWithCall" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
     </opc:Children>
+    <opc:DefaultRolePermissions Name="SecurityAdminOrAnonymousWithCall" />
   </opc:ObjectType>
 
   <opc:DataType SymbolicName="PasswordOptionsMask" BaseType="UInt32" IsOptionSet="true" PartNo="18">
@@ -7502,7 +7977,7 @@
       </opc:Reference>
     </opc:References>
   </opc:Object>
-  
+
   <!-- Part 19 -->
 
   <opc:VariableType SymbolicName="MultiStateDictionaryEntryDiscreteBaseType" BaseType="ua:MultiStateValueDiscreteType" DataType="Number" ValueRank="Scalar" PartNo="19">
@@ -7519,15 +7994,15 @@
   </opc:VariableType>
 
   <!-- Part 21 -->
-  
+
   <opc:DataType SymbolicName="EncodedTicket" BaseType="String" PartNo="21" />
-  
+
   <opc:Method SymbolicName="RequestTicketsMethodType">
     <opc:OutputArguments>
       <opc:Argument Name="Tickets" DataType="ua:EncodedTicket" ValueRank="Array"></opc:Argument>
     </opc:OutputArguments>
   </opc:Method>
-  
+
   <opc:Method SymbolicName="SetRegistrarEndpointsMethodType">
     <opc:InputArguments>
       <opc:Argument Name="Registrars" DataType="ua:ApplicationDescription" ValueRank="Array"></opc:Argument>
@@ -7945,7 +8420,7 @@
       <opc:Field Name="PriorityValue_DSCP" DataType="UInt32" />
     </opc:Fields>
   </opc:DataType>
-  
+
   <opc:Object SymbolicName="Resources" TypeDefinition="FolderType" ModellingRule="None" PartNo="22">
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -8096,7 +8571,7 @@
   <opc:ReferenceType SymbolicName="IsExecutableOn" BaseType="NonHierarchicalReferences" PartNo="23">
     <opc:InverseName>CanExecute</opc:InverseName>
   </opc:ReferenceType>
-  
+
   <opc:ReferenceType SymbolicName="Controls" BaseType="HierarchicalReferences" PartNo="23">
     <opc:InverseName>IsControlledBy</opc:InverseName>
   </opc:ReferenceType>
@@ -8144,7 +8619,7 @@
   <opc:ReferenceType SymbolicName="HasReferenceDescription" BaseType="HasChild" PartNo="23">
     <opc:InverseName>ReferenceDescriptionOf</opc:InverseName>
   </opc:ReferenceType>
-  
+
   <opc:VariableType SymbolicName="ReferenceDescriptionVariableType" BaseType="BaseDataVariableType" DataType="ReferenceDescriptionDataType" ValueRank="Scalar" PartNo="23">
     <opc:Children>
       <opc:Property SymbolicName="ReferenceRefinement" DataType="ReferenceListEntryDataType" ValueRank="Array" ModellingRule="Optional" />

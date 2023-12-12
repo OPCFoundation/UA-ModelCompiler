@@ -23,7 +23,7 @@ All of the standard outputs are published in the [Nodeset GitHub repository](htt
 
 Developers should never need to build the standard outputs themselves.
 
-**2022-10-15: The following tutorial is out of date due to changes needed to support NodeSet2 as an input format.**<br/>
+**2022-10-15: out of date due to changes needed to support NodeSet2 as an input format**<br/>
 Tutorial by Stefan Profanter [here](https://opcua.rocks/custom-information-models/).
 
 Command line parameters for ModelDesigns or NodeSets:
@@ -88,13 +88,10 @@ Opc.Ua.ModelCompiler compile-nodesets -input .\v105\ -o2 .\Tests -uri http://opc
 The executable file version has the form 2.0.YYMM.DDHH where the last two fields are based on the time that it was built.
 
 ## About this Repository ##
-Please clone this repository as shown:
+This repository contains *sub-modules*, which are independently tracked. Please clone this repository as shown:
 ```
-git clone https://github.com/OPCFoundation/UA-ModelCompiler
+git clone https://github.com/OPCFoundation/UA-ModelCompiler --recursive
 ```
-There are submodules which non-members will not have access to if the --recursive flag is specified. 
-
-The 'ModelCompiler Solution.sln' solution does not require these submodules.
 
 **If access to the submodules is denied then leave --recursive flag off and only use the 'ModelCompiler Solution.sln' which uses NuGet packages instead of the submodules.**
 

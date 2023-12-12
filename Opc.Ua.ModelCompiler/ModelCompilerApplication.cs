@@ -117,12 +117,6 @@ namespace ModelCompiler
                         return;
                     }
 
-                    // skip OPC UA namespace.
-                    if (model.ModelUri == Opc.Ua.Namespaces.OpcUa)
-                    {
-                        return;
-                    }
-
                     var name = GetNameFromUri(model.ModelUri);
 
                     var info = new NodeSetInfo()
@@ -269,9 +263,19 @@ namespace ModelCompiler
             return true;
         }
 
-        private static void GenerateCode(string inputPath, string outputPath, NodeSetInfo nodeset, Dictionary<string, NodeSetInfo> dependecies)
+        private static void GenerateCode(
+            string inputPath,
+            string outputPath,
+            Dictionary<string, NodeSetInfo> nodesets,
+            NodeSetInfo nodeset,
+            Dictionary<string, NodeSetInfo> dependecies)
         {
             ModelGenerator2 generator = new ModelGenerator2();
+            
+            generator.AvailableNodeSets = new Dictionary<string,string>(
+                nodesets.
+                Select(x => new KeyValuePair<string,string>(x.Key, x.Value.FileName)
+            ));
 
             generator.LogMessage += (e) =>
             {
@@ -282,7 +286,7 @@ namespace ModelCompiler
             List<string> files = new List<string>();
             files.Add($"{nodeset.FileName},{nodeset.Prefix},{nodeset.Name}");
 
-            foreach (var dependency in dependecies.Values)
+            foreach (var dependency in dependecies.Values.Where(x => x.ModelUri != Namespaces.OpcUa))
             {
                 files.Add($"{dependency.FileName},{dependency.Prefix},{dependency.Name}");
             }
@@ -409,7 +413,7 @@ namespace ModelCompiler
 
                     try
                     {
-                        GenerateCode(input.FullName, options.OutputPath, nodeset, dependencies);
+                        GenerateCode(input.FullName, options.OutputPath, nodesets, nodeset, dependencies);
                     }
                     catch (Exception e)
                     {
@@ -523,6 +527,11 @@ namespace ModelCompiler
 
                 if (!String.IsNullOrEmpty(options.OutputPath))
                 {
+                    if (!Directory.Exists(options.OutputPath))
+                    {
+                        Directory.CreateDirectory(options.OutputPath);
+                    }
+
                     generator.GenerateMultipleFiles(options.OutputPath, false, options.Exclusions, false);
                 }
 

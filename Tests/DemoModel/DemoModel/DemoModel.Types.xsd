@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
- * Copyright (c) 2005-2022 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  * 
@@ -29,19 +29,21 @@
 -->
 
 <xs:schema
+  xmlns:OpcUaDi="http://opcfoundation.org/UA/DI/"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:ua="http://opcfoundation.org/UA/2008/02/Types.xsd"
-  xmlns:tns="http://www.opcfoundation.org/DemoModel/"
-  targetNamespace="http://www.opcfoundation.org/DemoModel/"
+  xmlns:tns="http://www.opcfoundation.org/DemoModel/Types.xsd"
+  targetNamespace="http://www.opcfoundation.org/DemoModel/Types.xsd"
   elementFormDefault="qualified"
 >
   <xs:annotation>
     <xs:appinfo>
-      <tns:Model ModelUri="http://www.opcfoundation.org/DemoModel/" Version="1.00" PublicationDate="2013-12-31T00:00:00Z" />
+      <ua:Model ModelUri="http://www.opcfoundation.org/DemoModel/" Version="1.05.03" PublicationDate="2023-12-15T00:00:00Z" />
     </xs:appinfo>
   </xs:annotation>
   
   <xs:import namespace="http://opcfoundation.org/UA/2008/02/Types.xsd" />
+  <xs:import namespace="http://opcfoundation.org/UA/DI/" />
 
   <xs:simpleType  name="HeaterStatus">
     <xs:restriction base="xs:string">
@@ -109,15 +111,14 @@
   <xs:element name="ListOfWorkOrderType" type="tns:ListOfWorkOrderType" nillable="true"></xs:element>
 
   <xs:complexType name="SampleUnion">
-    <xs:complexContent mixed="false">
-      <xs:extension base="ua:Union">
-        <xs:sequence>
-          <xs:element name="FieldX" type="xs:unsignedInt" minOccurs="0" />
-          <xs:element name="FieldY" type="ua:ListOfString" minOccurs="0" nillable="true" />
-          <xs:element name="FieldZ" type="xs:base64Binary" minOccurs="0" nillable="true" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
+    <xs:sequence>
+      <xs:element name="SwitchField" type="xs:unsignedInt" minOccurs="0" />
+      <xs:choice>
+        <xs:element name="FieldX" type="xs:unsignedInt" minOccurs="0" />
+        <xs:element name="FieldY" type="ua:ListOfString" minOccurs="0" nillable="true" />
+        <xs:element name="FieldZ" type="xs:base64Binary" minOccurs="0" nillable="true" />
+      </xs:choice>
+    </xs:sequence>
   </xs:complexType>
   <xs:element name="SampleUnion" type="tns:SampleUnion" />
 
@@ -145,14 +146,13 @@
   <xs:element name="ListOfSampleStructureWithOptionalFields" type="tns:ListOfSampleStructureWithOptionalFields" nillable="true"></xs:element>
 
   <xs:complexType name="SampleUnionAllowSubtypes">
-    <xs:complexContent mixed="false">
-      <xs:extension base="ua:Union">
-        <xs:sequence>
-          <xs:element name="FieldX" type="ua:ExtensionObject" minOccurs="0" nillable="true" />
-          <xs:element name="FieldY" type="tns:WorkOrderStatusType" minOccurs="0" nillable="true" />
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
+    <xs:sequence>
+      <xs:element name="SwitchField" type="xs:unsignedInt" minOccurs="0" />
+      <xs:choice>
+        <xs:element name="FieldX" type="ua:ExtensionObject" minOccurs="0" nillable="true" />
+        <xs:element name="FieldY" type="tns:WorkOrderStatusType" minOccurs="0" nillable="true" />
+      </xs:choice>
+    </xs:sequence>
   </xs:complexType>
   <xs:element name="SampleUnionAllowSubtypes" type="tns:SampleUnionAllowSubtypes" />
 

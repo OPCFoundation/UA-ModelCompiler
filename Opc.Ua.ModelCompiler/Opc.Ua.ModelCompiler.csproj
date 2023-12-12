@@ -253,10 +253,12 @@
     <None Remove="StackGenerator\DataTypes\Templates\BinarySchema\ServiceType.xml" />
     <None Remove="StackGenerator\DataTypes\Templates\Constants\Constant.csv" />
     <None Remove="StackGenerator\DataTypes\Templates\Constants\Constant.h" />
+    <None Remove="StackGenerator\DataTypes\Templates\Constants\Constant.ts" />
     <None Remove="StackGenerator\DataTypes\Templates\Constants\DataTypes.h" />
     <None Remove="StackGenerator\DataTypes\Templates\Constants\Encodings.h" />
     <None Remove="StackGenerator\DataTypes\Templates\Constants\File.csv" />
     <None Remove="StackGenerator\DataTypes\Templates\Constants\File.h" />
+    <None Remove="StackGenerator\DataTypes\Templates\Constants\File.ts" />
     <None Remove="StackGenerator\DataTypes\Templates\Nodes\DataType.xml" />
     <None Remove="StackGenerator\DataTypes\Templates\Nodes\File.xml" />
     <None Remove="StackGenerator\DataTypes\Templates\Nodes\Service.xml" />
@@ -289,6 +291,7 @@
     <None Remove="Templates\BinarySchema\File.xml" />
     <None Remove="Templates\BinarySchema\OpaqueType.xml" />
     <None Remove="Templates\Types\Identifiers.h" />
+    <None Remove="Templates\Version2\ConstantsFile.ts" />
     <None Remove="Templates\XmlSchema\Array.xml" />
     <None Remove="Templates\XmlSchema\BuiltInTypes.xsd" />
     <None Remove="Templates\XmlSchema\CollectionType.xml" />
@@ -309,29 +312,16 @@
 
   <ItemGroup>
     <EmbeddedResource Include="CSVs\DemoModel.csv" />
-    <EmbeddedResource Include="CSVs\MDIS.csv" />
-    <EmbeddedResource Include="CSVs\MTConnectModel.csv" />
     <EmbeddedResource Include="CSVs\OpcUaAdiModel.csv" />
-    <EmbeddedResource Include="CSVs\OpcUaDiModel.csv" />
-    <EmbeddedResource Include="CSVs\OpcUaFdiPart5Model.csv" />
-    <EmbeddedResource Include="CSVs\OpcUaFdiPart7Model.csv" />
     <EmbeddedResource Include="CSVs\OpcUaGdsModel.csv" />
-    <EmbeddedResource Include="CSVs\OpcUaNodeSetModel.csv" />
     <EmbeddedResource Include="CSVs\OpcUaPLCopenModel.csv" />
-    <EmbeddedResource Include="CSVs\OpcUaProvisioningModel.csv" />
     <EmbeddedResource Include="CSVs\rec20_latest_a1.csv" />
     <EmbeddedResource Include="CSVs\rec20_latest_a2-3.csv" />
     <EmbeddedResource Include="CSVs\SercosModel.csv" />
     <EmbeddedResource Include="CSVs\StandardTypes.csv" />
     <EmbeddedResource Include="CSVs\UNECE_to_OPCUA.csv" />
     <EmbeddedResource Include="Design.v103\BuiltInTypes.xml" />
-    <EmbeddedResource Include="Design.v103\MDIS.xml" />
-    <EmbeddedResource Include="Design.v103\MTConnectModel.xml" />
     <EmbeddedResource Include="Design.v103\OpcUaAdiModel.xml" />
-    <EmbeddedResource Include="Design.v103\OpcUaDiModel.csv" />
-    <EmbeddedResource Include="Design.v103\OpcUaDiModel.xml" />
-    <EmbeddedResource Include="Design.v103\OpcUaFdiPart5Model.xml" />
-    <EmbeddedResource Include="Design.v103\OpcUaFdiPart7Model.xml" />
     <EmbeddedResource Include="Design.v103\OpcUaGdsModel.csv" />
     <EmbeddedResource Include="Design.v103\OpcUaGdsModel.xml" />
     <EmbeddedResource Include="Design.v103\OpcUaPLCopenModel.xml" />
@@ -346,12 +336,7 @@
     <EmbeddedResource Include="Design.v103\UA Status Codes.xml" />
     <EmbeddedResource Include="Design.v104\BuiltInTypes.xml" />
     <EmbeddedResource Include="Design.v104\DemoModel.xml" />
-    <EmbeddedResource Include="Design.v104\MDIS.xml" />
-    <EmbeddedResource Include="Design.v104\MTConnectModel.xml" />
     <EmbeddedResource Include="Design.v104\OpcUaAdiModel.xml" />
-    <EmbeddedResource Include="Design.v104\OpcUaDiModel.xml" />
-    <EmbeddedResource Include="Design.v104\OpcUaFdiPart5Model.xml" />
-    <EmbeddedResource Include="Design.v104\OpcUaFdiPart7Model.xml" />
     <EmbeddedResource Include="Design.v104\OpcUaGdsModel.xml" />
     <EmbeddedResource Include="Design.v104\OpcUaPLCopenModel.xml" />
     <EmbeddedResource Include="Design.v104\SercosModel.xml" />
@@ -361,7 +346,6 @@
     <EmbeddedResource Include="Design.v104\UA Status Codes.xml" />
     <EmbeddedResource Include="Design.v105\BuiltInTypes.xml" />
     <EmbeddedResource Include="Design.v105\DemoModel.xml" />
-    <EmbeddedResource Include="Design.v105\OpcUaDiModel.xml" />
     <EmbeddedResource Include="Design.v105\OpcUaGdsModel.xml" />
     <EmbeddedResource Include="Design.v105\OpcUaNodeSetModel.xml" />
     <EmbeddedResource Include="Design.v105\StandardTypes.xml" />
@@ -399,11 +383,13 @@
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Constant.cs" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Constant.csv" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Constant.h" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Constant.ts" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\DataTypes.cs" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\DataTypes.h" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.cs" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.csv" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.h" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.ts" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Nodes\DataType.xml" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Nodes\File.xml" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Nodes\Service.xml" />
@@ -474,6 +460,7 @@
     <EmbeddedResource Include="Templates\Types\NamespaceUri.cs" />
     <EmbeddedResource Include="Templates\Version2\BrowseName.cs" />
     <EmbeddedResource Include="Templates\Version2\ConstantsFile.cs" />
+    <EmbeddedResource Include="Templates\Version2\ConstantsFile.ts" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\ArrayProperty.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\Class.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\ClassWithOptionalFields.cs" />
@@ -517,8 +504,10 @@
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="30.0.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.24.4" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.0" />
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.371.3-beta" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.9" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.372.1-rc" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2022 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  * 
@@ -174,13 +174,11 @@ namespace Opc.Ua.Scheduler
             return true;
         }
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public virtual object Clone()
         {
             return (SpecialEventType)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -207,11 +205,7 @@ namespace Opc.Ua.Scheduler
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfSpecialEventType", Namespace = Opc.Ua.Scheduler.Namespaces.OpcUaSchedulerXsd, ItemName = "SpecialEventType")]
-    #if !NET_STANDARD
     public partial class SpecialEventTypeCollection : List<SpecialEventType>, ICloneable
-    #else
-    public partial class SpecialEventTypeCollection : List<SpecialEventType>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -248,7 +242,6 @@ namespace Opc.Ua.Scheduler
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -256,7 +249,6 @@ namespace Opc.Ua.Scheduler
             return (SpecialEventTypeCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -423,13 +415,11 @@ namespace Opc.Ua.Scheduler
             return true;
         }
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public virtual object Clone()
         {
             return (SpecialEventPeriodType)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -460,11 +450,7 @@ namespace Opc.Ua.Scheduler
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfSpecialEventPeriodType", Namespace = Opc.Ua.Scheduler.Namespaces.OpcUaSchedulerXsd, ItemName = "SpecialEventPeriodType")]
-    #if !NET_STANDARD
     public partial class SpecialEventPeriodTypeCollection : List<SpecialEventPeriodType>, ICloneable
-    #else
-    public partial class SpecialEventPeriodTypeCollection : List<SpecialEventPeriodType>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -501,7 +487,6 @@ namespace Opc.Ua.Scheduler
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -509,7 +494,6 @@ namespace Opc.Ua.Scheduler
             return (SpecialEventPeriodTypeCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -688,13 +672,11 @@ namespace Opc.Ua.Scheduler
             return true;
         }
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public virtual object Clone()
         {
             return (CalendarEntryType)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -725,11 +707,7 @@ namespace Opc.Ua.Scheduler
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfCalendarEntryType", Namespace = Opc.Ua.Scheduler.Namespaces.OpcUaSchedulerXsd, ItemName = "CalendarEntryType")]
-    #if !NET_STANDARD
     public partial class CalendarEntryTypeCollection : List<CalendarEntryType>, ICloneable
-    #else
-    public partial class CalendarEntryTypeCollection : List<CalendarEntryType>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -766,7 +744,6 @@ namespace Opc.Ua.Scheduler
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -774,7 +751,6 @@ namespace Opc.Ua.Scheduler
             return (CalendarEntryTypeCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -919,13 +895,11 @@ namespace Opc.Ua.Scheduler
             return true;
         }
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public virtual object Clone()
         {
             return (DateType)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -954,11 +928,7 @@ namespace Opc.Ua.Scheduler
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfDateType", Namespace = Opc.Ua.Scheduler.Namespaces.OpcUaSchedulerXsd, ItemName = "DateType")]
-    #if !NET_STANDARD
     public partial class DateTypeCollection : List<DateType>, ICloneable
-    #else
-    public partial class DateTypeCollection : List<DateType>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -995,7 +965,6 @@ namespace Opc.Ua.Scheduler
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -1003,7 +972,6 @@ namespace Opc.Ua.Scheduler
             return (DateTypeCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -1096,11 +1064,7 @@ namespace Opc.Ua.Scheduler
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfMonth", Namespace = Opc.Ua.Scheduler.Namespaces.OpcUaSchedulerXsd, ItemName = "Month")]
-    #if !NET_STANDARD
     public partial class MonthCollection : List<Month>, ICloneable
-    #else
-    public partial class MonthCollection : List<Month>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -1137,7 +1101,6 @@ namespace Opc.Ua.Scheduler
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -1145,7 +1108,6 @@ namespace Opc.Ua.Scheduler
             return (MonthCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -1318,11 +1280,7 @@ namespace Opc.Ua.Scheduler
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfDayOfMonth", Namespace = Opc.Ua.Scheduler.Namespaces.OpcUaSchedulerXsd, ItemName = "DayOfMonth")]
-    #if !NET_STANDARD
     public partial class DayOfMonthCollection : List<DayOfMonth>, ICloneable
-    #else
-    public partial class DayOfMonthCollection : List<DayOfMonth>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -1359,7 +1317,6 @@ namespace Opc.Ua.Scheduler
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -1367,7 +1324,6 @@ namespace Opc.Ua.Scheduler
             return (DayOfMonthCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -1432,11 +1388,7 @@ namespace Opc.Ua.Scheduler
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfDayOfWeek", Namespace = Opc.Ua.Scheduler.Namespaces.OpcUaSchedulerXsd, ItemName = "DayOfWeek")]
-    #if !NET_STANDARD
     public partial class DayOfWeekCollection : List<DayOfWeek>, ICloneable
-    #else
-    public partial class DayOfWeekCollection : List<DayOfWeek>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -1473,7 +1425,6 @@ namespace Opc.Ua.Scheduler
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -1481,7 +1432,6 @@ namespace Opc.Ua.Scheduler
             return (DayOfWeekCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -1626,13 +1576,11 @@ namespace Opc.Ua.Scheduler
             return true;
         }
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public virtual object Clone()
         {
             return (DateRangeType)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -1657,11 +1605,7 @@ namespace Opc.Ua.Scheduler
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfDateRangeType", Namespace = Opc.Ua.Scheduler.Namespaces.OpcUaSchedulerXsd, ItemName = "DateRangeType")]
-    #if !NET_STANDARD
     public partial class DateRangeTypeCollection : List<DateRangeType>, ICloneable
-    #else
-    public partial class DateRangeTypeCollection : List<DateRangeType>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -1698,7 +1642,6 @@ namespace Opc.Ua.Scheduler
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -1706,7 +1649,6 @@ namespace Opc.Ua.Scheduler
             return (DateRangeTypeCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -1839,13 +1781,11 @@ namespace Opc.Ua.Scheduler
             return true;
         }
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public virtual object Clone()
         {
             return (TimeActionsType)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -1870,11 +1810,7 @@ namespace Opc.Ua.Scheduler
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfTimeActionsType", Namespace = Opc.Ua.Scheduler.Namespaces.OpcUaSchedulerXsd, ItemName = "TimeActionsType")]
-    #if !NET_STANDARD
     public partial class TimeActionsTypeCollection : List<TimeActionsType>, ICloneable
-    #else
-    public partial class TimeActionsTypeCollection : List<TimeActionsType>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -1911,7 +1847,6 @@ namespace Opc.Ua.Scheduler
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -1919,7 +1854,6 @@ namespace Opc.Ua.Scheduler
             return (TimeActionsTypeCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -2028,13 +1962,11 @@ namespace Opc.Ua.Scheduler
             return true;
         }
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public virtual object Clone()
         {
             return (BaseActionType)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -2057,11 +1989,7 @@ namespace Opc.Ua.Scheduler
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfBaseActionType", Namespace = Opc.Ua.Scheduler.Namespaces.OpcUaSchedulerXsd, ItemName = "BaseActionType")]
-    #if !NET_STANDARD
     public partial class BaseActionTypeCollection : List<BaseActionType>, ICloneable
-    #else
-    public partial class BaseActionTypeCollection : List<BaseActionType>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -2098,7 +2026,6 @@ namespace Opc.Ua.Scheduler
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -2106,7 +2033,6 @@ namespace Opc.Ua.Scheduler
             return (BaseActionTypeCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -2131,7 +2057,7 @@ namespace Opc.Ua.Scheduler
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [DataContract(Namespace = Opc.Ua.Scheduler.Namespaces.OpcUaSchedulerXsd)]
-    public partial class WriteLocalVariableActionType : BaseActionType
+    public partial class WriteLocalVariableActionType : Opc.Ua.Scheduler.BaseActionType
     {
         #region Constructors
         /// <remarks />
@@ -2229,16 +2155,14 @@ namespace Opc.Ua.Scheduler
             if (!Utils.IsEqual(m_variable, value.m_variable)) return false;
             if (!Utils.IsEqual(m_value, value.m_value)) return false;
 
-            return true;
+            return base.IsEqual(encodeable);
         }    
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public override object Clone()
         {
             return (WriteLocalVariableActionType)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -2263,11 +2187,7 @@ namespace Opc.Ua.Scheduler
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfWriteLocalVariableActionType", Namespace = Opc.Ua.Scheduler.Namespaces.OpcUaSchedulerXsd, ItemName = "WriteLocalVariableActionType")]
-    #if !NET_STANDARD
     public partial class WriteLocalVariableActionTypeCollection : List<WriteLocalVariableActionType>, ICloneable
-    #else
-    public partial class WriteLocalVariableActionTypeCollection : List<WriteLocalVariableActionType>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -2304,7 +2224,6 @@ namespace Opc.Ua.Scheduler
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -2312,7 +2231,6 @@ namespace Opc.Ua.Scheduler
             return (WriteLocalVariableActionTypeCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -2337,7 +2255,7 @@ namespace Opc.Ua.Scheduler
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [DataContract(Namespace = Opc.Ua.Scheduler.Namespaces.OpcUaSchedulerXsd)]
-    public partial class CallLocalMethodActionType : BaseActionType
+    public partial class CallLocalMethodActionType : Opc.Ua.Scheduler.BaseActionType
     {
         #region Constructors
         /// <remarks />
@@ -2483,16 +2401,14 @@ namespace Opc.Ua.Scheduler
             if (!Utils.IsEqual(m_inputValues, value.m_inputValues)) return false;
             if (!Utils.IsEqual(m_lastOutputValues, value.m_lastOutputValues)) return false;
 
-            return true;
+            return base.IsEqual(encodeable);
         }    
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public override object Clone()
         {
             return (CallLocalMethodActionType)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -2521,11 +2437,7 @@ namespace Opc.Ua.Scheduler
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfCallLocalMethodActionType", Namespace = Opc.Ua.Scheduler.Namespaces.OpcUaSchedulerXsd, ItemName = "CallLocalMethodActionType")]
-    #if !NET_STANDARD
     public partial class CallLocalMethodActionTypeCollection : List<CallLocalMethodActionType>, ICloneable
-    #else
-    public partial class CallLocalMethodActionTypeCollection : List<CallLocalMethodActionType>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -2562,7 +2474,6 @@ namespace Opc.Ua.Scheduler
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -2570,7 +2481,6 @@ namespace Opc.Ua.Scheduler
             return (CallLocalMethodActionTypeCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -2703,13 +2613,11 @@ namespace Opc.Ua.Scheduler
             return true;
         }
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public virtual object Clone()
         {
             return (TimeType)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -2736,11 +2644,7 @@ namespace Opc.Ua.Scheduler
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfTimeType", Namespace = Opc.Ua.Scheduler.Namespaces.OpcUaSchedulerXsd, ItemName = "TimeType")]
-    #if !NET_STANDARD
     public partial class TimeTypeCollection : List<TimeType>, ICloneable
-    #else
-    public partial class TimeTypeCollection : List<TimeType>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -2777,7 +2681,6 @@ namespace Opc.Ua.Scheduler
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -2785,7 +2688,6 @@ namespace Opc.Ua.Scheduler
             return (TimeTypeCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -2906,13 +2808,11 @@ namespace Opc.Ua.Scheduler
             return true;
         }
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public virtual object Clone()
         {
             return (DailyScheduleType)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -2935,11 +2835,7 @@ namespace Opc.Ua.Scheduler
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfDailyScheduleType", Namespace = Opc.Ua.Scheduler.Namespaces.OpcUaSchedulerXsd, ItemName = "DailyScheduleType")]
-    #if !NET_STANDARD
     public partial class DailyScheduleTypeCollection : List<DailyScheduleType>, ICloneable
-    #else
-    public partial class DailyScheduleTypeCollection : List<DailyScheduleType>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -2976,7 +2872,6 @@ namespace Opc.Ua.Scheduler
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -2984,7 +2879,6 @@ namespace Opc.Ua.Scheduler
             return (DailyScheduleTypeCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()

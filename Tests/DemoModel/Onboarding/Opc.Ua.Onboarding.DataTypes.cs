@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2022 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  * 
@@ -151,13 +151,11 @@ namespace Opc.Ua.Onboarding
             return true;
         }
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public virtual object Clone()
         {
             return (CertificateAuthorityType)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -182,11 +180,7 @@ namespace Opc.Ua.Onboarding
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfCertificateAuthorityType", Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd, ItemName = "CertificateAuthorityType")]
-    #if !NET_STANDARD
     public partial class CertificateAuthorityTypeCollection : List<CertificateAuthorityType>, ICloneable
-    #else
-    public partial class CertificateAuthorityTypeCollection : List<CertificateAuthorityType>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -223,7 +217,6 @@ namespace Opc.Ua.Onboarding
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -231,7 +224,6 @@ namespace Opc.Ua.Onboarding
             return (CertificateAuthorityTypeCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -436,13 +428,11 @@ namespace Opc.Ua.Onboarding
             return true;
         }
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public virtual object Clone()
         {
             return (BaseTicketType)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -479,11 +469,7 @@ namespace Opc.Ua.Onboarding
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfBaseTicketType", Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd, ItemName = "BaseTicketType")]
-    #if !NET_STANDARD
     public partial class BaseTicketTypeCollection : List<BaseTicketType>, ICloneable
-    #else
-    public partial class BaseTicketTypeCollection : List<BaseTicketType>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -520,7 +506,6 @@ namespace Opc.Ua.Onboarding
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -528,7 +513,6 @@ namespace Opc.Ua.Onboarding
             return (BaseTicketTypeCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -553,7 +537,7 @@ namespace Opc.Ua.Onboarding
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [DataContract(Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd)]
-    public partial class DeviceIdentityTicketType : BaseTicketType
+    public partial class DeviceIdentityTicketType : Opc.Ua.Onboarding.BaseTicketType
     {
         #region Constructors
         /// <remarks />
@@ -639,16 +623,14 @@ namespace Opc.Ua.Onboarding
             if (!base.IsEqual(encodeable)) return false;
             if (!Utils.IsEqual(m_productInstanceUri, value.m_productInstanceUri)) return false;
 
-            return true;
+            return base.IsEqual(encodeable);
         }    
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public override object Clone()
         {
             return (DeviceIdentityTicketType)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -671,11 +653,7 @@ namespace Opc.Ua.Onboarding
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfDeviceIdentityTicketType", Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd, ItemName = "DeviceIdentityTicketType")]
-    #if !NET_STANDARD
     public partial class DeviceIdentityTicketTypeCollection : List<DeviceIdentityTicketType>, ICloneable
-    #else
-    public partial class DeviceIdentityTicketTypeCollection : List<DeviceIdentityTicketType>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -712,7 +690,6 @@ namespace Opc.Ua.Onboarding
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -720,7 +697,6 @@ namespace Opc.Ua.Onboarding
             return (DeviceIdentityTicketTypeCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -745,7 +721,7 @@ namespace Opc.Ua.Onboarding
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [DataContract(Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd)]
-    public partial class CompositeIdentityTicketType : BaseTicketType
+    public partial class CompositeIdentityTicketType : Opc.Ua.Onboarding.BaseTicketType
     {
         #region Constructors
         /// <remarks />
@@ -879,16 +855,14 @@ namespace Opc.Ua.Onboarding
             if (!Utils.IsEqual(m_devices, value.m_devices)) return false;
             if (!Utils.IsEqual(m_composites, value.m_composites)) return false;
 
-            return true;
+            return base.IsEqual(encodeable);
         }    
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public override object Clone()
         {
             return (CompositeIdentityTicketType)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -915,11 +889,7 @@ namespace Opc.Ua.Onboarding
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfCompositeIdentityTicketType", Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd, ItemName = "CompositeIdentityTicketType")]
-    #if !NET_STANDARD
     public partial class CompositeIdentityTicketTypeCollection : List<CompositeIdentityTicketType>, ICloneable
-    #else
-    public partial class CompositeIdentityTicketTypeCollection : List<CompositeIdentityTicketType>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -956,7 +926,6 @@ namespace Opc.Ua.Onboarding
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -964,7 +933,6 @@ namespace Opc.Ua.Onboarding
             return (CompositeIdentityTicketTypeCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -1109,13 +1077,11 @@ namespace Opc.Ua.Onboarding
             return true;
         }
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public virtual object Clone()
         {
             return (TicketListType)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -1140,11 +1106,7 @@ namespace Opc.Ua.Onboarding
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfTicketListType", Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd, ItemName = "TicketListType")]
-    #if !NET_STANDARD
     public partial class TicketListTypeCollection : List<TicketListType>, ICloneable
-    #else
-    public partial class TicketListTypeCollection : List<TicketListType>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -1181,7 +1143,6 @@ namespace Opc.Ua.Onboarding
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -1189,7 +1150,6 @@ namespace Opc.Ua.Onboarding
             return (TicketListTypeCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -1358,13 +1318,11 @@ namespace Opc.Ua.Onboarding
             return true;
         }
 
-        #if !NET_STANDARD
         /// <summary cref="ICloneable.Clone" />
         public virtual object Clone()
         {
             return (ManagerDescription)this.MemberwiseClone();
         }
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
@@ -1395,11 +1353,7 @@ namespace Opc.Ua.Onboarding
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [CollectionDataContract(Name = "ListOfManagerDescription", Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd, ItemName = "ManagerDescription")]
-    #if !NET_STANDARD
     public partial class ManagerDescriptionCollection : List<ManagerDescription>, ICloneable
-    #else
-    public partial class ManagerDescriptionCollection : List<ManagerDescription>
-    #endif
     {
         #region Constructors
         /// <remarks />
@@ -1436,7 +1390,6 @@ namespace Opc.Ua.Onboarding
         }
         #endregion
 
-        #if !NET_STANDARD
         #region ICloneable Methods
         /// <remarks />
         public object Clone()
@@ -1444,7 +1397,6 @@ namespace Opc.Ua.Onboarding
             return (ManagerDescriptionCollection)this.MemberwiseClone();
         }
         #endregion
-        #endif
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()

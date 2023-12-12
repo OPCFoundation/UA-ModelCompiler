@@ -6,8 +6,8 @@
   xmlns="http://opcfoundation.org/UA/Core/" 
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" 
   TargetNamespace="http://opcfoundation.org/UA/Core/" 
-  TargetVersion="1.04.11"
-  TargetPublicationDate="2022-03-29T00:00:00Z"
+  TargetVersion="1.04.12"
+  TargetPublicationDate="2023-07-31T00:00:00Z"
   xmlns:opc="http://opcfoundation.org/UA/TypeDictionary/"
 >
   <opc:Import Namespace="http://opcfoundation.org/UA/BuiltInTypes/" />
@@ -1302,7 +1302,6 @@
   </opc:ServiceType>
 
   <opc:ComplexType Name="HistoryUpdateDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly">
-    <opc:Field Name="NodeId" DataType="s0:NodeId" />
   </opc:ComplexType>
 
   <opc:EnumeratedType Name="HistoryUpdateType" PartNo="4">
@@ -1320,32 +1319,38 @@
   </opc:EnumeratedType>
 
   <opc:ComplexType Name="UpdateDataDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" BaseType="HistoryUpdateDetails">
+    <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="PerformInsertReplace" DataType="PerformUpdateType" />
     <opc:Field Name="UpdateValues" DataType="s0:DataValue" ValueRank="0" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="UpdateStructureDataDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" BaseType="HistoryUpdateDetails">
+    <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="PerformInsertReplace" DataType="PerformUpdateType" />
     <opc:Field Name="UpdateValues" DataType="s0:DataValue" ValueRank="0" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="UpdateEventDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" BaseType="HistoryUpdateDetails">
+    <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="PerformInsertReplace" DataType="PerformUpdateType" />
     <opc:Field Name="Filter" DataType="EventFilter" />
     <opc:Field Name="EventData" DataType="HistoryEventFieldList" ValueRank="0" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="DeleteRawModifiedDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" BaseType="HistoryUpdateDetails">
+    <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="IsDeleteModified" DataType="s0:Boolean" />
     <opc:Field Name="StartTime" DataType="UtcTime" />
     <opc:Field Name="EndTime" DataType="UtcTime" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="DeleteAtTimeDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" BaseType="HistoryUpdateDetails">
+    <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="ReqTimes" DataType="UtcTime" ValueRank="0" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="DeleteEventDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" BaseType="HistoryUpdateDetails">
+    <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="EventIds" DataType="s0:ByteString" ValueRank="0" />
   </opc:ComplexType>
 

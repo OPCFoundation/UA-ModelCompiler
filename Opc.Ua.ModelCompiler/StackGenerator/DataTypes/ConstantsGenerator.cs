@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2021 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  *
@@ -178,6 +178,13 @@ namespace CodeGenerator
                     m_templateSuffix = ".csv";
                     break;
                 }
+
+                case Language.TypeScript:
+                {
+                    fileName = String.Format(@"{0}\{1}-{2}.ts", OutputDirectory, namespacePrefix.ToLower().Replace(".", ""), className.ToLower());
+                    m_templateSuffix = ".ts";
+                    break;
+                }
             }
 
             StreamWriter writer = new StreamWriter(fileName, false);
@@ -215,7 +222,7 @@ namespace CodeGenerator
                     new WriteTemplateEventHandler(WriteTemplate_Constant));
 
                 Context context = new Context();
-                context.BlankLine = TargetLanguage != Language.CSV;
+                context.BlankLine = TargetLanguage != Language.CSV && TargetLanguage != Language.TypeScript;
                 template.WriteTemplate(context);
             }
             finally

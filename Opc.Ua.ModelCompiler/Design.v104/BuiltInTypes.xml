@@ -7,8 +7,8 @@
   xmlns="http://opcfoundation.org/UA/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
-  TargetVersion="1.04.11"
-  TargetPublicationDate="2022-03-29T00:00:00Z"
+  TargetVersion="1.04.12"
+  TargetPublicationDate="2023-07-31T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -16,12 +16,10 @@
 
   <opc:Object SymbolicName="DefaultBinary" PartNo="3">
     <opc:BrowseName>Default Binary</opc:BrowseName>
-    <opc:Description>The default binary encoding for a data type.</opc:Description>
   </opc:Object>
 
   <opc:Object SymbolicName="DefaultXml" PartNo="3">
     <opc:BrowseName>Default XML</opc:BrowseName>
-    <opc:Description>The default XML encoding for a data type.</opc:Description>
   </opc:Object>
 
   <opc:DataType SymbolicName="BaseDataType" IsAbstract="true" NumericId="24" PartNo="3">

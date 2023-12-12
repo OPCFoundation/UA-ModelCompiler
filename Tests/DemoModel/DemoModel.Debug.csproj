@@ -21,8 +21,35 @@
 
   <ItemGroup>
     <Compile Remove="build\**" />
+    <Compile Remove="DemoModel\**" />
+    <Compile Remove="Models\DI\**" />
+    <Compile Remove="Models\IA\**" />
+    <Compile Remove="Models\IREDES\**" />
+    <Compile Remove="Models\LaserSystems\**" />
+    <Compile Remove="Models\Machinery\**" />
+    <Compile Remove="Models\MachineTool\**" />
+    <Compile Remove="Models\MetalForming\**" />
+    <Compile Remove="Models\PADIM\**" />
     <EmbeddedResource Remove="build\**" />
+    <EmbeddedResource Remove="DemoModel\**" />
+    <EmbeddedResource Remove="Models\DI\**" />
+    <EmbeddedResource Remove="Models\IA\**" />
+    <EmbeddedResource Remove="Models\IREDES\**" />
+    <EmbeddedResource Remove="Models\LaserSystems\**" />
+    <EmbeddedResource Remove="Models\Machinery\**" />
+    <EmbeddedResource Remove="Models\MachineTool\**" />
+    <EmbeddedResource Remove="Models\MetalForming\**" />
+    <EmbeddedResource Remove="Models\PADIM\**" />
     <None Remove="build\**" />
+    <None Remove="DemoModel\**" />
+    <None Remove="Models\DI\**" />
+    <None Remove="Models\IA\**" />
+    <None Remove="Models\IREDES\**" />
+    <None Remove="Models\LaserSystems\**" />
+    <None Remove="Models\Machinery\**" />
+    <None Remove="Models\MachineTool\**" />
+    <None Remove="Models\MetalForming\**" />
+    <None Remove="Models\PADIM\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,9 +57,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="DemoModel\DemoModel.PredefinedNodes.uanodes" />
-    <None Remove="GDS\Opc.Ua.Gds.PredefinedNodes.uanodes" />
-    <None Remove="Onboarding\Opc.Ua.Onboarding.PredefinedNodes.uanodes" />
     <None Remove="Opc.Ua.NodeSet.NodeIds.csv" />
     <None Remove="Opc.Ua.NodeSet.NodeSet2.Part6.xml" />
     <None Remove="Opc.Ua.NodeSet.NodeSet2.xml" />
@@ -42,18 +66,16 @@
     <None Remove="Opc.Ua.NodeSet.Types.xsd" />
     <None Remove="OpcUaNodeSetModel.csv" />
     <None Remove="OpcUaNodeSetModel.xml" />
-    <None Remove="Scheduler\Opc.Ua.Scheduler.PredefinedNodes.uanodes" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="DemoModel\DemoModel.PredefinedNodes.uanodes" />
-    <EmbeddedResource Include="GDS\Opc.Ua.Gds.PredefinedNodes.uanodes" />
-    <EmbeddedResource Include="Onboarding\Opc.Ua.Onboarding.PredefinedNodes.uanodes" />
-    <EmbeddedResource Include="Scheduler\Opc.Ua.Scheduler.PredefinedNodes.uanodes" />
+    <Compile Include="DemoModel\DemoModel.Constants.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Scheduler\" />
+    <Folder Include="Onboarding\" />
   </ItemGroup>
 
   <ItemGroup>

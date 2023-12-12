@@ -91,13 +91,13 @@
         <Value>
           <ListOfLocalizedText xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">
             <LocalizedText>
-              <Text>Off</Text>
+              <Text>It is really off!</Text>
             </LocalizedText>
             <LocalizedText>
-              <Text>Heating</Text>
+              <Text>暖房</Text>
             </LocalizedText>
             <LocalizedText>
-              <Text>Cooling</Text>
+              <Text>200_冷房</Text>
             </LocalizedText>
           </ListOfLocalizedText>
         </Value>
@@ -567,16 +567,18 @@
       </References>
       <Value>
         <Value>
-          <ByteString xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">PHhzOnNjaGVtYQ0KICB4bWxuczp4cz0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEi
-DQogIHhtbG5zOnVhPSJodHRwOi8vb3BjZm91bmRhdGlvbi5vcmcvVUEvMjAwOC8wMi9UeXBlcy54
-c2QiDQogIHhtbG5zOnRucz0iaHR0cDovL3d3dy5vcGNmb3VuZGF0aW9uLm9yZy9EZW1vTW9kZWwv
-VHlwZXMueHNkIg0KICB0YXJnZXROYW1lc3BhY2U9Imh0dHA6Ly93d3cub3BjZm91bmRhdGlvbi5v
-cmcvRGVtb01vZGVsL1R5cGVzLnhzZCINCiAgZWxlbWVudEZvcm1EZWZhdWx0PSJxdWFsaWZpZWQi
-DQo+DQogIDx4czphbm5vdGF0aW9uPg0KICAgIDx4czphcHBpbmZvPg0KICAgICAgPHRuczpNb2Rl
-bCBNb2RlbFVyaT0iaHR0cDovL3d3dy5vcGNmb3VuZGF0aW9uLm9yZy9EZW1vTW9kZWwvIiBWZXJz
-aW9uPSIxLjA1IiBQdWJsaWNhdGlvbkRhdGU9IjIwMjEtMDItMTJUMDA6MDA6MDBaIiAvPg0KICAg
-IDwveHM6YXBwaW5mbz4NCiAgPC94czphbm5vdGF0aW9uPg0KICANCiAgPHhzOmltcG9ydCBuYW1l
-c3BhY2U9Imh0dHA6Ly9vcGNmb3VuZGF0aW9uLm9yZy9VQS8yMDA4LzAyL1R5cGVzLnhzZCIgLz4N
+          <ByteString xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">PHhzOnNjaGVtYQ0KICB4bWxuczpPcGNVYURpPSJodHRwOi8vb3BjZm91bmRhdGlvbi5vcmcvVUEv
+REkvIg0KICB4bWxuczp4cz0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEiDQogIHht
+bG5zOnVhPSJodHRwOi8vb3BjZm91bmRhdGlvbi5vcmcvVUEvMjAwOC8wMi9UeXBlcy54c2QiDQog
+IHhtbG5zOnRucz0iaHR0cDovL3d3dy5vcGNmb3VuZGF0aW9uLm9yZy9EZW1vTW9kZWwvVHlwZXMu
+eHNkIg0KICB0YXJnZXROYW1lc3BhY2U9Imh0dHA6Ly93d3cub3BjZm91bmRhdGlvbi5vcmcvRGVt
+b01vZGVsL1R5cGVzLnhzZCINCiAgZWxlbWVudEZvcm1EZWZhdWx0PSJxdWFsaWZpZWQiDQo+DQog
+IDx4czphbm5vdGF0aW9uPg0KICAgIDx4czphcHBpbmZvPg0KICAgICAgPHVhOk1vZGVsIE1vZGVs
+VXJpPSJodHRwOi8vd3d3Lm9wY2ZvdW5kYXRpb24ub3JnL0RlbW9Nb2RlbC8iIFZlcnNpb249IjEu
+MDUuMDMiIFB1YmxpY2F0aW9uRGF0ZT0iMjAyMy0wNy0xNVQwMDowMDowMFoiIC8+DQogICAgPC94
+czphcHBpbmZvPg0KICA8L3hzOmFubm90YXRpb24+DQogIA0KICA8eHM6aW1wb3J0IG5hbWVzcGFj
+ZT0iaHR0cDovL29wY2ZvdW5kYXRpb24ub3JnL1VBLzIwMDgvMDIvVHlwZXMueHNkIiAvPg0KICA8
+eHM6aW1wb3J0IG5hbWVzcGFjZT0iaHR0cDovL29wY2ZvdW5kYXRpb24ub3JnL1VBL0RJLyIgLz4N
 Cg0KICA8eHM6c2ltcGxlVHlwZSAgbmFtZT0iSGVhdGVyU3RhdHVzIj4NCiAgICA8eHM6cmVzdHJp
 Y3Rpb24gYmFzZT0ieHM6c3RyaW5nIj4NCiAgICAgIDx4czplbnVtZXJhdGlvbiB2YWx1ZT0iT2Zm
 XzAiIC8+DQogICAgICA8eHM6ZW51bWVyYXRpb24gdmFsdWU9IkhlYXRpbmdfMSIgLz4NCiAgICAg
@@ -628,71 +630,70 @@ Y3Vycz0iMCIgbWF4T2NjdXJzPSJ1bmJvdW5kZWQiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgIDwv
 eHM6c2VxdWVuY2U+DQogIDwveHM6Y29tcGxleFR5cGU+DQogIDx4czplbGVtZW50IG5hbWU9Ikxp
 c3RPZldvcmtPcmRlclR5cGUiIHR5cGU9InRuczpMaXN0T2ZXb3JrT3JkZXJUeXBlIiBuaWxsYWJs
 ZT0idHJ1ZSI+PC94czplbGVtZW50Pg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJTYW1wbGVV
-bmlvbiI+DQogICAgPHhzOmNvbXBsZXhDb250ZW50IG1peGVkPSJmYWxzZSI+DQogICAgICA8eHM6
-ZXh0ZW5zaW9uIGJhc2U9InVhOlVuaW9uIj4NCiAgICAgICAgPHhzOnNlcXVlbmNlPg0KICAgICAg
-ICAgIDx4czplbGVtZW50IG5hbWU9IkZpZWxkWCIgdHlwZT0ieHM6dW5zaWduZWRJbnQiIG1pbk9j
-Y3Vycz0iMCIgLz4NCiAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJGaWVsZFkiIHR5cGU9InVh
-Okxpc3RPZlN0cmluZyIgbWluT2NjdXJzPSIwIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICAgICAg
-ICA8eHM6ZWxlbWVudCBuYW1lPSJGaWVsZFoiIHR5cGU9InhzOmJhc2U2NEJpbmFyeSIgbWluT2Nj
-dXJzPSIwIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICAgICAgPC94czpzZXF1ZW5jZT4NCiAgICAg
-IDwveHM6ZXh0ZW5zaW9uPg0KICAgIDwveHM6Y29tcGxleENvbnRlbnQ+DQogIDwveHM6Y29tcGxl
-eFR5cGU+DQogIDx4czplbGVtZW50IG5hbWU9IlNhbXBsZVVuaW9uIiB0eXBlPSJ0bnM6U2FtcGxl
-VW5pb24iIC8+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9Ikxpc3RPZlNhbXBsZVVuaW9uIj4N
-CiAgICA8eHM6c2VxdWVuY2U+DQogICAgICA8eHM6ZWxlbWVudCBuYW1lPSJTYW1wbGVVbmlvbiIg
-dHlwZT0idG5zOlNhbXBsZVVuaW9uIiBtaW5PY2N1cnM9IjAiIG1heE9jY3Vycz0idW5ib3VuZGVk
-IiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICA8L3hzOnNlcXVlbmNlPg0KICA8L3hzOmNvbXBsZXhU
-eXBlPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJMaXN0T2ZTYW1wbGVVbmlvbiIgdHlwZT0idG5zOkxp
-c3RPZlNhbXBsZVVuaW9uIiBuaWxsYWJsZT0idHJ1ZSI+PC94czplbGVtZW50Pg0KDQogIDx4czpj
-b21wbGV4VHlwZSBuYW1lPSJTYW1wbGVTdHJ1Y3R1cmVXaXRoT3B0aW9uYWxGaWVsZHMiPg0KICAg
-IDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IkZpZWxkWCIgdHlwZT0ieHM6
-dW5zaWduZWRJbnQiIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IkZp
-ZWxkWSIgdHlwZT0idWE6TGlzdE9mU3RyaW5nIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVl
-IiAvPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iRmllbGRaIiB0eXBlPSJ4czpiYXNlNjRCaW5h
-cnkiIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgPC94czpzZXF1ZW5jZT4N
-CiAgPC94czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFtZT0iU2FtcGxlU3RydWN0dXJl
-V2l0aE9wdGlvbmFsRmllbGRzIiB0eXBlPSJ0bnM6U2FtcGxlU3RydWN0dXJlV2l0aE9wdGlvbmFs
-RmllbGRzIiAvPg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJMaXN0T2ZTYW1wbGVTdHJ1Y3R1
-cmVXaXRoT3B0aW9uYWxGaWVsZHMiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVt
-ZW50IG5hbWU9IlNhbXBsZVN0cnVjdHVyZVdpdGhPcHRpb25hbEZpZWxkcyIgdHlwZT0idG5zOlNh
-bXBsZVN0cnVjdHVyZVdpdGhPcHRpb25hbEZpZWxkcyIgbWluT2NjdXJzPSIwIiBtYXhPY2N1cnM9
-InVuYm91bmRlZCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgPC94czpzZXF1ZW5jZT4NCiAgPC94
-czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFtZT0iTGlzdE9mU2FtcGxlU3RydWN0dXJl
-V2l0aE9wdGlvbmFsRmllbGRzIiB0eXBlPSJ0bnM6TGlzdE9mU2FtcGxlU3RydWN0dXJlV2l0aE9w
-dGlvbmFsRmllbGRzIiBuaWxsYWJsZT0idHJ1ZSI+PC94czplbGVtZW50Pg0KDQogIDx4czpjb21w
-bGV4VHlwZSBuYW1lPSJTYW1wbGVVbmlvbkFsbG93U3VidHlwZXMiPg0KICAgIDx4czpjb21wbGV4
-Q29udGVudCBtaXhlZD0iZmFsc2UiPg0KICAgICAgPHhzOmV4dGVuc2lvbiBiYXNlPSJ1YTpVbmlv
-biI+DQogICAgICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJG
-aWVsZFgiIHR5cGU9InVhOkV4dGVuc2lvbk9iamVjdCIgbWluT2NjdXJzPSIwIiBuaWxsYWJsZT0i
-dHJ1ZSIgLz4NCiAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJGaWVsZFkiIHR5cGU9InRuczpX
-b3JrT3JkZXJTdGF0dXNUeXBlIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAg
-ICAgICA8L3hzOnNlcXVlbmNlPg0KICAgICAgPC94czpleHRlbnNpb24+DQogICAgPC94czpjb21w
-bGV4Q29udGVudD4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFtZT0iU2Ft
-cGxlVW5pb25BbGxvd1N1YnR5cGVzIiB0eXBlPSJ0bnM6U2FtcGxlVW5pb25BbGxvd1N1YnR5cGVz
-IiAvPg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJMaXN0T2ZTYW1wbGVVbmlvbkFsbG93U3Vi
-dHlwZXMiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IlNhbXBs
-ZVVuaW9uQWxsb3dTdWJ0eXBlcyIgdHlwZT0idG5zOlNhbXBsZVVuaW9uQWxsb3dTdWJ0eXBlcyIg
-bWluT2NjdXJzPSIwIiBtYXhPY2N1cnM9InVuYm91bmRlZCIgbmlsbGFibGU9InRydWUiIC8+DQog
-ICAgPC94czpzZXF1ZW5jZT4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFt
-ZT0iTGlzdE9mU2FtcGxlVW5pb25BbGxvd1N1YnR5cGVzIiB0eXBlPSJ0bnM6TGlzdE9mU2FtcGxl
-VW5pb25BbGxvd1N1YnR5cGVzIiBuaWxsYWJsZT0idHJ1ZSI+PC94czplbGVtZW50Pg0KDQogIDx4
-czpjb21wbGV4VHlwZSBuYW1lPSJTYW1wbGVTdHJ1Y3R1cmVBbGxvd1N1YnR5cGVzIj4NCiAgICA8
-eHM6c2VxdWVuY2U+DQogICAgICA8eHM6ZWxlbWVudCBuYW1lPSJGaWVsZFgiIHR5cGU9InVhOkV4
-dGVuc2lvbk9iamVjdCIgbWluT2NjdXJzPSIwIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICAgIDx4
-czplbGVtZW50IG5hbWU9IkZpZWxkWSIgdHlwZT0idWE6TGlzdE9mRXh0ZW5zaW9uT2JqZWN0IiBt
-aW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0i
-RmllbGRaIiB0eXBlPSJ1YTpMaXN0T2ZFeHRlbnNpb25PYmplY3QiIG1pbk9jY3Vycz0iMCIgbmls
-bGFibGU9InRydWUiIC8+DQogICAgICA8eHM6ZWxlbWVudCBuYW1lPSJGaWVsZFciIHR5cGU9InRu
-czpXb3JrT3JkZXJTdGF0dXNUeXBlIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0K
+bmlvbiI+DQogICAgPHhzOnNlcXVlbmNlPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iU3dpdGNo
+RmllbGQiIHR5cGU9InhzOnVuc2lnbmVkSW50IiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICA8eHM6
+Y2hvaWNlPg0KICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJGaWVsZFgiIHR5cGU9InhzOnVuc2ln
+bmVkSW50IiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgIDx4czplbGVtZW50IG5hbWU9IkZpZWxk
+WSIgdHlwZT0idWE6TGlzdE9mU3RyaW5nIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAv
+Pg0KICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJGaWVsZFoiIHR5cGU9InhzOmJhc2U2NEJpbmFy
+eSIgbWluT2NjdXJzPSIwIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICAgIDwveHM6Y2hvaWNlPg0K
 ICAgIDwveHM6c2VxdWVuY2U+DQogIDwveHM6Y29tcGxleFR5cGU+DQogIDx4czplbGVtZW50IG5h
-bWU9IlNhbXBsZVN0cnVjdHVyZUFsbG93U3VidHlwZXMiIHR5cGU9InRuczpTYW1wbGVTdHJ1Y3R1
-cmVBbGxvd1N1YnR5cGVzIiAvPg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJMaXN0T2ZTYW1w
-bGVTdHJ1Y3R1cmVBbGxvd1N1YnR5cGVzIj4NCiAgICA8eHM6c2VxdWVuY2U+DQogICAgICA8eHM6
-ZWxlbWVudCBuYW1lPSJTYW1wbGVTdHJ1Y3R1cmVBbGxvd1N1YnR5cGVzIiB0eXBlPSJ0bnM6U2Ft
-cGxlU3RydWN0dXJlQWxsb3dTdWJ0eXBlcyIgbWluT2NjdXJzPSIwIiBtYXhPY2N1cnM9InVuYm91
-bmRlZCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgPC94czpzZXF1ZW5jZT4NCiAgPC94czpjb21w
-bGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFtZT0iTGlzdE9mU2FtcGxlU3RydWN0dXJlQWxsb3dT
-dWJ0eXBlcyIgdHlwZT0idG5zOkxpc3RPZlNhbXBsZVN0cnVjdHVyZUFsbG93U3VidHlwZXMiIG5p
-bGxhYmxlPSJ0cnVlIj48L3hzOmVsZW1lbnQ+DQoNCjwveHM6c2NoZW1hPg==</ByteString>
+bWU9IlNhbXBsZVVuaW9uIiB0eXBlPSJ0bnM6U2FtcGxlVW5pb24iIC8+DQoNCiAgPHhzOmNvbXBs
+ZXhUeXBlIG5hbWU9Ikxpc3RPZlNhbXBsZVVuaW9uIj4NCiAgICA8eHM6c2VxdWVuY2U+DQogICAg
+ICA8eHM6ZWxlbWVudCBuYW1lPSJTYW1wbGVVbmlvbiIgdHlwZT0idG5zOlNhbXBsZVVuaW9uIiBt
+aW5PY2N1cnM9IjAiIG1heE9jY3Vycz0idW5ib3VuZGVkIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAg
+ICA8L3hzOnNlcXVlbmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1l
+PSJMaXN0T2ZTYW1wbGVVbmlvbiIgdHlwZT0idG5zOkxpc3RPZlNhbXBsZVVuaW9uIiBuaWxsYWJs
+ZT0idHJ1ZSI+PC94czplbGVtZW50Pg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJTYW1wbGVT
+dHJ1Y3R1cmVXaXRoT3B0aW9uYWxGaWVsZHMiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4
+czplbGVtZW50IG5hbWU9IkZpZWxkWCIgdHlwZT0ieHM6dW5zaWduZWRJbnQiIG1pbk9jY3Vycz0i
+MCIgLz4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IkZpZWxkWSIgdHlwZT0idWE6TGlzdE9mU3Ry
+aW5nIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgPHhzOmVsZW1lbnQg
+bmFtZT0iRmllbGRaIiB0eXBlPSJ4czpiYXNlNjRCaW5hcnkiIG1pbk9jY3Vycz0iMCIgbmlsbGFi
+bGU9InRydWUiIC8+DQogICAgPC94czpzZXF1ZW5jZT4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAg
+PHhzOmVsZW1lbnQgbmFtZT0iU2FtcGxlU3RydWN0dXJlV2l0aE9wdGlvbmFsRmllbGRzIiB0eXBl
+PSJ0bnM6U2FtcGxlU3RydWN0dXJlV2l0aE9wdGlvbmFsRmllbGRzIiAvPg0KDQogIDx4czpjb21w
+bGV4VHlwZSBuYW1lPSJMaXN0T2ZTYW1wbGVTdHJ1Y3R1cmVXaXRoT3B0aW9uYWxGaWVsZHMiPg0K
+ICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IlNhbXBsZVN0cnVjdHVy
+ZVdpdGhPcHRpb25hbEZpZWxkcyIgdHlwZT0idG5zOlNhbXBsZVN0cnVjdHVyZVdpdGhPcHRpb25h
+bEZpZWxkcyIgbWluT2NjdXJzPSIwIiBtYXhPY2N1cnM9InVuYm91bmRlZCIgbmlsbGFibGU9InRy
+dWUiIC8+DQogICAgPC94czpzZXF1ZW5jZT4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAgPHhzOmVs
+ZW1lbnQgbmFtZT0iTGlzdE9mU2FtcGxlU3RydWN0dXJlV2l0aE9wdGlvbmFsRmllbGRzIiB0eXBl
+PSJ0bnM6TGlzdE9mU2FtcGxlU3RydWN0dXJlV2l0aE9wdGlvbmFsRmllbGRzIiBuaWxsYWJsZT0i
+dHJ1ZSI+PC94czplbGVtZW50Pg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJTYW1wbGVVbmlv
+bkFsbG93U3VidHlwZXMiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5h
+bWU9IlN3aXRjaEZpZWxkIiB0eXBlPSJ4czp1bnNpZ25lZEludCIgbWluT2NjdXJzPSIwIiAvPg0K
+ICAgICAgPHhzOmNob2ljZT4NCiAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iRmllbGRYIiB0eXBl
+PSJ1YTpFeHRlbnNpb25PYmplY3QiIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQog
+ICAgICAgIDx4czplbGVtZW50IG5hbWU9IkZpZWxkWSIgdHlwZT0idG5zOldvcmtPcmRlclN0YXR1
+c1R5cGUiIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgICA8L3hzOmNob2lj
+ZT4NCiAgICA8L3hzOnNlcXVlbmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVu
+dCBuYW1lPSJTYW1wbGVVbmlvbkFsbG93U3VidHlwZXMiIHR5cGU9InRuczpTYW1wbGVVbmlvbkFs
+bG93U3VidHlwZXMiIC8+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9Ikxpc3RPZlNhbXBsZVVu
+aW9uQWxsb3dTdWJ0eXBlcyI+DQogICAgPHhzOnNlcXVlbmNlPg0KICAgICAgPHhzOmVsZW1lbnQg
+bmFtZT0iU2FtcGxlVW5pb25BbGxvd1N1YnR5cGVzIiB0eXBlPSJ0bnM6U2FtcGxlVW5pb25BbGxv
+d1N1YnR5cGVzIiBtaW5PY2N1cnM9IjAiIG1heE9jY3Vycz0idW5ib3VuZGVkIiBuaWxsYWJsZT0i
+dHJ1ZSIgLz4NCiAgICA8L3hzOnNlcXVlbmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6
+ZWxlbWVudCBuYW1lPSJMaXN0T2ZTYW1wbGVVbmlvbkFsbG93U3VidHlwZXMiIHR5cGU9InRuczpM
+aXN0T2ZTYW1wbGVVbmlvbkFsbG93U3VidHlwZXMiIG5pbGxhYmxlPSJ0cnVlIj48L3hzOmVsZW1l
+bnQ+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9IlNhbXBsZVN0cnVjdHVyZUFsbG93U3VidHlw
+ZXMiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IkZpZWxkWCIg
+dHlwZT0idWE6RXh0ZW5zaW9uT2JqZWN0IiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAv
+Pg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iRmllbGRZIiB0eXBlPSJ1YTpMaXN0T2ZFeHRlbnNp
+b25PYmplY3QiIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgICA8eHM6ZWxl
+bWVudCBuYW1lPSJGaWVsZFoiIHR5cGU9InVhOkxpc3RPZkV4dGVuc2lvbk9iamVjdCIgbWluT2Nj
+dXJzPSIwIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IkZpZWxk
+VyIgdHlwZT0idG5zOldvcmtPcmRlclN0YXR1c1R5cGUiIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9
+InRydWUiIC8+DQogICAgPC94czpzZXF1ZW5jZT4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAgPHhz
+OmVsZW1lbnQgbmFtZT0iU2FtcGxlU3RydWN0dXJlQWxsb3dTdWJ0eXBlcyIgdHlwZT0idG5zOlNh
+bXBsZVN0cnVjdHVyZUFsbG93U3VidHlwZXMiIC8+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9
+Ikxpc3RPZlNhbXBsZVN0cnVjdHVyZUFsbG93U3VidHlwZXMiPg0KICAgIDx4czpzZXF1ZW5jZT4N
+CiAgICAgIDx4czplbGVtZW50IG5hbWU9IlNhbXBsZVN0cnVjdHVyZUFsbG93U3VidHlwZXMiIHR5
+cGU9InRuczpTYW1wbGVTdHJ1Y3R1cmVBbGxvd1N1YnR5cGVzIiBtaW5PY2N1cnM9IjAiIG1heE9j
+Y3Vycz0idW5ib3VuZGVkIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICA8L3hzOnNlcXVlbmNlPg0K
+ICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJMaXN0T2ZTYW1wbGVTdHJ1
+Y3R1cmVBbGxvd1N1YnR5cGVzIiB0eXBlPSJ0bnM6TGlzdE9mU2FtcGxlU3RydWN0dXJlQWxsb3dT
+dWJ0eXBlcyIgbmlsbGFibGU9InRydWUiPjwveHM6ZWxlbWVudD4NCg0KPC94czpzY2hlbWE+</ByteString>
         </Value>
       </Value>
       <DataType>
@@ -1198,62 +1199,64 @@ bGxhYmxlPSJ0cnVlIj48L3hzOmVsZW1lbnQ+DQoNCjwveHM6c2NoZW1hPg==</ByteString>
       </References>
       <Value>
         <Value>
-          <ByteString xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">PG9wYzpUeXBlRGljdGlvbmFyeQ0KICB4bWxuczpvcGM9Imh0dHA6Ly9vcGNmb3VuZGF0aW9uLm9y
-Zy9CaW5hcnlTY2hlbWEvIg0KICB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1M
-U2NoZW1hLWluc3RhbmNlIg0KICB4bWxuczp1YT0iaHR0cDovL29wY2ZvdW5kYXRpb24ub3JnL1VB
-LyINCiAgeG1sbnM6dG5zPSJodHRwOi8vd3d3Lm9wY2ZvdW5kYXRpb24ub3JnL0RlbW9Nb2RlbC8i
-DQogIERlZmF1bHRCeXRlT3JkZXI9IkxpdHRsZUVuZGlhbiINCiAgVGFyZ2V0TmFtZXNwYWNlPSJo
-dHRwOi8vd3d3Lm9wY2ZvdW5kYXRpb24ub3JnL0RlbW9Nb2RlbC8iDQo+DQogIDxvcGM6SW1wb3J0
-IE5hbWVzcGFjZT0iaHR0cDovL29wY2ZvdW5kYXRpb24ub3JnL1VBLyIgTG9jYXRpb249Ik9wYy5V
-YS5CaW5hcnlTY2hlbWEuYnNkIi8+DQoNCiAgPG9wYzpFbnVtZXJhdGVkVHlwZSBOYW1lPSJIZWF0
-ZXJTdGF0dXMiIExlbmd0aEluQml0cz0iMzIiPg0KICAgIDxvcGM6RW51bWVyYXRlZFZhbHVlIE5h
-bWU9Ik9mZiIgVmFsdWU9IjAiIC8+DQogICAgPG9wYzpFbnVtZXJhdGVkVmFsdWUgTmFtZT0iSGVh
-dGluZyIgVmFsdWU9IjEiIC8+DQogICAgPG9wYzpFbnVtZXJhdGVkVmFsdWUgTmFtZT0iQ29vbGlu
-ZyIgVmFsdWU9IjIiIC8+DQogIDwvb3BjOkVudW1lcmF0ZWRUeXBlPg0KDQogIDxvcGM6U3RydWN0
-dXJlZFR5cGUgTmFtZT0iVmVjdG9yIiBCYXNlVHlwZT0idWE6RXh0ZW5zaW9uT2JqZWN0Ij4NCiAg
-ICA8b3BjOkZpZWxkIE5hbWU9IlgiIFR5cGVOYW1lPSJvcGM6RG91YmxlIiAvPg0KICAgIDxvcGM6
-RmllbGQgTmFtZT0iWSIgVHlwZU5hbWU9Im9wYzpEb3VibGUiIC8+DQogICAgPG9wYzpGaWVsZCBO
-YW1lPSJaIiBUeXBlTmFtZT0ib3BjOkRvdWJsZSIgLz4NCiAgPC9vcGM6U3RydWN0dXJlZFR5cGU+
-DQoNCiAgPG9wYzpTdHJ1Y3R1cmVkVHlwZSBOYW1lPSJXb3JrT3JkZXJTdGF0dXNUeXBlIiBCYXNl
-VHlwZT0idWE6RXh0ZW5zaW9uT2JqZWN0Ij4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkFjdG9yIiBU
-eXBlTmFtZT0ib3BjOlN0cmluZyIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IlRpbWVzdGFtcCIg
-VHlwZU5hbWU9Im9wYzpEYXRlVGltZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkNvbW1lbnQi
-IFR5cGVOYW1lPSJ1YTpMb2NhbGl6ZWRUZXh0IiAvPg0KICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4N
-Cg0KICA8b3BjOlN0cnVjdHVyZWRUeXBlIE5hbWU9IldvcmtPcmRlclR5cGUiIEJhc2VUeXBlPSJ1
-YTpFeHRlbnNpb25PYmplY3QiPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iSUQiIFR5cGVOYW1lPSJv
-cGM6R3VpZCIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkFzc2V0SUQiIFR5cGVOYW1lPSJvcGM6
-U3RyaW5nIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iU3RhcnRUaW1lIiBUeXBlTmFtZT0ib3Bj
-OkRhdGVUaW1lIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZlN0YXR1c0NvbW1lbnRzIiBU
-eXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iU3RhdHVzQ29tbWVu
-dHMiIFR5cGVOYW1lPSJ0bnM6V29ya09yZGVyU3RhdHVzVHlwZSIgTGVuZ3RoRmllbGQ9Ik5vT2ZT
-dGF0dXNDb21tZW50cyIgLz4NCiAgPC9vcGM6U3RydWN0dXJlZFR5cGU+DQoNCiAgPG9wYzpTdHJ1
-Y3R1cmVkVHlwZSBOYW1lPSJTYW1wbGVVbmlvbiIgQmFzZVR5cGU9InVhOlVuaW9uIj4NCiAgICA8
-b3BjOkZpZWxkIE5hbWU9IkZpZWxkWCIgVHlwZU5hbWU9Im9wYzpVSW50MzIiIC8+DQogICAgPG9w
-YzpGaWVsZCBOYW1lPSJOb09mRmllbGRZIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxv
-cGM6RmllbGQgTmFtZT0iRmllbGRZIiBUeXBlTmFtZT0ib3BjOlN0cmluZyIgTGVuZ3RoRmllbGQ9
-Ik5vT2ZGaWVsZFkiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJGaWVsZFoiIFR5cGVOYW1lPSJv
-cGM6Qnl0ZVN0cmluZyIgLz4NCiAgPC9vcGM6U3RydWN0dXJlZFR5cGU+DQoNCiAgPG9wYzpTdHJ1
-Y3R1cmVkVHlwZSBOYW1lPSJTYW1wbGVTdHJ1Y3R1cmVXaXRoT3B0aW9uYWxGaWVsZHMiIEJhc2VU
-eXBlPSJ1YTpFeHRlbnNpb25PYmplY3QiPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRmllbGRYIiBU
-eXBlTmFtZT0ib3BjOlVJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZGaWVsZFki
-IFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJGaWVsZFkiIFR5
-cGVOYW1lPSJvcGM6U3RyaW5nIiBMZW5ndGhGaWVsZD0iTm9PZkZpZWxkWSIgLz4NCiAgICA8b3Bj
-OkZpZWxkIE5hbWU9IkZpZWxkWiIgVHlwZU5hbWU9Im9wYzpCeXRlU3RyaW5nIiAvPg0KICA8L29w
-YzpTdHJ1Y3R1cmVkVHlwZT4NCg0KICA8b3BjOlN0cnVjdHVyZWRUeXBlIE5hbWU9IlNhbXBsZVVu
-aW9uQWxsb3dTdWJ0eXBlcyIgQmFzZVR5cGU9InVhOlVuaW9uIj4NCiAgICA8b3BjOkZpZWxkIE5h
-bWU9IkZpZWxkWCIgVHlwZU5hbWU9InVhOkV4dGVuc2lvbk9iamVjdCIgLz4NCiAgICA8b3BjOkZp
-ZWxkIE5hbWU9IkZpZWxkWSIgVHlwZU5hbWU9InRuczpXb3JrT3JkZXJTdGF0dXNUeXBlIiAvPg0K
-ICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0KICA8b3BjOlN0cnVjdHVyZWRUeXBlIE5hbWU9IlNh
-bXBsZVN0cnVjdHVyZUFsbG93U3VidHlwZXMiIEJhc2VUeXBlPSJ1YTpFeHRlbnNpb25PYmplY3Qi
-Pg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRmllbGRYIiBUeXBlTmFtZT0idWE6RXh0ZW5zaW9uT2Jq
-ZWN0IiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZkZpZWxkWSIgVHlwZU5hbWU9Im9wYzpJ
-bnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkZpZWxkWSIgVHlwZU5hbWU9InVhOkV4dGVu
-c2lvbk9iamVjdCIgTGVuZ3RoRmllbGQ9Ik5vT2ZGaWVsZFkiIC8+DQogICAgPG9wYzpGaWVsZCBO
-YW1lPSJOb09mRmllbGRaIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQg
-TmFtZT0iRmllbGRaIiBUeXBlTmFtZT0idWE6RXh0ZW5zaW9uT2JqZWN0IiBMZW5ndGhGaWVsZD0i
-Tm9PZkZpZWxkWiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkZpZWxkVyIgVHlwZU5hbWU9InRu
-czpXb3JrT3JkZXJTdGF0dXNUeXBlIiAvPg0KICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0KPC9v
-cGM6VHlwZURpY3Rpb25hcnk+</ByteString>
+          <ByteString xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">PG9wYzpUeXBlRGljdGlvbmFyeQ0KICB4bWxuczpPcGNVYURpPSJodHRwOi8vb3BjZm91bmRhdGlv
+bi5vcmcvVUEvREkvIg0KICB4bWxuczpvcGM9Imh0dHA6Ly9vcGNmb3VuZGF0aW9uLm9yZy9CaW5h
+cnlTY2hlbWEvIg0KICB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1h
+LWluc3RhbmNlIg0KICB4bWxuczp1YT0iaHR0cDovL29wY2ZvdW5kYXRpb24ub3JnL1VBLyINCiAg
+eG1sbnM6dG5zPSJodHRwOi8vd3d3Lm9wY2ZvdW5kYXRpb24ub3JnL0RlbW9Nb2RlbC8iDQogIERl
+ZmF1bHRCeXRlT3JkZXI9IkxpdHRsZUVuZGlhbiINCiAgVGFyZ2V0TmFtZXNwYWNlPSJodHRwOi8v
+d3d3Lm9wY2ZvdW5kYXRpb24ub3JnL0RlbW9Nb2RlbC8iDQo+DQogIDxvcGM6SW1wb3J0IE5hbWVz
+cGFjZT0iaHR0cDovL29wY2ZvdW5kYXRpb24ub3JnL1VBLyIgTG9jYXRpb249Ik9wYy5VYS5CaW5h
+cnlTY2hlbWEuYnNkIi8+DQogIDxvcGM6SW1wb3J0IE5hbWVzcGFjZT0iaHR0cDovL29wY2ZvdW5k
+YXRpb24ub3JnL1VBL0RJLyIgTG9jYXRpb249Ik9wYy5VYS5EaS5CaW5hcnlTY2hlbWEuYnNkIi8+
+DQoNCiAgPG9wYzpFbnVtZXJhdGVkVHlwZSBOYW1lPSJIZWF0ZXJTdGF0dXMiIExlbmd0aEluQml0
+cz0iMzIiPg0KICAgIDxvcGM6RW51bWVyYXRlZFZhbHVlIE5hbWU9Ik9mZiIgVmFsdWU9IjAiIC8+
+DQogICAgPG9wYzpFbnVtZXJhdGVkVmFsdWUgTmFtZT0iSGVhdGluZyIgVmFsdWU9IjEiIC8+DQog
+ICAgPG9wYzpFbnVtZXJhdGVkVmFsdWUgTmFtZT0iQ29vbGluZyIgVmFsdWU9IjIiIC8+DQogIDwv
+b3BjOkVudW1lcmF0ZWRUeXBlPg0KDQogIDxvcGM6U3RydWN0dXJlZFR5cGUgTmFtZT0iVmVjdG9y
+IiBCYXNlVHlwZT0idWE6RXh0ZW5zaW9uT2JqZWN0Ij4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ilgi
+IFR5cGVOYW1lPSJvcGM6RG91YmxlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iWSIgVHlwZU5h
+bWU9Im9wYzpEb3VibGUiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJaIiBUeXBlTmFtZT0ib3Bj
+OkRvdWJsZSIgLz4NCiAgPC9vcGM6U3RydWN0dXJlZFR5cGU+DQoNCiAgPG9wYzpTdHJ1Y3R1cmVk
+VHlwZSBOYW1lPSJXb3JrT3JkZXJTdGF0dXNUeXBlIiBCYXNlVHlwZT0idWE6RXh0ZW5zaW9uT2Jq
+ZWN0Ij4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkFjdG9yIiBUeXBlTmFtZT0ib3BjOlN0cmluZyIg
+Lz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IlRpbWVzdGFtcCIgVHlwZU5hbWU9Im9wYzpEYXRlVGlt
+ZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkNvbW1lbnQiIFR5cGVOYW1lPSJ1YTpMb2NhbGl6
+ZWRUZXh0IiAvPg0KICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0KICA8b3BjOlN0cnVjdHVyZWRU
+eXBlIE5hbWU9IldvcmtPcmRlclR5cGUiIEJhc2VUeXBlPSJ1YTpFeHRlbnNpb25PYmplY3QiPg0K
+ICAgIDxvcGM6RmllbGQgTmFtZT0iSUQiIFR5cGVOYW1lPSJvcGM6R3VpZCIgLz4NCiAgICA8b3Bj
+OkZpZWxkIE5hbWU9IkFzc2V0SUQiIFR5cGVOYW1lPSJvcGM6U3RyaW5nIiAvPg0KICAgIDxvcGM6
+RmllbGQgTmFtZT0iU3RhcnRUaW1lIiBUeXBlTmFtZT0ib3BjOkRhdGVUaW1lIiAvPg0KICAgIDxv
+cGM6RmllbGQgTmFtZT0iTm9PZlN0YXR1c0NvbW1lbnRzIiBUeXBlTmFtZT0ib3BjOkludDMyIiAv
+Pg0KICAgIDxvcGM6RmllbGQgTmFtZT0iU3RhdHVzQ29tbWVudHMiIFR5cGVOYW1lPSJ0bnM6V29y
+a09yZGVyU3RhdHVzVHlwZSIgTGVuZ3RoRmllbGQ9Ik5vT2ZTdGF0dXNDb21tZW50cyIgLz4NCiAg
+PC9vcGM6U3RydWN0dXJlZFR5cGU+DQoNCiAgPG9wYzpTdHJ1Y3R1cmVkVHlwZSBOYW1lPSJTYW1w
+bGVVbmlvbiIgQmFzZVR5cGU9InVhOlVuaW9uIj4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkZpZWxk
+WCIgVHlwZU5hbWU9Im9wYzpVSW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mRmll
+bGRZIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRmllbGRZ
+IiBUeXBlTmFtZT0ib3BjOlN0cmluZyIgTGVuZ3RoRmllbGQ9Ik5vT2ZGaWVsZFkiIC8+DQogICAg
+PG9wYzpGaWVsZCBOYW1lPSJGaWVsZFoiIFR5cGVOYW1lPSJvcGM6Qnl0ZVN0cmluZyIgLz4NCiAg
+PC9vcGM6U3RydWN0dXJlZFR5cGU+DQoNCiAgPG9wYzpTdHJ1Y3R1cmVkVHlwZSBOYW1lPSJTYW1w
+bGVTdHJ1Y3R1cmVXaXRoT3B0aW9uYWxGaWVsZHMiIEJhc2VUeXBlPSJ1YTpFeHRlbnNpb25PYmpl
+Y3QiPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRmllbGRYIiBUeXBlTmFtZT0ib3BjOlVJbnQzMiIg
+Lz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZGaWVsZFkiIFR5cGVOYW1lPSJvcGM6SW50MzIi
+IC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJGaWVsZFkiIFR5cGVOYW1lPSJvcGM6U3RyaW5nIiBM
+ZW5ndGhGaWVsZD0iTm9PZkZpZWxkWSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkZpZWxkWiIg
+VHlwZU5hbWU9Im9wYzpCeXRlU3RyaW5nIiAvPg0KICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0K
+ICA8b3BjOlN0cnVjdHVyZWRUeXBlIE5hbWU9IlNhbXBsZVVuaW9uQWxsb3dTdWJ0eXBlcyIgQmFz
+ZVR5cGU9InVhOlVuaW9uIj4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkZpZWxkWCIgVHlwZU5hbWU9
+InVhOkV4dGVuc2lvbk9iamVjdCIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkZpZWxkWSIgVHlw
+ZU5hbWU9InRuczpXb3JrT3JkZXJTdGF0dXNUeXBlIiAvPg0KICA8L29wYzpTdHJ1Y3R1cmVkVHlw
+ZT4NCg0KICA8b3BjOlN0cnVjdHVyZWRUeXBlIE5hbWU9IlNhbXBsZVN0cnVjdHVyZUFsbG93U3Vi
+dHlwZXMiIEJhc2VUeXBlPSJ1YTpFeHRlbnNpb25PYmplY3QiPg0KICAgIDxvcGM6RmllbGQgTmFt
+ZT0iRmllbGRYIiBUeXBlTmFtZT0idWE6RXh0ZW5zaW9uT2JqZWN0IiAvPg0KICAgIDxvcGM6Rmll
+bGQgTmFtZT0iTm9PZkZpZWxkWSIgVHlwZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZp
+ZWxkIE5hbWU9IkZpZWxkWSIgVHlwZU5hbWU9InVhOkV4dGVuc2lvbk9iamVjdCIgTGVuZ3RoRmll
+bGQ9Ik5vT2ZGaWVsZFkiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mRmllbGRaIiBUeXBl
+TmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRmllbGRaIiBUeXBlTmFt
+ZT0idWE6RXh0ZW5zaW9uT2JqZWN0IiBMZW5ndGhGaWVsZD0iTm9PZkZpZWxkWiIgLz4NCiAgICA8
+b3BjOkZpZWxkIE5hbWU9IkZpZWxkVyIgVHlwZU5hbWU9InRuczpXb3JrT3JkZXJTdGF0dXNUeXBl
+IiAvPg0KICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0KPC9vcGM6VHlwZURpY3Rpb25hcnk+</ByteString>
         </Value>
       </Value>
       <DataType>
@@ -2963,6 +2966,998 @@ cGM6VHlwZURpY3Rpb25hcnk+</ByteString>
         </ReferenceNode>
       </References>
       <EventNotifier>0</EventNotifier>
+    </Node>
+    <Node i:type="ObjectNode">
+      <NodeId>
+        <Identifier>ns=1;i=93</Identifier>
+      </NodeId>
+      <NodeClass>Object_1</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>Test_Error</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>Test_Error</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=40</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>i=58</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=94</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <EventNotifier>0</EventNotifier>
+    </Node>
+    <Node i:type="ObjectNode">
+      <NodeId>
+        <Identifier>ns=1;i=94</Identifier>
+      </NodeId>
+      <NodeClass>Object_1</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>Test_ErrorComponent</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>Test_ErrorComponent</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=40</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>i=58</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>true</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=93</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <EventNotifier>0</EventNotifier>
+    </Node>
+    <Node i:type="ObjectNode">
+      <NodeId>
+        <Identifier>ns=1;i=95</Identifier>
+      </NodeId>
+      <NodeClass>Object_1</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>Seeker</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>Seeker</Text>
+      </DisplayName>
+      <Description>
+        <Locale></Locale>
+        <Text>The Role is a test role.</Text>
+      </Description>
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=40</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>i=15620</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>true</IsInverse>
+          <TargetId>
+            <Identifier>i=15606</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=46</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=96</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <EventNotifier>0</EventNotifier>
+    </Node>
+    <Node i:type="VariableNode">
+      <NodeId>
+        <Identifier>ns=1;i=96</Identifier>
+      </NodeId>
+      <NodeClass>Variable_2</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>0</NamespaceIndex>
+        <Name>Identities</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>Identities</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=46</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>true</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=95</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=40</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>i=68</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <Value>
+        <Value>
+          <Null xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd" />
+        </Value>
+      </Value>
+      <DataType>
+        <Identifier>i=15634</Identifier>
+      </DataType>
+      <ValueRank>1</ValueRank>
+      <ArrayDimensions>
+        <UInt32>0</UInt32>
+      </ArrayDimensions>
+      <AccessLevel>1</AccessLevel>
+      <UserAccessLevel>1</UserAccessLevel>
+      <MinimumSamplingInterval>0</MinimumSamplingInterval>
+      <Historizing>false</Historizing>
+      <AccessLevelEx>0</AccessLevelEx>
+    </Node>
+    <Node i:type="ObjectTypeNode">
+      <NodeId>
+        <Identifier>ns=1;i=120</Identifier>
+      </NodeId>
+      <NodeClass>ObjectType_8</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>WithTwoDimensionalVariableType</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>WithTwoDimensionalVariableType</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=45</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>true</IsInverse>
+          <TargetId>
+            <Identifier>i=58</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=121</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <IsAbstract>false</IsAbstract>
+    </Node>
+    <Node i:type="VariableNode">
+      <NodeId>
+        <Identifier>ns=1;i=121</Identifier>
+      </NodeId>
+      <NodeClass>Variable_2</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>X</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>X</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>true</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=120</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=40</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>i=63</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=37</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>i=80</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <Value>
+        <Value>
+          <Null xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd" />
+        </Value>
+      </Value>
+      <DataType>
+        <Identifier>i=6</Identifier>
+      </DataType>
+      <ValueRank>2</ValueRank>
+      <ArrayDimensions>
+        <UInt32>0</UInt32>
+        <UInt32>0</UInt32>
+      </ArrayDimensions>
+      <AccessLevel>1</AccessLevel>
+      <UserAccessLevel>1</UserAccessLevel>
+      <MinimumSamplingInterval>0</MinimumSamplingInterval>
+      <Historizing>false</Historizing>
+      <AccessLevelEx>0</AccessLevelEx>
+    </Node>
+    <Node i:type="VariableTypeNode">
+      <NodeId>
+        <Identifier>ns=1;i=122</Identifier>
+      </NodeId>
+      <NodeClass>VariableType_16</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>RestrictedVariableType</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>RestrictedVariableType</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=45</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>true</IsInverse>
+          <TargetId>
+            <Identifier>i=63</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=123</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <Value>
+        <Value>
+          <Null xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd" />
+        </Value>
+      </Value>
+      <DataType>
+        <Identifier>i=12</Identifier>
+      </DataType>
+      <ValueRank>-2</ValueRank>
+      <ArrayDimensions />
+      <IsAbstract>false</IsAbstract>
+    </Node>
+    <Node i:type="VariableNode">
+      <NodeId>
+        <Identifier>ns=1;i=123</Identifier>
+      </NodeId>
+      <NodeClass>Variable_2</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>Yellow</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>Yellow</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>true</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=122</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=40</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>i=68</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=37</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>i=78</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <Value>
+        <Value>
+          <Int32 xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">0</Int32>
+        </Value>
+      </Value>
+      <DataType>
+        <Identifier>i=6</Identifier>
+      </DataType>
+      <ValueRank>-1</ValueRank>
+      <ArrayDimensions />
+      <AccessLevel>1</AccessLevel>
+      <UserAccessLevel>1</UserAccessLevel>
+      <MinimumSamplingInterval>0</MinimumSamplingInterval>
+      <Historizing>false</Historizing>
+      <AccessLevelEx>0</AccessLevelEx>
+    </Node>
+    <Node i:type="ObjectTypeNode">
+      <NodeId>
+        <Identifier>ns=1;i=124</Identifier>
+      </NodeId>
+      <NodeClass>ObjectType_8</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>RestrictedObjectType</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>RestrictedObjectType</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=45</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>true</IsInverse>
+          <TargetId>
+            <Identifier>i=58</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=125</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=132</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=127</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <IsAbstract>false</IsAbstract>
+    </Node>
+    <Node i:type="VariableNode">
+      <NodeId>
+        <Identifier>ns=1;i=125</Identifier>
+      </NodeId>
+      <NodeClass>Variable_2</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>Red</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>Red</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>true</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=124</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=40</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=122</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=37</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>i=78</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=126</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <Value>
+        <Value>
+          <Null xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd" />
+        </Value>
+      </Value>
+      <DataType>
+        <Identifier>i=12</Identifier>
+      </DataType>
+      <ValueRank>-1</ValueRank>
+      <ArrayDimensions />
+      <AccessLevel>1</AccessLevel>
+      <UserAccessLevel>1</UserAccessLevel>
+      <MinimumSamplingInterval>0</MinimumSamplingInterval>
+      <Historizing>false</Historizing>
+      <AccessLevelEx>0</AccessLevelEx>
+    </Node>
+    <Node i:type="VariableNode">
+      <NodeId>
+        <Identifier>ns=1;i=126</Identifier>
+      </NodeId>
+      <NodeClass>Variable_2</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>Yellow</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>Yellow</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>true</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=125</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=40</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>i=68</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=37</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>i=78</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <Value>
+        <Value>
+          <Int32 xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">0</Int32>
+        </Value>
+      </Value>
+      <DataType>
+        <Identifier>i=6</Identifier>
+      </DataType>
+      <ValueRank>-1</ValueRank>
+      <ArrayDimensions />
+      <AccessLevel>1</AccessLevel>
+      <UserAccessLevel>1</UserAccessLevel>
+      <MinimumSamplingInterval>0</MinimumSamplingInterval>
+      <Historizing>false</Historizing>
+      <AccessLevelEx>0</AccessLevelEx>
+    </Node>
+    <Node i:type="MethodNode">
+      <NodeId>
+        <Identifier>ns=1;i=127</Identifier>
+      </NodeId>
+      <NodeClass>Method_4</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>Blue</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>Blue</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>true</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=124</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=37</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>i=78</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <Executable>true</Executable>
+      <UserExecutable>true</UserExecutable>
+    </Node>
+    <Node i:type="ObjectNode">
+      <NodeId>
+        <Identifier>ns=1;i=128</Identifier>
+      </NodeId>
+      <NodeClass>Object_1</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>TestObject</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>TestObject</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=40</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=124</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=129</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=131</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <EventNotifier>0</EventNotifier>
+    </Node>
+    <Node i:type="VariableNode">
+      <NodeId>
+        <Identifier>ns=1;i=129</Identifier>
+      </NodeId>
+      <NodeClass>Variable_2</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>Red</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>Red</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>true</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=128</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=40</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=122</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=130</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <Value>
+        <Value>
+          <Null xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd" />
+        </Value>
+      </Value>
+      <DataType>
+        <Identifier>i=12</Identifier>
+      </DataType>
+      <ValueRank>-1</ValueRank>
+      <ArrayDimensions />
+      <AccessLevel>1</AccessLevel>
+      <UserAccessLevel>1</UserAccessLevel>
+      <MinimumSamplingInterval>0</MinimumSamplingInterval>
+      <Historizing>false</Historizing>
+      <AccessLevelEx>0</AccessLevelEx>
+    </Node>
+    <Node i:type="VariableNode">
+      <NodeId>
+        <Identifier>ns=1;i=130</Identifier>
+      </NodeId>
+      <NodeClass>Variable_2</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>Yellow</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>Yellow</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>true</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=129</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=40</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>i=68</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <Value>
+        <Value>
+          <Int32 xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">0</Int32>
+        </Value>
+      </Value>
+      <DataType>
+        <Identifier>i=6</Identifier>
+      </DataType>
+      <ValueRank>-1</ValueRank>
+      <ArrayDimensions />
+      <AccessLevel>1</AccessLevel>
+      <UserAccessLevel>1</UserAccessLevel>
+      <MinimumSamplingInterval>0</MinimumSamplingInterval>
+      <Historizing>false</Historizing>
+      <AccessLevelEx>0</AccessLevelEx>
+    </Node>
+    <Node i:type="MethodNode">
+      <NodeId>
+        <Identifier>ns=1;i=131</Identifier>
+      </NodeId>
+      <NodeClass>Method_4</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>Blue</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>Blue</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>true</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=128</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <Executable>true</Executable>
+      <UserExecutable>true</UserExecutable>
+    </Node>
+    <Node i:type="VariableNode">
+      <NodeId>
+        <Identifier>ns=1;i=132</Identifier>
+      </NodeId>
+      <NodeClass>Variable_2</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>&lt;Pink&gt;</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>&lt;Pink&gt;</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>true</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=124</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=40</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=122</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=37</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>i=11508</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=133</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <Value>
+        <Value>
+          <Null xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd" />
+        </Value>
+      </Value>
+      <DataType>
+        <Identifier>i=12</Identifier>
+      </DataType>
+      <ValueRank>-1</ValueRank>
+      <ArrayDimensions />
+      <AccessLevel>1</AccessLevel>
+      <UserAccessLevel>1</UserAccessLevel>
+      <MinimumSamplingInterval>0</MinimumSamplingInterval>
+      <Historizing>false</Historizing>
+      <AccessLevelEx>0</AccessLevelEx>
+    </Node>
+    <Node i:type="VariableNode">
+      <NodeId>
+        <Identifier>ns=1;i=133</Identifier>
+      </NodeId>
+      <NodeClass>Variable_2</NodeClass>
+      <BrowseName>
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>Yellow</Name>
+      </BrowseName>
+      <DisplayName>
+        <Locale></Locale>
+        <Text>Yellow</Text>
+      </DisplayName>
+      <Description i:nil="true" />
+      <WriteMask>0</WriteMask>
+      <UserWriteMask>0</UserWriteMask>
+      <RolePermissions />
+      <UserRolePermissions />
+      <AccessRestrictions>0</AccessRestrictions>
+      <References>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=47</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>true</IsInverse>
+          <TargetId>
+            <Identifier>ns=1;i=132</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=40</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>i=68</Identifier>
+          </TargetId>
+        </ReferenceNode>
+        <ReferenceNode>
+          <ReferenceTypeId>
+            <Identifier>i=37</Identifier>
+          </ReferenceTypeId>
+          <IsInverse>false</IsInverse>
+          <TargetId>
+            <Identifier>i=78</Identifier>
+          </TargetId>
+        </ReferenceNode>
+      </References>
+      <Value>
+        <Value>
+          <Int32 xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">0</Int32>
+        </Value>
+      </Value>
+      <DataType>
+        <Identifier>i=6</Identifier>
+      </DataType>
+      <ValueRank>-1</ValueRank>
+      <ArrayDimensions />
+      <AccessLevel>1</AccessLevel>
+      <UserAccessLevel>1</UserAccessLevel>
+      <MinimumSamplingInterval>0</MinimumSamplingInterval>
+      <Historizing>false</Historizing>
+      <AccessLevelEx>0</AccessLevelEx>
     </Node>
   </Nodes>
 </NodeSet>

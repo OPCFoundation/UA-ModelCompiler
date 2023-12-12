@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution 
 		BuildStandardTypes.bat = BuildStandardTypes.bat
 		CompileNodeSets.bat = CompileNodeSets.bat
 		PublishModel.bat = PublishModel.bat
-		PublishNodeSet.bat = PublishNodeSet.bat
+		TestNodeSets.bat = TestNodeSets.bat
 		UpdateLicense.bat = UpdateLicense.bat
 	EndProjectSection
 EndProject
@@ -32,7 +32,7 @@ Global
 		{3CE9C29A-41A4-4F5B-96EE-0DDA6929ED63}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E1155082-AFD3-449D-BFB3-008CE10D619C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E1155082-AFD3-449D-BFB3-008CE10D619C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E1155082-AFD3-449D-BFB3-008CE10D619C}.Docker|Any CPU.ActiveCfg = Docker|Any CPU
+		{E1155082-AFD3-449D-BFB3-008CE10D619C}.Docker|Any CPU.ActiveCfg = Debug|Any CPU
 		{E1155082-AFD3-449D-BFB3-008CE10D619C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1155082-AFD3-449D-BFB3-008CE10D619C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

@@ -6,8 +6,8 @@
   xmlns="http://opcfoundation.org/UA/Core/" 
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" 
   TargetNamespace="http://opcfoundation.org/UA/Core/" 
-  TargetVersion="1.05.02" 
-  TargetPublicationDate="2022-06-28T00:00:00Z" 
+  TargetVersion="1.05.03" 
+  TargetPublicationDate="2023-12-15T00:00:00Z" 
   xmlns:opc="http://opcfoundation.org/UA/TypeDictionary/"
 >
   <opc:Import Namespace="http://opcfoundation.org/UA/BuiltInTypes/" />
@@ -212,7 +212,7 @@
 
   <opc:ComplexType Name="DataTypeNode" NotInAddressSpace="true" PartNo="3" Purpose="CodeGenerator" BaseType="TypeNode">
     <opc:Field Name="IsAbstract" DataType="s0:Boolean" />
-    <opc:Field Name="DataTypeDefinition" DataType="s0:ExtensionObject" AllowSubTypes="true" />
+    <opc:Field Name="DataTypeDefinition" DataType="s0:ExtensionObject" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="ReferenceNode" AllowArrays="true" NotInAddressSpace="true" PartNo="3" Purpose="CodeGenerator">
@@ -286,10 +286,6 @@
     <opc:Field Name="DiscoveryUrls" DataType="s0:String" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="PublisherDescription" BaseType="ApplicationDescription" ReleaseStatus="Draft" AllowArrays="true" PartNo="14" >
-    <opc:Field Name="ServerCapabilities" DataType="s0:String" ValueRank="0" />
-  </opc:ComplexType>
-
   <opc:ComplexType Name="RequestHeader" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly">
     <opc:Field Name="AuthenticationToken" DataType="SessionAuthenticationToken" />
     <opc:Field Name="Timestamp" DataType="UtcTime" />
@@ -297,7 +293,7 @@
     <opc:Field Name="ReturnDiagnostics" DataType="s0:UInt32" />
     <opc:Field Name="AuditEntryId" DataType="s0:String" />
     <opc:Field Name="TimeoutHint" DataType="s0:UInt32" />
-    <opc:Field Name="AdditionalHeader" DataType="s0:ExtensionObject" AllowSubTypes="true" />
+    <opc:Field Name="AdditionalHeader" DataType="s0:ExtensionObject" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="ResponseHeader" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly">
@@ -306,7 +302,7 @@
     <opc:Field Name="ServiceResult" DataType="s0:StatusCode" />
     <opc:Field Name="ServiceDiagnostics" DataType="s0:DiagnosticInfo" />
     <opc:Field Name="StringTable" DataType="s0:String" ValueRank="0" />
-    <opc:Field Name="AdditionalHeader" DataType="s0:ExtensionObject" AllowSubTypes="true" />
+    <opc:Field Name="AdditionalHeader" DataType="s0:ExtensionObject" />
   </opc:ComplexType>
 
   <opc:TypeDeclaration Name="VersionTime" PartNo="4" SourceType="s0:UInt32" />
@@ -402,6 +398,51 @@
     <opc:Field Name="SecurityLevel" DataType="s0:Byte" />
   </opc:ComplexType>
 
+  <!--
+  <opc:ComplexType Name="EndpointUrlPolicy" AllowArrays="true" PartNo="4">
+    <opc:Field Name="EndpointUrl" DataType="s0:String" />
+    <opc:Field Name="TransportProfileUri" DataType="s0:String" />
+  </opc:ComplexType>
+
+  <opc:ComplexType Name="ApplicationDescription2" AllowArrays="true" PartNo="4">
+    <opc:Field Name="ApplicationUri" DataType="s0:String" />
+    <opc:Field Name="ProductUri" DataType="s0:String" />
+    <opc:Field Name="ApplicationName" DataType="s0:LocalizedText" />
+    <opc:Field Name="DiscoveryUrls" DataType="EndpointUrlPolicy" ValueRank="0" />
+    <opc:Field Name="ServerCapabilities" DataType="s0:String" ValueRank="0" />
+  </opc:ComplexType>
+
+  <opc:ComplexType Name="EndpointDescription2" AllowArrays="true" PartNo="4">
+    <opc:Field Name="Endpoint" DataType="s0:Byte"/>
+    <opc:Field Name="ServerCertificate" DataType="s0:Byte" />
+    <opc:Field Name="SecurityPolicyUri" DataType="s0:Byte" />
+    <opc:Field Name="SecurityModes" DataType="MessageSecurityMode" />
+    <opc:Field Name="UserIdentityTokens" DataType="s0:Byte" ValueRank="0" />
+    <opc:Field Name="SecurityLevel" DataType="s0:Byte" />
+  </opc:ComplexType>
+  
+  <opc:ComplexType Name="EndpointSet" AllowArrays="true" PartNo="4">
+    <opc:Field Name="Server" DataType="ApplicationDescription2" />
+    <opc:Field Name="EndpointUrls" DataType="EndpointUrlPolicy" ValueRank="0" />
+    <opc:Field Name="ServerCertificates" DataType="ApplicationInstanceCertificate" ValueRank="0" />
+    <opc:Field Name="SecurityPolicyUris" DataType="s0:String" ValueRank="0" />
+    <opc:Field Name="UserIdentityTokens" DataType="UserTokenPolicy" ValueRank="0" />
+    <opc:Field Name="Endpoints" DataType="EndpointDescription2" ValueRank="0" />
+  </opc:ComplexType>
+  
+  <opc:ServiceType Name="GetEndpoints2" InterfaceType="Discovery">
+    <opc:Request>
+      <opc:Parameter Name="RequestHeader" DataType="RequestHeader" />
+      <opc:Parameter Name="EndpointUrl" DataType="s0:String" />
+      <opc:Parameter Name="LocaleIds" DataType="LocaleId" ValueRank="0" />
+    </opc:Request>
+    <opc:Response>
+      <opc:Parameter Name="ResponseHeader" DataType="ResponseHeader" />
+      <opc:Parameter Name="Endpoints" DataType="EndpointSet" ValueRank="0" />
+    </opc:Response>
+  </opc:ServiceType>
+  -->
+  
   <opc:ServiceType Name="GetEndpoints" InterfaceType="Discovery">
     <opc:Request>
       <opc:Parameter Name="RequestHeader" DataType="RequestHeader" />
@@ -453,7 +494,7 @@
     <opc:Request>
       <opc:Parameter Name="RequestHeader" DataType="RequestHeader" />
       <opc:Parameter Name="Server" DataType="RegisteredServer" />
-      <opc:Parameter Name="DiscoveryConfiguration" DataType="s0:ExtensionObject" ValueRank="0" AllowSubTypes="true" />
+      <opc:Parameter Name="DiscoveryConfiguration" DataType="s0:ExtensionObject" ValueRank="0" />
     </opc:Request>
     <opc:Response>
       <opc:Parameter Name="ResponseHeader" DataType="ResponseHeader" />
@@ -599,7 +640,7 @@
       <opc:Parameter Name="ClientSignature" DataType="SignatureData" />
       <opc:Parameter Name="ClientSoftwareCertificates" DataType="SignedSoftwareCertificate" ValueRank="0" />
       <opc:Parameter Name="LocaleIds" DataType="LocaleId" ValueRank="0" />
-      <opc:Parameter Name="UserIdentityToken" DataType="s0:ExtensionObject" AllowSubTypes="true" />
+      <opc:Parameter Name="UserIdentityToken" DataType="s0:ExtensionObject" />
       <opc:Parameter Name="UserTokenSignature" DataType="SignatureData" />
     </opc:Request>
     <opc:Response>
@@ -1112,14 +1153,14 @@
 
   <opc:ComplexType Name="ContentFilterElement" AllowArrays="true" PartNo="4">
     <opc:Field Name="FilterOperator" DataType="FilterOperator" />
-    <opc:Field Name="FilterOperands" DataType="s0:ExtensionObject" ValueRank="0" AllowSubTypes="true" />
+    <opc:Field Name="FilterOperands" DataType="s0:ExtensionObject" ValueRank="0" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="ContentFilter" AllowArrays="true" PartNo="4">
     <opc:Field Name="Elements" DataType="ContentFilterElement" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="FilterOperand" PartNo="4" />
+  <opc:ComplexType Name="FilterOperand" PartNo="4" IsAbstract="true" />
 
   <opc:ComplexType Name="ElementOperand" PartNo="4" BaseType="FilterOperand">
     <opc:Field Name="Index" DataType="s0:UInt32" />
@@ -1232,16 +1273,20 @@
   <opc:ComplexType Name="HistoryReadResult" AllowArrays="true" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly">
     <opc:Field Name="StatusCode" DataType="s0:StatusCode" />
     <opc:Field Name="ContinuationPoint" DataType="ContinuationPoint" />
-    <opc:Field Name="HistoryData" DataType="s0:ExtensionObject" AllowSubTypes="true" />
+    <opc:Field Name="HistoryData" DataType="s0:ExtensionObject" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="HistoryReadDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" />
+  <opc:ComplexType Name="HistoryReadDetails" IsAbstract="true" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" />
 
   <opc:ComplexType Name="ReadEventDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" BaseType="HistoryReadDetails">
     <opc:Field Name="NumValuesPerNode" DataType="Counter" />
     <opc:Field Name="StartTime" DataType="UtcTime" />
     <opc:Field Name="EndTime" DataType="UtcTime" />
     <opc:Field Name="Filter" DataType="EventFilter" />
+  </opc:ComplexType>
+  
+  <opc:ComplexType Name="ReadEventDetails2" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" BaseType="ReadEventDetails">
+    <opc:Field Name="ReadModified" DataType="s0:Boolean" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="ReadRawModifiedDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" BaseType="HistoryReadDetails">
@@ -1273,7 +1318,7 @@
     <opc:Field Name="DataValues" DataType="s0:DataValue" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ModificationInfo" AllowArrays="true" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly">
+  <opc:ComplexType Name="ModificationInfo" AllowArrays="true" PartNo="4">
     <opc:Field Name="ModificationTime" DataType="UtcTime" />
     <opc:Field Name="UpdateType" DataType="HistoryUpdateType" />
     <opc:Field Name="UserName" DataType="s0:String" />
@@ -1286,11 +1331,15 @@
   <opc:ComplexType Name="HistoryEvent" PartNo="4">
     <opc:Field Name="Events" DataType="HistoryEventFieldList" ValueRank="0" />
   </opc:ComplexType>
+  
+  <opc:ComplexType Name="HistoryModifiedEvent" BaseType="HistoryEvent" PartNo="11">
+    <opc:Field Name="ModificationInfos" DataType="ModificationInfo" ValueRank="0" />
+  </opc:ComplexType>
 
   <opc:ServiceType Name="HistoryRead">
     <opc:Request>
       <opc:Parameter Name="RequestHeader" DataType="RequestHeader" />
-      <opc:Parameter Name="HistoryReadDetails" DataType="s0:ExtensionObject" AllowSubTypes="true" />
+      <opc:Parameter Name="HistoryReadDetails" DataType="s0:ExtensionObject" />
       <opc:Parameter Name="TimestampsToReturn" DataType="TimestampsToReturn" />
       <opc:Parameter Name="ReleaseContinuationPoints" DataType="s0:Boolean" />
       <opc:Parameter Name="NodesToRead" DataType="HistoryReadValueId" ValueRank="0" />
@@ -1321,51 +1370,72 @@
     </opc:Response>
   </opc:ServiceType>
 
-  <opc:ComplexType Name="HistoryUpdateDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly">
-    <opc:Field Name="NodeId" DataType="s0:NodeId" />
+  <opc:ComplexType Name="HistoryUpdateDetails" IsAbstract="true" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly">
   </opc:ComplexType>
-
-  <opc:EnumeratedType Name="HistoryUpdateType" PartNo="4">
-    <opc:Value Name="Insert" Value="1" />
-    <opc:Value Name="Replace" Value="2" />
-    <opc:Value Name="Update" Value="3" />
-    <opc:Value Name="Delete" Value="4" />
+  
+  <opc:EnumeratedType Name="HistoryUpdateType" PartNo="11">
+    <opc:Value Name="Insert" Value="1">
+      <opc:Documentation>Data was inserted.</opc:Documentation>
+    </opc:Value>
+    <opc:Value Name="Replace" Value="2">
+      <opc:Documentation>Data was replaced.</opc:Documentation>
+    </opc:Value>
+    <opc:Value Name="Update" Value="3">
+      <opc:Documentation>Data was inserted or replaced.</opc:Documentation>
+    </opc:Value>
+    <opc:Value Name="Delete" Value="4">
+      <opc:Documentation>Data was deleted.</opc:Documentation>
+    </opc:Value>
   </opc:EnumeratedType>
 
-  <opc:EnumeratedType Name="PerformUpdateType" PartNo="4">
-    <opc:Value Name="Insert" Value="1" />
-    <opc:Value Name="Replace" Value="2" />
-    <opc:Value Name="Update" Value="3" />
-    <opc:Value Name="Remove" Value="4" />
+  <opc:EnumeratedType Name="PerformUpdateType" PartNo="11">
+    <opc:Value Name="Insert" Value="1">
+      <opc:Documentation>Data was inserted.</opc:Documentation>
+    </opc:Value>
+    <opc:Value Name="Replace" Value="2">
+      <opc:Documentation>Data was replaced.</opc:Documentation>
+    </opc:Value>
+    <opc:Value Name="Update" Value="3">
+      <opc:Documentation>Data was inserted or replaced.</opc:Documentation>
+    </opc:Value>
+    <opc:Value Name="Remove" Value="4">
+      <opc:Documentation>Data was deleted.</opc:Documentation>
+    </opc:Value>
   </opc:EnumeratedType>
 
   <opc:ComplexType Name="UpdateDataDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" BaseType="HistoryUpdateDetails">
+    <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="PerformInsertReplace" DataType="PerformUpdateType" />
     <opc:Field Name="UpdateValues" DataType="s0:DataValue" ValueRank="0" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="UpdateStructureDataDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" BaseType="HistoryUpdateDetails">
+    <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="PerformInsertReplace" DataType="PerformUpdateType" />
     <opc:Field Name="UpdateValues" DataType="s0:DataValue" ValueRank="0" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="UpdateEventDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" BaseType="HistoryUpdateDetails">
+    <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="PerformInsertReplace" DataType="PerformUpdateType" />
     <opc:Field Name="Filter" DataType="EventFilter" />
     <opc:Field Name="EventData" DataType="HistoryEventFieldList" ValueRank="0" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="DeleteRawModifiedDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" BaseType="HistoryUpdateDetails">
+    <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="IsDeleteModified" DataType="s0:Boolean" />
     <opc:Field Name="StartTime" DataType="UtcTime" />
     <opc:Field Name="EndTime" DataType="UtcTime" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="DeleteAtTimeDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" BaseType="HistoryUpdateDetails">
+    <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="ReqTimes" DataType="UtcTime" ValueRank="0" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="DeleteEventDetails" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" BaseType="HistoryUpdateDetails">
+    <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="EventIds" DataType="s0:ByteString" ValueRank="0" />
   </opc:ComplexType>
 
@@ -1378,7 +1448,7 @@
   <opc:ServiceType Name="HistoryUpdate">
     <opc:Request>
       <opc:Parameter Name="RequestHeader" DataType="RequestHeader" />
-      <opc:Parameter Name="HistoryUpdateDetails" DataType="s0:ExtensionObject" ValueRank="0" AllowSubTypes="true" />
+      <opc:Parameter Name="HistoryUpdateDetails" DataType="s0:ExtensionObject" ValueRank="0" />
     </opc:Request>
     <opc:Response>
       <opc:Parameter Name="ResponseHeader" DataType="ResponseHeader" />
@@ -1475,7 +1545,7 @@
   <opc:ComplexType Name="MonitoringParameters" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly">
     <opc:Field Name="ClientHandle" DataType="IntegerId" />
     <opc:Field Name="SamplingInterval" DataType="Duration" />
-    <opc:Field Name="Filter" DataType="s0:ExtensionObject" AllowSubTypes="true" />
+    <opc:Field Name="Filter" DataType="s0:ExtensionObject" />
     <opc:Field Name="QueueSize" DataType="Counter" />
     <opc:Field Name="DiscardOldest" DataType="s0:Boolean" />
   </opc:ComplexType>
@@ -1491,7 +1561,7 @@
     <opc:Field Name="MonitoredItemId" DataType="IntegerId" />
     <opc:Field Name="RevisedSamplingInterval" DataType="Duration" />
     <opc:Field Name="RevisedQueueSize" DataType="Counter" />
-    <opc:Field Name="FilterResult" DataType="s0:ExtensionObject" AllowSubTypes="true" />
+    <opc:Field Name="FilterResult" DataType="s0:ExtensionObject" />
   </opc:ComplexType>
 
   <opc:ServiceType Name="CreateMonitoredItems">
@@ -1517,7 +1587,7 @@
     <opc:Field Name="StatusCode" DataType="s0:StatusCode" />
     <opc:Field Name="RevisedSamplingInterval" DataType="Duration" />
     <opc:Field Name="RevisedQueueSize" DataType="Counter" />
-    <opc:Field Name="FilterResult" DataType="s0:ExtensionObject" AllowSubTypes="true" />
+    <opc:Field Name="FilterResult" DataType="s0:ExtensionObject" />
   </opc:ComplexType>
 
   <opc:ServiceType Name="ModifyMonitoredItems">
@@ -1631,7 +1701,7 @@
   <opc:ComplexType Name="NotificationMessage" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly">
     <opc:Field Name="SequenceNumber" DataType="Counter" />
     <opc:Field Name="PublishTime" DataType="UtcTime" />
-    <opc:Field Name="NotificationData" DataType="s0:ExtensionObject" ValueRank="0" AllowSubTypes="true" />
+    <opc:Field Name="NotificationData" DataType="s0:ExtensionObject" ValueRank="0" />
   </opc:ComplexType>
 
   <opc:ComplexType Name="NotificationData" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" />

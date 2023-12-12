@@ -7,8 +7,8 @@
   xmlns="http://opcfoundation.org/UA/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
-  TargetVersion="1.05.02"
-  TargetPublicationDate="2022-06-28T00:00:00Z"
+  TargetVersion="1.05.03"
+  TargetPublicationDate="2023-12-15T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -271,6 +271,10 @@
   </opc:ReferenceType>
 
   <opc:ReferenceType SymbolicName="AssociatedWith" BaseType="ua:NonHierarchicalReferences" Symmetric="true" PartNo="5">
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasKeyValueDescription" BaseType="ua:NonHierarchicalReferences" Symmetric="false" PartNo="5">
+    <opc:InverseName>KeyValueDescriptionOf</opc:InverseName>
   </opc:ReferenceType>
 
   <opc:ObjectType SymbolicName="BaseObjectType" PartNo="5">

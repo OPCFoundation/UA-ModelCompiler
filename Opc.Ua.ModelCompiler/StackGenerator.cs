@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2021 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  *
@@ -108,7 +108,7 @@ namespace ModelCompiler
             filePath = String.Format(@"{0}\{1}.bsd", output, fileName);
 
             BinarySchemaValidator validator2 = new BinarySchemaValidator(files.BinarySchemas);
-            validator2.Validate(filePath).Wait();
+            validator2.Validate(filePath);
             files.BinarySchemas[validator2.Dictionary.TargetNamespace] = filePath;
             System.IO.File.Delete(filePath);
         }
@@ -157,6 +157,43 @@ namespace ModelCompiler
                 exclusions);
 
             generator7.Generate("OpcUa", "Core", true);
+        }
+
+        static void GenerateTypeScript(
+            Files files,
+            string modelDir,
+            string csvDir,
+            string outputDir,
+            string specificationVersion,
+            IList<string> exclusions)
+        {
+            ConstantsGenerator generator7a = new ConstantsGenerator(
+                Language.TypeScript,
+                $"{modelDir}UA Attributes.xml",
+                outputDir,
+                files.NodeDictionaries,
+                null,
+                exclusions);
+
+            generator7a.Generate(
+                "OpcUa",
+                "Attributes",
+                $"{csvDir}Attributes.csv",
+                false);
+            
+            ConstantsGenerator generator9a = new ConstantsGenerator(
+                Language.TypeScript,
+                $"{modelDir}UA Status Codes.xml",
+                outputDir,
+                files.NodeDictionaries,
+                null,
+                exclusions);
+
+            generator9a.Generate(
+                "Opc.Ua",
+                "StatusCodes",
+                $"{csvDir}Status Codes.csv",
+                false);
         }
 
         static void GenerateDotNet(
@@ -240,6 +277,7 @@ namespace ModelCompiler
                 exclusions);
 
             GenerateDotNet(files, modelDir, csvDir, rootDir, specificationVersion, exclusions);
+            GenerateTypeScript(files, modelDir, csvDir, rootDir, specificationVersion, exclusions);
         }
 
         public static void GenerateAnsiC(

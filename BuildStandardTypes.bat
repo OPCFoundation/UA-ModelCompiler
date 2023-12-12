@@ -1,4 +1,4 @@
-@ECHO off
+@ECHO OFF
 SETLOCAL
 
 set ROOT=%~dp0
@@ -20,13 +20,12 @@ IF EXIST "%INPUT%\Schemas" (
 
 set ANSIC_TARGET=
 set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
-set GDS_TARGET=
+set GDS_TARGET=.\Stack\Libraries\Opc.Ua.Gds.Server.Common\Model\
 set DI_TARGET=
 set ADI_TARGET=
 set NODESET_TARGET=.\Tests\NodeSetTest
 set DEMOMODEL_TARGET=.\Tests\DemoModel\DemoModel\
 set ONBOARDING_TARGET=.\Tests\DemoModel\Onboarding\
-set GDS_TARGET=.\Tests\DemoModel\GDS\
 set SCHEDULER_TARGET=.\Tests\DemoModel\Scheduler\
 
 REM Make sure that all of our output locations exist.
@@ -42,14 +41,14 @@ set MODELVERSION=
 REM Set overrides for older versions. set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
 IF "%1"=="v105" (
 	set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
-	set MODELVERSION=-mv 1.05.02 -pd 2022-11-01
+	set MODELVERSION=-mv 1.05.03 -pd 2023-12-15
 	set USEALLOWSUBTYPES=
 )
 
 IF "%1"=="v104" (
 	set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
 	set USEALLOWSUBTYPES=
-	set MODELVERSION=-mv 1.04.11 -pd 2022-03-29
+	set MODELVERSION=-mv 1.04.12 -pd 2023-07-31
 )
 
 IF "%1"=="v103" (
@@ -86,6 +85,7 @@ COPY "%CSVINPUT%\ServerCapabilities.csv" "%OUTPUT%\Schema\ServerCapabilities.csv
 COPY "%CSVINPUT%\AggregateExamples.csv" "%OUTPUT%\Schema\AggregateExamples.csv"
 COPY "%OUTPUT%\DotNet\Opc.Ua.StatusCodes.csv" "%OUTPUT%\Schema\StatusCode.csv"
 COPY "%SCHEMAINPUT%\UANodeSet.xsd" "%OUTPUT%\Schema\UANodeSet.xsd"
+COPY "%SCHEMAINPUT%\UANodeSet.xsd" ".\Opc.Ua.ModelCompiler\UANodeSet.xsd"
 COPY "%SCHEMAINPUT%\SecuredApplication.xsd" "%OUTPUT%\Schema\SecuredApplication.xsd"
 COPY "%SCHEMAINPUT%\OPCBinarySchema.xsd" "%OUTPUT%\Schema\OPCBinarySchema.xsd"
 DEL /Q "%OUTPUT%\Schema\Opc.Ua.NodeIds.csv"
@@ -99,6 +99,12 @@ MOVE /Y "%OUTPUT%\Schema\Opc.Ua.DataTypes.cs" "%OUTPUT%\DotNet\Opc.Ua.DataTypes.
 MOVE /Y "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.uanodes" "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.uanodes"
 MOVE /Y "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.xml" "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.xml"
 MOVE /Y "%OUTPUT%\Schema\Opc.Ua.NodeSet.xml" "%OUTPUT%\DotNet\Opc.Ua.NodeSet.xml"
+@ECHO OFF
+
+ECHO Moving .ts files to %OUTPUT%\TypeScript\
+IF NOT EXIST "%OUTPUT%\TypeScript" MKDIR "%OUTPUT%\TypeScript"
+MOVE /Y "%OUTPUT%\DotNet\*.ts" "%OUTPUT%\TypeScript\"
+MOVE /Y "%OUTPUT%\Schema\*.ts" "%OUTPUT%\TypeScript\"
 @ECHO OFF
 
 IF "%ANSIC_TARGET%" NEQ "" (
@@ -133,7 +139,6 @@ IF "%DOTNET_TARGET%" NEQ "" (
 	CALL BuildSchema
 	CD %~dp0
 
-	COPY "%OUTPUT%\Schema\Opc.Ua.NodeSet.xml" "%DOTNET_TARGET%\Schema\Opc.Ua.NodeSet.xml"
 	COPY "%OUTPUT%\Schema\Opc.Ua.NodeSet2.xml" "%DOTNET_TARGET%\Schema\Opc.Ua.NodeSet2.xml"
 	COPY "%OUTPUT%\Schema\Opc.Ua.Types.bsd" "%DOTNET_TARGET%\Schema\Opc.Ua.Types.bsd"
 	COPY "%OUTPUT%\Schema\Opc.Ua.Types.xsd" "%DOTNET_TARGET%\Schema\Opc.Ua.Types.xsd"

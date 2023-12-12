@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
- * Copyright (c) 2005-2022 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  * 
@@ -29,6 +29,7 @@
 -->
 
 <opc:TypeDictionary
+  xmlns:OpcUaDi="http://opcfoundation.org/UA/DI/"
   xmlns:opc="http://opcfoundation.org/BinarySchema/"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:ua="http://opcfoundation.org/UA/"
@@ -37,6 +38,7 @@
   TargetNamespace="http://www.opcfoundation.org/DemoModel/"
 >
   <opc:Import Namespace="http://opcfoundation.org/UA/" Location="Opc.Ua.BinarySchema.bsd"/>
+  <opc:Import Namespace="http://opcfoundation.org/UA/DI/" Location="Opc.Ua.Di.BinarySchema.bsd"/>
 
   <opc:EnumeratedType Name="HeaterStatus" LengthInBits="32">
     <opc:EnumeratedValue Name="Off" Value="0" />

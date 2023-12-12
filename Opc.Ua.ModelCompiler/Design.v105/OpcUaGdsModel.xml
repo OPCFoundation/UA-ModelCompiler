@@ -9,13 +9,44 @@
   xmlns:uasc="http://opcfoundation.org/UA/PushConfiguration/"
   TargetNamespace="http://opcfoundation.org/UA/GDS/"
   TargetVersion="1.05.02"
-  TargetPublicationDate="2022-11-01T00:00:00Z"
+  TargetPublicationDate="2023-12-15T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUaGds" Prefix="Opc.Ua.Gds" XmlNamespace="http://opcfoundation.org/UA/GDS/Types.xsd" XmlPrefix="GDS">http://opcfoundation.org/UA/GDS/</opc:Namespace>
     <opc:Namespace Name="OpcUa" Version="1.05.02" PublicationDate="2022-06-28T00:00:00Z" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
   </opc:Namespaces>
 
+  <opc:PermissionSets>
+    <opc:PermissionSet Name="DiscoveryAdmin">
+      <opc:RolePermission Role="ua:WellKnownRole_AuthenticatedUser">
+        <opc:Permission>Browse</opc:Permission>
+        <opc:Permission>Call</opc:Permission>
+      </opc:RolePermission>
+      <opc:RolePermission Role="WellKnownRole_DiscoveryAdmin">
+        <opc:Permission>Browse</opc:Permission>
+        <opc:Permission>Call</opc:Permission>
+      </opc:RolePermission>
+    </opc:PermissionSet>
+    <opc:PermissionSet Name="CertificateAuthorityAdmin">
+      <opc:RolePermission Role="ua:WellKnownRole_AuthenticatedUser">
+        <opc:Permission>Browse</opc:Permission>
+      </opc:RolePermission>
+      <opc:RolePermission Role="WellKnownRole_CertificateAuthorityAdmin">
+        <opc:Permission>Browse</opc:Permission>
+        <opc:Permission>Call</opc:Permission>
+      </opc:RolePermission>
+    </opc:PermissionSet>
+    <opc:PermissionSet Name="KeyCredentialAdmin">
+      <opc:RolePermission Role="ua:WellKnownRole_AuthenticatedUser">
+        <opc:Permission>Browse</opc:Permission>
+      </opc:RolePermission>
+      <opc:RolePermission Role="WellKnownRole_KeyCredentialAdmin">
+        <opc:Permission>Browse</opc:Permission>
+        <opc:Permission>Call</opc:Permission>
+      </opc:RolePermission>
+    </opc:PermissionSet>
+  </opc:PermissionSets>
+  
   <opc:Object SymbolicName="OPCUAGDSNamespaceMetadata" TypeDefinition="ua:NamespaceMetadataType" PartNo="12">
     <opc:BrowseName>http://opcfoundation.org/UA/GDS/</opc:BrowseName>
     <opc:Children>
@@ -27,6 +58,11 @@
       <opc:Property SymbolicName="ua:NamespaceVersion" DataType="ua:String">
         <opc:DefaultValue>
           <uax:String>1.05.02</uax:String>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="ModelVersion" DataType="ua:SemanticVersionString">
+        <opc:DefaultValue>
+          <uax:String>1.5.2</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="ua:NamespacePublicationDate" DataType="ua:DateTime">
@@ -70,6 +106,126 @@
     </opc:References>
   </opc:Object>
   
+  <opc:Object SymbolicName="WellKnownRole_DiscoveryAdmin" TypeDefinition="ua:RoleType">
+    <opc:BrowseName>DiscoveryAdmin</opc:BrowseName>
+    <opc:DisplayName>DiscoveryAdmin</opc:DisplayName>
+    <opc:Description DoNotIgnore="true">This Role grants rights to register, update and unregister any OPC UA Application.</opc:Description>
+    <opc:Children>
+      <opc:Property SymbolicName="ua:Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:RemoveEndpoint" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+  
+  <opc:Object SymbolicName="WellKnownRole_CertificateAuthorityAdmin" TypeDefinition="ua:RoleType">
+    <opc:BrowseName>CertificateAuthorityAdmin</opc:BrowseName>
+    <opc:DisplayName>CertificateAuthorityAdmin</opc:DisplayName>
+    <opc:Description DoNotIgnore="true">This Role grants rights to request or revoke any Certificate, update any TrustList or assign CertificateGroups to OPC UA Applications.</opc:Description>
+    <opc:Children>
+      <opc:Property SymbolicName="ua:Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:RemoveEndpoint" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+  
+  <opc:Object SymbolicName="WellKnownRole_RegistrationAuthorityAdmin" TypeDefinition="ua:RoleType">
+    <opc:BrowseName>RegistrationAuthorityAdmin</opc:BrowseName>
+    <opc:DisplayName>RegistrationAuthorityAdmin</opc:DisplayName>
+    <opc:Description DoNotIgnore="true">This Role grants rights to approve Certificate Signing requests or NewKeyPair requests.</opc:Description>
+    <opc:Children>
+      <opc:Property SymbolicName="ua:Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:RemoveEndpoint" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:Object SymbolicName="WellKnownRole_KeyCredentialAdmin" TypeDefinition="ua:RoleType">
+    <opc:BrowseName>KeyCredentialAdmin</opc:BrowseName>
+    <opc:DisplayName>KeyCredentialAdmin</opc:DisplayName>
+    <opc:Description DoNotIgnore="true">This Role grants rights to request or revoke any KeyCredential.</opc:Description>
+    <opc:Children>
+      <opc:Property SymbolicName="ua:Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:RemoveEndpoint" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:Object SymbolicName="WellKnownRole_AuthorizationServiceAdmin" TypeDefinition="ua:RoleType">
+    <opc:BrowseName>AuthorizationServiceAdmin</opc:BrowseName>
+    <opc:DisplayName>AuthorizationServiceAdmin</opc:DisplayName>
+    <opc:Description DoNotIgnore="true">This Role grants rights to request or revoke any KeyCredential.</opc:Description>
+    <opc:Children>
+      <opc:Property SymbolicName="ua:Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="ua:EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="ua:RemoveEndpoint" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
   <opc:DataType SymbolicName="ApplicationRecordDataType" BaseType="ua:Structure">
     <opc:Fields>
       <opc:Field Name="ApplicationId" DataType="ua:NodeId"></opc:Field>
@@ -159,9 +315,18 @@
         <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
       </opc:Object>
       <opc:Method SymbolicName="FindApplications" TypeDefinition="FindApplicationsMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="RegisterApplication" TypeDefinition="RegisterApplicationMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="UpdateApplication" TypeDefinition="UpdateApplicationMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="UnregisterApplication" TypeDefinition="UnregisterApplicationMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RegisterApplication" TypeDefinition="RegisterApplicationMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="DiscoveryAdmin" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="UpdateApplication" TypeDefinition="UpdateApplicationMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="DiscoveryAdmin" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="UnregisterApplication" TypeDefinition="UnregisterApplicationMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="DiscoveryAdmin" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
       <opc:Method SymbolicName="GetApplication" TypeDefinition="GetApplicationMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="QueryApplications" TypeDefinition="QueryApplicationsMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="QueryServers" TypeDefinition="QueryServersMethodType" ModellingRule="Mandatory" />
@@ -273,14 +438,38 @@
       <opc:Object SymbolicName="CertificateGroups" TypeDefinition="ua:CertificateGroupFolderType"  ModellingRule="Mandatory">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
-      <opc:Method SymbolicName="StartSigningRequest" TypeDefinition="StartSigningRequestMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="StartNewKeyPairRequest" TypeDefinition="StartNewKeyPairRequestMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="FinishRequest" TypeDefinition="FinishRequestMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="RevokeCertificate" TypeDefinition="RevokeCertificateMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="GetCertificateGroups" TypeDefinition="GetCertificateGroupsMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="GetCertificates" TypeDefinition="GetCertificatesMethodType" ModellingRule="Optional" />
-      <opc:Method SymbolicName="GetTrustList" TypeDefinition="GetTrustListMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="GetCertificateStatus" TypeDefinition="GetCertificateStatusMethodType" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="StartSigningRequest" TypeDefinition="StartSigningRequestMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="CertificateAuthorityAdmin" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="StartNewKeyPairRequest" TypeDefinition="StartNewKeyPairRequestMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="CertificateAuthorityAdmin" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="FinishRequest" TypeDefinition="FinishRequestMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="CertificateAuthorityAdmin" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="RevokeCertificate" TypeDefinition="RevokeCertificateMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="CertificateAuthorityAdmin" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="GetCertificateGroups" TypeDefinition="GetCertificateGroupsMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="CertificateAuthorityAdmin" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="GetCertificates" TypeDefinition="GetCertificatesMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="CertificateAuthorityAdmin" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="GetTrustList" TypeDefinition="GetTrustListMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="CertificateAuthorityAdmin" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="GetCertificateStatus" TypeDefinition="GetCertificateStatusMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="CertificateAuthorityAdmin" />
+        <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
       <opc:Method SymbolicName="CheckRevocationStatus" TypeDefinition="CheckRevocationStatusMethodType" ModellingRule="Optional" />
     </opc:Children>
   </opc:ObjectType>
@@ -322,9 +511,18 @@
       <opc:Property SymbolicName="ResourceUri"  DataType="ua:String" ValueRank="Scalar" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ProfileUris"  DataType="ua:String" ValueRank="Array" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="SecurityPolicyUris"  DataType="ua:String" ValueRank="Array" ModellingRule="Optional" />
-      <opc:Method SymbolicName="StartRequest" TypeDefinition="KeyCredentialStartRequestMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="FinishRequest" TypeDefinition="KeyCredentialFinishRequestMethodType" ModellingRule="Mandatory" />
-      <opc:Method SymbolicName="Revoke" TypeDefinition="KeyCredentialRevokeMethodType" ModellingRule="Optional" />
+      <opc:Method SymbolicName="StartRequest" TypeDefinition="KeyCredentialStartRequestMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="KeyCredentialAdmin" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="FinishRequest" TypeDefinition="KeyCredentialFinishRequestMethodType" ModellingRule="Mandatory">
+        <opc:DefaultRolePermissions Name="KeyCredentialAdmin" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
+      <opc:Method SymbolicName="Revoke" TypeDefinition="KeyCredentialRevokeMethodType" ModellingRule="Optional">
+        <opc:DefaultRolePermissions Name="KeyCredentialAdmin" />
+        <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
+      </opc:Method>
     </opc:Children>
   </opc:ObjectType>
 

@@ -49,6 +49,11 @@ namespace ModelCompiler
                 }
             }
 
+            while (output.ToString().Where(x => x == '.').Count() < 2)
+            {
+                output.Append(".0");
+            }
+
             return output.ToString();
         }
     }

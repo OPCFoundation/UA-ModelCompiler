@@ -7,8 +7,8 @@
   xmlns="http://opcfoundation.org/UA/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
-  TargetVersion="1.04.11"
-  TargetPublicationDate="2022-03-29T00:00:00Z"
+  TargetVersion="1.04.12"
+  TargetPublicationDate="2023-07-31T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -24,12 +24,12 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespaceVersion" DataType="ua:String">
         <opc:DefaultValue>
-          <uax:String>1.04.11</uax:String>
+          <uax:String>1.04.12</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2022-03-29T00:00:00</uax:DateTime>
+          <uax:DateTime>2023-07-31T00:00:00</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -69,87 +69,66 @@
   </opc:Object>
   
   <opc:Property SymbolicName="NodeVersion" DataType="ua:String" ValueRank="Scalar" PartNo="3">
-    <opc:Description>The version number of the node (used to indicate changes to references of the owning node).</opc:Description>
   </opc:Property>
 
   <opc:Property SymbolicName="ViewVersion" DataType="ua:UInt32" ValueRank="Scalar" PartNo="3">
-    <opc:Description>The version number of the view.</opc:Description>
   </opc:Property>
 
   <opc:Property SymbolicName="Icon" DataType="Image" ValueRank="Scalar" PartNo="3">
-    <opc:Description>A small image representing the object.</opc:Description>
   </opc:Property>
 
   <opc:Property SymbolicName="LocalTime" DataType="TimeZoneDataType" ValueRank="Scalar" PartNo="3">
-    <opc:Description>The local time where the owning variable value was collected.</opc:Description>
   </opc:Property>
 
   <opc:Property SymbolicName="AllowNulls" DataType="ua:Boolean" ValueRank="Scalar" PartNo="3">
-    <opc:Description>Whether the value of the owning variable is allowed to be null.</opc:Description>
   </opc:Property>
 
   <opc:Property SymbolicName="ValueAsText" DataType="ua:LocalizedText" ValueRank="Scalar" PartNo="3">
-    <opc:Description>The string representation of the current value for a variable with an enumerated data type.</opc:Description>
   </opc:Property>
 
   <opc:Property SymbolicName="MaxStringLength" DataType="ua:UInt32" ValueRank="Scalar" PartNo="3">
-    <opc:Description>The maximum number of bytes supported by the DataVariable.</opc:Description>
   </opc:Property>
 
   <opc:Property SymbolicName="MaxCharacters" DataType="ua:UInt32" ValueRank="Scalar" PartNo="3">
-    <opc:Description>The maximum number of Unicode characters supported by the DataVariable.</opc:Description>
   </opc:Property>
 
   <opc:Property SymbolicName="MaxByteStringLength" DataType="ua:UInt32" ValueRank="Scalar" PartNo="3">
-    <opc:Description>The maximum length for a byte string that can be stored in the owning variable.</opc:Description>
   </opc:Property>
 
   <opc:Property SymbolicName="MaxArrayLength" DataType="ua:UInt32" ValueRank="Scalar" PartNo="3">
-    <opc:Description>The maximum length for an array that can be stored in the owning variable.</opc:Description>
   </opc:Property>
 
   <opc:Property SymbolicName="EngineeringUnits" DataType="EUInformation" ValueRank="Scalar" PartNo="3">
-    <opc:Description>The engineering units for the value of the owning variable.</opc:Description>
   </opc:Property>
 
   <opc:Property SymbolicName="EnumStrings" DataType="ua:LocalizedText" ValueRank="Array" PartNo="3">
-    <opc:Description>The human readable strings associated with the values of an enumerated value (when values are sequential).</opc:Description>
   </opc:Property>
 
   <opc:Property SymbolicName="EnumValues" DataType="EnumValueType" ValueRank="Array" PartNo="3">
-    <opc:Description>The human readable strings associated with the values of an enumerated value (when values have no sequence).</opc:Description>
   </opc:Property>
 
   <opc:Property SymbolicName="OptionSetValues" DataType="LocalizedText" ValueRank="Array" PartNo="3">
-    <opc:Description>Contains the human-readable representation for each bit of the bit mask.</opc:Description>
   </opc:Property> 
 
   <opc:Property SymbolicName="InputArguments" DataType="Argument" ValueRank="Array" PartNo="3">
-    <opc:Description>The input arguments for a method.</opc:Description>
   </opc:Property>
 
   <opc:Property SymbolicName="OutputArguments" DataType="Argument" ValueRank="Array" PartNo="3">
-    <opc:Description>The output arguments for a method.</opc:Description>
   </opc:Property>
 
   <opc:Property SymbolicName="DefaultInstanceBrowseName" DataType="QualifiedName" ValueRank="Scalar" PartNo="3">
-    <opc:Description>Allows the definition of BrowseName on an ObjectType that all instances should use by default.</opc:Description>
   </opc:Property>
   
   <opc:DataType SymbolicName="ImageBMP" BaseType="Image" PartNo="3">
-    <opc:Description>An image encoded in BMP format.</opc:Description>
   </opc:DataType>
 
   <opc:DataType SymbolicName="ImageGIF" BaseType="Image" PartNo="3">
-    <opc:Description>An image encoded in GIF format.</opc:Description>
   </opc:DataType>
 
   <opc:DataType SymbolicName="ImageJPG" BaseType="Image" PartNo="3">
-    <opc:Description>An image encoded in JPEG format.</opc:Description>
   </opc:DataType>
 
   <opc:DataType SymbolicName="ImagePNG" BaseType="Image" PartNo="3">
-    <opc:Description>An image encoded in PNG format.</opc:Description>
   </opc:DataType>
 
   <opc:DataType SymbolicName="AudioDataType" BaseType="ByteString" PartNo="3">
@@ -4300,7 +4279,6 @@
 
   <opc:Object SymbolicName="AggregateFunction_Interpolative" TypeDefinition="AggregateFunctionType" ModellingRule="None" PartNo="13">
     <opc:BrowseName>Interpolative</opc:BrowseName>
-    <opc:Description>At the beginning of each interval, retrieve the calculated value from the data points on either side of the requested timestamp.</opc:Description>
   </opc:Object>
 
   <opc:Object SymbolicName="AggregateFunction_Average" TypeDefinition="AggregateFunctionType" ModellingRule="None" PartNo="13">

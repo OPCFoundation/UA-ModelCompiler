@@ -31,13 +31,13 @@
         The below list is a list of the valid constructs where each construct map to a model concept in UA
         definition using these construct must be assigned to a UA namespace, by the use of the TargetNamespace
         attribute, they can further be assigned to an XML namespace and have a default Locale assigned.
-
         </html:p>
       </xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
         <xs:element name="Namespaces" type="NamespaceTable" minOccurs="0" />
+        <xs:element name="PermissionSets" type="ListOfRolePermissionSet" minOccurs="0" />
         <xs:choice minOccurs="0" maxOccurs="unbounded">
           <xs:element name="ObjectType" type="ObjectTypeDesign" minOccurs="0" />
           <xs:element name="VariableType" type="VariableTypeDesign" minOccurs="0" />
@@ -226,25 +226,30 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="RolePermissions" type="ListOfRolePermissions" minOccurs="0">
+      <xs:element name="RolePermissions" type="RolePermissionSet" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
             <html:p>
-              The RolePermissions specify the permissions that apply to the Node. They override the DefaultRolePermissions for thr Namespace.
+              The RolePermissions specify the permissions that apply to the Node. 
+              They override the DefaultRolePermissions for thr Namespace.
               RolePermissions specified on a parent always override the RolePermissions for the children unless a child has its own RolePermissions set.
             </html:p>
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="AccessRestrictions" type="ListOfAccessRestrictions" minOccurs="0">
+      <xs:element name="DefaultRolePermissions" type="RolePermissionSet" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
             <html:p>
-              A comment seperated list AccessRestrictions assigned to the node. All children inheirit the AccessRestriction.
+              The DefaultRolePermissions specify the permissions that apply to instances created from the Node.
+              The permissions override the DefaultRolePermissions for the instance namespace.
+              If not specified the Browse
             </html:p>
           </xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="AccessRestrictions" type="AccessRestrictions" minOccurs="0" />
+      <xs:element name="DefaultAccessRestrictions" type="AccessRestrictions" minOccurs="0" />
     </xs:sequence>
     <xs:attribute name="SymbolicName" type="xs:QName" use="optional">
       <xs:annotation>
@@ -559,6 +564,7 @@
         <xs:attribute name="ValueRank" type="ValueRank" use="optional" />
         <xs:attribute name="ArrayDimensions" type="xs:string" use="optional" />
         <xs:attribute name="AccessLevel" type="AccessLevel" use="optional" />
+        <xs:attribute name="InstanceAccessLevel" type="AccessLevel" use="optional" />
         <xs:attribute name="MinimumSamplingInterval" type="xs:int" use="optional" />
         <xs:attribute name="Historizing" type="xs:boolean" use="optional" />
       </xs:extension>
@@ -631,21 +637,22 @@
       <xs:enumeration value="SigningRequired" />
       <xs:enumeration value="EncryptionRequired" />
       <xs:enumeration value="SessionRequired" />
-      <xs:enumeration value="ApplyRestrictionsToBrowse" />
+      <xs:enumeration value="SessionWithSigningRequired" />
+      <xs:enumeration value="SessionWithEncryptionRequired" />
+      <xs:enumeration value="SigningAndApplyToBrowseRequired" />
+      <xs:enumeration value="EncryptionAndApplyToBrowseRequired" />
+      <xs:enumeration value="SessionAndApplyToBrowseRequired" />
+      <xs:enumeration value="SessionWithSigningAndApplyToBrowseRequired" />
+      <xs:enumeration value="SessionWithEncryptionAndApplyToBrowseRequired" />
     </xs:restriction>
   </xs:simpleType>
-  
-  <xs:complexType name="ListOfAccessRestrictions">
-    <xs:sequence>
-      <xs:element name="AccessRestriction" type="AccessRestrictions" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
-  </xs:complexType>
 
   <xs:simpleType name="Permissions">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Browse" />
       <xs:enumeration value="ReadRolePermissions" />
       <xs:enumeration value="WriteAttribute" />
+      <xs:enumeration value="WriteRolePermissions" />
       <xs:enumeration value="WriteHistorizing" />
       <xs:enumeration value="Read" />
       <xs:enumeration value="Write" />
@@ -656,6 +663,7 @@
       <xs:enumeration value="ReceiveEvents" />
       <xs:enumeration value="Call" />
       <xs:enumeration value="AddReference" />
+      <xs:enumeration value="RemoveReference" />
       <xs:enumeration value="DeleteNode" />
       <xs:enumeration value="AddNode" />
       <xs:enumeration value="All" />
@@ -663,7 +671,7 @@
       <xs:enumeration value="None" />
     </xs:restriction>
   </xs:simpleType>
-
+  
   <xs:complexType name="RolePermission">
     <xs:annotation>
       <xs:documentation>
@@ -678,12 +686,20 @@
     <xs:attribute name="Role" type="xs:QName" use="required" />
   </xs:complexType>
 
-  <xs:complexType name="ListOfRolePermissions">
+  <xs:complexType name="RolePermissionSet">
     <xs:sequence>
       <xs:element name="RolePermission" type="RolePermission" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
+    <xs:attribute name="Name" type="xs:string" use="required" />
+    <xs:attribute name="DoNotInheirit" type="xs:boolean" default="false" />
   </xs:complexType>
 
+  <xs:complexType name="ListOfRolePermissionSet">
+    <xs:sequence>
+      <xs:element name="PermissionSet" type="RolePermissionSet" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+          
   <xs:complexType name="Reference">
     <xs:annotation>
       <xs:documentation>
@@ -769,6 +785,7 @@
     <xs:simpleContent>
       <xs:extension base="xs:string">
         <xs:attribute name="Key" type="xs:string" use="optional" default="" />
+        <xs:attribute name="DoNotIgnore" type="xs:boolean" use="optional" default="false" />
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>

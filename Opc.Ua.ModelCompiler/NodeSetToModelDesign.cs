@@ -178,22 +178,33 @@ namespace ModelCompiler
 
         private static Namespace CreateNamespace(ModelTableEntry model)
         {
-            var ns = new Namespace()
+            Namespace ns = null;
+            if (model.ModelUri.StartsWith(Namespaces.OpcUa))
             {
-                Name = model.ModelUri.Substring(Namespaces.OpcUa.Length).Replace("/", " ").Trim().Replace(" ", "."),
-                Value = model.ModelUri,
-                XmlNamespace = model.XmlSchemaUri,
-                PublicationDate = model.PublicationDate.ToString("yyyy-MM-ddT00:00:00Z"),
-                Version = model.Version
-            };
-
-            if (ns.Value == Opc.Ua.Namespaces.OpcUa)
-            {
-                ns.XmlNamespace = Opc.Ua.Namespaces.OpcUaXsd;
+                ns = new Namespace()
+                {
+                    Name = model.ModelUri.Substring(Namespaces.OpcUa.Length).Replace("/", " ").Trim().Replace(" ", "."),
+                    Value = model.ModelUri,
+                    XmlNamespace = model.XmlSchemaUri,
+                    PublicationDate = model.PublicationDate.ToString("yyyy-MM-ddT00:00:00Z"),
+                    Version = model.Version
+                };
+                ns.XmlPrefix = ns.Prefix = "Opc.Ua." + ns.Name;
+                ns.Name = ns.Name.Replace(".", "");
             }
-
-            ns.XmlPrefix = ns.Prefix = "Opc.Ua." + ns.Name;
-            ns.Name = ns.Name.Replace(".", "");
+            else
+            {
+                ns = new Namespace()
+                {
+                    Name = model.ModelUri.Replace("http://", "").Replace("/", " ").Trim().Replace(" ", "."),
+                    Value = model.ModelUri,
+                    XmlNamespace = model.XmlSchemaUri,
+                    PublicationDate = model.PublicationDate.ToString("yyyy-MM-ddT00:00:00Z"),
+                    Version = model.Version
+                };
+                ns.XmlPrefix = ns.Name;
+                ns.Name = ns.Name.Replace(".", " ");
+            }
 
             if (ns.Value == Namespaces.OpcUa)
             {
@@ -1433,6 +1444,173 @@ namespace ModelCompiler
             }
         }
 
+        private Permissions[] ToPermissions(PermissionType input)
+        {
+            List<Permissions> permissions = new List<Permissions>();
+
+            if ((input & PermissionType.Browse) != 0)
+            {
+                permissions.Add(Permissions.Browse);
+            }
+
+            if ((input & PermissionType.ReadRolePermissions) != 0)
+            {
+                permissions.Add(Permissions.ReadRolePermissions);
+            }
+
+            if ((input & PermissionType.WriteAttribute) != 0)
+            {
+                permissions.Add(Permissions.WriteAttribute);
+            }
+
+            if ((input & PermissionType.WriteRolePermissions) != 0)
+            {
+                permissions.Add(Permissions.WriteRolePermissions);
+            }
+
+            if ((input & PermissionType.WriteHistorizing) != 0)
+            {
+                permissions.Add(Permissions.WriteHistorizing);
+            }
+
+            if ((input & PermissionType.Read) != 0)
+            {
+                permissions.Add(Permissions.Read);
+            }
+
+            if ((input & PermissionType.Write) != 0)
+            {
+                permissions.Add(Permissions.Write);
+            }
+
+            if ((input & PermissionType.ReadHistory) != 0)
+            {
+                permissions.Add(Permissions.ReadHistory);
+            }
+
+            if ((input & PermissionType.InsertHistory) != 0)
+            {
+                permissions.Add(Permissions.InsertHistory);
+            }
+
+            if ((input & PermissionType.ModifyHistory) != 0)
+            {
+                permissions.Add(Permissions.ModifyHistory);
+            }
+
+            if ((input & PermissionType.DeleteHistory) != 0)
+            {
+                permissions.Add(Permissions.DeleteHistory);
+            }
+
+            if ((input & PermissionType.ReceiveEvents) != 0)
+            {
+                permissions.Add(Permissions.ReceiveEvents);
+            }
+
+            if ((input & PermissionType.Call) != 0)
+            {
+                permissions.Add(Permissions.Call);
+            }
+
+            if ((input & PermissionType.AddReference) != 0)
+            {
+                permissions.Add(Permissions.AddReference);
+            }
+
+            if ((input & PermissionType.RemoveReference) != 0)
+            {
+                permissions.Add(Permissions.RemoveReference);
+            }
+
+            if ((input & PermissionType.DeleteNode) != 0)
+            {
+                permissions.Add(Permissions.DeleteNode);
+            }
+
+            if ((input & PermissionType.AddNode) != 0)
+            {
+                permissions.Add(Permissions.AddNode);
+            }
+
+            return permissions.ToArray();
+        }
+        
+        private RolePermissionSet ToPermissionSet(NodeSet.UANode node, NodeSet.RolePermission[] input)
+        {
+            if (input == null)
+            {
+                return null;
+            }
+
+            List<RolePermission> permissions = new List<RolePermission>();
+
+            foreach (var ii in input)
+            {
+                NodeId roleId = ImportNodeId(ii.Value);
+                var role = FindNode<NodeDesign>(roleId);
+
+                if (role == null)
+                {
+                    continue;
+                }
+
+                permissions.Add(new RolePermission()
+                {
+                    Role = role.SymbolicId,
+                    Permission = ToPermissions((PermissionType)ii.Permissions)
+                });
+            }
+
+            if (permissions.Count == 0)
+            {
+                return null;
+            }
+
+            return new RolePermissionSet()
+            {
+                RolePermission = permissions.ToArray()
+            };
+        }
+
+        private ModelCompiler.AccessRestrictions ToAccessRestrictions(AccessRestrictionType input)
+        {
+            if ((input & AccessRestrictionType.EncryptionRequired) != 0)
+            {
+                input &= ~AccessRestrictionType.SigningRequired;
+            }
+
+            switch (input)
+            {
+                case AccessRestrictionType.SigningRequired: { return AccessRestrictions.SigningRequired; }
+                case AccessRestrictionType.EncryptionRequired: { return AccessRestrictions.EncryptionRequired; }
+                case AccessRestrictionType.SessionRequired: { return AccessRestrictions.SessionRequired; }
+                case AccessRestrictionType.SigningRequired | AccessRestrictionType.SessionRequired: { return AccessRestrictions.SessionWithSigningRequired; }
+                case AccessRestrictionType.EncryptionRequired | AccessRestrictionType.SessionRequired: { return AccessRestrictions.SessionWithEncryptionRequired; }
+                case AccessRestrictionType.SigningRequired | AccessRestrictionType.ApplyRestrictionsToBrowse: { return AccessRestrictions.SigningAndApplyToBrowseRequired; }
+                case AccessRestrictionType.EncryptionRequired | AccessRestrictionType.ApplyRestrictionsToBrowse: { return AccessRestrictions.EncryptionAndApplyToBrowseRequired; }
+                case AccessRestrictionType.SessionRequired | AccessRestrictionType.ApplyRestrictionsToBrowse: { return AccessRestrictions.SessionAndApplyToBrowseRequired; }
+                case AccessRestrictionType.SigningRequired | AccessRestrictionType.SessionRequired | AccessRestrictionType.ApplyRestrictionsToBrowse: { return AccessRestrictions.SessionWithSigningAndApplyToBrowseRequired; }
+                case AccessRestrictionType.EncryptionRequired | AccessRestrictionType.SessionRequired | AccessRestrictionType.ApplyRestrictionsToBrowse: { return AccessRestrictions.SessionWithEncryptionAndApplyToBrowseRequired; }
+            }
+
+            return AccessRestrictions.EncryptionRequired;
+        }
+
+        private void ImportPermissions(NodeSet.UANode input)
+        {
+            NodeId nodeId = ImportNodeId(input.NodeId);
+
+            if (!m_settings.NodesById.TryGetValue(nodeId, out NodeDesign existing))
+            {
+                return;
+            }
+
+            existing.RolePermissions = ToPermissionSet(input, input.RolePermissions);
+            existing.AccessRestrictions = (input.AccessRestrictionsSpecified) ? ToAccessRestrictions((AccessRestrictionType)input.AccessRestrictions) : 0;
+            existing.AccessRestrictionsSpecified = input.AccessRestrictionsSpecified;
+        }
+
         private XmlQualifiedName BuildSymbolicId(UANode node)
         {
             var nodeId = ImportNodeId(node.NodeId, false);
@@ -1533,15 +1711,34 @@ namespace ModelCompiler
                     }
                 }
 
-                // hack to ensure oarents are in the same namespace.
-                if (node is UAInstance instance && instance.ParentNodeId != null)
+                if (node is UAInstance instance)
                 {
-                    var parentId = ImportNodeId(instance.ParentNodeId);
-                    var childId = ImportNodeId(instance.NodeId);
-
-                    if (parentId.NamespaceIndex != childId.NamespaceIndex)
+                    // ensure parents are in the same namespace.
+                    if (instance.ParentNodeId != null)
                     {
-                        instance.ParentNodeId = null;
+                        var parentId = ImportNodeId(instance.ParentNodeId);
+                        var childId = ImportNodeId(instance.NodeId);
+
+                        if (parentId.NamespaceIndex != childId.NamespaceIndex)
+                        {
+                            instance.ParentNodeId = null;
+                        }
+                    }
+
+                    // handle missing ParentNodeId when an inverse reference exists.
+                    else
+                    {
+                        foreach (var ii in instance.References.Where(x => !x.IsForward))
+                        {
+                            var referenceTypeId = ImportNodeId(ii.ReferenceType);
+
+                            if (referenceTypeId == Opc.Ua.ReferenceTypes.HasProperty ||
+                                referenceTypeId == Opc.Ua.ReferenceTypes.HasComponent)
+                            {
+                                instance.ParentNodeId = ii.Value;
+                                break;
+                            }
+                        }
                     }
                 }
 
@@ -1573,6 +1770,11 @@ namespace ModelCompiler
             foreach (var node in m_nodeset.Items)
             {
                 ImportReferences(node);
+            }
+
+            foreach (var node in m_nodeset.Items)
+            {
+                ImportPermissions(node);
             }
 
             List<NodeDesign> items = new();

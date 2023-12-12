@@ -4,24 +4,34 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>DemoModel</AssemblyName>
+    <IntermediateOutputPath>$(SolutionDir)build\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <RootNamespace>DemoModel</RootNamespace>
     <RootNamespace>ModelCompiler</RootNamespace>
-    <Configurations>Debug;Release;Docker</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>$(SolutionDir)build\bin\$(Configuration)\$(MSBuildProjectName)\</OutputPath>
+    <DefineConstants>NET_STANDARD</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>$(SolutionDir)build\bin\$(Configuration)\$(MSBuildProjectName)\</OutputPath>
+    <DefineConstants>TRACE;NET_STANDARD</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="build\**" />
     <Compile Remove="GDS\**" />
-    <Compile Remove="Onboarding\**" />
-    <Compile Remove="Scheduler\**" />
+    <Compile Remove="Models\DI\**" />
+    <Compile Remove="Models\IA\**" />
     <EmbeddedResource Remove="build\**" />
     <EmbeddedResource Remove="GDS\**" />
-    <EmbeddedResource Remove="Onboarding\**" />
-    <EmbeddedResource Remove="Scheduler\**" />
+    <EmbeddedResource Remove="Models\DI\**" />
+    <EmbeddedResource Remove="Models\IA\**" />
     <None Remove="build\**" />
     <None Remove="GDS\**" />
-    <None Remove="Onboarding\**" />
-    <None Remove="Scheduler\**" />
+    <None Remove="Models\DI\**" />
+    <None Remove="Models\IA\**" />
   </ItemGroup>
 
   <ItemGroup>

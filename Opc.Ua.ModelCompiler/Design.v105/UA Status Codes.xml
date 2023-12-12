@@ -37,7 +37,7 @@
     <opc:Documentation>The request message size exceeds limits set by the server.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_ResponseTooLarge">
-    <opc:Documentation>The response message size exceeds limits set by the client.</opc:Documentation>
+    <opc:Documentation>The response message size exceeds limits set by the client or server.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_UnknownResponse">
     <opc:Documentation>An unrecognized response was received from the server.</opc:Documentation>
@@ -165,6 +165,12 @@
   <opc:Constant Name="Bad_LicenseNotAvailable">
     <opc:Documentation>The server does not have a license which is required to operate in general or to perform a service or operation.</opc:Documentation>
   </opc:Constant>
+  <opc:Constant Name="Bad_ServerTooBusy">
+    <opc:Documentation>The Server does not have the resources to process the request at this time.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Good_PasswordChangeRequired">
+    <opc:Documentation>The log-on for the user succeeded but the user is required to change the password.</opc:Documentation>
+  </opc:Constant>
   
   <!-- Common Operation Level Codes  -->
   <opc:Constant Name="Good_SubscriptionTransferred">
@@ -186,7 +192,7 @@
     <opc:Documentation>Waiting for the server to obtain values from the underlying data source.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_NodeIdInvalid">
-    <opc:Documentation>The syntax of the node id is not valid.</opc:Documentation>
+    <opc:Documentation>The syntax the node id is not valid or refers to a node that is not valid for the operation.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_NodeIdUnknown">
     <opc:Documentation>The node id refers to a node that does not exist in the server address space.</opc:Documentation>
@@ -199,6 +205,9 @@
   </opc:Constant>
   <opc:Constant Name="Bad_IndexRangeNoData">
     <opc:Documentation>No data exists within the range of indexes specified.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Bad_IndexRangeDataMismatch">
+    <opc:Documentation>The written data does not match the IndexRange specified.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_DataEncodingInvalid">
     <opc:Documentation>The data encoding is invalid.</opc:Documentation>
@@ -287,7 +296,13 @@
   <opc:Constant Name="Bad_NumericOverflow">
     <opc:Documentation>The number was not accepted because of a numeric overflow.</opc:Documentation>
   </opc:Constant>
-
+  <opc:Constant Name="Bad_LocaleNotSupported">
+    <opc:Documentation>The locale in the requested write operation is not supported.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Bad_NoValue">
+    <opc:Documentation>The variable has no default value and no initial value.</opc:Documentation>
+  </opc:Constant>
+  
   <!-- RegisterServer -->
   <opc:Constant Name="Bad_ServerUriInvalid">
     <opc:Documentation>The ServerUri is not a valid URI.</opc:Documentation>
@@ -590,10 +605,13 @@
     <opc:Documentation>The value is outside of the range of values defined for this parameter.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Uncertain_SubNormal">
-    <opc:Documentation>The value is derived from multiple sources and has less than the required number of Good sources.</opc:Documentation>
+    <opc:Documentation>The data value is derived from multiple sources and has less than the required number of Good sources.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Good_LocalOverride">
     <opc:Documentation>The value has been overridden.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Good_SubNormal">
+    <opc:Documentation>The value is derived from multiple sources and has the required number of Good sources, but less than the full number of Good sources.</opc:Documentation>
   </opc:Constant>
 
   <!-- Part 9 -->
@@ -660,7 +678,7 @@
     <opc:Documentation>The data or event was not successfully updated because no matching entry exists.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Bad_TimestampNotSupported">
-    <opc:Documentation>The client requested history using a timestamp format the server does not support (i.e requested ServerTimestamp when server only supports SourceTimestamp).</opc:Documentation>
+    <opc:Documentation>The Client requested history using a TimestampsToReturn the Server does not support.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Good_EntryInserted">
     <opc:Documentation>The data or event was successfully inserted into the historical database.</opc:Documentation>
@@ -669,7 +687,7 @@
     <opc:Documentation>The data or event field was successfully replaced in the historical database.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Uncertain_DataSubNormal">
-    <opc:Documentation>The value is derived from multiple values and has less than the required number of Good values.</opc:Documentation>
+    <opc:Documentation>The aggregate value is derived from multiple values and has less than the required number of Good values.</opc:Documentation>
   </opc:Constant>
   <opc:Constant Name="Good_NoData">
     <opc:Documentation>No data exists for the requested time range or event filter.</opc:Documentation>
@@ -715,6 +733,9 @@
   <!-- DI -->
   <opc:Constant Name="Bad_Locked">
     <opc:Documentation>The requested operation is not allowed, because the Node is locked by a different application.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Bad_RequiresLock">
+    <opc:Documentation>The requested operation is not allowed, because the Node is not locked by the application.</opc:Documentation>
   </opc:Constant>
   
   <!-- FDI -->

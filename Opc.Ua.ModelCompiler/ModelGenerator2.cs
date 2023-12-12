@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2021 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  *
@@ -27,20 +27,13 @@
  * http://opcfoundation.org/License/MIT/1.00/
  * ======================================================================*/
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Reflection;
-using System.Xml;
-using Opc.Ua;
-using Export = Opc.Ua.Export;
 using CodeGenerator;
-using System.Xml.XPath;
+using Opc.Ua;
+using System.Reflection;
+using System.Text;
+using System.Xml;
 using System.Xml.Schema;
-using System.Linq;
-using System.ComponentModel.DataAnnotations;
-using Opc.Ua.Export;
+using Export = Opc.Ua.Export;
 
 namespace ModelCompiler
 {
@@ -85,6 +78,8 @@ namespace ModelCompiler
         }
 
         public event Func<LogMessageEventArgs, Task> LogMessage;
+
+        public Dictionary<string, string> AvailableNodeSets { get; set; }
 
         /// <summary>
         /// Generates the source code files.
@@ -149,6 +144,8 @@ namespace ModelCompiler
             WriteTemplate_XmlSchema(filePath, nodes);
             WriteTemplate_BinarySchema(filePath, nodes);
             WriteTemplate_XmlExport(filePath);
+
+            WriteTemplate_ConstantsTypeScript(filePath, nodes);
         }
 
         /// <summary>
@@ -196,7 +193,11 @@ namespace ModelCompiler
 
                 if (original.TryGetValue(ii.NodeId, out existingNode))
                 {
-                    ii.NodeSetDocumentation = existingNode.NodeSetDocumentation;
+                    ii.NodeSetDocumentation =
+                            (!String.IsNullOrWhiteSpace(existingNode.NodeSetDocumentation))
+                            ? existingNode.NodeSetDocumentation
+                            : null;
+
                     ii.Categories = existingNode.Categories;
                 }
 
@@ -291,7 +292,200 @@ namespace ModelCompiler
                     }
                 }
             }
-        } 
+        }
+
+        private void WritePermissions(SystemContext context, Dictionary<string, NodeState> list, NodeState node, string parentPath)
+        {
+            if (NodeId.IsNull(node.NodeId))
+            {
+                return;
+            }
+
+            list.Add(parentPath, node);
+
+            List<BaseInstanceState> children = new();
+            node.GetChildren(context, children);
+
+            foreach (var child in children)
+            {
+                WritePermissions(context, list, child, $"{parentPath}_{child.SymbolicName}");
+            }
+        }
+
+        private RolePermissionTypeCollection FindRolePermissions(NodeState node)
+        {
+            if (node.RolePermissions != null)
+            {
+                return node.RolePermissions;
+            }
+
+            //if (node is BaseInstanceState instance && instance.Parent != null)
+            //{
+            //    return FindRolePermissions(instance.Parent);
+            //}
+
+            return null;
+        }
+
+        private AccessRestrictionType? FindAccessRestrictions(NodeState node)
+        {
+            if (node.AccessRestrictions != null)
+            {
+                return node.AccessRestrictions;
+            }
+
+            //if (node is BaseInstanceState instance && instance.Parent != null)
+            //{
+            //    return FindAccessRestrictions(instance.Parent);
+            //}
+
+            return null;
+        }
+
+        private string FormatPermissions(uint flags)
+        {
+            List<PermissionType> list = new();
+
+            if (flags == (uint)0x1FFFF || (flags & (uint)PermissionType.AddReference) != 0)
+            {
+                return "All";
+            }
+            
+            if (flags != 0)
+            {
+                foreach (var value in Enum.GetValues(typeof(PermissionType)))
+                {
+                    if ((uint)value != 0)
+                    {
+                        if ((flags & (uint)value) == (uint)value)
+                        {
+                            list.Add((PermissionType)value);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                list.Add(PermissionType.None);
+            }
+
+            return String.Join("|", list);
+        }
+
+        private string FormatAccessRestrictions(AccessRestrictionType flags)
+        {
+            List<AccessRestrictionType> list = new();
+
+            if (flags != 0)
+            {
+                foreach (var value in Enum.GetValues(typeof(AccessRestrictionType)))
+                {
+                    if ((AccessRestrictionType)value != 0)
+                    {
+                        if ((flags & (AccessRestrictionType)value) == (AccessRestrictionType)value)
+                        {
+                            list.Add((AccessRestrictionType)value);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                list.Add(AccessRestrictionType.None);
+            }
+
+            return String.Join(",", list);
+        }
+
+        private void WritePermissions(SystemContext context, string identifiersFilePath, NodeStateCollection nodes)
+        {
+            var list = new Dictionary<string, NodeState>();
+
+            foreach (var ii in nodes)
+            {
+                var name = ii.SymbolicName;
+
+                if (name == "DefaultBinary" || name == "DefaultXml" || name == "DefaultJson")
+                {
+                    var design = ii.Handle as NodeDesign;
+                    name = design.SymbolicId.Name;
+                }
+
+                WritePermissions(context, list, ii, name);
+            }
+
+            var entries = list.OrderBy(x => x.Key);
+
+            using (StreamWriter writer = new StreamWriter(File.Open(identifiersFilePath, FileMode.Create)))
+            {
+                foreach (var ii in entries)
+                {
+                    var restrictions = FindAccessRestrictions(ii.Value);
+                    var permissions = FindRolePermissions(ii.Value);
+
+                    if (permissions == null && restrictions == null)
+                    {
+                        continue;
+                    }
+
+                    var nid = ii.Value.NodeId;
+
+                    if (nid.IdType == IdType.Numeric)
+                    {
+                        writer.Write($"{ii.Key},{nid.Identifier},{ii.Value.NodeClass}");
+                    }
+                    else if (nid.IdType == IdType.String)
+                    {
+                        writer.Write($"{ii.Key},\"{nid.Identifier}\",{ii.Value.NodeClass}");
+                    }
+
+                    if (restrictions != null)
+                    {
+                        writer.Write($",\"[{FormatAccessRestrictions((AccessRestrictionType)restrictions)}]\"");
+                    }
+                    else
+                    {
+                        writer.Write(",");
+                    }
+
+                    if (permissions != null)
+                    {
+                        writer.Write(",\"{");
+                        bool start = true;
+
+                        foreach (var permission in permissions)
+                        {
+                            var role = m_validator.Nodes
+                                .Where(x => x.NumericId == (uint)permission.RoleId.Identifier && x.SymbolicId.Namespace == DefaultNamespace)
+                                .FirstOrDefault();
+
+                            if (role == null)
+                            {
+                                role = m_validator.Nodes
+                                    .Where(x => 
+                                        x.NumericId == (uint)permission.RoleId.Identifier && 
+                                        x.SymbolicId.Namespace != DefaultNamespace &&
+                                        x is InstanceDesign instance && 
+                                        instance.TypeDefinition == new XmlQualifiedName("RoleType", DefaultNamespace)
+                                    )
+                                    .FirstOrDefault();
+                            }
+
+                            if (!start) writer.Write(","); else start = false;
+                            writer.Write($"'{role?.DisplayName.Value ?? "Unknown"}':'({permission.Permissions}) {FormatPermissions(permission.Permissions)}'");
+                        }
+
+                        writer.Write("}\"");
+                    }
+                    else
+                    {
+                        writer.Write(",");
+                    }
+
+                    writer.WriteLine();
+                }
+            }
+        }
 
         /// <summary>
         /// Writes the schema information to a static XML export file.
@@ -410,6 +604,11 @@ namespace ModelCompiler
 
             string documentationFile = Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.documentation.csv");
 
+            if (!File.Exists(documentationFile))
+            {
+                documentationFile = Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.Services.documentation.csv");
+            }
+
             if (File.Exists(documentationFile))
             {
                 Dictionary<NodeId, NodeState> index = new Dictionary<NodeId, NodeState>();
@@ -430,7 +629,7 @@ namespace ModelCompiler
 
                     if (index.TryGetValue(nodeId, out NodeState target))
                     {
-                        target.NodeSetDocumentation = row.Link;
+                        target.NodeSetDocumentation = (!String.IsNullOrEmpty(row.Link)) ? row.Link : null;
                         target.Categories = row.ConformanceUnits;
                     }
                 }
@@ -510,6 +709,9 @@ namespace ModelCompiler
             var identifiersFilePath = String.Format($"{filePath}{Path.DirectorySeparatorChar}{m_model.TargetNamespaceInfo.Prefix}.NodeIds.csv");
             WriteIdentifiers(context, identifiersFilePath, collection);
 
+            identifiersFilePath = String.Format($"{filePath}{Path.DirectorySeparatorChar}{m_model.TargetNamespaceInfo.Prefix}.NodeIds.permissions.csv");
+            WritePermissions(context, identifiersFilePath, collection);
+
             using (Stream ostrm = File.Open(outputFile3, FileMode.Create))
             {
                 var model = new Export.ModelTableEntry() 
@@ -517,7 +719,7 @@ namespace ModelCompiler
                     ModelUri = m_model.TargetNamespace,
                     XmlSchemaUri = m_model.TargetXmlNamespace,
                     Version = m_model.TargetVersion,
-                    // ModelVersion = SemanticVersion.Create(m_model.TargetVersion),
+                    ModelVersion = SemanticVersion.Create(m_model.TargetVersion),
                     PublicationDate = m_model.TargetPublicationDate,
                     PublicationDateSpecified = m_model.TargetPublicationDateSpecified,
                 };
@@ -550,6 +752,9 @@ namespace ModelCompiler
 
                     identifiersFilePath = String.Format(@"{0}{1}{2}.NodeIds.Services.csv", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
                     WriteIdentifiers(context, identifiersFilePath, collectionWithServices);
+
+                    identifiersFilePath = String.Format(@"{0}{1}{2}.NodeIds.Services.permissions.csv", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
+                    WritePermissions(context, identifiersFilePath, collectionWithServices);
                 }
             }
 
@@ -559,6 +764,7 @@ namespace ModelCompiler
                 Opc.Ua.Export.UANodeSet nodeSet = Opc.Ua.Export.UANodeSet.Read(istrm);
                 collection2 = new NodeStateCollection();
                 nodeSet.Import(context, collection2);
+                istrm.Close();
             }
 
             ValidateNodeSet2(outputFile3);
@@ -570,16 +776,88 @@ namespace ModelCompiler
             using (Stream ostrm = File.Open(outputFile4, FileMode.Create))
             {
                 collection.SaveAsBinary(context, ostrm);
+                ostrm.Close();
+            }
+
+            // generate JSON schema.
+            if (m_model.TargetNamespace == DefaultNamespace || AvailableNodeSets != null)
+            {
+                var nodeSet = $"{m_model.TargetNamespaceInfo.Prefix}.NodeSet2";
+
+                if (AvailableNodeSets == null)
+                {
+                    AvailableNodeSets = new Dictionary<string, string>();
+                    AvailableNodeSets[m_model.TargetNamespace] = Path.Join(filePath, nodeSet + ".xml");
+                }
+
+                GenerateJsonSchema(filePath, nodeSet, false);
+                GenerateJsonSchema(filePath, nodeSet, true);
+
+                if (m_model.TargetNamespace == DefaultNamespace)
+                {
+                    var completeNodeSet = $"{m_model.TargetNamespaceInfo.Prefix}.NodeSet2.Services";
+                    AvailableNodeSets[m_model.TargetNamespace] = Path.Join(filePath, completeNodeSet + ".xml");
+                    GenerateJsonSchema(filePath, completeNodeSet, false);
+                    GenerateJsonSchema(filePath, completeNodeSet, true);
+
+                    OpenApiExporter openapi = new OpenApiExporter();
+
+                    var nodeSetFilePath = String.Format(@"{0}{1}{2}.NodeSet2.Services.xml", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
+
+                    using (Stream istrm = File.Open(nodeSetFilePath, FileMode.Open))
+                    {
+                        openapi.Load(istrm);
+                        istrm.Close();
+                    }
+
+                    var openapiPath = Path.Join(filePath, $"{m_model.TargetNamespaceInfo.Prefix}.Services.OpenApi.json");
+
+                    using (Stream istrm = File.Open(openapiPath, FileMode.Create))
+                    {
+                        openapi.Generate(istrm);
+                    }
+
+                    using (Stream istrm = File.Open(openapiPath, FileMode.Open))
+                    {
+                        OpenApiExporter.Verify(istrm);
+                    }
+                    
+                    //openapiPath = Path.Join(filePath, $"{m_model.TargetNamespaceInfo.Prefix}.Services.OpenApi.yaml");
+
+                    //using (Stream istrm = File.Open(openapiPath, FileMode.Create))
+                    //{
+                    //    openapi.Generate(istrm, generateYaml: true);
+                    //}
+
+                    //using (Stream istrm = File.Open(openapiPath, FileMode.Open))
+                    //{
+                    //    OpenApiExporter.Verify(istrm);
+                    //}
+                }
+            }
+        }
+
+        private void GenerateJsonSchema(string filePath, string baseName, bool useReversibleEncoding)
+        {
+            JsonSchemaExporter json = new JsonSchemaExporter(useReversibleEncoding);
+
+            json.Load(AvailableNodeSets, m_model.TargetNamespace);
+
+            string outputFile = Path.Join(filePath, baseName + $"{((!useReversibleEncoding) ? ".nonreversible" : "")}.json");
+
+            using (var ostrm = File.Open(outputFile, FileMode.Create, FileAccess.ReadWrite))
+            {
+                json.Generate(ostrm);
             }
         }
 
         private Stream GetNodeSet2Schema()
         {
-            foreach (var name in typeof(NodeId).Assembly.GetManifestResourceNames())
+            foreach (var name in Assembly.GetExecutingAssembly().GetManifestResourceNames())
             {
                 if (name.EndsWith("UANodeSet.xsd"))
                 {
-                    return typeof(NodeId).Assembly.GetManifestResourceStream(name);
+                    return Assembly.GetExecutingAssembly().GetManifestResourceStream(name);
                 }
             }
 
@@ -617,6 +895,7 @@ namespace ModelCompiler
 
                     // the following call to Validate succeeds.
                     document.Validate(eventHandler);
+                    schema.Close();
 
                     //document.Validate((sender, e) => {
                     //    switch (e.Severity)
@@ -796,6 +1075,12 @@ namespace ModelCompiler
             for (int ii = 0; ii < entry.Value.Value.Count; ii++)
             {
                 NodeDesign node = entry.Value.Value[ii];
+
+                if (node.NumericId > 1000000)
+                {
+                    continue;
+                }
+
                 template.WriteNextLine(context.Prefix);
                 template.Write("#define OpcUaId_{0}", node.SymbolicId.Name);
                 template.Write(" {0}", node.NumericId);
@@ -2078,6 +2363,91 @@ namespace ModelCompiler
             }
         }
 
+        private void WriteTemplate_ConstantsTypeScript(string filePath, List<NodeDesign> nodes)
+        {
+            StreamWriter writer = new StreamWriter(Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix.ToLower().Replace(".", "") + "-constants.ts"), false);
+
+            try
+            {
+                Template template = new Template(writer, TemplatePath + "Version2.ConstantsFile.ts", Assembly.GetExecutingAssembly());
+
+                SortedDictionary<string, List<NodeDesign>> identifiers = GetIdentifiers();
+
+                AddTemplate(
+                    template,
+                    "// ListOfNodeIds",
+                    null,
+                    identifiers,
+                    new LoadTemplateEventHandler(LoadTemplate_ListOfNodeIds),
+                    null);
+
+                Context context = new Context();
+                context.Target = nodes;
+                template.WriteTemplate(context);
+            }
+            finally
+            {
+                writer.Close();
+            }
+        }
+
+        #region "// ListOfNodeIds"
+        private string LoadTemplate_ListOfNodeIds(Template template, Context context)
+        {
+            var identifiers = context.Target as KeyValuePair<string, List<NodeDesign>>?;
+
+            if (identifiers == null || identifiers?.Value.Count == 0)
+            {
+                return null;
+            }
+
+            var list = identifiers?.Value.Where(x => {
+                if (x is ObjectDesign || x is VariableDesign)
+                {
+                    var index = x.SymbolicId.Name.IndexOf('_');
+
+                    if (index < 0)
+                    {
+                        return true;
+                    }
+
+                    var name = x.SymbolicId.Name.Substring(0, index);
+                    return !name.EndsWith("Type");
+                }
+                return true;
+            }).ToList();
+
+            if (list.Count == 0)
+            {
+                return null;
+            }
+
+            template.WriteNextLine($"export enum {identifiers?.Key}Ids {{");
+
+            bool first = true;
+
+            foreach (var node in list)
+            {
+                if (first) { first = false; } else { template.Write(","); }
+                template.WriteNextLine(context.Prefix);
+
+                if (node.NumericIdSpecified)
+                {
+                    template.Write($"   {node.SymbolicId.Name} = 'i={node.NumericId}'");
+                }
+                else if (!String.IsNullOrEmpty(node.StringId))
+                {
+                    template.Write($"   {node.SymbolicId.Name} = 's={node.StringId}'");
+                }
+            }
+
+            template.WriteNextLine("}");
+            template.WriteNextLine("");
+
+            return null;
+        }
+        #endregion
+
         /// <summary>
         /// Writes a file that contains all data type classes.
         /// </summary>
@@ -2925,6 +3295,14 @@ namespace ModelCompiler
 
                 AddTemplate(
                     template,
+                    "// ListOfEncodingMaskFields",
+                    null,
+                    children,
+                    new LoadTemplateEventHandler(LoadTemplate_ListOfEncodingMaskFields),
+                    null);
+
+                AddTemplate(
+                    template,
                     "// ListOfEncodedFields",
                     null,
                     children,
@@ -3395,6 +3773,14 @@ namespace ModelCompiler
 
             AddTemplate(
                 template,
+                "// ListOfUpdateChildrenChangeMasks",
+                null,
+                fields,
+                new LoadTemplateEventHandler(WriteTemplate_VariableTypeValueUpdateChildrenChangeMasks),
+                null);
+
+            AddTemplate(
+                template,
                 "// ListOfChildMethods",
                 TemplatePath + "Version2.VariableTypeValueField.cs",
                 fields,
@@ -3427,13 +3813,48 @@ namespace ModelCompiler
             template.Write("instance = m_variable.{0};", path);
 
             template.WriteNextLine(context.Prefix);
-            template.Write("instance.OnReadValue = OnRead_{0};", name);
+            template.Write("if (instance != null)");
 
             template.WriteNextLine(context.Prefix);
-            template.Write("instance.OnSimpleWriteValue = OnWrite_{0};", name);
+            template.Write("{");
 
             template.WriteNextLine(context.Prefix);
-            template.Write("updateList.Add(instance);");
+            template.Write("    instance.OnReadValue = OnRead_{0};", name);
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("    instance.OnWriteValue = OnWrite_{0};", name);
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("    updateList.Add(instance);");
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("}");
+
+            return context.TemplatePath;
+        }
+        #endregion
+
+        #region "// ListOfUpdateChildrenChangeMasks"
+        private string WriteTemplate_VariableTypeValueUpdateChildrenChangeMasks(Template template, Context context)
+        {
+            KeyValuePair<string, Parameter>? field = context.Target as KeyValuePair<string, Parameter>?;
+
+            if (field == null)
+            {
+                return null;
+            }
+
+            if (!context.FirstInList)
+            {
+                template.WriteNextLine(context.Prefix);
+            }
+
+            string name = field.Value.Key;
+            // string path = field.Value.Key.Replace('_', '.');
+            string path = field.Value.Key;
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("if (!Utils.IsEqual(m_value.{0}, newValue.{0})) UpdateChildVariableStatus(m_variable.{0}, ref statusCode, ref timestamp);", path);
 
             return context.TemplatePath;
         }
@@ -3575,6 +3996,49 @@ namespace ModelCompiler
             template.Write($"/// <remarks />");
             template.WriteNextLine(context.Prefix);
             template.Write($"{field.Name} = {index}{((index == dataType.Fields.Length) ? "" : ",")}");
+
+            return context.TemplatePath;
+        }
+        #endregion
+
+        #region "// ListOfEncodingMaskFields"
+        /// <summary>
+        /// Loads the template for a C# field declaration.
+        /// </summary>
+        private string LoadTemplate_ListOfEncodingMaskFields(Template template, Context context)
+        {
+            Parameter field = context.Target as Parameter;
+
+            if (field == null)
+            {
+                return null;
+            }
+
+            DataTypeDesign dataType = (DataTypeDesign)field.Parent;
+
+            int index = context.Index + 1;
+
+
+            if (field.IsOptional)
+            {
+                // calc mask position
+                int mask = 0;
+                foreach (var indexField in dataType.Fields)
+                {
+                    if (indexField == field || mask >= sizeof(UInt32)*8)
+                    {
+                        break;
+                    }
+                    if (indexField.IsOptional)
+                    {
+                        mask++;
+                    }
+                }
+                template.WriteNextLine(context.Prefix);
+                template.Write($"/// <remarks />");
+                template.WriteNextLine(context.Prefix);
+                template.Write($"{field.Name} = 0x{1 << (mask):X}{((index == dataType.Fields.Length) ? "" : ",")}");
+            }
 
             return context.TemplatePath;
         }
@@ -4463,6 +4927,14 @@ namespace ModelCompiler
                 else
                 {
                     template.AddReplacement("_XmlIdentifier_", String.Format("{0}_{1}", field.Name, field.Identifier));
+                }
+
+                if (field.Name == "NodeId" && context.Container is DataTypeDesign dt)
+                {
+                    if (dt.BaseTypeNode.SymbolicName.Name == Opc.Ua.BrowseNames.HistoryUpdateDetails)
+                    {
+                        template.AddReplacement("public", "public override");
+                    }
                 }
 
                 return template.WriteTemplate(context);
@@ -5848,6 +6320,11 @@ namespace ModelCompiler
                 return false;
             }
 
+            if (node.NumericId > 1000000)
+            {
+                return true;
+            }
+
             if (m_exclusions != null)
             {
                 foreach (var jj in m_exclusions)
@@ -5940,6 +6417,9 @@ namespace ModelCompiler
             {
                 return null;
             }
+
+            List<BaseInstanceState> list = new List<BaseInstanceState>();
+            state.GetChildren(context, list);
 
             if (UseXmlInitializers)
             {

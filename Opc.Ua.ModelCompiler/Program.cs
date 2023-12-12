@@ -1,9 +1,6 @@
 ﻿using ModelCompiler;
 using McMaster.Extensions.CommandLineUtils;
-using static System.Net.Mime.MediaTypeNames;
-using System.Numerics;
 using System.Reflection;
-using System;
 using System.Diagnostics;
 
 try
