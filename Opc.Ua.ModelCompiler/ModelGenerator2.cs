@@ -861,7 +861,7 @@ namespace ModelCompiler
                 }
             }
 
-            throw new InvalidOperationException("Could not UANodeSet.xsd in assembly."); 
+            throw new InvalidOperationException("Could not find UANodeSet.xsd in assembly."); 
         }
 
         static void ValidationEventHandler(object sender, ValidationEventArgs e)
