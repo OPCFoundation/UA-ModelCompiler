@@ -531,7 +531,7 @@
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="30.0.1" />
-    <PackageReference Include="Google.Protobuf" Version="3.24.4" />
+    <PackageReference Include="Google.Protobuf" Version="3.25.1" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.0" />
     <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.9" />
     <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.372.1-rc" />
