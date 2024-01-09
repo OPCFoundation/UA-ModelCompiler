@@ -31,6 +31,8 @@ namespace ModelCompiler {
         
         private NodeDesign[] itemsField;
         
+        private System.Xml.XmlElement[] extensionsField;
+        
         private string targetNamespaceField;
         
         private string targetVersionField;
@@ -88,6 +90,17 @@ namespace ModelCompiler {
             }
             set {
                 this.itemsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("Extension", IsNullable=false)]
+        public System.Xml.XmlElement[] Extensions {
+            get {
+                return this.extensionsField;
+            }
+            set {
+                this.extensionsField = value;
             }
         }
         
@@ -932,6 +945,8 @@ namespace ModelCompiler {
         
         private bool defaultAccessRestrictionsFieldSpecified;
         
+        private System.Xml.XmlElement[] extensionsField;
+        
         private System.Xml.XmlQualifiedName symbolicNameField;
         
         private System.Xml.XmlQualifiedName symbolicIdField;
@@ -1079,6 +1094,17 @@ namespace ModelCompiler {
             }
             set {
                 this.defaultAccessRestrictionsFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("Extension", IsNullable=false)]
+        public System.Xml.XmlElement[] Extensions {
+            get {
+                return this.extensionsField;
+            }
+            set {
+                this.extensionsField = value;
             }
         }
         

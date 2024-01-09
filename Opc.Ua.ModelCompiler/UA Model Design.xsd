@@ -50,6 +50,7 @@
           <xs:element name="Dictionary" type="DictionaryDesign" minOccurs="0" />
           <xs:element name="View" type="ViewDesign" minOccurs="0" />
         </xs:choice>
+        <xs:element name="Extensions" type="ListOfExtensions" minOccurs="0" />
       </xs:sequence>
       <xs:attribute name="TargetNamespace" type="xs:string" use="required" />
       <xs:attribute name="TargetVersion" type="xs:string" use="optional" />
@@ -148,6 +149,18 @@
     </xs:simpleContent>
   </xs:complexType>
 
+  <xs:complexType name="ListOfExtensions">
+    <xs:sequence>
+      <xs:element name="Extension" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:any minOccurs="0" processContents="lax" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  
   <xs:simpleType name="ReleaseStatus">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Released" />
@@ -250,6 +263,7 @@
       </xs:element>
       <xs:element name="AccessRestrictions" type="AccessRestrictions" minOccurs="0" />
       <xs:element name="DefaultAccessRestrictions" type="AccessRestrictions" minOccurs="0" />
+      <xs:element name="Extensions" type="ListOfExtensions" minOccurs="0" />
     </xs:sequence>
     <xs:attribute name="SymbolicName" type="xs:QName" use="optional">
       <xs:annotation>

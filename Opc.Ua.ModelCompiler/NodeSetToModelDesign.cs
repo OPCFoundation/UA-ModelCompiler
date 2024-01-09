@@ -202,8 +202,8 @@ namespace ModelCompiler
                     PublicationDate = model.PublicationDate.ToString("yyyy-MM-ddT00:00:00Z"),
                     Version = model.Version
                 };
-                ns.XmlPrefix = ns.Name;
-                ns.Name = ns.Name.Replace(".", " ");
+                ns.XmlPrefix = ns.Prefix = ns.Name;
+                ns.Name = ns.Name.Replace(".", "");
             }
 
             if (ns.Value == Namespaces.OpcUa)
@@ -1181,6 +1181,7 @@ namespace ModelCompiler
 
             output.SymbolicId = m_symbolicIds[input.NodeId];
             output.SymbolicName = ImportSymbolicName(input);
+            output.Extensions = input.Extensions;
 
             if (input is UAType)
             {
