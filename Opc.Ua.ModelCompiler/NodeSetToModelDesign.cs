@@ -179,6 +179,7 @@ namespace ModelCompiler
         private static Namespace CreateNamespace(ModelTableEntry model)
         {
             Namespace ns = null;
+
             if (model.ModelUri.StartsWith(Namespaces.OpcUa))
             {
                 ns = new Namespace()
@@ -190,7 +191,7 @@ namespace ModelCompiler
                     Version = model.Version
                 };
                 ns.XmlPrefix = ns.Prefix = "Opc.Ua." + ns.Name;
-                ns.Name = ns.Name.Replace(".", "");
+                ns.Name = ns.Name.Replace(".", "").Replace("-", "").Replace(",", "").Replace(":", "");
             }
             else
             {
@@ -203,7 +204,7 @@ namespace ModelCompiler
                     Version = model.Version
                 };
                 ns.XmlPrefix = ns.Prefix = ns.Name;
-                ns.Name = ns.Name.Replace(".", "");
+                ns.Name = ns.Name.Replace(".", "").Replace("-", "").Replace(",", "").Replace(":", "");
             }
 
             if (ns.Value == Namespaces.OpcUa)

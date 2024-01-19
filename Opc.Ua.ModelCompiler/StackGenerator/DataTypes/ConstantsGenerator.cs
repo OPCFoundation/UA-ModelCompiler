@@ -181,7 +181,7 @@ namespace CodeGenerator
 
                 case Language.TypeScript:
                 {
-                    fileName = String.Format(@"{0}\{1}-{2}.ts", OutputDirectory, namespacePrefix.ToLower().Replace(".", ""), className.ToLower());
+                    fileName = String.Format(@"{0}\{1}-{2}.ts", OutputDirectory, namespacePrefix.ToLower().Replace(".", "").Replace("-", "").Replace(",", "").Replace(":", ""), className.ToLower());
                     m_templateSuffix = ".ts";
                     break;
                 }
