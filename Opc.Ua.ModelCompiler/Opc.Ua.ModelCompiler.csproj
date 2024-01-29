@@ -511,7 +511,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="30.0.1" />
+    <PackageReference Include="CsvHelper" Version="30.1.0" />
     <PackageReference Include="Google.Protobuf" Version="3.25.2" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.0" />
     <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.9" />
