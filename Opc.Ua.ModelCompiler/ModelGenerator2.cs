@@ -3233,6 +3233,14 @@ namespace ModelCompiler
 
             if (dataType != null)
             {
+                if (dataType.IsAbstract)
+                {
+                    template.AddReplacement("_IsAbstract_", "abstract");
+                }
+                else
+                {
+                    template.AddReplacement("_IsAbstract_", String.Empty);
+                }
                 if (!dataType.IsOptionSet)
                 {
                     template.AddReplacement("[Flags]", String.Empty);
