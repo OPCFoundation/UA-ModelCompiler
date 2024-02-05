@@ -515,7 +515,7 @@
     <PackageReference Include="Google.Protobuf" Version="3.25.2" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.0" />
     <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.13" />
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.372.1-rc" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.372.113" />
   </ItemGroup>
 
 </Project>
