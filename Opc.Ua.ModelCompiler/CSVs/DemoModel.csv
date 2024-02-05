@@ -65,6 +65,8 @@ SampleUnionAllowSubtypes_Encoding_DefaultXml,64,Object
 SampleStructureAllowSubtypes_Encoding_DefaultXml,65,Object
 DemoModel_XmlSchema_Deprecated,66,Variable
 DemoModel_XmlSchema_SampleUnion,67,Variable
+EnumUnderscoreTest,68,DataType
+EnumUnderscoreTest_EnumValues,69,Variable
 DemoModel_XmlSchema_SampleStructureWithOptionalFields,70,Variable
 TestObject_Blue,71,Method
 DemoModel_BinarySchema_DataTypeVersion,72,Variable

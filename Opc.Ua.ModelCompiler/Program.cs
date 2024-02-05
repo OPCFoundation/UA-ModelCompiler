@@ -2,11 +2,170 @@
 using McMaster.Extensions.CommandLineUtils;
 using System.Reflection;
 using System.Diagnostics;
+using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Linq;
+using Opc.Ua;
 
 try
 {
     if (System.Diagnostics.Debugger.IsAttached)
     {
+        string[] args2 = {
+            "compile",
+            "-d2",
+            @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\Design.v105\StandardTypes.xml",
+            "-d2",
+            @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\Design.v105\UA Core Services.xml",
+            "-version",
+            "v105",
+            "-exclude",
+            "Draft",
+            "-c",
+            @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\CSVs\StandardTypes.csv",
+            "-o2",
+            @"D:\Work\OPC\nodesets\v105\Schema\",
+            "-stack",
+            @"D:\Work\OPC\nodesets\v105\DotNet\",
+            "-ansic",
+            @"D:\Work\OPC\nodesets\v105\AnsiC\",
+            "-mv",
+            "1.05.03",
+            "-pd",
+            "2023-11-15"
+        };
+
+        //string[] args2 = {
+        //    "compile",
+        //    "-d2",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\Design.v105\DemoModel.xml",
+        //    "-cg",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\CSVs\DemoModel.csv",
+        //    "-version",
+        //    "v105",
+        //    "-exclude",
+        //    "Draft",
+        //    "-o2",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Tests\DemoModel\DemoModel"
+        //};
+
+        //string[] args2 = {
+        //    "compile",
+        //    "-d2",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\Design.v105\OpcUaGdsModel.xml",
+        //    "-cg",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\CSVs\OpcUaGdsModel.csv",
+        //    "-version",
+        //    "v105",
+        //    "-exclude",
+        //    "Draft",
+        //    "-o2",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Tests\DemoModel\GDS"
+        //};
+
+        //string[] args2 = {
+        //    "compile",
+        //    //"-d2",
+        //    //@"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\Design.v105\OpcUaOnboardingModel.xml",
+        //    "-d2",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\Design.v105\OpcUaGdsModel.xml",
+        //    "-version",
+        //    "v105",
+        //    "-exclude",
+        //    "Draft",
+        //    "-c",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\CSVs\OpcUaGdsModel.csv",
+        //    "-o2",
+        //    @"D:\Work\OPC\nodesets\v105\GDS\"
+        //};
+
+        //string[] args2 = {
+        //    "compile",
+        //    "-d2",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\Design.v105\I4AAS.IRDI.xml",
+        //    "-version",
+        //    "v105",
+        //    "-exclude",
+        //    "Draft",
+        //    "-cg",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\CSVs\I4AAS.IRDI.csv",
+        //    "-o2",
+        //    @"D:\Work\OPC\UA-REST-StarterKit\I4AAS-Gateway\Server\I4AAS\"
+        //};
+
+        //string[] args2 = {
+        //    "compile",
+        //    "-d2",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\Design.v105\I4AAS.Submodels.xml",
+        //    "-d2",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\Design.v105\I4AAS.IRDI.xml",
+        //    "-version",
+        //    "v105",
+        //    "-exclude",
+        //    "Draft",
+        //    "-cg",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\CSVs\I4AAS.Submodels.csv",
+        //    "-o2",
+        //    @"D:\Work\OPC\UA-REST-StarterKit\I4AAS-Gateway\Server\I4AAS\"
+        //};
+
+        //string[] args2 = {
+        //    "compile",
+        //    "-d2",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\Design.v105\I4AAS.DigitalNameplate.xml",
+        //    "-d2",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\Design.v105\I4AAS.IRDI.References.xml",
+        //    "-version",
+        //    "v105",
+        //    "-exclude",
+        //    "Draft",
+        //    "-c",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\CSVs\I4AAS.csv",
+        //    "-o2",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Tests\DemoModel\I4AAS"
+        //};
+
+        //string[] args2 = {
+        //    "compile",
+        //    "-d2",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Tests\DemoModel\Models\CompressorSimulationOpcUaServer\CompressorSimulationOpcUaServer.NodeSet2.xml,CompressorSimulationOpcUaServer",
+        //    //"-cg",
+        //    //@"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\CSVs\DemoModel.csv",
+        //    "-version",
+        //    "v105",
+        //    "-exclude",
+        //    "Draft",
+        //    "-id",
+        //    "9521",
+        //    "-o2",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Tests\DemoModel\Models\CompressorSimulationOpcUaServer"
+        //};
+
+        //string[] args2 = {
+        //    "compile",
+        //    "-d2",
+        //    @"D:\Work\OPC\UA-ModelCompiler\StructuresWithArrays.Nodeset2\StructuresWithArrays.Nodeset2.xml,StructuresWithArrays,StructuresWithArrays",
+        //    "-version",
+        //    "v105",
+        //    "-exclude",
+        //    "Draft",
+        //    "-o2",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Tests\DemoModel\Models"
+        //};
+
+        //string[] args2 = {
+        //    "compile-nodesets",
+        //    "-input",
+        //    @"D:\Work\OPC\nodesets\v105\",
+        //    "-o2",
+        //    @"D:\Work\OPC\UA-ModelCompiler\Tests\DemoModel\Models",
+        //    "-uri",
+        //    @"http://opcfoundation.org/UA/Machinery/",
+        //    "-prefix",
+        //    "UAModel.Machinery",
+        //};
+
+        ModelCompilerApplication.Run(args2);
+        return;
     }
 
     for (int ii = 0; ii < args.Length; ii++)

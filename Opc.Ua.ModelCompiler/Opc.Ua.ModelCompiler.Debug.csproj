@@ -277,9 +277,16 @@
 
   <ItemGroup>
     <EmbeddedResource Include="CSVs\DemoModel.csv" />
+    <EmbeddedResource Include="CSVs\MDIS.csv" />
+    <EmbeddedResource Include="CSVs\MTConnectModel.csv" />
     <EmbeddedResource Include="CSVs\OpcUaAdiModel.csv" />
+    <EmbeddedResource Include="CSVs\OpcUaDiModel.csv" />
+    <EmbeddedResource Include="CSVs\OpcUaFdiPart5Model.csv" />
+    <EmbeddedResource Include="CSVs\OpcUaFdiPart7Model.csv" />
     <EmbeddedResource Include="CSVs\OpcUaGdsModel.csv" />
+    <EmbeddedResource Include="CSVs\OpcUaNodeSetModel.csv" />
     <EmbeddedResource Include="CSVs\OpcUaPLCopenModel.csv" />
+    <EmbeddedResource Include="CSVs\OpcUaProvisioningModel.csv" />
     <EmbeddedResource Include="CSVs\rec20_latest_a1.csv" />
     <EmbeddedResource Include="CSVs\rec20_latest_a2-3.csv" />
     <EmbeddedResource Include="CSVs\SercosModel.csv" />
@@ -289,7 +296,13 @@
     <EmbeddedResource Include="CSVs\Status Codes.csv" />
     <EmbeddedResource Include="CSVs\UNECE_to_OPCUA.csv" />
     <EmbeddedResource Include="Design.v103\BuiltInTypes.xml" />
+    <EmbeddedResource Include="Design.v103\MDIS.xml" />
+    <EmbeddedResource Include="Design.v103\MTConnectModel.xml" />
     <EmbeddedResource Include="Design.v103\OpcUaAdiModel.xml" />
+    <EmbeddedResource Include="Design.v103\OpcUaDiModel.csv" />
+    <EmbeddedResource Include="Design.v103\OpcUaDiModel.xml" />
+    <EmbeddedResource Include="Design.v103\OpcUaFdiPart5Model.xml" />
+    <EmbeddedResource Include="Design.v103\OpcUaFdiPart7Model.xml" />
     <EmbeddedResource Include="Design.v103\OpcUaGdsModel.csv" />
     <EmbeddedResource Include="Design.v103\OpcUaGdsModel.xml" />
     <EmbeddedResource Include="Design.v103\OpcUaPLCopenModel.xml" />
@@ -304,7 +317,12 @@
     <EmbeddedResource Include="Design.v103\UA Status Codes.xml" />
     <EmbeddedResource Include="Design.v104\BuiltInTypes.xml" />
     <EmbeddedResource Include="Design.v104\DemoModel.xml" />
+    <EmbeddedResource Include="Design.v104\MDIS.xml" />
+    <EmbeddedResource Include="Design.v104\MTConnectModel.xml" />
     <EmbeddedResource Include="Design.v104\OpcUaAdiModel.xml" />
+    <EmbeddedResource Include="Design.v104\OpcUaDiModel.xml" />
+    <EmbeddedResource Include="Design.v104\OpcUaFdiPart5Model.xml" />
+    <EmbeddedResource Include="Design.v104\OpcUaFdiPart7Model.xml" />
     <EmbeddedResource Include="Design.v104\OpcUaGdsModel.xml" />
     <EmbeddedResource Include="Design.v104\OpcUaPLCopenModel.xml" />
     <EmbeddedResource Include="Design.v104\SercosModel.xml" />
@@ -312,8 +330,11 @@
     <EmbeddedResource Include="Design.v104\UA Attributes.xml" />
     <EmbeddedResource Include="Design.v104\UA Core Services.xml" />
     <EmbeddedResource Include="Design.v104\UA Status Codes.xml" />
+    <EmbeddedResource Include="Design.v105\I4AAS.IRDI.xml" />
     <EmbeddedResource Include="Design.v105\BuiltInTypes.xml" />
+    <EmbeddedResource Include="Design.v105\I4AAS.Submodels.xml" />
     <EmbeddedResource Include="Design.v105\DemoModel.xml" />
+    <EmbeddedResource Include="Design.v105\OpcUaDiModel.xml" />
     <EmbeddedResource Include="Design.v105\OpcUaGdsModel.xml" />
     <EmbeddedResource Include="Design.v105\OpcUaNodeSetModel.xml" />
     <EmbeddedResource Include="Design.v105\StandardTypes.xml" />
@@ -472,9 +493,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="30.1.0" />
+    <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.0" />
-    <PackageReference Include="Microsoft.OpenApi" Version="1.6.13" />
+    <PackageReference Include="Microsoft.OpenApi" Version="1.6.11" />
     <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.11" />
     <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.15" />
   </ItemGroup>

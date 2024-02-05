@@ -6,7 +6,7 @@ namespace X {
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 [DataContract(Namespace = _XmlNamespaceUri_)]
-public partial class _BrowseName_ : IEncodeable, IJsonEncodeable
+public _IsAbstract_partial class _BrowseName_ : IEncodeable, IJsonEncodeable
 {
     #region Constructors
     /// <remarks />

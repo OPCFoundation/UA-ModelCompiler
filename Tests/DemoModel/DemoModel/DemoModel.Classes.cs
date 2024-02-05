@@ -91,10 +91,10 @@ namespace DemoModel
 
         #region Initialization String
         private const string InitializationString =
-           "AgAAACcAAABodHRwOi8vd3d3Lm9wY2ZvdW5kYXRpb24ub3JnL0RlbW9Nb2RlbC8fAAAAaHR0cDovL29w" +
-           "Y2ZvdW5kYXRpb24ub3JnL1VBL0RJL/////8VYIECAgAAAAEAHgAAAFJlc3RyaWN0ZWRWYXJpYWJsZVR5" +
-           "cGVJbnN0YW5jZQEBegABAXoAegAAAAAMAQH/////AQAAABVgiQoCAAAAAQAGAAAAWWVsbG93AQF7AAAv" +
-           "AER7AAAAAAb/////AQH/////AAAAAA==";
+           "AgAAACgAAAB0YWc6b3BjLWZvdW5kYXRpb24ub3JnLDIwMjQtMDE6RGVtb01vZGVsHwAAAGh0dHA6Ly9v" +
+           "cGNmb3VuZGF0aW9uLm9yZy9VQS9ESS//////FWCBAgIAAAABAB4AAABSZXN0cmljdGVkVmFyaWFibGVU" +
+           "eXBlSW5zdGFuY2UBAXoAAQF6AHoAAAAADAEB/////wEAAAAVYIkKAgAAAAEABgAAAFllbGxvdwEBewAA" +
+           "LwBEewAAAAAG/////wEB/////wAAAAA=";
         #endregion
         #endif
         #endregion
@@ -231,11 +231,11 @@ namespace DemoModel
 
         #region Initialization String
         private const string InitializationString =
-           "AgAAACcAAABodHRwOi8vd3d3Lm9wY2ZvdW5kYXRpb24ub3JnL0RlbW9Nb2RlbC8fAAAAaHR0cDovL29w" +
-           "Y2ZvdW5kYXRpb24ub3JnL1VBL0RJL/////8EYIACAQAAAAEAHAAAAFJlc3RyaWN0ZWRPYmplY3RUeXBl" +
-           "SW5zdGFuY2UBAXwAAQF8AHwAAAD/////AgAAABVgiQoCAAAAAQADAAAAUmVkAQF9AAAvAQF6AH0AAAAA" +
-           "DP////8BAf////8BAAAAFWCJCgIAAAABAAYAAABZZWxsb3cBATkAAC8ARDkAAAAABv////8BAf////8A" +
-           "AAAABGGCCgQAAAABAAQAAABCbHVlAQF/AAAvAQF/AH8AAAABAf////8AAAAA";
+           "AgAAACgAAAB0YWc6b3BjLWZvdW5kYXRpb24ub3JnLDIwMjQtMDE6RGVtb01vZGVsHwAAAGh0dHA6Ly9v" +
+           "cGNmb3VuZGF0aW9uLm9yZy9VQS9ESS//////BGCAAgEAAAABABwAAABSZXN0cmljdGVkT2JqZWN0VHlw" +
+           "ZUluc3RhbmNlAQF8AAEBfAB8AAAA/////wIAAAAVYIkKAgAAAAEAAwAAAFJlZAEBfQAALwEBegB9AAAA" +
+           "AAz/////AQH/////AQAAABVgiQoCAAAAAQAGAAAAWWVsbG93AQE5AAAvAEQ5AAAAAAb/////AQH/////" +
+           "AAAAAARhggoEAAAAAQAEAAAAQmx1ZQEBfwAALwEBfwB/AAAAAQH/////AAAAAA==";
         #endregion
         #endif
         #endregion
@@ -423,15 +423,15 @@ namespace DemoModel
 
         #region Initialization String
         private const string X_InitializationString =
-           "AgAAACcAAABodHRwOi8vd3d3Lm9wY2ZvdW5kYXRpb24ub3JnL0RlbW9Nb2RlbC8fAAAAaHR0cDovL29w" +
-           "Y2ZvdW5kYXRpb24ub3JnL1VBL0RJL/////8XYIkKAgAAAAEAAQAAAFgBAXkAAC8AP3kAAAAABgIAAAAC" +
-           "AAAAAAAAAAAAAAABAf////8AAAAA";
+           "AgAAACgAAAB0YWc6b3BjLWZvdW5kYXRpb24ub3JnLDIwMjQtMDE6RGVtb01vZGVsHwAAAGh0dHA6Ly9v" +
+           "cGNmb3VuZGF0aW9uLm9yZy9VQS9ESS//////F2CJCgIAAAABAAEAAABYAQF5AAAvAD95AAAAAAYCAAAA" +
+           "AgAAAAAAAAAAAAAAAQH/////AAAAAA==";
 
         private const string InitializationString =
-           "AgAAACcAAABodHRwOi8vd3d3Lm9wY2ZvdW5kYXRpb24ub3JnL0RlbW9Nb2RlbC8fAAAAaHR0cDovL29w" +
-           "Y2ZvdW5kYXRpb24ub3JnL1VBL0RJL/////8EYIACAQAAAAEAJgAAAFdpdGhUd29EaW1lbnNpb25hbFZh" +
-           "cmlhYmxlVHlwZUluc3RhbmNlAQF4AAEBeAB4AAAA/////wEAAAAXYIkKAgAAAAEAAQAAAFgBAXkAAC8A" +
-           "P3kAAAAABgIAAAACAAAAAAAAAAAAAAABAf////8AAAAA";
+           "AgAAACgAAAB0YWc6b3BjLWZvdW5kYXRpb24ub3JnLDIwMjQtMDE6RGVtb01vZGVsHwAAAGh0dHA6Ly9v" +
+           "cGNmb3VuZGF0aW9uLm9yZy9VQS9ESS//////BGCAAgEAAAABACYAAABXaXRoVHdvRGltZW5zaW9uYWxW" +
+           "YXJpYWJsZVR5cGVJbnN0YW5jZQEBeAABAXgAeAAAAP////8BAAAAF2CJCgIAAAABAAEAAABYAQF5AAAv" +
+           "AD95AAAAAAYCAAAAAgAAAAAAAAAAAAAAAQH/////AAAAAA==";
         #endregion
         #endif
         #endregion

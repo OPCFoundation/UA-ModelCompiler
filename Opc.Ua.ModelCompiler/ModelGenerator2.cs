@@ -790,19 +790,19 @@ namespace ModelCompiler
                     AvailableNodeSets[m_model.TargetNamespace] = Path.Join(filePath, nodeSet + ".xml");
                 }
 
-                GenerateJsonSchema(filePath, nodeSet, false);
-                GenerateJsonSchema(filePath, nodeSet, true);
+                GenerateJsonSchema(filePath, m_model.TargetNamespaceInfo.Prefix, false);
+                GenerateJsonSchema(filePath, m_model.TargetNamespaceInfo.Prefix, true);
 
                 if (m_model.TargetNamespace == DefaultNamespace)
                 {
                     var completeNodeSet = $"{m_model.TargetNamespaceInfo.Prefix}.NodeSet2.Services";
                     AvailableNodeSets[m_model.TargetNamespace] = Path.Join(filePath, completeNodeSet + ".xml");
-                    GenerateJsonSchema(filePath, completeNodeSet, false);
-                    GenerateJsonSchema(filePath, completeNodeSet, true);
+                    GenerateJsonSchema(filePath, m_model.TargetNamespaceInfo.Prefix + ".Services", false);
+                    GenerateJsonSchema(filePath, m_model.TargetNamespaceInfo.Prefix + ".Services", true);
 
-                    OpenApiExporter openapi = new OpenApiExporter();
+                    var nodeSetFilePath = String.Format(@"{0}{1}{2}.xml", filePath, Path.DirectorySeparatorChar, completeNodeSet);
 
-                    var nodeSetFilePath = String.Format(@"{0}{1}{2}.NodeSet2.Services.xml", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
+                    OpenApiExporter openapi = new OpenApiExporter(true, false);
 
                     using (Stream istrm = File.Open(nodeSetFilePath, FileMode.Open))
                     {
@@ -810,7 +810,7 @@ namespace ModelCompiler
                         istrm.Close();
                     }
 
-                    var openapiPath = Path.Join(filePath, $"{m_model.TargetNamespaceInfo.Prefix}.Services.OpenApi.json");
+                    var openapiPath = Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix.ToLower() + ".openapi.sessionless.json");
 
                     using (Stream istrm = File.Open(openapiPath, FileMode.Create))
                     {
@@ -822,17 +822,25 @@ namespace ModelCompiler
                         OpenApiExporter.Verify(istrm);
                     }
                     
-                    //openapiPath = Path.Join(filePath, $"{m_model.TargetNamespaceInfo.Prefix}.Services.OpenApi.yaml");
+                    openapi = new OpenApiExporter(true, true);
 
-                    //using (Stream istrm = File.Open(openapiPath, FileMode.Create))
-                    //{
-                    //    openapi.Generate(istrm, generateYaml: true);
-                    //}
+                    using (Stream istrm = File.Open(nodeSetFilePath, FileMode.Open))
+                    {
+                        openapi.Load(istrm);
+                        istrm.Close();
+                    }
 
-                    //using (Stream istrm = File.Open(openapiPath, FileMode.Open))
-                    //{
-                    //    OpenApiExporter.Verify(istrm);
-                    //}
+                    openapiPath = Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix.ToLower() + ".openapi.allservices.json");
+
+                    using (Stream istrm = File.Open(openapiPath, FileMode.Create))
+                    {
+                        openapi.Generate(istrm);
+                    }
+
+                    using (Stream istrm = File.Open(openapiPath, FileMode.Open))
+                    {
+                        OpenApiExporter.Verify(istrm);
+                    }
                 }
             }
         }
@@ -843,7 +851,7 @@ namespace ModelCompiler
 
             json.Load(AvailableNodeSets, m_model.TargetNamespace);
 
-            string outputFile = Path.Join(filePath, baseName + $"{((!useReversibleEncoding) ? ".nonreversible" : "")}.json");
+            string outputFile = Path.Join(filePath, $"{baseName.ToLower()}.jsonschema.{((!useReversibleEncoding) ? "nonreversible" : "reversible")}.json");
 
             using (var ostrm = File.Open(outputFile, FileMode.Create, FileAccess.ReadWrite))
             {
@@ -3233,6 +3241,8 @@ namespace ModelCompiler
 
             if (dataType != null)
             {
+                template.AddReplacement("_IsAbstract_", (dataType.IsAbstract) ? "abstract ": "");
+
                 if (!dataType.IsOptionSet)
                 {
                     template.AddReplacement("[Flags]", String.Empty);

@@ -3620,10 +3620,13 @@ namespace ModelCompiler
                         }
                     }
 
-                    if (index != -1)
+                    if (index > 0)
                     {
-                        id = parameter.Identifier = Convert.ToInt32(name.Substring(index+1));
-                        parameter.IdentifierInName = true;
+                        if (Int32.TryParse(name.Substring(index+1), out id))
+                        {
+                            parameter.Identifier = id;
+                            parameter.IdentifierSpecified = true;
+                        }
                     }
                 }
 
@@ -6053,6 +6056,8 @@ namespace ModelCompiler
                     root.State.Specification = $"Part{root.PartNo}";
                 }
             }
+
+            root.State.Extensions = root.Extensions;
 
             if (root.Hierarchy != null && root is TypeDesign)
             {

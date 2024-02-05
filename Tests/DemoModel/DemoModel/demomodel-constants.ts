@@ -1,5 +1,6 @@
 
 export enum DataTypeIds {
+   EnumUnderscoreTest = 'i=68',
    HeaterStatus = 'i=1',
    Vector = 'i=3',
    WorkOrderStatusType = 'i=4',
@@ -50,6 +51,7 @@ export enum VariableIds {
    Seeker_RemoveApplication_InputArguments = 'i=35',
    Seeker_AddEndpoint_InputArguments = 'i=52',
    Seeker_RemoveEndpoint_InputArguments = 'i=55',
+   EnumUnderscoreTest_EnumValues = 'i=69',
    TestObject_Red = 'i=60',
    TestObject_Red_Yellow = 'i=61',
    HeaterStatus_EnumStrings = 'i=2',

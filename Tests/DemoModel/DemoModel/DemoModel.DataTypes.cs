@@ -36,6 +36,98 @@ using Opc.Ua;
 
 namespace DemoModel
 {
+    #region EnumUnderscoreTest Enumeration
+    #if (!OPCUA_EXCLUDE_EnumUnderscoreTest)
+    /// <remarks />
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
+    public enum EnumUnderscoreTest
+    {
+        /// <remarks />
+        [EnumMember(Value = "x_x_1")]
+        x_x = 1,
+
+        /// <remarks />
+        [EnumMember(Value = "_x_2")]
+        _x = 2,
+
+        /// <remarks />
+        [EnumMember(Value = "x__3")]
+        x_ = 3,
+
+        /// <remarks />
+        [EnumMember(Value = "__4")]
+        _ = 4,
+    }
+
+    #region EnumUnderscoreTestCollection Class
+    /// <remarks />
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [CollectionDataContract(Name = "ListOfEnumUnderscoreTest", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "EnumUnderscoreTest")]
+    public partial class EnumUnderscoreTestCollection : List<EnumUnderscoreTest>, ICloneable
+    {
+        #region Constructors
+        /// <remarks />
+        public EnumUnderscoreTestCollection() {}
+
+        /// <remarks />
+        public EnumUnderscoreTestCollection(int capacity) : base(capacity) {}
+
+        /// <remarks />
+        public EnumUnderscoreTestCollection(IEnumerable<EnumUnderscoreTest> collection) : base(collection) {}
+        #endregion
+
+        #region Static Operators
+        /// <remarks />
+        public static implicit operator EnumUnderscoreTestCollection(EnumUnderscoreTest[] values)
+        {
+            if (values != null)
+            {
+                return new EnumUnderscoreTestCollection(values);
+            }
+
+            return new EnumUnderscoreTestCollection();
+        }
+
+        /// <remarks />
+        public static explicit operator EnumUnderscoreTest[](EnumUnderscoreTestCollection values)
+        {
+            if (values != null)
+            {
+                return values.ToArray();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #region ICloneable Methods
+        /// <remarks />
+        public object Clone()
+        {
+            return (EnumUnderscoreTestCollection)this.MemberwiseClone();
+        }
+        #endregion
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            EnumUnderscoreTestCollection clone = new EnumUnderscoreTestCollection(this.Count);
+
+            for (int ii = 0; ii < this.Count; ii++)
+            {
+                clone.Add((EnumUnderscoreTest)Utils.Clone(this[ii]));
+            }
+
+            return clone;
+        }
+    }
+    #endregion
+    #endif
+    #endregion
+
     #region HeaterStatus Enumeration
     #if (!OPCUA_EXCLUDE_HeaterStatus)
     /// <remarks />

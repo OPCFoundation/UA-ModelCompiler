@@ -66,6 +66,9 @@
       <opc:Field Name="_x" Identifier="2"/>
       <opc:Field Name="x_" Identifier="3"/>
       <opc:Field Name="_" Identifier="4"/>
+      <opc:Field Name="Test5" Identifier="-1">
+        <opc:DisplayName>Test_5</opc:DisplayName>
+      </opc:Field>
     </opc:Fields>
   </opc:DataType>
 

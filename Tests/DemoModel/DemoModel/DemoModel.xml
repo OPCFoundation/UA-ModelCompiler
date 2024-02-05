@@ -35,14 +35,14 @@
   xmlns:di="http://opcfoundation.org/UA/DI/"
   xmlns:opc="http://opcfoundation.org/UA/ModelDesign.xsd"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns="http://www.opcfoundation.org/DemoModel/"
-  TargetNamespace="http://www.opcfoundation.org/DemoModel/"
-  TargetXmlNamespace="http://www.opcfoundation.org/DemoModel/"
+  xmlns="tag:opc-foundation.org,2024-01:DemoModel"
+  TargetNamespace="tag:opc-foundation.org,2024-01:DemoModel"
+  TargetXmlNamespace="tag:opc-foundation.org,2024-01:DemoModel"
   TargetVersion="1.05.03"
   TargetPublicationDate="2023-12-15T00:00:00Z">
 
   <opc:Namespaces>
-    <opc:Namespace Name="DemoModel" Prefix="DemoModel"  XmlNamespace="http://www.opcfoundation.org/DemoModel/Types.xsd"  XmlPrefix="DemoModel">http://www.opcfoundation.org/DemoModel/</opc:Namespace>
+    <opc:Namespace Name="DemoModel" Prefix="DemoModel"  XmlNamespace="tag:opc-foundation.org,2024-01:DemoModelTypes.xsd"  XmlPrefix="DemoModel">tag:opc-foundation.org,2024-01:DemoModel</opc:Namespace>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" Version="1.05.02" PublicationDate="2022-06-28T00:00:00Z" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
     <opc:Namespace Name="DI" Prefix="Opc.Ua.Di" InternalPrefix="Opc.Ua.Di.Server" XmlPrefix="OpcUaDi">http://opcfoundation.org/UA/DI/</opc:Namespace>
   </opc:Namespaces>
@@ -82,7 +82,21 @@
         <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
+    <opc:Extensions>
+      <opc:Extension>
+        <some:Thing xmlns:some="http://tempuri.com/something">Wicked</some:Thing>
+      </opc:Extension>
+    </opc:Extensions>
   </opc:Object>
+  
+  <opc:DataType SymbolicName="EnumUnderscoreTest" BaseType="ua:Enumeration" ForceEnumValues="true">
+    <opc:Fields>
+      <opc:Field Name="x_x" Identifier="1"/>
+      <opc:Field Name="_x" Identifier="2"/>
+      <opc:Field Name="x_" Identifier="3"/>
+      <opc:Field Name="_" Identifier="4"/>
+    </opc:Fields>
+  </opc:DataType>
 
   <opc:VariableType SymbolicName="RestrictedVariableType" BaseType="ua:BaseDataVariableType" DataType="ua:String" >
     <opc:Children>
@@ -106,6 +120,14 @@
         <opc:DefaultAccessRestrictions>SessionWithSigningAndApplyToBrowseRequired</opc:DefaultAccessRestrictions>
       </opc:Method>
     </opc:Children>
+    <opc:Extensions>
+      <opc:Extension>
+        <some:Thing xmlns:some="http://tempuri.com/something">This way</some:Thing>
+      </opc:Extension>
+      <opc:Extension>
+        <some:World xmlns:some="http://tempuri.com/something">comes</some:World>
+      </opc:Extension>
+    </opc:Extensions>
   </opc:ObjectType>
 
   <opc:Object SymbolicName="TestObject" TypeDefinition="RestrictedObjectType">
@@ -138,6 +160,11 @@
   </opc:DataType>
 
   <opc:DataType SymbolicName="Vector" BaseType="ua:Structure">
+    <opc:Extensions>
+      <opc:Extension>
+        <some:Thing xmlns:some="http://tempuri.com/something">This way</some:Thing>
+      </opc:Extension>
+    </opc:Extensions>
     <opc:Fields>
       <opc:Field Name="X" DataType="ua:Double" />
       <opc:Field Name="Y" DataType="ua:Double" />

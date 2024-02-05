@@ -1145,6 +1145,9 @@
       </opc:Object>
       <opc:Object SymbolicName="VendorServerInfo" TypeDefinition="VendorServerInfoType"/>
       <opc:Object SymbolicName="ServerRedundancy" TypeDefinition="ServerRedundancyType">
+        <opc:Children>
+          <opc:Property SymbolicName="RedundantServerArray" ModellingRule="Mandatory" />
+        </opc:Children>
       </opc:Object>
       <opc:Object SymbolicName="Namespaces" ModellingRule="Mandatory">
       </opc:Object>

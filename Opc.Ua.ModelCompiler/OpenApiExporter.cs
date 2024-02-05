@@ -5,7 +5,6 @@ using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Readers;
 using Opc.Ua;
 using Opc.Ua.Export;
-using System.Net.Http.Headers;
 
 namespace ModelCompiler
 {
@@ -14,6 +13,8 @@ namespace ModelCompiler
         private SystemContext m_context;
         private TypeTable m_typeTable;
         private NodeIdDictionary<DataTypeState> m_index;
+        private bool m_useV2encoding;
+        private bool m_allServices;
 
         readonly Dictionary<string, OpenApiSchema> m_builtInTypes = new Dictionary<string, OpenApiSchema>()
         {
@@ -311,7 +312,7 @@ namespace ModelCompiler
             },
         };
 
-        public OpenApiExporter()
+        public OpenApiExporter(bool useV2encoding, bool allServices)
         {
             m_context = new SystemContext();
             m_context.NamespaceUris = new NamespaceTable();
@@ -319,6 +320,89 @@ namespace ModelCompiler
 
             m_typeTable = new TypeTable(m_context.NamespaceUris);
             m_context.TypeTable = m_typeTable;
+            m_useV2encoding = useV2encoding;
+            m_allServices = allServices;
+
+            if (!useV2encoding)
+            {
+                m_builtInTypes["NodeId"] = new OpenApiSchema()
+                {
+                    Type = "object",
+                    Properties = new Dictionary<string, OpenApiSchema>()
+                    {
+                        ["IdType"] = new OpenApiSchema()
+                        {
+                            Type = "number"
+                        },
+                        ["Id"] = new OpenApiSchema()
+                        {
+                        },
+                        ["Namespace"] = new OpenApiSchema()
+                        {
+                            Type = "number"
+                        }
+                    }
+                };
+
+                m_builtInTypes["ExpandedNodeId"] = new OpenApiSchema()
+                {
+                    Type = "object",
+                    Properties = new Dictionary<string, OpenApiSchema>()
+                    {
+                        ["IdType"] = new OpenApiSchema()
+                        {
+                            Type = "number"
+                        },
+                        ["Id"] = new OpenApiSchema()
+                        {
+                        },
+                        ["Namespace"] = new OpenApiSchema()
+                        {
+                        },
+                        ["ServerUri"] = new OpenApiSchema()
+                        {
+                            Type = "number"
+                        }
+                    }
+                };
+
+                m_builtInTypes["QualifiedName"] = new OpenApiSchema()
+                {
+                    Type = "object",
+                    Properties = new Dictionary<string, OpenApiSchema>()
+                    {
+                        ["Name"] = new OpenApiSchema()
+                        {
+                            Type = "string"
+                        },
+                        ["Uri"] = new OpenApiSchema()
+                        {
+                        }
+                    }
+                };
+
+                m_builtInTypes["ExtensionObject"] = new OpenApiSchema()
+                {
+                    Type = "object",
+                    Properties = new Dictionary<string, OpenApiSchema>()
+                    {
+                        ["TypeId"] = new OpenApiSchema()
+                        {
+                            Reference = new OpenApiReference() { Type = ReferenceType.Schema, Id = "NodeId" }
+                        },
+                        ["Encoding"] = new OpenApiSchema()
+                        {
+                            Type = "integer",
+                            Format = "uint8"
+                        },
+                        ["Body"] = new OpenApiSchema()
+                        {
+                            Type = "object",
+                            AdditionalPropertiesAllowed = true
+                        }
+                    },
+                };
+            }
 
             m_index = new NodeIdDictionary<DataTypeState>();
         }
@@ -541,9 +625,8 @@ namespace ModelCompiler
             if (bit.NodeId == Opc.Ua.DataTypes.Structure || bit.NodeId == Opc.Ua.DataTypes.Union)
             {
                 if (
-                    definition.StructureType == StructureType.StructureWithSubtypedValues ||
-                    definition.StructureType == StructureType.UnionWithSubtypedValues ||
-                    field.IsOptional ||
+                    (field.IsOptional && definition.StructureType == StructureType.StructureWithSubtypedValues) ||
+                    (field.IsOptional && definition.StructureType == StructureType.UnionWithSubtypedValues) ||
                     fieldType.IsAbstract)
                 {
                     return new OpenApiSchema()
@@ -651,6 +734,30 @@ namespace ModelCompiler
                 }
             };
 
+            if (m_allServices)
+            {
+                document.Paths["/findservers"] = GetPathItem("FindServers");
+                document.Paths["/getendpoints"] = GetPathItem("GetEndpoints");
+                document.Paths["/createsession"] = GetPathItem("CreateSession");
+                document.Paths["/activatesession"] = GetPathItem("ActivateSession");
+                document.Paths["/closesession"] = GetPathItem("CloseSession");
+                document.Paths["/cancel"] = GetPathItem("Cancel");
+                document.Paths["/registernodes"] = GetPathItem("RegisterNodes");
+                document.Paths["/unregisternodes"] = GetPathItem("UnregisterNodes");
+                document.Paths["/createmonitoreditems"] = GetPathItem("CreateMonitoredItems");
+                document.Paths["/modifymonitoreditems"] = GetPathItem("ModifyMonitoredItems");
+                document.Paths["/setmonitoringmode"] = GetPathItem("SetMonitoringMode");
+                document.Paths["/settriggering"] = GetPathItem("SetTriggering");
+                document.Paths["/deletemonitoreditems"] = GetPathItem("DeleteMonitoredItems");
+                document.Paths["/createsubscription"] = GetPathItem("CreateSubscription");
+                document.Paths["/modifysubscription"] = GetPathItem("ModifySubscription");
+                document.Paths["/setpublishingmode"] = GetPathItem("SetPublishingMode");
+                document.Paths["/publish"] = GetPathItem("Publish");
+                document.Paths["/republish"] = GetPathItem("Republish");
+                document.Paths["/transfersubscriptions"] = GetPathItem("TransferSubscriptions");
+                document.Paths["/deletesubscriptions"] = GetPathItem("DeleteSubscriptions");
+            }
+
             HashSet<string> excluded = new()
             {
                 Opc.Ua.BrowseNames.Boolean,
@@ -668,10 +775,7 @@ namespace ModelCompiler
                 Opc.Ua.BrowseNames.Guid,
                 Opc.Ua.BrowseNames.ByteString,
                 Opc.Ua.BrowseNames.DateTime,
-                Opc.Ua.BrowseNames.NodeId,
-                Opc.Ua.BrowseNames.ExpandedNodeId,
                 Opc.Ua.BrowseNames.StatusCode,
-                Opc.Ua.BrowseNames.QualifiedName,
                 Opc.Ua.BrowseNames.LocaleId,
                 Opc.Ua.BrowseNames.Number,
                 Opc.Ua.BrowseNames.Integer,
@@ -683,6 +787,13 @@ namespace ModelCompiler
                 Opc.Ua.BrowseNames.Enumeration,
                 Opc.Ua.BrowseNames.Index
             };
+
+            if (m_useV2encoding)
+            {
+                excluded.Add(Opc.Ua.BrowseNames.NodeId);
+                excluded.Add(Opc.Ua.BrowseNames.ExpandedNodeId);
+                excluded.Add(Opc.Ua.BrowseNames.QualifiedName);
+            }
 
             var schemas = new Dictionary<string, OpenApiSchema>();
 
@@ -724,6 +835,94 @@ namespace ModelCompiler
             CollectIncludedTypes(included, Opc.Ua.DataTypes.UpdateDataDetails);
             CollectIncludedTypes(included, Opc.Ua.DataTypes.UpdateEventDetails);
             CollectIncludedTypes(included, Opc.Ua.DataTypes.UpdateStructureDataDetails);
+
+            if (m_allServices)
+            {
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.FindServersRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.FindServersResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.GetEndpointsRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.GetEndpointsResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.CreateSessionRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.CreateSessionResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.ActivateSessionRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.ActivateSessionResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.CloseSessionRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.CloseSessionResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.CancelRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.CancelResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.RegisterNodesRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.RegisterNodesResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.UnregisterNodesRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.UnregisterNodesResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.CreateMonitoredItemsRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.CreateMonitoredItemsResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.ModifyMonitoredItemsRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.ModifyMonitoredItemsResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.SetMonitoringModeRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.SetMonitoringModeResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.SetTriggeringRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.SetTriggeringResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.DeleteMonitoredItemsRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.DeleteMonitoredItemsResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.CreateSubscriptionRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.CreateSubscriptionResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.ModifySubscriptionRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.ModifySubscriptionResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.SetPublishingModeRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.SetPublishingModeResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.PublishRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.PublishResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.RepublishRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.RepublishResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.TransferSubscriptionsRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.TransferSubscriptionsResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.DeleteSubscriptionsRequest);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.DeleteSubscriptionsResponse);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.AnonymousIdentityToken);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.UserNameIdentityToken);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.X509IdentityToken);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.IssuedIdentityToken);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.DataChangeNotification);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.EventNotificationList);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.StatusChangeNotification);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.ElementOperand);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.LiteralOperand);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.AttributeOperand);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.SimpleAttributeOperand);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.DataChangeFilter);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.EventFilter);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.AggregateFilter);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.EventFilterResult);
+                CollectIncludedTypes(included, Opc.Ua.DataTypes.AggregateFilterResult);
+            }
+            
+
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.PubSubConfiguration2DataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.PubSubConnectionDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.PubSubGroupDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.WriterGroupDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.WriterGroupMessageDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.WriterGroupTransportDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.ReaderGroupDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.ReaderGroupMessageDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.ReaderGroupTransportDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.DataSetReaderDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.DataSetReaderMessageDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.DataSetReaderTransportDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.DataSetWriterDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.DataSetWriterMessageDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.DataSetWriterTransportDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.DataTypeDescription);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.StructureDescription);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.EnumDescription);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonWriterGroupMessageDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonDataSetWriterMessageDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonDataSetReaderMessageDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.BrokerConnectionTransportDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.BrokerDataSetReaderTransportDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.BrokerDataSetWriterTransportDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.BrokerWriterGroupTransportDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.PubSubState);
 
             foreach (var node in m_index.Values)
             {
@@ -866,6 +1065,7 @@ namespace ModelCompiler
                 ostrm,
                 OpenApiSpecVersion.OpenApi3_0,
                 (generateYaml) ? OpenApiFormat.Yaml : OpenApiFormat.Json);
+
         }
 
         private void CollectIncludedTypes(HashSet<NodeId> included, NodeId target)

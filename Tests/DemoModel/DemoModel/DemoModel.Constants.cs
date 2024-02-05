@@ -44,6 +44,9 @@ namespace DemoModel
     public static partial class DataTypes
     {
         /// <remarks />
+        public const uint EnumUnderscoreTest = 68;
+
+        /// <remarks />
         public const uint HeaterStatus = 1;
 
         /// <remarks />
@@ -208,6 +211,9 @@ namespace DemoModel
         public const uint Seeker_RemoveEndpoint_InputArguments = 55;
 
         /// <remarks />
+        public const uint EnumUnderscoreTest_EnumValues = 69;
+
+        /// <remarks />
         public const uint RestrictedVariableType_Yellow = 123;
 
         /// <remarks />
@@ -313,6 +319,9 @@ namespace DemoModel
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     public static partial class DataTypeIds
     {
+        /// <remarks />
+        public static readonly ExpandedNodeId EnumUnderscoreTest = new ExpandedNodeId(DemoModel.DataTypes.EnumUnderscoreTest, DemoModel.Namespaces.DemoModel);
+
         /// <remarks />
         public static readonly ExpandedNodeId HeaterStatus = new ExpandedNodeId(DemoModel.DataTypes.HeaterStatus, DemoModel.Namespaces.DemoModel);
 
@@ -478,6 +487,9 @@ namespace DemoModel
         public static readonly ExpandedNodeId Seeker_RemoveEndpoint_InputArguments = new ExpandedNodeId(DemoModel.Variables.Seeker_RemoveEndpoint_InputArguments, DemoModel.Namespaces.DemoModel);
 
         /// <remarks />
+        public static readonly ExpandedNodeId EnumUnderscoreTest_EnumValues = new ExpandedNodeId(DemoModel.Variables.EnumUnderscoreTest_EnumValues, DemoModel.Namespaces.DemoModel);
+
+        /// <remarks />
         public static readonly ExpandedNodeId RestrictedVariableType_Yellow = new ExpandedNodeId(DemoModel.Variables.RestrictedVariableType_Yellow, DemoModel.Namespaces.DemoModel);
 
         /// <remarks />
@@ -592,6 +604,9 @@ namespace DemoModel
         public const string DemoModel_XmlSchema = "DemoModel";
 
         /// <remarks />
+        public const string EnumUnderscoreTest = "EnumUnderscoreTest";
+
+        /// <remarks />
         public const string HeaterStatus = "HeaterStatus";
 
         /// <remarks />
@@ -658,12 +673,12 @@ namespace DemoModel
         /// <summary>
         /// The URI for the DemoModel namespace (.NET code namespace is 'DemoModel').
         /// </summary>
-        public const string DemoModel = "http://www.opcfoundation.org/DemoModel/";
+        public const string DemoModel = "tag:opc-foundation.org,2024-01:DemoModel";
 
         /// <summary>
         /// The URI for the DemoModelXsd namespace (.NET code namespace is 'DemoModel').
         /// </summary>
-        public const string DemoModelXsd = "http://www.opcfoundation.org/DemoModel/Types.xsd";
+        public const string DemoModelXsd = "tag:opc-foundation.org,2024-01:DemoModelTypes.xsd";
 
         /// <summary>
         /// The URI for the OpcUa namespace (.NET code namespace is 'Opc.Ua').
