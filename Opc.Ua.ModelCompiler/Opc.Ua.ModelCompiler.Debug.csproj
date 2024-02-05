@@ -475,7 +475,7 @@
     <PackageReference Include="CsvHelper" Version="30.1.0" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.0" />
     <PackageReference Include="Microsoft.OpenApi" Version="1.6.13" />
-    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.11" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.13" />
     <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.15" />
   </ItemGroup>
 
