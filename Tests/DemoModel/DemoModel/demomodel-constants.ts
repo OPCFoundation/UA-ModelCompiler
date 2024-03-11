@@ -1,6 +1,5 @@
 
 export enum DataTypeIds {
-   EnumUnderscoreTest = 'i=68',
    HeaterStatus = 'i=1',
    Vector = 'i=3',
    WorkOrderStatusType = 'i=4',
@@ -11,16 +10,8 @@ export enum DataTypeIds {
    SampleStructureAllowSubtypes = 'i=44'
 }
 
-export enum MethodIds {
-   RestrictedObjectType_Blue = 'i=127',
-   TestObject_Blue = 'i=71'
-}
-
 export enum ObjectIds {
-   Seeker = 'i=95',
-   TestObject = 'i=128',
-   Test_Error = 'i=93',
-   Test_ErrorComponent = 'i=94',
+   Signal = 'i=36',
    Vector_Encoding_DefaultBinary = 'i=21',
    SampleUnion_Encoding_DefaultBinary = 'i=45',
    SampleStructureWithOptionalFields_Encoding_DefaultBinary = 'i=46',
@@ -38,22 +29,10 @@ export enum ObjectIds {
    SampleStructureAllowSubtypes_Encoding_DefaultJson = 'i=85'
 }
 
-export enum ObjectTypeIds {
-   RestrictedObjectType = 'i=124',
-   WithTwoDimensionalVariableType = 'i=120'
-}
-
 export enum VariableIds {
-   Seeker_Identities = 'i=10',
-   Seeker_AddIdentity_InputArguments = 'i=25',
-   Seeker_RemoveIdentity_InputArguments = 'i=29',
-   Seeker_AddApplication_InputArguments = 'i=32',
-   Seeker_RemoveApplication_InputArguments = 'i=35',
-   Seeker_AddEndpoint_InputArguments = 'i=52',
-   Seeker_RemoveEndpoint_InputArguments = 'i=55',
-   EnumUnderscoreTest_EnumValues = 'i=69',
-   TestObject_Red = 'i=60',
-   TestObject_Red_Yellow = 'i=61',
+   Signal_Red = 'i=37',
+   Signal_Yellow = 'i=38',
+   Signal_Green = 'i=39',
    HeaterStatus_EnumStrings = 'i=2',
    DemoModel_BinarySchema = 'i=24',
    DemoModel_BinarySchema_NamespaceUri = 'i=26',
@@ -77,8 +56,8 @@ export enum VariableIds {
    DemoModel_XmlSchema_SampleStructureAllowSubtypes = 'i=76'
 }
 
-export enum VariableTypeIds {
-   RestrictedVariableType = 'i=122'
+export enum ViewIds {
+   TrafficView = 'i=40'
 }
 
 export class StatusCode {

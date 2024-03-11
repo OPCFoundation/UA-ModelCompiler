@@ -48,7 +48,7 @@ IF "%1"=="v105" (
 IF "%1"=="v104" (
 	set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
 	set USEALLOWSUBTYPES=
-	set MODELVERSION=-mv 1.04.12 -pd 2023-07-31
+	set MODELVERSION=-mv 1.04.12 -pd 2024-02-15
 )
 
 IF "%1"=="v103" (

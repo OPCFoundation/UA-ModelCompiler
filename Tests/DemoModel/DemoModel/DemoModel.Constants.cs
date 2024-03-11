@@ -44,9 +44,6 @@ namespace DemoModel
     public static partial class DataTypes
     {
         /// <remarks />
-        public const uint EnumUnderscoreTest = 68;
-
-        /// <remarks />
         public const uint HeaterStatus = 1;
 
         /// <remarks />
@@ -72,20 +69,6 @@ namespace DemoModel
     }
     #endregion
 
-    #region Method Identifiers
-    /// <remarks />
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    public static partial class Methods
-    {
-        /// <remarks />
-        public const uint RestrictedObjectType_Blue = 127;
-
-        /// <remarks />
-        public const uint TestObject_Blue = 71;
-    }
-    #endregion
-
     #region Object Identifiers
     /// <remarks />
     /// <exclude />
@@ -93,16 +76,7 @@ namespace DemoModel
     public static partial class Objects
     {
         /// <remarks />
-        public const uint Seeker = 95;
-
-        /// <remarks />
-        public const uint TestObject = 128;
-
-        /// <remarks />
-        public const uint Test_Error = 93;
-
-        /// <remarks />
-        public const uint Test_ErrorComponent = 94;
+        public const uint Signal = 36;
 
         /// <remarks />
         public const uint Vector_Encoding_DefaultBinary = 21;
@@ -169,20 +143,6 @@ namespace DemoModel
     }
     #endregion
 
-    #region ObjectType Identifiers
-    /// <remarks />
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    public static partial class ObjectTypes
-    {
-        /// <remarks />
-        public const uint RestrictedObjectType = 124;
-
-        /// <remarks />
-        public const uint WithTwoDimensionalVariableType = 120;
-    }
-    #endregion
-
     #region Variable Identifiers
     /// <remarks />
     /// <exclude />
@@ -190,55 +150,16 @@ namespace DemoModel
     public static partial class Variables
     {
         /// <remarks />
-        public const uint Seeker_Identities = 10;
+        public const uint Signal_Red = 37;
 
         /// <remarks />
-        public const uint Seeker_AddIdentity_InputArguments = 25;
+        public const uint Signal_Yellow = 38;
 
         /// <remarks />
-        public const uint Seeker_RemoveIdentity_InputArguments = 29;
-
-        /// <remarks />
-        public const uint Seeker_AddApplication_InputArguments = 32;
-
-        /// <remarks />
-        public const uint Seeker_RemoveApplication_InputArguments = 35;
-
-        /// <remarks />
-        public const uint Seeker_AddEndpoint_InputArguments = 52;
-
-        /// <remarks />
-        public const uint Seeker_RemoveEndpoint_InputArguments = 55;
-
-        /// <remarks />
-        public const uint EnumUnderscoreTest_EnumValues = 69;
-
-        /// <remarks />
-        public const uint RestrictedVariableType_Yellow = 123;
-
-        /// <remarks />
-        public const uint RestrictedObjectType_Red = 125;
-
-        /// <remarks />
-        public const uint RestrictedObjectType_Red_Yellow = 57;
-
-        /// <remarks />
-        public const uint RestrictedObjectType_Pink_Placeholder = 132;
-
-        /// <remarks />
-        public const uint RestrictedObjectType_Pink_Placeholder_Yellow = 58;
-
-        /// <remarks />
-        public const uint TestObject_Red = 60;
-
-        /// <remarks />
-        public const uint TestObject_Red_Yellow = 61;
+        public const uint Signal_Green = 39;
 
         /// <remarks />
         public const uint HeaterStatus_EnumStrings = 2;
-
-        /// <remarks />
-        public const uint WithTwoDimensionalVariableType_X = 121;
 
         /// <remarks />
         public const uint DemoModel_BinarySchema = 24;
@@ -302,14 +223,14 @@ namespace DemoModel
     }
     #endregion
 
-    #region VariableType Identifiers
+    #region View Identifiers
     /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    public static partial class VariableTypes
+    public static partial class Views
     {
         /// <remarks />
-        public const uint RestrictedVariableType = 122;
+        public const uint TrafficView = 40;
     }
     #endregion
 
@@ -319,9 +240,6 @@ namespace DemoModel
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     public static partial class DataTypeIds
     {
-        /// <remarks />
-        public static readonly ExpandedNodeId EnumUnderscoreTest = new ExpandedNodeId(DemoModel.DataTypes.EnumUnderscoreTest, DemoModel.Namespaces.DemoModel);
-
         /// <remarks />
         public static readonly ExpandedNodeId HeaterStatus = new ExpandedNodeId(DemoModel.DataTypes.HeaterStatus, DemoModel.Namespaces.DemoModel);
 
@@ -348,20 +266,6 @@ namespace DemoModel
     }
     #endregion
 
-    #region Method Node Identifiers
-    /// <remarks />
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    public static partial class MethodIds
-    {
-        /// <remarks />
-        public static readonly ExpandedNodeId RestrictedObjectType_Blue = new ExpandedNodeId(DemoModel.Methods.RestrictedObjectType_Blue, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId TestObject_Blue = new ExpandedNodeId(DemoModel.Methods.TestObject_Blue, DemoModel.Namespaces.DemoModel);
-    }
-    #endregion
-
     #region Object Node Identifiers
     /// <remarks />
     /// <exclude />
@@ -369,16 +273,7 @@ namespace DemoModel
     public static partial class ObjectIds
     {
         /// <remarks />
-        public static readonly ExpandedNodeId Seeker = new ExpandedNodeId(DemoModel.Objects.Seeker, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId TestObject = new ExpandedNodeId(DemoModel.Objects.TestObject, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId Test_Error = new ExpandedNodeId(DemoModel.Objects.Test_Error, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId Test_ErrorComponent = new ExpandedNodeId(DemoModel.Objects.Test_ErrorComponent, DemoModel.Namespaces.DemoModel);
+        public static readonly ExpandedNodeId Signal = new ExpandedNodeId(DemoModel.Objects.Signal, DemoModel.Namespaces.DemoModel);
 
         /// <remarks />
         public static readonly ExpandedNodeId Vector_Encoding_DefaultBinary = new ExpandedNodeId(DemoModel.Objects.Vector_Encoding_DefaultBinary, DemoModel.Namespaces.DemoModel);
@@ -445,20 +340,6 @@ namespace DemoModel
     }
     #endregion
 
-    #region ObjectType Node Identifiers
-    /// <remarks />
-    /// <exclude />
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    public static partial class ObjectTypeIds
-    {
-        /// <remarks />
-        public static readonly ExpandedNodeId RestrictedObjectType = new ExpandedNodeId(DemoModel.ObjectTypes.RestrictedObjectType, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId WithTwoDimensionalVariableType = new ExpandedNodeId(DemoModel.ObjectTypes.WithTwoDimensionalVariableType, DemoModel.Namespaces.DemoModel);
-    }
-    #endregion
-
     #region Variable Node Identifiers
     /// <remarks />
     /// <exclude />
@@ -466,55 +347,16 @@ namespace DemoModel
     public static partial class VariableIds
     {
         /// <remarks />
-        public static readonly ExpandedNodeId Seeker_Identities = new ExpandedNodeId(DemoModel.Variables.Seeker_Identities, DemoModel.Namespaces.DemoModel);
+        public static readonly ExpandedNodeId Signal_Red = new ExpandedNodeId(DemoModel.Variables.Signal_Red, DemoModel.Namespaces.DemoModel);
 
         /// <remarks />
-        public static readonly ExpandedNodeId Seeker_AddIdentity_InputArguments = new ExpandedNodeId(DemoModel.Variables.Seeker_AddIdentity_InputArguments, DemoModel.Namespaces.DemoModel);
+        public static readonly ExpandedNodeId Signal_Yellow = new ExpandedNodeId(DemoModel.Variables.Signal_Yellow, DemoModel.Namespaces.DemoModel);
 
         /// <remarks />
-        public static readonly ExpandedNodeId Seeker_RemoveIdentity_InputArguments = new ExpandedNodeId(DemoModel.Variables.Seeker_RemoveIdentity_InputArguments, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId Seeker_AddApplication_InputArguments = new ExpandedNodeId(DemoModel.Variables.Seeker_AddApplication_InputArguments, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId Seeker_RemoveApplication_InputArguments = new ExpandedNodeId(DemoModel.Variables.Seeker_RemoveApplication_InputArguments, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId Seeker_AddEndpoint_InputArguments = new ExpandedNodeId(DemoModel.Variables.Seeker_AddEndpoint_InputArguments, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId Seeker_RemoveEndpoint_InputArguments = new ExpandedNodeId(DemoModel.Variables.Seeker_RemoveEndpoint_InputArguments, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId EnumUnderscoreTest_EnumValues = new ExpandedNodeId(DemoModel.Variables.EnumUnderscoreTest_EnumValues, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId RestrictedVariableType_Yellow = new ExpandedNodeId(DemoModel.Variables.RestrictedVariableType_Yellow, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId RestrictedObjectType_Red = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Red, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId RestrictedObjectType_Red_Yellow = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Red_Yellow, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId RestrictedObjectType_Pink_Placeholder = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Pink_Placeholder, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId RestrictedObjectType_Pink_Placeholder_Yellow = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Pink_Placeholder_Yellow, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId TestObject_Red = new ExpandedNodeId(DemoModel.Variables.TestObject_Red, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId TestObject_Red_Yellow = new ExpandedNodeId(DemoModel.Variables.TestObject_Red_Yellow, DemoModel.Namespaces.DemoModel);
+        public static readonly ExpandedNodeId Signal_Green = new ExpandedNodeId(DemoModel.Variables.Signal_Green, DemoModel.Namespaces.DemoModel);
 
         /// <remarks />
         public static readonly ExpandedNodeId HeaterStatus_EnumStrings = new ExpandedNodeId(DemoModel.Variables.HeaterStatus_EnumStrings, DemoModel.Namespaces.DemoModel);
-
-        /// <remarks />
-        public static readonly ExpandedNodeId WithTwoDimensionalVariableType_X = new ExpandedNodeId(DemoModel.Variables.WithTwoDimensionalVariableType_X, DemoModel.Namespaces.DemoModel);
 
         /// <remarks />
         public static readonly ExpandedNodeId DemoModel_BinarySchema = new ExpandedNodeId(DemoModel.Variables.DemoModel_BinarySchema, DemoModel.Namespaces.DemoModel);
@@ -578,14 +420,14 @@ namespace DemoModel
     }
     #endregion
 
-    #region VariableType Node Identifiers
+    #region View Node Identifiers
     /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    public static partial class VariableTypeIds
+    public static partial class ViewIds
     {
         /// <remarks />
-        public static readonly ExpandedNodeId RestrictedVariableType = new ExpandedNodeId(DemoModel.VariableTypes.RestrictedVariableType, DemoModel.Namespaces.DemoModel);
+        public static readonly ExpandedNodeId TrafficView = new ExpandedNodeId(DemoModel.Views.TrafficView, DemoModel.Namespaces.DemoModel);
     }
     #endregion
 
@@ -595,31 +437,19 @@ namespace DemoModel
     public static partial class BrowseNames
     {
         /// <remarks />
-        public const string Blue = "Blue";
-
-        /// <remarks />
         public const string DemoModel_BinarySchema = "DemoModel";
 
         /// <remarks />
         public const string DemoModel_XmlSchema = "DemoModel";
 
         /// <remarks />
-        public const string EnumUnderscoreTest = "EnumUnderscoreTest";
+        public const string Green = "Green";
 
         /// <remarks />
         public const string HeaterStatus = "HeaterStatus";
 
         /// <remarks />
-        public const string Pink_Placeholder = "<Pink>";
-
-        /// <remarks />
         public const string Red = "Red";
-
-        /// <remarks />
-        public const string RestrictedObjectType = "RestrictedObjectType";
-
-        /// <remarks />
-        public const string RestrictedVariableType = "RestrictedVariableType";
 
         /// <remarks />
         public const string SampleStructureAllowSubtypes = "SampleStructureAllowSubtypes";
@@ -634,31 +464,19 @@ namespace DemoModel
         public const string SampleUnionAllowSubtypes = "SampleUnionAllowSubtypes";
 
         /// <remarks />
-        public const string Seeker = "Seeker";
+        public const string Signal = "Signal";
 
         /// <remarks />
-        public const string Test_Error = "Test_Error";
-
-        /// <remarks />
-        public const string Test_ErrorComponent = "Test_ErrorComponent";
-
-        /// <remarks />
-        public const string TestObject = "TestObject";
+        public const string TrafficView = "TrafficView";
 
         /// <remarks />
         public const string Vector = "Vector";
-
-        /// <remarks />
-        public const string WithTwoDimensionalVariableType = "WithTwoDimensionalVariableType";
 
         /// <remarks />
         public const string WorkOrderStatusType = "WorkOrderStatusType";
 
         /// <remarks />
         public const string WorkOrderType = "WorkOrderType";
-
-        /// <remarks />
-        public const string X = "X";
 
         /// <remarks />
         public const string Yellow = "Yellow";
@@ -673,12 +491,7 @@ namespace DemoModel
         /// <summary>
         /// The URI for the DemoModel namespace (.NET code namespace is 'DemoModel').
         /// </summary>
-        public const string DemoModel = "tag:opc-foundation.org,2024-01:DemoModel";
-
-        /// <summary>
-        /// The URI for the DemoModelXsd namespace (.NET code namespace is 'DemoModel').
-        /// </summary>
-        public const string DemoModelXsd = "tag:opc-foundation.org,2024-01:DemoModelTypes.xsd";
+        public const string DemoModel = "http://www.opcfoundation.org/DemoModel/";
 
         /// <summary>
         /// The URI for the OpcUa namespace (.NET code namespace is 'Opc.Ua').
@@ -689,11 +502,6 @@ namespace DemoModel
         /// The URI for the OpcUaXsd namespace (.NET code namespace is 'Opc.Ua').
         /// </summary>
         public const string OpcUaXsd = "http://opcfoundation.org/UA/2008/02/Types.xsd";
-
-        /// <summary>
-        /// The URI for the DI namespace (.NET code namespace is 'Opc.Ua.Di').
-        /// </summary>
-        public const string DI = "http://opcfoundation.org/UA/DI/";
     }
     #endregion
 }

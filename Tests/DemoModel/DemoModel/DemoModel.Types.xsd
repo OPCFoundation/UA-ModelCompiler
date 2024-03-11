@@ -29,38 +29,19 @@
 -->
 
 <xs:schema
-  xmlns:OpcUaDi="http://opcfoundation.org/UA/DI/"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:ua="http://opcfoundation.org/UA/2008/02/Types.xsd"
-  xmlns:tns="tag:opc-foundation.org,2024-01:DemoModelTypes.xsd"
-  targetNamespace="tag:opc-foundation.org,2024-01:DemoModelTypes.xsd"
+  xmlns:tns="http://www.opcfoundation.org/DemoModel/"
+  targetNamespace="http://www.opcfoundation.org/DemoModel/"
   elementFormDefault="qualified"
 >
   <xs:annotation>
     <xs:appinfo>
-      <ua:Model ModelUri="tag:opc-foundation.org,2024-01:DemoModel" Version="1.05.03" PublicationDate="2023-12-15T00:00:00Z" />
+      <ua:Model ModelUri="http://www.opcfoundation.org/DemoModel/" Version="1.00" PublicationDate="2013-12-31T00:00:00Z" />
     </xs:appinfo>
   </xs:annotation>
   
   <xs:import namespace="http://opcfoundation.org/UA/2008/02/Types.xsd" />
-  <xs:import namespace="http://opcfoundation.org/UA/DI/" />
-
-  <xs:simpleType  name="EnumUnderscoreTest">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="x_x_1" />
-      <xs:enumeration value="_x_2" />
-      <xs:enumeration value="x__3" />
-      <xs:enumeration value="__4" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:element name="EnumUnderscoreTest" type="tns:EnumUnderscoreTest" />
-
-  <xs:complexType name="ListOfEnumUnderscoreTest">
-    <xs:sequence>
-      <xs:element name="EnumUnderscoreTest" type="tns:EnumUnderscoreTest" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ListOfEnumUnderscoreTest" type="tns:ListOfEnumUnderscoreTest" nillable="true"></xs:element>
 
   <xs:simpleType  name="HeaterStatus">
     <xs:restriction base="xs:string">
