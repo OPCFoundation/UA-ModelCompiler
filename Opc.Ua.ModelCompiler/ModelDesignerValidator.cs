@@ -1161,7 +1161,7 @@ namespace ModelCompiler
 
                 if (!String.IsNullOrEmpty(ModelPublicationDate))
                 {
-                    var dt = DateTime.Parse(ModelPublicationDate, null, DateTimeStyles.None);
+                    var dt = DateTime.Parse(ModelPublicationDate, CultureInfo.InvariantCulture, DateTimeStyles.None);
                     dictionary.TargetPublicationDate = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0, DateTimeKind.Utc);
                     dictionary.TargetPublicationDateSpecified = true;
                 }
@@ -1181,7 +1181,7 @@ namespace ModelCompiler
 
                     if (ns.Value != dictionary.TargetNamespace)
                     {
-                        DateTime? pd = (ns.PublicationDate != null) ? DateTime.Parse(ns.PublicationDate, null, DateTimeStyles.None) : null;
+                        DateTime? pd = (ns.PublicationDate != null) ? DateTime.Parse(ns.PublicationDate, CultureInfo.InvariantCulture, DateTimeStyles.None) : null;
 
                         var requiredModel = new Export.ModelTableEntry()
                         {
@@ -1435,7 +1435,7 @@ namespace ModelCompiler
 
                 if (!String.IsNullOrEmpty(ModelPublicationDate))
                 {
-                    var dt = DateTime.Parse(ModelPublicationDate, null, DateTimeStyles.None);
+                    var dt = DateTime.Parse(ModelPublicationDate, CultureInfo.InvariantCulture, DateTimeStyles.None);
                     targetModel.TargetPublicationDate = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0, DateTimeKind.Utc);
                     targetModel.TargetPublicationDateSpecified = true;
                 }
@@ -1465,7 +1465,7 @@ namespace ModelCompiler
                             ns.FilePath = dependency.FilePath;
                         }
 
-                        DateTime? pd = (ns.PublicationDate != null) ? DateTime.Parse(ns.PublicationDate, null, DateTimeStyles.None) : null;
+                        DateTime? pd = (ns.PublicationDate != null) ? DateTime.Parse(ns.PublicationDate, CultureInfo.InvariantCulture, DateTimeStyles.None) : null;
 
                         var requiredModel = new Export.ModelTableEntry()
                         {
@@ -2521,7 +2521,18 @@ namespace ModelCompiler
         /// </summary>
         private void LoadIdentifiersFromFile2(ModelDesign dictionary, string filePath)
         {
+            if (String.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+            { 
+                throw new FileNotFoundException("The identifier file does not exist.", filePath);
+            }
+
             var file = new FileInfo(filePath);
+
+            if (!file.Directory.Exists)
+            {
+                file.Directory.Create();
+            }
+
             IDictionary<object, IdInfo> uniqueIdentifiers;
 
             using (var istrm = File.Open(file.FullName, FileMode.Open))

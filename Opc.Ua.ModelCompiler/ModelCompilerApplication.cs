@@ -91,6 +91,27 @@ namespace ModelCompiler
                 {
                     SystemContext context = new SystemContext();
                     Opc.Ua.Export.UANodeSet nodeset = Opc.Ua.Export.UANodeSet.Read(istrm);
+
+                    context.NamespaceUris = new NamespaceTable();
+
+                    if (nodeset.NamespaceUris != null)
+                    {
+                        foreach (var item in nodeset.NamespaceUris)
+                        {
+                            context.NamespaceUris.GetIndexOrAppend(item);
+                        }
+                    }
+
+                    context.ServerUris = new StringTable();
+
+                    if (nodeset.ServerUris != null)
+                    {
+                        foreach (var item in nodeset.ServerUris)
+                        {
+                            context.ServerUris.GetIndexOrAppend(item);
+                        }
+                    }
+
                     var collection = new NodeStateCollection();
                     
                     try
