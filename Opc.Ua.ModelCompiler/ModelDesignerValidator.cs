@@ -1009,11 +1009,14 @@ namespace ModelCompiler
             NodeDesign parent)
         {
             foreach (var node in nodes)
-            {
-                if (node.NumericIdSpecified && node.NumericId > 0)
+            {                
+                var hasNumericId = node.NumericIdSpecified && node.NumericId > 0;
+                var hasStringId = !node.NumericIdSpecified && !string.IsNullOrEmpty(node.StringId);
+                
+                if (hasNumericId || hasStringId)
                 {
                     var nodeId = new NodeId(
-                        node.NumericId,
+                        hasNumericId ? node.NumericId : node.StringId,
                         namespaceUris.GetIndexOrAppend(node.SymbolicId.Namespace));
 
                     index[nodeId] = node;
