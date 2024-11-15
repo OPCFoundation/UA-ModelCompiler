@@ -3085,14 +3085,14 @@ namespace ModelCompiler
                             return TemplatePath + "Version2.DataTypes.Union.cs";
                         }
 
-                        if (datatype.HasFields && datatype.Fields.Where(x => x.IsOptional).Count() > 0)
+                        if (datatype.HasBaseStructureBaseType())
                         {
-                            return TemplatePath + "Version2.DataTypes.ClassWithOptionalFields.cs";
+                            return DetermineTemplate_StructureWithBaseStructureSuperType(datatype, TemplatePath);
                         }
 
-                        if (GetBaseClassName(datatype) == "IEncodeable")
+                        if (datatype.HasCustomBaseType())
                         {
-                            return TemplatePath + "Version2.DataTypes.Class.cs";
+                            return DetermineTemplate_StructureWithCustomSuperType(datatype, TemplatePath);
                         }
 
                         return TemplatePath + "Version2.DataTypes.DerivedClass.cs";
@@ -3150,6 +3150,20 @@ namespace ModelCompiler
             }
 
             return null;
+        }
+        
+        private static string DetermineTemplate_StructureWithBaseStructureSuperType(DataTypeDesign dataType, string templatePath)
+        {
+            return dataType.HasOptionalFields()
+                ? templatePath + "Version2.DataTypes.ClassWithOptionalFields.cs"
+                : templatePath + "Version2.DataTypes.Class.cs";
+        }
+
+        private static string DetermineTemplate_StructureWithCustomSuperType(DataTypeDesign dataType, string templatePath)
+        {
+            return dataType.HasOptionalFields()
+                ? TemplatePath + "Version2.DataTypes.DerivedClassWithOptionalFields.cs"
+                : TemplatePath + "Version2.DataTypes.DerivedClass.cs";
         }
 
         /// <summary>
