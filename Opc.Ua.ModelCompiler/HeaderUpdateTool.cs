@@ -12,7 +12,8 @@ namespace ModelCompiler
         public enum LicenseType
         {
             MIT,
-            MITXML
+            MITXML,
+            FLC
         }
 
         static string RemoveXmlHeader(string fileText)
@@ -78,6 +79,14 @@ namespace ModelCompiler
         static string RemoveCStyleHeader(string fileText)
         {
             bool inComment = false;
+            bool newLine = false;
+
+            fileText = fileText.TrimStart();
+
+            if (!fileText.StartsWith("/*"))
+            {
+                return fileText;
+            }
 
             for (int ii = 0; ii < fileText.Length; ii++)
             {
@@ -88,23 +97,38 @@ namespace ModelCompiler
                         if (fileText[ii + 1] == '*')
                         {
                             inComment = true;
+                            newLine = false;
                             continue;
                         }
                     }
                 }
                 else
                 {
+                    if (fileText[ii] == '\n')
+                    {
+                        if (inComment)
+                        {
+                            newLine = true;
+                        }
+                    }
+
                     if (fileText[ii] == '/')
                     {
                         if (inComment)
                         {
                             if (fileText[ii - 1] == '*')
                             {
-                                while (fileText[ii++] != '\n');
-
-                                var text = fileText.Substring(ii).Trim();
-                                text = $"{Environment.NewLine}{text}";
-                                return text;
+                                if (newLine)
+                                {
+                                    while (fileText[ii++] != '\n') ;
+                                    var text = fileText.Substring(ii).Trim();
+                                    text = $"{Environment.NewLine}{text}";
+                                    return text;
+                                }
+                                else
+                                {
+                                    inComment = false;
+                                }
                             }
                         }
                     }
@@ -150,6 +174,10 @@ namespace ModelCompiler
                 {
                     fileText = RemoveCStyleHeader(fileText);
                 }
+                else if (licenseType == LicenseType.FLC)
+                {
+                    fileText = RemoveCStyleHeader(fileText);
+                }
 
                 // load the selected license.
                 string license = null;
@@ -157,6 +185,7 @@ namespace ModelCompiler
 
                 switch (licenseType)
                 {
+                    case LicenseType.FLC: { resourcePath = "ModelCompiler.License.FLC.txt"; break; }
                     case LicenseType.MIT: { resourcePath = "ModelCompiler.License.UA_MIT.txt"; break; }
                     case LicenseType.MITXML: { resourcePath = "ModelCompiler.License.UA_MIT_XML.txt"; break; }
                 }

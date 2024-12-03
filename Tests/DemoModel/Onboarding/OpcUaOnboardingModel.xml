@@ -37,8 +37,8 @@
   xmlns="http://opcfoundation.org/UA/Onboarding/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/Onboarding/"
-  TargetVersion="1.05.02"
-  TargetPublicationDate="2022-11-01T00:00:00Z"
+  TargetVersion="1.05.04"
+  TargetPublicationDate="2024-12-01T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUaOnboarding" Prefix="Opc.Ua.Onboarding" XmlNamespace="http://opcfoundation.org/UA/Onboarding/Types.xsd" XmlPrefix="Onboarding">http://opcfoundation.org/UA/Onboarding/</opc:Namespace>
@@ -56,12 +56,17 @@
       </opc:Property>
       <opc:Property SymbolicName="ua:NamespaceVersion" DataType="ua:String">
         <opc:DefaultValue>
-          <uax:String>1.05.02</uax:String>
+          <uax:String>1.05.04</uax:String>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="ModelVersion" DataType="ua:SemanticVersionString">
+        <opc:DefaultValue>
+          <uax:String>1.5.4</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="ua:NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2022-11-01T00:00:00Z</uax:DateTime>
+          <uax:DateTime>2024-12-01T00:00:00Z</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="ua:IsNamespaceSubset" DataType="ua:Boolean">
@@ -96,6 +101,31 @@
       <opc:Reference IsInverse="true">
         <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
         <opc:TargetId>ua:Server_Namespaces</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+
+  <opc:Object SymbolicName="WellKnownRole_RegistrarAdmin" TypeDefinition="ua:RoleType">
+    <opc:BrowseName>RegistrarAdmin</opc:BrowseName>
+    <opc:DisplayName>RegistrarAdmin</opc:DisplayName>
+    <opc:Description DoNotIgnore="true">Has rights to manage the Registrar and approve Devices when automatic authentication was not possible.</opc:Description>
+    <opc:Children>
+      <opc:Property SymbolicName="ApplicationsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Applications" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="EndpointsExclude" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="Endpoints" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="CustomConfiguration" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveIdentity" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveApplication" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="AddEndpoint" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="RemoveEndpoint" ModellingRule="Mandatory" />
+    </opc:Children>
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:HasComponent</opc:ReferenceType>
+        <opc:TargetId>ua:Server_ServerCapabilities_RoleSet</opc:TargetId>
       </opc:Reference>
     </opc:References>
   </opc:Object>
@@ -239,7 +269,7 @@
       </opc:Object>
     </opc:Children>
   </opc:ObjectType>
-
+    
   <opc:Object SymbolicName="DeviceRegistrar" TypeDefinition="DeviceRegistrarType">
     <opc:Children>
       <opc:Object SymbolicName="Administration" ModellingRule="Mandatory">

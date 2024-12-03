@@ -11,6 +11,7 @@ namespace ModelCompiler
         protected NodeIdDictionary<DataTypeState> m_index;
         protected Dictionary<string, BaseSchemaElement> m_builtInTypes;
         protected string m_modelUri;
+        protected bool m_useCompactEncoding;
 
         public BaseSchemaExporter()
         {
@@ -267,8 +268,11 @@ namespace ModelCompiler
                     field.IsOptional ||
                     fieldType.IsAbstract)
                 {
-                    schema.ExportType = GetStructureType();
-                    return schema;
+                    if (field.IsOptional)
+                    {
+                        schema.ExportType = GetStructureType();
+                        return schema;
+                    }
                 }
 
                 schema.ExportType = (fieldType.NodeId.NamespaceIndex != 0) ? $"{fieldType.NodeId.NamespaceIndex}:{fieldType.SymbolicName}" : fieldType.SymbolicName;
@@ -283,13 +287,13 @@ namespace ModelCompiler
 
             if (bit.NodeId == Opc.Ua.DataTypes.Enumeration)
             {
-                schema.ExportType = GetEnumerationExportType();
+                schema.ExportType = (fieldType.NodeId.NamespaceIndex != 0) ? $"{fieldType.NodeId.NamespaceIndex}:{fieldType.SymbolicName}" : fieldType.SymbolicName;
                 return schema;
             }
 
             if (m_builtInTypes.TryGetValue(bit.SymbolicName, out var type))
             {
-                if (type.ExportType != "object")
+                if (type.ExportType != "object" && type.ExportType != null)
                 {
                     schema.ExportType = type.ExportType;
                     schema.ExportSubType = type.ExportSubType;
@@ -446,6 +450,7 @@ namespace ModelCompiler
         public string ExportSubType { get; set; }
         public NodeId DataTypeId { get; set; }
         public List<BaseSchemaField> Fields { get; set; }
+        public bool Sealed { get; set; }
     }
 
     internal class BaseSchemaField

@@ -175,6 +175,7 @@
       <xs:enumeration value="Normal" />
       <xs:enumeration value="ServicesOnly" />
       <xs:enumeration value="CodeGenerator" />
+      <xs:enumeration value="Testing" />
     </xs:restriction>
   </xs:simpleType>
   
@@ -469,6 +470,7 @@
         <xs:attribute name="IsUnion" type="xs:boolean" use="optional" default="false" />
         <xs:attribute name="NoArraysAllowed" type="xs:boolean" use="optional" default="false" />
         <xs:attribute name="ForceEnumValues" type="xs:boolean" use="optional" default="false" />
+        <xs:attribute name="NoEncodings" type="xs:boolean" use="optional" default="false" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -510,6 +512,7 @@
         <xs:attribute name="MinCardinality" type="xs:unsignedInt" use="optional" default="0" />
         <xs:attribute name="MaxCardinality" type="xs:unsignedInt" use="optional" default="0" />
         <xs:attribute name="PreserveDefaultAttributes" type="xs:boolean" use="optional" default="false" />
+        <xs:attribute name="DesignToolOnly" type="xs:boolean" use="optional" default="false" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

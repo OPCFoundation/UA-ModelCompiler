@@ -29,14 +29,24 @@
 -->
 
 <opc:TypeDictionary
+  xmlns:OpcUaDi="http://opcfoundation.org/UA/DI/"
   xmlns:opc="http://opcfoundation.org/BinarySchema/"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:ua="http://opcfoundation.org/UA/"
-  xmlns:tns="http://www.opcfoundation.org/DemoModel/"
+  xmlns:tns="urn:opcfoundation.org:2024-01:DemoModel"
   DefaultByteOrder="LittleEndian"
-  TargetNamespace="http://www.opcfoundation.org/DemoModel/"
+  TargetNamespace="urn:opcfoundation.org:2024-01:DemoModel"
 >
   <opc:Import Namespace="http://opcfoundation.org/UA/" Location="Opc.Ua.BinarySchema.bsd"/>
+  <opc:Import Namespace="http://opcfoundation.org/UA/DI/" Location="Opc.Ua.Di.BinarySchema.bsd"/>
+
+  <opc:EnumeratedType Name="EnumUnderscoreTest" LengthInBits="32">
+    <opc:EnumeratedValue Name="x_x" Value="1" />
+    <opc:EnumeratedValue Name="_x" Value="2" />
+    <opc:EnumeratedValue Name="x_" Value="3" />
+    <opc:EnumeratedValue Name="_" Value="4" />
+    <opc:EnumeratedValue Name="Test5" Value="-1" />
+  </opc:EnumeratedType>
 
   <opc:EnumeratedType Name="HeaterStatus" LengthInBits="32">
     <opc:EnumeratedValue Name="Off" Value="0" />
@@ -90,6 +100,16 @@
     <opc:Field Name="NoOfFieldZ" TypeName="opc:Int32" />
     <opc:Field Name="FieldZ" TypeName="ua:ExtensionObject" LengthField="NoOfFieldZ" />
     <opc:Field Name="FieldW" TypeName="tns:WorkOrderStatusType" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="Person" BaseType="ua:ExtensionObject">
+    <opc:Field Name="LastName" TypeName="opc:String" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="Student" BaseType="tns:Person">
+    <opc:Field Name="LastName" TypeName="opc:String" SourceType="tns:Person" />
+    <opc:Field Name="FirstName" TypeName="opc:String" />
+    <opc:Field Name="University" TypeName="opc:String" />
   </opc:StructuredType>
 
 </opc:TypeDictionary>

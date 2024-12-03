@@ -69,7 +69,13 @@ namespace CodeGenerator
         /// <summary>
         /// Generates the datatype files.
         /// </summary>
-        public virtual void Generate(string namespacePrefix, string className, string identifierFilePath, bool renumberAll)
+        public virtual void Generate(
+            string namespacePrefix, 
+            string className, 
+            string identifierFilePath, 
+            bool renumberAll,
+            string folderName = null,
+            string suffix = null)
         {
             List<DataType> datatypes = GetDataTypeList();
 
@@ -83,7 +89,7 @@ namespace CodeGenerator
                 LoadIdentifiersFromFile(identifierFilePath, datatypes);
             }
 
-            WriteTemplate_Constants(namespacePrefix, className, datatypes);
+            WriteTemplate_Constants(namespacePrefix, className, datatypes, folderName, suffix);
         }
         #endregion
 
@@ -91,9 +97,15 @@ namespace CodeGenerator
         /// <summary>
         /// Writes the address space declaration file.
         /// </summary>
-        private void WriteTemplate_Constants(string namespacePrefix, string className, List<DataType> datatypes)
+        private void WriteTemplate_Constants(
+            string namespacePrefix,
+            string className, 
+            List<DataType> datatypes,
+            string folderName = null,
+            string suffix = null)
         {
             m_className = className;
+            bool isStatusCodes = false;
 
             // assign identifiers.
             foreach (DataType datatype in datatypes)
@@ -105,6 +117,7 @@ namespace CodeGenerator
                     if (constant.Name.StartsWith(Severity.Bad.ToString()))
                     {
                         constant.Severity = Severity.Bad;
+                        isStatusCodes = true;
                     }
 
                     if (constant.Name.StartsWith(Severity.Good.ToString()))
@@ -119,7 +132,7 @@ namespace CodeGenerator
                 }
             }
 
-            if (TargetLanguage == Language.CSV)
+            if (TargetLanguage == Language.CSV || (folderName  != null && isStatusCodes))
             {
                 datatypes = new List<DataType>(datatypes);
 
@@ -179,19 +192,25 @@ namespace CodeGenerator
                     break;
                 }
 
-                case Language.TypeScript:
+                case Language.OpenApi:
                 {
-                    fileName = String.Format(@"{0}\{1}-{2}.ts", OutputDirectory, namespacePrefix.ToLower().Replace(".", "").Replace("-", "").Replace(",", "").Replace(":", ""), className.ToLower());
-                    m_templateSuffix = ".ts";
+                    fileName = @$"{OutputDirectory}\Constants\{folderName}\{namespacePrefix.ToLower().Replace(".", "").Replace("-", "").Replace(",", "").Replace(":", "")}_{className.ToLower()}.{suffix}";
+                    m_templateSuffix = $".{suffix}";
                     break;
                 }
+            }
+
+            if (!Directory.Exists(Path.GetDirectoryName(fileName)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(fileName));
             }
 
             StreamWriter writer = new StreamWriter(fileName, false);
 
             try
             {
-                string templatePath = TemplatePath + "Constants.File" + m_templateSuffix;
+                string templateRoot = TemplatePath + "Constants." + ((folderName != null) ? folderName + "." : "");
+                string templatePath = templateRoot + "File" + m_templateSuffix;
 
                 if (className == "Identifiers")
                 {
@@ -208,7 +227,7 @@ namespace CodeGenerator
                 AddTemplate(
                     template,
                     "// ListOfIdentifiers",
-                    TemplatePath + "Constants.Constant" + m_templateSuffix,
+                    templateRoot + "Constant" + m_templateSuffix,
                     datatypes,
                     new LoadTemplateEventHandler(LoadTemplate_Constant),
                     new WriteTemplateEventHandler(WriteTemplate_Constant));
@@ -216,19 +235,44 @@ namespace CodeGenerator
                 AddTemplate(
                     template,
                     "// ListOfEncodings",
-                    TemplatePath + "Constants.Constant" + m_templateSuffix,
+                    templateRoot + "Constant" + m_templateSuffix,
                     datatypes,
                     new LoadTemplateEventHandler(LoadTemplate_Constant),
                     new WriteTemplateEventHandler(WriteTemplate_Constant));
 
+                if (folderName != null && isStatusCodes)
+                {
+                    AddTemplate(
+                        template,
+                        "// StatusCodeHelpers",
+                        templateRoot + "StatusCode" + m_templateSuffix,
+                        new[] { "placeholder" },
+                        new LoadTemplateEventHandler(LoadTemplate_StatusCodeHelpers),
+                        new WriteTemplateEventHandler(WriteTemplate_StatusCodeHelpers));
+                }
+                else
+                {
+                    template.AddReplacement("// StatusCodeHelpers", "");
+                }
+
                 Context context = new Context();
-                context.BlankLine = TargetLanguage != Language.CSV && TargetLanguage != Language.TypeScript;
                 template.WriteTemplate(context);
             }
             finally
             {
                 writer.Close();
             }
+        }
+
+        private string LoadTemplate_StatusCodeHelpers(Template template, Context context)
+        {
+            return context.TemplatePath;
+        }
+
+        private bool WriteTemplate_StatusCodeHelpers(Template template, Context context)
+        {
+            template.WriteNextLine(String.Empty);
+            return template.WriteTemplate(context);
         }
 
         /// <summary>
@@ -281,10 +325,10 @@ namespace CodeGenerator
 
                 else
                 {
+                    context.BlankLine = TargetLanguage != Language.CSV && TargetLanguage != Language.OpenApi;
+
                     if (constant.Severity != Severity.None)
                     {
-                        context.BlankLine = TargetLanguage != Language.CSV;
-
                         uint id = Convert.ToUInt32(constant.Identifier);
                         id <<= 16;
 

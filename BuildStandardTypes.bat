@@ -40,18 +40,20 @@ set MODELVERSION=
 
 REM Set overrides for older versions. set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
 IF "%1"=="v105" (
-	set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
-	set MODELVERSION=-mv 1.05.03 -pd 2023-12-15
+	set MODELVERSION=-mv 1.05.04 -pd 2024-12-01
 	set USEALLOWSUBTYPES=
 )
 
 IF "%1"=="v104" (
-	set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
+	set DOTNET_TARGET=
+	set GDS_TARGET=
 	set USEALLOWSUBTYPES=
-	set MODELVERSION=-mv 1.04.12 -pd 2024-02-15
+	set MODELVERSION=-mv 1.04.12 -pd 2024-01-05
 )
 
 IF "%1"=="v103" (
+	set DOTNET_TARGET=
+	set GDS_TARGET=
 	set USEALLOWSUBTYPES=
 	set CSVINPUT=%INPUT%
 	set MODELVERSION=-mv 1.03.9 -pd 2022-03-29
@@ -99,12 +101,19 @@ MOVE /Y "%OUTPUT%\Schema\Opc.Ua.DataTypes.cs" "%OUTPUT%\DotNet\Opc.Ua.DataTypes.
 MOVE /Y "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.uanodes" "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.uanodes"
 MOVE /Y "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.xml" "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.xml"
 MOVE /Y "%OUTPUT%\Schema\Opc.Ua.NodeSet.xml" "%OUTPUT%\DotNet\Opc.Ua.NodeSet.xml"
+MOVE /Y "%OUTPUT%\DotNet\Opc.Ua.Services.wsdl" "%OUTPUT%\Schema\Opc.Ua.Services.wsdl"
+MOVE /Y "%OUTPUT%\DotNet\Opc.Ua.Endpoints.wsdl" "%OUTPUT%\Schema\Opc.Ua.Endpoints.wsdl"
 @ECHO OFF
 
-ECHO Moving .ts files to %OUTPUT%\TypeScript\
-IF NOT EXIST "%OUTPUT%\TypeScript" MKDIR "%OUTPUT%\TypeScript"
-MOVE /Y "%OUTPUT%\DotNet\*.ts" "%OUTPUT%\TypeScript\"
-MOVE /Y "%OUTPUT%\Schema\*.ts" "%OUTPUT%\TypeScript\"
+IF NOT EXIST "%OUTPUT%\OpenApi" MKDIR "%OUTPUT%\OpenApi"
+COPY "%OUTPUT%\Schema\*.json" "%OUTPUT%\OpenApi\"
+
+ECHO Moving Constants to %OUTPUT%\OpenApi\Constants\
+IF EXIST "%OUTPUT%\OpenApi\Constants" RMDIR /S /Q "%OUTPUT%\OpenApi\Constants"
+XCOPY "%OUTPUT%\Schema\Constants" "%OUTPUT%\OpenApi\Constants" /E /Y /I
+RMDIR /S /Q "%OUTPUT%\Schema\Constants"
+XCOPY "%OUTPUT%\DotNet\Constants" "%OUTPUT%\OpenApi\Constants" /E /Y /I
+RMDIR /S /Q "%OUTPUT%\DotNet\Constants"
 @ECHO OFF
 
 IF "%ANSIC_TARGET%" NEQ "" (
@@ -142,8 +151,8 @@ IF "%DOTNET_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\Schema\Opc.Ua.NodeSet2.xml" "%DOTNET_TARGET%\Schema\Opc.Ua.NodeSet2.xml"
 	COPY "%OUTPUT%\Schema\Opc.Ua.Types.bsd" "%DOTNET_TARGET%\Schema\Opc.Ua.Types.bsd"
 	COPY "%OUTPUT%\Schema\Opc.Ua.Types.xsd" "%DOTNET_TARGET%\Schema\Opc.Ua.Types.xsd"
-	COPY "%OUTPUT%\DotNet\Opc.Ua.Endpoints.wsdl" "%DOTNET_TARGET%\Schema\Opc.Ua.Endpoints.wsdl"
-	COPY "%OUTPUT%\DotNet\Opc.Ua.Services.wsdl" "%DOTNET_TARGET%\Schema\Opc.Ua.Services.wsdl"
+	COPY "%OUTPUT%\Schema\Opc.Ua.Endpoints.wsdl" "%DOTNET_TARGET%\Schema\Opc.Ua.Endpoints.wsdl"
+	COPY "%OUTPUT%\Schema\Opc.Ua.Services.wsdl" "%DOTNET_TARGET%\Schema\Opc.Ua.Services.wsdl"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.Channels.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Channels.cs"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.Client.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Client.cs"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.Endpoints.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Endpoints.cs"

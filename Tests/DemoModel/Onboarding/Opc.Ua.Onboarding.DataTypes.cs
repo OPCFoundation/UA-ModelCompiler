@@ -620,7 +620,6 @@ namespace Opc.Ua.Onboarding
                 return false;
             }
 
-            if (!base.IsEqual(encodeable)) return false;
             if (!Utils.IsEqual(m_productInstanceUri, value.m_productInstanceUri)) return false;
 
             return base.IsEqual(encodeable);
@@ -850,7 +849,6 @@ namespace Opc.Ua.Onboarding
                 return false;
             }
 
-            if (!base.IsEqual(encodeable)) return false;
             if (!Utils.IsEqual(m_compositeInstanceUri, value.m_compositeInstanceUri)) return false;
             if (!Utils.IsEqual(m_devices, value.m_devices)) return false;
             if (!Utils.IsEqual(m_composites, value.m_composites)) return false;

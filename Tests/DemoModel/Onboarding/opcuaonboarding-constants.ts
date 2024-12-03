@@ -1,220 +1,413 @@
+export const NS = 'http://opcfoundation.org/UA/Onboarding/';
 
-export enum DataTypeIds {
-   CertificateAuthorityType = 'i=1164',
-   BaseTicketType = 'i=1165',
-   DeviceIdentityTicketType = 'i=1166',
-   CompositeIdentityTicketType = 'i=1167',
-   TicketListType = 'i=1168',
-   ManagerDescription = 'i=1495'
+export class BrowseNames {
+   static readonly AddApplication: string = 'nsu=' + NS + ';AddApplication';
+   static readonly AddEndpoint: string = 'nsu=' + NS + ';AddEndpoint';
+   static readonly AddIdentity: string = 'nsu=' + NS + ';AddIdentity';
+   static readonly Administration: string = 'nsu=' + NS + ';Administration';
+   static readonly Applications: string = 'nsu=' + NS + ';Applications';
+   static readonly ApplicationsExclude: string = 'nsu=' + NS + ';ApplicationsExclude';
+   static readonly BaseTicketType: string = 'nsu=' + NS + ';BaseTicketType';
+   static readonly Certificate: string = 'nsu=' + NS + ';Certificate';
+   static readonly CertificateAuthorityType: string = 'nsu=' + NS + ';CertificateAuthorityType';
+   static readonly Composite: string = 'nsu=' + NS + ';Composite';
+   static readonly CompositeIdentityTicketType: string = 'nsu=' + NS + ';CompositeIdentityTicketType';
+   static readonly Configuration: string = 'nsu=' + NS + ';Configuration';
+   static readonly CustomConfiguration: string = 'nsu=' + NS + ';CustomConfiguration';
+   static readonly DeviceIdentityAcceptedAuditEventType: string = 'nsu=' + NS + ';DeviceIdentityAcceptedAuditEventType';
+   static readonly DeviceIdentityAuthorities: string = 'nsu=' + NS + ';DeviceIdentityAuthorities';
+   static readonly DeviceIdentityTicketType: string = 'nsu=' + NS + ';DeviceIdentityTicketType';
+   static readonly DeviceRegistrar: string = 'nsu=' + NS + ';DeviceRegistrar';
+   static readonly DeviceRegistrarAdminType: string = 'nsu=' + NS + ';DeviceRegistrarAdminType';
+   static readonly DeviceRegistrarType: string = 'nsu=' + NS + ';DeviceRegistrarType';
+   static readonly DeviceRegistrationAuditEventType: string = 'nsu=' + NS + ';DeviceRegistrationAuditEventType';
+   static readonly DeviceSoftwareUpdatedAuditEventType: string = 'nsu=' + NS + ';DeviceSoftwareUpdatedAuditEventType';
+   static readonly Diagnostics: string = 'nsu=' + NS + ';Diagnostics';
+   static readonly Endpoints: string = 'nsu=' + NS + ';Endpoints';
+   static readonly EndpointsExclude: string = 'nsu=' + NS + ';EndpointsExclude';
+   static readonly GetManagers: string = 'nsu=' + NS + ';GetManagers';
+   static readonly Identification: string = 'nsu=' + NS + ';Identification';
+   static readonly Maintenance: string = 'nsu=' + NS + ';Maintenance';
+   static readonly ManagerDescription: string = 'nsu=' + NS + ';ManagerDescription';
+   static readonly ModelVersion: string = 'nsu=' + NS + ';ModelVersion';
+   static readonly OpcUaOnboarding_BinarySchema: string = 'nsu=' + NS + ';Opc.Ua.Onboarding';
+   static readonly OpcUaOnboarding_XmlSchema: string = 'nsu=' + NS + ';Opc.Ua.Onboarding';
+   static readonly OPCUAOnboardingNamespaceMetadata: string = 'nsu=' + NS + ';http://opcfoundation.org/UA/Onboarding/';
+   static readonly Operational: string = 'nsu=' + NS + ';Operational';
+   static readonly OperationCounters: string = 'nsu=' + NS + ';OperationCounters';
+   static readonly ProductInstanceUri: string = 'nsu=' + NS + ';ProductInstanceUri';
+   static readonly ProvideIdentities: string = 'nsu=' + NS + ';ProvideIdentities';
+   static readonly RegisterDeviceEndpoint: string = 'nsu=' + NS + ';RegisterDeviceEndpoint';
+   static readonly RegisterManagedApplication: string = 'nsu=' + NS + ';RegisterManagedApplication';
+   static readonly RegisterTickets: string = 'nsu=' + NS + ';RegisterTickets';
+   static readonly RemoveApplication: string = 'nsu=' + NS + ';RemoveApplication';
+   static readonly RemoveEndpoint: string = 'nsu=' + NS + ';RemoveEndpoint';
+   static readonly RemoveIdentity: string = 'nsu=' + NS + ';RemoveIdentity';
+   static readonly SoftwareRevision: string = 'nsu=' + NS + ';SoftwareRevision';
+   static readonly Statistics: string = 'nsu=' + NS + ';Statistics';
+   static readonly Status: string = 'nsu=' + NS + ';Status';
+   static readonly Ticket: string = 'nsu=' + NS + ';Ticket';
+   static readonly TicketAuthorities: string = 'nsu=' + NS + ';TicketAuthorities';
+   static readonly TicketListType: string = 'nsu=' + NS + ';TicketListType';
+   static readonly Tuning: string = 'nsu=' + NS + ';Tuning';
+   static readonly UnregisterTickets: string = 'nsu=' + NS + ';UnregisterTickets';
+   static readonly UpdateSoftwareStatus: string = 'nsu=' + NS + ';UpdateSoftwareStatus';
+   static readonly WellKnownRole_RegistrarAdmin: string = 'nsu=' + NS + ';RegistrarAdmin';
 }
 
-export enum MethodIds {
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_Open = 'i=17',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_Close = 'i=20',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_Read = 'i=22',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_Write = 'i=25',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_GetPosition = 'i=27',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_SetPosition = 'i=30',
-   DeviceRegistrarAdminType_RegisterTickets = 'i=1176',
-   DeviceRegistrarAdminType_UnregisterTickets = 'i=1179',
-   DeviceRegistrarAdminType_TicketAuthorities_Open = 'i=1190',
-   DeviceRegistrarAdminType_TicketAuthorities_Close = 'i=1193',
-   DeviceRegistrarAdminType_TicketAuthorities_Read = 'i=1195',
-   DeviceRegistrarAdminType_TicketAuthorities_Write = 'i=1198',
-   DeviceRegistrarAdminType_TicketAuthorities_GetPosition = 'i=1200',
-   DeviceRegistrarAdminType_TicketAuthorities_SetPosition = 'i=1203',
-   DeviceRegistrarAdminType_TicketAuthorities_OpenWithMasks = 'i=1208',
-   DeviceRegistrarAdminType_TicketAuthorities_CloseAndUpdate = 'i=1211',
-   DeviceRegistrarAdminType_TicketAuthorities_AddCertificate = 'i=1214',
-   DeviceRegistrarAdminType_TicketAuthorities_RemoveCertificate = 'i=1216',
-   DeviceRegistrarAdminType_DeviceIdentityAuthorities_Open = 'i=1226',
-   DeviceRegistrarAdminType_DeviceIdentityAuthorities_Close = 'i=1229',
-   DeviceRegistrarAdminType_DeviceIdentityAuthorities_Read = 'i=1231',
-   DeviceRegistrarAdminType_DeviceIdentityAuthorities_Write = 'i=1234',
-   DeviceRegistrarAdminType_DeviceIdentityAuthorities_GetPosition = 'i=1236',
-   DeviceRegistrarAdminType_DeviceIdentityAuthorities_SetPosition = 'i=1239',
-   DeviceRegistrarAdminType_DeviceIdentityAuthorities_OpenWithMasks = 'i=1244',
-   DeviceRegistrarAdminType_DeviceIdentityAuthorities_CloseAndUpdate = 'i=1247',
-   DeviceRegistrarAdminType_DeviceIdentityAuthorities_AddCertificate = 'i=1250',
-   DeviceRegistrarAdminType_DeviceIdentityAuthorities_RemoveCertificate = 'i=1252',
-   DeviceRegistrarType_ProvideIdentities = 'i=1260',
-   DeviceRegistrarType_UpdateSoftwareStatus = 'i=1503',
-   DeviceRegistrarType_RegisterDeviceEndpoint = 'i=1263',
-   DeviceRegistrarType_GetManagers = 'i=1505',
-   DeviceRegistrarType_RegisterManagedApplication = 'i=1507',
-   DeviceRegistrarType_Administration_RegisterTickets = 'i=1266',
-   DeviceRegistrarType_Administration_UnregisterTickets = 'i=1269',
-   DeviceRegistrarType_Administration_TicketAuthorities_Open = 'i=1280',
-   DeviceRegistrarType_Administration_TicketAuthorities_Close = 'i=1283',
-   DeviceRegistrarType_Administration_TicketAuthorities_Read = 'i=1285',
-   DeviceRegistrarType_Administration_TicketAuthorities_Write = 'i=1288',
-   DeviceRegistrarType_Administration_TicketAuthorities_GetPosition = 'i=1290',
-   DeviceRegistrarType_Administration_TicketAuthorities_SetPosition = 'i=1293',
-   DeviceRegistrarType_Administration_TicketAuthorities_OpenWithMasks = 'i=1298',
-   DeviceRegistrarType_Administration_TicketAuthorities_CloseAndUpdate = 'i=1301',
-   DeviceRegistrarType_Administration_TicketAuthorities_AddCertificate = 'i=1304',
-   DeviceRegistrarType_Administration_TicketAuthorities_RemoveCertificate = 'i=1306',
-   DeviceRegistrarType_Administration_DeviceIdentityAuthorities_Open = 'i=1316',
-   DeviceRegistrarType_Administration_DeviceIdentityAuthorities_Close = 'i=1319',
-   DeviceRegistrarType_Administration_DeviceIdentityAuthorities_Read = 'i=1321',
-   DeviceRegistrarType_Administration_DeviceIdentityAuthorities_Write = 'i=1324',
-   DeviceRegistrarType_Administration_DeviceIdentityAuthorities_GetPosition = 'i=1326',
-   DeviceRegistrarType_Administration_DeviceIdentityAuthorities_SetPosition = 'i=1329',
-   DeviceRegistrarType_Administration_DeviceIdentityAuthorities_OpenWithMasks = 'i=1334',
-   DeviceRegistrarType_Administration_DeviceIdentityAuthorities_CloseAndUpdate = 'i=1337',
-   DeviceRegistrarType_Administration_DeviceIdentityAuthorities_AddCertificate = 'i=1340',
-   DeviceRegistrarType_Administration_DeviceIdentityAuthorities_RemoveCertificate = 'i=1342',
-   DeviceRegistrar_ProvideIdentities = 'i=1345',
-   DeviceRegistrar_UpdateSoftwareStatus = 'i=1510',
-   DeviceRegistrar_RegisterDeviceEndpoint = 'i=1348',
-   DeviceRegistrar_GetManagers = 'i=1512',
-   DeviceRegistrar_RegisterManagedApplication = 'i=1514',
-   DeviceRegistrar_Administration_RegisterTickets = 'i=1351',
-   DeviceRegistrar_Administration_UnregisterTickets = 'i=1354',
-   DeviceRegistrar_Administration_TicketAuthorities_Open = 'i=1365',
-   DeviceRegistrar_Administration_TicketAuthorities_Close = 'i=1368',
-   DeviceRegistrar_Administration_TicketAuthorities_Read = 'i=1370',
-   DeviceRegistrar_Administration_TicketAuthorities_Write = 'i=1373',
-   DeviceRegistrar_Administration_TicketAuthorities_GetPosition = 'i=1375',
-   DeviceRegistrar_Administration_TicketAuthorities_SetPosition = 'i=1378',
-   DeviceRegistrar_Administration_TicketAuthorities_OpenWithMasks = 'i=1383',
-   DeviceRegistrar_Administration_TicketAuthorities_CloseAndUpdate = 'i=1386',
-   DeviceRegistrar_Administration_TicketAuthorities_AddCertificate = 'i=1389',
-   DeviceRegistrar_Administration_TicketAuthorities_RemoveCertificate = 'i=1391',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_Open = 'i=1401',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_Close = 'i=1404',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_Read = 'i=1406',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_Write = 'i=1409',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_GetPosition = 'i=1411',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_SetPosition = 'i=1414',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_OpenWithMasks = 'i=1419',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_CloseAndUpdate = 'i=1422',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_AddCertificate = 'i=1425',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_RemoveCertificate = 'i=1427'
+export class DataTypeIds {
+   static readonly CertificateAuthorityType: string = 'nsu=' + NS + ';i=1164';
+   static readonly BaseTicketType: string = 'nsu=' + NS + ';i=1165';
+   static readonly DeviceIdentityTicketType: string = 'nsu=' + NS + ';i=1166';
+   static readonly CompositeIdentityTicketType: string = 'nsu=' + NS + ';i=1167';
+   static readonly TicketListType: string = 'nsu=' + NS + ';i=1168';
+   static readonly ManagerDescription: string = 'nsu=' + NS + ';i=1495';
 }
 
-export enum ObjectIds {
-   OPCUAOnboardingNamespaceMetadata = 'i=1',
-   DeviceRegistrar = 'i=1344',
-   DeviceRegistrar_Administration = 'i=1350',
-   DeviceRegistrar_Administration_TicketAuthorities = 'i=1357',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities = 'i=1393',
-   ManagerDescription_Encoding_DefaultBinary = 'i=4206',
-   ManagerDescription_Encoding_DefaultXml = 'i=4214',
-   ManagerDescription_Encoding_DefaultJson = 'i=4222'
+export class MethodIds {
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_Open: string = 'nsu=' + NS + ';i=17';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_Close: string = 'nsu=' + NS + ';i=20';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_Read: string = 'nsu=' + NS + ';i=22';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_Write: string = 'nsu=' + NS + ';i=25';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_GetPosition: string = 'nsu=' + NS + ';i=27';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_SetPosition: string = 'nsu=' + NS + ';i=30';
+   static readonly WellKnownRole_RegistrarAdmin_AddIdentity: string = 'nsu=' + NS + ';i=5041';
+   static readonly WellKnownRole_RegistrarAdmin_RemoveIdentity: string = 'nsu=' + NS + ';i=5043';
+   static readonly WellKnownRole_RegistrarAdmin_AddApplication: string = 'nsu=' + NS + ';i=5045';
+   static readonly WellKnownRole_RegistrarAdmin_RemoveApplication: string = 'nsu=' + NS + ';i=5047';
+   static readonly WellKnownRole_RegistrarAdmin_AddEndpoint: string = 'nsu=' + NS + ';i=5049';
+   static readonly WellKnownRole_RegistrarAdmin_RemoveEndpoint: string = 'nsu=' + NS + ';i=5051';
+   static readonly DeviceRegistrarAdminType_RegisterTickets: string = 'nsu=' + NS + ';i=1176';
+   static readonly DeviceRegistrarAdminType_UnregisterTickets: string = 'nsu=' + NS + ';i=1179';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_Open: string = 'nsu=' + NS + ';i=1190';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_Close: string = 'nsu=' + NS + ';i=1193';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_Read: string = 'nsu=' + NS + ';i=1195';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_Write: string = 'nsu=' + NS + ';i=1198';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_GetPosition: string = 'nsu=' + NS + ';i=1200';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_SetPosition: string = 'nsu=' + NS + ';i=1203';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_OpenWithMasks: string = 'nsu=' + NS + ';i=1208';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_CloseAndUpdate: string = 'nsu=' + NS + ';i=1211';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_AddCertificate: string = 'nsu=' + NS + ';i=1214';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_RemoveCertificate: string = 'nsu=' + NS + ';i=1216';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_Open: string = 'nsu=' + NS + ';i=1226';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_Close: string = 'nsu=' + NS + ';i=1229';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_Read: string = 'nsu=' + NS + ';i=1231';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_Write: string = 'nsu=' + NS + ';i=1234';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_GetPosition: string = 'nsu=' + NS + ';i=1236';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_SetPosition: string = 'nsu=' + NS + ';i=1239';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_OpenWithMasks: string = 'nsu=' + NS + ';i=1244';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_CloseAndUpdate: string = 'nsu=' + NS + ';i=1247';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_AddCertificate: string = 'nsu=' + NS + ';i=1250';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_RemoveCertificate: string = 'nsu=' + NS + ';i=1252';
+   static readonly DeviceRegistrarType_ProvideIdentities: string = 'nsu=' + NS + ';i=1260';
+   static readonly DeviceRegistrarType_UpdateSoftwareStatus: string = 'nsu=' + NS + ';i=1503';
+   static readonly DeviceRegistrarType_RegisterDeviceEndpoint: string = 'nsu=' + NS + ';i=1263';
+   static readonly DeviceRegistrarType_GetManagers: string = 'nsu=' + NS + ';i=1505';
+   static readonly DeviceRegistrarType_RegisterManagedApplication: string = 'nsu=' + NS + ';i=1507';
+   static readonly DeviceRegistrarType_Administration_RegisterTickets: string = 'nsu=' + NS + ';i=1266';
+   static readonly DeviceRegistrarType_Administration_UnregisterTickets: string = 'nsu=' + NS + ';i=1269';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_Open: string = 'nsu=' + NS + ';i=1280';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_Close: string = 'nsu=' + NS + ';i=1283';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_Read: string = 'nsu=' + NS + ';i=1285';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_Write: string = 'nsu=' + NS + ';i=1288';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_GetPosition: string = 'nsu=' + NS + ';i=1290';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_SetPosition: string = 'nsu=' + NS + ';i=1293';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_OpenWithMasks: string = 'nsu=' + NS + ';i=1298';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_CloseAndUpdate: string = 'nsu=' + NS + ';i=1301';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_AddCertificate: string = 'nsu=' + NS + ';i=1304';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_RemoveCertificate: string = 'nsu=' + NS + ';i=1306';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_Open: string = 'nsu=' + NS + ';i=1316';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_Close: string = 'nsu=' + NS + ';i=1319';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_Read: string = 'nsu=' + NS + ';i=1321';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_Write: string = 'nsu=' + NS + ';i=1324';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_GetPosition: string = 'nsu=' + NS + ';i=1326';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_SetPosition: string = 'nsu=' + NS + ';i=1329';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_OpenWithMasks: string = 'nsu=' + NS + ';i=1334';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_CloseAndUpdate: string = 'nsu=' + NS + ';i=1337';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_AddCertificate: string = 'nsu=' + NS + ';i=1340';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_RemoveCertificate: string = 'nsu=' + NS + ';i=1342';
+   static readonly DeviceRegistrar_ProvideIdentities: string = 'nsu=' + NS + ';i=1345';
+   static readonly DeviceRegistrar_UpdateSoftwareStatus: string = 'nsu=' + NS + ';i=1510';
+   static readonly DeviceRegistrar_RegisterDeviceEndpoint: string = 'nsu=' + NS + ';i=1348';
+   static readonly DeviceRegistrar_GetManagers: string = 'nsu=' + NS + ';i=1512';
+   static readonly DeviceRegistrar_RegisterManagedApplication: string = 'nsu=' + NS + ';i=1514';
+   static readonly DeviceRegistrar_Administration_RegisterTickets: string = 'nsu=' + NS + ';i=1351';
+   static readonly DeviceRegistrar_Administration_UnregisterTickets: string = 'nsu=' + NS + ';i=1354';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_Open: string = 'nsu=' + NS + ';i=1365';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_Close: string = 'nsu=' + NS + ';i=1368';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_Read: string = 'nsu=' + NS + ';i=1370';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_Write: string = 'nsu=' + NS + ';i=1373';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_GetPosition: string = 'nsu=' + NS + ';i=1375';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_SetPosition: string = 'nsu=' + NS + ';i=1378';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_OpenWithMasks: string = 'nsu=' + NS + ';i=1383';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_CloseAndUpdate: string = 'nsu=' + NS + ';i=1386';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_AddCertificate: string = 'nsu=' + NS + ';i=1389';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_RemoveCertificate: string = 'nsu=' + NS + ';i=1391';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_Open: string = 'nsu=' + NS + ';i=1401';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_Close: string = 'nsu=' + NS + ';i=1404';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_Read: string = 'nsu=' + NS + ';i=1406';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_Write: string = 'nsu=' + NS + ';i=1409';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_GetPosition: string = 'nsu=' + NS + ';i=1411';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_SetPosition: string = 'nsu=' + NS + ';i=1414';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_OpenWithMasks: string = 'nsu=' + NS + ';i=1419';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_CloseAndUpdate: string = 'nsu=' + NS + ';i=1422';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_AddCertificate: string = 'nsu=' + NS + ';i=1425';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_RemoveCertificate: string = 'nsu=' + NS + ';i=1427';
 }
 
-export enum ObjectTypeIds {
-   DeviceRegistrarAdminType = 'i=1175',
-   DeviceRegistrarType = 'i=1259',
-   DeviceRegistrationAuditEventType = 'i=1517',
-   DeviceIdentityAcceptedAuditEventType = 'i=1533',
-   DeviceSoftwareUpdatedAuditEventType = 'i=1552'
+export class ObjectIds {
+   static readonly OPCUAOnboardingNamespaceMetadata: string = 'nsu=' + NS + ';i=1';
+   static readonly WellKnownRole_RegistrarAdmin: string = 'nsu=' + NS + ';i=5034';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities: string = 'nsu=' + NS + ';i=1182';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities: string = 'nsu=' + NS + ';i=1218';
+   static readonly DeviceRegistrarType_Administration: string = 'nsu=' + NS + ';i=1265';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities: string = 'nsu=' + NS + ';i=1272';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities: string = 'nsu=' + NS + ';i=1308';
+   static readonly Configuration: string = 'nsu=' + NS + ';i=1518';
+   static readonly Tuning: string = 'nsu=' + NS + ';i=1519';
+   static readonly Maintenance: string = 'nsu=' + NS + ';i=1520';
+   static readonly Diagnostics: string = 'nsu=' + NS + ';i=5028';
+   static readonly Statistics: string = 'nsu=' + NS + ';i=5029';
+   static readonly Status: string = 'nsu=' + NS + ';i=5033';
+   static readonly Operational: string = 'nsu=' + NS + ';i=5030';
+   static readonly OperationCounters: string = 'nsu=' + NS + ';i=5031';
+   static readonly Identification: string = 'nsu=' + NS + ';i=5032';
+   static readonly DeviceRegistrar: string = 'nsu=' + NS + ';i=1344';
+   static readonly DeviceRegistrar_Administration: string = 'nsu=' + NS + ';i=1350';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities: string = 'nsu=' + NS + ';i=1357';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities: string = 'nsu=' + NS + ';i=1393';
+   static readonly CertificateAuthorityType_Encoding_DefaultBinary: string = 'nsu=' + NS + ';i=1439';
+   static readonly BaseTicketType_Encoding_DefaultBinary: string = 'nsu=' + NS + ';i=1440';
+   static readonly DeviceIdentityTicketType_Encoding_DefaultBinary: string = 'nsu=' + NS + ';i=1441';
+   static readonly CompositeIdentityTicketType_Encoding_DefaultBinary: string = 'nsu=' + NS + ';i=1442';
+   static readonly TicketListType_Encoding_DefaultBinary: string = 'nsu=' + NS + ';i=1443';
+   static readonly ManagerDescription_Encoding_DefaultBinary: string = 'nsu=' + NS + ';i=4206';
+   static readonly CertificateAuthorityType_Encoding_DefaultXml: string = 'nsu=' + NS + ';i=1463';
+   static readonly BaseTicketType_Encoding_DefaultXml: string = 'nsu=' + NS + ';i=1464';
+   static readonly DeviceIdentityTicketType_Encoding_DefaultXml: string = 'nsu=' + NS + ';i=1465';
+   static readonly CompositeIdentityTicketType_Encoding_DefaultXml: string = 'nsu=' + NS + ';i=1466';
+   static readonly TicketListType_Encoding_DefaultXml: string = 'nsu=' + NS + ';i=1467';
+   static readonly ManagerDescription_Encoding_DefaultXml: string = 'nsu=' + NS + ';i=4214';
+   static readonly CertificateAuthorityType_Encoding_DefaultJson: string = 'nsu=' + NS + ';i=1487';
+   static readonly BaseTicketType_Encoding_DefaultJson: string = 'nsu=' + NS + ';i=1488';
+   static readonly DeviceIdentityTicketType_Encoding_DefaultJson: string = 'nsu=' + NS + ';i=1489';
+   static readonly CompositeIdentityTicketType_Encoding_DefaultJson: string = 'nsu=' + NS + ';i=1490';
+   static readonly TicketListType_Encoding_DefaultJson: string = 'nsu=' + NS + ';i=1491';
+   static readonly ManagerDescription_Encoding_DefaultJson: string = 'nsu=' + NS + ';i=4222';
 }
 
-export enum VariableIds {
-   OPCUAOnboardingNamespaceMetadata_NamespaceUri = 'i=2',
-   OPCUAOnboardingNamespaceMetadata_NamespaceVersion = 'i=3',
-   OPCUAOnboardingNamespaceMetadata_NamespacePublicationDate = 'i=4',
-   OPCUAOnboardingNamespaceMetadata_IsNamespaceSubset = 'i=5',
-   OPCUAOnboardingNamespaceMetadata_StaticNodeIdTypes = 'i=6',
-   OPCUAOnboardingNamespaceMetadata_StaticNumericNodeIdRange = 'i=7',
-   OPCUAOnboardingNamespaceMetadata_StaticStringNodeIdPattern = 'i=8',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_Size = 'i=10',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_Writable = 'i=11',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_UserWritable = 'i=12',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_OpenCount = 'i=13',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_Open_InputArguments = 'i=18',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_Open_OutputArguments = 'i=19',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_Close_InputArguments = 'i=21',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_Read_InputArguments = 'i=23',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_Read_OutputArguments = 'i=24',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_Write_InputArguments = 'i=26',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_GetPosition_InputArguments = 'i=28',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_GetPosition_OutputArguments = 'i=29',
-   OPCUAOnboardingNamespaceMetadata_NamespaceFile_SetPosition_InputArguments = 'i=31',
-   OPCUAOnboardingNamespaceMetadata_DefaultRolePermissions = 'i=33',
-   OPCUAOnboardingNamespaceMetadata_DefaultUserRolePermissions = 'i=34',
-   OPCUAOnboardingNamespaceMetadata_DefaultAccessRestrictions = 'i=35',
-   DeviceRegistrar_ProvideIdentities_InputArguments = 'i=1346',
-   DeviceRegistrar_ProvideIdentities_OutputArguments = 'i=1347',
-   DeviceRegistrar_UpdateSoftwareStatus_InputArguments = 'i=1511',
-   DeviceRegistrar_RegisterDeviceEndpoint_InputArguments = 'i=1349',
-   DeviceRegistrar_GetManagers_OutputArguments = 'i=1513',
-   DeviceRegistrar_RegisterManagedApplication_InputArguments = 'i=1515',
-   DeviceRegistrar_RegisterManagedApplication_OutputArguments = 'i=1516',
-   DeviceRegistrar_Administration_RegisterTickets_InputArguments = 'i=1352',
-   DeviceRegistrar_Administration_RegisterTickets_OutputArguments = 'i=1353',
-   DeviceRegistrar_Administration_UnregisterTickets_InputArguments = 'i=1355',
-   DeviceRegistrar_Administration_UnregisterTickets_OutputArguments = 'i=1356',
-   DeviceRegistrar_Administration_TicketAuthorities_Size = 'i=1358',
-   DeviceRegistrar_Administration_TicketAuthorities_Writable = 'i=1359',
-   DeviceRegistrar_Administration_TicketAuthorities_UserWritable = 'i=1360',
-   DeviceRegistrar_Administration_TicketAuthorities_OpenCount = 'i=1361',
-   DeviceRegistrar_Administration_TicketAuthorities_Open_InputArguments = 'i=1366',
-   DeviceRegistrar_Administration_TicketAuthorities_Open_OutputArguments = 'i=1367',
-   DeviceRegistrar_Administration_TicketAuthorities_Close_InputArguments = 'i=1369',
-   DeviceRegistrar_Administration_TicketAuthorities_Read_InputArguments = 'i=1371',
-   DeviceRegistrar_Administration_TicketAuthorities_Read_OutputArguments = 'i=1372',
-   DeviceRegistrar_Administration_TicketAuthorities_Write_InputArguments = 'i=1374',
-   DeviceRegistrar_Administration_TicketAuthorities_GetPosition_InputArguments = 'i=1376',
-   DeviceRegistrar_Administration_TicketAuthorities_GetPosition_OutputArguments = 'i=1377',
-   DeviceRegistrar_Administration_TicketAuthorities_SetPosition_InputArguments = 'i=1379',
-   DeviceRegistrar_Administration_TicketAuthorities_LastUpdateTime = 'i=1380',
-   DeviceRegistrar_Administration_TicketAuthorities_OpenWithMasks_InputArguments = 'i=1384',
-   DeviceRegistrar_Administration_TicketAuthorities_OpenWithMasks_OutputArguments = 'i=1385',
-   DeviceRegistrar_Administration_TicketAuthorities_CloseAndUpdate_InputArguments = 'i=1387',
-   DeviceRegistrar_Administration_TicketAuthorities_CloseAndUpdate_OutputArguments = 'i=1388',
-   DeviceRegistrar_Administration_TicketAuthorities_AddCertificate_InputArguments = 'i=1390',
-   DeviceRegistrar_Administration_TicketAuthorities_RemoveCertificate_InputArguments = 'i=1392',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_Size = 'i=1394',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_Writable = 'i=1395',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_UserWritable = 'i=1396',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_OpenCount = 'i=1397',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_Open_InputArguments = 'i=1402',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_Open_OutputArguments = 'i=1403',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_Close_InputArguments = 'i=1405',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_Read_InputArguments = 'i=1407',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_Read_OutputArguments = 'i=1408',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_Write_InputArguments = 'i=1410',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_GetPosition_InputArguments = 'i=1412',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_GetPosition_OutputArguments = 'i=1413',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_SetPosition_InputArguments = 'i=1415',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_LastUpdateTime = 'i=1416',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_OpenWithMasks_InputArguments = 'i=1420',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_OpenWithMasks_OutputArguments = 'i=1421',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_CloseAndUpdate_InputArguments = 'i=1423',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_CloseAndUpdate_OutputArguments = 'i=1424',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_AddCertificate_InputArguments = 'i=1426',
-   DeviceRegistrar_Administration_DeviceIdentityAuthorities_RemoveCertificate_InputArguments = 'i=1428',
-   OpcUaOnboarding_BinarySchema = 'i=1444',
-   OpcUaOnboarding_BinarySchema_NamespaceUri = 'i=1446',
-   OpcUaOnboarding_BinarySchema_Deprecated = 'i=1447',
-   OpcUaOnboarding_BinarySchema_CertificateAuthorityType = 'i=1448',
-   OpcUaOnboarding_BinarySchema_BaseTicketType = 'i=1451',
-   OpcUaOnboarding_BinarySchema_DeviceIdentityTicketType = 'i=1454',
-   OpcUaOnboarding_BinarySchema_CompositeIdentityTicketType = 'i=1457',
-   OpcUaOnboarding_BinarySchema_TicketListType = 'i=1460',
-   OpcUaOnboarding_BinarySchema_ManagerDescription = 'i=4208',
-   OpcUaOnboarding_XmlSchema = 'i=1468',
-   OpcUaOnboarding_XmlSchema_NamespaceUri = 'i=1470',
-   OpcUaOnboarding_XmlSchema_Deprecated = 'i=1471',
-   OpcUaOnboarding_XmlSchema_CertificateAuthorityType = 'i=1472',
-   OpcUaOnboarding_XmlSchema_BaseTicketType = 'i=1475',
-   OpcUaOnboarding_XmlSchema_DeviceIdentityTicketType = 'i=1478',
-   OpcUaOnboarding_XmlSchema_CompositeIdentityTicketType = 'i=1481',
-   OpcUaOnboarding_XmlSchema_TicketListType = 'i=1484',
-   OpcUaOnboarding_XmlSchema_ManagerDescription = 'i=4216'
+export class ObjectTypeIds {
+   static readonly DeviceRegistrarAdminType: string = 'nsu=' + NS + ';i=1175';
+   static readonly DeviceRegistrarType: string = 'nsu=' + NS + ';i=1259';
+   static readonly DeviceRegistrationAuditEventType: string = 'nsu=' + NS + ';i=1517';
+   static readonly DeviceIdentityAcceptedAuditEventType: string = 'nsu=' + NS + ';i=1533';
+   static readonly DeviceSoftwareUpdatedAuditEventType: string = 'nsu=' + NS + ';i=1552';
 }
 
-export class StatusCode {
-   public static isGood(code?: number): boolean {
-      return !code || (code & 0xD0000000) === 0;
-   }
-   public static isUncertain(code?: number): boolean {
-      return (code ?? 0 & 0x40000000) !== 0;
-   }
-   public static isBad(code?: number): boolean {
-      return (code ?? 0 & 0x80000000) !== 0;
-   }
+export class VariableIds {
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceUri: string = 'nsu=' + NS + ';i=2';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceVersion: string = 'nsu=' + NS + ';i=3';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespacePublicationDate: string = 'nsu=' + NS + ';i=4';
+   static readonly OPCUAOnboardingNamespaceMetadata_IsNamespaceSubset: string = 'nsu=' + NS + ';i=5';
+   static readonly OPCUAOnboardingNamespaceMetadata_StaticNodeIdTypes: string = 'nsu=' + NS + ';i=6';
+   static readonly OPCUAOnboardingNamespaceMetadata_StaticNumericNodeIdRange: string = 'nsu=' + NS + ';i=7';
+   static readonly OPCUAOnboardingNamespaceMetadata_StaticStringNodeIdPattern: string = 'nsu=' + NS + ';i=8';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_Size: string = 'nsu=' + NS + ';i=10';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_Writable: string = 'nsu=' + NS + ';i=11';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_UserWritable: string = 'nsu=' + NS + ';i=12';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_OpenCount: string = 'nsu=' + NS + ';i=13';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_Open_InputArguments: string = 'nsu=' + NS + ';i=18';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_Open_OutputArguments: string = 'nsu=' + NS + ';i=19';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_Close_InputArguments: string = 'nsu=' + NS + ';i=21';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_Read_InputArguments: string = 'nsu=' + NS + ';i=23';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_Read_OutputArguments: string = 'nsu=' + NS + ';i=24';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_Write_InputArguments: string = 'nsu=' + NS + ';i=26';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_GetPosition_InputArguments: string = 'nsu=' + NS + ';i=28';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_GetPosition_OutputArguments: string = 'nsu=' + NS + ';i=29';
+   static readonly OPCUAOnboardingNamespaceMetadata_NamespaceFile_SetPosition_InputArguments: string = 'nsu=' + NS + ';i=31';
+   static readonly OPCUAOnboardingNamespaceMetadata_DefaultRolePermissions: string = 'nsu=' + NS + ';i=33';
+   static readonly OPCUAOnboardingNamespaceMetadata_DefaultUserRolePermissions: string = 'nsu=' + NS + ';i=34';
+   static readonly OPCUAOnboardingNamespaceMetadata_DefaultAccessRestrictions: string = 'nsu=' + NS + ';i=35';
+   static readonly WellKnownRole_RegistrarAdmin_Identities: string = 'nsu=' + NS + ';i=5035';
+   static readonly WellKnownRole_RegistrarAdmin_ApplicationsExclude: string = 'nsu=' + NS + ';i=5036';
+   static readonly WellKnownRole_RegistrarAdmin_Applications: string = 'nsu=' + NS + ';i=5037';
+   static readonly WellKnownRole_RegistrarAdmin_EndpointsExclude: string = 'nsu=' + NS + ';i=5038';
+   static readonly WellKnownRole_RegistrarAdmin_Endpoints: string = 'nsu=' + NS + ';i=5039';
+   static readonly WellKnownRole_RegistrarAdmin_CustomConfiguration: string = 'nsu=' + NS + ';i=5040';
+   static readonly WellKnownRole_RegistrarAdmin_AddIdentity_InputArguments: string = 'nsu=' + NS + ';i=5042';
+   static readonly WellKnownRole_RegistrarAdmin_RemoveIdentity_InputArguments: string = 'nsu=' + NS + ';i=5044';
+   static readonly WellKnownRole_RegistrarAdmin_AddApplication_InputArguments: string = 'nsu=' + NS + ';i=5046';
+   static readonly WellKnownRole_RegistrarAdmin_RemoveApplication_InputArguments: string = 'nsu=' + NS + ';i=5048';
+   static readonly WellKnownRole_RegistrarAdmin_AddEndpoint_InputArguments: string = 'nsu=' + NS + ';i=5050';
+   static readonly WellKnownRole_RegistrarAdmin_RemoveEndpoint_InputArguments: string = 'nsu=' + NS + ';i=5052';
+   static readonly DeviceRegistrarAdminType_RegisterTickets_InputArguments: string = 'nsu=' + NS + ';i=1177';
+   static readonly DeviceRegistrarAdminType_RegisterTickets_OutputArguments: string = 'nsu=' + NS + ';i=1178';
+   static readonly DeviceRegistrarAdminType_UnregisterTickets_InputArguments: string = 'nsu=' + NS + ';i=1180';
+   static readonly DeviceRegistrarAdminType_UnregisterTickets_OutputArguments: string = 'nsu=' + NS + ';i=1181';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_Size: string = 'nsu=' + NS + ';i=1183';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_Writable: string = 'nsu=' + NS + ';i=1184';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_UserWritable: string = 'nsu=' + NS + ';i=1185';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_OpenCount: string = 'nsu=' + NS + ';i=1186';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_Open_InputArguments: string = 'nsu=' + NS + ';i=1191';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_Open_OutputArguments: string = 'nsu=' + NS + ';i=1192';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_Close_InputArguments: string = 'nsu=' + NS + ';i=1194';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_Read_InputArguments: string = 'nsu=' + NS + ';i=1196';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_Read_OutputArguments: string = 'nsu=' + NS + ';i=1197';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_Write_InputArguments: string = 'nsu=' + NS + ';i=1199';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_GetPosition_InputArguments: string = 'nsu=' + NS + ';i=1201';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_GetPosition_OutputArguments: string = 'nsu=' + NS + ';i=1202';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_SetPosition_InputArguments: string = 'nsu=' + NS + ';i=1204';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_LastUpdateTime: string = 'nsu=' + NS + ';i=1205';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_OpenWithMasks_InputArguments: string = 'nsu=' + NS + ';i=1209';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_OpenWithMasks_OutputArguments: string = 'nsu=' + NS + ';i=1210';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_CloseAndUpdate_InputArguments: string = 'nsu=' + NS + ';i=1212';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_CloseAndUpdate_OutputArguments: string = 'nsu=' + NS + ';i=1213';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_AddCertificate_InputArguments: string = 'nsu=' + NS + ';i=1215';
+   static readonly DeviceRegistrarAdminType_TicketAuthorities_RemoveCertificate_InputArguments: string = 'nsu=' + NS + ';i=1217';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_Size: string = 'nsu=' + NS + ';i=1219';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_Writable: string = 'nsu=' + NS + ';i=1220';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_UserWritable: string = 'nsu=' + NS + ';i=1221';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_OpenCount: string = 'nsu=' + NS + ';i=1222';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_Open_InputArguments: string = 'nsu=' + NS + ';i=1227';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_Open_OutputArguments: string = 'nsu=' + NS + ';i=1228';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_Close_InputArguments: string = 'nsu=' + NS + ';i=1230';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_Read_InputArguments: string = 'nsu=' + NS + ';i=1232';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_Read_OutputArguments: string = 'nsu=' + NS + ';i=1233';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_Write_InputArguments: string = 'nsu=' + NS + ';i=1235';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_GetPosition_InputArguments: string = 'nsu=' + NS + ';i=1237';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_GetPosition_OutputArguments: string = 'nsu=' + NS + ';i=1238';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_SetPosition_InputArguments: string = 'nsu=' + NS + ';i=1240';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_LastUpdateTime: string = 'nsu=' + NS + ';i=1241';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_OpenWithMasks_InputArguments: string = 'nsu=' + NS + ';i=1245';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_OpenWithMasks_OutputArguments: string = 'nsu=' + NS + ';i=1246';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_CloseAndUpdate_InputArguments: string = 'nsu=' + NS + ';i=1248';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_CloseAndUpdate_OutputArguments: string = 'nsu=' + NS + ';i=1249';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_AddCertificate_InputArguments: string = 'nsu=' + NS + ';i=1251';
+   static readonly DeviceRegistrarAdminType_DeviceIdentityAuthorities_RemoveCertificate_InputArguments: string = 'nsu=' + NS + ';i=1253';
+   static readonly DeviceRegistrarType_ProvideIdentities_InputArguments: string = 'nsu=' + NS + ';i=1261';
+   static readonly DeviceRegistrarType_ProvideIdentities_OutputArguments: string = 'nsu=' + NS + ';i=1262';
+   static readonly DeviceRegistrarType_UpdateSoftwareStatus_InputArguments: string = 'nsu=' + NS + ';i=1504';
+   static readonly DeviceRegistrarType_RegisterDeviceEndpoint_InputArguments: string = 'nsu=' + NS + ';i=1264';
+   static readonly DeviceRegistrarType_GetManagers_OutputArguments: string = 'nsu=' + NS + ';i=1506';
+   static readonly DeviceRegistrarType_RegisterManagedApplication_InputArguments: string = 'nsu=' + NS + ';i=1508';
+   static readonly DeviceRegistrarType_RegisterManagedApplication_OutputArguments: string = 'nsu=' + NS + ';i=1509';
+   static readonly DeviceRegistrarType_Administration_RegisterTickets_InputArguments: string = 'nsu=' + NS + ';i=1267';
+   static readonly DeviceRegistrarType_Administration_RegisterTickets_OutputArguments: string = 'nsu=' + NS + ';i=1268';
+   static readonly DeviceRegistrarType_Administration_UnregisterTickets_InputArguments: string = 'nsu=' + NS + ';i=1270';
+   static readonly DeviceRegistrarType_Administration_UnregisterTickets_OutputArguments: string = 'nsu=' + NS + ';i=1271';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_Size: string = 'nsu=' + NS + ';i=1273';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_Writable: string = 'nsu=' + NS + ';i=1274';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_UserWritable: string = 'nsu=' + NS + ';i=1275';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_OpenCount: string = 'nsu=' + NS + ';i=1276';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_Open_InputArguments: string = 'nsu=' + NS + ';i=1281';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_Open_OutputArguments: string = 'nsu=' + NS + ';i=1282';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_Close_InputArguments: string = 'nsu=' + NS + ';i=1284';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_Read_InputArguments: string = 'nsu=' + NS + ';i=1286';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_Read_OutputArguments: string = 'nsu=' + NS + ';i=1287';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_Write_InputArguments: string = 'nsu=' + NS + ';i=1289';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_GetPosition_InputArguments: string = 'nsu=' + NS + ';i=1291';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_GetPosition_OutputArguments: string = 'nsu=' + NS + ';i=1292';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_SetPosition_InputArguments: string = 'nsu=' + NS + ';i=1294';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_LastUpdateTime: string = 'nsu=' + NS + ';i=1295';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_OpenWithMasks_InputArguments: string = 'nsu=' + NS + ';i=1299';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_OpenWithMasks_OutputArguments: string = 'nsu=' + NS + ';i=1300';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_CloseAndUpdate_InputArguments: string = 'nsu=' + NS + ';i=1302';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_CloseAndUpdate_OutputArguments: string = 'nsu=' + NS + ';i=1303';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_AddCertificate_InputArguments: string = 'nsu=' + NS + ';i=1305';
+   static readonly DeviceRegistrarType_Administration_TicketAuthorities_RemoveCertificate_InputArguments: string = 'nsu=' + NS + ';i=1307';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_Size: string = 'nsu=' + NS + ';i=1309';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_Writable: string = 'nsu=' + NS + ';i=1310';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_UserWritable: string = 'nsu=' + NS + ';i=1311';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_OpenCount: string = 'nsu=' + NS + ';i=1312';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_Open_InputArguments: string = 'nsu=' + NS + ';i=1317';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_Open_OutputArguments: string = 'nsu=' + NS + ';i=1318';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_Close_InputArguments: string = 'nsu=' + NS + ';i=1320';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_Read_InputArguments: string = 'nsu=' + NS + ';i=1322';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_Read_OutputArguments: string = 'nsu=' + NS + ';i=1323';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_Write_InputArguments: string = 'nsu=' + NS + ';i=1325';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_GetPosition_InputArguments: string = 'nsu=' + NS + ';i=1327';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_GetPosition_OutputArguments: string = 'nsu=' + NS + ';i=1328';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_SetPosition_InputArguments: string = 'nsu=' + NS + ';i=1330';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_LastUpdateTime: string = 'nsu=' + NS + ';i=1331';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_OpenWithMasks_InputArguments: string = 'nsu=' + NS + ';i=1335';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_OpenWithMasks_OutputArguments: string = 'nsu=' + NS + ';i=1336';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_CloseAndUpdate_InputArguments: string = 'nsu=' + NS + ';i=1338';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_CloseAndUpdate_OutputArguments: string = 'nsu=' + NS + ';i=1339';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_AddCertificate_InputArguments: string = 'nsu=' + NS + ';i=1341';
+   static readonly DeviceRegistrarType_Administration_DeviceIdentityAuthorities_RemoveCertificate_InputArguments: string = 'nsu=' + NS + ';i=1343';
+   static readonly DeviceRegistrar_ProvideIdentities_InputArguments: string = 'nsu=' + NS + ';i=1346';
+   static readonly DeviceRegistrar_ProvideIdentities_OutputArguments: string = 'nsu=' + NS + ';i=1347';
+   static readonly DeviceRegistrar_UpdateSoftwareStatus_InputArguments: string = 'nsu=' + NS + ';i=1511';
+   static readonly DeviceRegistrar_RegisterDeviceEndpoint_InputArguments: string = 'nsu=' + NS + ';i=1349';
+   static readonly DeviceRegistrar_GetManagers_OutputArguments: string = 'nsu=' + NS + ';i=1513';
+   static readonly DeviceRegistrar_RegisterManagedApplication_InputArguments: string = 'nsu=' + NS + ';i=1515';
+   static readonly DeviceRegistrar_RegisterManagedApplication_OutputArguments: string = 'nsu=' + NS + ';i=1516';
+   static readonly DeviceRegistrar_Administration_RegisterTickets_InputArguments: string = 'nsu=' + NS + ';i=1352';
+   static readonly DeviceRegistrar_Administration_RegisterTickets_OutputArguments: string = 'nsu=' + NS + ';i=1353';
+   static readonly DeviceRegistrar_Administration_UnregisterTickets_InputArguments: string = 'nsu=' + NS + ';i=1355';
+   static readonly DeviceRegistrar_Administration_UnregisterTickets_OutputArguments: string = 'nsu=' + NS + ';i=1356';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_Size: string = 'nsu=' + NS + ';i=1358';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_Writable: string = 'nsu=' + NS + ';i=1359';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_UserWritable: string = 'nsu=' + NS + ';i=1360';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_OpenCount: string = 'nsu=' + NS + ';i=1361';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_Open_InputArguments: string = 'nsu=' + NS + ';i=1366';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_Open_OutputArguments: string = 'nsu=' + NS + ';i=1367';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_Close_InputArguments: string = 'nsu=' + NS + ';i=1369';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_Read_InputArguments: string = 'nsu=' + NS + ';i=1371';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_Read_OutputArguments: string = 'nsu=' + NS + ';i=1372';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_Write_InputArguments: string = 'nsu=' + NS + ';i=1374';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_GetPosition_InputArguments: string = 'nsu=' + NS + ';i=1376';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_GetPosition_OutputArguments: string = 'nsu=' + NS + ';i=1377';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_SetPosition_InputArguments: string = 'nsu=' + NS + ';i=1379';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_LastUpdateTime: string = 'nsu=' + NS + ';i=1380';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_OpenWithMasks_InputArguments: string = 'nsu=' + NS + ';i=1384';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_OpenWithMasks_OutputArguments: string = 'nsu=' + NS + ';i=1385';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_CloseAndUpdate_InputArguments: string = 'nsu=' + NS + ';i=1387';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_CloseAndUpdate_OutputArguments: string = 'nsu=' + NS + ';i=1388';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_AddCertificate_InputArguments: string = 'nsu=' + NS + ';i=1390';
+   static readonly DeviceRegistrar_Administration_TicketAuthorities_RemoveCertificate_InputArguments: string = 'nsu=' + NS + ';i=1392';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_Size: string = 'nsu=' + NS + ';i=1394';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_Writable: string = 'nsu=' + NS + ';i=1395';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_UserWritable: string = 'nsu=' + NS + ';i=1396';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_OpenCount: string = 'nsu=' + NS + ';i=1397';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_Open_InputArguments: string = 'nsu=' + NS + ';i=1402';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_Open_OutputArguments: string = 'nsu=' + NS + ';i=1403';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_Close_InputArguments: string = 'nsu=' + NS + ';i=1405';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_Read_InputArguments: string = 'nsu=' + NS + ';i=1407';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_Read_OutputArguments: string = 'nsu=' + NS + ';i=1408';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_Write_InputArguments: string = 'nsu=' + NS + ';i=1410';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_GetPosition_InputArguments: string = 'nsu=' + NS + ';i=1412';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_GetPosition_OutputArguments: string = 'nsu=' + NS + ';i=1413';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_SetPosition_InputArguments: string = 'nsu=' + NS + ';i=1415';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_LastUpdateTime: string = 'nsu=' + NS + ';i=1416';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_OpenWithMasks_InputArguments: string = 'nsu=' + NS + ';i=1420';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_OpenWithMasks_OutputArguments: string = 'nsu=' + NS + ';i=1421';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_CloseAndUpdate_InputArguments: string = 'nsu=' + NS + ';i=1423';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_CloseAndUpdate_OutputArguments: string = 'nsu=' + NS + ';i=1424';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_AddCertificate_InputArguments: string = 'nsu=' + NS + ';i=1426';
+   static readonly DeviceRegistrar_Administration_DeviceIdentityAuthorities_RemoveCertificate_InputArguments: string = 'nsu=' + NS + ';i=1428';
+   static readonly DeviceRegistrationAuditEventType_ProductInstanceUri: string = 'nsu=' + NS + ';i=1532';
+   static readonly DeviceIdentityAcceptedAuditEventType_Certificate: string = 'nsu=' + NS + ';i=1549';
+   static readonly DeviceIdentityAcceptedAuditEventType_Ticket: string = 'nsu=' + NS + ';i=1550';
+   static readonly DeviceIdentityAcceptedAuditEventType_Composite: string = 'nsu=' + NS + ';i=1551';
+   static readonly DeviceSoftwareUpdatedAuditEventType_Status: string = 'nsu=' + NS + ';i=1563';
+   static readonly DeviceSoftwareUpdatedAuditEventType_SoftwareRevision: string = 'nsu=' + NS + ';i=1568';
+   static readonly OpcUaOnboarding_BinarySchema: string = 'nsu=' + NS + ';i=1444';
+   static readonly OpcUaOnboarding_BinarySchema_NamespaceUri: string = 'nsu=' + NS + ';i=1446';
+   static readonly OpcUaOnboarding_BinarySchema_Deprecated: string = 'nsu=' + NS + ';i=1447';
+   static readonly OpcUaOnboarding_BinarySchema_CertificateAuthorityType: string = 'nsu=' + NS + ';i=1448';
+   static readonly OpcUaOnboarding_BinarySchema_BaseTicketType: string = 'nsu=' + NS + ';i=1451';
+   static readonly OpcUaOnboarding_BinarySchema_DeviceIdentityTicketType: string = 'nsu=' + NS + ';i=1454';
+   static readonly OpcUaOnboarding_BinarySchema_CompositeIdentityTicketType: string = 'nsu=' + NS + ';i=1457';
+   static readonly OpcUaOnboarding_BinarySchema_TicketListType: string = 'nsu=' + NS + ';i=1460';
+   static readonly OpcUaOnboarding_BinarySchema_ManagerDescription: string = 'nsu=' + NS + ';i=4208';
+   static readonly OpcUaOnboarding_XmlSchema: string = 'nsu=' + NS + ';i=1468';
+   static readonly OpcUaOnboarding_XmlSchema_NamespaceUri: string = 'nsu=' + NS + ';i=1470';
+   static readonly OpcUaOnboarding_XmlSchema_Deprecated: string = 'nsu=' + NS + ';i=1471';
+   static readonly OpcUaOnboarding_XmlSchema_CertificateAuthorityType: string = 'nsu=' + NS + ';i=1472';
+   static readonly OpcUaOnboarding_XmlSchema_BaseTicketType: string = 'nsu=' + NS + ';i=1475';
+   static readonly OpcUaOnboarding_XmlSchema_DeviceIdentityTicketType: string = 'nsu=' + NS + ';i=1478';
+   static readonly OpcUaOnboarding_XmlSchema_CompositeIdentityTicketType: string = 'nsu=' + NS + ';i=1481';
+   static readonly OpcUaOnboarding_XmlSchema_TicketListType: string = 'nsu=' + NS + ';i=1484';
+   static readonly OpcUaOnboarding_XmlSchema_ManagerDescription: string = 'nsu=' + NS + ';i=4216';
 }

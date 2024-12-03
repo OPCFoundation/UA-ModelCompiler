@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Schema;
 using Opc.Ua;
 using System.Text;
 
@@ -6,8 +7,10 @@ namespace ModelCompiler
 {
     internal class JsonSchemaExporter : BaseSchemaExporter
     {
-        public JsonSchemaExporter(bool useReversibleEncoding)
+        public JsonSchemaExporter(bool useCompactEncoding)
         {
+            m_useCompactEncoding = useCompactEncoding;
+
             m_builtInTypes = new Dictionary<string, BaseSchemaElement>()
             {
                 ["Boolean"] = new BaseSchemaElement()
@@ -46,12 +49,12 @@ namespace ModelCompiler
                 },
                 ["Int64"] = new BaseSchemaElement()
                 {
-                    ExportType = "integer",
+                    ExportType = "string",
                     ExportSubType = "int32"
                 },
                 ["UInt64"] = new BaseSchemaElement()
                 {
-                    ExportType = "integer",
+                    ExportType = "string",
                     ExportSubType = "uint64"
                 },
                 ["Float"] = new BaseSchemaElement()
@@ -66,109 +69,53 @@ namespace ModelCompiler
                 },
                 ["String"] = new BaseSchemaElement()
                 {
-                    ExportType = "string"
+                    ExportType = @"[string,null]"
                 },
                 ["DateTime"] = new BaseSchemaElement()
                 {
                     ExportType = "string",
                     ExportSubType = "date-time"
                 },
-                ["Identifier"] = new BaseSchemaElement()
-                {
-                    Type = SchemaElementType.Union,
-                    Fields = new List<BaseSchemaField>()
-                    {
-                        new BaseSchemaField() { ExportType = "number" },
-                        new BaseSchemaField() { ExportType = "string" }
-                    }
-                },
-                ["Namespace"] = new BaseSchemaElement()
-                {
-                    Type = SchemaElementType.Union,
-                    Fields = new List<BaseSchemaField>()
-                    {
-                        new BaseSchemaField() { ExportType = "number" },
-                        new BaseSchemaField() { ExportType = "string" }
-                    }
-                },
                 ["NodeId"] = new BaseSchemaElement()
                 {
-                    Type = SchemaElementType.Structure,
-                    ExportType = "object",
-                    Fields = new List<BaseSchemaField>()
-                    {
-                        new BaseSchemaField()
-                        {
-                            Name = "IdType",
-                            ExportType = "IdType"
-                        },
-                        new BaseSchemaField()
-                        {
-                            Name = "Id",
-                            ExportType = "Identifier"
-                        },
-                        new BaseSchemaField()
-                        {
-                            Name = "Namespace",
-                            ExportType = "Namespace"
-                        }
-                    }
+                    ExportType = "string",
+                    ExportSubType = "UaNodeId"
                 },
                 ["ExpandedNodeId"] = new BaseSchemaElement()
                 {
-                    Type = SchemaElementType.Structure,
-                    ExportType = "object",
-                    Fields = new List<BaseSchemaField>()
-                    {
-                        new BaseSchemaField()
-                        {
-                            Name = "IdType",
-                            ExportType = "IdType"
-                        },
-                        new BaseSchemaField()
-                        {
-                            Name = "Id",
-                            ExportType = "Identifier"
-                        },
-                        new BaseSchemaField()
-                        {
-                            Name = "Namespace",
-                            ExportType = "Namespace"
-                        },
-                        new BaseSchemaField()
-                        {
-                            Name = "ServerUri",
-                            ExportType = "Namespace"
-                        }
-                    }
+                    ExportType = "string",
+                    ExportSubType = "UaNodeId"
                 },
                 ["StatusCode"] = new BaseSchemaElement()
                 {
-                    ExportType = "integer",
-                    ExportSubType = "uint32"
-                },
-                ["QualifiedName"] = new BaseSchemaElement()
-                {
                     Type = SchemaElementType.Structure,
                     ExportType = "object",
+                    Sealed = true,
                     Fields = new List<BaseSchemaField>()
                     {
                         new BaseSchemaField()
                         {
-                            Name = "Name",
-                            ExportType = "string"
+                            Name = "Code",
+                            ExportType = "integer",
+                            ExportSubType = "uint32"
                         },
                         new BaseSchemaField()
                         {
-                            Name = "Uri",
-                            ExportType = "Namespace"
-                        },
+                            Name = "Symbol",
+                            ExportType = "string"
+                        }
                     }
+                },
+                ["QualifiedName"] = new BaseSchemaElement()
+                {
+                    ExportType = "string",
+                    ExportSubType = "UaQualifiedName"
                 },
                 ["LocalizedText"] = new BaseSchemaElement()
                 {
                     Type = SchemaElementType.Structure,
                     ExportType = "object",
+                    Sealed = true,
                     Fields = new List<BaseSchemaField>()
                     {
                         new BaseSchemaField()
@@ -184,11 +131,6 @@ namespace ModelCompiler
                         }
                     }
                 },
-                ["Locale"] = new BaseSchemaElement()
-                {
-                    ExportType = "string",
-                    ExportSubType = "rfc3066"
-                },
                 ["Guid"] = new BaseSchemaElement()
                 {
                     ExportType = "string",
@@ -196,82 +138,79 @@ namespace ModelCompiler
                 },
                 ["ByteString"] = new BaseSchemaElement()
                 {
-                    ExportType = "string",
+                    ExportType = @"[string,null]",
                     ExportSubType = "byte"
                 },
                 ["XmlElement"] = new BaseSchemaElement()
                 {
-                    ExportType = "string",
+                    ExportType = @"[string,null]",
                     ExportSubType = "xml"
-                },
-                ["ExtensionObjectBody"] = new BaseSchemaElement()
-                {
-                    Type = SchemaElementType.Union,
-                    Fields = new List<BaseSchemaField>()
-                    {
-                        new BaseSchemaField() { ExportType = "string" },
-                        new BaseSchemaField() { ExportType = "object" }
-                    }
                 },
                 ["ExtensionObject"] = new BaseSchemaElement()
                 {
+                    Name = "ExtensionObject",
                     Type = SchemaElementType.Structure,
                     ExportType = "object",
+                    Sealed = false,
                     Fields = new List<BaseSchemaField>()
                     {
                         new BaseSchemaField()
                         {
-                            Name = "TypeId",
-                            ExportType = "string",
-                            ExportSubType = "NodeId"
+                            Name = "UaTypeId",
+                            ExportType = "NodeId"
                         },
                         new BaseSchemaField()
                         {
-                            Name = "Encoding",
+                            Name = "UaEncoding",
                             ExportType = "number",
                             ExportSubType = "uint8"
                         },
                         new BaseSchemaField()
                         {
-                            Name = "Body",
-                            ExportType = "ExtensionObjectBody"
-                        },
+                            Name = "UaBody",
+                            ExportType = "string",
+                            ExportSubType = "byte"
+                        }
                     },
                 },
-                ["BaseDataTypeBody"] = new BaseSchemaElement()
+                ["Matrix"] = new BaseSchemaElement()
                 {
-                    Type = SchemaElementType.Union,
+                    Type = SchemaElementType.Structure,
+                    ExportType = "object",
+                    Sealed = true,
                     Fields = new List<BaseSchemaField>()
                     {
-                        new BaseSchemaField() { ExportType = "boolean" },
-                        new BaseSchemaField() { ExportType = "number" },
-                        new BaseSchemaField() { ExportType = "string" },
-                        new BaseSchemaField() { ExportType = "LocalizedText" },
-                        new BaseSchemaField() { ExportType = "ExtensionObject" },
-                        new BaseSchemaField() { ExportType = "boolean", IsArray = true },
-                        new BaseSchemaField() { ExportType = "number", IsArray = true },
-                        new BaseSchemaField() { ExportType = "string", IsArray = true },
-                        new BaseSchemaField() { ExportType = "LocalizedText", IsArray = true },
-                        new BaseSchemaField() { ExportType = "ExtensionObject", IsArray = true },
-                        new BaseSchemaField() { ExportType = "BaseDataType", IsArray = true },
+                        new BaseSchemaField()
+                        {
+                            Name = "Array",
+                            ExportType = "array"
+                        },
+                        new BaseSchemaField()
+                        {
+                            Name = "Dimensions",
+                            ExportType = "integer",
+                            ExportSubType = "uint32",
+                            IsArray = true
+                        }
                     }
                 },
                 ["BaseDataType"] = new BaseSchemaElement()
                 {
                     Type = SchemaElementType.Structure,
                     ExportType = "object",
+                    Sealed = true,
                     Fields = new List<BaseSchemaField>()
                     {
                         new BaseSchemaField()
                         {
-                            Name = "Type",
+                            Name = "UaType",
                             ExportType = "integer",
                             ExportSubType = "uint8"
                         },
                         new BaseSchemaField()
                         {
-                            Name = "Body",
-                            ExportType = "BaseDataTypeBody"
+                            Name = "Value",
+                            ExportType = @"[object,string,boolean,array,number,null]"
                         },
                         new BaseSchemaField()
                         {
@@ -286,12 +225,26 @@ namespace ModelCompiler
                 {
                     Type = SchemaElementType.Structure,
                     ExportType = "object",
+                    Sealed = true,
                     Fields = new List<BaseSchemaField>()
                     {
                         new BaseSchemaField()
                         {
+                            Name = "UaType",
+                            ExportType = "integer",
+                            ExportSubType = "uint8"
+                        },
+                        new BaseSchemaField()
+                        {
                             Name = "Value",
-                            ExportType = "BaseDataType"
+                            ExportType = @"[object,string,boolean,array,number,null]"
+                        },
+                        new BaseSchemaField()
+                        {
+                            Name = "Dimensions",
+                            ExportType = "integer",
+                            ExportSubType = "uint32",
+                            IsArray = true
                         },
                         new BaseSchemaField()
                         {
@@ -306,7 +259,7 @@ namespace ModelCompiler
                         },
                         new BaseSchemaField()
                         {
-                            Name = "SourcePicoSeconds",
+                            Name = "SourcePicoseconds",
                             ExportType = "integer",
                             ExportSubType = "uint16"
                         },
@@ -318,7 +271,7 @@ namespace ModelCompiler
                         },
                         new BaseSchemaField()
                         {
-                            Name = "ServerPicoSeconds",
+                            Name = "ServerPicoseconds",
                             ExportType = "integer",
                             ExportSubType = "uint16"
                         }
@@ -328,6 +281,7 @@ namespace ModelCompiler
                 {
                     Type = SchemaElementType.Structure,
                     ExportType = "object",
+                    Sealed = true,
                     Fields = new List<BaseSchemaField>()
                     {
                         new BaseSchemaField()
@@ -376,6 +330,7 @@ namespace ModelCompiler
                 {
                     Type = SchemaElementType.Structure,
                     ExportType = "object",
+                    Sealed = true,
                     Fields = new List<BaseSchemaField>()
                     {
                         new BaseSchemaField()
@@ -420,38 +375,24 @@ namespace ModelCompiler
                     ExportSubType = "int32"
                 },
             };
+        }
 
-            if (!useReversibleEncoding)
+        private void WriteExportType(JsonWriter writer, string exportType)
+        {
+            if (exportType.StartsWith("["))
             {
-                m_builtInTypes["StatusCode"] = new BaseSchemaElement()
-                {
-                    Type = SchemaElementType.Structure,
-                    ExportType = "object",
-                    Fields = new List<BaseSchemaField>()
-                    {
-                        new BaseSchemaField()
-                        {
-                            Name = "Code",
-                            ExportType = "integer",
-                            ExportSubType = "uint32"
-                        },
-                        new BaseSchemaField()
-                        {
-                            Name = "Symbol",
-                            ExportType = "string"
-                        }
-                    }
-                };
+                writer.WriteStartArray();
 
-                m_builtInTypes["LocalizedText"] = new BaseSchemaElement()
+                foreach (var type in exportType.Substring(1, exportType.Length - 2).Split(','))
                 {
-                    ExportType = "string"
-                };
+                    writer.WriteValue(type);
+                }
 
-                m_builtInTypes["ExtensionObject"] = new BaseSchemaElement()
-                {
-                    ExportType = "object"
-                };
+                writer.WriteEndArray();
+            }
+            else
+            {
+                writer.WriteValue(exportType);
             }
         }
 
@@ -473,7 +414,7 @@ namespace ModelCompiler
             else
             {
                 writer.WritePropertyName("type");
-                writer.WriteValue(field.ExportType);
+                WriteExportType(writer, field.ExportType);
             }
 
             if (field.ExportSubType != null)
@@ -488,18 +429,42 @@ namespace ModelCompiler
             }
         }
 
-        public void Generate(Stream ostrm)
+        public void Generate(string fileName, Stream ostrm)
         {
+            if (!m_useCompactEncoding)
+            {
+                m_builtInTypes["StatusCode"] = new BaseSchemaElement()
+                {
+                    Type = SchemaElementType.Structure,
+                    ExportType = "object",
+                    Sealed = true,
+                    Fields = new List<BaseSchemaField>()
+                    {
+                        new BaseSchemaField()
+                        {
+                            Name = "Code",
+                            ExportType = "integer",
+                            ExportSubType = "uint32"
+                        },
+                        new BaseSchemaField()
+                        {
+                            Name = "Symbol",
+                            ExportType = "string"
+                        }
+                    }
+                };
+            }
+
             var types = GetTypesToExport(m_modelUri);
 
             using (JsonWriter writer = new JsonTextWriter(new StreamWriter(ostrm)))
             {
                 writer.Formatting = Formatting.Indented;
                 writer.WriteStartObject();
-                writer.WritePropertyName("$id");
-                writer.WriteValue(m_modelUri);
-                writer.WritePropertyName("schema");
+                writer.WritePropertyName("$schema");
                 writer.WriteValue("https://json-schema.org/draft/2020-12/schema");
+                writer.WritePropertyName("$id");
+                writer.WriteValue($"{m_modelUri}{((m_modelUri.EndsWith('/')) ? "" : "/")}{fileName}");
                 writer.WritePropertyName("type");
                 writer.WriteValue("object");
 
@@ -542,7 +507,7 @@ namespace ModelCompiler
                         else
                         {
                             writer.WritePropertyName("type");
-                            writer.WriteValue(type.Value.ExportType);
+                            WriteExportType(writer, type.Value.ExportType);
                         }
 
                         if (type.Value.ExportSubType != null)
@@ -560,7 +525,16 @@ namespace ModelCompiler
                         {
                             writer.WriteStartObject();
                             writer.WritePropertyName("const");
-                            writer.WriteValue(field.Value);
+                            
+                            if (m_useCompactEncoding)
+                            {
+                                writer.WriteValue(field.Value);
+                            }
+                            else
+                            {
+                                writer.WriteValue($"{field.Name}_{field.Value}");
+                            }
+
                             writer.WritePropertyName("title");
                             writer.WriteValue(field.Name);
                             writer.WriteEndObject();
@@ -590,22 +564,26 @@ namespace ModelCompiler
                             }
                         }
 
-                        StringBuilder builder = new();
+                        writer.WriteEndObject();
+                        writer.WritePropertyName(name + "Masks");
+                        writer.WriteStartObject();
+                        writer.WritePropertyName("$id");
+                        writer.WriteValue("/" + name.ToLowerInvariant() + "masks");
+
+                        writer.WritePropertyName("anyOf");
+                        writer.WriteStartArray();
 
                         foreach (var field in type.Value.Fields)
                         {
-                            if (builder.Length > 0)
-                            {
-                                builder.Append(";");
-                            }
-
-                            builder.Append(field.Name);
-                            builder.Append("=");
-                            builder.Append($"0x{field.Value:X2}");
+                            writer.WriteStartObject();
+                            writer.WritePropertyName("const");
+                            writer.WriteValue(1L<<(int)field.Value);
+                            writer.WritePropertyName("title");
+                            writer.WriteValue(field.Name);
+                            writer.WriteEndObject();
                         }
 
-                        writer.WritePropertyName("description");
-                        writer.WriteValue(builder.ToString());
+                        writer.WriteEndArray();
                     }
                     else if (type.Value.Type == SchemaElementType.Union)
                     {
@@ -614,15 +592,6 @@ namespace ModelCompiler
 
                         foreach (var field in type.Value.Fields)
                         {
-                            if (!String.IsNullOrEmpty(field.Name))
-                            {
-                                writer.WritePropertyName("type");
-                                writer.WriteValue("object");
-                                writer.WritePropertyName("properties");
-                                writer.WriteStartObject();
-                                writer.WritePropertyName(field.Name);
-                            }
-
                             writer.WriteStartObject();
                             WriteField(writer, field, types);
                             writer.WriteEndObject();
@@ -635,23 +604,26 @@ namespace ModelCompiler
                         writer.WritePropertyName("type");
                         writer.WriteValue("object");
 
-                        var dataType = FindDataType(type.Value.DataTypeId);
-
-                        if (dataType?.SuperTypeId != null)
+                        if (type.Value.DataTypeId != null)
                         {
-                            var st = FindDataType(dataType.SuperTypeId);
+                            var dataType = FindDataType(type.Value.DataTypeId);
 
-                            var key = (st.NodeId.NamespaceIndex == 0) ? st.SymbolicName : $"{st.NodeId.NamespaceIndex}:{st.SymbolicName}";
-
-                            if (st.NodeId != DataTypeIds.Structure && types.TryGetValue(key, out var baseType))
+                            if (dataType?.SuperTypeId != null)
                             {
-                                writer.WritePropertyName("allOf");
-                                writer.WriteStartArray();
-                                writer.WriteStartObject();
-                                writer.WritePropertyName("$ref");
-                                writer.WriteValue(GetRef(baseType.Namespace, baseType.Name));
-                                writer.WriteEndObject();
-                                writer.WriteEndArray();
+                                var st = FindDataType(dataType.SuperTypeId);
+
+                                var key = (st.NodeId.NamespaceIndex == 0) ? st.SymbolicName : $"{st.NodeId.NamespaceIndex}:{st.SymbolicName}";
+
+                                if (st.NodeId != DataTypeIds.Structure && types.TryGetValue(key, out var baseType))
+                                {
+                                    writer.WritePropertyName("allOf");
+                                    writer.WriteStartArray();
+                                    writer.WriteStartObject();
+                                    writer.WritePropertyName("$ref");
+                                    writer.WriteValue(GetRef(baseType.Namespace, baseType.Name));
+                                    writer.WriteEndObject();
+                                    writer.WriteEndArray();
+                                }
                             }
                         }
 
@@ -669,6 +641,12 @@ namespace ModelCompiler
                         writer.WriteEndObject();
                     }
 
+                    if (type.Value.Sealed)
+                    {
+                        writer.WritePropertyName("additionalProperties");
+                        writer.WriteValue(false);
+                    }
+
                     writer.WriteEndObject();
                 }
 
@@ -676,7 +654,7 @@ namespace ModelCompiler
                 {
                     writer.WriteEndObject();
                 }
-                 
+
                 writer.WriteEndObject();
             }
         }

@@ -6,14 +6,14 @@
   xmlns:di="http://opcfoundation.org/UA/DI/"
   xmlns:opc="http://opcfoundation.org/UA/ModelDesign.xsd"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns="urn:opc-foundation.org:DemoModel"
-  TargetNamespace="urn:opc-foundation.org:DemoModel"
-  TargetXmlNamespace="urn:opc-foundation.org:DemoModel"
+  xmlns="urn:opcfoundation.org:2024-01:DemoModel"
+  TargetNamespace="urn:opcfoundation.org:2024-01:DemoModel"
+  TargetXmlNamespace="urn:opc-foundation.org:2024-01:DemoModel"
   TargetVersion="1.05.03"
   TargetPublicationDate="2023-12-15T00:00:00Z">
 
   <opc:Namespaces>
-    <opc:Namespace Name="DemoModel" Prefix="DemoModel"  XmlNamespace="urn:opc-foundation.org:DemoModelTypes.xsd"  XmlPrefix="DemoModel">urn:opc-foundation.org:DemoModel</opc:Namespace>
+    <opc:Namespace Name="DemoModel" Prefix="DemoModel" XmlNamespace="urn:opcfoundation.org:2024-01:DemoModelTypes.xsd"  XmlPrefix="DemoModel">urn:opcfoundation.org:2024-01:DemoModel</opc:Namespace>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" Version="1.05.02" PublicationDate="2022-06-28T00:00:00Z" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
     <opc:Namespace Name="DI" Prefix="Opc.Ua.Di" InternalPrefix="Opc.Ua.Di.Server" XmlPrefix="OpcUaDi">http://opcfoundation.org/UA/DI/</opc:Namespace>
   </opc:Namespaces>
@@ -78,6 +78,9 @@
         <opc:DefaultRolePermissions Name="SeekerOnly" />
         <opc:DefaultAccessRestrictions>SessionWithSigningRequired</opc:DefaultAccessRestrictions>
       </opc:Variable>
+      <opc:Variable SymbolicName="X" TypeDefinition="ua:PropertyType" DataType="ua:Int32" />
+      <opc:Variable SymbolicName="Y" TypeDefinition="ua:PropertyType" DataType="ua:Int32" />
+      <opc:Variable SymbolicName="Z" TypeDefinition="ua:PropertyType" DataType="ua:Int32" />
     </opc:Children>
     <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
     <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
@@ -200,5 +203,18 @@
       <opc:Variable SymbolicName="X" DataType="ua:Int32" ValueRank="OneOrMoreDimensions" ArrayDimensions="0,0" ModellingRule="Optional"/>
     </opc:Children>
   </opc:ObjectType>
+
+  <opc:DataType SymbolicName="Person" BaseType="ua:Structure">
+    <opc:Fields>
+      <opc:Field Name="LastName" DataType="ua:String" IsOptional="true" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="Student" BaseType="Person">
+    <opc:Fields>
+      <opc:Field Name="FirstName" DataType="ua:String" IsOptional="true" />
+      <opc:Field Name="University" DataType="ua:String" IsOptional="true" />
+    </opc:Fields>
+  </opc:DataType>
 
 </opc:ModelDesign>

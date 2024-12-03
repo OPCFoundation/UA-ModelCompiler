@@ -465,6 +465,6 @@ namespace CodeGenerator
         /// <summary>
         /// CSV
         /// </summary>
-        TypeScript
+        OpenApi
     }
 }

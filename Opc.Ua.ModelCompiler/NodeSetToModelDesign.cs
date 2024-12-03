@@ -12,6 +12,7 @@
 
 using Opc.Ua;
 using Opc.Ua.Export;
+using System.Globalization;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -28,6 +29,7 @@ namespace ModelCompiler
             DesignFilePaths = new Dictionary<string, string>();
             NodesByQName = new Dictionary<XmlQualifiedName, NodeDesign>();
             NodesById = new Dictionary<NodeId, NodeDesign>();
+            NamespaceTables = new Dictionary<string, string[]>();
         }
 
         public NamespaceTable NamespaceUris { get; private set; }
@@ -35,6 +37,8 @@ namespace ModelCompiler
         public IDictionary<string, string> DesignFilePaths { get; set; }
 
         public IDictionary<XmlQualifiedName, NodeDesign> NodesByQName { get; set; }
+
+        public IDictionary<string, string[]> NamespaceTables { get; set; }
 
         public IDictionary<NodeId, NodeDesign> NodesById { get; set; }
     }
@@ -71,6 +75,8 @@ namespace ModelCompiler
                         m_settings.NamespaceUris.GetIndexOrAppend(ns);
                     }
                 }
+
+                m_settings.NamespaceTables[m_nodeset.Models[0].ModelUri] = m_nodeset.NamespaceUris;
 
                 if (m_nodeset.Aliases != null)
                 {
@@ -187,7 +193,7 @@ namespace ModelCompiler
                     Name = model.ModelUri.Substring(Namespaces.OpcUa.Length).Replace("/", " ").Trim().Replace(" ", "."),
                     Value = model.ModelUri,
                     XmlNamespace = model.XmlSchemaUri,
-                    PublicationDate = model.PublicationDate.ToString("yyyy-MM-ddT00:00:00Z"),
+                    PublicationDate = model.PublicationDate.ToString("yyyy-MM-ddT00:00:00Z", CultureInfo.InvariantCulture),
                     Version = model.Version
                 };
                 ns.XmlPrefix = ns.Prefix = "Opc.Ua." + ns.Name;
@@ -200,7 +206,7 @@ namespace ModelCompiler
                     Name = model.ModelUri.Replace("http://", "").Replace("/", " ").Trim().Replace(" ", "."),
                     Value = model.ModelUri,
                     XmlNamespace = model.XmlSchemaUri,
-                    PublicationDate = model.PublicationDate.ToString("yyyy-MM-ddT00:00:00Z"),
+                    PublicationDate = model.PublicationDate.ToString("yyyy-MM-ddT00:00:00Z", CultureInfo.InvariantCulture),
                     Version = model.Version
                 };
                 ns.XmlPrefix = ns.Prefix = ns.Name;
@@ -319,6 +325,11 @@ namespace ModelCompiler
 
             if (!String.IsNullOrEmpty(input.SymbolicName))
             {
+                if (input.BrowseName.Contains(":<") && !input.SymbolicName.EndsWith("_Placeholder"))
+                {
+                    return new XmlQualifiedName(input.SymbolicName + "_Placeholder", browseName.Namespace);
+                }
+
                 return new XmlQualifiedName(input.SymbolicName, browseName.Namespace);
             }
 
@@ -965,13 +976,13 @@ namespace ModelCompiler
             output.DataTypeNode = dataType;
         }
 
-        private List<Parameter> ImportArguments(MethodDesign method, XmlElement input)
+        private List<Parameter> ImportArguments(MethodDesign method, string sourceNodeSetUri, XmlElement input)
         {
             List<Parameter> output = new List<Parameter>();
 
             if (input != null)
             {
-                XmlDecoder decoder = CreateDecoder(input);
+                XmlDecoder decoder = CreateDecoder(input, sourceNodeSetUri);
                 TypeInfo typeInfo = null;
                 var value = decoder.ReadVariantContents(out typeInfo);
                 decoder.Close();
@@ -980,10 +991,6 @@ namespace ModelCompiler
 
                 foreach (var argument in arguments)
                 {
-                    var dataTypeId = new NodeId(
-                        argument.DataType.Identifier,
-                        ImportNamespaceIndex(argument.DataType.NamespaceIndex, m_settings.NamespaceUris));
-
                     var dataType = FindNode<DataTypeDesign>(argument.DataType);
 
                     if (dataType == null)
@@ -1063,12 +1070,12 @@ namespace ModelCompiler
                         {
                             if (property.BrowseName == BrowseNames.InputArguments)
                             {
-                                output.InputArguments = ImportArguments(output, property.DefaultValue).ToArray();
+                                output.InputArguments = ImportArguments(output, property.SymbolicId.Namespace, property.DefaultValue).ToArray();
                                 output.HasArguments = true;
                             }
                             else if (property.BrowseName == BrowseNames.OutputArguments)
                             {
-                                output.OutputArguments = ImportArguments(output, property.DefaultValue).ToArray();
+                                output.OutputArguments = ImportArguments(output, property.SymbolicId.Namespace, property.DefaultValue).ToArray();
                                 output.HasArguments = true;
                             }
                         }
@@ -1665,7 +1672,7 @@ namespace ModelCompiler
         /// Imports a node from the set.
         /// </summary>
         public ModelDesign Import(string prefix, string name)
-        {
+         {
             ModelDesign dictionary = new ModelDesign();
 
             if (m_nodeset.Models == null || m_nodeset.Models.Length == 0)
@@ -1835,7 +1842,7 @@ namespace ModelCompiler
 
                         MethodDesign declaration = new MethodDesign()
                         {
-                            SymbolicId = new XmlQualifiedName(node.SymbolicId.Name + "MethodType", node.SymbolicId.Namespace),
+                            SymbolicId = name,
                             SymbolicName = name,
                             BrowseName = name.Name,
                             DisplayName = new LocalizedText() { Value = name.Name, IsAutogenerated = true },
@@ -1845,6 +1852,7 @@ namespace ModelCompiler
                         };
 
                         methods.Add(declaration.SymbolicName, declaration);
+                        method.MethodDeclarationNode = declaration;
                     }
                 }
             }
@@ -1855,7 +1863,7 @@ namespace ModelCompiler
         /// <summary>
         /// Creates an decoder to restore Variant values.
         /// </summary>
-        private XmlDecoder CreateDecoder(XmlElement source)
+        private XmlDecoder CreateDecoder(XmlElement source, string sourceNodeSetUri = null)
         {
             IServiceMessageContext messageContext = new ServiceMessageContext()
             {
@@ -1868,11 +1876,16 @@ namespace ModelCompiler
 
             NamespaceTable namespaceUris = new NamespaceTable();
 
-            if (m_nodeset.NamespaceUris != null)
+            if (sourceNodeSetUri == null || !m_settings.NamespaceTables.TryGetValue(sourceNodeSetUri, out var sourceNamespaceUris))
             {
-                for (int ii = 0; ii < m_nodeset.NamespaceUris.Length; ii++)
+                sourceNamespaceUris = m_nodeset.NamespaceUris;
+            }
+
+            if (sourceNamespaceUris != null)
+            {
+                for (int ii = 0; ii < sourceNamespaceUris.Length; ii++)
                 {
-                    namespaceUris.Append(m_nodeset.NamespaceUris[ii]);
+                    namespaceUris.Append(sourceNamespaceUris[ii]);
                 }
             }
 

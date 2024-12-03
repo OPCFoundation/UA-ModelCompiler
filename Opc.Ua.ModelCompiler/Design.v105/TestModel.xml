@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<opc:ModelDesign
+  xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ua="http://opcfoundation.org/UA/"
+  xmlns:opc="http://opcfoundation.org/UA/ModelDesign.xsd"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="urn:opcfoundation.org:2024-01:TestModel"
+  TargetNamespace="urn:opcfoundation.org:2024-01:TestModel"
+  TargetXmlNamespace="urn:opc-foundation.org:2024-01:TestModel"
+  TargetVersion="1.05.04"
+  TargetPublicationDate="2024-12-15T00:00:00Z">
+
+  <opc:Namespaces>
+    <opc:Namespace Name="TestModel" Prefix="TestModel" XmlNamespace="urn:opcfoundation.org:2024-01:TestModelTypes.xsd"  XmlPrefix="Model">urn:opcfoundation.org:2024-01:TestModel</opc:Namespace>
+    <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" Version="1.05.04" PublicationDate="2024-11-15T00:00:00Z" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
+  </opc:Namespaces>
+
+  <opc:DataType SymbolicName="AbstractStructure" BaseType="ua:Structure" IsAbstract="true">
+    <opc:Fields>
+      <opc:Field Name="A" DataType="ua:Int16" />
+      <opc:Field Name="B" DataType="ua:Double" />
+      <opc:Field Name="C" DataType="ua:String" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="ConcreteStructure" BaseType="AbstractStructure">
+    <opc:Fields>
+      <opc:Field Name="D" DataType="ua:Int16" />
+      <opc:Field Name="E" DataType="ua:Double" />
+      <opc:Field Name="F" DataType="ua:String" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="EnumerationWithGaps" BaseType="ua:Enumeration">
+    <opc:Fields>
+      <opc:Field Name="Invalid" Identifier="0">
+        <opc:DisplayName>Something is not right</opc:DisplayName>
+      </opc:Field>
+      <opc:Field Name="Red" Identifier="1">
+        <opc:DisplayName>Hold up!</opc:DisplayName>
+      </opc:Field>
+      <opc:Field Name="Green" Identifier="2">
+        <opc:DisplayName>Good to go.</opc:DisplayName>
+      </opc:Field>
+      <opc:Field Name="Blue" Identifier="6">
+        <opc:DisplayName>Is that a sky or an ocean?</opc:DisplayName>
+      </opc:Field>
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="ScalarStructure" BaseType="ua:Structure">
+    <opc:Fields>
+      <opc:Field Name="A" DataType="ua:Boolean" />
+      <opc:Field Name="B" DataType="ua:SByte" />
+      <opc:Field Name="C" DataType="ua:Byte" />
+      <opc:Field Name="D" DataType="ua:Int16" />
+      <opc:Field Name="E" DataType="ua:UInt16" />
+      <opc:Field Name="F" DataType="ua:Int32" />
+      <opc:Field Name="G" DataType="ua:UInt32" />
+      <opc:Field Name="H" DataType="ua:Int64" />
+      <opc:Field Name="I" DataType="ua:UInt64" />
+      <opc:Field Name="J" DataType="ua:Float" />
+      <opc:Field Name="K" DataType="ua:Double" />
+      <opc:Field Name="L" DataType="ua:Guid" />
+      <opc:Field Name="M" DataType="ua:DateTime" />
+      <opc:Field Name="N" DataType="ua:String" />
+      <opc:Field Name="O" DataType="ua:ByteString" />
+      <opc:Field Name="P" DataType="ua:NodeId" />
+      <opc:Field Name="Q" DataType="ua:ExpandedNodeId" />
+      <opc:Field Name="R" DataType="ua:QualifiedName" />
+      <opc:Field Name="S" DataType="ua:LocalizedText" />
+      <opc:Field Name="T" DataType="ua:StatusCode" />
+      <opc:Field Name="U" DataType="ua:XmlElement" />
+      <opc:Field Name="V" DataType="ConcreteStructure" />
+      <opc:Field Name="W" DataType="EnumerationWithGaps" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="ScalarStructureWithAllowSubtypes" BaseType="ScalarStructure">
+    <opc:Fields>
+      <opc:Field Name="X" DataType="ua:DataValue" />
+      <opc:Field Name="Y" DataType="ua:BaseDataType" />
+      <opc:Field Name="Z" DataType="AbstractStructure" AllowSubTypes="true" />
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="ArrayStructure" BaseType="ua:Structure">
+    <opc:Fields>
+      <opc:Field Name="A" DataType="ua:Boolean" ValueRank="Array" />
+      <opc:Field Name="B" DataType="ua:SByte" ValueRank="Array" />
+      <opc:Field Name="C" DataType="ua:Byte" ValueRank="Array" />
+      <opc:Field Name="D" DataType="ua:Int16" ValueRank="Array" />
+      <opc:Field Name="E" DataType="ua:UInt16" ValueRank="Array" />
+      <opc:Field Name="F" DataType="ua:Int32" ValueRank="Array" />
+      <opc:Field Name="G" DataType="ua:UInt32" ValueRank="Array" />
+      <opc:Field Name="H" DataType="ua:Int64" ValueRank="Array" />
+      <opc:Field Name="I" DataType="ua:UInt64" ValueRank="Array" />
+      <opc:Field Name="J" DataType="ua:Float" ValueRank="Array" />
+      <opc:Field Name="K" DataType="ua:Double" ValueRank="Array" />
+      <opc:Field Name="L" DataType="ua:Guid" ValueRank="Array" />
+      <opc:Field Name="M" DataType="ua:DateTime" ValueRank="Array" />
+      <opc:Field Name="N" DataType="ua:String" ValueRank="Array" />
+      <opc:Field Name="O" DataType="ua:ByteString" ValueRank="Array" />
+      <opc:Field Name="P" DataType="ua:NodeId" ValueRank="Array" />
+      <opc:Field Name="Q" DataType="ua:ExpandedNodeId" ValueRank="Array" />
+      <opc:Field Name="R" DataType="ua:QualifiedName" ValueRank="Array" />
+      <opc:Field Name="S" DataType="ua:LocalizedText" ValueRank="Array" />
+      <opc:Field Name="T" DataType="ua:StatusCode" ValueRank="Array" />
+      <opc:Field Name="U" DataType="ua:XmlElement" ValueRank="Array" />
+      <opc:Field Name="V" DataType="ConcreteStructure" ValueRank="Array" />
+      <opc:Field Name="W" DataType="EnumerationWithGaps" ValueRank="Array" />
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="ArrayStructureWithAllowSubtypes" BaseType="ArrayStructure">
+    <opc:Fields>
+      <opc:Field Name="X" DataType="ua:DataValue" ValueRank="Array" />
+      <opc:Field Name="Y" DataType="ua:BaseDataType" ValueRank="Array"  />
+      <opc:Field Name="Z" DataType="AbstractStructure" AllowSubTypes="true" ValueRank="Array" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="NestedStructure" BaseType="ua:Structure">
+    <opc:Fields>
+      <opc:Field Name="A" DataType="ScalarStructure" />
+      <opc:Field Name="B" DataType="ArrayStructure" />
+      <opc:Field Name="C" DataType="ScalarStructure" ValueRank="Array" />
+      <opc:Field Name="D" DataType="ArrayStructure" ValueRank="Array" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="NestedStructureWithAllowSubtypes" BaseType="ua:Structure">
+    <opc:Fields>
+      <opc:Field Name="A" DataType="ScalarStructureWithAllowSubtypes" />
+      <opc:Field Name="B" DataType="ArrayStructureWithAllowSubtypes" />
+      <opc:Field Name="C" DataType="ScalarStructureWithAllowSubtypes" ValueRank="Array" />
+      <opc:Field Name="D" DataType="ArrayStructureWithAllowSubtypes" ValueRank="Array" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="BasicUnion" BaseType="ua:Union" IsUnion="true">
+    <opc:Fields>
+      <opc:Field Name="A" DataType="ua:UInt32" />
+      <opc:Field Name="B" DataType="ua:String" ValueRank="Array" />
+      <opc:Field Name="C" DataType="ua:ByteString" />
+      <opc:Field Name="D" DataType="ConcreteStructure" />
+      <opc:Field Name="E" DataType="EnumerationWithGaps" />
+    </opc:Fields>
+  </opc:DataType>
+
+  <opc:DataType SymbolicName="StructureWithOptionalFields" BaseType="ua:Structure">
+    <opc:Fields>
+      <opc:Field Name="A" DataType="ua:UInt32" IsOptional="true" />
+      <opc:Field Name="B" DataType="ua:String" ValueRank="Array" IsOptional="true" />
+      <opc:Field Name="C" DataType="ua:ByteString" IsOptional="true"  />
+      <opc:Field Name="D" DataType="ConcreteStructure" IsOptional="true" />
+      <opc:Field Name="E" DataType="EnumerationWithGaps" IsOptional="true" />
+    </opc:Fields>
+  </opc:DataType>
+  
+</opc:ModelDesign>

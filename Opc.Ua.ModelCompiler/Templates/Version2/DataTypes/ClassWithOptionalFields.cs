@@ -10,6 +10,7 @@ namespace X {
 [Flags]
 public enum _ClassName_Fields : uint
 {   
+    /// <remarks />
     None = 0,
     // ListOfEncodingMaskFields
 }
@@ -35,15 +36,15 @@ public partial class _BrowseName_ : IEncodeable, IJsonEncodeable
 
     private void Initialize()
     {
-        EncodingMask = _ClassName_Fields.None;
+        EncodingMask = (uint)_ClassName_Fields.None;
         // ListOfFieldInitializers
     }
     #endregion
 
     #region Public Properties
-    // <remarks />
+    /// <remarks />
     [DataMember(Name = "EncodingMask", IsRequired = true, Order = 0)]
-    public _ClassName_Fields EncodingMask { get; set; }
+    public virtual uint EncodingMask { get; set; }
 
     // ListOfProperties
     #endregion
@@ -65,7 +66,7 @@ public partial class _BrowseName_ : IEncodeable, IJsonEncodeable
     public virtual void Encode(IEncoder encoder)
     {
         encoder.PushNamespace(_XmlNamespaceUri_);
-        encoder.WriteUInt32(nameof(EncodingMask), (uint)EncodingMask);
+        encoder.WriteEncodingMask(nameof(EncodingMask), (uint)EncodingMask);
 
         // ListOfEncodedFields
 
@@ -77,7 +78,7 @@ public partial class _BrowseName_ : IEncodeable, IJsonEncodeable
     {
         decoder.PushNamespace(_XmlNamespaceUri_);
 
-        EncodingMask = (_ClassName_Fields)decoder.ReadUInt32(nameof(EncodingMask));
+        EncodingMask = decoder.ReadEncodingMask(typeof(_ClassName_Fields));
 
         // ListOfDecodedFields
 

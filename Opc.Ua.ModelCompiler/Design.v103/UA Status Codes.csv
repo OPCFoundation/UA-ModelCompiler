@@ -78,7 +78,7 @@ Bad_NodeNotInView,78
 Bad_ServerUriInvalid,79
 Bad_ServerNameMissing,80
 Bad_DiscoveryUrlMissing,81
-Bad_SempahoreFileMissing,82
+Bad_SemaphoreFileMissing,82
 Bad_RequestTypeInvalid,83
 Bad_SecurityModeRejected,84
 Bad_SecurityPolicyRejected,85

@@ -53,6 +53,7 @@
       <xs:enumeration value="Normal" />
       <xs:enumeration value="ServicesOnly" />
       <xs:enumeration value="CodeGenerator" />
+      <xs:enumeration value="Testing" />
     </xs:restriction>
   </xs:simpleType>
 

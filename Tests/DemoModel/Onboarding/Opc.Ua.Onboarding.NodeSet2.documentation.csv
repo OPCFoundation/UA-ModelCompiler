@@ -24,4 +24,3 @@ Id,Name,Link,ConformanceUnits
 1517,DeviceRegistrationAuditEventType,"https://reference.opcfoundation.org/Onboarding/docs/9.2.13","Onboarding Registrar PullManagement;"
 1533,DeviceIdentityAcceptedAuditEventType,"https://reference.opcfoundation.org/Onboarding/docs/9.2.14","Onboarding Registrar PullManagement;"
 1552,DeviceSoftwareUpdatedAuditEventType,"https://reference.opcfoundation.org/Onboarding/docs/9.2.15","Onboarding Registrar PullManagement;"
-25726,EncodedTicket,"https://reference.opcfoundation.org/Onboarding/docs/8.2.1","Onboarding Ticket Reader;"

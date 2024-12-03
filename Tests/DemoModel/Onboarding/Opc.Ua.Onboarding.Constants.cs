@@ -89,6 +89,24 @@ namespace Opc.Ua.Onboarding
         public const uint OPCUAOnboardingNamespaceMetadata_NamespaceFile_SetPosition = 30;
 
         /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_AddIdentity = 5041;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_RemoveIdentity = 5043;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_AddApplication = 5045;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_RemoveApplication = 5047;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_AddEndpoint = 5049;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_RemoveEndpoint = 5051;
+
+        /// <remarks />
         public const uint DeviceRegistrarAdminType_RegisterTickets = 1176;
 
         /// <remarks />
@@ -328,6 +346,9 @@ namespace Opc.Ua.Onboarding
         public const uint OPCUAOnboardingNamespaceMetadata = 1;
 
         /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin = 5034;
+
+        /// <remarks />
         public const uint DeviceRegistrarAdminType_TicketAuthorities = 1182;
 
         /// <remarks />
@@ -507,6 +528,42 @@ namespace Opc.Ua.Onboarding
 
         /// <remarks />
         public const uint OPCUAOnboardingNamespaceMetadata_DefaultAccessRestrictions = 35;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_Identities = 5035;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_ApplicationsExclude = 5036;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_Applications = 5037;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_EndpointsExclude = 5038;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_Endpoints = 5039;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_CustomConfiguration = 5040;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_AddIdentity_InputArguments = 5042;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_RemoveIdentity_InputArguments = 5044;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_AddApplication_InputArguments = 5046;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_RemoveApplication_InputArguments = 5048;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_AddEndpoint_InputArguments = 5050;
+
+        /// <remarks />
+        public const uint WellKnownRole_RegistrarAdmin_RemoveEndpoint_InputArguments = 5052;
 
         /// <remarks />
         public const uint DeviceRegistrarAdminType_RegisterTickets_InputArguments = 1177;
@@ -1071,6 +1128,24 @@ namespace Opc.Ua.Onboarding
         public static readonly ExpandedNodeId OPCUAOnboardingNamespaceMetadata_NamespaceFile_SetPosition = new ExpandedNodeId(Opc.Ua.Onboarding.Methods.OPCUAOnboardingNamespaceMetadata_NamespaceFile_SetPosition, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
 
         /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_AddIdentity = new ExpandedNodeId(Opc.Ua.Onboarding.Methods.WellKnownRole_RegistrarAdmin_AddIdentity, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_RemoveIdentity = new ExpandedNodeId(Opc.Ua.Onboarding.Methods.WellKnownRole_RegistrarAdmin_RemoveIdentity, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_AddApplication = new ExpandedNodeId(Opc.Ua.Onboarding.Methods.WellKnownRole_RegistrarAdmin_AddApplication, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_RemoveApplication = new ExpandedNodeId(Opc.Ua.Onboarding.Methods.WellKnownRole_RegistrarAdmin_RemoveApplication, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_AddEndpoint = new ExpandedNodeId(Opc.Ua.Onboarding.Methods.WellKnownRole_RegistrarAdmin_AddEndpoint, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_RemoveEndpoint = new ExpandedNodeId(Opc.Ua.Onboarding.Methods.WellKnownRole_RegistrarAdmin_RemoveEndpoint, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
         public static readonly ExpandedNodeId DeviceRegistrarAdminType_RegisterTickets = new ExpandedNodeId(Opc.Ua.Onboarding.Methods.DeviceRegistrarAdminType_RegisterTickets, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
 
         /// <remarks />
@@ -1310,6 +1385,9 @@ namespace Opc.Ua.Onboarding
         public static readonly ExpandedNodeId OPCUAOnboardingNamespaceMetadata = new ExpandedNodeId(Opc.Ua.Onboarding.Objects.OPCUAOnboardingNamespaceMetadata, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
 
         /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin = new ExpandedNodeId(Opc.Ua.Onboarding.Objects.WellKnownRole_RegistrarAdmin, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
         public static readonly ExpandedNodeId DeviceRegistrarAdminType_TicketAuthorities = new ExpandedNodeId(Opc.Ua.Onboarding.Objects.DeviceRegistrarAdminType_TicketAuthorities, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
 
         /// <remarks />
@@ -1489,6 +1567,42 @@ namespace Opc.Ua.Onboarding
 
         /// <remarks />
         public static readonly ExpandedNodeId OPCUAOnboardingNamespaceMetadata_DefaultAccessRestrictions = new ExpandedNodeId(Opc.Ua.Onboarding.Variables.OPCUAOnboardingNamespaceMetadata_DefaultAccessRestrictions, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_Identities = new ExpandedNodeId(Opc.Ua.Onboarding.Variables.WellKnownRole_RegistrarAdmin_Identities, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_ApplicationsExclude = new ExpandedNodeId(Opc.Ua.Onboarding.Variables.WellKnownRole_RegistrarAdmin_ApplicationsExclude, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_Applications = new ExpandedNodeId(Opc.Ua.Onboarding.Variables.WellKnownRole_RegistrarAdmin_Applications, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_EndpointsExclude = new ExpandedNodeId(Opc.Ua.Onboarding.Variables.WellKnownRole_RegistrarAdmin_EndpointsExclude, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_Endpoints = new ExpandedNodeId(Opc.Ua.Onboarding.Variables.WellKnownRole_RegistrarAdmin_Endpoints, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_CustomConfiguration = new ExpandedNodeId(Opc.Ua.Onboarding.Variables.WellKnownRole_RegistrarAdmin_CustomConfiguration, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_AddIdentity_InputArguments = new ExpandedNodeId(Opc.Ua.Onboarding.Variables.WellKnownRole_RegistrarAdmin_AddIdentity_InputArguments, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_RemoveIdentity_InputArguments = new ExpandedNodeId(Opc.Ua.Onboarding.Variables.WellKnownRole_RegistrarAdmin_RemoveIdentity_InputArguments, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_AddApplication_InputArguments = new ExpandedNodeId(Opc.Ua.Onboarding.Variables.WellKnownRole_RegistrarAdmin_AddApplication_InputArguments, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_RemoveApplication_InputArguments = new ExpandedNodeId(Opc.Ua.Onboarding.Variables.WellKnownRole_RegistrarAdmin_RemoveApplication_InputArguments, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_AddEndpoint_InputArguments = new ExpandedNodeId(Opc.Ua.Onboarding.Variables.WellKnownRole_RegistrarAdmin_AddEndpoint_InputArguments, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
+
+        /// <remarks />
+        public static readonly ExpandedNodeId WellKnownRole_RegistrarAdmin_RemoveEndpoint_InputArguments = new ExpandedNodeId(Opc.Ua.Onboarding.Variables.WellKnownRole_RegistrarAdmin_RemoveEndpoint_InputArguments, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
 
         /// <remarks />
         public static readonly ExpandedNodeId DeviceRegistrarAdminType_RegisterTickets_InputArguments = new ExpandedNodeId(Opc.Ua.Onboarding.Variables.DeviceRegistrarAdminType_RegisterTickets_InputArguments, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding);
@@ -2008,7 +2122,22 @@ namespace Opc.Ua.Onboarding
     public static partial class BrowseNames
     {
         /// <remarks />
+        public const string AddApplication = "AddApplication";
+
+        /// <remarks />
+        public const string AddEndpoint = "AddEndpoint";
+
+        /// <remarks />
+        public const string AddIdentity = "AddIdentity";
+
+        /// <remarks />
         public const string Administration = "Administration";
+
+        /// <remarks />
+        public const string Applications = "Applications";
+
+        /// <remarks />
+        public const string ApplicationsExclude = "ApplicationsExclude";
 
         /// <remarks />
         public const string BaseTicketType = "BaseTicketType";
@@ -2024,6 +2153,9 @@ namespace Opc.Ua.Onboarding
 
         /// <remarks />
         public const string CompositeIdentityTicketType = "CompositeIdentityTicketType";
+
+        /// <remarks />
+        public const string CustomConfiguration = "CustomConfiguration";
 
         /// <remarks />
         public const string DeviceIdentityAcceptedAuditEventType = "DeviceIdentityAcceptedAuditEventType";
@@ -2050,10 +2182,19 @@ namespace Opc.Ua.Onboarding
         public const string DeviceSoftwareUpdatedAuditEventType = "DeviceSoftwareUpdatedAuditEventType";
 
         /// <remarks />
+        public const string Endpoints = "Endpoints";
+
+        /// <remarks />
+        public const string EndpointsExclude = "EndpointsExclude";
+
+        /// <remarks />
         public const string GetManagers = "GetManagers";
 
         /// <remarks />
         public const string ManagerDescription = "ManagerDescription";
+
+        /// <remarks />
+        public const string ModelVersion = "ModelVersion";
 
         /// <remarks />
         public const string OpcUaOnboarding_BinarySchema = "Opc.Ua.Onboarding";
@@ -2080,6 +2221,15 @@ namespace Opc.Ua.Onboarding
         public const string RegisterTickets = "RegisterTickets";
 
         /// <remarks />
+        public const string RemoveApplication = "RemoveApplication";
+
+        /// <remarks />
+        public const string RemoveEndpoint = "RemoveEndpoint";
+
+        /// <remarks />
+        public const string RemoveIdentity = "RemoveIdentity";
+
+        /// <remarks />
         public const string SoftwareRevision = "SoftwareRevision";
 
         /// <remarks />
@@ -2099,6 +2249,9 @@ namespace Opc.Ua.Onboarding
 
         /// <remarks />
         public const string UpdateSoftwareStatus = "UpdateSoftwareStatus";
+
+        /// <remarks />
+        public const string WellKnownRole_RegistrarAdmin = "RegistrarAdmin";
     }
     #endregion
 

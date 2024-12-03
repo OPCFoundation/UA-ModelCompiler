@@ -42,10 +42,10 @@ namespace ModelCompiler
     /// </summary>
     public partial class ModelCompilerValidator : Opc.Ua.Schema.SchemaValidator
     {
-
         #region Private Fields
         private ModelDesign m_dictionary;
         private Dictionary<XmlQualifiedName, NodeDesign> m_nodes;
+        private Dictionary<string, string[]> m_namespaceTables;
         private Dictionary<NodeId, NodeDesign> m_nodesByNodeId;
         private Dictionary<uint, NodeDesign> m_identifiers;
         private string DefaultNamespace = Namespaces.OpcUa;
@@ -294,9 +294,19 @@ namespace ModelCompiler
                 parameter.DataType = new XmlQualifiedName("BaseDataType", DefaultNamespace);
             }
 
-            if (field.ValueRank == 0)
+            if (field.ValueRank == 0 || field.ValueRank == 1)
             {
                 parameter.ValueRank = ValueRank.Array;
+            }
+            else if (field.ValueRank == 2)
+            {
+                parameter.ValueRank = ValueRank.Array;
+                parameter.ArrayDimensions = "0";
+
+                for (int ii = 1; ii < field.ValueRank; ii++)
+                {
+                    parameter.ArrayDimensions = ",0";
+                }
             }
             else
             {
@@ -1010,10 +1020,13 @@ namespace ModelCompiler
         {
             foreach (var node in nodes)
             {
-                if (node.NumericIdSpecified && node.NumericId > 0)
+                var hasNumericId = node.NumericIdSpecified && node.NumericId > 0;
+                var hasStringId = !node.NumericIdSpecified && !string.IsNullOrEmpty(node.StringId);
+
+                if (hasNumericId || hasStringId)
                 {
                     var nodeId = new NodeId(
-                        node.NumericId,
+                        hasNumericId ? node.NumericId : node.StringId,
                         namespaceUris.GetIndexOrAppend(node.SymbolicId.Namespace));
 
                     index[nodeId] = node;
@@ -1036,7 +1049,6 @@ namespace ModelCompiler
                                 namespaceUris.GetIndexOrAppend(node.SymbolicId.Namespace));
 
                             index[nodeId] = node;
-
                         }
                     }
                 }
@@ -1058,7 +1070,8 @@ namespace ModelCompiler
             {
                 var settings = new NodeSetReaderSettings()
                 {
-                    NodesByQName = m_nodes
+                    NodesByQName = m_nodes,
+                    NamespaceTables = m_namespaceTables
                 };
 
                 foreach (var ns in namespaces)
@@ -1127,6 +1140,7 @@ namespace ModelCompiler
             // initialize tables.
             m_identifiers = new Dictionary<uint, NodeDesign>();
             m_nodes = new Dictionary<XmlQualifiedName, NodeDesign>();
+            m_namespaceTables = new Dictionary<string, string[]>();
             m_nodesByNodeId = new Dictionary<NodeId, NodeDesign>();
             m_browseNames = new Dictionary<XmlQualifiedName, string>();
             m_designLocations = new Dictionary<string, string>();
@@ -1317,7 +1331,7 @@ namespace ModelCompiler
                 var prefix = (fields.Length > 1) ? fields[1] : null;
                 var name = (fields.Length > 2) ? fields[2] : null;
 
-                IEnumerable<Namespace> fileNamespaces = null;
+                List<Namespace> fileNamespaces = null;
 
                 if (NodeSetToModelDesign.IsNodeSet(fileToLoad))
                 {
@@ -1333,7 +1347,8 @@ namespace ModelCompiler
                         ns.FilePath = (ns.Value == design.TargetNamespace) ? path : null;
                     }
 
-                    fileNamespaces = design.Namespaces.Where(x => x.Name != "OpcUa").Reverse();
+                    fileNamespaces = design.Namespaces.Where(x => x.Name != "OpcUa" && x.Value != design.TargetNamespace).Reverse().ToList();
+                    fileNamespaces.Add(design.Namespaces.Where(x => x.Value == design.TargetNamespace).FirstOrDefault());
                 }
 
                 foreach (var ns in fileNamespaces)
@@ -1392,6 +1407,7 @@ namespace ModelCompiler
             // initialize tables.
             m_identifiers = new Dictionary<uint, NodeDesign>();
             m_nodes = new Dictionary<XmlQualifiedName, NodeDesign>();
+            m_namespaceTables = new Dictionary<string, string[]>();
             m_nodesByNodeId = new Dictionary<NodeId, NodeDesign>();
             m_browseNames = new Dictionary<XmlQualifiedName, string>();
             m_designLocations = new Dictionary<string, string>();
@@ -1412,12 +1428,13 @@ namespace ModelCompiler
                 }
 
                 var dependency = LoadDesignFile(namespaces, namespaces[ii].FilePath, null, false);
-
+                                
                 if (dependency.Namespaces != null)
                 {
-                    namespaces[ii].Name = dependency.Namespaces[0].Name;
-                    namespaces[ii].Prefix = dependency.Namespaces[0].Prefix;
-                    namespaces[ii].XmlPrefix = dependency.Namespaces[0].XmlPrefix;
+                    var ns = dependency.Namespaces.Where(x => x.Value == dependency.TargetNamespace).FirstOrDefault();
+                    namespaces[ii].Name = ns.Name;
+                    namespaces[ii].Prefix = ns.Prefix;
+                    namespaces[ii].XmlPrefix = ns.XmlPrefix;
                 }
             }
 
@@ -2108,7 +2125,7 @@ namespace ModelCompiler
                 Log("Added {1}: {0}", description.SymbolicId.Name, description.GetType().Name);
             }
 
-            if (dataType.BasicDataType == BasicDataType.UserDefined)
+            if (dataType.BasicDataType == BasicDataType.UserDefined && !dataType.NoEncodings)
             {
                 AddDataTypeEncoding(dataType, description, encodingType, nodesToAdd);
             }
@@ -2477,8 +2494,8 @@ namespace ModelCompiler
                     current.Identifier = AssignIdToNode(
                         current.Instance,
                         identifiers,
-                        uniqueIdentifiers, 
-                        duplicateIdentifiers, 
+                        uniqueIdentifiers,
+                        duplicateIdentifiers,
                         assignedIds,
                         !isExplicitlyDefined);
                 }
@@ -2522,7 +2539,7 @@ namespace ModelCompiler
         private void LoadIdentifiersFromFile2(ModelDesign dictionary, string filePath)
         {
             if (String.IsNullOrEmpty(filePath) || !File.Exists(filePath))
-            { 
+            {
                 throw new FileNotFoundException("The identifier file does not exist.", filePath);
             }
 
@@ -3211,8 +3228,8 @@ namespace ModelCompiler
             {
                 clone.Add(new RolePermissionType()
                 {
-                     RoleId = ii.RoleId,
-                     Permissions = ii.Permissions & NodeClassPermissionMasks[node.NodeClass]
+                    RoleId = ii.RoleId,
+                    Permissions = ii.Permissions & NodeClassPermissionMasks[node.NodeClass]
                 });
             }
 
@@ -3293,9 +3310,9 @@ namespace ModelCompiler
         }
 
         private T FindDefaultPermissions<T>(
-            BaseTypeState type, 
+            BaseTypeState type,
             List<BaseInstanceState> path,
-            IDictionary<string,T> defaultPermissions)
+            IDictionary<string, T> defaultPermissions)
         {
             Stack<BaseTypeState> types = new();
 
@@ -3367,7 +3384,7 @@ namespace ModelCompiler
             }
 
             path.Reverse();
-            
+
 
             T permissions = default(T);
 
@@ -3500,7 +3517,7 @@ namespace ModelCompiler
                 {
                     method.HasArguments = true;
                 }
-                
+
                 method.InputArguments = parameters;
 
                 parameters = method.OutputArguments;
@@ -3622,7 +3639,7 @@ namespace ModelCompiler
 
                 if (index != -1)
                 {
-                    for (int ii = index+1; ii < name.Length; ii++)
+                    for (int ii = index + 1; ii < name.Length; ii++)
                     {
                         if (!Char.IsDigit(name[ii]))
                         {
@@ -3633,7 +3650,7 @@ namespace ModelCompiler
 
                     if (index > 0)
                     {
-                        if (Int32.TryParse(name.Substring(index+1), out id))
+                        if (Int32.TryParse(name.Substring(index + 1), out id))
                         {
                             parameter.Identifier = id;
                             parameter.IdentifierSpecified = true;
@@ -3796,7 +3813,7 @@ namespace ModelCompiler
 
                     if (typeInfo != null)
                     {
-                        variableType.ValueRank = (typeInfo.ValueRank == ValueRanks.Scalar)?ValueRank.Scalar:ValueRank.Array;
+                        variableType.ValueRank = (typeInfo.ValueRank == ValueRanks.Scalar) ? ValueRank.Scalar : ValueRank.Array;
                         variableType.ValueRankSpecified = true;
                     }
 
@@ -3857,7 +3874,7 @@ namespace ModelCompiler
 
                 ValidateParameters(dataType, dataType.Fields);
 
-                dataType.IsStructure   = IsTypeOf(dataType, new XmlQualifiedName("Structure", DefaultNamespace));
+                dataType.IsStructure = IsTypeOf(dataType, new XmlQualifiedName("Structure", DefaultNamespace));
                 dataType.IsEnumeration = IsTypeOf(dataType, new XmlQualifiedName("Enumeration", DefaultNamespace)) || dataType.IsOptionSet;
                 dataType.BasicDataType = GetBasicDataType(dataType);
 
@@ -3900,12 +3917,12 @@ namespace ModelCompiler
                         {
                             dataType.Encodings = new EncodingDesign[] { xmlEncoding, binaryEncoding };
                         }
-                        
+
                         dataType.HasEncodings = true;
                     }
 
                     // check for duplicates.
-                    Dictionary<XmlQualifiedName,EncodingDesign> encodings = new Dictionary<XmlQualifiedName,EncodingDesign>();
+                    Dictionary<XmlQualifiedName, EncodingDesign> encodings = new Dictionary<XmlQualifiedName, EncodingDesign>();
 
                     foreach (EncodingDesign encoding in dataType.Encodings)
                     {
@@ -4068,7 +4085,7 @@ namespace ModelCompiler
 
                     if (typeInfo != null)
                     {
-                        variable.ValueRank = (typeInfo.ValueRank == ValueRanks.Scalar)?ValueRank.Scalar:ValueRank.Array;
+                        variable.ValueRank = (typeInfo.ValueRank == ValueRanks.Scalar) ? ValueRank.Scalar : ValueRank.Array;
                         variable.ValueRankSpecified = true;
                     }
 
@@ -4666,7 +4683,7 @@ namespace ModelCompiler
                 case AccessLevel.HistoryRead: return AccessLevels.HistoryRead;
                 case AccessLevel.HistoryWrite: return AccessLevels.HistoryWrite;
                 case AccessLevel.HistoryReadWrite: return AccessLevels.HistoryReadOrWrite;
-      }
+            }
 
             return AccessLevels.None;
         }
@@ -4795,7 +4812,7 @@ namespace ModelCompiler
 
                         if (browsePath.StartsWith(parent.SymbolicId.Name) && browsePath[parent.SymbolicId.Name.Length] == NodeDesign.PathChar[0])
                         {
-                            browsePath = browsePath.Substring(parent.SymbolicId.Name.Length+1);
+                            browsePath = browsePath.Substring(parent.SymbolicId.Name.Length + 1);
                         }
 
                         HierarchyNode instance = null;
@@ -5027,6 +5044,7 @@ namespace ModelCompiler
             mergedInstance.Category = source.Category;
             mergedInstance.Purpose = source.Purpose;
             mergedInstance.ReleaseStatus = source.ReleaseStatus;
+            mergedInstance.DesignToolOnly = source is InstanceDesign dto && dto.DesignToolOnly;
 
             Log("Created Merged Instance: {0}", mergedInstance.SymbolicId.Name);
             return mergedInstance;
@@ -5121,7 +5139,7 @@ namespace ModelCompiler
                     mergedInstance.NumericIdSpecified = source.NumericIdSpecified;
                 }
 
-                if (source.StringId !=  null && source.StringId != mergedInstance.StringId)
+                if (source.StringId != null && source.StringId != mergedInstance.StringId)
                 {
                     mergedInstance.StringId = source.StringId;
                     mergedInstance.NumericIdSpecified = source.NumericIdSpecified;
@@ -5135,6 +5153,11 @@ namespace ModelCompiler
                 }
 
                 UpdateMergedInstance(mergedInstance, instance);
+
+                if (source is InstanceDesign dto && dto.DesignToolOnly)
+                {
+                    mergedInstance.DesignToolOnly = true;
+                }
             }
             else
             {
@@ -5353,7 +5376,7 @@ namespace ModelCompiler
         private void SetOverriddenNodes(
             TypeDesign type,
             string basePath,
-            Dictionary<string,InstanceDesign> nodes,
+            Dictionary<string, InstanceDesign> nodes,
             int depth,
             bool fromInstance)
         {
@@ -5521,7 +5544,7 @@ namespace ModelCompiler
             int depth)
         {
             Log("BuildHierarchy for Type: {0} : {1}", type.SymbolicId.Name, basePath);
-            
+
             if (depth > MaxRecursionDepth)
             {
                 throw new InvalidOperationException($"{basePath} max recursion exceeded. Check model.");
@@ -5557,7 +5580,7 @@ namespace ModelCompiler
                     child.Inherited = inherited;
 
                     nodes.Add(child);
-                    BuildInstanceHierarchy2(instance, browsePath, nodes, references, inherited, depth+1);
+                    BuildInstanceHierarchy2(instance, browsePath, nodes, references, inherited, depth + 1);
                 }
             }
         }
@@ -5582,7 +5605,7 @@ namespace ModelCompiler
 
             if (parent.TypeDefinitionNode != null)
             {
-                BuildInstanceHierarchy2(parent.TypeDefinitionNode, basePath, nodes, references, true, inherited, depth+1);
+                BuildInstanceHierarchy2(parent.TypeDefinitionNode, basePath, nodes, references, true, inherited, depth + 1);
             }
 
             if (parent.TypeDefinition != null && parent is MethodDesign)
@@ -5883,12 +5906,18 @@ namespace ModelCompiler
                 throw new InvalidOperationException($"{root.SymbolicId.Name} max recursion exceeded. Check model.");
             }
 
+            var designToolOnly = (root is InstanceDesign dto && dto.DesignToolOnly);
+
             SetOverriddenNodes(root, 0);
 
             // collect all of the nodes that define the hierachy.
             List<HierarchyNode> nodes = new List<HierarchyNode>();
             List<HierarchyReference> references = new List<HierarchyReference>();
-            BuildInstanceHierarchy2(root, nodes, references, depth + 1);
+
+            if (!designToolOnly)
+            {
+                BuildInstanceHierarchy2(root, nodes, references, depth + 1);
+            }
 
             Hierarchy hierarchy = new Hierarchy();
             hierarchy.References = references;
@@ -5923,57 +5952,70 @@ namespace ModelCompiler
                 UpdateMergedInstance((InstanceDesign)rootNode.Instance, root);
             }
 
+            if (designToolOnly)
+            {
+                rootNode.Instance.Children = new ListOfChildren();
+            }
+
             rootNode.ExplicitlyDefined = false;
 
             hierarchy.Nodes.Add(String.Empty, rootNode);
             hierarchy.NodeList.Add(rootNode);
 
             // build instance hierachy.
-            for (int ii = 0; ii < nodes.Count; ii++)
+            if (!designToolOnly)
             {
-                HierarchyNode node = nodes[ii];
-
-                bool explicitlyDefined = false;
-
-                for (NodeDesign parent = node.Instance; parent != null; parent = parent.Parent)
+                for (int ii = 0; ii < nodes.Count; ii++)
                 {
-                    if (parent.SymbolicId == root.SymbolicId)
+                    HierarchyNode node = nodes[ii];
+
+                    bool explicitlyDefined = false;
+
+                    for (NodeDesign parent = node.Instance; parent != null; parent = parent.Parent)
                     {
-                        explicitlyDefined = true;
-                        break;
+                        if (parent.SymbolicId == root.SymbolicId)
+                        {
+                            explicitlyDefined = true;
+                            break;
+                        }
                     }
-                }
 
-                HierarchyNode mergedNode = null;
+                    HierarchyNode mergedNode = null;
 
-                if (!hierarchy.Nodes.TryGetValue(node.RelativePath, out mergedNode))
-                {
-                    mergedNode = new HierarchyNode();
-                    mergedNode.RelativePath = node.RelativePath;
-                    mergedNode.Instance = CreateMergedInstance(root.SymbolicId, node.RelativePath, node.Instance);
-                    mergedNode.ExplicitlyDefined = false;
-                    mergedNode.Inherited = node.Inherited;
-                    mergedNode.AdHocInstance = node.AdHocInstance;
+                    if (!hierarchy.Nodes.TryGetValue(node.RelativePath, out mergedNode))
+                    {
+                        mergedNode = new HierarchyNode();
+                        mergedNode.RelativePath = node.RelativePath;
+                        mergedNode.Instance = CreateMergedInstance(root.SymbolicId, node.RelativePath, node.Instance);
+                        mergedNode.ExplicitlyDefined = false;
+                        mergedNode.Inherited = node.Inherited;
+                        mergedNode.AdHocInstance = node.AdHocInstance;
 
-                    hierarchy.Nodes.Add(node.RelativePath, mergedNode);
-                    hierarchy.NodeList.Add(mergedNode);
-                }
-                else
-                {
-                    UpdateMergedInstance((InstanceDesign)mergedNode.Instance, node.Instance);
-                    mergedNode.StaticValue = node.StaticValue;
-                }
+                        hierarchy.Nodes.Add(node.RelativePath, mergedNode);
+                        hierarchy.NodeList.Add(mergedNode);
+                    }
+                    else
+                    {
+                        UpdateMergedInstance((InstanceDesign)mergedNode.Instance, node.Instance);
+                        mergedNode.StaticValue = node.StaticValue;
+                    }
 
-                if (mergedNode.OverriddenNodes == null)
-                {
-                    mergedNode.OverriddenNodes = new List<NodeDesign>();
-                }
+                    if (explicitlyDefined && node.Instance.Extensions != null)
+                    {
+                        mergedNode.Instance.Extensions = node.Instance.Extensions;
+                    }
 
-                mergedNode.OverriddenNodes.Add(node.Instance);
+                    if (mergedNode.OverriddenNodes == null)
+                    {
+                        mergedNode.OverriddenNodes = new List<NodeDesign>();
+                    }
 
-                if (explicitlyDefined)
-                {
-                    mergedNode.ExplicitlyDefined = true;
+                    mergedNode.OverriddenNodes.Add(node.Instance);
+
+                    if (explicitlyDefined)
+                    {
+                        mergedNode.ExplicitlyDefined = true;
+                    }
                 }
             }
 
@@ -6179,6 +6221,7 @@ namespace ModelCompiler
             state.UserWriteMask = AttributeWriteMask.None;
             state.AccessRestrictions = ImportAccessRestrictions(root.AccessRestrictions, root.AccessRestrictionsSpecified);
             state.RolePermissions = ImportRolePermissions(root.RolePermissions, namespaceUris);
+            state.Extensions = root.Extensions;
 
             MethodState method = state as MethodState;
 
@@ -6401,7 +6444,7 @@ namespace ModelCompiler
                     false,
                     isTypeDefinition,
                     namespaceUris);
-                
+
                 BaseInstanceState child = current.Instance.State as BaseInstanceState;
 
                 if (child != null)
@@ -6410,7 +6453,7 @@ namespace ModelCompiler
                     {
                         child.ModellingRuleId = null;
                         state.AddChild(child);
-                    }                   
+                    }
                     else if (explicitOnly)
                     {
                         if (current.ExplicitlyDefined)
@@ -6452,9 +6495,9 @@ namespace ModelCompiler
                         }
                     }
                 }
-           }
+            }
 
-           return state;
+            return state;
         }
 
         private NodeState CreateNodeState(ObjectTypeDesign root, NamespaceTable namespaceUris)
@@ -6601,8 +6644,7 @@ namespace ModelCompiler
             }
 
             state.IsAbstract = root.IsAbstract;
-            state.Purpose = (Export.DataTypePurpose)(int)root.Purpose;
-
+            state.Purpose = (Export.DataTypePurpose)(int)((root.Purpose == DataTypePurpose.Testing) ? DataTypePurpose.CodeGenerator : root.Purpose);
             if (root.BasicDataType == BasicDataType.Enumeration || root.BasicDataType == BasicDataType.UserDefined)
             {
                 if (root.Fields == null)
@@ -6755,14 +6797,14 @@ namespace ModelCompiler
                         Name = field.Name,
                         DataType = GetDataType(field, namespaceUris),
                         ValueRank = ConstructValueRank(field.ValueRank, field.ArrayDimensions),
-                        ArrayDimensions = ConstructArrayDimensionsRW(field.ValueRank, field.ArrayDimensions) 
+                        ArrayDimensions = ConstructArrayDimensionsRW(field.ValueRank, field.ArrayDimensions)
                     };
 
                     if (sd.StructureType == StructureType.StructureWithOptionalFields)
                     {
                         structureField.IsOptional = field.IsOptional;
                     }
-                    else if (sd.StructureType == StructureType.StructureWithSubtypedValues || 
+                    else if (sd.StructureType == StructureType.StructureWithSubtypedValues ||
                              sd.StructureType == StructureType.UnionWithSubtypedValues)
                     {
                         structureField.IsOptional = field.AllowSubTypes;
@@ -6791,7 +6833,8 @@ namespace ModelCompiler
             state.EventNotifier = ConstructEventNotifier(root.SupportsEvents);
             state.Categories = null;
             state.ReleaseStatus = ToReleaseStatus(root.ReleaseStatus);
-
+            state.DesignToolOnly = root.DesignToolOnly;
+    
             if (!String.IsNullOrEmpty(root.Category))
             {
                 state.Categories = root.Category.Split(new char[] { ',' });
@@ -6832,7 +6875,7 @@ namespace ModelCompiler
             return state;
         }
 
-        private NodeState  CreateNodeState(NodeState parent, MethodDesign root, NamespaceTable namespaceUris)
+        private NodeState CreateNodeState(NodeState parent, MethodDesign root, NamespaceTable namespaceUris)
         {
             MethodState state = new MethodState(parent);
             state.Handle = root;
@@ -6950,6 +6993,7 @@ namespace ModelCompiler
             state.ModellingRuleId = ConstructModellingRule(root.ModellingRule);
             state.Categories = null;
             state.ReleaseStatus = ToReleaseStatus(root.ReleaseStatus);
+            state.DesignToolOnly = root.DesignToolOnly;
 
             if (!String.IsNullOrEmpty(root.Category))
             {

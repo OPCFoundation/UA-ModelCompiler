@@ -774,10 +774,13 @@ namespace ModelCompiler {
         
         private bool preserveDefaultAttributesField;
         
+        private bool designToolOnlyField;
+        
         public InstanceDesign() {
             this.minCardinalityField = ((uint)(0));
             this.maxCardinalityField = ((uint)(0));
             this.preserveDefaultAttributesField = false;
+            this.designToolOnlyField = false;
         }
         
         /// <remarks/>
@@ -867,6 +870,18 @@ namespace ModelCompiler {
             }
             set {
                 this.preserveDefaultAttributesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public bool DesignToolOnly {
+            get {
+                return this.designToolOnlyField;
+            }
+            set {
+                this.designToolOnlyField = value;
             }
         }
     }
@@ -1466,6 +1481,9 @@ namespace ModelCompiler {
         
         /// <remarks/>
         CodeGenerator,
+        
+        /// <remarks/>
+        Testing,
     }
     
     /// <remarks/>
@@ -1606,11 +1624,14 @@ namespace ModelCompiler {
         
         private bool forceEnumValuesField;
         
+        private bool noEncodingsField;
+        
         public DataTypeDesign() {
             this.isOptionSetField = false;
             this.isUnionField = false;
             this.noArraysAllowedField = false;
             this.forceEnumValuesField = false;
+            this.noEncodingsField = false;
         }
         
         /// <remarks/>
@@ -1680,6 +1701,18 @@ namespace ModelCompiler {
             }
             set {
                 this.forceEnumValuesField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public bool NoEncodings {
+            get {
+                return this.noEncodingsField;
+            }
+            set {
+                this.noEncodingsField = value;
             }
         }
     }

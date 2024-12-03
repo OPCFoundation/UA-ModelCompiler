@@ -313,7 +313,7 @@
   <opc:Constant Name="Bad_DiscoveryUrlMissing">
     <opc:Documentation>No DiscoveryUrl was specified.</opc:Documentation>
   </opc:Constant>
-  <opc:Constant Name="Bad_SempahoreFileMissing">
+  <opc:Constant Name="Bad_SemaphoreFileMissing">
     <opc:Documentation>The semaphore file specified by the client is not valid.</opc:Documentation>
   </opc:Constant>
 

@@ -91,27 +91,6 @@ namespace ModelCompiler
                 {
                     SystemContext context = new SystemContext();
                     Opc.Ua.Export.UANodeSet nodeset = Opc.Ua.Export.UANodeSet.Read(istrm);
-
-                    context.NamespaceUris = new NamespaceTable();
-
-                    if (nodeset.NamespaceUris != null)
-                    {
-                        foreach (var item in nodeset.NamespaceUris)
-                        {
-                            context.NamespaceUris.GetIndexOrAppend(item);
-                        }
-                    }
-
-                    context.ServerUris = new StringTable();
-
-                    if (nodeset.ServerUris != null)
-                    {
-                        foreach (var item in nodeset.ServerUris)
-                        {
-                            context.ServerUris.GetIndexOrAppend(item);
-                        }
-                    }
-
                     var collection = new NodeStateCollection();
                     
                     try
@@ -271,6 +250,22 @@ namespace ModelCompiler
                 {
                     WriteLine($"NodeSet ({target.ModelUri}) dependency is missing ({ns}).", ConsoleColor.Red);
                     return false;
+                }
+
+                // favour the version in the same directory as the target.
+                if (nodeset.PreviousVersions != null)
+                {
+                    if (Path.GetDirectoryName(nodeset.FileName) != Path.GetDirectoryName(target.FileName))
+                    {
+                        foreach (var ii in nodeset.PreviousVersions)
+                        {
+                            if (Path.GetDirectoryName(ii.FileName) == Path.GetDirectoryName(target.FileName))
+                            {
+                                nodeset = ii;
+                                break;
+                            }
+                        }
+                    }
                 }
 
                 dependencies[ns] = nodeset;
@@ -522,9 +517,16 @@ namespace ModelCompiler
                     }
 
                     StackGenerator.GenerateDotNet(
-                        options.DesignFiles, 
+                        options.DesignFiles,
                         options.IdentifierFile,
-                        options.DotNetStackPath, 
+                        options.DotNetStackPath,
+                        options.Version,
+                        options.Exclusions);
+
+                    StackGenerator.GenerateOpenApi(
+                        options.DesignFiles,
+                        options.IdentifierFile,
+                        options.DotNetStackPath,
                         options.Version,
                         options.Exclusions);
                 }

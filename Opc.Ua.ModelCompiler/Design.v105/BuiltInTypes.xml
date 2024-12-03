@@ -186,7 +186,7 @@
     <opc:InverseName>EncodingOf</opc:InverseName>
   </opc:ReferenceType>
 
-  <opc:ReferenceType SymbolicName="HasDescription" BaseType="NonHierarchicalReferences" PartNo="3">
+  <opc:ReferenceType SymbolicName="HasDescription" BaseType="NonHierarchicalReferences" ReleaseStatus="Deprecated" PartNo="3">
     <opc:Description>The type for references from data type encoding nodes to data type description nodes.</opc:Description>
     <opc:InverseName>DescriptionOf</opc:InverseName>
   </opc:ReferenceType>

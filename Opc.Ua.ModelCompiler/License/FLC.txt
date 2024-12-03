@@ -1,0 +1,18 @@
+﻿/* ========================================================================
+ * Copyright (c) 2020-2024 The OPC Foundation, Inc. All rights reserved.
+ *
+ * The source code in this file is covered under a dual-license scenario:
+ *    - RCL: for OPC Foundation Corporate Members in good-standing
+ *    - GPL V2: everybody else
+ * 
+ * OPC Foundation Corporate Members: RCL (https://opcfoundation.org/license/rcl.html).
+ *   OPC Foundation corporate members may deploy their applications without being 
+     required to disclose the application code.
+ *
+ * Users that are not OPC Foundation corporate-members: GPL 2.0 (https://opcfoundation.org/license/gplv2/)
+ *   Users must disclose their application code when using this code.
+ *
+ * This source code is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * ======================================================================*/

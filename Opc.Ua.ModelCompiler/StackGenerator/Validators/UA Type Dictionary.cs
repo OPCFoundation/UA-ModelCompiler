@@ -579,6 +579,9 @@ namespace CodeGenerator {
         
         /// <remarks/>
         CodeGenerator,
+        
+        /// <remarks/>
+        Testing,
     }
     
     /// <remarks/>

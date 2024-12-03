@@ -7,7 +7,7 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" 
   TargetNamespace="http://opcfoundation.org/UA/Core/" 
   TargetVersion="1.04.12"
-  TargetPublicationDate="2024-02-15T00:00:00Z"
+  TargetPublicationDate="2023-07-31T00:00:00Z"
   xmlns:opc="http://opcfoundation.org/UA/TypeDictionary/"
 >
   <opc:Import Namespace="http://opcfoundation.org/UA/BuiltInTypes/" />
@@ -1886,7 +1886,7 @@
     <opc:Field Name="DisabledMonitoredItemCount" DataType="s0:UInt32" />
     <opc:Field Name="MonitoringQueueOverflowCount" DataType="s0:UInt32" />
     <opc:Field Name="NextSequenceNumber" DataType="s0:UInt32" />
-    <opc:Field Name="EventQueueOverFlowCount" DataType="s0:UInt32" />
+    <opc:Field Name="EventQueueOverflowCount" DataType="s0:UInt32" />
   </opc:ComplexType>
 
   <opc:EnumeratedType Name="ModelChangeStructureVerbMask" NotInAddressSpace="true" PartNo="5" Purpose="ServicesOnly">

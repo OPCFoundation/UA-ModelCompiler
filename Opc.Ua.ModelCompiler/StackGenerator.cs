@@ -61,7 +61,8 @@ namespace ModelCompiler
             string output, 
             Files files, 
             string specificationVersion,
-            IList<string> exclusions)
+            IList<string> exclusions,
+            bool noSchemaGeneration = false)
         {
             var resourcePath = "ModelCompiler.Design";
 
@@ -73,44 +74,47 @@ namespace ModelCompiler
             TypeDictionaryValidator validator = new TypeDictionaryValidator(resourcePath);
             validator.Validate(input, exclusions);
 
-            string basePath = String.Format(@"{0}\{1}", output, name);
-            string fileName = String.Format("Opc.Ua{0}", name);
+            if (!noSchemaGeneration)
+            {
+                string basePath = String.Format(@"{0}\{1}", output, name);
+                string fileName = String.Format("Opc.Ua{0}", name);
 
-            XmlSchemaGenerator generator1 = new XmlSchemaGenerator(
-                input, 
-                output, 
-                files.TypeDictionaries, 
-                resourcePath,
-                exclusions);
+                XmlSchemaGenerator generator1 = new XmlSchemaGenerator(
+                    input,
+                    output,
+                    files.TypeDictionaries,
+                    resourcePath,
+                    exclusions);
 
-            generator1.TypesNamespace = "http://opcfoundation.org/UA/2008/02/Types.xsd";
-            generator1.ServicesNamespace = "http://opcfoundation.org/UA/2008/02/Services.wsdl";
-            generator1.EndpointsNamespace = "http://opcfoundation.org/UA/2008/02/Endpoints.wsdl";
+                generator1.TypesNamespace = "http://opcfoundation.org/UA/2008/02/Types.xsd";
+                generator1.ServicesNamespace = "http://opcfoundation.org/UA/2008/02/Services.wsdl";
+                generator1.EndpointsNamespace = "http://opcfoundation.org/UA/2008/02/Endpoints.wsdl";
 
-            generator1.Generate(fileName, "Opc.Ua", name, true);
-            string filePath = String.Format(@"{0}\Opc.Ua.Types.xsd", output);
+                generator1.Generate(fileName, "Opc.Ua", name, true);
+                string filePath = String.Format(@"{0}\Opc.Ua.Types.xsd", output);
 
-            XmlSchemaValidator2 validator1 = new XmlSchemaValidator2(files.XmlSchemas);
-            validator1.Validate(filePath);
-            files.XmlSchemas[validator1.TargetSchema.TargetNamespace] = filePath;
-            System.IO.File.Delete(filePath);
+                XmlSchemaValidator2 validator1 = new XmlSchemaValidator2(files.XmlSchemas);
+                validator1.Validate(filePath);
+                files.XmlSchemas[validator1.TargetSchema.TargetNamespace] = filePath;
+                System.IO.File.Delete(filePath);
 
-            fileName = "Opc.Ua.Types";
-            
-            BinarySchemaGenerator generator2 = new BinarySchemaGenerator(
-                input, 
-                output, 
-                files.TypeDictionaries, 
-                resourcePath,
-                exclusions);
+                fileName = "Opc.Ua.Types";
 
-            generator2.Generate(fileName, true, "http://opcfoundation.org/UA/");
-            filePath = String.Format(@"{0}\{1}.bsd", output, fileName);
+                BinarySchemaGenerator generator2 = new BinarySchemaGenerator(
+                    input,
+                    output,
+                    files.TypeDictionaries,
+                    resourcePath,
+                    exclusions);
 
-            BinarySchemaValidator validator2 = new BinarySchemaValidator(files.BinarySchemas);
-            validator2.Validate(filePath);
-            files.BinarySchemas[validator2.Dictionary.TargetNamespace] = filePath;
-            System.IO.File.Delete(filePath);
+                generator2.Generate(fileName, true, "http://opcfoundation.org/UA/");
+                filePath = String.Format(@"{0}\{1}.bsd", output, fileName);
+
+                BinarySchemaValidator validator2 = new BinarySchemaValidator(files.BinarySchemas);
+                validator2.Validate(filePath);
+                files.BinarySchemas[validator2.Dictionary.TargetNamespace] = filePath;
+                System.IO.File.Delete(filePath);
+            }
         }
 
         static void GenerateAnsiC(
@@ -159,16 +163,18 @@ namespace ModelCompiler
             generator7.Generate("OpcUa", "Core", true);
         }
 
-        static void GenerateTypeScript(
+        static void GenerateOpenApi(
             Files files,
             string modelDir,
             string csvDir,
             string outputDir,
             string specificationVersion,
-            IList<string> exclusions)
+            IList<string> exclusions,
+            string folderName,
+            string suffix)
         {
             ConstantsGenerator generator7a = new ConstantsGenerator(
-                Language.TypeScript,
+                Language.OpenApi,
                 $"{modelDir}UA Attributes.xml",
                 outputDir,
                 files.NodeDictionaries,
@@ -179,10 +185,12 @@ namespace ModelCompiler
                 "OpcUa",
                 "Attributes",
                 $"{csvDir}Attributes.csv",
-                false);
+                false,
+                folderName,
+                suffix);
             
             ConstantsGenerator generator9a = new ConstantsGenerator(
-                Language.TypeScript,
+                Language.OpenApi,
                 $"{modelDir}UA Status Codes.xml",
                 outputDir,
                 files.NodeDictionaries,
@@ -193,7 +201,9 @@ namespace ModelCompiler
                 "Opc.Ua",
                 "StatusCodes",
                 $"{csvDir}Status Codes.csv",
-                false);
+                false,
+                folderName,
+                suffix);
         }
 
         static void GenerateDotNet(
@@ -277,8 +287,34 @@ namespace ModelCompiler
                 exclusions);
 
             GenerateDotNet(files, modelDir, csvDir, rootDir, specificationVersion, exclusions);
-            GenerateTypeScript(files, modelDir, csvDir, rootDir, specificationVersion, exclusions);
         }
+
+        public static void GenerateOpenApi(
+            IList<string> designFilePaths,
+            string identifierFilePath,
+            string rootDir,
+            string specificationVersion,
+            IList<string> exclusions)
+        {
+            string modelDir = Path.GetDirectoryName(designFilePaths[0]) + "\\";
+            string csvDir = Path.GetDirectoryName(identifierFilePath) + "\\";
+
+            Files files = new Files();
+
+            ProcessDictionary(
+                "",
+                $"{modelDir}UA Core Services.xml",
+                rootDir,
+                files,
+                specificationVersion,
+                exclusions);
+
+            GenerateOpenApi(files, modelDir, csvDir, rootDir, specificationVersion, exclusions, "CSharp", "cs");
+            GenerateOpenApi(files, modelDir, csvDir, rootDir, specificationVersion, exclusions, "TypeScript", "ts");
+            GenerateOpenApi(files, modelDir, csvDir, rootDir, specificationVersion, exclusions, "JavaScript", "js");
+            GenerateOpenApi(files, modelDir, csvDir, rootDir, specificationVersion, exclusions, "Python", "py");
+        }
+
 
         public static void GenerateAnsiC(
             IList<string> designFilePaths,
@@ -298,7 +334,8 @@ namespace ModelCompiler
                 rootDir,
                 files,
                 specificationVersion,
-                exclusions);
+                exclusions, 
+                true);
 
             GenerateAnsiC(files, modelDir, csvDir, rootDir, specificationVersion, exclusions);
         }

@@ -27,18 +27,30 @@
  * http://opcfoundation.org/License/MIT/1.00/
  * ======================================================================*/
 
-using CodeGenerator;
-using Opc.Ua;
+#undef TEST_JSON_SCHEMAS
+
 using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.Schema;
+using CodeGenerator;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
+using Opc.Ua;
 using Export = Opc.Ua.Export;
+using ValidationEventArgs = System.Xml.Schema.ValidationEventArgs;
+using ValidationEventHandler = System.Xml.Schema.ValidationEventHandler;
 
 namespace ModelCompiler
 {
     public partial class ModelGenerator2 : CodeGenerator.CodeGenerator
     {
+#if TEST_JSON_SCHEMAS
+        internal const bool DoJsonSchemaTests = true;
+#else
+        internal const bool DoJsonSchemaTests = false;
+#endif
+
         #region Constructors
         /// <summary>
         /// Loads the model design from the specified file and validates it.
@@ -145,7 +157,10 @@ namespace ModelCompiler
             WriteTemplate_BinarySchema(filePath, nodes);
             WriteTemplate_XmlExport(filePath);
 
-            WriteTemplate_ConstantsTypeScript(filePath, nodes);
+            WriteTemplate_ConstantsOpenApi(filePath, nodes, "CSharp", "cs");
+            WriteTemplate_ConstantsOpenApi(filePath, nodes, "TypeScript", "ts");
+            WriteTemplate_ConstantsOpenApi(filePath, nodes, "JavaScript", "js");
+            WriteTemplate_ConstantsOpenApi(filePath, nodes, "Python", "py");
         }
 
         /// <summary>
@@ -350,7 +365,7 @@ namespace ModelCompiler
             {
                 return "All";
             }
-            
+
             if (flags != 0)
             {
                 foreach (var value in Enum.GetValues(typeof(PermissionType)))
@@ -462,10 +477,10 @@ namespace ModelCompiler
                             if (role == null)
                             {
                                 role = m_validator.Nodes
-                                    .Where(x => 
-                                        x.NumericId == (uint)permission.RoleId.Identifier && 
+                                    .Where(x =>
+                                        x.NumericId == (uint)permission.RoleId.Identifier &&
                                         x.SymbolicId.Namespace != DefaultNamespace &&
-                                        x is InstanceDesign instance && 
+                                        x is InstanceDesign instance &&
                                         instance.TypeDefinition == new XmlQualifiedName("RoleType", DefaultNamespace)
                                     )
                                     .FirstOrDefault();
@@ -536,6 +551,11 @@ namespace ModelCompiler
 
                 if (state != null)
                 {
+                    if (!DoJsonSchemaTests && node.Purpose == DataTypePurpose.Testing)
+                    {
+                        continue;
+                    }
+
                     collectionWithServices.Add(state);
 
                     if (isInAddressSpace)
@@ -714,8 +734,8 @@ namespace ModelCompiler
 
             using (Stream ostrm = File.Open(outputFile3, FileMode.Create))
             {
-                var model = new Export.ModelTableEntry() 
-                { 
+                var model = new Export.ModelTableEntry()
+                {
                     ModelUri = m_model.TargetNamespace,
                     XmlSchemaUri = m_model.TargetXmlNamespace,
                     Version = m_model.TargetVersion,
@@ -730,10 +750,10 @@ namespace ModelCompiler
                 }
 
                 collection.SaveAsNodeSet2(
-                    context, 
-                    ostrm, 
+                    context,
+                    ostrm,
                     model,
-                    (m_model.TargetPublicationDate != DateTime.MinValue)? m_model.TargetPublicationDate:DateTime.MinValue,
+                    (m_model.TargetPublicationDate != DateTime.MinValue) ? m_model.TargetPublicationDate : DateTime.MinValue,
                     true);
 
                 if (m_model.TargetNamespace == Opc.Ua.Namespaces.OpcUa)
@@ -790,19 +810,19 @@ namespace ModelCompiler
                     AvailableNodeSets[m_model.TargetNamespace] = Path.Join(filePath, nodeSet + ".xml");
                 }
 
-                GenerateJsonSchema(filePath, m_model.TargetNamespaceInfo.Prefix, false);
                 GenerateJsonSchema(filePath, m_model.TargetNamespaceInfo.Prefix, true);
+                GenerateJsonSchema(filePath, m_model.TargetNamespaceInfo.Prefix, false);
 
                 if (m_model.TargetNamespace == DefaultNamespace)
                 {
                     var completeNodeSet = $"{m_model.TargetNamespaceInfo.Prefix}.NodeSet2.Services";
                     AvailableNodeSets[m_model.TargetNamespace] = Path.Join(filePath, completeNodeSet + ".xml");
-                    GenerateJsonSchema(filePath, m_model.TargetNamespaceInfo.Prefix + ".Services", false);
                     GenerateJsonSchema(filePath, m_model.TargetNamespaceInfo.Prefix + ".Services", true);
+                    GenerateJsonSchema(filePath, m_model.TargetNamespaceInfo.Prefix + ".Services", false);
 
                     var nodeSetFilePath = String.Format(@"{0}{1}{2}.xml", filePath, Path.DirectorySeparatorChar, completeNodeSet);
 
-                    OpenApiExporter openapi = new OpenApiExporter(true, false);
+                    OpenApiExporter openapi = new OpenApiExporter(false);
 
                     using (Stream istrm = File.Open(nodeSetFilePath, FileMode.Open))
                     {
@@ -814,15 +834,15 @@ namespace ModelCompiler
 
                     using (Stream istrm = File.Open(openapiPath, FileMode.Create))
                     {
-                        openapi.Generate(istrm);
+                        openapi.GenerateCore(istrm);
                     }
 
                     using (Stream istrm = File.Open(openapiPath, FileMode.Open))
                     {
                         OpenApiExporter.Verify(istrm);
                     }
-                    
-                    openapi = new OpenApiExporter(true, true);
+
+                    openapi = new OpenApiExporter(true);
 
                     using (Stream istrm = File.Open(nodeSetFilePath, FileMode.Open))
                     {
@@ -834,7 +854,51 @@ namespace ModelCompiler
 
                     using (Stream istrm = File.Open(openapiPath, FileMode.Create))
                     {
-                        openapi.Generate(istrm);
+                        openapi.GenerateCore(istrm);
+                    }
+
+                    using (Stream istrm = File.Open(openapiPath, FileMode.Open))
+                    {
+                        OpenApiExporter.Verify(istrm);
+                    }
+                }
+                else
+                {
+                    var nodeSetFilePath = String.Format(@"{0}{1}{2}.xml", filePath, Path.DirectorySeparatorChar, nodeSet);
+
+                    OpenApiExporter openapi = new OpenApiExporter(false);
+
+                    if (m_model.Dependencies != null)
+                    {
+                        foreach (var dependency in m_model.Dependencies)
+                        {
+                            if (AvailableNodeSets.TryGetValue(dependency.Value.ModelUri, out var nodeset))
+                            {
+                                using (Stream istrm = File.Open(nodeset, FileMode.Open))
+                                {
+                                    openapi.Load(istrm);
+                                    istrm.Close();
+                                }
+                            }
+                        }
+                    }
+
+                    using (Stream istrm = File.Open(nodeSetFilePath, FileMode.Open))
+                    {
+                        openapi.Load(istrm);
+                        istrm.Close();
+                    }
+
+                    var openapiPath = Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix.ToLower() + ".openapi.json");
+
+                    using (Stream istrm = File.Open(openapiPath, FileMode.Create))
+                    {
+                        openapi.GenerateModel(
+                            istrm,
+                            m_model.TargetNamespaceInfo.Name,
+                            m_model.TargetNamespaceInfo.Version,
+                            m_model.TargetNamespaceInfo.Value
+                        );
                     }
 
                     using (Stream istrm = File.Open(openapiPath, FileMode.Open))
@@ -845,19 +909,364 @@ namespace ModelCompiler
             }
         }
 
-        private void GenerateJsonSchema(string filePath, string baseName, bool useReversibleEncoding)
+#if TEST_JSON_SCHEMAS
+        private TestScalarStructure CreateTestScalarStructure(IServiceMessageContext context)
         {
-            JsonSchemaExporter json = new JsonSchemaExporter(useReversibleEncoding);
+            ushort ns = (ushort)(context.NamespaceUris.ToArray().Length - 1);
+
+            var eo = new CurrencyUnitType()
+            {
+                Currency = "Dollar",
+                AlphabeticCode = "USD",
+                NumericCode = 840,
+                Exponent = 2
+            };
+
+            var eo2 = new TestConcreteStructure()
+            {
+                A = 1,
+                B = 2.234,
+                C = "apple",
+                D = 3,
+                E = 3.14,
+                F = "banana"
+            };
+
+            var eo3 = new TestConcreteStructure()
+            {
+                A = 3,
+                B = 4.234,
+                C = "orange",
+                D = 4,
+                E = 5.14,
+                F = "green"
+            };
+
+            return new TestScalarStructure()
+            {
+                A = true,
+                B = SByte.MaxValue,
+                C = Byte.MaxValue,
+                D = Int16.MaxValue,
+                E = UInt16.MaxValue,
+                F = Int32.MaxValue,
+                G = UInt32.MaxValue,
+                H = Int64.MaxValue,
+                I = UInt64.MaxValue,
+                J = Single.MaxValue,
+                K = Double.MaxValue,
+                L = (Uuid)Guid.NewGuid(),
+                M = DateTime.UtcNow,
+                N = "Test",
+                O = Guid.NewGuid().ToByteArray(),
+                P = new NodeId("Hello", ns),
+                Q = new ExpandedNodeId("Hello", "urn:tempuri.org:2024-01:good bye;world"),
+                R = new QualifiedName("Hello", ns),
+                S = new Opc.Ua.LocalizedText("de", "Hello"),
+                T = StatusCodes.BadAggregateNotSupported,
+                U = null,
+                V = new ExtensionObject(eo.TypeId, eo),
+                W = new ExtensionObject(eo2.TypeId, eo2),
+                X = eo3,
+                Y = TestEnumeration.Blue,
+                Z = (ulong)(TestOptionSet.A | TestOptionSet.B),
+                A1 = new TestUnion() { SwitchField = TestUnionFields.B, B = 3.1415 },
+                B1 = new TestOptionalFields() 
+                { 
+                    EncodingMask = (uint)(TestOptionalFieldsFields.B | TestOptionalFieldsFields.C),
+                    B = 2.4567,
+                    C = "Orange"
+                },
+                C1 = new DataValue()
+                {
+                    WrappedValue = 123.567,
+                    ServerTimestamp = DateTime.UtcNow,
+                    SourceTimestamp = DateTime.UtcNow,
+                    StatusCode = StatusCodes.Good
+                }
+            };
+        }
+
+        private TestArrayStructure CreateTestArrayStructure(IServiceMessageContext context)
+        {
+            ushort ns = (ushort)(context.NamespaceUris.ToArray().Length - 1);
+
+            var eo = new CurrencyUnitType()
+            {
+                Currency = "Dollar",
+                AlphabeticCode = "USD",
+                NumericCode = 840,
+                Exponent = 2
+            };
+
+            var eo2 = new TestConcreteStructure()
+            {
+                A = 1,
+                B = 2.234,
+                C = "apple",
+                D = 3,
+                E = 3.14,
+                F = "banana"
+            };
+
+            var eo3 = new TestConcreteStructure()
+            {
+                A = 3,
+                B = 4.234,
+                C = "orange",
+                D = 4,
+                E = 5.14,
+                F = "green"
+            };
+
+            return new TestArrayStructure()
+            {
+                A = new Boolean[] { true, false, true },
+                B = new SByte[] { SByte.MinValue, 0, SByte.MaxValue },
+                C = new Byte[] { Byte.MinValue, (Byte)SByte.MaxValue, Byte.MaxValue },
+                D = new Int16[] { Int16.MinValue, 0, Int16.MaxValue },
+                E = new UInt16[] { UInt16.MinValue, (UInt16)Int16.MaxValue, UInt16.MaxValue },
+                F = new Int32[] { Int32.MinValue, 0, Int32.MaxValue },
+                G = new UInt32[] { UInt32.MinValue, (UInt32)SByte.MaxValue, UInt32.MaxValue },
+                H = new Int64[] { Int64.MinValue, 0, Int64.MaxValue },
+                I = new UInt64[] { UInt64.MinValue, (UInt64)Int64.MaxValue, UInt64.MaxValue },
+                J = new Single[] { Single.MinValue, Single.Pi, Single.MaxValue },
+                K = new Double[] { Double.MinValue, Double.Pi, Double.MaxValue },
+                L = new Uuid[] { (Uuid)Guid.NewGuid(), (Uuid)Guid.NewGuid(), (Uuid)Guid.NewGuid() },
+                M = new DateTime[] { DateTime.UtcNow, new DateTime(DateTime.Now.Ticks, DateTimeKind.Utc), DateTime.MaxValue },
+                N = new String[] { "Red", "Yellow", "Green" },
+                O = new byte[][] { Guid.NewGuid().ToByteArray(), Guid.NewGuid().ToByteArray(), Guid.NewGuid().ToByteArray() },
+                P = new NodeId[] { new NodeId(1234U, ns), new NodeId("Hello", ns), new NodeId(Guid.NewGuid(), ns) },
+                Q = new ExpandedNodeId[] { new ExpandedNodeId(1234U, 1), new ExpandedNodeId("Hello", "urn:tempuri.org:2024-01:good bye;world"), new ExpandedNodeId(Guid.NewGuid(), "urn:tempuri.org:2024-01:goodbye:world") },
+                R = new QualifiedName[] { new QualifiedName("Red", ns), new QualifiedName("Yellow", ns), new QualifiedName("Green", ns) },
+                S = new Opc.Ua.LocalizedText[] { new Opc.Ua.LocalizedText("en", "Red"), new Opc.Ua.LocalizedText("de", "Yellow"), new Opc.Ua.LocalizedText("jp", "Green") },
+                T = new StatusCode[] { StatusCodes.BadAggregateInvalidInputs, StatusCodes.BadCertificateTimeInvalid, StatusCodes.BadAggregateNotSupported },
+                U = new XmlElement[0],
+                V = new Variant[] {
+                    new ExtensionObject(eo.TypeId, new CurrencyUnitType()
+                    {
+                        Currency = "Dollar",
+                        AlphabeticCode = "USD",
+                        NumericCode = 840,
+                        Exponent = 2
+                    }),
+                    new Variant(new Matrix(
+                        new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2 }, 
+                        BuiltInType.Int32, 
+                        new int[] { 2, 3, 2 }
+                    )),
+                    new Variant(new Matrix(
+                        new ExtensionObject[] { 
+                            new ExtensionObject(eo.TypeId, new CurrencyUnitType()
+                            {
+                                Currency = "Euro",
+                                AlphabeticCode = "EUR",
+                                NumericCode = 654,
+                                Exponent = 1
+                            }),
+                            new ExtensionObject(eo.TypeId, new CurrencyUnitType()
+                            {
+                                Currency = "Japanese Yen",
+                                AlphabeticCode = "JPY",
+                                NumericCode = 123,
+                                Exponent = 0
+                            })},
+                        BuiltInType.ExtensionObject,
+                        new int[] { 1, 2 }
+                    ))
+                },
+                W = new ExtensionObjectCollection()
+                {
+                    new ExtensionObject(eo2.TypeId, eo2),
+                    new ExtensionObject(eo2.TypeId, new TestConcreteStructure()
+                    {
+                        A = 1,
+                        B = 2.234,
+                        C = "red",
+                        D = 3,
+                        E = 3.14,
+                        F = "blue"
+                    }),
+                    new ExtensionObject(eo2.TypeId, new TestConcreteStructure()
+                    {
+                        A = 1,
+                        B = 2.234,
+                        C = "dog",
+                        D = 3,
+                        E = 3.14,
+                        F = "cat"
+                    })
+                },
+                X = new(new TestConcreteStructure[]
+                {
+                    eo2,
+                    eo3,
+                    new TestConcreteStructure()
+                    {
+                        A = 1,
+                        B = 2.234,
+                        C = "dog",
+                        D = 3,
+                        E = 3.14,
+                        F = "cat"
+                    }
+                }),
+                Y = new TestEnumeration[] { TestEnumeration.Red, TestEnumeration.Green, TestEnumeration.Blue },
+                Z = [ (ulong)TestOptionSet.C, (ulong)(TestOptionSet.A | TestOptionSet.B), (ulong)0 ],
+                A1 = [new TestUnion() { SwitchField = TestUnionFields.A, A = 1234 }, new TestUnion() { SwitchField = TestUnionFields.C, C = "Grape" }, new TestUnion() { SwitchField = TestUnionFields.B, B = 3.1415 } ],
+                B1 = [
+                    new TestOptionalFields()
+                    {
+                        EncodingMask = (uint)(TestOptionalFieldsFields.A),
+                        A = 12345
+                    },
+                    new TestOptionalFields()
+                    {
+                        EncodingMask = (uint)(TestOptionalFieldsFields.B | TestOptionalFieldsFields.C),
+                        B = 2.4567,
+                        C = "Orange"
+                    },
+                    new TestOptionalFields()
+                    {
+                        EncodingMask = (uint)(TestOptionalFieldsFields.A | TestOptionalFieldsFields.C),
+                        A = 12345,
+                        C = "Grape"
+                    }
+                ],
+                C1 = new DataValue[]
+                {
+                    new DataValue()
+                    {
+                        WrappedValue = 123,
+                        ServerTimestamp = DateTime.UtcNow,
+                        StatusCode = StatusCodes.UncertainDataSubNormal
+                    },
+                    new DataValue()
+                    {
+                        WrappedValue = "unicorn",
+                        SourceTimestamp = DateTime.UtcNow,
+                        SourcePicoseconds = 1234,
+                        StatusCode = StatusCodes.GoodCallAgain
+                    },
+                    new DataValue() {
+                        WrappedValue = new ExtensionObject(DataTypeIds.TestConcreteStructure, new TestConcreteStructure()
+                        {
+                            A = 6,
+                            B = 10.234,
+                            C = "rat",
+                            D = 9,
+                            E = 8.78,
+                            F = "pop"
+                        }),
+                        StatusCode = StatusCodes.UncertainEngineeringUnitsExceeded,
+             
+                    },
+                    new DataValue() {
+                        WrappedValue = new Variant(new Matrix(
+                            new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2 },
+                            BuiltInType.Int32,
+                            new int[] { 2, 3, 2 }
+                        )),
+                        StatusCode = StatusCodes.UncertainDataSubNormal
+                    }
+                }
+            };
+        }
+#endif
+
+        private void GenerateJsonSchema(string filePath, string baseName, bool useCompactEncoding)
+        {
+            JsonSchemaExporter json = new JsonSchemaExporter(useCompactEncoding);
 
             json.Load(AvailableNodeSets, m_model.TargetNamespace);
 
-            string outputFile = Path.Join(filePath, $"{baseName.ToLower()}.jsonschema.{((!useReversibleEncoding) ? "nonreversible" : "reversible")}.json");
+            string outputFile = Path.Join(filePath, $"{baseName.ToLower()}.jsonschema{((!useCompactEncoding) ? ".verbose" : "")}.json");
 
             using (var ostrm = File.Open(outputFile, FileMode.Create, FileAccess.ReadWrite))
             {
-                json.Generate(ostrm);
+                json.Generate(Path.GetFileNameWithoutExtension(outputFile), ostrm);
+            }
+
+#if TEST_JSON_SCHEMAS
+            if (DoJsonSchemaTests)
+            {
+                if (m_model.TargetNamespace == DefaultNamespace && outputFile.Contains(".services.", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (useCompactEncoding) CheckSchema(outputFile, true, true);
+                    CheckSchema(outputFile, useCompactEncoding, false);
+                }
+            }
+#endif
+        }
+
+#if TEST_JSON_SCHEMAS
+        private void CheckSchema(string outputFile, bool useCompactEncoding, bool noSchemaCheck)
+        {
+            try
+            {
+                ServiceMessageContext context = new();
+                context.NamespaceUris = m_model.NamespaceUris;
+                var ns = context.NamespaceUris.GetIndexOrAppend("urn:tempuri.org:2024-01:hello;world");
+
+                var encoding = noSchemaCheck ? JsonEncodingType.Reversible : useCompactEncoding ? JsonEncodingType.Compact : JsonEncodingType.Verbose;
+                JsonEncoder encoder = new JsonEncoder(context, encoding);
+
+                TestStructure test = new()
+                {
+                    A = CreateTestScalarStructure(context),
+                    B = CreateTestArrayStructure(context),
+                    C = new TestScalarStructure[] { CreateTestScalarStructure(context), CreateTestScalarStructure(context), CreateTestScalarStructure(context) },
+                    D = new TestArrayStructure[] { CreateTestArrayStructure(context), CreateTestArrayStructure(context), CreateTestArrayStructure(context) }
+                };
+
+                test.Encode(encoder);
+                var json = encoder.CloseAndReturnText();
+
+                var rootPath = Path.GetFileNameWithoutExtension(outputFile);
+                JToken parsedJson = JToken.Parse(json);
+                string formattedJson = parsedJson.ToString(Newtonsoft.Json.Formatting.Indented);
+                Directory.CreateDirectory(Path.GetDirectoryName(outputFile) + "/TestOutput");
+                File.AppendAllText($"{Path.GetDirectoryName(outputFile)}/TestOutput/{rootPath}.json", formattedJson); 
+
+                if (!noSchemaCheck)
+                {
+                    var text = File.ReadAllText(outputFile).Replace(@"""$ref"": ""/basedatatype"",", @"""$ref"": ""/" + test.GetType().Name.ToLower() + @""",");
+                    var schema = JSchema.Parse(text);
+
+                    JObject instance = JObject.Parse(json);
+
+                    IList<ValidationError> messages;
+                    if (!instance.IsValid(schema, out messages))
+                    {
+                        foreach (var message in messages)
+                        {
+                            foreach (var child in message.ChildErrors)
+                            {
+                                Console.WriteLine($"[JSON Schema] {child.Message}");
+                            }
+                        }
+                    }
+                }
+
+                JsonDecoder decoder = new JsonDecoder(json, context);
+                decoder.UpdateNamespaceTable = false;
+
+                TestStructure test2 = new();
+                test2.Decode(decoder);
+
+                if (!test2.IsEqual(test))
+                {
+                    Console.WriteLine($"[JsonDecoder] Decoded does not match.");
+                }
+
+                Console.WriteLine($"[JSON Schema] {Path.GetFileName(outputFile)} is GOOD!");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"[JSON Schema] {Path.GetFileName(outputFile)} {e.Message}");
             }
         }
+#endif
 
         private Stream GetNodeSet2Schema()
         {
@@ -869,7 +1278,7 @@ namespace ModelCompiler
                 }
             }
 
-            throw new InvalidOperationException("Could not find UANodeSet.xsd in assembly."); 
+            throw new InvalidOperationException("Could not find UANodeSet.xsd in assembly.");
         }
 
         static void ValidationEventHandler(object sender, ValidationEventArgs e)
@@ -940,7 +1349,7 @@ namespace ModelCompiler
 
                 Template template = new Template(writer, TemplatePath + templateName, Assembly.GetExecutingAssembly());
 
-                SortedDictionary<string,List<NodeDesign>> identifiers = GetIdentifiers();
+                SortedDictionary<string, List<NodeDesign>> identifiers = GetIdentifiers();
 
                 template.AddReplacement("_Date_", DateTime.Now.ToShortDateString());
                 template.AddReplacement("_FileName_", String.Format("{0}_Identifiers", prefix));
@@ -986,13 +1395,13 @@ namespace ModelCompiler
 
                 for (int ii = 0; ii < nodes.Count; ii++)
                 {
-                    if (ii < nodes.Count - 1 && nodes[ii].SymbolicName.Name.EndsWith("Request") && nodes[ii+1].SymbolicName.Name.EndsWith("Response"))
+                    if (ii < nodes.Count - 1 && nodes[ii].SymbolicName.Name.EndsWith("Request") && nodes[ii + 1].SymbolicName.Name.EndsWith("Response"))
                     {
                         serviceNames.Add(nodes[ii].SymbolicName.Name.Replace("Request", ""));
                         continue;
                     }
 
-                    if (ii > 0 && nodes[ii-1].SymbolicName.Name.EndsWith("Request") && nodes[ii].SymbolicName.Name.EndsWith("Response"))
+                    if (ii > 0 && nodes[ii - 1].SymbolicName.Name.EndsWith("Request") && nodes[ii].SymbolicName.Name.EndsWith("Response"))
                     {
                         continue;
                     }
@@ -1065,7 +1474,7 @@ namespace ModelCompiler
         /// </summary>
         private string LoadTemplate_TypeIdAnsiC(Template template, Context context)
         {
-            KeyValuePair<string,List<NodeDesign>>? entry = context.Target as KeyValuePair<string,List<NodeDesign>>?;
+            KeyValuePair<string, List<NodeDesign>>? entry = context.Target as KeyValuePair<string, List<NodeDesign>>?;
 
             if (entry == null)
             {
@@ -1572,7 +1981,7 @@ namespace ModelCompiler
                     {
                         if (dataType.IsOptionSet)
                         {
-                             return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
+                            return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
                         }
 
                         return String.Format("xs:int");
@@ -1716,7 +2125,7 @@ namespace ModelCompiler
                         {
                             fieldDataType = "ua:ExtensionObject";
                         }
-                        
+
                         template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" nillable=\"true\" />", field.Name, fieldDataType);
                         break;
                     }
@@ -1791,11 +2200,11 @@ namespace ModelCompiler
                 case BasicDataType.Boolean:
                 case BasicDataType.SByte:
                 case BasicDataType.Byte:
-                case BasicDataType.Int16: 
+                case BasicDataType.Int16:
                 case BasicDataType.UInt16:
                 case BasicDataType.Int32:
                 case BasicDataType.UInt32:
-                case BasicDataType.Int64: 
+                case BasicDataType.Int64:
                 case BasicDataType.UInt64:
                 case BasicDataType.Float:
                 case BasicDataType.Double:
@@ -1820,7 +2229,7 @@ namespace ModelCompiler
 
             template.WriteLine(String.Empty);
             template.AddReplacement("_TypeName_", dataType.SymbolicName.Name);
-            template.AddReplacement("_Nillable_", (!IsNillable(dataType.BasicDataType))?"":"nillable=\"true\" ");
+            template.AddReplacement("_Nillable_", (!IsNillable(dataType.BasicDataType)) ? "" : "nillable=\"true\" ");
 
             return template.WriteTemplate(context);
         }
@@ -1874,7 +2283,7 @@ namespace ModelCompiler
                     nodes,
                     new LoadTemplateEventHandler(LoadTemplate_BinaryType),
                     new WriteTemplateEventHandler(WriteTemplate_BinaryType));
-                 
+
                 template.WriteTemplate(null);
             }
             finally
@@ -2371,23 +2780,62 @@ namespace ModelCompiler
             }
         }
 
-        private void WriteTemplate_ConstantsTypeScript(string filePath, List<NodeDesign> nodes)
+        private void WriteTemplate_ConstantsOpenApi(string filePath, List<NodeDesign> nodes, string folderName, string suffix)
         {
-            StreamWriter writer = new StreamWriter(Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix.ToLower().Replace(".", "") + "-constants.ts"), false);
+            var path = Path.Join(filePath, "Constants", folderName, m_model.TargetNamespaceInfo.Prefix.ToLower().Replace(".", "") + $"_constants.{suffix}");
+
+            if (!Directory.Exists(Path.GetDirectoryName(path)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+            }
+
+            StreamWriter writer = new StreamWriter(path, false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "Version2.ConstantsFile.ts", Assembly.GetExecutingAssembly());
+                Template template = new Template(writer, TemplatePath + $"Version2.{folderName}.ConstantsFile.{suffix}", Assembly.GetExecutingAssembly());
+
+                SortedDictionary<string, string> browseNames = GetBrowseNames(nodes);
+
+                template.AddReplacement("_NamespacePrefix_", m_model.TargetNamespaceInfo.Prefix);
+                template.AddReplacement("_NamespaceUri_", m_model.TargetNamespace);
+
+                AddTemplate(
+                    template,
+                    "// ListOfBrowseNames",
+                    TemplatePath + $"Version2.{folderName}.BrowseName.{suffix}",
+                    browseNames,
+                    (template, context) => context.TemplatePath,
+                    WriteOpenApiTemplate_BrowseName);
 
                 SortedDictionary<string, List<NodeDesign>> identifiers = GetIdentifiers();
 
                 AddTemplate(
                     template,
                     "// ListOfNodeIds",
-                    null,
+                    TemplatePath + $"Version2.{folderName}.NodeIdClass.{suffix}",
                     identifiers,
-                    new LoadTemplateEventHandler(LoadTemplate_ListOfNodeIds),
-                    null);
+                    new LoadTemplateEventHandler(LoadOpenApiTemplate_ListOfNodeIds),
+                    new WriteTemplateEventHandler(WriteOpenApiTemplate_ListOfNodeIds));
+
+                if (m_model.TargetNamespace == DefaultNamespace)
+                {
+                    AddTemplate(
+                        template,
+                        "// BuiltInTypes",
+                        TemplatePath + $"Version2.{folderName}.BuiltInTypes.{suffix}",
+                        new string[] { "once" },
+                        (Template template, Context context) => context.TemplatePath,
+                        (Template template, Context context) =>
+                        {
+                            template.WriteNextLine(String.Empty);
+                            return template.WriteTemplate(context);
+                        });
+                }
+                else
+                {
+                    template.AddReplacement("// BuiltInTypes", "");
+                }
 
                 Context context = new Context();
                 context.Target = nodes;
@@ -2399,60 +2847,123 @@ namespace ModelCompiler
             }
         }
 
-        #region "// ListOfNodeIds"
-        private string LoadTemplate_ListOfNodeIds(Template template, Context context)
+        #region "// ListOfBrowseNames"
+        private bool WriteOpenApiTemplate_BrowseName(Template template, Context context)
         {
-            var identifiers = context.Target as KeyValuePair<string, List<NodeDesign>>?;
+            var name = context.Target as KeyValuePair<string, string>?;
 
-            if (identifiers == null || identifiers?.Value.Count == 0)
+            if (name == null)
+            {
+                return false;
+            }
+
+            context.BlankLine = false;
+
+            template.AddReplacement("_Key_", name.Value.Key);
+            template.AddReplacement("_Value_", name.Value.Value);
+
+            return template.WriteTemplate(context);
+        }
+        #endregion
+
+        #region "// ListOfDataTypeFields"
+        private string LoadOpenApiTemplate_ListOfDataTypeFields(Template template, Context context)
+        {
+            if (context.Target is not Parameter field)
             {
                 return null;
             }
 
-            var list = identifiers?.Value.Where(x => {
-                if (x is ObjectDesign || x is VariableDesign)
-                {
-                    var index = x.SymbolicId.Name.IndexOf('_');
+            return context.TemplatePath;
+        }
 
-                    if (index < 0)
-                    {
-                        return true;
-                    }
+        private bool WriteOpenApiTemplate_ListOfDataTypeFields(Template template, Context context)
+        {
+            if (context.Target is not Parameter field)
+            {
+                return false;
+            }
 
-                    var name = x.SymbolicId.Name.Substring(0, index);
-                    return !name.EndsWith("Type");
-                }
-                return true;
-            }).ToList();
+            context.BlankLine = false;
 
-            if (list.Count == 0)
+            template.AddReplacement("_Name_", field.Name);
+            template.AddReplacement("_Namespace_", m_model.TargetNamespace);
+            template.AddReplacement("_Type_", field.DataTypeNode.SymbolicName.Name);
+
+            return template.WriteTemplate(context);
+        }
+        #endregion
+
+        #region "// ListOfNodeIds"
+        private string LoadOpenApiTemplate_ListOfNodeIds(Template template, Context context)
+        {
+            var list = context.Target as KeyValuePair<string, List<NodeDesign>>?;
+
+            if (list == null)
             {
                 return null;
             }
 
-            template.WriteNextLine($"export enum {identifiers?.Key}Ids {{");
+            return context.TemplatePath;
+        }
 
-            bool first = true;
+        private bool WriteOpenApiTemplate_ListOfNodeIds(Template template, Context context)
+        {
+            var list = context.Target as KeyValuePair<string, List<NodeDesign>>?;
 
-            foreach (var node in list)
+            if (list == null)
             {
-                if (first) { first = false; } else { template.Write(","); }
-                template.WriteNextLine(context.Prefix);
-
-                if (node.NumericIdSpecified)
-                {
-                    template.Write($"   {node.SymbolicId.Name} = 'i={node.NumericId}'");
-                }
-                else if (!String.IsNullOrEmpty(node.StringId))
-                {
-                    template.Write($"   {node.SymbolicId.Name} = 's={node.StringId}'");
-                }
+                return false;
             }
 
-            template.WriteNextLine("}");
-            template.WriteNextLine("");
+            template.AddReplacement("_NodeClass_", list.Value.Key);
 
-            return null;
+            var elements = context.TemplatePath.Split('.');
+
+            if (m_model.TargetNamespace == DefaultNamespace)
+            {
+                elements[elements.Length - 2] = "Identifier_NoNamespace";
+            }
+            else
+            {
+                elements[elements.Length - 2] = "Identifier";
+            }
+
+            AddTemplate(
+                template,
+                "// ListOfIdentifiers",
+                String.Join(".", elements),
+                list.Value.Value,
+                (template, context) => context.TemplatePath,
+                WriteOpenApiTemplate_Identifier);
+
+            return template.WriteTemplate(context);
+        }
+
+        private bool WriteOpenApiTemplate_Identifier(Template template, Context context)
+        {
+            var node = context.Target as NodeDesign;
+
+            if (node == null)
+            {
+                return false;
+            }
+
+            context.BlankLine = false;
+
+            template.AddReplacement("_Key_", node.SymbolicId.Name);
+            template.AddReplacement("_Namespace_", m_model.TargetNamespace);
+
+            if (node.NumericIdSpecified)
+            {
+                template.AddReplacement("_Value_", $"i={node.NumericId}");
+            }
+            else if (!String.IsNullOrEmpty(node.StringId))
+            {
+                template.AddReplacement("_Value_", $"s={node.StringId}");
+            }
+
+            return template.WriteTemplate(context);
         }
         #endregion
 
@@ -2698,7 +3209,7 @@ namespace ModelCompiler
                 {
                     parentId = parentId.Substring(0, index);
                 }
-                                
+
                 if (!root.Hierarchy.Nodes.TryGetValue(parentId, out parent))
                 {
                     return false;
@@ -2728,22 +3239,22 @@ namespace ModelCompiler
             for (int ii = 0; ii < m_model.Items.Length; ii++)
             {
                 NodeDesign node = m_model.Items[ii];
-                
+
                 if (IsExcluded(node))
                 {
                     continue;
                 }
 
                 InstanceDesign instance = node as InstanceDesign;
-                
+
                 if (instance != null && instance.TypeDefinitionNode != null)
                 {
                     if (IsExcluded(instance.TypeDefinitionNode))
                     {
                         continue;
                     }
-                }     
-                
+                }
+
                 if (IsMethodTypeNode(node))
                 {
                     continue;
@@ -3087,6 +3598,11 @@ namespace ModelCompiler
 
                         if (datatype.HasFields && datatype.Fields.Where(x => x.IsOptional).Count() > 0)
                         {
+                            if (GetBaseClassName(datatype) != "IEncodeable")
+                            {
+                                return TemplatePath + "Version2.DataTypes.DerivedClassWithOptionalFields.cs";
+                            }
+
                             return TemplatePath + "Version2.DataTypes.ClassWithOptionalFields.cs";
                         }
 
@@ -3168,7 +3684,7 @@ namespace ModelCompiler
             Array children = GetFields(node);
 
             template.AddReplacement("_NodeClass_", GetNodeClass(node));
-            template.AddReplacement("_Description_", (node.Description != null)?node.Description.Value:"");
+            template.AddReplacement("_Description_", (node.Description != null) ? node.Description.Value : "");
 
             template.AddReplacement("_TypeName_", node.SymbolicName.Name);
             template.AddReplacement("_NamespaceUri_", GetConstantForNamespace(node.SymbolicName.Namespace));
@@ -3237,11 +3753,47 @@ namespace ModelCompiler
                     null);
             }
 
-            DataTypeDesign dataType = context.Target as DataTypeDesign;
+            var dataType = node as DataTypeDesign;
 
             if (dataType != null)
             {
-                template.AddReplacement("_IsAbstract_", (dataType.IsAbstract) ? "abstract ": "");
+                List<Parameter> completeListOfFields = null;
+
+                if (dataType.IsStructure)
+                {
+                    List<DataTypeDesign> inheiritanceTree = [dataType];
+                    var parentDataType = dataType.BaseTypeNode as DataTypeDesign;
+
+                    while (parentDataType != null &&
+                           parentDataType.SymbolicId != new XmlQualifiedName("Structure", DefaultNamespace) &&
+                           parentDataType.SymbolicId != new XmlQualifiedName("Union", DefaultNamespace)
+                    )
+                    {
+                        inheiritanceTree.Add(parentDataType);
+                        parentDataType = parentDataType.BaseTypeNode as DataTypeDesign;
+                    }
+
+                    completeListOfFields = new();
+
+                    for (int ii = inheiritanceTree.Count - 1; ii >= 0; ii--)
+                    {
+                        var fields = GetFields(inheiritanceTree[ii]);
+
+                        foreach (var field in fields)
+                        {
+                            var parameter = (Parameter)field;
+
+                            if (parameter.IsOptional)
+                            {
+                                completeListOfFields.Add(parameter);
+                            }
+                        }
+                    }
+                }
+
+                // too much autogenerated code is broken.
+                // template.AddReplacement("_IsAbstract_", (dataType.IsAbstract) ? "abstract " : "");
+                template.AddReplacement("_IsAbstract_", (dataType.IsAbstract) ? "" : "");
 
                 if (!dataType.IsOptionSet)
                 {
@@ -3290,7 +3842,7 @@ namespace ModelCompiler
 
                         if (!encoding)
                         {
-                            template.AddReplacement($"ObjectIds._BrowseName__Encoding_Default{ii}", "throw new NotSupportedException()");
+                            template.AddReplacement($"ObjectIds._BrowseName__Encoding_Default{ii}", "NodeId.Null");
                         }
                     }
                 }
@@ -3307,7 +3859,7 @@ namespace ModelCompiler
                     template,
                     "// ListOfEncodingMaskFields",
                     null,
-                    children,
+                    completeListOfFields?.ToArray() ?? children,
                     new LoadTemplateEventHandler(LoadTemplate_ListOfEncodingMaskFields),
                     null);
 
@@ -3697,7 +4249,7 @@ namespace ModelCompiler
                 return null;
             }
 
-            Dictionary<string,Parameter> fields = new Dictionary<string,Parameter>();
+            Dictionary<string, Parameter> fields = new Dictionary<string, Parameter>();
             CollectMatchingFields(variableType, fields);
 
             if (fields.Count == 0)
@@ -3873,7 +4425,7 @@ namespace ModelCompiler
         #region "// ListOfChildMethods"
         private bool WriteTemplate_VariableTypeValueField(Template template, Context context)
         {
-            KeyValuePair<string,Parameter>? field = context.Target as KeyValuePair<string,Parameter>?;
+            KeyValuePair<string, Parameter>? field = context.Target as KeyValuePair<string, Parameter>?;
 
             if (field == null)
             {
@@ -4026,28 +4578,27 @@ namespace ModelCompiler
 
             DataTypeDesign dataType = (DataTypeDesign)field.Parent;
 
-            int index = context.Index + 1;
-
+            int index = context.Index;
 
             if (field.IsOptional)
             {
-                // calc mask position
-                int mask = 0;
-                foreach (var indexField in dataType.Fields)
-                {
-                    if (indexField == field || mask >= sizeof(UInt32)*8)
-                    {
-                        break;
-                    }
-                    if (indexField.IsOptional)
-                    {
-                        mask++;
-                    }
-                }
+                //int mask = 0;
+                //foreach (var indexField in dataType.Fields)
+                //{
+                //    if (indexField == field || mask >= sizeof(UInt32) * 8)
+                //    {
+                //        break;
+                //    }
+                //    if (indexField.IsOptional)
+                //    {
+                //        mask++;
+                //    }
+                //}
+
                 template.WriteNextLine(context.Prefix);
                 template.Write($"/// <remarks />");
                 template.WriteNextLine(context.Prefix);
-                template.Write($"{field.Name} = 0x{1 << (mask):X}{((index == dataType.Fields.Length) ? "" : ",")}");
+                template.Write($"{field.Name} = 0x{1 << (index):X},");
             }
 
             return context.TemplatePath;
@@ -4076,12 +4627,13 @@ namespace ModelCompiler
 
             if (field.IsOptional)
             {
-                template.Write($"if ((EncodingMask & {dataType.ClassName}Fields.{field.Name}) != 0) ");
+                template.Write($"if ((EncodingMask & (uint){dataType.ClassName}Fields.{field.Name}) != 0) ");
             }
 
             string functionName = field.DataTypeNode.BasicDataType.ToString();
             string valueName = field.Name;
             string elementName = null;
+            string fieldName = field.Name;
 
             switch (field.DataTypeNode.BasicDataType)
             {
@@ -4126,7 +4678,7 @@ namespace ModelCompiler
                     if (field.ValueRank == ValueRank.Array)
                     {
                         elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
-                        template.Write("encoder.WriteEnumeratedArray(\"{0}\", {0}.ToArray(), typeof({1}));", field.Name, elementName);
+                        template.Write($"encoder.WriteEnumeratedArray(\"{fieldName}\", {field.Name}.ToArray(), typeof({elementName}));");
 
                         if (isUnion)
                         {
@@ -4144,20 +4696,20 @@ namespace ModelCompiler
                     if (field.AllowSubTypes)
                     {
                         if (field.ValueRank == ValueRank.Array)
-                        { 
-                            template.Write($"encoder.WriteExtensionObjectArray(\"{field.Name}\", ExtensionObjectCollection.ToExtensionObjects({field.Name}));");
+                        {
+                            template.Write($"encoder.WriteExtensionObjectArray(\"{fieldName}\", ExtensionObjectCollection.ToExtensionObjects({field.Name}));");
 
                             if (isUnion)
                             {
                                 template.Write(" break; }");
                             }
-                            
+
                             return context.TemplatePath;
                         }
 
                         if (field.ValueRank == ValueRank.Scalar)
                         {
-                            template.Write($"encoder.WriteExtensionObject(\"{field.Name}\", new ExtensionObject({field.Name}));");
+                            template.Write($"encoder.WriteExtensionObject(\"{fieldName}\", new ExtensionObject({field.Name}));");
 
                             if (isUnion)
                             {
@@ -4167,8 +4719,8 @@ namespace ModelCompiler
                             return context.TemplatePath;
                         }
 
-                        template.Write($"encoder.WriteVariant(\"{field.Name}\", {field.Name});");
-                        
+                        template.Write($"encoder.WriteVariant(\"{fieldName}\", {field.Name});");
+
                         if (isUnion)
                         {
                             template.Write(" break; }");
@@ -4182,7 +4734,7 @@ namespace ModelCompiler
 
                     if (field.ValueRank == ValueRank.Array)
                     {
-                        template.Write("encoder.WriteEncodeableArray(\"{0}\", {0}.ToArray(), typeof({1}));", field.Name, elementName);
+                        template.Write($"encoder.WriteEncodeableArray(\"{fieldName}\", {field.Name}.ToArray(), typeof({elementName}));");
 
                         if (isUnion)
                         {
@@ -4206,11 +4758,11 @@ namespace ModelCompiler
                 elementName = null;
             }
 
-            template.Write("encoder.Write{0}(\"{1}\", {2}", functionName, field.Name, valueName);
+            template.Write($"encoder.Write{functionName}(\"{fieldName}\", {field.Name}");
 
             if (elementName != null)
             {
-                template.Write(", typeof({0})", elementName);
+                template.Write($", typeof({elementName})");
             }
 
             template.Write(");");
@@ -4246,12 +4798,13 @@ namespace ModelCompiler
 
             if (field.IsOptional)
             {
-                template.Write($"if ((EncodingMask & {dataType.ClassName}Fields.{field.Name}) != 0) ");
+                template.Write($"if ((EncodingMask & (uint){dataType.ClassName}Fields.{field.Name}) != 0) ");
             }
 
             string functionName = field.DataTypeNode.BasicDataType.ToString();
             string valueName = field.Name;
             string elementName = null;
+            string fieldName = field.Name;
 
             switch (field.DataTypeNode.BasicDataType)
             {
@@ -4304,31 +4857,31 @@ namespace ModelCompiler
                         elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
 
                         if (field.ValueRank == ValueRank.Array)
-                        { 
-                            template.Write($"({elementName}[])ExtensionObject.ToArray(decoder.ReadExtensionObjectArray(\"{field.Name}\"), typeof({elementName}));");
+                        {
+                            template.Write($"({elementName}[])ExtensionObject.ToArray(decoder.ReadExtensionObjectArray(\"{fieldName}\"), typeof({elementName}));");
 
                             if (isUnion)
                             {
                                 template.Write(" break; }");
                             }
-                            
+
                             return context.TemplatePath;
                         }
 
                         if (field.ValueRank == ValueRank.Scalar)
                         {
-                            template.Write($"({elementName})ExtensionObject.ToEncodeable(decoder.ReadExtensionObject(\"{field.Name}\"));");
+                            template.Write($"({elementName})ExtensionObject.ToEncodeable(decoder.ReadExtensionObject(\"{fieldName}\"));");
 
                             if (isUnion)
                             {
                                 template.Write(" break; }");
                             }
-                            
+
                             return context.TemplatePath;
                         }
 
-                        template.Write($"decoder.ReadVariant(\"{field.Name}\");");
-                        
+                        template.Write($"decoder.ReadVariant(\"{fieldName}\");");
+
                         if (isUnion)
                         {
                             template.Write(" break; }");
@@ -4366,11 +4919,11 @@ namespace ModelCompiler
                     template.Write("({0})", elementName);
                 }
 
-                template.Write("decoder.Read{0}(\"{1}\", typeof({2}));", functionName, field.Name, elementName);
+                template.Write($"decoder.Read{functionName}(\"{fieldName}\", typeof({elementName}));");
             }
             else
             {
-                template.Write("decoder.Read{0}(\"{1}\");", functionName, field.Name);
+                template.Write($"decoder.Read{functionName}(\"{fieldName}\");");
             }
 
             if (isUnion)
@@ -4394,17 +4947,6 @@ namespace ModelCompiler
 
             DataTypeDesign dataType = field.Parent as DataTypeDesign;
 
-            if (context.Index == 0)
-            {
-                if (dataType != null 
-                    && dataType.BaseType != new XmlQualifiedName("Structure", DefaultNamespace)
-                    && dataType.BaseType != new XmlQualifiedName("Union", DefaultNamespace))
-                {
-                    template.WriteNextLine(context.Prefix);
-                    template.Write("if (!base.IsEqual(encodeable)) return false;");
-                }
-            }
-
             template.WriteNextLine(context.Prefix);
 
             if (dataType.IsUnion)
@@ -4414,7 +4956,7 @@ namespace ModelCompiler
 
             if (field.IsOptional)
             {
-                template.Write($"if ((EncodingMask & {dataType.ClassName}Fields.{field.Name}) != 0) ");
+                template.Write($"if ((EncodingMask & (uint){dataType.ClassName}Fields.{field.Name}) != 0) ");
             }
 
             template.Write("if (!Utils.IsEqual({0}, value.{0})) return false;", GetChildFieldName(field));
@@ -4449,7 +4991,7 @@ namespace ModelCompiler
 
             if (field.IsOptional)
             {
-                template.Write($"if ((EncodingMask & {dataType.ClassName}Fields.{field.Name}) != 0) ");
+                template.Write($"if ((EncodingMask & (uint){dataType.ClassName}Fields.{field.Name}) != 0) ");
             }
 
             template.Write("clone.{0} = ({1})Utils.Clone(this.{0});", GetChildFieldName(field), GetSystemTypeName(field.DataTypeNode, field.ValueRank));
@@ -4920,7 +5462,7 @@ namespace ModelCompiler
 
                 bool emitDefaultValue = true;
 
-                template.AddReplacement("_Description_", (field.Description != null)?field.Description.Value:"");
+                template.AddReplacement("_Description_", (field.Description != null) ? field.Description.Value : "");
                 template.AddReplacement("_BrowseName_", field.Name);
                 template.AddReplacement("_TypeName_", GetSystemTypeName(field.DataTypeNode, field.ValueRank));
                 template.AddReplacement("_FieldName_", GetChildFieldName(field));
@@ -4962,7 +5504,7 @@ namespace ModelCompiler
                 instance = GetMergedInstance(instance);
             }
 
-            template.AddReplacement("_Description_", (instance.Description != null)?instance.Description.Value:"");
+            template.AddReplacement("_Description_", (instance.Description != null) ? instance.Description.Value : "");
             template.AddReplacement("_ClassName_", GetClassName(instance));
             template.AddReplacement("_ChildName_", instance.SymbolicName.Name);
             template.AddReplacement("_FieldName_", GetChildFieldName(instance));
@@ -5335,7 +5877,7 @@ namespace ModelCompiler
             {
                 return $"{FixClassName(variableType)}State";
             }
-                
+
             return String.Format("{0}State<{1}>", FixClassName(variableType), scalarName);
         }
 
@@ -5567,7 +6109,7 @@ namespace ModelCompiler
                 case AccessLevel.HistoryRead: return "AccessLevels.HistoryRead";
                 case AccessLevel.HistoryWrite: return "AccessLevels.HistoryWrite";
                 case AccessLevel.HistoryReadWrite: return "AccessLevels.HistoryReadOrWrite";
-      }
+            }
 
             return "AccessLevels.None";
         }
@@ -5615,7 +6157,7 @@ namespace ModelCompiler
                         return "ValueRanks.TwoDimensions";
                     }
 
-                    return String.Format("{0}", dimensions.Length+1);
+                    return String.Format("{0}", dimensions.Length + 1);
                 }
             }
 
@@ -6014,7 +6556,7 @@ namespace ModelCompiler
         {
             if (dataType.BasicDataType != BasicDataType.BaseDataType && dataType.BasicDataType != BasicDataType.Number && dataType.BasicDataType != BasicDataType.UInteger && dataType.BasicDataType != BasicDataType.Integer)
             {
-                if (valueRank != ValueRank.OneOrMoreDimensions && valueRank != ValueRank.ScalarOrOneDimension && valueRank != ValueRank.ScalarOrArray )
+                if (valueRank != ValueRank.OneOrMoreDimensions && valueRank != ValueRank.ScalarOrOneDimension && valueRank != ValueRank.ScalarOrArray)
                 {
                     return true;
                 }
@@ -6334,9 +6876,15 @@ namespace ModelCompiler
             {
                 return true;
             }
+            
+            if (!DoJsonSchemaTests && node.Purpose == DataTypePurpose.Testing)
+            {
+                return true;
+            }
 
             if (m_exclusions != null)
             {
+
                 foreach (var jj in m_exclusions)
                 {
                     if (jj == node.ReleaseStatus.ToString())

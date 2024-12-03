@@ -1,4 +1,6 @@
-﻿using Microsoft.OpenApi;
+﻿using System.Net.WebSockets;
+using System.Reflection;
+using Microsoft.OpenApi;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
@@ -13,64 +15,85 @@ namespace ModelCompiler
         private SystemContext m_context;
         private TypeTable m_typeTable;
         private NodeIdDictionary<DataTypeState> m_index;
-        private bool m_useV2encoding;
         private bool m_allServices;
 
         readonly Dictionary<string, OpenApiSchema> m_builtInTypes = new Dictionary<string, OpenApiSchema>()
         {
             ["Boolean"] = new OpenApiSchema()
             {
-                Type = "boolean"
+                Type = "boolean",
+                Default = new OpenApiBoolean(false)
             },
             ["SByte"] = new OpenApiSchema()
             {
                 Type = "integer",
-                Format = "int8"
+                Format = "int32",
+                Minimum = -128,
+                Maximum = 127,
+                Default = new OpenApiInteger(0)
             },
             ["Byte"] = new OpenApiSchema()
             {
                 Type = "integer",
-                Format = "uint8"
+                Format = "int32",
+                Minimum = 0,
+                Maximum = 255,
+                Default = new OpenApiInteger(0)
             },
             ["Int16"] = new OpenApiSchema()
             {
                 Type = "integer",
-                Format = "int16"
+                Format = "int32",
+                Minimum = -32768,
+                Maximum = 32767,
+                Default = new OpenApiInteger(0)
             },
             ["UInt16"] = new OpenApiSchema()
             {
                 Type = "integer",
-                Format = "uint16"
+                Format = "int32",
+                Minimum = 0,
+                Maximum = 65535,
+                Default = new OpenApiInteger(0)
             },
             ["Int32"] = new OpenApiSchema()
             {
                 Type = "integer",
-                Format = "int32"
+                Format = "int32",
+                Default = new OpenApiInteger(0)
             },
             ["UInt32"] = new OpenApiSchema()
             {
                 Type = "integer",
-                Format = "uint32"
+                Format = "int64",
+                Minimum = 0,
+                Maximum = 4294967295,
+                Default = new OpenApiLong(0)
             },
             ["Int64"] = new OpenApiSchema()
             {
                 Type = "integer",
-                Format = "int32"
+                Format = "int64",
+                Default = new OpenApiLong(0)
             },
             ["UInt64"] = new OpenApiSchema()
             {
-                Type = "integer",
-                Format = "uint64"
+                Type = "number",
+                Minimum = 0,
+                Maximum = 18446744073709551615,
+                Default = new OpenApiLong(0)
             },
             ["Float"] = new OpenApiSchema()
             {
                 Type = "number",
-                Format = "float"
+                Format = "float",
+                Default = new OpenApiFloat(0)
             },
             ["Double"] = new OpenApiSchema()
             {
                 Type = "number",
-                Format = "double"
+                Format = "double",
+                Default = new OpenApiDouble(0)
             },
             ["String"] = new OpenApiSchema()
             {
@@ -79,31 +102,47 @@ namespace ModelCompiler
             ["DateTime"] = new OpenApiSchema()
             {
                 Type = "string",
-                Format = "date-time"
+                Format = "date-time",
+                Default = new OpenApiDateTime(DateTimeOffset.MinValue)
             },
             ["NodeId"] = new OpenApiSchema()
             {
                 Type = "string",
-                Format = "NodeId"
+                Format = "UaNodeId"
             },
             ["ExpandedNodeId"] = new OpenApiSchema()
             {
                 Type = "string",
-                Format = "ExpandedNodeId"
+                Format = "UaExpandedNodeId"
             },
             ["StatusCode"] = new OpenApiSchema()
             {
-                Type = "integer",
-                Format = "StatusCode"
+                Type = "object",
+                AdditionalPropertiesAllowed = false,
+                Properties = new Dictionary<string, OpenApiSchema>()
+                {
+                    ["Code"] = new OpenApiSchema()
+                    {
+                        Type = "integer",
+                        Format = "int64",
+                        Minimum = 0,
+                        Maximum = 4294967295
+                    },
+                    ["Symbol"] = new OpenApiSchema()
+                    {
+                        Type = "string"
+                    }
+                }
             },
             ["QualifiedName"] = new OpenApiSchema()
             {
                 Type = "string",
-                Format = "QualifiedName"
+                Format = "UaQualifiedName"
             },
             ["LocalizedText"] = new OpenApiSchema()
             {
                 Type = "object",
+                AdditionalPropertiesAllowed = false,
                 Properties = new Dictionary<string, OpenApiSchema>()
                 {
                     ["Locale"] = new OpenApiSchema()
@@ -116,11 +155,6 @@ namespace ModelCompiler
                         Type = "string"
                     }
                 }
-            },
-            ["LocaleId"] = new OpenApiSchema()
-            {
-                Type = "string",
-                Format = "rfc3066"
             },
             ["Guid"] = new OpenApiSchema()
             {
@@ -140,36 +174,42 @@ namespace ModelCompiler
             ["ExtensionObject"] = new OpenApiSchema()
             {
                 Type = "object",
+                AdditionalPropertiesAllowed = true,
                 Properties = new Dictionary<string, OpenApiSchema>()
                 {
-                    ["TypeId"] = new OpenApiSchema()
+                    ["UaTypeId"] = new OpenApiSchema()
                     {
                         Type = "string",
-                        Format = "NodeId"
+                        Format = "UaNodeId"
                     },
-                    ["Encoding"] = new OpenApiSchema()
+                    ["UaEncoding"] = new OpenApiSchema()
                     {
                         Type = "integer",
-                        Format = "uint8"
+                        Format = "int32",
+                        Minimum = 0,
+                        Maximum = 255
                     },
-                    ["Body"] = new OpenApiSchema()
+                    ["UaBody"] = new OpenApiSchema()
                     {
-                        Type = "object",
-                        AdditionalPropertiesAllowed = true
+                        Type = "string",
+                        Format = "byte"
                     }
                 },
             },
             ["Variant"] = new OpenApiSchema()
             {
                 Type = "object",
+                AdditionalPropertiesAllowed = false,
                 Properties = new Dictionary<string, OpenApiSchema>()
                 {
-                    ["Type"] = new OpenApiSchema()
+                    ["UaType"] = new OpenApiSchema()
                     {
                         Type = "integer",
-                        Format = "uint8"
+                        Format = "int32",
+                        Minimum = 0,
+                        Maximum = 255
                     },
-                    ["Body"] = new OpenApiSchema()
+                    ["Value"] = new OpenApiSchema()
                     {
                     },
                     ["Dimensions"] = new OpenApiSchema()
@@ -178,50 +218,73 @@ namespace ModelCompiler
                         Items = new OpenApiSchema()
                         {
                             Type = "integer",
-                            Format = "uint32"
+                            Format = "int32",
+                            Minimum = 0
                         }
-                    },
+                    }
                 }
             },
             ["DataValue"] = new OpenApiSchema()
             {
                 Type = "object",
+                AdditionalPropertiesAllowed = false,
                 Properties = new Dictionary<string, OpenApiSchema>()
                 {
+                    ["UaType"] = new OpenApiSchema()
+                    {
+                        Type = "integer",
+                        Format = "int32",
+                        Minimum = 0,
+                        Maximum = 255,
+                        Default = new OpenApiInteger(0)
+                    },
                     ["Value"] = new OpenApiSchema()
                     {
-                        Reference = new OpenApiReference() { Type = ReferenceType.Schema, Id = "Variant" }
+                    },
+                    ["Dimensions"] = new OpenApiSchema()
+                    {
+                        Type = "array",
+                        Items = new OpenApiSchema()
+                        {
+                            Type = "integer",
+                            Format = "int32",
+                            Minimum = 0
+                        }
                     },
                     ["StatusCode"] = new OpenApiSchema()
                     {
-                        Type = "integer",
-                        Format = "StatusCode"
+                        Reference = new OpenApiReference() { Type = ReferenceType.Schema, Id = "StatusCode" }
                     },
                     ["SourceTimestamp"] = new OpenApiSchema()
                     {
                         Type = "string",
                         Format = "date-time"
                     },
-                    ["SourcePicoSeconds"] = new OpenApiSchema()
+                    ["SourcePicoseconds"] = new OpenApiSchema()
                     {
                         Type = "integer",
-                        Format = "uint16"
+                        Format = "int32",
+                        Minimum = 0,
+                        Maximum = 65535
                     },
                     ["ServerTimestamp"] = new OpenApiSchema()
                     {
                         Type = "string",
                         Format = "date-time"
                     },
-                    ["ServerPicoSeconds"] = new OpenApiSchema()
+                    ["ServerPicoseconds"] = new OpenApiSchema()
                     {
                         Type = "integer",
-                        Format = "uint16"
+                        Format = "int32",
+                        Minimum = 0,
+                        Maximum = 65535
                     }
                 }
             },
             ["DiagnosticInfo"] = new OpenApiSchema()
             {
                 Type = "object",
+                AdditionalPropertiesAllowed = false,
                 Properties = new Dictionary<string, OpenApiSchema>()
                 {
                     ["SymbolicId"] = new OpenApiSchema()
@@ -250,8 +313,7 @@ namespace ModelCompiler
                     },
                     ["InnerStatusCode"] = new OpenApiSchema()
                     {
-                        Type = "integer",
-                        Format = "StatusCode"
+                        Reference = new OpenApiReference() { Type = ReferenceType.Schema, Id = "StatusCode" }
                     },
                     ["InnerDiagnosticInfo"] = new OpenApiSchema()
                     {
@@ -262,17 +324,46 @@ namespace ModelCompiler
             ["Decimal"] = new OpenApiSchema()
             {
                 Type = "object",
+                AdditionalPropertiesAllowed = false,
                 Properties = new Dictionary<string, OpenApiSchema>()
                 {
                     ["Scale"] = new OpenApiSchema()
                     {
                         Type = "integer",
-                        Format = "int16"
+                        Format = "int32",
+                        Minimum = -32768,
+                        Maximum = 32767,
+                        Default = new OpenApiInteger(0)
                     },
                     ["Value"] = new OpenApiSchema()
                     {
                         Type = "string",
-                        Format = "uinteger"
+                        Default = new OpenApiString("0")
+                    }
+                }
+            },
+            ["Matrix"] = new OpenApiSchema()
+            {
+                Type = "object",
+                AdditionalPropertiesAllowed = false,
+                Properties = new Dictionary<string, OpenApiSchema>()
+                {
+                    ["Array"] = new OpenApiSchema()
+                    {
+                        Type = "array",
+                        Items = new OpenApiSchema()
+                        {
+                        }
+                    },
+                    ["Dimensions"] = new OpenApiSchema()
+                    {
+                        Type = "array",
+                        Items = new OpenApiSchema()
+                        {
+                            Type = "integer",
+                            Format = "int32",
+                            Minimum = 0
+                        }
                     }
                 }
             },
@@ -282,11 +373,11 @@ namespace ModelCompiler
             },
             ["Integer"] = new OpenApiSchema()
             {
-                Type = "integer"
+                Type = "number"
             },
             ["UInteger"] = new OpenApiSchema()
             {
-                Type = "integer",
+                Type = "number",
                 Minimum = 0
             },
             ["Structure"] = new OpenApiSchema()
@@ -301,18 +392,22 @@ namespace ModelCompiler
                     ["SwitchField"] = new OpenApiSchema()
                     {
                         Type = "integer",
-                        Format = "uint32"
+                        Format = "int64",
+                        Minimum = 0,
+                        Maximum = 4294967295,
+                        Default = new OpenApiLong(0)
                     }
                 }
             },
             ["Enumeration"] = new OpenApiSchema()
             {
                 Type = "integer",
-                Format = "int32"
+                Format = "int32",
+                Default = new OpenApiInteger(0)
             },
         };
 
-        public OpenApiExporter(bool useV2encoding, bool allServices)
+        public OpenApiExporter(bool allServices)
         {
             m_context = new SystemContext();
             m_context.NamespaceUris = new NamespaceTable();
@@ -320,89 +415,7 @@ namespace ModelCompiler
 
             m_typeTable = new TypeTable(m_context.NamespaceUris);
             m_context.TypeTable = m_typeTable;
-            m_useV2encoding = useV2encoding;
             m_allServices = allServices;
-
-            if (!useV2encoding)
-            {
-                m_builtInTypes["NodeId"] = new OpenApiSchema()
-                {
-                    Type = "object",
-                    Properties = new Dictionary<string, OpenApiSchema>()
-                    {
-                        ["IdType"] = new OpenApiSchema()
-                        {
-                            Type = "number"
-                        },
-                        ["Id"] = new OpenApiSchema()
-                        {
-                        },
-                        ["Namespace"] = new OpenApiSchema()
-                        {
-                            Type = "number"
-                        }
-                    }
-                };
-
-                m_builtInTypes["ExpandedNodeId"] = new OpenApiSchema()
-                {
-                    Type = "object",
-                    Properties = new Dictionary<string, OpenApiSchema>()
-                    {
-                        ["IdType"] = new OpenApiSchema()
-                        {
-                            Type = "number"
-                        },
-                        ["Id"] = new OpenApiSchema()
-                        {
-                        },
-                        ["Namespace"] = new OpenApiSchema()
-                        {
-                        },
-                        ["ServerUri"] = new OpenApiSchema()
-                        {
-                            Type = "number"
-                        }
-                    }
-                };
-
-                m_builtInTypes["QualifiedName"] = new OpenApiSchema()
-                {
-                    Type = "object",
-                    Properties = new Dictionary<string, OpenApiSchema>()
-                    {
-                        ["Name"] = new OpenApiSchema()
-                        {
-                            Type = "string"
-                        },
-                        ["Uri"] = new OpenApiSchema()
-                        {
-                        }
-                    }
-                };
-
-                m_builtInTypes["ExtensionObject"] = new OpenApiSchema()
-                {
-                    Type = "object",
-                    Properties = new Dictionary<string, OpenApiSchema>()
-                    {
-                        ["TypeId"] = new OpenApiSchema()
-                        {
-                            Reference = new OpenApiReference() { Type = ReferenceType.Schema, Id = "NodeId" }
-                        },
-                        ["Encoding"] = new OpenApiSchema()
-                        {
-                            Type = "integer",
-                            Format = "uint8"
-                        },
-                        ["Body"] = new OpenApiSchema()
-                        {
-                            Type = "object",
-                            AdditionalPropertiesAllowed = true
-                        }
-                    },
-                };
-            }
 
             m_index = new NodeIdDictionary<DataTypeState>();
         }
@@ -493,10 +506,33 @@ namespace ModelCompiler
             return null;
         }
 
+        private static uint? GetDataTypeId(Type type, string propertyName)
+        {
+            if (type == null || string.IsNullOrEmpty(propertyName))
+            {
+                return null;
+            }
+
+            // Get the PropertyInfo object for the specified property
+            var propertyInfo = type.GetField(propertyName, BindingFlags.Public | BindingFlags.Static);
+
+            if (propertyInfo == null)
+            {
+                // Property not found
+                return null;
+            }
+
+            // Get the value of the static property
+            return propertyInfo.GetValue(null) as uint?;
+        }
+
         private OpenApiPathItem GetPathItem(string serviceName)
         {
+            var requestTypeId = GetDataTypeId(typeof(Opc.Ua.DataTypes), $"{serviceName}Request");
+            var responseTypeId = GetDataTypeId(typeof(Opc.Ua.DataTypes), $"{serviceName}Response");
+
             return new OpenApiPathItem
-            { 
+            {
                 Operations = new Dictionary<OperationType, OpenApiOperation>()
                 {
                     [OperationType.Post] = new OpenApiOperation
@@ -512,45 +548,10 @@ namespace ModelCompiler
                                     Schema = new OpenApiSchema()
                                     {
                                         Title = $"{serviceName}RequestMessage",
-                                        Properties = new Dictionary<string, OpenApiSchema>()
+                                        Reference = new OpenApiReference()
                                         {
-                                            ["NamespaceUris"] = new OpenApiSchema()
-                                            {
-                                                Type = "array",
-                                                Items = new OpenApiSchema()
-                                                {
-                                                    Type = "string"
-                                                }
-                                            },
-                                            ["ServerUris"] = new OpenApiSchema()
-                                            {
-                                                Type = "array",
-                                                Items = new OpenApiSchema()
-                                                {
-                                                    Type = "string"
-                                                }
-                                            },
-                                            ["LocaleIds"] = new OpenApiSchema()
-                                            {
-                                                Type = "array",
-                                                Items = new OpenApiSchema()
-                                                {
-                                                    Type = "string"
-                                                }
-                                            },
-                                            ["ServiceId"] = new OpenApiSchema()
-                                            {
-                                                Type = "integer",
-                                                Format = "uint32"
-                                            },
-                                            ["Body"] = new OpenApiSchema()
-                                            {
-                                                Reference = new OpenApiReference()
-                                                {
-                                                    Type = ReferenceType.Schema,
-                                                    Id = $"{serviceName}Request"
-                                                }
-                                            }
+                                            Type = ReferenceType.Schema,
+                                            Id = $"{serviceName}Request"
                                         }
                                     }
                                 }
@@ -568,37 +569,10 @@ namespace ModelCompiler
                                         Schema = new OpenApiSchema()
                                         {
                                             Title = $"{serviceName}ResponseMessage",
-                                            Properties = new Dictionary<string, OpenApiSchema>()
+                                            Reference = new OpenApiReference()
                                             {
-                                                ["NamespaceUris"] = new OpenApiSchema()
-                                                {
-                                                    Type = "array",
-                                                    Items = new OpenApiSchema()
-                                                    {
-                                                        Type = "string"
-                                                    }
-                                                },
-                                                ["ServerUris"] = new OpenApiSchema()
-                                                {
-                                                    Type = "array",
-                                                    Items = new OpenApiSchema()
-                                                    {
-                                                        Type = "string"
-                                                    }
-                                                },
-                                                ["ServiceId"] = new OpenApiSchema()
-                                                {
-                                                    Type = "integer",
-                                                    Format = "uint32"
-                                                },
-                                                ["Body"] = new OpenApiSchema()
-                                                {
-                                                    Reference = new OpenApiReference()
-                                                    {
-                                                        Type = ReferenceType.Schema,
-                                                        Id = $"{serviceName}Response"
-                                                    }
-                                                }
+                                                Type = ReferenceType.Schema,
+                                                Id = $"{serviceName}Response"
                                             }
                                         }
                                     }
@@ -619,6 +593,18 @@ namespace ModelCompiler
 
             if (bit == null)
             {
+                if (fieldType.NodeId == Opc.Ua.DataTypes.BaseDataType)
+                {
+                    return new OpenApiSchema()
+                    {
+                        Reference = new OpenApiReference()
+                        {
+                            Type = ReferenceType.Schema,
+                            Id = "Variant"
+                        }
+                    };
+                }
+
                 return new OpenApiSchema() { Type = "object" };
             }
 
@@ -679,7 +665,8 @@ namespace ModelCompiler
                         Type = schema.Type,
                         Format = schema.Format,
                         Maximum = schema.Maximum,
-                        Minimum = schema.Minimum
+                        Minimum = schema.Minimum,
+                        Default = schema.Default
                     };
                 }
             }
@@ -694,7 +681,7 @@ namespace ModelCompiler
             };
         }
 
-        public void Generate(Stream ostrm, bool generateYaml = false)
+        public void GenerateCore(Stream ostrm, bool generateCore = true, bool generateYaml = false)
         {
             var document = new OpenApiDocument
             {
@@ -707,9 +694,9 @@ namespace ModelCompiler
                 },
                 Info = new OpenApiInfo
                 {
-                    Title = "OPC UA REST API",
-                    Version = "0.0.1",
-                    Description = "This API provides simple REST based access to an OPC UA server.",
+                    Title = "OPC UA Web API",
+                    Version = "1.05.4",
+                    Description = "Provides simple HTTPS based access to an OPC UA server.",
                     Contact = new OpenApiContact()
                     {
                         Email = "office@opcfoundation.org"
@@ -775,25 +762,19 @@ namespace ModelCompiler
                 Opc.Ua.BrowseNames.Guid,
                 Opc.Ua.BrowseNames.ByteString,
                 Opc.Ua.BrowseNames.DateTime,
-                Opc.Ua.BrowseNames.StatusCode,
                 Opc.Ua.BrowseNames.LocaleId,
                 Opc.Ua.BrowseNames.Number,
                 Opc.Ua.BrowseNames.Integer,
                 Opc.Ua.BrowseNames.UInteger,
                 Opc.Ua.BrowseNames.Enumeration,
-                Opc.Ua.BrowseNames.Structure,
                 Opc.Ua.BrowseNames.Union,
                 Opc.Ua.BrowseNames.XmlElement,
                 Opc.Ua.BrowseNames.Enumeration,
-                Opc.Ua.BrowseNames.Index
+                Opc.Ua.BrowseNames.Index,
+                Opc.Ua.BrowseNames.NodeId,
+                Opc.Ua.BrowseNames.ExpandedNodeId,
+                Opc.Ua.BrowseNames.QualifiedName
             };
-
-            if (m_useV2encoding)
-            {
-                excluded.Add(Opc.Ua.BrowseNames.NodeId);
-                excluded.Add(Opc.Ua.BrowseNames.ExpandedNodeId);
-                excluded.Add(Opc.Ua.BrowseNames.QualifiedName);
-            }
 
             var schemas = new Dictionary<string, OpenApiSchema>();
 
@@ -895,7 +876,6 @@ namespace ModelCompiler
                 CollectIncludedTypes(included, Opc.Ua.DataTypes.EventFilterResult);
                 CollectIncludedTypes(included, Opc.Ua.DataTypes.AggregateFilterResult);
             }
-            
 
             CollectIncludedTypes(included, Opc.Ua.DataTypes.PubSubConfiguration2DataType);
             CollectIncludedTypes(included, Opc.Ua.DataTypes.PubSubConnectionDataType);
@@ -923,6 +903,22 @@ namespace ModelCompiler
             CollectIncludedTypes(included, Opc.Ua.DataTypes.BrokerDataSetWriterTransportDataType);
             CollectIncludedTypes(included, Opc.Ua.DataTypes.BrokerWriterGroupTransportDataType);
             CollectIncludedTypes(included, Opc.Ua.DataTypes.PubSubState);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.Argument);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.Range);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.EUInformation);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.NetworkAddressDataType);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonActionMetaDataMessage);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonActionNetworkMessage);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonActionRequestMessage);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonActionResponderMessage);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonActionResponseMessage);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonApplicationDescriptionMessage);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonDataSetMessage);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonDataSetMetaDataMessage);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonNetworkMessage);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonStatusMessage);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonServerEndpointsMessage);
+            CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonPubSubConnectionMessage);
 
             foreach (var node in m_index.Values)
             {
@@ -953,6 +949,12 @@ namespace ModelCompiler
                             if (field.DataType == null || !m_index.TryGetValue(field.DataType, out var fieldType))
                             {
                                 fieldType = m_index[Opc.Ua.DataTypes.BaseDataType];
+                            }
+
+                            if (field.IsOptional && (st.StructureType == StructureType.StructureWithSubtypedValues || st.StructureType == StructureType.UnionWithSubtypedValues))
+                            {
+                                SetStructureAllowSubtypesFieldSchema(schema, field);
+                                continue;
                             }
 
                             var fieldSchema = FindFieldSchema(st, field, fieldType);
@@ -997,33 +999,7 @@ namespace ModelCompiler
 
                     else if (definition is EnumDefinition et)
                     {
-                        OpenApiSchema schema = new OpenApiSchema();
-
-                        if (!et.IsOptionSet)
-                        {
-                            schema.Type = "integer";
-
-                            OpenApiArray names = new();
-                            List<IOpenApiAny> values = new();
-
-                            foreach (var field in et.Fields.OrderBy(x => x.Value))
-                            {
-                                names.Add(new OpenApiString(field.Name));
-                                values.Add(new OpenApiInteger((int)field.Value));
-                            }
-
-                            schema.Enum = values;
-                            schema.AddExtension("x-enum-varnames", names);
-                            schema.Format = "int32";
-                        }
-                        else
-                        {
-                            schema.Type = "integer";
-                            schema.Description = String.Join(", ", et.Fields.OrderBy(x => x.Value).Select(x => $"{x.Name}={x.Value:X4}"));
-                            schema.Format = "uint32";
-                        }
-
-                        schemas.Add(dt.SymbolicName, schema);
+                        SetEnumerationFieldSchema(schemas, dt, et);
                     }
 
                     else
@@ -1053,12 +1029,14 @@ namespace ModelCompiler
                 }
             }
 
+            schemas["JsonMessageType"] = GetJsonMessageTypeSchema();
+
             document.Components.Schemas = schemas;
             var errors = document.Validate(Microsoft.OpenApi.Validations.ValidationRuleSet.GetDefaultRuleSet());
 
             foreach (var error in errors)
             {
-                Console.WriteLine(error.Message);
+                Console.WriteLine($"OpenApi Validate: '{error.Message}' path={error.Pointer}");
             }
 
             document.Serialize(
@@ -1068,9 +1046,372 @@ namespace ModelCompiler
 
         }
 
+        static readonly Dictionary<string, string>  JsonMessageTypes = new()
+        {
+            ["Data"] = "ua-data",
+            ["DataSetMetadata"] = "ua-metadata",
+            ["Application"] = "ua-application",
+            ["Endpoints"] = "ua-endpoints",
+            ["Status"] = "ua-status",
+            ["Connection"] = "ua-connection",
+            ["ActionRequest"] = "ua-action-request",
+            ["ActionResponse"] = "ua-action-response",
+            ["ActionMetadata"] = "ua-action-metadata",
+            ["ActionResponder"] = "ua-action-responder",
+            ["KeyFrame"] = "ua-keyframe",
+            ["DeltaFrame"] = "ua-deltaframe",
+            ["Event"] = "ua-event",
+            ["KeepAlive"] = "ua-keepalive"
+        };
+
+        private static OpenApiSchema GetJsonMessageTypeSchema()
+        {
+            OpenApiArray names = new();
+            List<IOpenApiAny> values = new();
+
+            foreach (var field in JsonMessageTypes)
+            {
+                names.Add(new OpenApiString(field.Key));
+                values.Add(new OpenApiString(field.Value));
+            }
+
+            var schema = new OpenApiSchema()
+            {
+                Type = "string",
+                Enum = values
+            };
+
+            schema.AddExtension("x-enum-varnames", names);
+
+            return schema;
+        }
+
+        private static void SetEnumerationFieldSchema(
+            Dictionary<string, OpenApiSchema> schemas, 
+            DataTypeState dt,
+            EnumDefinition et)
+        {
+            OpenApiSchema schema = new OpenApiSchema();
+
+            schema.Type = "integer";
+
+            OpenApiArray names = new();
+            List<IOpenApiAny> values = new();
+
+            foreach (var field in et.Fields.OrderBy(x => x.Value))
+            {
+                names.Add(new OpenApiString(field.Name));
+                values.Add(new OpenApiInteger((!et.IsOptionSet) ? (int)field.Value : (1 << (int)field.Value)));
+            }
+
+            schema.Enum = values;
+            schema.AddExtension("x-enum-varnames", names);
+            schema.Format = "int32";
+
+            if (et.IsOptionSet)
+            {
+                schemas.Add(dt.SymbolicName + "Bits", schema);
+
+                schema = new OpenApiSchema();
+
+                schema.Type = "integer";
+                schema.Format = "int64";
+                schema.Minimum = 0;
+                schema.Maximum = 4294967295;
+                schema.Default = new OpenApiLong(0);
+            }
+
+            schemas.Add(dt.SymbolicName, schema);
+        }
+
+        static readonly HashSet<NodeId> m_predefined = new()
+        {
+            Opc.Ua.DataTypes.Boolean,
+            Opc.Ua.DataTypes.SByte,
+            Opc.Ua.DataTypes.Byte,
+            Opc.Ua.DataTypes.Int16,
+            Opc.Ua.DataTypes.UInt16,
+            Opc.Ua.DataTypes.Int32,
+            Opc.Ua.DataTypes.UInt32,
+            Opc.Ua.DataTypes.Int64,
+            Opc.Ua.DataTypes.UInt64,
+            Opc.Ua.DataTypes.Float,
+            Opc.Ua.DataTypes.Double,
+            Opc.Ua.DataTypes.String,
+            Opc.Ua.DataTypes.Guid,
+            Opc.Ua.DataTypes.ByteString,
+            Opc.Ua.DataTypes.DateTime,
+            Opc.Ua.DataTypes.StatusCode,
+            Opc.Ua.DataTypes.LocaleId,
+            Opc.Ua.DataTypes.Number,
+            Opc.Ua.DataTypes.Integer,
+            Opc.Ua.DataTypes.UInteger,
+            Opc.Ua.DataTypes.Enumeration,
+            Opc.Ua.DataTypes.Structure,
+            Opc.Ua.DataTypes.Union,
+            Opc.Ua.DataTypes.XmlElement,
+            Opc.Ua.DataTypes.Enumeration,
+            Opc.Ua.DataTypes.Index,
+            Opc.Ua.DataTypes.NodeId,
+            Opc.Ua.DataTypes.ExpandedNodeId,
+            Opc.Ua.DataTypes.QualifiedName
+        };
+
+        public void GenerateModel(Stream ostrm, string modelName, string modelVersion, string modelUri, bool generateYaml = false)
+        {
+            var ns = m_context.NamespaceUris.GetIndexOrAppend(modelUri);
+            var schemas = new Dictionary<string, OpenApiSchema>();
+
+            HashSet<NodeId> included = new();
+
+            OpenApiSchema response = new OpenApiSchema();
+
+            response.Title = "Response";
+            response.Properties = new Dictionary<string, OpenApiSchema>();
+            response.OneOf = new List<OpenApiSchema>();
+
+            foreach (var node in m_index.Values.Where(x => x.NodeId.NamespaceIndex == ns))
+            {
+                CollectIncludedTypes(included, node.NodeId);
+
+                response.Properties[node.SymbolicName] = new OpenApiSchema()
+                {
+                    Reference = new OpenApiReference()
+                    {
+                        Type = ReferenceType.Schema,
+                        Id = node.SymbolicName
+                    }
+                };
+            }
+
+            var document = new OpenApiDocument
+            {
+                Servers = new List<OpenApiServer>()
+                {
+                    new OpenApiServer()
+                    {
+                        Url = "http://localhost:4840"
+                    }
+                },
+                Info = new OpenApiInfo
+                {
+                    Title = modelName,
+                    Version = modelVersion,
+                    Description = "A placeholder API that allows OpenAPI tools to be used to generate code for a companion specification.",
+                },
+                Components = new OpenApiComponents(),
+                Paths = new OpenApiPaths
+                {
+                    ["/get"] = new OpenApiPathItem
+                    {
+                        Operations = new Dictionary<OperationType, OpenApiOperation>()
+                        {
+                            [OperationType.Get] = new OpenApiOperation
+                            {
+                                OperationId = "Get",
+                                Responses = new OpenApiResponses()
+                                {
+                                    ["200"] = new OpenApiResponse()
+                                    {
+                                        Description = $"ModelDataTypes",
+                                        Content = new Dictionary<string, OpenApiMediaType>()
+                                        {
+                                            ["application/json"] = new OpenApiMediaType()
+                                            {
+                                                Schema = response
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            foreach (var node in included.OrderBy(x => x))
+            {
+                if (!m_index.TryGetValue(node, out var dt))
+                {
+                    continue;
+                }
+
+                var name = dt.SymbolicName;
+
+                switch (name)
+                {
+                    case BrowseNames.Structure: name = "ExtensionObject"; break;
+                    case BrowseNames.BaseObjectType: name = "Variant"; break;
+                }
+
+                if (m_builtInTypes.TryGetValue(name, out var bitSchema))
+                {
+                    schemas.Add(name, bitSchema);
+                    continue;
+                }
+
+                OpenApiSchema schema = null;
+                var definition = ExtensionObject.ToEncodeable(dt.DataTypeDefinition);
+
+                if (definition is StructureDefinition st)
+                {
+                    schema = new OpenApiSchema();
+
+                    schema.Description = dt.Description?.Text;
+                    schema.Type = "object";
+                    schema.Properties = new Dictionary<string, OpenApiSchema>();
+
+                    if (st.StructureType == StructureType.Union || st.StructureType == StructureType.UnionWithSubtypedValues)
+                    {
+                        schema.Properties["SwitchField"] = new OpenApiSchema()
+                        {
+                            Type = "integer",
+                            Format = "int32",
+                            Minimum = 0,
+                            Maximum = 65535,
+                            Default = new OpenApiInteger(0)
+                        };
+                    }
+
+                    if (st.StructureType == StructureType.StructureWithOptionalFields)
+                    {
+                        schema.Properties["EncodingMask"] = new OpenApiSchema()
+                        {
+                            Type = "integer",
+                            Format = "int64",
+                            Minimum = 0,
+                            Maximum = 4294967295,
+                            Default = new OpenApiInteger(0)
+                        };
+                    }
+
+                    foreach (var field in st.Fields)
+                    {
+                        if (field.DataType == null || !m_index.TryGetValue(field.DataType, out var fieldType))
+                        {
+                            fieldType = m_index[Opc.Ua.DataTypes.BaseDataType];
+                        }
+
+                        if (field.IsOptional && (st.StructureType == StructureType.StructureWithSubtypedValues || st.StructureType == StructureType.UnionWithSubtypedValues))
+                        {
+                            SetStructureAllowSubtypesFieldSchema(schema, field);
+                            continue;
+                        }
+
+                        var fieldSchema = FindFieldSchema(st, field, fieldType);
+
+                        if (field.ValueRank == ValueRanks.Scalar)
+                        {
+                            schema.Properties.Add(field.Name, fieldSchema);
+                            continue;
+                        }
+
+                        schema.Properties.Add(field.Name, new OpenApiSchema()
+                        {
+                            Type = "array",
+                            Items = fieldSchema
+                        });
+                    }
+
+                    if (dt.SuperTypeId != null)
+                    {
+                        if (m_index.TryGetValue(dt.SuperTypeId, out var superType))
+                        {
+                            if (superType.SymbolicName != "Structure" &&
+                                superType.SymbolicName != "Union" &&
+                                superType.SymbolicName != "BaseDataType")
+                            {
+                                schema.AllOf = new List<OpenApiSchema>()
+                                {
+                                    new OpenApiSchema() {
+                                        Reference = new OpenApiReference()
+                                        {
+                                            Type = ReferenceType.Schema,
+                                            Id = superType.SymbolicName
+                                        }
+                                    }
+                                };
+                            }
+                        }
+                    }
+
+                    schemas.Add(dt.SymbolicName, schema);
+                }
+
+                else if (definition is EnumDefinition et)
+                {
+                    SetEnumerationFieldSchema(schemas, dt, et);
+                }
+
+                else
+                {
+                    var bit = FindBuiltInType(dt.NodeId);
+
+                    if (bit == null || bit.NodeId == Opc.Ua.DataTypes.BaseDataType)
+                    {
+                        schema = new OpenApiSchema()
+                        {
+                            Reference = new OpenApiReference()
+                            {
+                                Type = ReferenceType.Schema,
+                                Id = "Variant"
+                            }
+                        };
+                    }
+                    else
+                    {
+                        m_builtInTypes.TryGetValue(bit.SymbolicName, out schema);
+                    }
+
+                    schemas.Add(dt.SymbolicName, schema);
+                }
+            }
+
+            document.Components.Schemas = schemas;
+            var errors = document.Validate(Microsoft.OpenApi.Validations.ValidationRuleSet.GetDefaultRuleSet());
+
+            foreach (var error in errors)
+            {
+                Console.WriteLine($"OpenApi Validate: '{error.Message}' path={error.Pointer}");
+            }
+
+            document.Serialize(
+                ostrm,
+                OpenApiSpecVersion.OpenApi3_0,
+                (generateYaml) ? OpenApiFormat.Yaml : OpenApiFormat.Json);
+        }
+
+        private void SetStructureAllowSubtypesFieldSchema(OpenApiSchema schema, StructureField field)
+        {
+            if (field.ValueRank == ValueRanks.Scalar)
+            {
+                schema.Properties.Add(field.Name, new OpenApiSchema()
+                {
+                    Type = "object"
+                });
+            }
+            else if (field.ValueRank > ValueRanks.Scalar)
+            {
+                schema.Properties.Add(field.Name, new OpenApiSchema()
+                {
+                    Type = "array",
+                    Items = new OpenApiSchema()
+                    {
+                        Type = "object"
+                    }
+                });
+            }
+            else
+            {
+                schema.Properties.Add(field.Name, new OpenApiSchema()
+                {
+                });
+            }
+        }
+
         private void CollectIncludedTypes(HashSet<NodeId> included, NodeId target)
         {
-            if (included.Contains(target))
+            if (included.Contains(target) || m_predefined.Contains(target))
             {
                 return;
             }
@@ -1079,12 +1420,34 @@ namespace ModelCompiler
 
             if (m_index.TryGetValue(target, out var root))
             {
-                StructureDefinition definition = ExtensionObject.ToEncodeable(root.DataTypeDefinition) as StructureDefinition; ;
+                StructureDefinition definition = ExtensionObject.ToEncodeable(root.DataTypeDefinition) as StructureDefinition;
 
                 if (definition != null)
                 {
                     foreach (var field in definition.Fields)
                     {
+                        if (definition.StructureType == StructureType.StructureWithSubtypedValues || definition.StructureType == StructureType.UnionWithSubtypedValues)
+                        {
+                            if (field.IsOptional)
+                            {
+                                if (m_typeTable.IsTypeOf(field.DataType, DataTypeIds.Structure))
+                                {
+                                    included.Add(Opc.Ua.DataTypeIds.Structure);
+                                    continue;
+                                }
+                                else if (
+                                    field.DataType == DataTypeIds.BaseDataType ||
+                                    field.DataType == DataTypeIds.Number ||
+                                    field.DataType == DataTypeIds.Integer ||
+                                    field.DataType == DataTypeIds.UInteger
+                                )
+                                {
+                                    included.Add(Opc.Ua.DataTypeIds.BaseDataType);
+                                    continue;
+                                }
+                            }
+                        }
+
                         CollectIncludedTypes(included, field.DataType);
                     }
                 }
@@ -1094,6 +1457,14 @@ namespace ModelCompiler
 
             while (!NodeId.IsNull(superTypeId))
             {
+                if (superTypeId == DataTypeIds.BaseDataType ||
+                    superTypeId == DataTypeIds.Structure ||
+                    superTypeId == DataTypeIds.Union ||
+                    superTypeId == DataTypeIds.Enumeration)
+                {
+                    break;
+                }
+
                 CollectIncludedTypes(included, superTypeId);
                 superTypeId = m_typeTable.FindSuperType(superTypeId);
             }
@@ -1107,7 +1478,7 @@ namespace ModelCompiler
             {
                 foreach (var error in diagnostic.Errors)
                 {
-                    Console.WriteLine(error.Message);
+                    Console.WriteLine($"OpenApi Validate: '{error.Message}' path={error.Pointer}");
                 }
 
                 return false;
