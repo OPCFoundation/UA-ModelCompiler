@@ -458,8 +458,8 @@
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="33.0.1" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.1" />
-    <PackageReference Include="Microsoft.OpenApi" Version="1.6.19" />
-    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.19" />
+    <PackageReference Include="Microsoft.OpenApi" Version="1.6.22" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.22" />
     <PackageReference Include="Newtonsoft.Json.Schema" Version="4.0.1" />
     <PackageReference Include="NJsonSchema" Version="11.0.2" />
     <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="11.0.2" />
