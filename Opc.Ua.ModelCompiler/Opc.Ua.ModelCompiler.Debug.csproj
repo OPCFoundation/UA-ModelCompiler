@@ -461,7 +461,7 @@
     <PackageReference Include="Microsoft.OpenApi" Version="1.6.23" />
     <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.23" />
     <PackageReference Include="Newtonsoft.Json.Schema" Version="4.0.1" />
-    <PackageReference Include="NJsonSchema" Version="11.1.0" />
+    <PackageReference Include="NJsonSchema" Version="11.2.0" />
     <PackageReference Include="NJsonSchema.CodeGeneration.TypeScript" Version="11.0.2" />
   </ItemGroup>
 
