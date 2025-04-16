@@ -22,8 +22,18 @@ public enum _ClassName_Fields : uint
 public partial class _BrowseName_ : _BaseType_
 {
     #region Constructors
+    
+    public _BrowseName_() : this(
+        DataTypeIds._BrowseName_, 
+        ObjectIds._BrowseName__Encoding_DefaultBinary, 
+        ObjectIds._BrowseName__Encoding_DefaultXml, 
+        ObjectIds._BrowseName__Encoding_DefaultJson)
+    {
+    }
+
     /// <remarks />
-    public _BrowseName_()
+    protected _BrowseName_(ExpandedNodeId typeId, ExpandedNodeId binaryEncodingId, ExpandedNodeId xmlEncodingId, ExpandedNodeId jsonEncodingId)
+        : base(typeId, binaryEncodingId, xmlEncodingId, jsonEncodingId) 
     {
         Initialize();
     }
@@ -41,44 +51,34 @@ public partial class _BrowseName_ : _BaseType_
     #endregion
 
     #region Public Properties
+    // EncodingMaskProperty
     // ListOfProperties
     #endregion
 
-    #region IEncodeable Members
-    /// <summary cref="IEncodeable.TypeId" />
-    public override ExpandedNodeId TypeId => DataTypeIds._BrowseName_; 
+    #region Overridden Members
 
-    /// <summary cref="IEncodeable.BinaryEncodingId" />
-    public override ExpandedNodeId BinaryEncodingId => ObjectIds._BrowseName__Encoding_DefaultBinary;
-
-    /// <summary cref="IEncodeable.XmlEncodingId" />
-    public override ExpandedNodeId XmlEncodingId => ObjectIds._BrowseName__Encoding_DefaultXml;
-        
-    /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-    public override ExpandedNodeId JsonEncodingId => ObjectIds._BrowseName__Encoding_DefaultJson; 
-
-    /// <summary cref="IEncodeable.Encode(IEncoder)" />
-    public override void Encode(IEncoder encoder)
+    /// <summary cref="_BaseType_.OnWriteEncodingMask(IEncoder)" />
+    protected override void OnWriteEncodingMask(IEncoder encoder)
     {
-        base.Encode(encoder);
-
-        encoder.PushNamespace(_XmlNamespaceUri_);
-
+        encoder.WriteUInt32(nameof(EncodingMask), (uint)EncodingMask);
+    }
+        
+    /// <summary cref="_BaseType_.OnEncodeFields(IEncoder)" />
+    protected override void OnEncodeFields(IEncoder encoder)
+    {
+        base.OnEncodeFields(encoder);
         // ListOfEncodedFields
-
-        encoder.PopNamespace();
     }
 
-    /// <summary cref="IEncodeable.Decode(IDecoder)" />
-    public override void Decode(IDecoder decoder)
+    protected override void OnReadEncodingMask(IDecoder decoder) 
     {
-        base.Decode(decoder);
+        EncodingMask = decoder.ReadUInt32(nameof(EncodingMask));
+    }
 
-        decoder.PushNamespace(_XmlNamespaceUri_);
-
+    protected override void OnDecodeFields(IDecoder decoder)
+    {
+        base.OnDecodeFields(decoder);
         // ListOfDecodedFields
-
-        decoder.PopNamespace();
     }
 
     /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />

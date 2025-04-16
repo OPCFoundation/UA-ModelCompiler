@@ -128,6 +128,7 @@
     <Compile Remove="Templates\Version2\DataTypes\CollectionClass.cs" />
     <Compile Remove="Templates\Version2\DataTypes\DerivedClass.cs" />
     <Compile Remove="Templates\Version2\DataTypes\DerivedClassWithOptionalFields.cs" />
+    <Compile Remove="Templates\Version2\DataTypes\EncodingMaskProperty.cs" />
     <Compile Remove="Templates\Version2\DataTypes\Enumeration.cs" />
     <Compile Remove="Templates\Version2\DataTypes\EnumerationValue.cs" />
     <Compile Remove="Templates\Version2\DataTypes\Property.cs" />
@@ -437,6 +438,7 @@
     <EmbeddedResource Include="Templates\Version2\DataTypes\DerivedClassWithOptionalFields.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\Enumeration.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\EnumerationValue.cs" />
+    <EmbeddedResource Include="Templates\Version2\DataTypes\EncodingMaskProperty.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\Property.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\Union.cs" />
     <EmbeddedResource Include="Templates\Version2\File.cs" />
