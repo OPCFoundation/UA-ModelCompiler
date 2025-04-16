@@ -21,10 +21,33 @@ public enum _ClassName_Fields : uint
 [DataContract(Namespace = _XmlNamespaceUri_)]
 public partial class _BrowseName_ : IEncodeable, IJsonEncodeable
 {
+    #region Fields
+
+    private readonly ExpandedNodeId _typeId;
+    private readonly ExpandedNodeId _binaryEncodingId;
+    private readonly ExpandedNodeId _xmlEncodingId;
+    private readonly ExpandedNodeId _jsonEncodingId;
+
+    #endregion
+
     #region Constructors
     /// <remarks />
-    public _BrowseName_()
+    public _BrowseName_() : this(
+        DataTypeIds._BrowseName_, 
+        ObjectIds._BrowseName__Encoding_DefaultBinary, 
+        ObjectIds._BrowseName__Encoding_DefaultXml, 
+        ObjectIds._BrowseName__Encoding_DefaultJson)
     {
+    }
+        
+    /// <remarks />
+    protected _BrowseName_(ExpandedNodeId typeId, ExpandedNodeId binaryEncodingId, ExpandedNodeId xmlEncodingId, ExpandedNodeId jsonEncodingId)
+    {
+        _typeId = typeId;
+        _binaryEncodingId = binaryEncodingId;
+        _xmlEncodingId = xmlEncodingId;
+        _jsonEncodingId = jsonEncodingId;
+        
         Initialize();
     }
 
@@ -44,45 +67,65 @@ public partial class _BrowseName_ : IEncodeable, IJsonEncodeable
     #region Public Properties
     /// <remarks />
     [DataMember(Name = "EncodingMask", IsRequired = true, Order = 0)]
-    public virtual uint EncodingMask { get; set; }
+    public uint EncodingMask { get; set; }
 
     // ListOfProperties
     #endregion
 
     #region IEncodeable Members
     /// <summary cref="IEncodeable.TypeId" />
-    public virtual ExpandedNodeId TypeId => DataTypeIds._BrowseName_; 
+    ExpandedNodeId IEncodeable.TypeId => _typeId; 
 
     /// <summary cref="IEncodeable.BinaryEncodingId" />
-    public virtual ExpandedNodeId BinaryEncodingId => ObjectIds._BrowseName__Encoding_DefaultBinary;
+    ExpandedNodeId IEncodeable.BinaryEncodingId => _binaryEncodingId;
 
     /// <summary cref="IEncodeable.XmlEncodingId" />
-    public virtual ExpandedNodeId XmlEncodingId => ObjectIds._BrowseName__Encoding_DefaultXml;
+    ExpandedNodeId IEncodeable.XmlEncodingId => _xmlEncodingId;
         
     /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-    public virtual ExpandedNodeId JsonEncodingId => ObjectIds._BrowseName__Encoding_DefaultJson; 
+    ExpandedNodeId IJsonEncodeable.JsonEncodingId => _jsonEncodingId; 
 
     /// <summary cref="IEncodeable.Encode(IEncoder)" />
-    public virtual void Encode(IEncoder encoder)
+    void IEncodeable.Encode(IEncoder encoder)
     {
         encoder.PushNamespace(_XmlNamespaceUri_);
-        encoder.WriteEncodingMask((uint)EncodingMask);
 
-        // ListOfEncodedFields
+        OnWriteEncodingMask(encoder);
+        OnEncodeFields(encoder);
 
         encoder.PopNamespace();
     }
 
+    protected virtual void OnWriteEncodingMask(IEncoder encoder)
+    {
+        encoder.WriteEncodingMask((uint)EncodingMask);
+    }
+
+    protected virtual void OnEncodeFields(IEncoder encoder)
+    {
+        // ListOfEncodedFields
+    }
+        
+    
     /// <summary cref="IEncodeable.Decode(IDecoder)" />
-    public virtual void Decode(IDecoder decoder)
+    void IEncodeable.Decode(IDecoder decoder)
     {
         decoder.PushNamespace(_XmlNamespaceUri_);
 
-        EncodingMask = decoder.ReadEncodingMask(m_FieldNames);
-
-        // ListOfDecodedFields
+        OnReadEncodingMask(decoder);
+        OnDecodeFields(decoder);
 
         decoder.PopNamespace();
+    }
+
+    protected virtual void OnReadEncodingMask(IDecoder decoder) 
+    {
+        EncodingMask = decoder.ReadEncodingMask(m_FieldNames);
+    }
+
+    protected virtual void OnDecodeFields(IDecoder decoder)
+    {
+        // ListOfDecodedFields
     }
 
     /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />

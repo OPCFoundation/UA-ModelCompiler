@@ -3863,6 +3863,14 @@ namespace ModelCompiler
 
                 AddTemplate(
                     template,
+                    "// EncodingMaskProperty",
+                    TemplatePath + "Version2.EncodingMaskProperty.cs",
+                    new DataTypeDesign[] { dataType },
+                    new LoadTemplateEventHandler(LoadTemplate_EncodingMaskProperty),
+                    new WriteTemplateEventHandler(WriteTemplate_EncodingMaskProperty));
+
+                AddTemplate(
+                    template,
                     "// ListOfEncodedFields",
                     null,
                     children,
@@ -5275,6 +5283,55 @@ namespace ModelCompiler
 
             return template.WriteTemplate(context);
         }
+        #endregion
+
+        #region "// EncodingMaskProperty"
+
+        private string LoadTemplate_EncodingMaskProperty(Template template, Context context)
+        {
+            if (context.Target is not DataTypeDesign dataType)
+            {
+                return null;
+            }
+
+            return IsFirstDataTypeWithOptionalFields(dataType)
+                ? TemplatePath + "Version2.DataTypes.EncodingMaskProperty.cs"
+                : context.TemplatePath;
+        }
+
+        private static bool HasOptionalFields(DataTypeDesign dataType)
+        {
+            return dataType.Fields?.Any(field => field.IsOptional) ?? false;
+        }
+
+        private static bool HasOptionalFieldsInherited(DataTypeDesign dataType)
+        {
+            return dataType.BaseTypeNode is DataTypeDesign baseDataType
+                && (HasOptionalFields(baseDataType) || HasOptionalFieldsInherited(baseDataType));
+        }
+
+        private static bool IsFirstDataTypeWithOptionalFields(DataTypeDesign dataType)
+        {
+            return dataType.IsStructure
+                && HasOptionalFields(dataType)
+                && !HasOptionalFieldsInherited(dataType);
+        }
+
+        private bool WriteTemplate_EncodingMaskProperty(Template template, Context context)
+        {
+            DataTypeDesign dataType = context.Target as DataTypeDesign;
+
+            if (dataType == null)
+            {
+                return false;
+            }
+            
+            var result = template.WriteTemplate(context);
+            template.WriteLine(string.Empty);
+
+            return result;
+        }
+
         #endregion
 
         #region "// ListOfPropertiesForType and // ListOfProperties"
