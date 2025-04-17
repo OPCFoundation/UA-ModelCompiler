@@ -60,7 +60,7 @@ public partial class _BrowseName_ : _BaseType_
     /// <summary cref="_BaseType_.OnWriteEncodingMask(IEncoder)" />
     protected override void OnWriteEncodingMask(IEncoder encoder)
     {
-        encoder.WriteUInt32(nameof(EncodingMask), (uint)EncodingMask);
+        encoder.WriteEncodingMask((uint)EncodingMask);
     }
         
     /// <summary cref="_BaseType_.OnEncodeFields(IEncoder)" />
@@ -72,7 +72,7 @@ public partial class _BrowseName_ : _BaseType_
 
     protected override void OnReadEncodingMask(IDecoder decoder) 
     {
-        EncodingMask = decoder.ReadUInt32(nameof(EncodingMask));
+        EncodingMask = (_ClassName_Fields)decoder.ReadEncodingMask(m_FieldNames);
     }
 
     protected override void OnDecodeFields(IDecoder decoder)

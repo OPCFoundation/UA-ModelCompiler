@@ -4654,7 +4654,7 @@ namespace ModelCompiler
 
             if (field.IsOptional)
             {
-                template.Write($"if ((EncodingMask & (uint){dataType.ClassName}Fields.{field.Name}) != 0) ");
+                template.Write($"if ((EncodingMask & {dataType.ClassName}Fields.{field.Name}) != 0) ");
             }
 
             string functionName = field.DataTypeNode.BasicDataType.ToString();
@@ -4825,7 +4825,7 @@ namespace ModelCompiler
 
             if (field.IsOptional)
             {
-                template.Write($"if ((EncodingMask & (uint){dataType.ClassName}Fields.{field.Name}) != 0) ");
+                template.Write($"if ((EncodingMask & {dataType.ClassName}Fields.{field.Name}) != 0) ");
             }
 
             string functionName = field.DataTypeNode.BasicDataType.ToString();
@@ -4983,7 +4983,7 @@ namespace ModelCompiler
 
             if (field.IsOptional)
             {
-                template.Write($"if ((EncodingMask & (uint){dataType.ClassName}Fields.{field.Name}) != 0) ");
+                template.Write($"if ((EncodingMask & {dataType.ClassName}Fields.{field.Name}) != 0) ");
             }
 
             template.Write("if (!Utils.IsEqual({0}, value.{0})) return false;", GetChildFieldName(field));
@@ -5018,7 +5018,7 @@ namespace ModelCompiler
 
             if (field.IsOptional)
             {
-                template.Write($"if ((EncodingMask & (uint){dataType.ClassName}Fields.{field.Name}) != 0) ");
+                template.Write($"if ((EncodingMask & {dataType.ClassName}Fields.{field.Name}) != 0) ");
             }
 
             template.Write("clone.{0} = ({1})Utils.Clone(this.{0});", GetChildFieldName(field), GetSystemTypeName(field.DataTypeNode, field.ValueRank));
@@ -5289,14 +5289,28 @@ namespace ModelCompiler
 
         private string LoadTemplate_EncodingMaskProperty(Template template, Context context)
         {
-            if (context.Target is not DataTypeDesign dataType)
+            if (context.Target is not DataTypeDesign _)
             {
                 return null;
             }
 
-            return IsFirstDataTypeWithOptionalFields(dataType)
-                ? TemplatePath + "Version2.DataTypes.EncodingMaskProperty.cs"
-                : context.TemplatePath;
+            return TemplatePath + "Version2.DataTypes.EncodingMaskProperty.cs";
+        }
+
+        private bool WriteTemplate_EncodingMaskProperty(Template template, Context context)
+        {
+            if (context.Target is not DataTypeDesign dataType)
+            {
+                return false;
+            }
+
+            template.AddReplacement("_hide_by_new_", IsFirstDataTypeWithOptionalFields(dataType) ? string.Empty : "new ");
+            template.AddReplacement("_ClassName_", dataType.ClassName);
+
+            var result = template.WriteTemplate(context);
+            template.WriteLine(string.Empty);
+
+            return result;
         }
 
         private static bool HasOptionalFields(DataTypeDesign dataType)
@@ -5315,21 +5329,6 @@ namespace ModelCompiler
             return dataType.IsStructure
                 && HasOptionalFields(dataType)
                 && !HasOptionalFieldsInherited(dataType);
-        }
-
-        private bool WriteTemplate_EncodingMaskProperty(Template template, Context context)
-        {
-            DataTypeDesign dataType = context.Target as DataTypeDesign;
-
-            if (dataType == null)
-            {
-                return false;
-            }
-            
-            var result = template.WriteTemplate(context);
-            template.WriteLine(string.Empty);
-
-            return result;
         }
 
         #endregion
