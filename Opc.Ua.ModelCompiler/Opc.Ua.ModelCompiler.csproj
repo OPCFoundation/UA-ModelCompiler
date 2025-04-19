@@ -8,9 +8,9 @@
     <IntermediateOutputPath>$(SolutionDir)build\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <AssemblyName>Opc.Ua.ModelCompiler</AssemblyName>
     <RootNamespace>ModelCompiler</RootNamespace>
-    <VersionSuffix>2.6.$([System.DateTime]::UtcNow.ToString(yyMM)).$([System.DateTime]::UtcNow.ToString(ddmm))</VersionSuffix>
+    <VersionSuffix>2.7.$([System.DateTime]::UtcNow.ToString(yyMM)).$([System.DateTime]::UtcNow.ToString(ddmm))</VersionSuffix>
     <Version>2.7.0.0</Version>
-    <AssemblyVersion>2.6.0.0</AssemblyVersion>
+    <AssemblyVersion>2.7.0.0</AssemblyVersion>
     <FileVersion>$(VersionSuffix)</FileVersion>
     <Copyright>Copyright © OPC Foundation</Copyright>
     <Product>OPC UA Model Compiler</Product>
