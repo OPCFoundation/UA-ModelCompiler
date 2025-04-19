@@ -1,5 +1,4 @@
-﻿using System.Net.WebSockets;
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Extensions;
@@ -22,7 +21,9 @@ namespace ModelCompiler
             ["Boolean"] = new OpenApiSchema()
             {
                 Type = "boolean",
-                Default = new OpenApiBoolean(false)
+                Default = new OpenApiBoolean(false),
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.8)."
+
             },
             ["SByte"] = new OpenApiSchema()
             {
@@ -30,7 +31,8 @@ namespace ModelCompiler
                 Format = "int32",
                 Minimum = -128,
                 Maximum = 127,
-                Default = new OpenApiInteger(0)
+                Default = new OpenApiInteger(0),
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.17)."
             },
             ["Byte"] = new OpenApiSchema()
             {
@@ -38,7 +40,8 @@ namespace ModelCompiler
                 Format = "int32",
                 Minimum = 0,
                 Maximum = 255,
-                Default = new OpenApiInteger(0)
+                Default = new OpenApiInteger(0),
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.9)."
             },
             ["Int16"] = new OpenApiSchema()
             {
@@ -46,7 +49,8 @@ namespace ModelCompiler
                 Format = "int32",
                 Minimum = -32768,
                 Maximum = 32767,
-                Default = new OpenApiInteger(0)
+                Default = new OpenApiInteger(0),
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.25)."
             },
             ["UInt16"] = new OpenApiSchema()
             {
@@ -54,13 +58,15 @@ namespace ModelCompiler
                 Format = "int32",
                 Minimum = 0,
                 Maximum = 65535,
-                Default = new OpenApiInteger(0)
+                Default = new OpenApiInteger(0),
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.34)."
             },
             ["Int32"] = new OpenApiSchema()
             {
                 Type = "integer",
                 Format = "int32",
-                Default = new OpenApiInteger(0)
+                Default = new OpenApiInteger(0),
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.26)."
             },
             ["UInt32"] = new OpenApiSchema()
             {
@@ -68,52 +74,61 @@ namespace ModelCompiler
                 Format = "int64",
                 Minimum = 0,
                 Maximum = 4294967295,
-                Default = new OpenApiLong(0)
+                Default = new OpenApiLong(0),
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.35)."
             },
             ["Int64"] = new OpenApiSchema()
             {
                 Type = "integer",
                 Format = "int64",
-                Default = new OpenApiLong(0)
+                Default = new OpenApiLong(0),
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.27)."
             },
             ["UInt64"] = new OpenApiSchema()
             {
                 Type = "number",
                 Minimum = 0,
                 Maximum = 18446744073709551615,
-                Default = new OpenApiLong(0)
+                Default = new OpenApiLong(0),
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.36)."
             },
             ["Float"] = new OpenApiSchema()
             {
                 Type = "number",
                 Format = "float",
-                Default = new OpenApiFloat(0)
+                Default = new OpenApiFloat(0),
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.15)."
             },
             ["Double"] = new OpenApiSchema()
             {
                 Type = "number",
                 Format = "double",
-                Default = new OpenApiDouble(0)
+                Default = new OpenApiDouble(0),
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.12)."
             },
             ["String"] = new OpenApiSchema()
             {
-                Type = "string"
+                Type = "string",
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.31)."
             },
             ["DateTime"] = new OpenApiSchema()
             {
                 Type = "string",
                 Format = "date-time",
-                Default = new OpenApiDateTime(DateTimeOffset.MinValue)
+                Default = new OpenApiDateTime(DateTimeOffset.MinValue),
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.11)."
             },
             ["NodeId"] = new OpenApiSchema()
             {
                 Type = "string",
-                Format = "UaNodeId"
+                Format = "UaNodeId",
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.2)."
             },
             ["ExpandedNodeId"] = new OpenApiSchema()
             {
                 Type = "string",
-                Format = "UaExpandedNodeId"
+                Format = "UaExpandedNodeId",
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part4/v105/docs/7.16)."
             },
             ["StatusCode"] = new OpenApiSchema()
             {
@@ -132,12 +147,14 @@ namespace ModelCompiler
                     {
                         Type = "string"
                     }
-                }
+                },
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part4/v105/docs/7.39). [Set of defined codes](https://github.com/OPCFoundation/UA-Nodeset/tree/latest/Schema/StatusCode.csv)."
             },
             ["QualifiedName"] = new OpenApiSchema()
             {
                 Type = "string",
-                Format = "UaQualifiedName"
+                Format = "UaQualifiedName",
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.3)."
             },
             ["LocalizedText"] = new OpenApiSchema()
             {
@@ -154,22 +171,26 @@ namespace ModelCompiler
                     {
                         Type = "string"
                     }
-                }
+                },
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.5)."
             },
             ["Guid"] = new OpenApiSchema()
             {
                 Type = "string",
-                Format = "uuid"
+                Format = "uuid",
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.16)."
             },
             ["ByteString"] = new OpenApiSchema()
             {
                 Type = "string",
-                Format = "byte"
+                Format = "byte",
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.10)."
             },
             ["XmlElement"] = new OpenApiSchema()
             {
                 Type = "string",
-                Format = "xml"
+                Format = "xml",
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.38)."
             },
             ["ExtensionObject"] = new OpenApiSchema()
             {
@@ -195,6 +216,7 @@ namespace ModelCompiler
                         Format = "byte"
                     }
                 },
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part6/v105/docs/5.4.2.16)."
             },
             ["Variant"] = new OpenApiSchema()
             {
@@ -222,7 +244,8 @@ namespace ModelCompiler
                             Minimum = 0
                         }
                     }
-                }
+                },
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part6/v105/docs/5.4.2.17)."
             },
             ["DataValue"] = new OpenApiSchema()
             {
@@ -279,7 +302,8 @@ namespace ModelCompiler
                         Minimum = 0,
                         Maximum = 65535
                     }
-                }
+                },
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part6/v105/docs/5.4.2.18)."
             },
             ["DiagnosticInfo"] = new OpenApiSchema()
             {
@@ -319,7 +343,8 @@ namespace ModelCompiler
                     {
                         Reference = new OpenApiReference() { Type = ReferenceType.Schema, Id = "DiagnosticInfo" }
                     }
-                }
+                },
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part4/v105/docs/7.12)."
             },
             ["Decimal"] = new OpenApiSchema()
             {
@@ -340,7 +365,8 @@ namespace ModelCompiler
                         Type = "string",
                         Default = new OpenApiString("0")
                     }
-                }
+                },
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part6/v105/docs/5.4.3)."
             },
             ["Matrix"] = new OpenApiSchema()
             {
@@ -365,24 +391,29 @@ namespace ModelCompiler
                             Minimum = 0
                         }
                     }
-                }
+                },
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part6/v105/docs/5.4.5)."
             },
             ["Number"] = new OpenApiSchema()
             {
-                Type = "number"
+                Type = "number",
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.30)."
             },
             ["Integer"] = new OpenApiSchema()
             {
-                Type = "number"
+                Type = "number",
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.24)."
             },
             ["UInteger"] = new OpenApiSchema()
             {
                 Type = "number",
-                Minimum = 0
+                Minimum = 0,
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part3/v105/docs/8.33)."
             },
             ["Structure"] = new OpenApiSchema()
             {
-                Type = "object"
+                Type = "object",
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part6/v105/docs/5.4.6)."
             },
             ["Union"] = new OpenApiSchema()
             {
@@ -397,13 +428,15 @@ namespace ModelCompiler
                         Maximum = 4294967295,
                         Default = new OpenApiLong(0)
                     }
-                }
+                },
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part6/v105/docs/5.4.8)."
             },
             ["Enumeration"] = new OpenApiSchema()
             {
                 Type = "integer",
                 Format = "int32",
-                Default = new OpenApiInteger(0)
+                Default = new OpenApiInteger(0),
+                Description = "[Link to specification](https://reference.opcfoundation.org/Core/Part6/v105/docs/5.4.4)."
             },
         };
 
@@ -531,6 +564,9 @@ namespace ModelCompiler
             var requestTypeId = GetDataTypeId(typeof(Opc.Ua.DataTypes), $"{serviceName}Request");
             var responseTypeId = GetDataTypeId(typeof(Opc.Ua.DataTypes), $"{serviceName}Response");
 
+            m_index.TryGetValue(requestTypeId, out var requestType);
+            m_index.TryGetValue(responseTypeId, out var responseType);
+            
             return new OpenApiPathItem
             {
                 Operations = new Dictionary<OperationType, OpenApiOperation>()
@@ -540,7 +576,7 @@ namespace ModelCompiler
                         OperationId = serviceName,
                         RequestBody = new OpenApiRequestBody()
                         {
-                            Description = $"{serviceName}RequestMessage",
+                            Description = $"[Link to specification]({responseType?.NodeSetDocumentation}).",
                             Content = new Dictionary<string, OpenApiMediaType>()
                             {
                                 ["application/json"] = new OpenApiMediaType()
@@ -561,7 +597,7 @@ namespace ModelCompiler
                         {
                             ["200"] = new OpenApiResponse()
                             {
-                                Description = $"{serviceName}ResponseMessage",
+                                Description = $"[Link to specification]({responseType?.NodeSetDocumentation}).",
                                 Content = new Dictionary<string, OpenApiMediaType>()
                                 {
                                     ["application/json"] = new OpenApiMediaType()
@@ -621,7 +657,8 @@ namespace ModelCompiler
                         {
                             Type = ReferenceType.Schema,
                             Id = "ExtensionObject"
-                        }
+                        },
+                        Description = $"[Link to specification]({fieldType.NodeSetDocumentation})."
                     };
                 }
 
@@ -652,7 +689,8 @@ namespace ModelCompiler
                 return new OpenApiSchema()
                 {
                     Type = "integer",
-                    Format = fieldType.SymbolicName
+                    Format = fieldType.SymbolicName,
+                    Description = $"[Link to specification]({fieldType.NodeSetDocumentation})."
                 };
             }
 
@@ -677,7 +715,8 @@ namespace ModelCompiler
                 {
                     Type = ReferenceType.Schema,
                     Id = bit.SymbolicName
-                }
+                },
+                Description = $"[Link to specification]({fieldType.NodeSetDocumentation})."
             };
         }
 
@@ -707,43 +746,8 @@ namespace ModelCompiler
                         Url = new Uri("https://opcfoundation.org/license/source/1.11/")
                     }
                 },
-                Components = new OpenApiComponents(),
-                Paths = new OpenApiPaths
-                {
-                    ["/read"] = GetPathItem("Read"),
-                    ["/write"] = GetPathItem("Write"),
-                    ["/call"] = GetPathItem("Call"),
-                    ["/historyread"] = GetPathItem("HistoryRead"),
-                    ["/historyupdate"] = GetPathItem("HistoryUpdate"),
-                    ["/browse"] = GetPathItem("Browse"),
-                    ["/browsenext"] = GetPathItem("BrowseNext"),
-                    ["/translate"] = GetPathItem("TranslateBrowsePathsToNodeIds")
-                }
+                Components = new OpenApiComponents()
             };
-
-            if (m_allServices)
-            {
-                document.Paths["/findservers"] = GetPathItem("FindServers");
-                document.Paths["/getendpoints"] = GetPathItem("GetEndpoints");
-                document.Paths["/createsession"] = GetPathItem("CreateSession");
-                document.Paths["/activatesession"] = GetPathItem("ActivateSession");
-                document.Paths["/closesession"] = GetPathItem("CloseSession");
-                document.Paths["/cancel"] = GetPathItem("Cancel");
-                document.Paths["/registernodes"] = GetPathItem("RegisterNodes");
-                document.Paths["/unregisternodes"] = GetPathItem("UnregisterNodes");
-                document.Paths["/createmonitoreditems"] = GetPathItem("CreateMonitoredItems");
-                document.Paths["/modifymonitoreditems"] = GetPathItem("ModifyMonitoredItems");
-                document.Paths["/setmonitoringmode"] = GetPathItem("SetMonitoringMode");
-                document.Paths["/settriggering"] = GetPathItem("SetTriggering");
-                document.Paths["/deletemonitoreditems"] = GetPathItem("DeleteMonitoredItems");
-                document.Paths["/createsubscription"] = GetPathItem("CreateSubscription");
-                document.Paths["/modifysubscription"] = GetPathItem("ModifySubscription");
-                document.Paths["/setpublishingmode"] = GetPathItem("SetPublishingMode");
-                document.Paths["/publish"] = GetPathItem("Publish");
-                document.Paths["/republish"] = GetPathItem("Republish");
-                document.Paths["/transfersubscriptions"] = GetPathItem("TransferSubscriptions");
-                document.Paths["/deletesubscriptions"] = GetPathItem("DeleteSubscriptions");
-            }
 
             HashSet<string> excluded = new()
             {
@@ -920,6 +924,42 @@ namespace ModelCompiler
             CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonServerEndpointsMessage);
             CollectIncludedTypes(included, Opc.Ua.DataTypes.JsonPubSubConnectionMessage);
 
+            document.Paths = new OpenApiPaths
+            {
+                ["/read"] = GetPathItem("Read"),
+                ["/write"] = GetPathItem("Write"),
+                ["/call"] = GetPathItem("Call"),
+                ["/historyread"] = GetPathItem("HistoryRead"),
+                ["/historyupdate"] = GetPathItem("HistoryUpdate"),
+                ["/browse"] = GetPathItem("Browse"),
+                ["/browsenext"] = GetPathItem("BrowseNext"),
+                ["/translate"] = GetPathItem("TranslateBrowsePathsToNodeIds")
+            };
+
+            if (m_allServices)
+            {
+                document.Paths["/findservers"] = GetPathItem("FindServers");
+                document.Paths["/getendpoints"] = GetPathItem("GetEndpoints");
+                document.Paths["/createsession"] = GetPathItem("CreateSession");
+                document.Paths["/activatesession"] = GetPathItem("ActivateSession");
+                document.Paths["/closesession"] = GetPathItem("CloseSession");
+                document.Paths["/cancel"] = GetPathItem("Cancel");
+                document.Paths["/registernodes"] = GetPathItem("RegisterNodes");
+                document.Paths["/unregisternodes"] = GetPathItem("UnregisterNodes");
+                document.Paths["/createmonitoreditems"] = GetPathItem("CreateMonitoredItems");
+                document.Paths["/modifymonitoreditems"] = GetPathItem("ModifyMonitoredItems");
+                document.Paths["/setmonitoringmode"] = GetPathItem("SetMonitoringMode");
+                document.Paths["/settriggering"] = GetPathItem("SetTriggering");
+                document.Paths["/deletemonitoreditems"] = GetPathItem("DeleteMonitoredItems");
+                document.Paths["/createsubscription"] = GetPathItem("CreateSubscription");
+                document.Paths["/modifysubscription"] = GetPathItem("ModifySubscription");
+                document.Paths["/setpublishingmode"] = GetPathItem("SetPublishingMode");
+                document.Paths["/publish"] = GetPathItem("Publish");
+                document.Paths["/republish"] = GetPathItem("Republish");
+                document.Paths["/transfersubscriptions"] = GetPathItem("TransferSubscriptions");
+                document.Paths["/deletesubscriptions"] = GetPathItem("DeleteSubscriptions");
+            }
+
             foreach (var node in m_index.Values)
             {
                 if (node is DataTypeState dt)
@@ -943,6 +983,7 @@ namespace ModelCompiler
                         schema.Description = dt.Description?.Text;
                         schema.Type = "object";
                         schema.Properties = new Dictionary<string, OpenApiSchema>();
+                        schema.Description = $"[Link to specification]({dt.NodeSetDocumentation}).";
 
                         foreach (var field in st.Fields)
                         {
@@ -1107,6 +1148,7 @@ namespace ModelCompiler
             schema.Enum = values;
             schema.AddExtension("x-enum-varnames", names);
             schema.Format = "int32";
+            schema.Description = $"[Link to specification]({dt.NodeSetDocumentation}).";
 
             if (et.IsOptionSet)
             {

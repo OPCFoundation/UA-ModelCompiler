@@ -27,10 +27,8 @@
  * http://opcfoundation.org/License/MIT/1.00/
  * ======================================================================*/
 
-using System;
 using System.Xml;
 using System.Xml.Serialization;
-using System.Collections.Generic;
 using Opc.Ua;
 using Export = Opc.Ua.Export;
 

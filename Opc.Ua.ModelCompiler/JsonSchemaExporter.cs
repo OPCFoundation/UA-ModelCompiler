@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Schema;
 using Opc.Ua;
-using System.Text;
 
 namespace ModelCompiler
 {

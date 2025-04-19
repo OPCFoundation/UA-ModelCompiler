@@ -27,10 +27,7 @@
  * http://opcfoundation.org/License/MIT/1.00/
  * ======================================================================*/
 
-using System;
-using System.Collections.Generic;
 using System.Xml;
-using System.IO;
 using System.Reflection;
 
 namespace CodeGenerator

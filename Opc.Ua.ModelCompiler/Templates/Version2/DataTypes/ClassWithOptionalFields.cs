@@ -66,7 +66,7 @@ public partial class _BrowseName_ : IEncodeable, IJsonEncodeable
     public virtual void Encode(IEncoder encoder)
     {
         encoder.PushNamespace(_XmlNamespaceUri_);
-        encoder.WriteEncodingMask(nameof(EncodingMask), (uint)EncodingMask);
+        encoder.WriteEncodingMask((uint)EncodingMask);
 
         // ListOfEncodedFields
 
@@ -78,7 +78,7 @@ public partial class _BrowseName_ : IEncodeable, IJsonEncodeable
     {
         decoder.PushNamespace(_XmlNamespaceUri_);
 
-        EncodingMask = decoder.ReadEncodingMask(typeof(_ClassName_Fields));
+        EncodingMask = decoder.ReadEncodingMask(m_FieldNames);
 
         // ListOfDecodedFields
 
@@ -128,6 +128,8 @@ public partial class _BrowseName_ : IEncodeable, IJsonEncodeable
 
     #region Private Fields
     // ListOfFields
+    
+    private static readonly string[] m_FieldNames = Enum.GetNames(typeof(_ClassName_Fields)).Where(x => x != nameof(_ClassName_Fields.None)).ToArray();
     #endregion
 }
 // CollectionClass

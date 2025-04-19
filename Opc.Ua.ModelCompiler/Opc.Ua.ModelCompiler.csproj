@@ -9,7 +9,7 @@
     <AssemblyName>Opc.Ua.ModelCompiler</AssemblyName>
     <RootNamespace>ModelCompiler</RootNamespace>
     <VersionSuffix>2.6.$([System.DateTime]::UtcNow.ToString(yyMM)).$([System.DateTime]::UtcNow.ToString(ddmm))</VersionSuffix>
-    <Version>2.6.0.0</Version>
+    <Version>2.7.0.0</Version>
     <AssemblyVersion>2.6.0.0</AssemblyVersion>
     <FileVersion>$(VersionSuffix)</FileVersion>
     <Copyright>Copyright © OPC Foundation</Copyright>
@@ -493,8 +493,8 @@
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="33.0.1" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.1" />
-    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.22" />
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.377-preview.ga511586173" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.24" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.376.213" />
   </ItemGroup>
 
 </Project>

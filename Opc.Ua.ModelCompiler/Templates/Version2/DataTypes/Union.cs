@@ -64,7 +64,7 @@ public partial class _BrowseName_ : IEncodeable, IJsonEncodeable
     public virtual void Encode(IEncoder encoder)
     {
         encoder.PushNamespace(_XmlNamespaceUri_);
-        encoder.WriteSwitchField(nameof(SwitchField), (uint)SwitchField);
+        encoder.WriteSwitchField((uint)SwitchField, out var fieldName);
 
         switch (SwitchField)
         {
@@ -80,8 +80,8 @@ public partial class _BrowseName_ : IEncodeable, IJsonEncodeable
     {
         decoder.PushNamespace(_XmlNamespaceUri_);
 
-        SwitchField = (_ClassName_Fields)decoder.ReadSwitchField(typeof(_ClassName_Fields));
-            
+        SwitchField = (_ClassName_Fields)decoder.ReadSwitchField(m_FieldNames, out var fieldName);
+
         switch (SwitchField)
         {
             default: { break; }
@@ -142,6 +142,8 @@ public partial class _BrowseName_ : IEncodeable, IJsonEncodeable
 
     #region Private Fields
     // ListOfFields
+       
+    private static readonly string[] m_FieldNames = Enum.GetNames(typeof(_ClassName_Fields)).Where(x => x != nameof(_ClassName_Fields.None)).ToArray();
     #endregion
 }
 // CollectionClass

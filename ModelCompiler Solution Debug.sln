@@ -34,6 +34,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoModel.Debug", "Tests\De
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Opc.Ua.Configuration", "Stack\Libraries\Opc.Ua.Configuration\Opc.Ua.Configuration.csproj", "{925150DE-73BE-47FB-BCF9-22C90975240A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stack", "Stack", "{CCA88CD9-81BD-4484-B1A2-C411C074701F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{59EEA00B-8424-4A83-8673-2AB88AC49B6B} = {CCA88CD9-81BD-4484-B1A2-C411C074701F}
+		{5FCD3D0D-81ED-4AFE-AE4E-0F9B6F2B3E71} = {CCA88CD9-81BD-4484-B1A2-C411C074701F}
+		{246DB0BA-8D41-4794-ADDE-CEFF56CDA039} = {CCA88CD9-81BD-4484-B1A2-C411C074701F}
+		{925150DE-73BE-47FB-BCF9-22C90975240A} = {CCA88CD9-81BD-4484-B1A2-C411C074701F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8D48237F-0D69-4239-A474-2651F58A8293}

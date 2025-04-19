@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Security.AccessControl;
 
 namespace X {
@@ -62,7 +63,6 @@ public partial class _BrowseName_ : _BaseType_
         base.Encode(encoder);
 
         encoder.PushNamespace(_XmlNamespaceUri_);
-        encoder.WriteEncodingMask(nameof(EncodingMask), (uint)EncodingMask);
 
         // ListOfEncodedFields
 
@@ -120,6 +120,8 @@ public partial class _BrowseName_ : _BaseType_
 
     #region Private Fields
     // ListOfFields
+
+    private static readonly string[] m_FieldNames = Enum.GetNames(typeof(_ClassName_Fields)).Where(x => x != nameof(_ClassName_Fields.None)).ToArray();
     #endregion
 }
 // CollectionClass

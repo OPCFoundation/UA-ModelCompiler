@@ -832,6 +832,7 @@
       <xs:enumeration value="ScalarOrArray" />
       <xs:enumeration value="OneOrMoreDimensions" />
       <xs:enumeration value="ScalarOrOneDimension" />
+      <xs:enumeration value="Any" />
     </xs:restriction>
   </xs:simpleType>
 

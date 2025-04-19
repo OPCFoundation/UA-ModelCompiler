@@ -27,7 +27,6 @@
  * http://opcfoundation.org/License/MIT/1.00/
  * ======================================================================*/
 
-using McMaster.Extensions.CommandLineUtils.Errors;
 using Opc.Ua;
 using System.Globalization;
 using System.Reflection;
@@ -898,6 +897,7 @@ namespace ModelCompiler
                 for (int ii = 0; ii < namespaces.Count; ii++)
                 {
                     Namespace current = namespaces[ii];
+                    current.Value = current.Value.Trim();
 
                     if (current.Value == dictionary.TargetNamespace)
                     {
@@ -1344,6 +1344,7 @@ namespace ModelCompiler
 
                     foreach (var ns in design.Namespaces)
                     {
+                        ns.Value = ns.Value.Trim();
                         ns.FilePath = (ns.Value == design.TargetNamespace) ? path : null;
                     }
 
@@ -2947,11 +2948,30 @@ namespace ModelCompiler
                 if (variableType.DataType == null)
                 {
                     variableType.DataType = new XmlQualifiedName("BaseDataType", DefaultNamespace);
+
+                    for (var ii = variableType.BaseTypeNode as VariableTypeDesign; ii != null; ii = ii.BaseTypeNode as VariableTypeDesign)
+                    {
+                        if (ii.DataType != null)
+                        {
+                            variableType.DataType = ii.DataType;
+                            break;
+                        }
+
+                    }
                 }
 
                 if (!variableType.ValueRankSpecified)
                 {
                     variableType.ValueRank = ValueRank.Scalar;
+
+                    for (var ii = variableType.BaseTypeNode as VariableTypeDesign; ii != null; ii = ii.BaseTypeNode as VariableTypeDesign)
+                    {
+                        if (ii.ValueRankSpecified)
+                        {
+                            variableType.ValueRank = ii.ValueRank;
+                            break;
+                        }
+                    }
                 }
 
                 if (!variableType.AccessLevelSpecified)
@@ -4900,6 +4920,7 @@ namespace ModelCompiler
             mergedType.RolePermissions = type.RolePermissions;
             mergedType.AccessRestrictions = type.AccessRestrictions;
             mergedType.AccessRestrictionsSpecified = type.AccessRestrictionsSpecified;
+            mergedType.WriteAccess = type.WriteAccess;
 
             VariableTypeDesign variableType = type as VariableTypeDesign;
 
@@ -5068,6 +5089,7 @@ namespace ModelCompiler
             objectd.DefaultRolePermissions = type.DefaultRolePermissions;
             objectd.DefaultAccessRestrictions = type.DefaultAccessRestrictions;
             objectd.DefaultAccessRestrictionsSpecified = type.DefaultAccessRestrictionsSpecified;
+            objectd.WriteAccess = 0;
 
             return objectd;
         }
@@ -5101,6 +5123,7 @@ namespace ModelCompiler
             variable.DefaultRolePermissions = type.DefaultRolePermissions;
             variable.DefaultAccessRestrictions = type.DefaultAccessRestrictions;
             variable.DefaultAccessRestrictionsSpecified = type.DefaultAccessRestrictionsSpecified;
+            variable.WriteAccess = 0;
 
             return variable;
         }
@@ -5121,6 +5144,11 @@ namespace ModelCompiler
             if (source.RolePermissions != null)
             {
                 mergedInstance.RolePermissions = source.RolePermissions;
+            }
+
+            if (source.WriteAccess != 0)
+            {
+                mergedInstance.WriteAccess = source.WriteAccess;
             }
 
             if (source.AccessRestrictionsSpecified)
@@ -5391,12 +5419,17 @@ namespace ModelCompiler
                 {
                     InstanceDesign instance = type.Children.Items[ii];
 
-                    if (instance.ModellingRule == ModellingRule.ExposesItsArray || instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
+                    if (instance.ModellingRule == ModellingRule.ExposesItsArray)
                     {
                         continue;
                     }
 
                     string browsePath = GetBrowsePath(basePath, instance);
+
+                    if (instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
+                    {
+                        continue;
+                    }
 
                     SetOverriddenNodes(instance, browsePath, nodes, depth + 1);
 
@@ -5461,13 +5494,19 @@ namespace ModelCompiler
                 for (int ii = 0; ii < parent.Children.Items.Length; ii++)
                 {
                     InstanceDesign instance = parent.Children.Items[ii];
-
-                    if (instance.ModellingRule == ModellingRule.ExposesItsArray || instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
+                    
+                    if (instance.ModellingRule == ModellingRule.ExposesItsArray)
                     {
                         continue;
                     }
 
                     string browsePath = GetBrowsePath(basePath, instance);
+
+                    if (instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
+                    {
+                        continue;
+                    }
+
 
                     SetOverriddenNodes(instance, browsePath, nodes, depth + 1);
 
@@ -5512,7 +5551,7 @@ namespace ModelCompiler
                 throw new InvalidOperationException($"{node.SymbolicId.Name} max recursion exceeded. Check model.");
             }
 
-            Dictionary<string, InstanceDesign> nodes = new Dictionary<string, InstanceDesign>();
+            var nodes = new Dictionary<string, InstanceDesign>();
 
             TypeDesign type = node as TypeDesign;
 
@@ -5566,12 +5605,32 @@ namespace ModelCompiler
                 {
                     InstanceDesign instance = type.Children.Items[ii];
 
-                    if (!String.IsNullOrEmpty(basePath) && (instance.ModellingRule == ModellingRule.None || instance.ModellingRule == ModellingRule.ExposesItsArray || instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder))
-                    {
-                        continue;
-                    }
-
                     string browsePath = GetBrowsePath(basePath, instance);
+
+                    if (!String.IsNullOrEmpty(basePath))
+                    {
+                        if (instance.ModellingRule == ModellingRule.None || instance.ModellingRule == ModellingRule.ExposesItsArray)
+                        {
+                            continue;
+                        }
+
+                        if (instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
+                        {
+                            var reference = new HierarchyReference()
+                            {
+                                SourcePath = basePath,
+                                ReferenceType = instance.ReferenceType,
+                                IsInverse = false,
+                                TargetId = instance.SymbolicId
+                            };
+
+                            references.Add(reference);
+
+                            if (instance.SymbolicId.Namespace != DefaultNamespace)
+                                System.Console.WriteLine("TypeDesign Placeholder: " + reference.SourcePath + "=>" + reference.TargetId);
+                            continue;
+                        }
+                    }
 
                     HierarchyNode child = new HierarchyNode();
 
@@ -5628,15 +5687,37 @@ namespace ModelCompiler
                 {
                     InstanceDesign instance = parent.Children.Items[ii];
 
+                    string browsePath = GetBrowsePath(basePath, instance);
+
                     if (inherited)
                     {
-                        if (!String.IsNullOrEmpty(basePath) && (instance.ModellingRule == ModellingRule.ExposesItsArray || instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder))
+                        if (!String.IsNullOrEmpty(basePath))
                         {
-                            continue;
+                            if (instance.ModellingRule == ModellingRule.None || instance.ModellingRule == ModellingRule.ExposesItsArray)
+                            {
+                                continue;
+                            }
+
+                            if (instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
+                            {
+                                var reference = references.Where(x => x.SourcePath == browsePath).FirstOrDefault();
+
+                                if (reference == null)
+                                {
+                                    reference = new HierarchyReference();
+                                    references.Add(reference);
+                                }
+
+                                reference.SourcePath = basePath;
+                                reference.ReferenceType = instance.ReferenceType;
+                                reference.IsInverse = false;
+                                reference.TargetId = instance.SymbolicId;
+
+                                if (instance.SymbolicId.Namespace != DefaultNamespace) System.Console.WriteLine("TypeDesign Placeholder: " + reference.SourcePath + "=>" + reference.TargetId);
+                                continue;
+                            }
                         }
                     }
-
-                    string browsePath = GetBrowsePath(basePath, instance);
 
                     HierarchyNode child = new HierarchyNode();
 
@@ -5659,6 +5740,8 @@ namespace ModelCompiler
 
                     if (instance.ModellingRule == ModellingRule.OptionalPlaceholder || instance.ModellingRule == ModellingRule.MandatoryPlaceholder)
                     {
+                        if (instance.SymbolicId.Namespace != DefaultNamespace) System.Console.WriteLine("InstanceDesign isTypeDefinition Placeholder: " + instance.SymbolicName);
+
                         if (depth > 3)
                         {
                             continue;
@@ -5900,6 +5983,7 @@ namespace ModelCompiler
         private Hierarchy BuildInstanceHierarchy2(ModelDesign dictionary, NodeDesign root, int depth)
         {
             Log("Building InstanceHierarchy: {0}", root.SymbolicId.Name);
+            if (root.SymbolicId.Namespace != DefaultNamespace) System.Console.WriteLine("Building InstanceHierarchy: {0}", root.SymbolicId.Name);
 
             if (depth > MaxRecursionDepth)
             {
@@ -6254,6 +6338,19 @@ namespace ModelCompiler
 
                 if (reference.TargetId != null)
                 {
+                    if (!isTypeDefinition)
+                    {
+                        NodeDesign node = null;
+
+                        if (m_nodes.TryGetValue(reference.TargetId, out node))
+                        {
+                            if (node is InstanceDesign instance && (instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder))
+                            {
+                                continue;
+                            }
+                        }
+                    }
+
                     NodeId targetId = ConstructNodeId(reference.TargetId, namespaceUris);
 
                     if (!state.ReferenceExists(referenceTypeId, isInverse, targetId))
@@ -6994,6 +7091,7 @@ namespace ModelCompiler
             state.Categories = null;
             state.ReleaseStatus = ToReleaseStatus(root.ReleaseStatus);
             state.DesignToolOnly = root.DesignToolOnly;
+            state.WriteMask = (root.WriteAccess != 0) ? (AttributeWriteMask)root.WriteAccess: AttributeWriteMask.None;
 
             if (!String.IsNullOrEmpty(root.Category))
             {

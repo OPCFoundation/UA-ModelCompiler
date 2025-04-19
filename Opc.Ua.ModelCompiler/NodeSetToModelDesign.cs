@@ -15,7 +15,6 @@ using Opc.Ua.Export;
 using System.Globalization;
 using System.Text;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 using NodeSet = Opc.Ua.Export;
 
@@ -433,6 +432,7 @@ namespace ModelCompiler
             output.BrowseName = QualifiedName.Parse(input.BrowseName).Name;
             output.Description = ImportLocalizedText(input.Description);
             output.DisplayName = ImportLocalizedText(input.DisplayName);
+            output.WriteAccess = input.WriteMask;
             output.IsAbstract = input.IsAbstract;
             output.InverseName = ImportLocalizedText(input.InverseName);
             output.Symmetric = input.Symmetric;
@@ -1204,6 +1204,7 @@ namespace ModelCompiler
             output.BrowseName = QualifiedName.Parse(input.BrowseName).Name;
             output.Description = ImportLocalizedText(input.Description);
             output.DisplayName = ImportLocalizedText(input.DisplayName);
+            output.WriteAccess = input.WriteMask;
             output.ReleaseStatus = ImportReleaseStatus(input.ReleaseStatus);
             output.Category = ImportCategories(input.Category);
 

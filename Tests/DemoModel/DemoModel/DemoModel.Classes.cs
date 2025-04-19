@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using System.Linq;
 using System.Runtime.Serialization;
 using Opc.Ua;
 
@@ -41,7 +42,7 @@ namespace DemoModel
     /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-    public partial class RestrictedVariableState : BaseDataVariableState<string>
+    public partial class RestrictedVariableState : BaseDataVariableState
     {
         #region Constructors
         /// <remarks />
@@ -64,7 +65,7 @@ namespace DemoModel
         /// <remarks />
         protected override int GetDefaultValueRank()
         {
-            return ValueRanks.Scalar;
+            return ValueRanks.Any;
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
@@ -325,6 +326,55 @@ namespace DemoModel
         private PropertyState<int> m_z;
         #endregion
     }
+
+    #region RestrictedVariableState<T> Class
+    /// <remarks />
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    public class RestrictedVariableState<T> : RestrictedVariableState
+    {
+        #region Constructors
+        /// <remarks />
+        public RestrictedVariableState(NodeState parent) : base(parent)
+        {
+            Value = default(T);
+        }
+
+        /// <remarks />
+        protected override void Initialize(ISystemContext context)
+        {
+            base.Initialize(context);
+
+            Value = default(T);
+            DataType = TypeInfo.GetDataTypeId(typeof(T));
+            ValueRank = TypeInfo.GetValueRank(typeof(T));
+        }
+
+        /// <remarks />
+        protected override void Initialize(ISystemContext context, NodeState source)
+        {
+            InitializeOptionalChildren(context);
+            base.Initialize(context, source);
+        }
+        #endregion
+
+        #region Public Members
+        /// <remarks />
+        public new T Value
+        {
+            get
+            {
+                return CheckTypeBeforeCast<T>(((BaseVariableState)this).Value, true);
+            }
+
+            set
+            {
+                ((BaseVariableState)this).Value = value;
+            }
+        }
+        #endregion
+    }
+    #endregion
     #endif
     #endregion
 
@@ -384,7 +434,7 @@ namespace DemoModel
 
         #region Public Properties
         /// <remarks />
-        public RestrictedVariableState Red
+        public RestrictedVariableState<string> Red
         {
             get
             {
@@ -465,11 +515,11 @@ namespace DemoModel
                         {
                             if (replacement == null)
                             {
-                                Red = new RestrictedVariableState(this);
+                                Red = new RestrictedVariableState<string>(this);
                             }
                             else
                             {
-                                Red = (RestrictedVariableState)replacement;
+                                Red = (RestrictedVariableState<string>)replacement;
                             }
                         }
                     }
@@ -510,7 +560,7 @@ namespace DemoModel
         #endregion
 
         #region Private Fields
-        private RestrictedVariableState m_red;
+        private RestrictedVariableState<string> m_red;
         private MethodState m_blueMethod;
         #endregion
     }

@@ -27,9 +27,7 @@
  * http://opcfoundation.org/License/MIT/1.00/
  * ======================================================================*/
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 

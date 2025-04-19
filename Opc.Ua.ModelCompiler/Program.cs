@@ -2,9 +2,6 @@
 using McMaster.Extensions.CommandLineUtils;
 using System.Reflection;
 using System.Diagnostics;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Linq;
-using Opc.Ua;
 
 try
 {
@@ -21,11 +18,24 @@ try
         //    "-exclude",
         //    "Draft",
         //    "-o2",
-        //    @"D:\Work\OPC\nodesets\v105\WoT\"
+        //    @"D:\Work\OPC\UA-IIoT-StarterKit\Opc.Ua.TestPublisher\Model"
         //};
 
-        // ModelCompilerApplication.Run(args2);
-        // return;
+        string[] args2 = {
+            "compile-nodesets",
+            "-input",
+            @"D:\Work\OPC\nodesets\v105\",
+            "-o2",
+            @"D:\Work\OPC\UA-ModelCompiler-Public\Tests\DemoModel\Models\",
+            "-uri",
+            @"http://opcfoundation.org/UA/DI/",
+            "-prefix",
+            "UAModel.DI"
+        };
+
+        ModelCompilerApplication.Run(args2);
+
+        return;
     }
 
     for (int ii = 0; ii < args.Length; ii++)
@@ -33,7 +43,7 @@ try
         args[ii] = args[ii].Replace("\n", "\\n");
     }
 
-    if (args.Length < 2) 
+    if (args.Length < 2)
     {
         Console.WriteLine($"Version: {Assembly.GetExecutingAssembly().GetName().FullName}");
         Console.WriteLine($"FileVersion: {FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}");

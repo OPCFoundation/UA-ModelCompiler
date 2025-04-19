@@ -34,8 +34,6 @@ using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using CodeGenerator;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
 using Opc.Ua;
 using Export = Opc.Ua.Export;
 using ValidationEventArgs = System.Xml.Schema.ValidationEventArgs;
@@ -3919,6 +3917,12 @@ namespace ModelCompiler
             {
                 BasicDataType basicType = variableType.DataTypeNode.BasicDataType;
 
+                // a hack to avoid breaking existing code when the ValueRank was set correctly to Any.
+                if (variableType.SymbolicName.Name == "TwoStateDiscreteType")
+                {
+                    variableType.ValueRank = ValueRank.Scalar;
+                }
+
                 if (!TemplateParameterRequired(variableType.DataTypeNode, variableType.ValueRank))
                 {
                     template.AddReplacement("<BaseT>", String.Empty);
@@ -3935,8 +3939,23 @@ namespace ModelCompiler
                     template.AddReplacement("<BaseT>", GetTemplateParameter(variableType));
                 }
 
+                // hack to keep the default value as Scalar after code was fixed to correctly set it to Any.
+
+                var valueRank = GetValueRank(variableType.ValueRank, variableType.ArrayDimensions);
+
+                if (variableType.ValueRank == ValueRank.ScalarOrArray)
+                {
+                    for (var baseType = variableType.BaseTypeNode; baseType != null; baseType = baseType.BaseTypeNode)
+                    {
+                        if (baseType.SymbolicId == new XmlQualifiedName("DataItemType", DefaultNamespace))
+                        {
+                            valueRank = $"ValueRanks.{ValueRank.Scalar}";
+                        }
+                    }
+                }
+
                 template.AddReplacement("_DefaultValue_", GetDefaultValue(variableType.DataTypeNode, variableType.ValueRank, variableType.DefaultValue, variableType.DecodedValue, false));
-                template.AddReplacement("_ValueRank_", GetValueRank(variableType.ValueRank, variableType.ArrayDimensions));
+                template.AddReplacement("_ValueRank_", valueRank);
                 template.AddReplacement("_ArrayDimensions_", GetArrayDimensions(variableType.ValueRank, variableType.ArrayDimensions));
                 template.AddReplacement("_IsAbstract_", GetBooleanValue(variableType.IsAbstract));
                 template.AddReplacement("_AccessLevel_", GetAccessLevel(variableType.AccessLevel));
@@ -4633,7 +4652,7 @@ namespace ModelCompiler
             string functionName = field.DataTypeNode.BasicDataType.ToString();
             string valueName = field.Name;
             string elementName = null;
-            string fieldName = field.Name;
+            string fieldName = (isUnion) ? $"fieldName ?? \"{field.Name}\"" : $"\"{field.Name}\"";
 
             switch (field.DataTypeNode.BasicDataType)
             {
@@ -4678,7 +4697,7 @@ namespace ModelCompiler
                     if (field.ValueRank == ValueRank.Array)
                     {
                         elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
-                        template.Write($"encoder.WriteEnumeratedArray(\"{fieldName}\", {field.Name}.ToArray(), typeof({elementName}));");
+                        template.Write($"encoder.WriteEnumeratedArray({fieldName}, {field.Name}.ToArray(), typeof({elementName}));");
 
                         if (isUnion)
                         {
@@ -4697,7 +4716,7 @@ namespace ModelCompiler
                     {
                         if (field.ValueRank == ValueRank.Array)
                         {
-                            template.Write($"encoder.WriteExtensionObjectArray(\"{fieldName}\", ExtensionObjectCollection.ToExtensionObjects({field.Name}));");
+                            template.Write($"encoder.WriteExtensionObjectArray({fieldName}, ExtensionObjectCollection.ToExtensionObjects({field.Name}));");
 
                             if (isUnion)
                             {
@@ -4709,7 +4728,7 @@ namespace ModelCompiler
 
                         if (field.ValueRank == ValueRank.Scalar)
                         {
-                            template.Write($"encoder.WriteExtensionObject(\"{fieldName}\", new ExtensionObject({field.Name}));");
+                            template.Write($"encoder.WriteExtensionObject({fieldName}, new ExtensionObject({field.Name}));");
 
                             if (isUnion)
                             {
@@ -4719,7 +4738,7 @@ namespace ModelCompiler
                             return context.TemplatePath;
                         }
 
-                        template.Write($"encoder.WriteVariant(\"{fieldName}\", {field.Name});");
+                        template.Write($"encoder.WriteVariant({fieldName}, {field.Name});");
 
                         if (isUnion)
                         {
@@ -4734,7 +4753,7 @@ namespace ModelCompiler
 
                     if (field.ValueRank == ValueRank.Array)
                     {
-                        template.Write($"encoder.WriteEncodeableArray(\"{fieldName}\", {field.Name}.ToArray(), typeof({elementName}));");
+                        template.Write($"encoder.WriteEncodeableArray({fieldName}, {field.Name}.ToArray(), typeof({elementName}));");
 
                         if (isUnion)
                         {
@@ -4758,7 +4777,7 @@ namespace ModelCompiler
                 elementName = null;
             }
 
-            template.Write($"encoder.Write{functionName}(\"{fieldName}\", {field.Name}");
+            template.Write($"encoder.Write{functionName}({fieldName}, {field.Name}");
 
             if (elementName != null)
             {
@@ -4804,7 +4823,7 @@ namespace ModelCompiler
             string functionName = field.DataTypeNode.BasicDataType.ToString();
             string valueName = field.Name;
             string elementName = null;
-            string fieldName = field.Name;
+            string fieldName = (isUnion) ? $"fieldName ?? \"{field.Name}\"" : $"\"{field.Name}\"";
 
             switch (field.DataTypeNode.BasicDataType)
             {
@@ -4858,7 +4877,7 @@ namespace ModelCompiler
 
                         if (field.ValueRank == ValueRank.Array)
                         {
-                            template.Write($"({elementName}[])ExtensionObject.ToArray(decoder.ReadExtensionObjectArray(\"{fieldName}\"), typeof({elementName}));");
+                            template.Write($"({elementName}[])ExtensionObject.ToArray(decoder.ReadExtensionObjectArray({fieldName}), typeof({elementName}));");
 
                             if (isUnion)
                             {
@@ -4870,7 +4889,7 @@ namespace ModelCompiler
 
                         if (field.ValueRank == ValueRank.Scalar)
                         {
-                            template.Write($"({elementName})ExtensionObject.ToEncodeable(decoder.ReadExtensionObject(\"{fieldName}\"));");
+                            template.Write($"({elementName})ExtensionObject.ToEncodeable(decoder.ReadExtensionObject({fieldName}));");
 
                             if (isUnion)
                             {
@@ -4880,7 +4899,7 @@ namespace ModelCompiler
                             return context.TemplatePath;
                         }
 
-                        template.Write($"decoder.ReadVariant(\"{fieldName}\");");
+                        template.Write($"decoder.ReadVariant({fieldName});");
 
                         if (isUnion)
                         {
@@ -4919,11 +4938,11 @@ namespace ModelCompiler
                     template.Write("({0})", elementName);
                 }
 
-                template.Write($"decoder.Read{functionName}(\"{fieldName}\", typeof({elementName}));");
+                template.Write($"decoder.Read{functionName}({fieldName}, typeof({elementName}));");
             }
             else
             {
-                template.Write($"decoder.Read{functionName}(\"{fieldName}\");");
+                template.Write($"decoder.Read{functionName}({fieldName});");
             }
 
             if (isUnion)
@@ -5350,6 +5369,11 @@ namespace ModelCompiler
             string x = GetClassName(GetMergedInstance(instance));
             string y = GetClassName(instance.OveriddenNode);
 
+            if (y.StartsWith("BaseDataVariableState<") && x.StartsWith("BaseDataVariableState<"))
+            {
+                return true;
+            }
+
             return x == y;
         }
 
@@ -5393,7 +5417,8 @@ namespace ModelCompiler
             "Description",
             "Save",
             "Handle",
-            "Specification"
+            "Specification",
+            "Update"
         };
 
         private bool IsIndeterminateType(InstanceDesign instance)

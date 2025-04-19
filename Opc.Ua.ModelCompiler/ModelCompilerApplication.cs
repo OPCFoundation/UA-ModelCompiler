@@ -1,7 +1,6 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using Newtonsoft.Json;
 using Opc.Ua;
-using System.Reflection;
 
 namespace ModelCompiler
 {

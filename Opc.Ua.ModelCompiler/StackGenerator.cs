@@ -27,10 +27,6 @@
  * http://opcfoundation.org/License/MIT/1.00/
  * ======================================================================*/
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-
 using Opc.Ua.Schema.Binary;
 using Opc.Ua.Schema.Xml;
 using CodeGenerator;

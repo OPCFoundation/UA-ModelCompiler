@@ -100,7 +100,7 @@ namespace ModelCompiler
                 }
 
                 // check the application certificate.
-                bool haveAppCertificate = await m_application.CheckApplicationInstanceCertificate(false, minimumKeySize: 0).ConfigureAwait(false);
+                bool haveAppCertificate = await m_application.CheckApplicationInstanceCertificates(false).ConfigureAwait(false);
                 if (!haveAppCertificate)
                 {
                     throw new InvalidOperationException("Application instance certificate invalid!");

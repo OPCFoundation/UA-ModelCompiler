@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using System.Linq;
 using System.Runtime.Serialization;
 using Opc.Ua;
 
@@ -970,14 +971,14 @@ namespace DemoModel
         public virtual void Encode(IEncoder encoder)
         {
             encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
-            encoder.WriteSwitchField(nameof(SwitchField), (uint)SwitchField);
+            encoder.WriteSwitchField((uint)SwitchField, out var fieldName);
 
             switch (SwitchField)
             {
                 default: { break; }
-                case SampleUnionFields.FieldX: { encoder.WriteUInt32("FieldX", FieldX); break; }
-                case SampleUnionFields.FieldY: { encoder.WriteStringArray("FieldY", FieldY); break; }
-                case SampleUnionFields.FieldZ: { encoder.WriteByteString("FieldZ", FieldZ); break; }
+                case SampleUnionFields.FieldX: { encoder.WriteUInt32(fieldName ?? "FieldX", FieldX); break; }
+                case SampleUnionFields.FieldY: { encoder.WriteStringArray(fieldName ?? "FieldY", FieldY); break; }
+                case SampleUnionFields.FieldZ: { encoder.WriteByteString(fieldName ?? "FieldZ", FieldZ); break; }
             }
             
             encoder.PopNamespace();
@@ -988,14 +989,14 @@ namespace DemoModel
         {
             decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
-            SwitchField = (SampleUnionFields)decoder.ReadSwitchField(typeof(SampleUnionFields));
-                
+            SwitchField = (SampleUnionFields)decoder.ReadSwitchField(m_FieldNames, out var fieldName);
+
             switch (SwitchField)
             {
                 default: { break; }
-                case SampleUnionFields.FieldX: { FieldX = decoder.ReadUInt32("FieldX"); break; }
-                case SampleUnionFields.FieldY: { FieldY = decoder.ReadStringArray("FieldY"); break; }
-                case SampleUnionFields.FieldZ: { FieldZ = decoder.ReadByteString("FieldZ"); break; }
+                case SampleUnionFields.FieldX: { FieldX = decoder.ReadUInt32(fieldName ?? "FieldX"); break; }
+                case SampleUnionFields.FieldY: { FieldY = decoder.ReadStringArray(fieldName ?? "FieldY"); break; }
+                case SampleUnionFields.FieldZ: { FieldZ = decoder.ReadByteString(fieldName ?? "FieldZ"); break; }
             }
 
             decoder.PopNamespace();
@@ -1058,6 +1059,8 @@ namespace DemoModel
         private uint m_fieldX;
         private StringCollection m_fieldY;
         private byte[] m_fieldZ;
+           
+        private static readonly string[] m_FieldNames = Enum.GetNames(typeof(SampleUnionFields)).Where(x => x != nameof(SampleUnionFields.None)).ToArray();
         #endregion
     }
 
@@ -1230,7 +1233,7 @@ namespace DemoModel
         public virtual void Encode(IEncoder encoder)
         {
             encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
-            encoder.WriteEncodingMask(nameof(EncodingMask), (uint)EncodingMask);
+            encoder.WriteEncodingMask((uint)EncodingMask);
 
             encoder.WriteUInt32("FieldX", FieldX);
             if ((EncodingMask & (uint)SampleStructureWithOptionalFieldsFields.FieldY) != 0) encoder.WriteStringArray("FieldY", FieldY);
@@ -1244,7 +1247,7 @@ namespace DemoModel
         {
             decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
-            EncodingMask = decoder.ReadEncodingMask(typeof(SampleStructureWithOptionalFieldsFields));
+            EncodingMask = decoder.ReadEncodingMask(m_FieldNames);
 
             FieldX = decoder.ReadUInt32("FieldX");
             if ((EncodingMask & (uint)SampleStructureWithOptionalFieldsFields.FieldY) != 0) FieldY = decoder.ReadStringArray("FieldY");
@@ -1302,6 +1305,8 @@ namespace DemoModel
         private uint m_fieldX;
         private StringCollection m_fieldY;
         private byte[] m_fieldZ;
+        
+        private static readonly string[] m_FieldNames = Enum.GetNames(typeof(SampleStructureWithOptionalFieldsFields)).Where(x => x != nameof(SampleStructureWithOptionalFieldsFields.None)).ToArray();
         #endregion
     }
 
@@ -1464,13 +1469,13 @@ namespace DemoModel
         public virtual void Encode(IEncoder encoder)
         {
             encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
-            encoder.WriteSwitchField(nameof(SwitchField), (uint)SwitchField);
+            encoder.WriteSwitchField((uint)SwitchField, out var fieldName);
 
             switch (SwitchField)
             {
                 default: { break; }
-                case SampleUnionAllowSubtypesFields.FieldX: { encoder.WriteExtensionObject("FieldX", FieldX); break; }
-                case SampleUnionAllowSubtypesFields.FieldY: { encoder.WriteEncodeable("FieldY", FieldY, typeof(WorkOrderStatusType)); break; }
+                case SampleUnionAllowSubtypesFields.FieldX: { encoder.WriteExtensionObject(fieldName ?? "FieldX", FieldX); break; }
+                case SampleUnionAllowSubtypesFields.FieldY: { encoder.WriteEncodeable(fieldName ?? "FieldY", FieldY, typeof(WorkOrderStatusType)); break; }
             }
             
             encoder.PopNamespace();
@@ -1481,13 +1486,13 @@ namespace DemoModel
         {
             decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
-            SwitchField = (SampleUnionAllowSubtypesFields)decoder.ReadSwitchField(typeof(SampleUnionAllowSubtypesFields));
-                
+            SwitchField = (SampleUnionAllowSubtypesFields)decoder.ReadSwitchField(m_FieldNames, out var fieldName);
+
             switch (SwitchField)
             {
                 default: { break; }
-                case SampleUnionAllowSubtypesFields.FieldX: { FieldX = decoder.ReadExtensionObject("FieldX"); break; }
-                case SampleUnionAllowSubtypesFields.FieldY: { FieldY = (WorkOrderStatusType)decoder.ReadEncodeable("FieldY", typeof(WorkOrderStatusType)); break; }
+                case SampleUnionAllowSubtypesFields.FieldX: { FieldX = decoder.ReadExtensionObject(fieldName ?? "FieldX"); break; }
+                case SampleUnionAllowSubtypesFields.FieldY: { FieldY = (WorkOrderStatusType)decoder.ReadEncodeable(fieldName ?? "FieldY", typeof(WorkOrderStatusType)); break; }
             }
 
             decoder.PopNamespace();
@@ -1547,6 +1552,8 @@ namespace DemoModel
         #region Private Fields
         private ExtensionObject m_fieldX;
         private WorkOrderStatusType m_fieldY;
+           
+        private static readonly string[] m_FieldNames = Enum.GetNames(typeof(SampleUnionAllowSubtypesFields)).Where(x => x != nameof(SampleUnionAllowSubtypesFields.None)).ToArray();
         #endregion
     }
 
@@ -1920,7 +1927,7 @@ namespace DemoModel
         public virtual void Encode(IEncoder encoder)
         {
             encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
-            encoder.WriteEncodingMask(nameof(EncodingMask), (uint)EncodingMask);
+            encoder.WriteEncodingMask((uint)EncodingMask);
 
             if ((EncodingMask & (uint)PersonFields.LastName) != 0) encoder.WriteString("LastName", LastName);
 
@@ -1932,7 +1939,7 @@ namespace DemoModel
         {
             decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
 
-            EncodingMask = decoder.ReadEncodingMask(typeof(PersonFields));
+            EncodingMask = decoder.ReadEncodingMask(m_FieldNames);
 
             if ((EncodingMask & (uint)PersonFields.LastName) != 0) LastName = decoder.ReadString("LastName");
 
@@ -1982,6 +1989,8 @@ namespace DemoModel
 
         #region Private Fields
         private string m_lastName;
+        
+        private static readonly string[] m_FieldNames = Enum.GetNames(typeof(PersonFields)).Where(x => x != nameof(PersonFields.None)).ToArray();
         #endregion
     }
 
@@ -2131,7 +2140,6 @@ namespace DemoModel
             base.Encode(encoder);
 
             encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
-            encoder.WriteEncodingMask(nameof(EncodingMask), (uint)EncodingMask);
 
             if ((EncodingMask & (uint)StudentFields.FirstName) != 0) encoder.WriteString("FirstName", FirstName);
             if ((EncodingMask & (uint)StudentFields.University) != 0) encoder.WriteString("University", University);
@@ -2194,6 +2202,8 @@ namespace DemoModel
         #region Private Fields
         private string m_firstName;
         private string m_university;
+
+        private static readonly string[] m_FieldNames = Enum.GetNames(typeof(StudentFields)).Where(x => x != nameof(StudentFields.None)).ToArray();
         #endregion
     }
 
