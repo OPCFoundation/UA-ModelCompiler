@@ -368,7 +368,7 @@ namespace CodeGenerator
             AddTemplate(
                 template,
                 "// _ServerAsyncApi_",
-                TemplatePath + "ServerApi.InterfaceMethod.cs",
+                TemplatePath + "ServerApi.InterfaceMethodAsync.cs",
                 datatypes,
                 null,
                 new WriteTemplateEventHandler(WriteTemplate_InterfaceAsyncMethod));
@@ -459,6 +459,14 @@ namespace CodeGenerator
                 null,
                 new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_SyncParameters),
+                null);
+
+            AddTemplate(
+                template,
+                "void StubAsync()",
+                null,
+                new ServiceType[] { serviceType },
+                new LoadTemplateEventHandler(LoadTemplate_AsyncParameters),
                 null);
 
             AddTemplate(
