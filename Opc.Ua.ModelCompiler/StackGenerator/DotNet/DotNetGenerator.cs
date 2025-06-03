@@ -27,8 +27,9 @@
  * http://opcfoundation.org/License/MIT/1.00/
  * ======================================================================*/
 
-using System.Xml;
 using System.Reflection;
+using System.Threading;
+using System.Xml;
 
 namespace CodeGenerator
 {
@@ -44,7 +45,7 @@ namespace CodeGenerator
         public DotNetGenerator(
             string inputPath,
             string outputDirectory,
-            Dictionary<string,string> knownFiles,
+            Dictionary<string, string> knownFiles,
             string resourcePath,
             IList<string> exclusions)
         :
@@ -188,7 +189,7 @@ namespace CodeGenerator
                 template,
                 "// DeclareResponseParameters",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_InitializeResponseParameters),
                 null);
 
@@ -196,15 +197,23 @@ namespace CodeGenerator
                 template,
                 "InvokeService();",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_InvokeServiceSyncParameters),
+                null);
+
+            AddTemplate(
+                template,
+                "InvokeServiceAsync();",
+                null,
+                new ServiceType[] { serviceType },
+                new LoadTemplateEventHandler(LoadTemplate_InvokeServiceAsyncParameters),
                 null);
 
             AddTemplate(
                 template,
                 "// SetResponseParameters",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_ResponseParameters),
                 null);
 
@@ -268,6 +277,51 @@ namespace CodeGenerator
             }
 
             template.WriteLine(");");
+
+            return null;
+        }
+
+
+        /// <summary>
+        /// Writes an asynchronous method declaration.
+        /// </summary>
+        private string LoadTemplate_InvokeServiceAsyncParameters(Template template, Context context)
+        {
+            ServiceType serviceType = context.Target as ServiceType;
+
+            if (serviceType == null)
+            {
+                return null;
+            }
+
+            // write method declaration.
+            template.WriteLine(String.Empty);
+            template.Write(context.Prefix);
+            template.Write("response = await ServerInstance.{1}Async(", serviceType.Response[0].Name, serviceType.Name);
+
+            if (serviceType.Request != null || serviceType.Request.Length > 0)
+            {
+                bool first = true;
+
+                foreach (FieldType field in serviceType.Request)
+                {
+                    if (first)
+                    {
+                        first = false;
+                        template.WriteLine(String.Empty);
+                    }
+                    else
+                    {
+                        template.WriteLine(",");
+                    }
+
+                    template.Write(context.Prefix);
+                    template.Write("   request.{0}", field.Name);
+                }
+            }
+
+            template.Write(",");
+            template.WriteLine("cancellationToken);");
 
             return null;
         }
@@ -402,7 +456,7 @@ namespace CodeGenerator
                 template,
                 "void Interface();",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_SyncParameters),
                 null);
 
@@ -457,7 +511,7 @@ namespace CodeGenerator
                 template,
                 "void Stub()",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_SyncParameters),
                 null);
 
@@ -473,7 +527,7 @@ namespace CodeGenerator
                 template,
                 "// ResponseParameters",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_InitializeResponseParameters),
                 null);
 
@@ -626,7 +680,7 @@ namespace CodeGenerator
                 template,
                 $"void SyncCall(){((semicolon) ? ";" : "")}",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_SyncParameters),
                 null);
 
@@ -642,7 +696,7 @@ namespace CodeGenerator
                 template,
                 $"void BeginAsyncCall(){((semicolon) ? ";" : "")}",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_BeginAsyncParameters),
                 null);
 
@@ -650,7 +704,7 @@ namespace CodeGenerator
                 template,
                 $"void EndAsyncCall(){((semicolon) ? ";" : "")}",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_EndAsyncParameters),
                 null);
 
@@ -658,7 +712,7 @@ namespace CodeGenerator
                 template,
                 "// RequestParameters",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_RequestParameters),
                 null);
 
@@ -666,7 +720,7 @@ namespace CodeGenerator
                 template,
                 "// ResponseParameters",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_ResponseParameters),
                 null);
 
@@ -736,7 +790,7 @@ namespace CodeGenerator
             CollectParameters(serviceType.Request, false, types, names, ref length);
 
             string tokenType = "CancellationToken";
-            
+
             if (tokenType.Length > length)
             {
                 length = tokenType.Length;
@@ -892,7 +946,7 @@ namespace CodeGenerator
 
                     if (field.Name.Length < length)
                     {
-                        padding = new string(' ', length-field.Name.Length);
+                        padding = new string(' ', length - field.Name.Length);
                     }
 
                     template.WriteLine(String.Empty);
@@ -952,7 +1006,7 @@ namespace CodeGenerator
 
                     if (field.Name.Length < length)
                     {
-                        padding = new string(' ', length-field.Name.Length);
+                        padding = new string(' ', length - field.Name.Length);
                     }
 
                     template.WriteLine(String.Empty);
@@ -1473,7 +1527,7 @@ namespace CodeGenerator
             {
                 ComplexType requestType = new ComplexType();
 
-                requestType.Name  = serviceType.Name + "Request";
+                requestType.Name = serviceType.Name + "Request";
                 requestType.QName = new XmlQualifiedName(requestType.Name, serviceType.QName.Namespace);
                 requestType.Field = serviceType.Request;
 
@@ -1487,7 +1541,7 @@ namespace CodeGenerator
 
                 ComplexType responseType = new ComplexType();
 
-                responseType.Name  = serviceType.Name + "Response";
+                responseType.Name = serviceType.Name + "Response";
                 responseType.QName = new XmlQualifiedName(responseType.Name, serviceType.QName.Namespace);
                 responseType.Field = serviceType.Response;
 
@@ -1895,7 +1949,7 @@ namespace CodeGenerator
 
                 if (typeName.Length < length)
                 {
-                    typeName += new string(' ', length-typeName.Length);
+                    typeName += new string(' ', length - typeName.Length);
                 }
 
                 template.WriteLine(String.Empty);
@@ -1979,14 +2033,14 @@ namespace CodeGenerator
                 case "DateTime":
                 case "StatusCode":
                 case "Variant":
-                {
-                    return false;
-                }
+                    {
+                        return false;
+                    }
 
                 default:
-                {
-                    return true;
-                }
+                    {
+                        return true;
+                    }
             }
         }
 
@@ -2007,9 +2061,9 @@ namespace CodeGenerator
                 switch (datatype.Name)
                 {
                     case "Guid":
-                    {
-                        return "new UuidCollection()";
-                    }
+                        {
+                            return "new UuidCollection()";
+                        }
                 }
 
                 return String.Format("new {0}Collection()", datatype.Name);
@@ -2030,9 +2084,9 @@ namespace CodeGenerator
             switch (datatype.Name)
             {
                 case "Boolean":
-                {
-                    return "false";
-                }
+                    {
+                        return "false";
+                    }
 
                 case "SByte":
                 case "Byte":
@@ -2044,57 +2098,57 @@ namespace CodeGenerator
                 case "UInt64":
                 case "Float":
                 case "Double":
-                {
-                    return "0";
-                }
+                    {
+                        return "0";
+                    }
 
                 case "String":
                 case "ByteString":
                 case "ExtensionObject":
                 case "XmlElement":
-                {
-                    return "null";
-                }
+                    {
+                        return "null";
+                    }
 
                 case "Guid":
-                {
-                    return "Opc.Ua.Uuid.Empty";
-                }
+                    {
+                        return "Opc.Ua.Uuid.Empty";
+                    }
 
                 case "DateTime":
-                {
-                    return "DateTime.MinValue";
-                }
+                    {
+                        return "DateTime.MinValue";
+                    }
 
                 case "StatusCode":
-                {
-                    return "Opc.Ua.StatusCodes.Good";
-                }
+                    {
+                        return "Opc.Ua.StatusCodes.Good";
+                    }
 
                 case "NodeId":
-                {
-                    return "Opc.Ua.NodeId.Null";
-                }
+                    {
+                        return "Opc.Ua.NodeId.Null";
+                    }
 
                 case "ExpandedNodeId":
-                {
-                    return "Opc.Ua.ExpandedNodeId.Null";
-                }
+                    {
+                        return "Opc.Ua.ExpandedNodeId.Null";
+                    }
 
                 case "LocalizedText":
-                {
-                    return "Opc.Ua.LocalizedText.Null";
-                }
+                    {
+                        return "Opc.Ua.LocalizedText.Null";
+                    }
 
                 case "QualifiedName":
-                {
-                    return "Opc.Ua.QualifiedName.Null";
-                }
+                    {
+                        return "Opc.Ua.QualifiedName.Null";
+                    }
 
                 default:
-                {
-                    return String.Format("new {0}()", datatype.Name);
-                }
+                    {
+                        return String.Format("new {0}()", datatype.Name);
+                    }
             }
         }
         #endregion

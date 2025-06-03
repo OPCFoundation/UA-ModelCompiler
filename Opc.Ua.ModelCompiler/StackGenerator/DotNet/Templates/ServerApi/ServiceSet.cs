@@ -22,7 +22,7 @@ public interface I_ServiceSet_Server : IServerBase
 /// </summary>
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
-public interface I_ServiceSet_ServerAsync : IServerBase
+public interface I_ServiceSet_ServerAsync : IServerBase, I_ServiceSet_Server
 {
     // _ServerAsyncApi_
 }
