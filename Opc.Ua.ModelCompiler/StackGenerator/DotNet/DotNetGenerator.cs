@@ -417,15 +417,7 @@ namespace CodeGenerator
                 TemplatePath + "ServerApi.InterfaceMethod.cs",
                 datatypes,
                 null,
-                new WriteTemplateEventHandler(WriteTemplate_InterfaceSyncMethod));
-
-            AddTemplate(
-                template,
-                "// _ServerAsyncApi_",
-                TemplatePath + "ServerApi.InterfaceMethodAsync.cs",
-                datatypes,
-                null,
-                new WriteTemplateEventHandler(WriteTemplate_InterfaceAsyncMethod));
+                new WriteTemplateEventHandler(WriteTemplate_InterfaceMethod));
 
             AddTemplate(
                 template,
@@ -441,7 +433,7 @@ namespace CodeGenerator
         /// <summary>
         /// Copies the response paramaters into the request object.
         /// </summary>
-        private bool WriteTemplate_InterfaceSyncMethod(Template template, Context context)
+        private bool WriteTemplate_InterfaceMethod(Template template, Context context)
         {
             ServiceType serviceType = context.Target as ServiceType;
 
@@ -458,6 +450,14 @@ namespace CodeGenerator
                 null,
                 new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_SyncParameters),
+                null);
+
+            AddTemplate(
+                template,
+                "void InterfaceAsync();",
+                null,
+                new ServiceType[] { serviceType },
+                new LoadTemplateEventHandler(LoadTemplate_AsyncParameters),
                 null);
 
             bool result = template.WriteTemplate(context);

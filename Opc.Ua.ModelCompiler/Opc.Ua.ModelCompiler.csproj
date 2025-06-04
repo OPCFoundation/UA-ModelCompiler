@@ -105,7 +105,6 @@
     <Compile Remove="StackGenerator\DotNet\Templates\Interfaces\ServiceSet.cs" />
     <Compile Remove="StackGenerator\DotNet\Templates\ServerApi\File.cs" />
     <Compile Remove="StackGenerator\DotNet\Templates\ServerApi\InterfaceMethod.cs" />
-    <Compile Remove="StackGenerator\DotNet\Templates\ServerApi\InterfaceMethodAsync.cs" />
     <Compile Remove="StackGenerator\DotNet\Templates\ServerApi\Method.cs" />
     <Compile Remove="StackGenerator\DotNet\Templates\ServerApi\ServiceSet.cs" />
     <Compile Remove="Templates\Types\Identifiers.cs" />
@@ -399,7 +398,6 @@
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\Interfaces\OperationAsyncEndpoint.cs" />
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\Interfaces\ServiceSet.cs" />
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\File.cs" />
-    <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\InterfaceMethodAsync.cs" />
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\InterfaceMethod.cs" />
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\Method.cs" />
     <EmbeddedResource Include="StackGenerator\DotNet\Templates\ServerApi\ServiceSet.cs" />
