@@ -341,7 +341,15 @@ namespace CodeGenerator
             // write method declaration.
             template.WriteLine(String.Empty);
             template.Write(context.Prefix);
-            template.Write("#if (!OPCUA_EXCLUDE_{0})", serviceType.Name);
+            template.Write("#if (!OPCUA_EXCLUDE_{0} && !OPCUA_EXCLUDE_{0}_ASYNC)", serviceType.Name);
+
+            template.WriteLine(String.Empty);
+            template.Write(context.Prefix);
+            template.Write("SupportedServices.Add(DataTypeIds.{0}Request, new ServiceDefinition(typeof({0}Request), new InvokeServiceEventHandler({0}), new InvokeServiceAsyncEventHandler({0}Async)));", serviceType.Name);
+
+            template.WriteLine(String.Empty);
+            template.Write(context.Prefix);
+            template.Write("#elif (!OPCUA_EXCLUDE_{0})", serviceType.Name);
 
             template.WriteLine(String.Empty);
             template.Write(context.Prefix);
