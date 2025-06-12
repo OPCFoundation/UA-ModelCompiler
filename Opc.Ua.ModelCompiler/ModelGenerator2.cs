@@ -1738,14 +1738,14 @@ namespace ModelCompiler
                     case DataTypes.StructureType:
                     case DataTypes.EnumDefinition:
                     case DataTypes.EnumField:
-                    {
-                        break;
-                    }
+                        {
+                            break;
+                        }
 
                     default:
-                    {
-                        return null;
-                    }
+                        {
+                            return null;
+                        }
                 }
             }
 
@@ -1891,48 +1891,48 @@ namespace ModelCompiler
                     default:
                     case BasicDataType.Enumeration:
                     case BasicDataType.Structure:
-                    {
-                        if (dataType.SymbolicName == new XmlQualifiedName("Structure", DefaultNamespace))
                         {
-                            return String.Format("ua:ListOfExtensionObject");
-                        }
-
-                        if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
-                        {
-                            if (dataType.IsOptionSet)
+                            if (dataType.SymbolicName == new XmlQualifiedName("Structure", DefaultNamespace))
                             {
-                                return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
+                                return String.Format("ua:ListOfExtensionObject");
                             }
 
-                            return String.Format("ua:ListOfInt32");
-                        }
-
-                        string prefix = "tns";
-
-                        if (dataType.SymbolicName.Namespace != m_model.TargetNamespace)
-                        {
-                            if (dataType.SymbolicName.Namespace == DefaultNamespace)
+                            if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
                             {
-                                if (dataType.SymbolicName.Name == "Enumeration")
+                                if (dataType.IsOptionSet)
                                 {
-                                    if (dataType.IsOptionSet)
-                                    {
-                                        return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
-                                    }
-
-                                    return String.Format("ua:ListOfInt32");
+                                    return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
                                 }
 
-                                prefix = "ua";
+                                return String.Format("ua:ListOfInt32");
                             }
-                            else
-                            {
-                                prefix = GetXmlNamespacePrefix(dataType.SymbolicName.Namespace);
-                            }
-                        }
 
-                        return String.Format("{0}:ListOf{1}", prefix, dataType.SymbolicName.Name);
-                    }
+                            string prefix = "tns";
+
+                            if (dataType.SymbolicName.Namespace != m_model.TargetNamespace)
+                            {
+                                if (dataType.SymbolicName.Namespace == DefaultNamespace)
+                                {
+                                    if (dataType.SymbolicName.Name == "Enumeration")
+                                    {
+                                        if (dataType.IsOptionSet)
+                                        {
+                                            return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
+                                        }
+
+                                        return String.Format("ua:ListOfInt32");
+                                    }
+
+                                    prefix = "ua";
+                                }
+                                else
+                                {
+                                    prefix = GetXmlNamespacePrefix(dataType.SymbolicName.Namespace);
+                                }
+                            }
+
+                            return String.Format("{0}:ListOf{1}", prefix, dataType.SymbolicName.Name);
+                        }
                 }
             }
 
@@ -1969,48 +1969,48 @@ namespace ModelCompiler
                 default:
                 case BasicDataType.Enumeration:
                 case BasicDataType.Structure:
-                {
-                    if (dataType.SymbolicName == new XmlQualifiedName("Structure", DefaultNamespace))
                     {
-                        return String.Format("ua:ExtensionObject");
-                    }
-
-                    if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
-                    {
-                        if (dataType.IsOptionSet)
+                        if (dataType.SymbolicName == new XmlQualifiedName("Structure", DefaultNamespace))
                         {
-                            return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
+                            return String.Format("ua:ExtensionObject");
                         }
 
-                        return String.Format("xs:int");
-                    }
-
-                    string prefix = "tns";
-
-                    if (dataType.SymbolicName.Namespace != m_model.TargetNamespace)
-                    {
-                        if (dataType.SymbolicName.Namespace == DefaultNamespace)
+                        if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
                         {
-                            if (dataType.SymbolicName.Name == "Enumeration")
+                            if (dataType.IsOptionSet)
                             {
-                                if (dataType.IsOptionSet)
-                                {
-                                    return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
-                                }
-
-                                return String.Format("xs:int");
+                                return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
                             }
 
-                            prefix = "ua";
+                            return String.Format("xs:int");
                         }
-                        else
-                        {
-                            prefix = GetXmlNamespacePrefix(dataType.SymbolicName.Namespace);
-                        }
-                    }
 
-                    return String.Format("{0}:{1}", prefix, dataType.SymbolicName.Name);
-                }
+                        string prefix = "tns";
+
+                        if (dataType.SymbolicName.Namespace != m_model.TargetNamespace)
+                        {
+                            if (dataType.SymbolicName.Namespace == DefaultNamespace)
+                            {
+                                if (dataType.SymbolicName.Name == "Enumeration")
+                                {
+                                    if (dataType.IsOptionSet)
+                                    {
+                                        return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
+                                    }
+
+                                    return String.Format("xs:int");
+                                }
+
+                                prefix = "ua";
+                            }
+                            else
+                            {
+                                prefix = GetXmlNamespacePrefix(dataType.SymbolicName.Namespace);
+                            }
+                        }
+
+                        return String.Format("{0}:{1}", prefix, dataType.SymbolicName.Name);
+                    }
             }
         }
         #endregion
@@ -2103,36 +2103,36 @@ namespace ModelCompiler
                     case BasicDataType.QualifiedName:
                     case BasicDataType.Structure:
                     case BasicDataType.DataValue:
-                    {
-                        template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" nillable=\"true\" />", field.Name, GetXmlDataType(field.DataTypeNode, field.ValueRank));
-                        break;
-                    }
+                        {
+                            template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" nillable=\"true\" />", field.Name, GetXmlDataType(field.DataTypeNode, field.ValueRank));
+                            break;
+                        }
 
                     case BasicDataType.Guid:
                     case BasicDataType.StatusCode:
-                    {
-                        template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" />", field.Name, GetXmlDataType(field.DataTypeNode, field.ValueRank));
-                        break;
-                    }
-
-                    case BasicDataType.UserDefined:
-                    {
-                        var fieldDataType = GetXmlDataType(field.DataTypeNode, field.ValueRank);
-
-                        if (field.AllowSubTypes)
                         {
-                            fieldDataType = "ua:ExtensionObject";
+                            template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" />", field.Name, GetXmlDataType(field.DataTypeNode, field.ValueRank));
+                            break;
                         }
 
-                        template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" nillable=\"true\" />", field.Name, fieldDataType);
-                        break;
-                    }
+                    case BasicDataType.UserDefined:
+                        {
+                            var fieldDataType = GetXmlDataType(field.DataTypeNode, field.ValueRank);
+
+                            if (field.AllowSubTypes)
+                            {
+                                fieldDataType = "ua:ExtensionObject";
+                            }
+
+                            template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" nillable=\"true\" />", field.Name, fieldDataType);
+                            break;
+                        }
 
                     default:
-                    {
-                        template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" />", field.Name, GetXmlDataType(field.DataTypeNode, field.ValueRank));
-                        break;
-                    }
+                        {
+                            template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" />", field.Name, GetXmlDataType(field.DataTypeNode, field.ValueRank));
+                            break;
+                        }
                 }
             }
 
@@ -2208,9 +2208,9 @@ namespace ModelCompiler
                 case BasicDataType.Double:
                 case BasicDataType.StatusCode:
                 case BasicDataType.Enumeration:
-                {
-                    return false;
-                }
+                    {
+                        return false;
+                    }
             }
 
             return true;
@@ -2368,14 +2368,14 @@ namespace ModelCompiler
                     case DataTypes.DataTypeDefinition:
                     case DataTypes.Enumeration:
                     case DataTypes.Union:
-                    {
-                        break;
-                    }
+                        {
+                            break;
+                        }
 
                     default:
-                    {
-                        return null;
-                    }
+                        {
+                            return null;
+                        }
                 }
             }
 
@@ -2579,38 +2579,38 @@ namespace ModelCompiler
                 default:
                 case BasicDataType.Enumeration:
                 case BasicDataType.Structure:
-                {
-                    if (dataType.SymbolicName == new XmlQualifiedName("Structure", DefaultNamespace))
                     {
-                        return String.Format("ua:ExtensionObject");
-                    }
-
-                    if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
-                    {
-                        if (dataType.IsOptionSet)
+                        if (dataType.SymbolicName == new XmlQualifiedName("Structure", DefaultNamespace))
                         {
-                            return GetBinaryDataType((DataTypeDesign)dataType.BaseTypeNode);
+                            return String.Format("ua:ExtensionObject");
                         }
 
-                        return String.Format("opc:Int32");
-                    }
-
-                    string prefix = "tns";
-
-                    if (dataType.SymbolicName.Namespace != m_model.TargetNamespace)
-                    {
-                        if (dataType.SymbolicName.Namespace == DefaultNamespace)
+                        if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
                         {
-                            prefix = "ua";
-                        }
-                        else
-                        {
-                            prefix = GetXmlNamespacePrefix(dataType.SymbolicName.Namespace);
-                        }
-                    }
+                            if (dataType.IsOptionSet)
+                            {
+                                return GetBinaryDataType((DataTypeDesign)dataType.BaseTypeNode);
+                            }
 
-                    return String.Format("{0}:{1}", prefix, dataType.SymbolicName.Name);
-                }
+                            return String.Format("opc:Int32");
+                        }
+
+                        string prefix = "tns";
+
+                        if (dataType.SymbolicName.Namespace != m_model.TargetNamespace)
+                        {
+                            if (dataType.SymbolicName.Namespace == DefaultNamespace)
+                            {
+                                prefix = "ua";
+                            }
+                            else
+                            {
+                                prefix = GetXmlNamespacePrefix(dataType.SymbolicName.Namespace);
+                            }
+                        }
+
+                        return String.Format("{0}:{1}", prefix, dataType.SymbolicName.Name);
+                    }
             }
         }
         #endregion
@@ -3583,56 +3583,56 @@ namespace ModelCompiler
                 switch (datatype.BasicDataType)
                 {
                     case BasicDataType.Structure:
-                    {
-                        return null;
-                    }
+                        {
+                            return null;
+                        }
 
                     case BasicDataType.UserDefined:
-                    {
-                        if (datatype.IsUnion)
                         {
-                            return TemplatePath + "Version2.DataTypes.Union.cs";
-                        }
-
-                        if (datatype.HasFields && datatype.Fields.Where(x => x.IsOptional).Count() > 0)
-                        {
-                            if (GetBaseClassName(datatype) != "IEncodeable")
+                            if (datatype.IsUnion)
                             {
-                                return TemplatePath + "Version2.DataTypes.DerivedClassWithOptionalFields.cs";
+                                return TemplatePath + "Version2.DataTypes.Union.cs";
                             }
 
-                            return TemplatePath + "Version2.DataTypes.ClassWithOptionalFields.cs";
-                        }
+                            if (datatype.HasFields && datatype.Fields.Where(x => x.IsOptional).Count() > 0)
+                            {
+                                if (GetBaseClassName(datatype) != "IEncodeable")
+                                {
+                                    return TemplatePath + "Version2.DataTypes.DerivedClassWithOptionalFields.cs";
+                                }
 
-                        if (GetBaseClassName(datatype) == "IEncodeable")
-                        {
-                            return TemplatePath + "Version2.DataTypes.Class.cs";
-                        }
+                                return TemplatePath + "Version2.DataTypes.ClassWithOptionalFields.cs";
+                            }
 
-                        return TemplatePath + "Version2.DataTypes.DerivedClass.cs";
-                    }
+                            if (GetBaseClassName(datatype) == "IEncodeable")
+                            {
+                                return TemplatePath + "Version2.DataTypes.Class.cs";
+                            }
 
-                    case BasicDataType.Enumeration:
-                    {
-                        DataTypeDesign baseType = datatype.BaseTypeNode as DataTypeDesign;
-
-                        if (baseType?.SymbolicId == new XmlQualifiedName("OptionSet", DefaultNamespace))
-                        {
                             return TemplatePath + "Version2.DataTypes.DerivedClass.cs";
                         }
 
-                        return TemplatePath + "Version2.DataTypes.Enumeration.cs";
-                    }
-
-                    default:
-                    {
-                        if (datatype.IsOptionSet)
+                    case BasicDataType.Enumeration:
                         {
+                            DataTypeDesign baseType = datatype.BaseTypeNode as DataTypeDesign;
+
+                            if (baseType?.SymbolicId == new XmlQualifiedName("OptionSet", DefaultNamespace))
+                            {
+                                return TemplatePath + "Version2.DataTypes.DerivedClass.cs";
+                            }
+
                             return TemplatePath + "Version2.DataTypes.Enumeration.cs";
                         }
 
-                        return null;
-                    }
+                    default:
+                        {
+                            if (datatype.IsOptionSet)
+                            {
+                                return TemplatePath + "Version2.DataTypes.Enumeration.cs";
+                            }
+
+                            return null;
+                        }
                 }
             }
 
@@ -3728,10 +3728,26 @@ namespace ModelCompiler
 
                 AddTemplate(
                     template,
+                    "_ISystemContext context_, CancellationToken cancellationToken);",
+                    null,
+                    new MethodDesign[] { method },
+                    new LoadTemplateEventHandler(LoadTemplate_OnCallAsyncDeclaration),
+                    null);
+
+                AddTemplate(
+                    template,
                     "_result = OnCall(_context);",
                     null,
                     new MethodDesign[] { method },
                     new LoadTemplateEventHandler(LoadTemplate_OnCallImplementation),
+                    null);
+
+                AddTemplate(
+                    template,
+                    "_result = await OnCallAsync(_context);",
+                    null,
+                    new MethodDesign[] { method },
+                    new LoadTemplateEventHandler(LoadTemplate_OnCallAsyncImplementation),
                     null);
 
                 AddTemplate(
@@ -3744,10 +3760,26 @@ namespace ModelCompiler
 
                 AddTemplate(
                     template,
+                    "// ListOfOutputArgumentsFromResult",
+                    null,
+                    method.OutputArguments,
+                    new LoadTemplateEventHandler(LoadTemplate_ListOfOutputArgumentsFromResult),
+                    null);
+
+                AddTemplate(
+                    template,
                     "// ListOfOutputArguments",
                     null,
                     method.OutputArguments,
                     new LoadTemplateEventHandler(LoadTemplate_ListOfOutputArguments),
+                    null);
+
+                AddTemplate(
+                    template,
+                    "// ListOfResultProperties",
+                    null,
+                    method.OutputArguments,
+                    new LoadTemplateEventHandler(LoadTemplate_ListOfResultProperties),
                     null);
             }
 
@@ -4660,63 +4692,100 @@ namespace ModelCompiler
                 case BasicDataType.Integer:
                 case BasicDataType.UInteger:
                 case BasicDataType.BaseDataType:
-                {
-                    functionName = "Variant";
-                    break;
-                }
-
-                case BasicDataType.Structure:
-                {
-                    functionName = "ExtensionObject";
-                    break;
-                }
-
-                case BasicDataType.Enumeration:
-                {
-                    if (field.DataType == new XmlQualifiedName("Enumeration", DefaultNamespace))
                     {
-                        functionName = "Int32";
+                        functionName = "Variant";
                         break;
                     }
 
-                    if (field.DataTypeNode.IsOptionSet)
+                case BasicDataType.Structure:
                     {
-                        if (field.DataTypeNode.BaseTypeNode.SymbolicId == new XmlQualifiedName("OptionSet", DefaultNamespace))
+                        functionName = "ExtensionObject";
+                        break;
+                    }
+
+                case BasicDataType.Enumeration:
+                    {
+                        if (field.DataType == new XmlQualifiedName("Enumeration", DefaultNamespace))
                         {
-                            functionName = "Encodeable";
-                            elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
+                            functionName = "Int32";
                             break;
                         }
 
-                        functionName = ((DataTypeDesign)field.DataTypeNode.BaseTypeNode).BasicDataType.ToString();
+                        if (field.DataTypeNode.IsOptionSet)
+                        {
+                            if (field.DataTypeNode.BaseTypeNode.SymbolicId == new XmlQualifiedName("OptionSet", DefaultNamespace))
+                            {
+                                functionName = "Encodeable";
+                                elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
+                                break;
+                            }
+
+                            functionName = ((DataTypeDesign)field.DataTypeNode.BaseTypeNode).BasicDataType.ToString();
+                            break;
+                        }
+
+                        functionName = "Enumerated";
+
+                        if (field.ValueRank == ValueRank.Array)
+                        {
+                            elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
+                            template.Write($"encoder.WriteEnumeratedArray({fieldName}, {field.Name}.ToArray(), typeof({elementName}));");
+
+                            if (isUnion)
+                            {
+                                template.Write(" break; }");
+                            }
+
+                            return context.TemplatePath;
+                        }
+
                         break;
                     }
 
-                    functionName = "Enumerated";
-
-                    if (field.ValueRank == ValueRank.Array)
+                case BasicDataType.UserDefined:
                     {
-                        elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
-                        template.Write($"encoder.WriteEnumeratedArray({fieldName}, {field.Name}.ToArray(), typeof({elementName}));");
-
-                        if (isUnion)
+                        if (field.AllowSubTypes)
                         {
-                            template.Write(" break; }");
+                            if (field.ValueRank == ValueRank.Array)
+                            {
+                                template.Write($"encoder.WriteExtensionObjectArray({fieldName}, ExtensionObjectCollection.ToExtensionObjects({field.Name}));");
+
+                                if (isUnion)
+                                {
+                                    template.Write(" break; }");
+                                }
+
+                                return context.TemplatePath;
+                            }
+
+                            if (field.ValueRank == ValueRank.Scalar)
+                            {
+                                template.Write($"encoder.WriteExtensionObject({fieldName}, new ExtensionObject({field.Name}));");
+
+                                if (isUnion)
+                                {
+                                    template.Write(" break; }");
+                                }
+
+                                return context.TemplatePath;
+                            }
+
+                            template.Write($"encoder.WriteVariant({fieldName}, {field.Name});");
+
+                            if (isUnion)
+                            {
+                                template.Write(" break; }");
+                            }
+
+                            return context.TemplatePath;
                         }
 
-                        return context.TemplatePath;
-                    }
+                        functionName = "Encodeable";
+                        elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
 
-                    break;
-                }
-
-                case BasicDataType.UserDefined:
-                {
-                    if (field.AllowSubTypes)
-                    {
                         if (field.ValueRank == ValueRank.Array)
                         {
-                            template.Write($"encoder.WriteExtensionObjectArray({fieldName}, ExtensionObjectCollection.ToExtensionObjects({field.Name}));");
+                            template.Write($"encoder.WriteEncodeableArray({fieldName}, {field.Name}.ToArray(), typeof({elementName}));");
 
                             if (isUnion)
                             {
@@ -4726,45 +4795,8 @@ namespace ModelCompiler
                             return context.TemplatePath;
                         }
 
-                        if (field.ValueRank == ValueRank.Scalar)
-                        {
-                            template.Write($"encoder.WriteExtensionObject({fieldName}, new ExtensionObject({field.Name}));");
-
-                            if (isUnion)
-                            {
-                                template.Write(" break; }");
-                            }
-
-                            return context.TemplatePath;
-                        }
-
-                        template.Write($"encoder.WriteVariant({fieldName}, {field.Name});");
-
-                        if (isUnion)
-                        {
-                            template.Write(" break; }");
-                        }
-
-                        return context.TemplatePath;
+                        break;
                     }
-
-                    functionName = "Encodeable";
-                    elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
-
-                    if (field.ValueRank == ValueRank.Array)
-                    {
-                        template.Write($"encoder.WriteEncodeableArray({fieldName}, {field.Name}.ToArray(), typeof({elementName}));");
-
-                        if (isUnion)
-                        {
-                            template.Write(" break; }");
-                        }
-
-                        return context.TemplatePath;
-                    }
-
-                    break;
-                }
             }
 
             if (field.ValueRank == ValueRank.Array)
@@ -4831,88 +4863,88 @@ namespace ModelCompiler
                 case BasicDataType.Integer:
                 case BasicDataType.UInteger:
                 case BasicDataType.BaseDataType:
-                {
-                    functionName = "Variant";
-                    break;
-                }
-
-                case BasicDataType.Structure:
-                {
-                    functionName = "ExtensionObject";
-                    break;
-                }
-
-                case BasicDataType.Enumeration:
-                {
-                    if (field.DataType == new XmlQualifiedName("Enumeration", DefaultNamespace))
                     {
-                        functionName = "Int32";
+                        functionName = "Variant";
                         break;
                     }
 
-                    if (field.DataTypeNode.IsOptionSet)
+                case BasicDataType.Structure:
                     {
-                        if (field.DataTypeNode.BaseTypeNode.SymbolicId == new XmlQualifiedName("OptionSet", DefaultNamespace))
+                        functionName = "ExtensionObject";
+                        break;
+                    }
+
+                case BasicDataType.Enumeration:
+                    {
+                        if (field.DataType == new XmlQualifiedName("Enumeration", DefaultNamespace))
                         {
-                            functionName = "Encodeable";
-                            elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
+                            functionName = "Int32";
                             break;
                         }
 
-                        functionName = ((DataTypeDesign)field.DataTypeNode.BaseTypeNode).BasicDataType.ToString();
+                        if (field.DataTypeNode.IsOptionSet)
+                        {
+                            if (field.DataTypeNode.BaseTypeNode.SymbolicId == new XmlQualifiedName("OptionSet", DefaultNamespace))
+                            {
+                                functionName = "Encodeable";
+                                elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
+                                break;
+                            }
+
+                            functionName = ((DataTypeDesign)field.DataTypeNode.BaseTypeNode).BasicDataType.ToString();
+                            break;
+                        }
+
+                        functionName = "Enumerated";
+                        elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
                         break;
                     }
 
-                    functionName = "Enumerated";
-                    elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
-                    break;
-                }
-
                 case BasicDataType.UserDefined:
-                {
-                    if (field.AllowSubTypes)
                     {
-                        template.Write($"{valueName} = ");
+                        if (field.AllowSubTypes)
+                        {
+                            template.Write($"{valueName} = ");
+                            elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
+
+                            if (field.ValueRank == ValueRank.Array)
+                            {
+                                template.Write($"({elementName}[])ExtensionObject.ToArray(decoder.ReadExtensionObjectArray({fieldName}), typeof({elementName}));");
+
+                                if (isUnion)
+                                {
+                                    template.Write(" break; }");
+                                }
+
+                                return context.TemplatePath;
+                            }
+
+                            if (field.ValueRank == ValueRank.Scalar)
+                            {
+                                template.Write($"({elementName})ExtensionObject.ToEncodeable(decoder.ReadExtensionObject({fieldName}));");
+
+                                if (isUnion)
+                                {
+                                    template.Write(" break; }");
+                                }
+
+                                return context.TemplatePath;
+                            }
+
+                            template.Write($"decoder.ReadVariant({fieldName});");
+
+                            if (isUnion)
+                            {
+                                template.Write(" break; }");
+                            }
+
+                            return context.TemplatePath;
+                        }
+
+                        functionName = "Encodeable";
                         elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
-
-                        if (field.ValueRank == ValueRank.Array)
-                        {
-                            template.Write($"({elementName}[])ExtensionObject.ToArray(decoder.ReadExtensionObjectArray({fieldName}), typeof({elementName}));");
-
-                            if (isUnion)
-                            {
-                                template.Write(" break; }");
-                            }
-
-                            return context.TemplatePath;
-                        }
-
-                        if (field.ValueRank == ValueRank.Scalar)
-                        {
-                            template.Write($"({elementName})ExtensionObject.ToEncodeable(decoder.ReadExtensionObject({fieldName}));");
-
-                            if (isUnion)
-                            {
-                                template.Write(" break; }");
-                            }
-
-                            return context.TemplatePath;
-                        }
-
-                        template.Write($"decoder.ReadVariant({fieldName});");
-
-                        if (isUnion)
-                        {
-                            template.Write(" break; }");
-                        }
-
-                        return context.TemplatePath;
+                        break;
                     }
-
-                    functionName = "Encodeable";
-                    elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
-                    break;
-                }
             }
 
             if (field.ValueRank == ValueRank.Array)
@@ -5118,6 +5150,61 @@ namespace ModelCompiler
         }
         #endregion
 
+        #region "// ListOfOutputArgumentsFromResult"
+        private string LoadTemplate_ListOfOutputArgumentsFromResult(Template template, Context context)
+        {
+            Parameter field = context.Target as Parameter;
+
+            if (field == null)
+            {
+                return null;
+            }
+
+            if (context.Index == 0)
+            {
+                template.WriteNextLine(String.Empty);
+            }
+
+            template.WriteNextLine(context.Prefix);
+
+            string fieldName = GetChildFieldName(field);
+
+            template.Write(
+                "_outputArguments[{1}] = _result.{2}{0};",
+                fieldName.Substring(3),
+                context.Index,
+                fieldName.Substring(2, 1).ToUpperInvariant());
+
+            return context.TemplatePath;
+        }
+        #endregion
+
+        #region "// ListOfResultProperties"
+        private string LoadTemplate_ListOfResultProperties(Template template, Context context)
+        {
+            Parameter field = context.Target as Parameter;
+
+            if (field == null)
+            {
+                return null;
+            }
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("/// <remarks />");
+            template.WriteNextLine(context.Prefix);
+
+            string fieldName = GetChildFieldName(field);
+
+            template.Write(
+               "public {1} {2}{0} {{ get; set; }}",
+               fieldName.Substring(3),
+               GetMethodArgumentType(field.DataTypeNode, field.ValueRank),
+               fieldName.Substring(2, 1).ToUpperInvariant());
+
+            return context.TemplatePath;
+        }
+        #endregion
+
         #region "_ISystemContext context_);"
         private string LoadTemplate_OnCallDeclaration(Template template, Context context)
         {
@@ -5167,6 +5254,60 @@ namespace ModelCompiler
         }
         #endregion
 
+        #region "_ISystemContext context_, CancellationToken cancellationToken);"
+        private string LoadTemplate_OnCallAsyncDeclaration(Template template, Context context)
+        {
+            MethodDesign method = context.Target as MethodDesign;
+
+            if (method == null)
+            {
+                return null;
+            }
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("ISystemContext _context,");
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("MethodState _method,");
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("NodeId _objectId");
+
+            if (method.InputArguments != null)
+            {
+                for (int ii = 0; ii < method.InputArguments.Length; ii++)
+                {
+                    Parameter argument = method.InputArguments[ii];
+
+                    template.Write(",");
+                    template.WriteNextLine(context.Prefix);
+                    template.Write("{1} {0}", GetChildFieldName(argument).Substring(2), GetMethodArgumentType(argument.DataTypeNode, argument.ValueRank));
+                }
+            }
+
+            //if (method.OutputArguments != null)
+            //{
+            //    for (int ii = 0; ii < method.OutputArguments.Length; ii++)
+            //    {
+            //        Parameter argument = method.OutputArguments[ii];
+
+            //        template.Write(",");
+            //        template.WriteNextLine(context.Prefix);
+            //        template.Write("ref {1} {0}", GetChildFieldName(argument).Substring(2), GetMethodArgumentType(argument.DataTypeNode, argument.ValueRank));
+            //    }
+            //}
+
+            template.Write(",");
+            template.WriteNextLine(context.Prefix);
+            template.Write("CancellationToken cancellationToken");
+
+
+            template.Write(");");
+
+            return context.TemplatePath;
+        }
+        #endregion
+
         #region "_result = OnCall(_context);"
         private string LoadTemplate_OnCallImplementation(Template template, Context context)
         {
@@ -5208,6 +5349,48 @@ namespace ModelCompiler
                     template.Write("    ref {0}", GetChildFieldName(method.OutputArguments[ii]).Substring(2));
                 }
             }
+
+            template.Write(");");
+
+            return context.TemplatePath;
+        }
+        #endregion
+
+        #region "_result =await  OnCallAsync(_context);"
+        private string LoadTemplate_OnCallAsyncImplementation(Template template, Context context)
+        {
+            MethodDesign method = context.Target as MethodDesign;
+
+            if (method == null)
+            {
+                return null;
+            }
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("_result = await OnCallAsync(");
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("    _context,");
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("    this,");
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("    _objectId");
+
+            if (method.InputArguments != null)
+            {
+                for (int ii = 0; ii < method.InputArguments.Length; ii++)
+                {
+                    template.Write(",");
+                    template.WriteNextLine(context.Prefix);
+                    template.Write("    {0}", GetChildFieldName(method.InputArguments[ii]).Substring(2));
+                }
+            }
+
+            template.Write(",");
+            template.WriteNextLine(context.Prefix);
+            template.Write("    cancellationToken");
 
             template.Write(");");
 
@@ -5469,20 +5652,20 @@ namespace ModelCompiler
                     case BasicDataType.Structure:
                     case BasicDataType.UserDefined:
                     case BasicDataType.DataValue:
-                    {
-                        valueType = false;
-                        break;
-                    }
-
-                    default:
-                    {
-                        if (field.ValueRank != ValueRank.Scalar)
                         {
                             valueType = false;
+                            break;
                         }
 
-                        break;
-                    }
+                    default:
+                        {
+                            if (field.ValueRank != ValueRank.Scalar)
+                            {
+                                valueType = false;
+                            }
+
+                            break;
+                        }
                 }
 
                 bool emitDefaultValue = true;
@@ -5875,22 +6058,22 @@ namespace ModelCompiler
             switch (basicType)
             {
                 case BasicDataType.UserDefined:
-                {
-                    scalarName = FixClassName(variable.DataTypeNode);
-                    break;
-                }
+                    {
+                        scalarName = FixClassName(variable.DataTypeNode);
+                        break;
+                    }
 
                 case BasicDataType.Structure:
-                {
-                    scalarName = "ExtensionObject";
-                    break;
-                }
+                    {
+                        scalarName = "ExtensionObject";
+                        break;
+                    }
 
                 default:
-                {
-                    scalarName = GetSystemTypeName(variable.DataTypeNode);
-                    break;
-                }
+                    {
+                        scalarName = GetSystemTypeName(variable.DataTypeNode);
+                        break;
+                    }
             }
 
             if (variable.ValueRank == ValueRank.Array)
@@ -5998,23 +6181,23 @@ namespace ModelCompiler
             switch (basicType)
             {
                 case BasicDataType.UserDefined:
-                {
-                    var ns = GetNamespacePrefix(variableType.DataTypeNode.SymbolicId.Namespace);
-                    scalarName = ns + "." + FixClassName(variableType.DataTypeNode);
-                    break;
-                }
+                    {
+                        var ns = GetNamespacePrefix(variableType.DataTypeNode.SymbolicId.Namespace);
+                        scalarName = ns + "." + FixClassName(variableType.DataTypeNode);
+                        break;
+                    }
 
                 case BasicDataType.Structure:
-                {
-                    scalarName = "ExtensionObject";
-                    break;
-                }
+                    {
+                        scalarName = "ExtensionObject";
+                        break;
+                    }
 
                 default:
-                {
-                    scalarName = GetSystemTypeName(variableType.DataTypeNode);
-                    break;
-                }
+                    {
+                        scalarName = GetSystemTypeName(variableType.DataTypeNode);
+                        break;
+                    }
             }
 
             if (variableType.ValueRank != ValueRank.Scalar)
@@ -6169,21 +6352,21 @@ namespace ModelCompiler
                 case ValueRank.ScalarOrOneDimension: return "ValueRanks.ScalarOrOneDimension";
 
                 case ValueRank.OneOrMoreDimensions:
-                {
-                    if (String.IsNullOrEmpty(arrayDimensions))
                     {
-                        return "ValueRanks.OneOrMoreDimensions";
+                        if (String.IsNullOrEmpty(arrayDimensions))
+                        {
+                            return "ValueRanks.OneOrMoreDimensions";
+                        }
+
+                        string[] dimensions = arrayDimensions.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                        if (dimensions.Length == 1)
+                        {
+                            return "ValueRanks.TwoDimensions";
+                        }
+
+                        return String.Format("{0}", dimensions.Length + 1);
                     }
-
-                    string[] dimensions = arrayDimensions.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    if (dimensions.Length == 1)
-                    {
-                        return "ValueRanks.TwoDimensions";
-                    }
-
-                    return String.Format("{0}", dimensions.Length + 1);
-                }
             }
 
             return "ValueRanks.Any";
@@ -6262,313 +6445,313 @@ namespace ModelCompiler
             switch (dataType.BasicDataType)
             {
                 case BasicDataType.Boolean:
-                {
-                    bool? value = decodedValue as bool?;
-
-                    if (value == null)
                     {
-                        value = false;
-                    }
+                        bool? value = decodedValue as bool?;
 
-                    if (defaultValue != null && decodedValueType == Opc.Ua.TypeInfo.Scalars.Boolean)
-                    {
-                        var x = (value.Value) ? "true" : "false";
-                        return x;
-                    }
+                        if (value == null)
+                        {
+                            value = false;
+                        }
 
-                    // this is technically a bug but the potential for side effects is
-                    // so large that it is better to leave as is.
-                    if (value.Value)
-                    {
-                        return "false";
-                    }
+                        if (defaultValue != null && decodedValueType == Opc.Ua.TypeInfo.Scalars.Boolean)
+                        {
+                            var x = (value.Value) ? "true" : "false";
+                            return x;
+                        }
 
-                    return "true";
-                }
+                        // this is technically a bug but the potential for side effects is
+                        // so large that it is better to leave as is.
+                        if (value.Value)
+                        {
+                            return "false";
+                        }
+
+                        return "true";
+                    }
 
                 case BasicDataType.SByte:
-                {
-                    sbyte? value = decodedValue as sbyte?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        sbyte? value = decodedValue as sbyte?;
 
-                    return Utils.Format("(sbyte){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(sbyte){0}", value.Value);
+                    }
 
                 case BasicDataType.Byte:
-                {
-                    byte? value = decodedValue as byte?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        byte? value = decodedValue as byte?;
 
-                    return Utils.Format("(byte){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(byte){0}", value.Value);
+                    }
 
                 case BasicDataType.Int16:
-                {
-                    short? value = decodedValue as short?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        short? value = decodedValue as short?;
 
-                    return Utils.Format("(short){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(short){0}", value.Value);
+                    }
 
                 case BasicDataType.UInt16:
-                {
-                    ushort? value = decodedValue as ushort?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        ushort? value = decodedValue as ushort?;
 
-                    return Utils.Format("(ushort){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(ushort){0}", value.Value);
+                    }
 
                 case BasicDataType.Int32:
-                {
-                    int? value = decodedValue as int?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        int? value = decodedValue as int?;
 
-                    return Utils.Format("(int){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(int){0}", value.Value);
+                    }
 
                 case BasicDataType.UInt32:
-                {
-                    uint? value = decodedValue as uint?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        uint? value = decodedValue as uint?;
 
-                    return Utils.Format("(uint){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(uint){0}", value.Value);
+                    }
 
                 case BasicDataType.Integer:
                 case BasicDataType.Int64:
-                {
-                    long? value = decodedValue as long?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        long? value = decodedValue as long?;
 
-                    return Utils.Format("(long){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(long){0}", value.Value);
+                    }
 
                 case BasicDataType.UInteger:
                 case BasicDataType.UInt64:
-                {
-                    ulong? value = decodedValue as ulong?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        ulong? value = decodedValue as ulong?;
 
-                    return Utils.Format("(ulong){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(ulong){0}", value.Value);
+                    }
 
                 case BasicDataType.Float:
-                {
-                    float? value = decodedValue as float?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        float? value = decodedValue as float?;
 
-                    return Utils.Format("(float){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(float){0}", value.Value);
+                    }
 
                 case BasicDataType.Number:
                 case BasicDataType.Double:
-                {
-                    double? value = decodedValue as double?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        double? value = decodedValue as double?;
 
-                    return Utils.Format("(double){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(double){0}", value.Value);
+                    }
 
                 case BasicDataType.String:
-                {
-                    string value = decodedValue as string;
-
-                    if (value == null)
                     {
-                        return "null";
-                    }
+                        string value = decodedValue as string;
 
-                    return Utils.Format("\"{0}\"", value);
-                }
+                        if (value == null)
+                        {
+                            return "null";
+                        }
+
+                        return Utils.Format("\"{0}\"", value);
+                    }
 
                 case BasicDataType.DateTime:
-                {
-                    DateTime? value = decodedValue as DateTime?;
-
-                    if (value == null)
                     {
-                        return "DateTime.MinValue";
-                    }
+                        DateTime? value = decodedValue as DateTime?;
 
-                    return Utils.Format("DateTime.ParseExact(\"{0:yyyy-MM-dd HH:mm:ss}\", \"yyyy-MM-dd HH:mm:ss\", System.Globalization.CultureInfo.InvariantCulture)", value);
-                }
+                        if (value == null)
+                        {
+                            return "DateTime.MinValue";
+                        }
+
+                        return Utils.Format("DateTime.ParseExact(\"{0:yyyy-MM-dd HH:mm:ss}\", \"yyyy-MM-dd HH:mm:ss\", System.Globalization.CultureInfo.InvariantCulture)", value);
+                    }
 
                 case BasicDataType.Guid:
-                {
-                    Uuid? value = decodedValue as Uuid?;
-
-                    if (value == null)
                     {
-                        return "Uuid.Empty";
-                    }
+                        Uuid? value = decodedValue as Uuid?;
 
-                    return Utils.Format("new Uuid(\"{0}\")", value.Value);
-                }
+                        if (value == null)
+                        {
+                            return "Uuid.Empty";
+                        }
+
+                        return Utils.Format("new Uuid(\"{0}\")", value.Value);
+                    }
 
                 case BasicDataType.ByteString:
-                {
-                    byte[] value = decodedValue as byte[];
-
-                    if (value == null)
                     {
-                        return "null";
-                    }
+                        byte[] value = decodedValue as byte[];
 
-                    return Utils.Format("Utils.FromHexString(\"{0}\")", Utils.ToHexString(value));
-                }
+                        if (value == null)
+                        {
+                            return "null";
+                        }
+
+                        return Utils.Format("Utils.FromHexString(\"{0}\")", Utils.ToHexString(value));
+                    }
 
                 case BasicDataType.NodeId:
-                {
-                    NodeId value = decodedValue as NodeId;
-
-                    if (value == null)
                     {
-                        return "null";
+                        NodeId value = decodedValue as NodeId;
+
+                        if (value == null)
+                        {
+                            return "null";
+                        }
+
+                        if (value.NamespaceIndex == 0 || value.NamespaceIndex >= m_model.Namespaces.Length)
+                        {
+                            return Utils.Format("NodeId.Parse(\"{0}\")", value);
+                        }
+
+                        ExpandedNodeId absoluteId = new ExpandedNodeId(value, m_model.Namespaces[value.NamespaceIndex].Value);
+
+                        return Utils.Format("ExpandedNodeId.Parse(\"{0}\", context.NamespaceUris)", absoluteId);
                     }
-
-                    if (value.NamespaceIndex == 0 || value.NamespaceIndex >= m_model.Namespaces.Length)
-                    {
-                        return Utils.Format("NodeId.Parse(\"{0}\")", value);
-                    }
-
-                    ExpandedNodeId absoluteId = new ExpandedNodeId(value, m_model.Namespaces[value.NamespaceIndex].Value);
-
-                    return Utils.Format("ExpandedNodeId.Parse(\"{0}\", context.NamespaceUris)", absoluteId);
-                }
 
                 case BasicDataType.ExpandedNodeId:
-                {
-                    ExpandedNodeId value = decodedValue as ExpandedNodeId;
-
-                    if (value == null)
                     {
-                        return "null";
-                    }
+                        ExpandedNodeId value = decodedValue as ExpandedNodeId;
 
-                    return Utils.Format("ExpandedNodeId.Parse(\"{0}\")", value);
-                }
+                        if (value == null)
+                        {
+                            return "null";
+                        }
+
+                        return Utils.Format("ExpandedNodeId.Parse(\"{0}\")", value);
+                    }
 
                 case BasicDataType.QualifiedName:
-                {
-                    QualifiedName value = decodedValue as QualifiedName;
-
-                    if (value == null)
                     {
-                        return "null";
-                    }
+                        QualifiedName value = decodedValue as QualifiedName;
 
-                    return Utils.Format("QualifiedName.Parse(\"{0}\")", value);
-                }
+                        if (value == null)
+                        {
+                            return "null";
+                        }
+
+                        return Utils.Format("QualifiedName.Parse(\"{0}\")", value);
+                    }
 
                 case BasicDataType.LocalizedText:
-                {
-                    Opc.Ua.LocalizedText value = decodedValue as Opc.Ua.LocalizedText;
-
-                    if (value == null)
                     {
-                        return "null";
-                    }
+                        Opc.Ua.LocalizedText value = decodedValue as Opc.Ua.LocalizedText;
 
-                    return Utils.Format("new LocalizedText(\"{0}\", \"{1}\")", value.Locale, value.Text);
-                }
+                        if (value == null)
+                        {
+                            return "null";
+                        }
+
+                        return Utils.Format("new LocalizedText(\"{0}\", \"{1}\")", value.Locale, value.Text);
+                    }
 
                 case BasicDataType.StatusCode:
-                {
-                    Opc.Ua.StatusCode? value = decodedValue as Opc.Ua.StatusCode?;
-
-                    if (value == null)
                     {
-                        return "StatusCodes.Good";
-                    }
+                        Opc.Ua.StatusCode? value = decodedValue as Opc.Ua.StatusCode?;
 
-                    return Utils.Format("(StatusCode){0}", value.Value.Code);
-                }
+                        if (value == null)
+                        {
+                            return "StatusCodes.Good";
+                        }
+
+                        return Utils.Format("(StatusCode){0}", value.Value.Code);
+                    }
 
                 case BasicDataType.Enumeration:
-                {
-                    if (dataType.SymbolicId == new XmlQualifiedName("Enumeration", DefaultNamespace))
                     {
-                        return "0";
-                    }
+                        if (dataType.SymbolicId == new XmlQualifiedName("Enumeration", DefaultNamespace))
+                        {
+                            return "0";
+                        }
 
-                    if (dataType.BaseTypeNode.SymbolicId == new XmlQualifiedName("OptionSet", DefaultNamespace))
-                    {
-                        return $"new {dataType.SymbolicName.Name}()";
-                    }
+                        if (dataType.BaseTypeNode.SymbolicId == new XmlQualifiedName("OptionSet", DefaultNamespace))
+                        {
+                            return $"new {dataType.SymbolicName.Name}()";
+                        }
 
-                    if (dataType.IsOptionSet)
-                    {
-                        return "0";
-                    }
+                        if (dataType.IsOptionSet)
+                        {
+                            return "0";
+                        }
 
-                    if (dataType.IsOptionSet)
-                    {
-                        return Utils.Format("{0}.None", dataType.SymbolicName.Name);
-                    }
+                        if (dataType.IsOptionSet)
+                        {
+                            return Utils.Format("{0}.None", dataType.SymbolicName.Name);
+                        }
 
-                    return Utils.Format("{0}.{1}", dataType.SymbolicName.Name, dataType.Fields[0].Name);
-                }
+                        return Utils.Format("{0}.{1}", dataType.SymbolicName.Name, dataType.Fields[0].Name);
+                    }
 
                 case BasicDataType.DataValue:
-                {
-                    return "new DataValue()";
-                }
+                    {
+                        return "new DataValue()";
+                    }
 
                 case BasicDataType.Structure:
                 case BasicDataType.XmlElement:
-                {
-                    return "null";
-                }
-
-                case BasicDataType.UserDefined:
-                {
-                    if (useVariantForObject)
                     {
-                        return Utils.Format("new {0}()", GetSystemTypeName(dataType, ValueRank.Scalar));
+                        return "null";
                     }
 
-                    return "null";
-                }
+                case BasicDataType.UserDefined:
+                    {
+                        if (useVariantForObject)
+                        {
+                            return Utils.Format("new {0}()", GetSystemTypeName(dataType, ValueRank.Scalar));
+                        }
+
+                        return "null";
+                    }
             }
 
             return "null";
@@ -6664,40 +6847,40 @@ namespace ModelCompiler
                 case BasicDataType.Integer:
                 case BasicDataType.UInteger:
                 case BasicDataType.BaseDataType:
-                {
-                    return "object";
-                }
+                    {
+                        return "object";
+                    }
 
                 case BasicDataType.Structure:
-                {
-                    return "ExtensionObject";
-                }
+                    {
+                        return "ExtensionObject";
+                    }
 
                 case BasicDataType.Enumeration:
-                {
-                    if (datatype.SymbolicId == new XmlQualifiedName("Enumeration", DefaultNamespace))
                     {
-                        return "int";
-                    }
+                        if (datatype.SymbolicId == new XmlQualifiedName("Enumeration", DefaultNamespace))
+                        {
+                            return "int";
+                        }
 
-                    if (datatype.IsOptionSet)
-                    {
-                        return GetSystemTypeName((DataTypeDesign)datatype.BaseTypeNode);
-                    }
+                        if (datatype.IsOptionSet)
+                        {
+                            return GetSystemTypeName((DataTypeDesign)datatype.BaseTypeNode);
+                        }
 
-                    return datatype.SymbolicName.Name;
-                }
+                        return datatype.SymbolicName.Name;
+                    }
 
                 case BasicDataType.UserDefined:
-                {
-                    if (datatype.SymbolicId.Namespace != m_model.TargetNamespace)
                     {
-                        var ns = m_model.Namespaces.Where(x => x.Value == datatype.SymbolicId.Namespace).FirstOrDefault();
-                        return $"{ns.Prefix}.{datatype.SymbolicName.Name}";
-                    }
+                        if (datatype.SymbolicId.Namespace != m_model.TargetNamespace)
+                        {
+                            var ns = m_model.Namespaces.Where(x => x.Value == datatype.SymbolicId.Namespace).FirstOrDefault();
+                            return $"{ns.Prefix}.{datatype.SymbolicName.Name}";
+                        }
 
-                    return datatype.SymbolicName.Name;
-                }
+                        return datatype.SymbolicName.Name;
+                    }
             }
 
             return "object";
@@ -6762,34 +6945,34 @@ namespace ModelCompiler
                     case BasicDataType.Integer:
                     case BasicDataType.UInteger:
                     case BasicDataType.BaseDataType:
-                    {
-                        return "VariantCollection";
-                    }
+                        {
+                            return "VariantCollection";
+                        }
 
                     case BasicDataType.Structure:
-                    {
-                        return "ExtensionObjectCollection";
-                    }
+                        {
+                            return "ExtensionObjectCollection";
+                        }
 
                     case BasicDataType.Enumeration:
-                    {
-                        if (datatype.SymbolicId == new XmlQualifiedName("Enumeration", DefaultNamespace))
                         {
-                            return "Int32Collection";
-                        }
+                            if (datatype.SymbolicId == new XmlQualifiedName("Enumeration", DefaultNamespace))
+                            {
+                                return "Int32Collection";
+                            }
 
-                        if (datatype.IsOptionSet || datatype.BaseType != new XmlQualifiedName("Enumeration", DefaultNamespace))
-                        {
-                            return GetSystemTypeName((DataTypeDesign)datatype.BaseTypeNode, valueRank);
-                        }
+                            if (datatype.IsOptionSet || datatype.BaseType != new XmlQualifiedName("Enumeration", DefaultNamespace))
+                            {
+                                return GetSystemTypeName((DataTypeDesign)datatype.BaseTypeNode, valueRank);
+                            }
 
-                        return datatype.SymbolicName.Name + "Collection";
-                    }
+                            return datatype.SymbolicName.Name + "Collection";
+                        }
 
                     case BasicDataType.UserDefined:
-                    {
-                        return datatype.SymbolicName.Name + "Collection";
-                    }
+                        {
+                            return datatype.SymbolicName.Name + "Collection";
+                        }
                 }
             }
 
@@ -6901,7 +7084,7 @@ namespace ModelCompiler
             {
                 return true;
             }
-            
+
             if (!DoJsonSchemaTests && node.Purpose == DataTypePurpose.Testing)
             {
                 return true;
