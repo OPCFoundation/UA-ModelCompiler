@@ -30,6 +30,7 @@
 using System.Reflection;
 using System.Threading;
 using System.Xml;
+using System.Reflection;
 
 namespace CodeGenerator
 {
@@ -45,7 +46,7 @@ namespace CodeGenerator
         public DotNetGenerator(
             string inputPath,
             string outputDirectory,
-            Dictionary<string, string> knownFiles,
+            Dictionary<string,string> knownFiles,
             string resourcePath,
             IList<string> exclusions)
         :
@@ -189,7 +190,7 @@ namespace CodeGenerator
                 template,
                 "// DeclareResponseParameters",
                 null,
-                new ServiceType[] { serviceType },
+                new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_InitializeResponseParameters),
                 null);
 
@@ -197,7 +198,7 @@ namespace CodeGenerator
                 template,
                 "InvokeService();",
                 null,
-                new ServiceType[] { serviceType },
+                new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_InvokeServiceSyncParameters),
                 null);
 
@@ -213,7 +214,7 @@ namespace CodeGenerator
                 template,
                 "// SetResponseParameters",
                 null,
-                new ServiceType[] { serviceType },
+                new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_ResponseParameters),
                 null);
 
@@ -280,7 +281,6 @@ namespace CodeGenerator
 
             return null;
         }
-
 
         /// <summary>
         /// Writes an asynchronous method declaration.
@@ -350,7 +350,6 @@ namespace CodeGenerator
             template.WriteLine(String.Empty);
             template.Write(context.Prefix);
             template.Write("#elif (!OPCUA_EXCLUDE_{0})", serviceType.Name);
-
             template.WriteLine(String.Empty);
             template.Write(context.Prefix);
             template.Write("SupportedServices.Add(DataTypeIds.{0}Request, new ServiceDefinition(typeof({0}Request), new InvokeServiceEventHandler({0})));", serviceType.Name);
@@ -456,7 +455,7 @@ namespace CodeGenerator
                 template,
                 "void Interface();",
                 null,
-                new ServiceType[] { serviceType },
+                new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_SyncParameters),
                 null);
 
@@ -519,7 +518,7 @@ namespace CodeGenerator
                 template,
                 "void Stub()",
                 null,
-                new ServiceType[] { serviceType },
+                new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_SyncParameters),
                 null);
 
@@ -535,7 +534,7 @@ namespace CodeGenerator
                 template,
                 "// ResponseParameters",
                 null,
-                new ServiceType[] { serviceType },
+                new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_InitializeResponseParameters),
                 null);
 
@@ -688,7 +687,7 @@ namespace CodeGenerator
                 template,
                 $"void SyncCall(){((semicolon) ? ";" : "")}",
                 null,
-                new ServiceType[] { serviceType },
+                new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_SyncParameters),
                 null);
 
@@ -704,7 +703,7 @@ namespace CodeGenerator
                 template,
                 $"void BeginAsyncCall(){((semicolon) ? ";" : "")}",
                 null,
-                new ServiceType[] { serviceType },
+                new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_BeginAsyncParameters),
                 null);
 
@@ -712,7 +711,7 @@ namespace CodeGenerator
                 template,
                 $"void EndAsyncCall(){((semicolon) ? ";" : "")}",
                 null,
-                new ServiceType[] { serviceType },
+                new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_EndAsyncParameters),
                 null);
 
@@ -720,7 +719,7 @@ namespace CodeGenerator
                 template,
                 "// RequestParameters",
                 null,
-                new ServiceType[] { serviceType },
+                new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_RequestParameters),
                 null);
 
@@ -728,7 +727,7 @@ namespace CodeGenerator
                 template,
                 "// ResponseParameters",
                 null,
-                new ServiceType[] { serviceType },
+                new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_ResponseParameters),
                 null);
 
@@ -798,7 +797,7 @@ namespace CodeGenerator
             CollectParameters(serviceType.Request, false, types, names, ref length);
 
             string tokenType = "CancellationToken";
-
+            
             if (tokenType.Length > length)
             {
                 length = tokenType.Length;
@@ -954,7 +953,7 @@ namespace CodeGenerator
 
                     if (field.Name.Length < length)
                     {
-                        padding = new string(' ', length - field.Name.Length);
+                        padding = new string(' ', length-field.Name.Length);
                     }
 
                     template.WriteLine(String.Empty);
@@ -1014,7 +1013,7 @@ namespace CodeGenerator
 
                     if (field.Name.Length < length)
                     {
-                        padding = new string(' ', length - field.Name.Length);
+                        padding = new string(' ', length-field.Name.Length);
                     }
 
                     template.WriteLine(String.Empty);
@@ -1535,7 +1534,7 @@ namespace CodeGenerator
             {
                 ComplexType requestType = new ComplexType();
 
-                requestType.Name = serviceType.Name + "Request";
+                requestType.Name  = serviceType.Name + "Request";
                 requestType.QName = new XmlQualifiedName(requestType.Name, serviceType.QName.Namespace);
                 requestType.Field = serviceType.Request;
 
@@ -1549,7 +1548,7 @@ namespace CodeGenerator
 
                 ComplexType responseType = new ComplexType();
 
-                responseType.Name = serviceType.Name + "Response";
+                responseType.Name  = serviceType.Name + "Response";
                 responseType.QName = new XmlQualifiedName(responseType.Name, serviceType.QName.Namespace);
                 responseType.Field = serviceType.Response;
 
@@ -1957,7 +1956,7 @@ namespace CodeGenerator
 
                 if (typeName.Length < length)
                 {
-                    typeName += new string(' ', length - typeName.Length);
+                    typeName += new string(' ', length-typeName.Length);
                 }
 
                 template.WriteLine(String.Empty);
@@ -2041,14 +2040,14 @@ namespace CodeGenerator
                 case "DateTime":
                 case "StatusCode":
                 case "Variant":
-                    {
-                        return false;
-                    }
+                {
+                    return false;
+                }
 
                 default:
-                    {
-                        return true;
-                    }
+                {
+                    return true;
+                }
             }
         }
 
@@ -2069,9 +2068,9 @@ namespace CodeGenerator
                 switch (datatype.Name)
                 {
                     case "Guid":
-                        {
-                            return "new UuidCollection()";
-                        }
+                    {
+                        return "new UuidCollection()";
+                    }
                 }
 
                 return String.Format("new {0}Collection()", datatype.Name);
@@ -2092,9 +2091,9 @@ namespace CodeGenerator
             switch (datatype.Name)
             {
                 case "Boolean":
-                    {
-                        return "false";
-                    }
+                {
+                    return "false";
+                }
 
                 case "SByte":
                 case "Byte":
@@ -2106,57 +2105,57 @@ namespace CodeGenerator
                 case "UInt64":
                 case "Float":
                 case "Double":
-                    {
-                        return "0";
-                    }
+                {
+                    return "0";
+                }
 
                 case "String":
                 case "ByteString":
                 case "ExtensionObject":
                 case "XmlElement":
-                    {
-                        return "null";
-                    }
+                {
+                    return "null";
+                }
 
                 case "Guid":
-                    {
-                        return "Opc.Ua.Uuid.Empty";
-                    }
+                {
+                    return "Opc.Ua.Uuid.Empty";
+                }
 
                 case "DateTime":
-                    {
-                        return "DateTime.MinValue";
-                    }
+                {
+                    return "DateTime.MinValue";
+                }
 
                 case "StatusCode":
-                    {
-                        return "Opc.Ua.StatusCodes.Good";
-                    }
+                {
+                    return "Opc.Ua.StatusCodes.Good";
+                }
 
                 case "NodeId":
-                    {
-                        return "Opc.Ua.NodeId.Null";
-                    }
+                {
+                    return "Opc.Ua.NodeId.Null";
+                }
 
                 case "ExpandedNodeId":
-                    {
-                        return "Opc.Ua.ExpandedNodeId.Null";
-                    }
+                {
+                    return "Opc.Ua.ExpandedNodeId.Null";
+                }
 
                 case "LocalizedText":
-                    {
-                        return "Opc.Ua.LocalizedText.Null";
-                    }
+                {
+                    return "Opc.Ua.LocalizedText.Null";
+                }
 
                 case "QualifiedName":
-                    {
-                        return "Opc.Ua.QualifiedName.Null";
-                    }
+                {
+                    return "Opc.Ua.QualifiedName.Null";
+                }
 
                 default:
-                    {
-                        return String.Format("new {0}()", datatype.Name);
-                    }
+                {
+                    return String.Format("new {0}()", datatype.Name);
+                }
             }
         }
         #endregion
