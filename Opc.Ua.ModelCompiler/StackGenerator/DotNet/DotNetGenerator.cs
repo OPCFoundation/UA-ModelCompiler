@@ -28,9 +28,7 @@
  * ======================================================================*/
 
 using System.Reflection;
-using System.Threading;
 using System.Xml;
-using System.Reflection;
 
 namespace CodeGenerator
 {
