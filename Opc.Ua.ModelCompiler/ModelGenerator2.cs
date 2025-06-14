@@ -5251,7 +5251,7 @@ namespace ModelCompiler
             template.Write(");");
 
             return context.TemplatePath;
-        }
+            }
         #endregion
 
         #region "_ISystemContext context_, CancellationToken cancellationToken);"
