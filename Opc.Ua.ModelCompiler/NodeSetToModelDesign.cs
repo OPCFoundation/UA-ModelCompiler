@@ -925,6 +925,7 @@ namespace ModelCompiler
             UpdateInstanceDesign(input, output);
 
             output.SupportsEvents = (input.EventNotifier & EventNotifiers.SubscribeToEvents) != 0;
+            output.SupportsEventsSpecified = true;
         }
 
         private void UpdateViewDesign(NodeSet.UAView input, ViewDesign output)
@@ -1545,7 +1546,7 @@ namespace ModelCompiler
 
             return permissions.ToArray();
         }
-        
+
         private RolePermissionSet ToPermissionSet(NodeSet.UANode node, NodeSet.RolePermission[] input)
         {
             if (input == null)
@@ -1673,7 +1674,7 @@ namespace ModelCompiler
         /// Imports a node from the set.
         /// </summary>
         public ModelDesign Import(string prefix, string name)
-         {
+        {
             ModelDesign dictionary = new ModelDesign();
 
             if (m_nodeset.Models == null || m_nodeset.Models.Length == 0)
