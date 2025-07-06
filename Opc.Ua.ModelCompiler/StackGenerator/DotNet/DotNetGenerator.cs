@@ -319,7 +319,7 @@ namespace CodeGenerator
             }
 
             template.Write(",");
-            template.WriteLine("cancellationToken);");
+            template.WriteLine("cancellationToken).ConfigureAwait(false);");
 
             return null;
         }

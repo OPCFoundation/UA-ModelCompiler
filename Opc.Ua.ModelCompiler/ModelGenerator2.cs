@@ -5392,7 +5392,7 @@ namespace ModelCompiler
             template.WriteNextLine(context.Prefix);
             template.Write("    cancellationToken");
 
-            template.Write(");");
+            template.Write(").ConfigureAwait(false);");
 
             return context.TemplatePath;
         }

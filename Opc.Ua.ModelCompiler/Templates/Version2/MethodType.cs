@@ -88,7 +88,7 @@ public partial class _ClassName_ : MethodState
     {
         if (OnCall == null && OnCallAsync == null)
         {
-            return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken);
+            return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
         }
 
         _ClassName_Result _result = null;
