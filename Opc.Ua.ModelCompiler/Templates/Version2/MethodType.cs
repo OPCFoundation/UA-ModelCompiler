@@ -91,21 +91,22 @@ public partial class _ClassName_ : MethodState
             return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
         }
 
-        _ClassName_Result _result = null;
-        // ListOfInputArguments
-
         if (OnCallAsync != null)
         {
+            _ClassName_Result _result = null;
+            // ListOfInputArguments
+
             _result = await OnCallAsync(_context);
+
+            // ListOfOutputArgumentsFromResult
+
+            return _result.ServiceResult;
         }
 
         if (OnCall != null)
         {
             return Call(_context, _objectId, _inputArguments, _outputArguments);
         }
-        // ListOfOutputArgumentsFromResult
-
-        return _result.ServiceResult;
     }
 
     // FindChildMethods
