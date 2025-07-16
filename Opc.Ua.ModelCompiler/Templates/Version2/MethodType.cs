@@ -18,7 +18,7 @@ public partial class _ClassName_ : MethodState
         return new _ClassName_(parent);
     }
 
-    #if (!OPCUA_EXCLUDE_InitializationStrings)
+#if (!OPCUA_EXCLUDE_InitializationStrings)
     /// <remarks />
     protected override void Initialize(ISystemContext context)
     {
@@ -37,12 +37,15 @@ public partial class _ClassName_ : MethodState
     #region Initialization String
     // InitializationString
     #endregion
-    #endif
+#endif
     #endregion
 
     #region Event Callbacks
     /// <remarks />
     public _ClassName_MethodCallHandler OnCall;
+
+    /// <remarks />
+    public _ClassName_MethodAsyncCallHandler OnCallAsync;
     #endregion
 
     #region Public Properties
@@ -74,6 +77,38 @@ public partial class _ClassName_ : MethodState
 
         return _result;
     }
+
+    /// <remarks />
+    protected override async ValueTask<ServiceResult> CallAsync(
+        ISystemContext _context,
+        NodeId _objectId,
+        IList<object> _inputArguments,
+        IList<object> _outputArguments,
+        CancellationToken cancellationToken = default)
+    {
+        if (OnCall == null && OnCallAsync == null)
+        {
+            return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
+        }
+
+        if (OnCallAsync != null)
+        {
+            _ClassName_Result _result = null;
+            // ListOfInputArguments
+
+            _result = await OnCallAsync(_context);
+
+            // ListOfOutputArgumentsFromResult
+
+            return _result.ServiceResult;
+        }
+
+        if (OnCall != null)
+        {
+            return Call(_context, _objectId, _inputArguments, _outputArguments);
+        }
+    }
+
     // FindChildMethods
     #endregion
 
@@ -86,6 +121,21 @@ public partial class _ClassName_ : MethodState
 /// <exclude />
 public delegate ServiceResult _ClassName_MethodCallHandler(
     _ISystemContext context_);
+
+/// <remarks />
+/// <exclude />
+public partial class _ClassName_Result
+{
+    /// <remarks />
+    public ServiceResult ServiceResult { get; set; }
+    // ListOfResultProperties
+}
+
+
+/// <remarks />
+/// <exclude />
+public delegate ValueTask<_ClassName_Result> _ClassName_MethodAsyncCallHandler(
+    _ISystemContext context_, CancellationToken cancellationToken);
 #endif
 #endregion
 // ***END***
