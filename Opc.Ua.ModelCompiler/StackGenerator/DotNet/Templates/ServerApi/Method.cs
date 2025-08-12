@@ -15,6 +15,21 @@ void Stub()
 
     return CreateResponse(requestHeader, StatusCodes.BadServiceUnsupported);
 }
+
+#if (!OPCUA_EXCLUDE__NAME__ASYNC)
+    /// <summary>
+    /// Invokes the _NAME_ service using async Task based request.
+    /// </summary>
+    void StubAsync()
+    {
+        ValidateRequest(requestHeader);
+
+        // Insert implementation.
+        await Task.CompletedTask;
+
+        throw new ServiceResultException(StatusCodes.BadServiceUnsupported);
+    }
+#endif
 #endif
 // ***END***
 }

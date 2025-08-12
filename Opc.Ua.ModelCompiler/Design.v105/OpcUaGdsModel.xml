@@ -8,17 +8,17 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   xmlns:uasc="http://opcfoundation.org/UA/PushConfiguration/"
   TargetNamespace="http://opcfoundation.org/UA/GDS/"
-  TargetVersion="1.05.04"
-  TargetPublicationDate="2024-12-01T00:00:00Z"
+  TargetVersion="1.05.05"
+  TargetPublicationDate="2025-06-30T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUaGds" Prefix="Opc.Ua.Gds" XmlNamespace="http://opcfoundation.org/UA/GDS/Types.xsd" XmlPrefix="GDS">http://opcfoundation.org/UA/GDS/</opc:Namespace>
-    <opc:Namespace Name="OpcUa" Version="1.05.02" PublicationDate="2022-06-28T00:00:00Z" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
+    <opc:Namespace Name="OpcUa" Version="1.05.05" PublicationDate="2025-04-25T00:00:00Z" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
   </opc:Namespaces>
 
   <opc:PermissionSets>
     <opc:PermissionSet Name="DiscoveryAdmin">
-      <opc:RolePermission Role="ua:WellKnownRole_AuthenticatedUser">
+      <opc:RolePermission Role="ua:WellKnownRole_Anonymous">
         <opc:Permission>Browse</opc:Permission>
         <opc:Permission>Call</opc:Permission>
       </opc:RolePermission>
@@ -28,7 +28,7 @@
       </opc:RolePermission>
     </opc:PermissionSet>
     <opc:PermissionSet Name="CertificateAuthorityAdmin">
-      <opc:RolePermission Role="ua:WellKnownRole_AuthenticatedUser">
+      <opc:RolePermission Role="ua:WellKnownRole_Anonymous">
         <opc:Permission>Browse</opc:Permission>
       </opc:RolePermission>
       <opc:RolePermission Role="WellKnownRole_CertificateAuthorityAdmin">
@@ -37,7 +37,7 @@
       </opc:RolePermission>
     </opc:PermissionSet>
     <opc:PermissionSet Name="KeyCredentialAdmin">
-      <opc:RolePermission Role="ua:WellKnownRole_AuthenticatedUser">
+      <opc:RolePermission Role="ua:WellKnownRole_Anonymous">
         <opc:Permission>Browse</opc:Permission>
       </opc:RolePermission>
       <opc:RolePermission Role="WellKnownRole_KeyCredentialAdmin">
@@ -57,17 +57,17 @@
       </opc:Property>
       <opc:Property SymbolicName="ua:NamespaceVersion" DataType="ua:String">
         <opc:DefaultValue>
-          <uax:String>1.05.04</uax:String>
+          <uax:String>1.05.05</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="ModelVersion" DataType="ua:SemanticVersionString">
         <opc:DefaultValue>
-          <uax:String>1.5.4</uax:String>
+          <uax:String>1.5.5</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="ua:NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2024-12-01T00:00:00Z</uax:DateTime>
+          <uax:DateTime>2025-06-30T00:00:00Z</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="ua:IsNamespaceSubset" DataType="ua:Boolean">
@@ -316,6 +316,12 @@
       </opc:Object>
       <opc:Method SymbolicName="FindApplications" TypeDefinition="FindApplicationsMethodType" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="RegisterApplication" TypeDefinition="RegisterApplicationMethodType" ModellingRule="Mandatory">
+        <opc:References>
+          <opc:Reference>
+            <opc:ReferenceType>ua:GeneratesEvent</opc:ReferenceType>
+            <opc:TargetId>ApplicationRegistrationChangedAuditEventType</opc:TargetId>
+          </opc:Reference>
+        </opc:References>
         <opc:DefaultRolePermissions Name="DiscoveryAdmin" />
         <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
       </opc:Method>
@@ -333,9 +339,8 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="ApplicationRegistrationChangedAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true">
-  </opc:ObjectType>
-
+  <opc:ObjectType SymbolicName="ApplicationRegistrationChangedAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true" />
+  
   <opc:Method SymbolicName="StartSigningRequestMethodType">
     <opc:InputArguments>
       <opc:Argument Name="ApplicationId" DataType="ua:NodeId" />
@@ -435,7 +440,7 @@
 
   <opc:ObjectType SymbolicName="CertificateDirectoryType" BaseType="DirectoryType">
     <opc:Children>
-      <opc:Object SymbolicName="CertificateGroups" TypeDefinition="ua:CertificateGroupFolderType"  ModellingRule="Mandatory">
+      <opc:Object SymbolicName="CertificateGroups" TypeDefinition="ua:CertificateGroupFolderType" ModellingRule="Mandatory">
         <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
       </opc:Object>
       <opc:Method SymbolicName="StartSigningRequest" TypeDefinition="StartSigningRequestMethodType" ModellingRule="Mandatory">
@@ -487,6 +492,8 @@
       <opc:Property SymbolicName="CertificateType" DataType="ua:NodeId" ModellingRule="Mandatory" />
     </opc:Children>
   </opc:ObjectType>
+  
+  <opc:ObjectType SymbolicName="CertificateRevokedAuditEventType" BaseType="ua:AuditUpdateMethodEventType" IsAbstract="true" />
 
   <opc:ObjectType SymbolicName="KeyCredentialManagementFolderType" BaseType="ua:FolderType">
     <opc:Children>
@@ -614,8 +621,9 @@
     
     <opc:Children>
       <opc:Object SymbolicName="CertificateGroups" ModellingRule="Mandatory">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
         <opc:Children>
-          <opc:Object SymbolicName="DefaultApplicationGroup" ModellingRule="Mandatory">
+          <opc:Object SymbolicName="ua:DefaultApplicationGroup" ModellingRule="Mandatory">
             <opc:Children>
               <opc:Object SymbolicName="ua:TrustList" ModellingRule="Mandatory">
                 <opc:Children>
@@ -628,7 +636,7 @@
             </opc:Children>
           </opc:Object>
 
-          <opc:Object SymbolicName="DefaultHttpsGroup" ModellingRule="Mandatory">
+          <opc:Object SymbolicName="ua:DefaultHttpsGroup" ModellingRule="Mandatory">
             <opc:Children>
               <opc:Object SymbolicName="ua:TrustList" ModellingRule="Mandatory">
                 <opc:Children>
@@ -641,7 +649,7 @@
             </opc:Children>
           </opc:Object>
 
-          <opc:Object SymbolicName="DefaultUserTokenGroup" ModellingRule="Mandatory">
+          <opc:Object SymbolicName="ua:DefaultUserTokenGroup" ModellingRule="Mandatory">
             <opc:Children>
               <opc:Object SymbolicName="ua:TrustList" ModellingRule="Mandatory">
                 <opc:Children>

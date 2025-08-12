@@ -1962,35 +1962,35 @@
     <opc:Field Name="AffectedType" DataType="s0:NodeId" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="Range" PartNo="8">
+  <opc:ComplexType Name="Range" PartNo="8" AllowArrays="true">
     <opc:Field Name="Low" DataType="s0:Double" />
     <opc:Field Name="High" DataType="s0:Double" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="EUInformation" PartNo="8">
+  <opc:ComplexType Name="EUInformation" PartNo="8" AllowArrays="true">
     <opc:Field Name="NamespaceUri" DataType="s0:String" />
     <opc:Field Name="UnitId" DataType="s0:Int32" />
     <opc:Field Name="DisplayName" DataType="s0:LocalizedText" />
     <opc:Field Name="Description" DataType="s0:LocalizedText" />
   </opc:ComplexType>
 
-  <opc:EnumeratedType Name="AxisScaleEnumeration" PartNo="8">
+  <opc:EnumeratedType Name="AxisScaleEnumeration" PartNo="8" AllowArrays="true">
     <opc:Value Name="Linear" Value="0" />
     <opc:Value Name="Log" Value="1" />
     <opc:Value Name="Ln" Value="2" />
   </opc:EnumeratedType>
 
-  <opc:ComplexType Name="ComplexNumberType" PartNo="8">
+  <opc:ComplexType Name="ComplexNumberType" PartNo="8" AllowArrays="true">
     <opc:Field Name="Real" DataType="s0:Float" />
     <opc:Field Name="Imaginary" DataType="s0:Float" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="DoubleComplexNumberType" PartNo="8">
+  <opc:ComplexType Name="DoubleComplexNumberType" PartNo="8" AllowArrays="true">
     <opc:Field Name="Real" DataType="s0:Double" />
     <opc:Field Name="Imaginary" DataType="s0:Double" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="AxisInformation" PartNo="8">
+  <opc:ComplexType Name="AxisInformation" PartNo="8" AllowArrays="true">
     <opc:Field Name="EngineeringUnits" DataType="EUInformation" />
     <opc:Field Name="EURange" DataType="Range" />
     <opc:Field Name="Title" DataType="s0:LocalizedText" />
@@ -1998,7 +1998,7 @@
     <opc:Field Name="AxisSteps" DataType="s0:Double" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="XVType" PartNo="8">
+  <opc:ComplexType Name="XVType" PartNo="8" AllowArrays="true">
     <opc:Field Name="X" DataType="s0:Double" />
     <opc:Field Name="Value" DataType="s0:Float" />
   </opc:ComplexType>

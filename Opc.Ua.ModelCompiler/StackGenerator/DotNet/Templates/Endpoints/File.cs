@@ -40,6 +40,7 @@ using System.Runtime.Serialization;
 #endif
 
 #if (NET_STANDARD_ASYNC)
+using System.Threading;
 using System.Threading.Tasks;
 #endif
 

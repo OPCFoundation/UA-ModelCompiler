@@ -102,7 +102,31 @@ public virtual _NAME_ResponseMessage End_NAME_(IAsyncResult ar)
         throw fault;
     }
 }
+#endif
 
+#if (!OPCUA_EXCLUDE__NAME__ASYNC)
+/// <summary>
+/// Invokes the _NAME_ service.
+/// </summary>
+public async Task<IServiceResponse> _NAME_Async(IServiceRequest incoming, CancellationToken cancellationToken = default)
+{
+    _NAME_Response response = null;
+
+    try
+    {
+        OnRequestReceived(incoming);
+
+        _NAME_Request request = (_NAME_Request)incoming;
+
+        InvokeServiceAsync();
+    }
+    finally
+    {
+        OnResponseSent(response);
+    }
+
+    return response;
+}
 #endif
 #endif
 #endregion

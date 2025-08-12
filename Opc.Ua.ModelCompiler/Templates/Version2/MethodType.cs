@@ -43,6 +43,9 @@ public partial class _ClassName_ : MethodState
     #region Event Callbacks
     /// <remarks />
     public _ClassName_MethodCallHandler OnCall;
+
+    /// <remarks />
+    public _ClassName_MethodAsyncCallHandler OnCallAsync;
     #endregion
 
     #region Public Properties
@@ -74,6 +77,38 @@ public partial class _ClassName_ : MethodState
 
         return _result;
     }
+
+    #if (OPCUA_INCLUDE_ASYNC)
+    /// <remarks />
+    protected override async ValueTask<ServiceResult> CallAsync(
+        ISystemContext _context,
+        NodeId _objectId,
+        IList<object> _inputArguments,
+        IList<object> _outputArguments,
+        CancellationToken cancellationToken = default)
+    {
+        if (OnCall == null && OnCallAsync == null)
+        {
+            return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
+        }
+
+        _ClassName_Result _result = null;
+        // ListOfInputArguments
+
+        if (OnCallAsync != null)
+        {
+            _result = await OnCallAsync(_context);
+        }
+        else if (OnCall != null)
+        {
+            return Call(_context, _objectId, _inputArguments, _outputArguments);
+        }
+        // ListOfOutputArgumentsFromResult
+
+        return _result.ServiceResult;
+    }
+    #endif
+    
     // FindChildMethods
     #endregion
 
@@ -86,6 +121,21 @@ public partial class _ClassName_ : MethodState
 /// <exclude />
 public delegate ServiceResult _ClassName_MethodCallHandler(
     _ISystemContext context_);
+
+/// <remarks />
+/// <exclude />
+public partial class _ClassName_Result
+{
+    /// <remarks />
+    public ServiceResult ServiceResult { get; set; }
+    // ListOfResultProperties
+}
+
+
+/// <remarks />
+/// <exclude />
+public delegate ValueTask<_ClassName_Result> _ClassName_MethodAsyncCallHandler(
+    _ISystemContext context_, CancellationToken cancellationToken);
 #endif
 #endregion
 // ***END***
