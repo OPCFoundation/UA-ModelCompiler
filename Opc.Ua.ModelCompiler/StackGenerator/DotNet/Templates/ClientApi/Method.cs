@@ -116,6 +116,7 @@ void EndAsyncCall()
     return response.ResponseHeader;
 }
 #else  // NET_STANDARD
+#if (!NET_STANDARD_NO_SYNC)
 /// <summary>
 /// Invokes the _NAME_ service.
 /// </summary>
@@ -149,7 +150,9 @@ void SyncCall()
 
     return response.ResponseHeader;
 }
+#endif
 
+#if (!NET_STANDARD_NO_APM)
 /// <summary>
 /// Begins an asynchronous invocation of the _NAME_ service.
 /// </summary>
@@ -192,6 +195,7 @@ void EndAsyncCall()
 
     return response.ResponseHeader;
 }
+#endif
 #endif
 
 #if (NET_STANDARD_ASYNC)

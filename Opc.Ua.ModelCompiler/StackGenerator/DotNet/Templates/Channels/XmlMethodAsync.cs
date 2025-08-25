@@ -58,6 +58,7 @@ public _NAME_ResponseMessage End_NAME_(IAsyncResult result)
     }
 }
 #else  // NET_STANDARD
+#if (!NET_STANDARD_NO_SYNC)
 /// <summary>
 /// The client side implementation of the _NAME_ service contract.
 /// </summary>
@@ -72,7 +73,8 @@ public _NAME_ResponseMessage _NAME_(_NAME_Message request)
 
     return this.Channel.End_NAME_(result);
 }
-
+#endif
+#if (!NET_STANDARD_NO_APM)
 /// <summary>
 /// The client side implementation of the Begin_NAME_ service contract.
 /// </summary>
@@ -96,6 +98,7 @@ public _NAME_ResponseMessage End_NAME_(IAsyncResult result)
     UaChannelAsyncResult asyncResult = UaChannelAsyncResult.WaitForComplete(result);
     return asyncResult.Channel.End_NAME_(asyncResult.InnerResult);
 }
+#endif
 #endif
 
 #if (NET_STANDARD_ASYNC)
