@@ -58,10 +58,13 @@ public _NAME_ResponseMessage End_NAME_(IAsyncResult result)
     }
 }
 #else  // NET_STANDARD
-#if (!NET_STANDARD_NO_SYNC)
+#if (!NET_STANDARD_NO_SYNC && !NET_STANDARD_NO_APM)
 /// <summary>
 /// The client side implementation of the _NAME_ service contract.
 /// </summary>
+#if (NET_STANDARD_OBSOLETE_SYNC && NET_STANDARD_ASYNC)
+[Obsolete("Sync methods are deprecated in this version. Use _NAME_Async instead.")]
+#endif
 public _NAME_ResponseMessage _NAME_(_NAME_Message request)
 {
     IAsyncResult result = null;
@@ -78,6 +81,9 @@ public _NAME_ResponseMessage _NAME_(_NAME_Message request)
 /// <summary>
 /// The client side implementation of the Begin_NAME_ service contract.
 /// </summary>
+#if (NET_STANDARD_OBSOLETE_APM && NET_STANDARD_ASYNC)
+[Obsolete("Begin/End methods are deprecated in this version. Use _NAME_Async instead.")]
+#endif
 public IAsyncResult Begin_NAME_(_NAME_Message request, AsyncCallback callback, object asyncState)
 {
     UaChannelAsyncResult asyncResult = new UaChannelAsyncResult(Channel, callback, asyncState);
@@ -93,6 +99,9 @@ public IAsyncResult Begin_NAME_(_NAME_Message request, AsyncCallback callback, o
 /// <summary>
 /// The client side implementation of the End_NAME_ service contract.
 /// </summary>
+#if (NET_STANDARD_OBSOLETE_APM && NET_STANDARD_ASYNC)
+[Obsolete("Begin/End methods are deprecated in this version. Use _NAME_Async instead.")]
+#endif
 public _NAME_ResponseMessage End_NAME_(IAsyncResult result)
 {
     UaChannelAsyncResult asyncResult = UaChannelAsyncResult.WaitForComplete(result);
@@ -111,5 +120,5 @@ public Task<_NAME_ResponseMessage> _NAME_Async(_NAME_Message request)
 }
 #endif
 #endif
-// ***END***
+    // ***END***
 }

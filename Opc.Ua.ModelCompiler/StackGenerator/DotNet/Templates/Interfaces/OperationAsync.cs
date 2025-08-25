@@ -5,10 +5,13 @@ class Placeholder
 /// <summary>
 /// The operation contract for the _NAME_ service.
 /// </summary>
-#if (!NET_STANDARD_NO_SYNC)
+#if (!NET_STANDARD_NO_SYNC && !NET_STANDARD_NO_APM)
 #if (!NET_STANDARD)
 [OperationContract(Action = Namespaces._ServicesNamespace_ + "/_NAME_", ReplyAction = Namespaces._ServicesNamespace_ + "/_NAME_Response")]
 [FaultContract(typeof(ServiceFault), Action = Namespaces._ServicesNamespace_ + "/_NAME_Fault", Name="ServiceFault", Namespace=Namespaces._TypesNamespace_)]
+#endif
+#if (NET_STANDARD_OBSOLETE_SYNC && NET_STANDARD_ASYNC)
+[Obsolete("Sync methods are deprecated in this version. Use _NAME_Async instead.")]
 #endif
 _NAME_ResponseMessage _NAME_(_NAME_Message request);
 #endif
@@ -19,6 +22,9 @@ _NAME_ResponseMessage _NAME_(_NAME_Message request);
 #if (!NET_STANDARD_NO_APM)
 #if (!NET_STANDARD)
 [OperationContractAttribute(AsyncPattern=true, Action=Namespaces._ServicesNamespace_ + "/_NAME_", ReplyAction = Namespaces._ServicesNamespace_ + "/_NAME_Response")]
+#endif
+#if (NET_STANDARD_OBSOLETE_APM && NET_STANDARD_ASYNC)
+[Obsolete("Begin/e methods are deprecated in this version. Use _NAME_Async instead.")]
 #endif
 IAsyncResult Begin_NAME_(_NAME_Message request, AsyncCallback callback, object asyncState);
 
