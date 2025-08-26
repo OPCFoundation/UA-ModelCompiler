@@ -199,7 +199,7 @@ namespace CodeGenerator
                 new ServiceType[] { serviceType } ,
                 new LoadTemplateEventHandler(LoadTemplate_InvokeServiceSyncParameters),
                 null);
-
+            
             AddTemplate(
                 template,
                 "InvokeServiceAsync();",
@@ -280,6 +280,51 @@ namespace CodeGenerator
             return null;
         }
 
+         /// <summary>
+        /// Writes an asynchronous method declaration.
+        /// </summary>
+        private string LoadTemplate_InvokeServiceAsyncParameters(Template template, Context context)
+        {
+            ServiceType serviceType = context.Target as ServiceType;
+
+            if (serviceType == null)
+            {
+                return null;
+            }
+
+            // write method declaration.
+            template.WriteLine(String.Empty);
+            template.Write(context.Prefix);
+            template.Write("response = await ServerInstance.{1}Async(", serviceType.Response[0].Name, serviceType.Name);
+
+            if (serviceType.Request != null || serviceType.Request.Length > 0)
+            {
+                bool first = true;
+
+                foreach (FieldType field in serviceType.Request)
+                {
+                    if (first)
+                    {
+                        first = false;
+                        template.WriteLine(String.Empty);
+                    }
+                    else
+                    {
+                        template.WriteLine(",");
+                    }
+
+                    template.Write(context.Prefix);
+                    template.Write("   request.{0}", field.Name);
+                }
+            }
+
+            template.Write(",");
+            template.WriteLine("cancellationToken).ConfigureAwait(false);");
+
+            return null;
+        }
+
+
         /// <summary>
         /// Writes an asynchronous method declaration.
         /// </summary>
@@ -339,11 +384,15 @@ namespace CodeGenerator
             // write method declaration.
             template.WriteLine(String.Empty);
             template.Write(context.Prefix);
-            template.Write("#if (!OPCUA_EXCLUDE_{0} && !OPCUA_EXCLUDE_{0}_ASYNC)", serviceType.Name);
+            template.Write("#if (OPCUA_INCLUDE_ASYNC && !OPCUA_EXCLUDE_{0} && !OPCUA_EXCLUDE_{0}_ASYNC)", serviceType.Name);
 
             template.WriteLine(String.Empty);
             template.Write(context.Prefix);
             template.Write("SupportedServices.Add(DataTypeIds.{0}Request, new ServiceDefinition(typeof({0}Request), new InvokeServiceEventHandler({0}), new InvokeServiceAsyncEventHandler({0}Async)));", serviceType.Name);
+
+            template.WriteLine(String.Empty);
+            template.Write(context.Prefix);
+            template.Write("#elif (!OPCUA_EXCLUDE_{0})", serviceType.Name);
 
             template.WriteLine(String.Empty);
             template.Write(context.Prefix);

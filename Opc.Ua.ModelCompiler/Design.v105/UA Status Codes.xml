@@ -721,6 +721,9 @@
   <opc:Constant Name="Bad_TransactionPending">
     <opc:Documentation>The operation is not allowed because a transaction is in progress.</opc:Documentation>
   </opc:Constant>
+  <opc:Constant Name="Bad_TransactionFailed">
+    <opc:Documentation>The operation failed and all changes which were part of the transaction are rolled back.</opc:Documentation>
+  </opc:Constant>
 
   <!-- Part 21 -->
   <opc:Constant Name="Bad_TicketRequired">

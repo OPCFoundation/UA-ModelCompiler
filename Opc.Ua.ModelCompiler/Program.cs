@@ -21,16 +21,36 @@ try
         //    @"D:\Work\OPC\UA-IIoT-StarterKit\Opc.Ua.TestPublisher\Model"
         //};
 
+        //string[] args2 = {
+        //    "compile-nodesets",
+        //    "-input",
+        //    @"D:\Work\OPC\nodesets\v105\",
+        //    "-o2",
+        //    @"D:\Work\OPC\UA-ModelCompiler-Public\Tests\DemoModel\Models\",
+        //    "-uri",
+        //    @"http://opcfoundation.org/UA/DI/",
+        //    "-prefix",
+        //    "UAModel.DI"
+        //};
+
         string[] args2 = {
-            "compile-nodesets",
-            "-input",
-            @"D:\Work\OPC\nodesets\v105\",
+            "compile",
+            "-version",
+            "v105",
+            "-d2",
+            @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\Design.v105\DemoModel.xml",
+            "-d2",
+            @"D:\Work\OPC\nodesets\public\UAFX\opc.ua.fx.ac.nodeset2.xml,Opc.UAFX.AC,Opc.UAFX.AC",
+            "-d2",
+            @"D:\Work\OPC\nodesets\public\UAFX\opc.ua.fx.cm.nodeset2.xml,Opc.UAFX.CM,Opc.UAFX.CM",
+            "-d2",
+            @"D:\Work\OPC\nodesets\public\UAFX\opc.ua.fx.data.nodeset2.xml,Opc.UAFX.Data,Opc.UAFX.Data",
+            "-d2",
+            @"D:\Work\OPC\nodesets\public\DI\Opc.Ua.Di.NodeSet2.xml,Opc.Ua.Di,Opc.Ua.Di",
+            "-cg",
+            @"D:\Work\OPC\UA-ModelCompiler\Opc.Ua.ModelCompiler\CSVs\DemoModel.csv",
             "-o2",
-            @"D:\Work\OPC\UA-ModelCompiler-Public\Tests\DemoModel\Models\",
-            "-uri",
-            @"http://opcfoundation.org/UA/DI/",
-            "-prefix",
-            "UAModel.DI"
+            @"D:\Work\OPC\UA-ModelCompiler\Tests\DemoModel\Models\"
         };
 
         ModelCompilerApplication.Run(args2);

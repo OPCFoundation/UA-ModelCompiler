@@ -5609,12 +5609,14 @@ namespace ModelCompiler
 
                     if (!String.IsNullOrEmpty(basePath))
                     {
-                        if (instance.ModellingRule == ModellingRule.None || instance.ModellingRule == ModellingRule.ExposesItsArray)
+                        if (instance.ModellingRule == ModellingRule.None || 
+                            instance.ModellingRule == ModellingRule.ExposesItsArray ||
+                            instance.ModellingRule == ModellingRule.OptionalPlaceholder)
                         {
                             continue;
                         }
 
-                        if (instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
+                        if (instance.ModellingRule == ModellingRule.MandatoryPlaceholder)
                         {
                             var reference = new HierarchyReference()
                             {
@@ -5627,7 +5629,10 @@ namespace ModelCompiler
                             references.Add(reference);
 
                             if (instance.SymbolicId.Namespace != DefaultNamespace)
+                            {
                                 System.Console.WriteLine("TypeDesign Placeholder: " + reference.SourcePath + "=>" + reference.TargetId);
+                            }
+
                             continue;
                         }
                     }
@@ -5693,12 +5698,14 @@ namespace ModelCompiler
                     {
                         if (!String.IsNullOrEmpty(basePath))
                         {
-                            if (instance.ModellingRule == ModellingRule.None || instance.ModellingRule == ModellingRule.ExposesItsArray)
+                            if (instance.ModellingRule == ModellingRule.None || 
+                                instance.ModellingRule == ModellingRule.ExposesItsArray ||
+                                instance.ModellingRule == ModellingRule.OptionalPlaceholder)
                             {
                                 continue;
                             }
 
-                            if (instance.ModellingRule == ModellingRule.MandatoryPlaceholder || instance.ModellingRule == ModellingRule.OptionalPlaceholder)
+                            if (instance.ModellingRule == ModellingRule.MandatoryPlaceholder)
                             {
                                 var reference = references.Where(x => x.SourcePath == browsePath).FirstOrDefault();
 

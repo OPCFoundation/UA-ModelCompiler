@@ -3773,7 +3773,7 @@ namespace ModelCompiler
                     method.OutputArguments,
                     new LoadTemplateEventHandler(LoadTemplate_ListOfOutputArguments),
                     null);
-
+                               
                 AddTemplate(
                     template,
                     "// ListOfResultProperties",
@@ -5308,6 +5308,62 @@ namespace ModelCompiler
         }
         #endregion
 
+
+        #region "// ListOfOutputArgumentsFromResult"
+        private string LoadTemplate_ListOfOutputArgumentsFromResult(Template template, Context context)
+        {
+            Parameter field = context.Target as Parameter;
+
+            if (field == null)
+            {
+                return null;
+            }
+
+            if (context.Index == 0)
+            {
+                template.WriteNextLine(String.Empty);
+            }
+
+            template.WriteNextLine(context.Prefix);
+
+            string fieldName = GetChildFieldName(field);
+
+            template.Write(
+                "_outputArguments[{1}] = _result.{2}{0};",
+                fieldName.Substring(3),
+                context.Index,
+                fieldName.Substring(2, 1).ToUpperInvariant());
+
+            return context.TemplatePath;
+        }
+        #endregion
+
+        #region "// ListOfResultProperties"
+        private string LoadTemplate_ListOfResultProperties(Template template, Context context)
+        {
+            Parameter field = context.Target as Parameter;
+
+            if (field == null)
+            {
+                return null;
+            }
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("/// <remarks />");
+            template.WriteNextLine(context.Prefix);
+
+            string fieldName = GetChildFieldName(field);
+
+            template.Write(
+               "public {1} {2}{0} {{ get; set; }}",
+               fieldName.Substring(3),
+               GetMethodArgumentType(field.DataTypeNode, field.ValueRank),
+               fieldName.Substring(2, 1).ToUpperInvariant());
+
+            return context.TemplatePath;
+        }
+        #endregion
+
         #region "_result = OnCall(_context);"
         private string LoadTemplate_OnCallImplementation(Template template, Context context)
         {
@@ -5352,6 +5408,47 @@ namespace ModelCompiler
 
             template.Write(");");
 
+            return context.TemplatePath;
+        }
+        #endregion
+        
+        #region "_result =await  OnCallAsync(_context);"
+        private string LoadTemplate_OnCallAsyncImplementation(Template template, Context context)
+        {
+            MethodDesign method = context.Target as MethodDesign;
+
+            if (method == null)
+            {
+                return null;
+            }
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("_result = await OnCallAsync(");
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("    _context,");
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("    this,");
+
+            template.WriteNextLine(context.Prefix);
+            template.Write("    _objectId");
+
+            if (method.InputArguments != null)
+            {
+                for (int ii = 0; ii < method.InputArguments.Length; ii++)
+                {
+                    template.Write(",");
+                    template.WriteNextLine(context.Prefix);
+                    template.Write("    {0}", GetChildFieldName(method.InputArguments[ii]).Substring(2));
+                }
+            }
+
+            template.Write(",");
+            template.WriteNextLine(context.Prefix);
+            template.Write("    cancellationToken");
+
+            template.Write(").ConfigureAwait(false);");
             return context.TemplatePath;
         }
         #endregion

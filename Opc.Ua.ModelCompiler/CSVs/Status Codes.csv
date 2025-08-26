@@ -235,6 +235,7 @@ Bad_LocaleNotSupported,237
 Bad_ServerTooBusy,238
 Good_PasswordChangeRequired,239
 Bad_NoValue,240
+Bad_TransactionFailed,241
 Bad_CertificateChainIncomplete,269
 Bad_LicenseExpired,270
 Bad_LicenseLimitsExceeded,271

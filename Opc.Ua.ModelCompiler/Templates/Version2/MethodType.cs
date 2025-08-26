@@ -78,6 +78,7 @@ public partial class _ClassName_ : MethodState
         return _result;
     }
 
+    #if (OPCUA_INCLUDE_ASYNC)
     /// <remarks />
     protected override async ValueTask<ServiceResult> CallAsync(
         ISystemContext _context,
@@ -91,24 +92,23 @@ public partial class _ClassName_ : MethodState
             return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
         }
 
+        _ClassName_Result _result = null;
+        // ListOfInputArguments
+
         if (OnCallAsync != null)
         {
-            _ClassName_Result _result = null;
-            // ListOfInputArguments
-
             _result = await OnCallAsync(_context);
-
-            // ListOfOutputArgumentsFromResult
-
-            return _result.ServiceResult;
         }
-
-        if (OnCall != null)
+        else if (OnCall != null)
         {
             return Call(_context, _objectId, _inputArguments, _outputArguments);
         }
-    }
+        // ListOfOutputArgumentsFromResult
 
+        return _result.ServiceResult;
+    }
+    #endif
+    
     // FindChildMethods
     #endregion
 
