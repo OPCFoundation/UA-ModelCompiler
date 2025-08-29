@@ -34,6 +34,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using CodeGenerator;
+using Microsoft.Extensions.DependencyInjection;
 using Opc.Ua;
 using Export = Opc.Ua.Export;
 using ValidationEventArgs = System.Xml.Schema.ValidationEventArgs;
@@ -3341,9 +3342,21 @@ namespace ModelCompiler
                         {
                             continue;
                         }
+
+                        // this code includes children multiple layers deep - it can cause file to explode in size and break C# compiler.
+
+                        //if (child.ModellingRule != ModellingRule.None && child.ModellingRule != ModellingRule.Mandatory)
+                        //{
+                        //    continue;
+                        //}
+
+                        //if (child.ModellingRule == ModellingRule.None && !current.Value.ExplicitlyDefined)
+                        //{
+                        //    continue;
+                        //}
                     }
 
-                    if ((!current.Value.Instance.NumericIdSpecified && current.Value.Instance.StringId == null) || current.Value.Instance.NumericId == 0)
+                    if (current.Value.Instance.NumericIdSpecified ? current.Value.Instance.NumericId == 0 : current.Value.Instance.StringId == null)
                     {
                         continue;
                     }
@@ -3421,6 +3434,76 @@ namespace ModelCompiler
             return false;
         }
 
+        private void GetBrowseNames(NodeDesign node, SortedDictionary<string, string> browseNames)
+        {
+            if (IsExcluded(node))
+            {
+                return;
+            }
+
+            if (IsMethodTypeNode(node))
+            {
+                return;
+            }
+
+            if (node.SymbolicName.Namespace == m_model.TargetNamespace)
+            {
+                browseNames[node.SymbolicName.Name] = node.BrowseName;
+            }
+
+            if (!node.HasChildren)
+            {
+                return;
+            }
+
+            foreach (NodeDesign child in node.Children.Items)
+            {
+                if (IsExcluded(child))
+                {
+                    continue;
+                }
+
+                if (child.SymbolicName == new XmlQualifiedName(BrowseNames.DefaultInstanceBrowseName, DefaultNamespace))
+                {
+                    var variable = (VariableDesign)child;
+                    var qname = variable.DecodedValue as QualifiedName;
+
+                    if (qname != null)
+                    {
+                        browseNames[qname.Name] = qname.Name;
+                    }
+
+                    continue;
+                }
+
+                if (child.SymbolicName.Namespace == m_model.TargetNamespace)
+                {
+                    string browseName = null;
+
+                    if (browseNames.TryGetValue(child.SymbolicName.Name, out browseName))
+                    {
+                        if (browseName != child.BrowseName)
+                        {
+                            throw ServiceResultException.Create(
+                                StatusCodes.BadTypeMismatch,
+                                "Two nodes with the same symbolic name have different browse names: {0} != {1}.",
+                                browseName,
+                                child.BrowseName);
+                        }
+
+                        continue;
+                    }
+
+                    browseNames[child.SymbolicName.Name] = child.BrowseName;
+                }
+
+                if (child is InstanceDesign instance && instance.InstanceDeclarationNode == null)
+                {
+                    GetBrowseNames(child, browseNames);
+                }
+            }
+        }
+
         /// <summary>
         /// Returns the browse names for the nodes defined.
         /// </summary>
@@ -3430,67 +3513,7 @@ namespace ModelCompiler
 
             foreach (NodeDesign node in nodes)
             {
-                if (IsExcluded(node))
-                {
-                    continue;
-                }
-
-                if (IsMethodTypeNode(node))
-                {
-                    continue;
-                }
-
-                if (node.SymbolicName.Namespace == m_model.TargetNamespace)
-                {
-                    browseNames[node.SymbolicName.Name] = node.BrowseName;
-                }
-
-                if (!node.HasChildren)
-                {
-                    continue;
-                }
-
-                foreach (NodeDesign child in node.Children.Items)
-                {
-                    if (IsExcluded(child))
-                    {
-                        continue;
-                    }
-
-                    if (child.SymbolicName == new XmlQualifiedName(BrowseNames.DefaultInstanceBrowseName, DefaultNamespace))
-                    {
-                        var variable = (VariableDesign)child;
-                        var qname = variable.DecodedValue as QualifiedName;
-
-                        if (qname != null)
-                        {
-                            browseNames[qname.Name] = qname.Name;
-                        }
-
-                        continue;
-                    }
-
-                    if (child.SymbolicName.Namespace == m_model.TargetNamespace)
-                    {
-                        string browseName = null;
-
-                        if (browseNames.TryGetValue(child.SymbolicName.Name, out browseName))
-                        {
-                            if (browseName != child.BrowseName)
-                            {
-                                throw ServiceResultException.Create(
-                                    StatusCodes.BadTypeMismatch,
-                                    "Two nodes with the same symbolic name have different browse names: {0} != {1}.",
-                                    browseName,
-                                    child.BrowseName);
-                            }
-
-                            continue;
-                        }
-
-                        browseNames[child.SymbolicName.Name] = child.BrowseName;
-                    }
-                }
+                GetBrowseNames(node, browseNames);
             }
 
             return browseNames;
@@ -5622,6 +5645,39 @@ namespace ModelCompiler
             return false;
         }
 
+        private string EnsureUniqueEnumName(Parameter target)
+        {
+            if (target?.Parent is DataTypeDesign dt && dt.HasFields)
+            {
+                HashSet<string> names = new();
+
+                foreach (var field in dt.Fields)
+                {
+                    int count = 1;
+                    string check = field.Name;
+
+                    if (names.Contains(check))
+                    {
+                        check = field.Name + "_" + field.Identifier;
+                    }
+
+                    while (names.Contains(check))
+                    {
+                        check = field.Name + "_v" + count++;
+                    }
+
+                    if (target.Identifier == field.Identifier)
+                    {
+                        return check;
+                    }
+
+                    names.Add(check);
+                }
+            }
+
+            return target?.Name;
+        }
+
         private bool WriteTemplate_ListOfPropertiesForType(Template template, Context context)
         {
             InstanceDesign instance = context.Target as InstanceDesign;
@@ -5672,6 +5728,7 @@ namespace ModelCompiler
 
                 template.AddReplacement("_Description_", (field.Description != null) ? field.Description.Value : "");
                 template.AddReplacement("_BrowseName_", field.Name);
+                template.AddReplacement("_EnumerationName_", EnsureUniqueEnumName(field));
                 template.AddReplacement("_TypeName_", GetSystemTypeName(field.DataTypeNode, field.ValueRank));
                 template.AddReplacement("_FieldName_", GetChildFieldName(field));
                 template.AddReplacement("_IsRequired_", (valueType) ? "true" : "false");
@@ -6082,6 +6139,12 @@ namespace ModelCompiler
             }
 
             if (IsIndeterminateType(variable))
+            {
+                return $"{FixClassName(variableType)}State";
+            }
+
+            // add hack for TwoStateDiscreteType which always has to be bool.
+            if (variableType.SymbolicName == new XmlQualifiedName("TwoStateDiscreteType", DefaultNamespace))
             {
                 return $"{FixClassName(variableType)}State";
             }

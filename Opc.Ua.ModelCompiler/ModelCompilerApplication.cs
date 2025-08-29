@@ -368,7 +368,7 @@ namespace ModelCompiler
                 "The URI of the model to generate.",
                 CommandOptionType.MultipleValue);
 
-            app.OnExecute(() =>
+            app.OnExecuteAsync((CancellationToken ct) =>
             {
                 var options = GetCompileOptions(app);
 
@@ -444,7 +444,7 @@ namespace ModelCompiler
                     }
                 }
 
-                return 0;
+                return Task.CompletedTask;
             });
         }
 
@@ -454,7 +454,7 @@ namespace ModelCompiler
             app.HelpOption("-?|-h|--help");
             AddCompileOptions(app);
 
-            app.OnExecute(() =>
+            app.OnExecuteAsync((CancellationToken ct) =>
             {
                 var options = GetCompileOptions(app);
 
@@ -557,7 +557,7 @@ namespace ModelCompiler
                     generator.GenerateMultipleFiles(options.OutputPath, false, options.Exclusions, false);
                 }
 
-                return 0;
+                return Task.CompletedTask;
             });
         }
 
