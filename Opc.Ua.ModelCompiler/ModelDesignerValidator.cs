@@ -888,7 +888,7 @@ namespace ModelCompiler
         {
             // build table of namespaces.
             Namespace targetNamespace = null;
-            NamespaceTable namespaceUris = new NamespaceTable();
+            NamespaceTable namespaceUris = dictionary.NamespaceUris ?? new NamespaceTable();
 
             if (dictionary.Namespaces != null)
             {
@@ -906,7 +906,7 @@ namespace ModelCompiler
 
                     if (current.Value != DefaultNamespace)
                     {
-                        namespaceUris.Append(dictionary.Namespaces[ii].Value);
+                        namespaceUris.GetIndexOrAppend(dictionary.Namespaces[ii].Value);
                     }
                 }
             }
@@ -5628,10 +5628,10 @@ namespace ModelCompiler
 
                             references.Add(reference);
 
-                            if (instance.SymbolicId.Namespace != DefaultNamespace)
-                            {
-                                System.Console.WriteLine("TypeDesign Placeholder: " + reference.SourcePath + "=>" + reference.TargetId);
-                            }
+                            //if (instance.SymbolicId.Namespace != DefaultNamespace)
+                            //{
+                            //    System.Console.WriteLine("TypeDesign Placeholder: " + reference.SourcePath + "=>" + reference.TargetId);
+                            //}
 
                             continue;
                         }
@@ -5720,7 +5720,7 @@ namespace ModelCompiler
                                 reference.IsInverse = false;
                                 reference.TargetId = instance.SymbolicId;
 
-                                if (instance.SymbolicId.Namespace != DefaultNamespace) System.Console.WriteLine("TypeDesign Placeholder: " + reference.SourcePath + "=>" + reference.TargetId);
+                                //if (instance.SymbolicId.Namespace != DefaultNamespace) System.Console.WriteLine("TypeDesign Placeholder: " + reference.SourcePath + "=>" + reference.TargetId);
                                 continue;
                             }
                         }
@@ -5747,7 +5747,7 @@ namespace ModelCompiler
 
                     if (instance.ModellingRule == ModellingRule.OptionalPlaceholder || instance.ModellingRule == ModellingRule.MandatoryPlaceholder)
                     {
-                        if (instance.SymbolicId.Namespace != DefaultNamespace) System.Console.WriteLine("InstanceDesign isTypeDefinition Placeholder: " + instance.SymbolicName);
+                        //if (instance.SymbolicId.Namespace != DefaultNamespace) System.Console.WriteLine("InstanceDesign isTypeDefinition Placeholder: " + instance.SymbolicName);
 
                         if (depth > 3)
                         {
@@ -5989,8 +5989,8 @@ namespace ModelCompiler
 
         private Hierarchy BuildInstanceHierarchy2(ModelDesign dictionary, NodeDesign root, int depth)
         {
-            Log("Building InstanceHierarchy: {0}", root.SymbolicId.Name);
-            if (root.SymbolicId.Namespace != DefaultNamespace) System.Console.WriteLine("Building InstanceHierarchy: {0}", root.SymbolicId.Name);
+            // Log("Building InstanceHierarchy: {0}", root.SymbolicId.Name);
+            // if (root.SymbolicId.Namespace != DefaultNamespace) System.Console.WriteLine("Building InstanceHierarchy: {0}", root.SymbolicId.Name);
 
             if (depth > MaxRecursionDepth)
             {
@@ -6504,7 +6504,7 @@ namespace ModelCompiler
 
                     if (instance != null)
                     {
-                        if (!isTypeDefinition &&
+                        if (!isTypeDefinition && !current.ExplicitlyDefined &&
                             instance.ModellingRule != ModellingRule.Mandatory &&
                             instance.ModellingRule != ModellingRule.Optional
                         )

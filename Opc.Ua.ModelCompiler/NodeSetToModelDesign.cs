@@ -1097,6 +1097,8 @@ namespace ModelCompiler
 
             NodeDesign parent;
             NodeDesign referenceType = null;
+            bool nonHierarchical = false;
+
             var parentNode = FindNode(m_nodeset, parentId);
 
             if (parentNode == null)
@@ -1125,6 +1127,21 @@ namespace ModelCompiler
                         referenceType = FindReferenceType(referenceTypeId);
                     }
                 }
+
+                // check for non-hierarchical.
+                if (referenceType == null)
+                {
+                    foreach (var reference in input.References)
+                    {
+                        if (reference.Value == input.NodeId && reference.IsForward)
+                        {
+                            var referenceTypeId = ImportNodeId(reference.ReferenceType);
+                            referenceType = FindReferenceType(referenceTypeId);
+                        }
+                    }
+
+                    nonHierarchical = referenceType != null;
+                }
             }
 
             if (referenceType == null && input.References != null)
@@ -1143,6 +1160,21 @@ namespace ModelCompiler
                         referenceType = FindReferenceType(referenceTypeId);
                     }
                 }
+
+                // check for non-hierarchical.
+                if (referenceType == null)
+                {
+                    foreach (var reference in input.References)
+                    {
+                        if (reference.Value == input.ParentNodeId && !reference.IsForward)
+                        {
+                            var referenceTypeId = ImportNodeId(reference.ReferenceType);
+                            referenceType = FindReferenceType(referenceTypeId);
+                        }
+                    }
+
+                    nonHierarchical = referenceType != null;
+                }
             }
 
             if (referenceType == null)
@@ -1150,9 +1182,12 @@ namespace ModelCompiler
                 throw new InvalidDataException($"HierarchicalReference from ParentNode ({input.ParentNodeId}) to Node {input.NodeId} ({input.BrowseName}) not found.");
             }
 
-            if (m_settings.NodesById.TryGetValue(nodeId, out var child))
+            if (!nonHierarchical)
             {
-                LinkChildToParent(parent, referenceType.SymbolicId, nodeId, child as InstanceDesign);
+                if (m_settings.NodesById.TryGetValue(nodeId, out var child))
+                {
+                    LinkChildToParent(parent, referenceType.SymbolicId, nodeId, child as InstanceDesign);
+                }
             }
         }
 
@@ -1546,7 +1581,7 @@ namespace ModelCompiler
 
             return permissions.ToArray();
         }
-
+        
         private RolePermissionSet ToPermissionSet(NodeSet.UANode node, NodeSet.RolePermission[] input)
         {
             if (input == null)
@@ -1674,7 +1709,7 @@ namespace ModelCompiler
         /// Imports a node from the set.
         /// </summary>
         public ModelDesign Import(string prefix, string name)
-        {
+         {
             ModelDesign dictionary = new ModelDesign();
 
             if (m_nodeset.Models == null || m_nodeset.Models.Length == 0)
@@ -1819,6 +1854,7 @@ namespace ModelCompiler
             }
 
             dictionary.Items = items.ToArray();
+            dictionary.NamespaceUris = m_settings.NamespaceUris;
             return dictionary;
         }
 
