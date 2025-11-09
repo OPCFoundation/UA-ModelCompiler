@@ -23,16 +23,16 @@ jobs:
         fetch-depth: 0
         submodules: true
         
-    - name: Set up .NET 8
+    - name: Set up .NET 9
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '8.x'
+        dotnet-version: '9.x'
 
     - name: Restore dependencies
-      run: dotnet restore "ModelCompiler Solution.sln" 
+      run: dotnet restore "ModelCompiler.sln" 
       
     - name: Build
-      run: dotnet build --no-restore --configuration Docker "ModelCompiler Solution.sln" 
+      run: dotnet build --no-restore --configuration Docker "ModelCompiler.sln" 
       
       
       

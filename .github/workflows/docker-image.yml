@@ -29,10 +29,10 @@ jobs:
       with:
         fetch-depth: 0
         
-    - name: Set up .NET 8
+    - name: Set up .NET 9
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '8.x'
+        dotnet-version: '9.x'
         
     # Install the cosign tool except on PR
     # https://github.com/sigstore/cosign-installer
