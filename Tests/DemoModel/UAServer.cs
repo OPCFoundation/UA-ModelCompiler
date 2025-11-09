@@ -62,14 +62,14 @@ namespace ModelCompiler
         /// <summary>
         /// Load the application configuration.
         /// </summary>
-        public async Task LoadAsync(string applicationName, string configSectionName)
+        public async Task LoadAsync(ITelemetryContext telemtry, string applicationName, string configSectionName)
         {
             try
             {
                 ExitCode = -1;
 
                 CertificatePasswordProvider PasswordProvider = new CertificatePasswordProvider(Password);
-                m_application = new ApplicationInstance {
+                m_application = new ApplicationInstance(telemtry) {
                     ApplicationName = applicationName,
                     ApplicationType = ApplicationType.Server,
                     ConfigSectionName = configSectionName,
@@ -77,8 +77,7 @@ namespace ModelCompiler
                 };
 
                 // load the application configuration.
-                await m_application.LoadApplicationConfiguration(false).ConfigureAwait(false);
-
+                await m_application.LoadApplicationConfigurationAsync(false).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -96,11 +95,11 @@ namespace ModelCompiler
                 var config = m_application.ApplicationConfiguration;
                 if (renewCertificate)
                 {
-                    await m_application.DeleteApplicationInstanceCertificate().ConfigureAwait(false);
+                    await m_application.DeleteApplicationInstanceCertificateAsync().ConfigureAwait(false);
                 }
 
                 // check the application certificate.
-                bool haveAppCertificate = await m_application.CheckApplicationInstanceCertificates(false).ConfigureAwait(false);
+                bool haveAppCertificate = await m_application.CheckApplicationInstanceCertificatesAsync(false).ConfigureAwait(false);
                 if (!haveAppCertificate)
                 {
                     throw new InvalidOperationException("Application instance certificate invalid!");
@@ -151,7 +150,7 @@ namespace ModelCompiler
                 m_server = m_server ?? new T();
 
                 // start the server
-                await m_application.Start(m_server).ConfigureAwait(false);
+                await m_application.StartAsync(m_server).ConfigureAwait(false);
 
                 // save state
                 ExitCode = +1;
@@ -226,7 +225,7 @@ namespace ModelCompiler
         /// <summary>
         /// Update the session status.
         /// </summary>
-        private void EventStatus(Session session, SessionEventReason reason)
+        private void EventStatus(ISession session, SessionEventReason reason)
         {
             m_lastEventTime = DateTime.UtcNow;
             PrintSessionStatus(session, reason.ToString());
@@ -235,7 +234,7 @@ namespace ModelCompiler
         /// <summary>
         /// Output the status of a connected session.
         /// </summary>
-        private void PrintSessionStatus(Session session, string reason, bool lastContact = false)
+        private void PrintSessionStatus(ISession session, string reason, bool lastContact = false)
         {
             StringBuilder item = new StringBuilder();
             lock (session.DiagnosticsLock)
@@ -266,10 +265,10 @@ namespace ModelCompiler
             {
                 if (DateTime.UtcNow - m_lastEventTime > TimeSpan.FromMilliseconds(10000))
                 {
-                    IList<Session> sessions = m_server.CurrentInstance.SessionManager.GetSessions();
+                    IList<ISession> sessions = m_server.CurrentInstance.SessionManager.GetSessions();
                     for (int ii = 0; ii < sessions.Count; ii++)
                     {
-                        Session session = sessions[ii];
+                        ISession session = sessions[ii];
                         PrintSessionStatus(session, "-Status-", true);
                     }
                     m_lastEventTime = DateTime.UtcNow;

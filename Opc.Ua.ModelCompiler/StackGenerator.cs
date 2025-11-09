@@ -33,7 +33,7 @@ using CodeGenerator;
 
 namespace ModelCompiler
 {
-    class StackGenerator
+    public class StackGenerator
     {
         public class Files
         {
@@ -52,10 +52,11 @@ namespace ModelCompiler
         }
 
         static void ProcessDictionary(
-            string name, 
-            string input, 
-            string output, 
-            Files files, 
+            IFileSystem fileSystem,
+            string name,
+            string input,
+            string output,
+            Files files,
             string specificationVersion,
             IList<string> exclusions,
             bool noSchemaGeneration = false)
@@ -89,7 +90,7 @@ namespace ModelCompiler
                 generator1.Generate(fileName, "Opc.Ua", name, true);
                 string filePath = String.Format(@"{0}\Opc.Ua.Types.xsd", output);
 
-                XmlSchemaValidator2 validator1 = new XmlSchemaValidator2(files.XmlSchemas);
+                XmlSchemaValidator2 validator1 = new XmlSchemaValidator2(fileSystem, files.XmlSchemas);
                 validator1.Validate(filePath);
                 files.XmlSchemas[validator1.TargetSchema.TargetNamespace] = filePath;
                 System.IO.File.Delete(filePath);
@@ -114,10 +115,10 @@ namespace ModelCompiler
         }
 
         static void GenerateAnsiC(
-            Files files, 
-            string modelDir, 
-            string csvDir, 
-            string outputDir, 
+            Files files,
+            string modelDir,
+            string csvDir,
+            string outputDir,
             string specificationVersion,
             IList<string> exclusions)
         {
@@ -184,7 +185,7 @@ namespace ModelCompiler
                 false,
                 folderName,
                 suffix);
-            
+
             ConstantsGenerator generator9a = new ConstantsGenerator(
                 Language.OpenApi,
                 $"{modelDir}UA Status Codes.xml",
@@ -203,10 +204,10 @@ namespace ModelCompiler
         }
 
         static void GenerateDotNet(
-            Files files, 
-            string modelDir, 
-            string csvDir, 
-            string outputDir, 
+            Files files,
+            string modelDir,
+            string csvDir,
+            string outputDir,
             string specificationVersion,
             IList<string> exclusions)
         {
@@ -263,6 +264,7 @@ namespace ModelCompiler
         }
 
         public static void GenerateDotNet(
+            IFileSystem fileSystem,
             IList<string> designFilePaths,
             string identifierFilePath,
             string rootDir,
@@ -275,6 +277,7 @@ namespace ModelCompiler
             Files files = new Files();
 
             ProcessDictionary(
+                fileSystem,
                 "",
                 $"{modelDir}UA Core Services.xml",
                 rootDir,
@@ -286,6 +289,7 @@ namespace ModelCompiler
         }
 
         public static void GenerateOpenApi(
+            IFileSystem fileSystem,
             IList<string> designFilePaths,
             string identifierFilePath,
             string rootDir,
@@ -298,6 +302,7 @@ namespace ModelCompiler
             Files files = new Files();
 
             ProcessDictionary(
+                fileSystem,
                 "",
                 $"{modelDir}UA Core Services.xml",
                 rootDir,
@@ -313,9 +318,10 @@ namespace ModelCompiler
 
 
         public static void GenerateAnsiC(
+            IFileSystem fileSystem,
             IList<string> designFilePaths,
-            string identifierFilePath, 
-            string rootDir, 
+            string identifierFilePath,
+            string rootDir,
             string specificationVersion,
             IList<string> exclusions)
         {
@@ -325,12 +331,13 @@ namespace ModelCompiler
             Files files = new Files();
 
             ProcessDictionary(
+                fileSystem,
                 "",
                 $"{modelDir}UA Core Services.xml",
                 rootDir,
                 files,
                 specificationVersion,
-                exclusions, 
+                exclusions,
                 true);
 
             GenerateAnsiC(files, modelDir, csvDir, rootDir, specificationVersion, exclusions);

@@ -38,6 +38,8 @@ using System.Threading.Tasks;
 using System.Threading;
 // ListOfImports
 
+#pragma warning disable 1591
+
 namespace _Namespace_
 {
     // ListOfTypes

@@ -45,6 +45,22 @@
       </opc:RolePermission>
     </opc:PermissionSet>
 
+    <opc:PermissionSet Name="AnonymousReceiveEvents">
+      <opc:RolePermission Role="WellKnownRole_Anonymous">
+        <opc:Permission>ReceiveEvents</opc:Permission>
+      </opc:RolePermission>
+    </opc:PermissionSet>
+
+    <opc:PermissionSet Name="AuditEventDefaultPermissions">
+      <opc:RolePermission Role="WellKnownRole_Anonymous">
+        <opc:Permission>Browse</opc:Permission>
+        <opc:Permission>Read</opc:Permission>
+      </opc:RolePermission>
+      <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
+        <opc:Permission>All</opc:Permission>
+      </opc:RolePermission>
+    </opc:PermissionSet>
+
     <opc:PermissionSet Name="SecurityAdminOrAnonymous">
       <opc:RolePermission Role="WellKnownRole_Anonymous">
         <opc:Permission>Browse</opc:Permission>
@@ -72,7 +88,7 @@
         <opc:Permission>Browse</opc:Permission>
         <opc:Permission>Read</opc:Permission>
       </opc:RolePermission>
-      <opc:RolePermission Role="WellKnownRole_ConfigureAdmin">
+      <opc:RolePermission Role="WellKnownRole_ConfigureAdmin" >
         <opc:Permission>All</opc:Permission>
       </opc:RolePermission>
       <opc:RolePermission Role="WellKnownRole_SecurityAdmin">
@@ -145,17 +161,17 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespaceVersion" DataType="ua:String">
         <opc:DefaultValue>
-          <uax:String>1.05.05</uax:String>
+          <uax:String>1.05.06</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="ModelVersion" DataType="ua:SemanticVersionString">
         <opc:DefaultValue>
-          <uax:String>1.5.5</uax:String>
+          <uax:String>1.5.6</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2025-06-30T00:00:00</uax:DateTime>
+          <uax:DateTime>2025-10-31T00:00:00</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">
@@ -324,18 +340,23 @@
       </opc:Property>
       <opc:Object SymbolicName="ServerCapabilities" TypeDefinition="ServerCapabilitiesType">
         <opc:Description>Describes capabilities supported by the server.</opc:Description>
+        <opc:DefaultRolePermissions Name="ConfigureOrSecurityAdminOrAnonymousWithCall" />
       </opc:Object>
       <opc:Object SymbolicName="ServerDiagnostics" TypeDefinition="ServerDiagnosticsType">
         <opc:Description>Reports diagnostics about the server.</opc:Description>
+        <opc:DefaultRolePermissions Name="ConfigureOrSecurityAdminOrAnonymousWithCall" />
       </opc:Object>
       <opc:Object SymbolicName="VendorServerInfo" TypeDefinition="VendorServerInfoType">
         <opc:Description>Server information provided by the vendor.</opc:Description>
+        <opc:DefaultRolePermissions Name="ConfigureOrSecurityAdminOrAnonymousWithCall" />
       </opc:Object>
       <opc:Object SymbolicName="ServerRedundancy" TypeDefinition="ServerRedundancyType">
         <opc:Description>Describes the redundancy capabilities of the server.</opc:Description>
+        <opc:DefaultRolePermissions Name="ConfigureOrSecurityAdminOrAnonymousWithCall" />
       </opc:Object>
       <opc:Object SymbolicName="Namespaces" TypeDefinition="NamespacesType" ModellingRule="Optional">
         <opc:Description>Describes the namespaces supported by the server.</opc:Description>
+        <opc:DefaultRolePermissions Name="ConfigureOrSecurityAdminOrAnonymousWithCall" />
       </opc:Object>
       <opc:Method SymbolicName="GetMonitoredItems" TypeDefinition="GetMonitoredItemsMethodType" ModellingRule="Optional">
         <opc:Description>Returns the monitored items for a subscription.</opc:Description>
@@ -351,7 +372,14 @@
         <opc:DefaultAccessRestrictions>SigningRequired</opc:DefaultAccessRestrictions>
       </opc:Method>
     </opc:Children>
-    <opc:DefaultRolePermissions Name="ConfigureOrSecurityAdminOrAnonymousWithCall" />
+    <opc:DefaultRolePermissions Name="ConfigureOrSecurityAdminOrAnonymousWithCall">
+      <opc:RolePermission Role="WellKnownRole_Anonymous">
+        <opc:Permission>Browse</opc:Permission>
+        <opc:Permission>Read</opc:Permission>
+        <opc:Permission>Call</opc:Permission>
+        <opc:Permission>ReceiveEvents</opc:Permission>
+      </opc:RolePermission>
+    </opc:DefaultRolePermissions>
     <opc:ClassName>ServerObject</opc:ClassName>
   </opc:ObjectType>
 
@@ -364,6 +392,7 @@
       <opc:Property SymbolicName="MaxBrowseContinuationPoints" DataType="ua:UInt16" />
       <opc:Property SymbolicName="MaxQueryContinuationPoints" DataType="ua:UInt16" />
       <opc:Property SymbolicName="MaxHistoryContinuationPoints" DataType="ua:UInt16" />
+      <opc:Property SymbolicName="MaxLogObjectContinuationPoints" DataType="ua:UInt16" ModellingRule="Optional" />
       <opc:Property SymbolicName="SoftwareCertificates" DataType="SignedSoftwareCertificate" ValueRank="Array" />
       <opc:Property SymbolicName="MaxArrayLength" DataType="ua:UInt32"  ModellingRule="Optional" />
       <opc:Property SymbolicName="MaxStringLength" DataType="ua:UInt32"  ModellingRule="Optional" />
@@ -625,7 +654,9 @@
       <opc:Property SymbolicName="ServerId" DataType="ua:String" />
       <opc:Property SymbolicName="ClientAuditEntryId" DataType="ua:String" />
       <opc:Property SymbolicName="ClientUserId" DataType="ua:String" />
+      <opc:Property SymbolicName="ClientApplicationUri" DataType="ua:String" ModellingRule="Optional" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditSecurityEventType" BaseType="AuditEventType" IsAbstract="true" PartNo="5">
@@ -633,6 +664,7 @@
     <opc:Children>
       <opc:Property SymbolicName="StatusCodeId" DataType="StatusCode" ModellingRule="Optional" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditChannelEventType" BaseType="AuditSecurityEventType" IsAbstract="true" PartNo="5">
@@ -642,6 +674,7 @@
         <opc:Description>The identifier for the secure channel that was changed.</opc:Description>
       </opc:Property>
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditOpenSecureChannelEventType" BaseType="AuditChannelEventType" IsAbstract="true" PartNo="5">
@@ -661,6 +694,7 @@
       <opc:Property SymbolicName="CertificateErrorEventId" DataType="ua:ByteString" ModellingRule="Optional">
       </opc:Property>
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditSessionEventType" BaseType="AuditSecurityEventType" IsAbstract="true" PartNo="5">
@@ -670,6 +704,7 @@
         <opc:Description>The unique identifier for the session,.</opc:Description>
       </opc:Property>
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditCreateSessionEventType" BaseType="AuditSessionEventType" IsAbstract="true" PartNo="5">
@@ -688,12 +723,14 @@
         <opc:Description>The timeout for the session.</opc:Description>
       </opc:Property>
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditUrlMismatchEventType" BaseType="AuditCreateSessionEventType" IsAbstract="true" PartNo="5">
     <opc:Children>
       <opc:Property SymbolicName="EndpointUrl" DataType="ua:String" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditActivateSessionEventType" BaseType="AuditSessionEventType" IsAbstract="true" PartNo="5">
@@ -703,18 +740,21 @@
       <opc:Property SymbolicName="SecureChannelId" DataType="ua:String" />
       <opc:Property SymbolicName="CurrentRoleIds" DataType="NodeId" ValueRank="Array" ModellingRule="Optional" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditCancelEventType" BaseType="AuditSessionEventType" IsAbstract="true" PartNo="5">
     <opc:Children>
       <opc:Property SymbolicName="RequestHandle" DataType="ua:UInt32" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditCertificateEventType" BaseType="AuditSecurityEventType" IsAbstract="true" PartNo="5">
     <opc:Children>
       <opc:Property SymbolicName="Certificate" DataType="ua:ByteString" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditCertificateDataMismatchEventType" BaseType="AuditCertificateEventType" IsAbstract="true" PartNo="5">
@@ -722,41 +762,64 @@
       <opc:Property SymbolicName="InvalidHostname" DataType="ua:String" />
       <opc:Property SymbolicName="InvalidUri" DataType="ua:String" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AuditCertificateExpiredEventType" BaseType="AuditCertificateEventType" IsAbstract="true" PartNo="5" />
-  <opc:ObjectType SymbolicName="AuditCertificateInvalidEventType" BaseType="AuditCertificateEventType" IsAbstract="true" PartNo="5" />
-  <opc:ObjectType SymbolicName="AuditCertificateUntrustedEventType" BaseType="AuditCertificateEventType" IsAbstract="true" PartNo="5" />
-  <opc:ObjectType SymbolicName="AuditCertificateRevokedEventType" BaseType="AuditCertificateEventType" IsAbstract="true" PartNo="5" />
-  <opc:ObjectType SymbolicName="AuditCertificateMismatchEventType" BaseType="AuditCertificateEventType" IsAbstract="true" PartNo="5" />
+  <opc:ObjectType SymbolicName="AuditCertificateExpiredEventType" BaseType="AuditCertificateEventType" IsAbstract="true" PartNo="5">
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
+  </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AuditNodeManagementEventType" BaseType="AuditEventType" IsAbstract="true" PartNo="5" />
+  <opc:ObjectType SymbolicName="AuditCertificateInvalidEventType" BaseType="AuditCertificateEventType" IsAbstract="true" PartNo="5">
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="AuditCertificateUntrustedEventType" BaseType="AuditCertificateEventType" IsAbstract="true" PartNo="5">
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="AuditCertificateRevokedEventType" BaseType="AuditCertificateEventType" IsAbstract="true" PartNo="5">
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="AuditCertificateMismatchEventType" BaseType="AuditCertificateEventType" IsAbstract="true" PartNo="5">
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="AuditNodeManagementEventType" BaseType="AuditEventType" IsAbstract="true" PartNo="5">
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
+  </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditAddNodesEventType" BaseType="AuditNodeManagementEventType" IsAbstract="true" PartNo="5">
     <opc:Children>
       <opc:Property SymbolicName="NodesToAdd" DataType="AddNodesItem" ValueRank="Array" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditDeleteNodesEventType" BaseType="AuditNodeManagementEventType" IsAbstract="true" PartNo="5">
     <opc:Children>
       <opc:Property SymbolicName="NodesToDelete" DataType="DeleteNodesItem" ValueRank="Array" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditAddReferencesEventType" BaseType="AuditNodeManagementEventType" IsAbstract="true" PartNo="5">
     <opc:Children>
       <opc:Property SymbolicName="ReferencesToAdd" DataType="AddReferencesItem" ValueRank="Array" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditDeleteReferencesEventType" BaseType="AuditNodeManagementEventType" IsAbstract="true" PartNo="5">
     <opc:Children>
       <opc:Property SymbolicName="ReferencesToDelete" DataType="DeleteReferencesItem" ValueRank="Array" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AuditUpdateEventType" BaseType="AuditEventType" IsAbstract="true" PartNo="5" />
+  <opc:ObjectType SymbolicName="AuditUpdateEventType" BaseType="AuditEventType" IsAbstract="true" PartNo="5">
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
+  </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditWriteUpdateEventType" BaseType="AuditUpdateEventType" IsAbstract="true" PartNo="5">
     <opc:Children>
@@ -765,12 +828,14 @@
       <opc:Property SymbolicName="OldValue" DataType="ua:BaseDataType" />
       <opc:Property SymbolicName="NewValue" DataType="ua:BaseDataType" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditHistoryUpdateEventType" BaseType="AuditUpdateEventType" IsAbstract="true" PartNo="5">
     <opc:Children>
       <opc:Property SymbolicName="ParameterDataTypeId" DataType="ua:NodeId" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditUpdateMethodEventType" BaseType="AuditEventType" IsAbstract="true" PartNo="5">
@@ -780,6 +845,7 @@
       <opc:Property SymbolicName="InputArguments" DataType="ua:BaseDataType" ValueRank="Array" />
       <opc:Property SymbolicName="OutputArguments" DataType="ua:BaseDataType" ValueRank="Array" ModellingRule="Optional" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="SystemEventType" BaseType="BaseEventType" IsAbstract="true"  PartNo="5" />
@@ -818,6 +884,7 @@
     <opc:Children>
       <opc:Property SymbolicName="ServerUri" DataType="UriString" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditClientUpdateMethodResultEventType" BaseType="AuditClientEventType" IsAbstract="true" PartNo="5">
@@ -828,6 +895,7 @@
       <opc:Property SymbolicName="InputArguments" DataType="BaseDataType" ValueRank="Array" />
       <opc:Property SymbolicName="OutputArguments" DataType="BaseDataType" ValueRank="Array" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <!-- ModellingRuleType BuiltInTypes.xml -->
@@ -1256,9 +1324,55 @@
     <opc:InverseName>Deprecates</opc:InverseName>
   </opc:ReferenceType>
 
+  <opc:ReferenceType SymbolicName="UsesDataTypeRefinement" BaseType="NonHierarchicalReferences" PartNo="5">
+    <opc:InverseName>DataTypeRefinementUsedBy</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasFieldDescription" BaseType="HierarchicalReferences" PartNo="5">
+    <opc:InverseName>FieldDescriptionOf</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasFieldDescriptionSetMandatory" BaseType="HasFieldDescription" PartNo="5">
+    <opc:InverseName>FieldDescriptionSetMandatoryOf</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="IsDisabledOptionalField" BaseType="HasFieldDescription" PartNo="5">
+    <opc:InverseName>DisabledOptionalFieldOf</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="UsesSubtypeRestriction" BaseType="NonHierarchicalReferences" PartNo="5">
+    <opc:InverseName>SubtypeRestrictionUsedBy</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="AllowedSubtype" BaseType="HierarchicalReferences" PartNo="5">
+    <opc:InverseName>AllowedSubtypeOf</opc:InverseName>
+  </opc:ReferenceType>
+
+  <opc:ReferenceType SymbolicName="HasDataTypeRefinement" BaseType="HasChild" PartNo="5">
+    <opc:InverseName>DataTypeRefinementOf</opc:InverseName>
+  </opc:ReferenceType>
+
   <opc:DataType SymbolicName="BitFieldMaskDataType" BaseType="UInt64" PartNo="5">
     <opc:Description>A mask of 32 bits that can be updated individually by using the top 32 bits as a mask.</opc:Description>
   </opc:DataType>
+
+  <opc:ObjectType SymbolicName="DataTypeRefinementType" BaseType="BaseObjectType" PartNo="5">
+    <opc:Children>
+      <opc:Variable SymbolicName="FieldDescription_Placeholder" DataType="ua:BaseDataType" ValueRank="ScalarOrArray" TypeDefinition="BaseDataVariableType" ModellingRule="MandatoryPlaceholder">
+        <opc:BrowseName>&lt;FieldDescription&gt;</opc:BrowseName>
+        <opc:ReferenceType>HasFieldDescription</opc:ReferenceType>
+      </opc:Variable>
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="SubtypeRestrictionType" PartNo="5">
+    <opc:Children>
+      <opc:Variable SymbolicName="FieldDescription_Placeholder" DataType="ua:BaseDataType" ValueRank="ScalarOrArray" TypeDefinition="BaseDataVariableType" ModellingRule="MandatoryPlaceholder">
+        <opc:BrowseName>&lt;FieldDescription&gt;</opc:BrowseName>
+        <opc:ReferenceType>AllowedSubtype</opc:ReferenceType>
+      </opc:Variable>
+    </opc:Children>
+  </opc:ObjectType>
 
   <!-- NetworkGroupDataType UA Core Services.xml -->
   <!-- EndpointUrlListDataType UA Core Services.xml -->
@@ -1549,6 +1663,7 @@
       <opc:Property SymbolicName="OldStateId" DataType="ua:BaseDataType" />
       <opc:Property SymbolicName="NewStateId" DataType="ua:BaseDataType" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <!-- Part 5 Annex C - File Transfer -->
@@ -2714,16 +2829,8 @@
     </opc:Children>
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="QuantitiesFolderType" BaseType="ua:FolderType" PartNo="8">
-    <opc:Children>
-      <opc:Object SymbolicName="Quantity_Placeholder" TypeDefinition="ua:QuantityType" ModellingRule="OptionalPlaceholder">
-        <opc:BrowseName>&lt;Quantity&gt;</opc:BrowseName>
-        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
-      </opc:Object>
-    </opc:Children>
-  </opc:ObjectType>
 
-  <opc:Object SymbolicName="Quantities" TypeDefinition="QuantitiesFolderType" PartNo="8">
+  <opc:Object SymbolicName="Quantities" TypeDefinition="FolderType" PartNo="8">
     <opc:Description DoNotIgnore="true">This Object is the entry point to quantities and their units managed in the Server.</opc:Description>
     <opc:References>
       <opc:Reference IsInverse="true">
@@ -3317,6 +3424,10 @@
         <opc:BrowseName>&lt;DigitalVariable&gt;</opc:BrowseName>
         <opc:ReferenceType>ua:AlarmSuppressionGroupMember</opc:ReferenceType>
       </opc:Variable>
+      <opc:Object SymbolicName="AlarmCondition_Placeholder" TypeDefinition="AlarmConditionType" ModellingRule="OptionalPlaceholder">
+        <opc:BrowseName>&lt;AlarmCondition&gt;</opc:BrowseName>
+        <opc:ReferenceType>ua:AlarmSuppressionGroupMember</opc:ReferenceType>
+      </opc:Object>
     </opc:Children>
   </opc:ObjectType>
 
@@ -3963,20 +4074,27 @@
   <opc:ObjectType SymbolicName="StatisticalConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
   <opc:ObjectType SymbolicName="TestingConditionClassType" BaseType="BaseConditionClassType" IsAbstract="true" PartNo="9" />
 
-  <opc:ObjectType SymbolicName="AuditConditionEventType" BaseType="AuditUpdateMethodEventType" PartNo="9" />
-  <opc:ObjectType SymbolicName="AuditConditionEnableEventType" BaseType="AuditConditionEventType" PartNo="9" />
+  <opc:ObjectType SymbolicName="AuditConditionEventType" BaseType="AuditUpdateMethodEventType" PartNo="9">
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="AuditConditionEnableEventType" BaseType="AuditConditionEventType" PartNo="9">
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
+  </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditConditionCommentEventType" BaseType="AuditConditionEventType" PartNo="9">
     <opc:Children>
       <opc:Property SymbolicName="ConditionEventId" DataType="ua:ByteString" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Comment" DataType="ua:LocalizedText" ModellingRule="Mandatory" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditConditionRespondEventType" BaseType="AuditConditionEventType" PartNo="9">
     <opc:Children>
       <opc:Property SymbolicName="SelectedResponse" DataType="ua:UInt32" ModellingRule="Mandatory" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditConditionAcknowledgeEventType" BaseType="AuditConditionEventType" PartNo="9">
@@ -3984,6 +4102,7 @@
       <opc:Property SymbolicName="ConditionEventId" DataType="ua:ByteString" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Comment" DataType="ua:LocalizedText" ModellingRule="Mandatory" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditConditionConfirmEventType" BaseType="AuditConditionEventType" PartNo="9">
@@ -3991,20 +4110,31 @@
       <opc:Property SymbolicName="ConditionEventId" DataType="ua:ByteString" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="Comment" DataType="ua:LocalizedText" ModellingRule="Mandatory" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditConditionShelvingEventType" BaseType="AuditConditionEventType" PartNo="9">
     <opc:Children>
       <opc:Property SymbolicName="ShelvingTime" DataType="Duration" ModellingRule="Optional" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
-  <opc:ObjectType SymbolicName="AuditConditionSuppressionEventType" BaseType="AuditConditionEventType" PartNo="9" />
-  <opc:ObjectType SymbolicName="AuditConditionSilenceEventType" BaseType="AuditConditionEventType" PartNo="9" />
+  <opc:ObjectType SymbolicName="AuditConditionSuppressionEventType" BaseType="AuditConditionEventType" PartNo="9">
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
+  </opc:ObjectType>
+
+  <opc:ObjectType SymbolicName="AuditConditionSilenceEventType" BaseType="AuditConditionEventType" PartNo="9">
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
+  </opc:ObjectType>
+
   <opc:ObjectType SymbolicName="AuditConditionResetEventType" BaseType="AuditConditionEventType" PartNo="9">
-
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
-  <opc:ObjectType SymbolicName="AuditConditionOutOfServiceEventType" BaseType="AuditConditionEventType" PartNo="9" />
+
+  <opc:ObjectType SymbolicName="AuditConditionOutOfServiceEventType" BaseType="AuditConditionEventType" PartNo="9">
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
+  </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="RefreshStartEventType" BaseType="SystemEventType" IsAbstract="true" PartNo="9" />
   <opc:ObjectType SymbolicName="RefreshEndEventType" BaseType="SystemEventType" IsAbstract="true" PartNo="9" />
@@ -4450,6 +4580,7 @@
     <opc:Children>
       <opc:Property SymbolicName="TransitionNumber" DataType="ua:UInt32" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="ProgramTransitionAuditEventType" BaseType="AuditUpdateStateEventType" PartNo="10">
@@ -4620,6 +4751,7 @@
       <opc:Property SymbolicName="NewValues" DataType="HistoryEventFieldList" ValueRank="Array" />
       <opc:Property SymbolicName="OldValues" DataType="HistoryEventFieldList" ValueRank="Array" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditHistoryValueUpdateEventType" BaseType="AuditHistoryUpdateEventType" IsAbstract="true" PartNo="11">
@@ -4629,6 +4761,7 @@
       <opc:Property SymbolicName="NewValues" DataType="ua:DataValue" ValueRank="Array" />
       <opc:Property SymbolicName="OldValues" DataType="ua:DataValue" ValueRank="Array" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditHistoryAnnotationUpdateEventType" BaseType="AuditHistoryUpdateEventType" IsAbstract="true" PartNo="11">
@@ -4637,12 +4770,14 @@
       <opc:Property SymbolicName="NewValues" DataType="ua:Annotation" ValueRank="Array" />
       <opc:Property SymbolicName="OldValues" DataType="ua:Annotation" ValueRank="Array" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditHistoryDeleteEventType" BaseType="AuditHistoryUpdateEventType" IsAbstract="true" PartNo="11">
     <opc:Children>
       <opc:Property SymbolicName="UpdatedNode" DataType="ua:NodeId" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditHistoryRawModifyDeleteEventType" BaseType="AuditHistoryDeleteEventType" IsAbstract="true" PartNo="11">
@@ -4652,6 +4787,7 @@
       <opc:Property SymbolicName="EndTime" DataType="ua:UtcTime" />
       <opc:Property SymbolicName="OldValues" DataType="ua:DataValue" ValueRank="Array" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditHistoryAtTimeDeleteEventType" BaseType="AuditHistoryDeleteEventType" IsAbstract="true" PartNo="11">
@@ -4659,6 +4795,7 @@
       <opc:Property SymbolicName="ReqTimes" DataType="ua:UtcTime" ValueRank="Array"  />
       <opc:Property SymbolicName="OldValues" DataType="ua:DataValue" ValueRank="Array" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditHistoryEventDeleteEventType" BaseType="AuditHistoryDeleteEventType" IsAbstract="true" PartNo="11">
@@ -4666,9 +4803,11 @@
       <opc:Property SymbolicName="EventIds" DataType="ua:ByteString" ValueRank="Array"  />
       <opc:Property SymbolicName="OldValues" DataType="ua:HistoryEventFieldList" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditHistoryConfigurationChangeEventType" BaseType="AuditEventType" IsAbstract="true" PartNo="11">
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <opc:ObjectType SymbolicName="AuditHistoryBulkInsertEventType" BaseType="AuditEventType" IsAbstract="true" PartNo="11">
@@ -4677,6 +4816,7 @@
       <opc:Property SymbolicName="StartTime" DataType="ua:UtcTime" />
       <opc:Property SymbolicName="EndTime" DataType="ua:UtcTime" />
     </opc:Children>
+    <opc:RolePermissions Name="AuditEventDefaultPermissions" />
   </opc:ObjectType>
 
   <!-- Part 12 -->
@@ -4865,7 +5005,6 @@
   <opc:ObjectType SymbolicName="TlsCertificateType" BaseType="CertificateType" IsAbstract="true" PartNo="12"></opc:ObjectType>
   <opc:ObjectType SymbolicName="TlsServerCertificateType" BaseType="TlsCertificateType" PartNo="12"></opc:ObjectType>
   <opc:ObjectType SymbolicName="TlsClientCertificateType" BaseType="TlsCertificateType" PartNo="12"></opc:ObjectType>
-  <opc:ObjectType SymbolicName="UserCredentialCertificateType" BaseType="CertificateType" PartNo="12"></opc:ObjectType>
   <opc:ObjectType SymbolicName="RsaMinApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12"></opc:ObjectType>
   <opc:ObjectType SymbolicName="RsaSha256ApplicationCertificateType" BaseType="ApplicationCertificateType" PartNo="12"></opc:ObjectType>
 
@@ -5052,6 +5191,7 @@
     </opc:References>
   </opc:Object>
 
+
   <opc:DataType SymbolicName="ApplicationConfigurationDataType" BaseType="ua:BaseConfigurationDataType" PartNo="12">
     <opc:Fields>
       <opc:Field Name="ApplicationIdentity" DataType="ua:ApplicationIdentityDataType" />
@@ -5207,6 +5347,7 @@
       <opc:Property SymbolicName="ProductUri" DataType="ua:UriString" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ApplicationUri" DataType="ua:UriString" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ApplicationType" DataType="ua:ApplicationType" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="IsNonUaApplication" DataType="ua:Boolean" ModellingRule="Optional" />
 
       <opc:Object SymbolicName="KeyCredentials" TypeDefinition="KeyCredentialConfigurationFolderType" ModellingRule="Optional">
         <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
@@ -5421,10 +5562,19 @@
     </opc:Children>
   </opc:ObjectType>
 
+  <opc:DataType SymbolicName="ServiceCertificateDataType" BaseType="ua:Structure" PartNo="12">
+    <opc:Fields>
+      <opc:Field Name="Certificate" DataType="ua:ByteString" />
+      <opc:Field Name="Issuers" DataType="ua:ByteString" ValueRank="Array" />
+      <opc:Field Name="ValidFrom" DataType="ua:UtcTime" />
+      <opc:Field Name="ValidTo" DataType="ua:UtcTime" />
+    </opc:Fields>
+  </opc:DataType>
+
   <opc:DataType SymbolicName="AuthorizationServiceConfigurationDataType" BaseType="ua:BaseConfigurationRecordDataType" PartNo="12">
     <opc:Fields>
       <opc:Field Name="ServiceUri" DataType="ua:UriString" />
-      <opc:Field Name="ServiceCertificate" DataType="ua:ByteString" ValueRank="Array" />
+      <opc:Field Name="ServiceCertificates" DataType="ServiceCertificateDataType" ValueRank="Array" />
       <opc:Field Name="IssuerEndpointSettings" DataType="ua:String" />
     </opc:Fields>
   </opc:DataType>
@@ -9285,9 +9435,40 @@
       <opc:Field Name="TargetNode" DataType="ExpandedNodeId" />
     </opc:Fields>
   </opc:DataType>
-  
+
+
   <!-- Part 25 -->
-  
+  <opc:ObjectType SymbolicName="SerializationEntityType" BaseType="ua:BaseObjectType" PartNo="25">
+    <opc:Children>
+      <opc:Variable SymbolicName="SerializedData" DataType="ua:Structure" ValueRank="Scalar" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="IncludeReferenceTypes" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Optional" AccessLevel="Read" />
+      <opc:Property SymbolicName="ExcludeReferenceTypes" DataType="ua:NodeId" ValueRank="Array" ModellingRule="Optional" AccessLevel="Read" />
+      <opc:Property SymbolicName="SerializationDepth" DataType="ua:UInt16" ValueRank="Scalar" ModellingRule="Optional" AccessLevel="Read" />
+      <opc:Property SymbolicName="ConsiderSubElementSerializationProperties" DataType="ua:Boolean" ValueRank="Scalar" ModellingRule="Optional" AccessLevel="Read" />
+      <opc:Property SymbolicName="CustomMetaDataProperties" DataType="ua:KeyValuePair" ValueRank="Array" ModellingRule="Optional" AccessLevel="Read" />
+      <opc:Property SymbolicName="CustomMetaDataRef" DataType="ua:NodeId" ValueRank="Scalar" ModellingRule="Optional" AccessLevel="Read" />
+      <opc:Property SymbolicName="IncludeStatus" DataType="ua:Boolean" ValueRank="Scalar" ModellingRule="Optional" AccessLevel="Read" />
+      <opc:Property SymbolicName="IncludeSourceTimestamp" DataType="ua:Boolean" ValueRank="Scalar" ModellingRule="Optional" AccessLevel="Read" />
+      <opc:Property SymbolicName="IncludeDictionaryReference" DataType="ua:Boolean" ValueRank="Scalar" ModellingRule="Optional" AccessLevel="Read" />
+
+      <opc:Method SymbolicName="ConfigureSerialization" TypeDefinition="ConfigureSerializationMethodType" ModellingRule="Optional" />
+    </opc:Children>
+  </opc:ObjectType>
+
+  <opc:Method SymbolicName="ConfigureSerializationMethodType" PartNo="26">
+    <opc:InputArguments>
+      <opc:Argument Name="SerializationFilterProperties" DataType="ua:KeyValuePair" ValueRank="Array" />
+    </opc:InputArguments>
+    <opc:OutputArguments>
+      <opc:Argument Name="Results" DataType="ua:Int32" ValueRank="Array" />
+    </opc:OutputArguments>
+  </opc:Method>
+
+  <opc:ReferenceType SymbolicName="HasSerializationEntity" BaseType="ua:HierarchicalReferences">
+    <opc:InverseName>SerializationEntityOf</opc:InverseName>
+  </opc:ReferenceType>
+
+
   <!-- Part 26 -->
   <opc:ObjectType SymbolicName="LogObjectType" BaseType="BaseObjectType" PartNo="26">
     <opc:Children>

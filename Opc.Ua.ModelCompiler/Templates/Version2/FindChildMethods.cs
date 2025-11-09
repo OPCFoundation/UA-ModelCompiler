@@ -1,6 +1,5 @@
 class _Name_{
 // ***START***
-/// <remarks />
 public override void GetChildren(
     ISystemContext context,
     IList<BaseInstanceState> children)
@@ -10,7 +9,13 @@ public override void GetChildren(
     base.GetChildren(context, children);
 }
     
-/// <remarks />
+protected override void RemoveExplicitlyDefinedChild(BaseInstanceState child)
+{
+    // ListOfRemoveChild
+
+    base.RemoveExplicitlyDefinedChild(child);
+}
+
 protected override BaseInstanceState FindChild(
     ISystemContext context,
     QualifiedName browseName,

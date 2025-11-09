@@ -2,6 +2,7 @@
 
 namespace ModelCompiler
 {
+
     public class MeasurementUnits
     {
         public static bool ProcessCommandLine(IList<string> args)
@@ -58,7 +59,10 @@ namespace ModelCompiler
 
             if (outputFile != null)
             {
-                Write(outputFile, units);
+                using (var writer = new StreamWriter(outputFile, false, new UTF8Encoding(true)))
+                {
+                    Write(writer, units);
+                }
             }
 
             return true;
@@ -80,7 +84,10 @@ namespace ModelCompiler
 
             if (output != null)
             {
-                Write(output, units);
+                using (var writer = new StreamWriter(output, false, new UTF8Encoding(true)))
+                {
+                    Write(writer, units);
+                }
             }
         }
 
@@ -136,7 +143,7 @@ namespace ModelCompiler
             }
         }
 
-        public static void Write(string filePath, List<Unit> units)
+        public static void Write(TextWriter writer, List<Unit> units)
         {
             Dictionary<string, Unit> index = new Dictionary<string, Unit>();
 
@@ -179,24 +186,21 @@ namespace ModelCompiler
 
             Console.WriteLine($"Duplicates: {duplicates} | NoSymbol: {noSymbol}");
 
-            using (StreamWriter writer = new StreamWriter(filePath, false, new UTF8Encoding(true)))
-            {
-                writer.WriteLine("UNECECode,UnitId,DisplayName,Description");
+            writer.WriteLine("UNECECode,UnitId,DisplayName,Description");
 
-                foreach (var ii in index.Values)
-                {
-                    writer.Write(ii.Code);
-                    writer.Write(",");
-                    writer.Write(ii.UnitId);
-                    writer.Write(",");
-                    writer.Write("\"");
-                    writer.Write(ii.Symbol.Trim().Replace("\"", "\"\""));
-                    writer.Write("\",");
-                    writer.Write("\"");
-                    writer.Write(ii.Name.Trim().Replace("\"", "\"\""));
-                    writer.Write("\"");
-                    writer.WriteLine();
-                }
+            foreach (var ii in index.Values)
+            {
+                writer.Write(ii.Code);
+                writer.Write(",");
+                writer.Write(ii.UnitId);
+                writer.Write(",");
+                writer.Write("\"");
+                writer.Write(ii.Symbol.Trim().Replace("\"", "\"\""));
+                writer.Write("\",");
+                writer.Write("\"");
+                writer.Write(ii.Name.Trim().Replace("\"", "\"\""));
+                writer.Write("\"");
+                writer.WriteLine();
             }
         }
 

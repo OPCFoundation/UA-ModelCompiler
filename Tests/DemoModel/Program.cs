@@ -10,8 +10,12 @@ namespace DemoModel
 {
     static class Program
     {
+        private static ConsoleTelemetry m_telemetry = new();
+
         public static async Task<int> Main(string[] args)
         {
+            m_telemetry.ConfigureLogging();
+
             TextWriter output = Console.Out;
             output.WriteLine("{0} OPC UA Reference Server", Utils.IsRunningOnMono() ? "Mono" : ".NET Core");
 
@@ -35,7 +39,7 @@ namespace DemoModel
 
                 // load the server configuration, validate certificates
                 output.WriteLine("Loading configuration from {0}.", configSectionName);
-                await server.LoadAsync(applicationName, configSectionName).ConfigureAwait(false);
+                await server.LoadAsync(m_telemetry, applicationName, configSectionName).ConfigureAwait(false);
 
                 // check or renew the certificate
                 output.WriteLine("Check the certificate.");

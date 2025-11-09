@@ -1060,13 +1060,13 @@
     <opc:Field Name="SecurityTokenLifetime" DataType="s0:Int32" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="QueryDataDescription" AllowArrays="true" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly">
+  <opc:ComplexType Name="QueryDataDescription" AllowArrays="true" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" ReleaseStatus="Deprecated">
     <opc:Field Name="RelativePath" DataType="RelativePath" />
     <opc:Field Name="AttributeId" DataType="IntegerId" />
     <opc:Field Name="IndexRange" DataType="NumericRange" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="NodeTypeDescription" AllowArrays="true" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly">
+  <opc:ComplexType Name="NodeTypeDescription" AllowArrays="true" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly" ReleaseStatus="Deprecated">
     <opc:Field Name="TypeDefinitionNode" DataType="s0:ExpandedNodeId" />
     <opc:Field Name="IncludeSubTypes" DataType="s0:Boolean" />
     <opc:Field Name="DataToReturn" DataType="QueryDataDescription" ValueRank="0" />
@@ -1093,13 +1093,13 @@
     <opc:Value Name="BitwiseOr" Value="17" />
   </opc:EnumeratedType>
 
-  <opc:ComplexType Name="QueryDataSet" AllowArrays="true" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly">
+  <opc:ComplexType Name="QueryDataSet" AllowArrays="true" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly"  ReleaseStatus="Deprecated">
     <opc:Field Name="NodeId" DataType="s0:ExpandedNodeId" />
     <opc:Field Name="TypeDefinitionNode" DataType="s0:ExpandedNodeId" />
     <opc:Field Name="Values" DataType="s0:Variant" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="NodeReference" AllowArrays="true" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly">
+  <opc:ComplexType Name="NodeReference" AllowArrays="true" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly"  ReleaseStatus="Deprecated">
     <opc:Field Name="NodeId" DataType="s0:NodeId" />
     <opc:Field Name="ReferenceTypeId" DataType="s0:NodeId" />
     <opc:Field Name="IsForward" DataType="s0:Boolean" />
@@ -1151,13 +1151,13 @@
     <opc:Field Name="ElementDiagnosticInfos" DataType="s0:DiagnosticInfo" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="ParsingResult" AllowArrays="true" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly">
+  <opc:ComplexType Name="ParsingResult" AllowArrays="true" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly"  ReleaseStatus="Deprecated">
     <opc:Field Name="StatusCode" DataType="s0:StatusCode" />
     <opc:Field Name="DataStatusCodes" DataType="s0:StatusCode" ValueRank="0" />
     <opc:Field Name="DataDiagnosticInfos" DataType="s0:DiagnosticInfo" ValueRank="0" />
   </opc:ComplexType>
 
-  <opc:ServiceType Name="QueryFirst">
+  <opc:ServiceType Name="QueryFirst" ReleaseStatus="Deprecated">
     <opc:Request>
       <opc:Parameter Name="RequestHeader" DataType="RequestHeader" />
       <opc:Parameter Name="View" DataType="ViewDescription" />
@@ -1176,7 +1176,7 @@
     </opc:Response>
   </opc:ServiceType>
 
-  <opc:ServiceType Name="QueryNext">
+  <opc:ServiceType Name="QueryNext" ReleaseStatus="Deprecated">
     <opc:Request>
       <opc:Parameter Name="RequestHeader" DataType="RequestHeader" />
       <opc:Parameter Name="ReleaseContinuationPoint" DataType="s0:Boolean" />
@@ -2045,113 +2045,4 @@
     <opc:Value Name="Unknown" Value="4" />
   </opc:EnumeratedType>
 
-  <!-- Types for Testing -->
-  <opc:ComplexType Name="TestAbstractStructure" PartNo="999" AllowArrays="true" IsAbstract="true" NotInAddressSpace="true" Purpose="Testing">
-    <opc:Field Name="A" DataType="s0:Int16" />
-    <opc:Field Name="B" DataType="s0:Double" />
-    <opc:Field Name="C" DataType="s0:String" />
-  </opc:ComplexType>
-  
-  <opc:ComplexType Name="TestConcreteStructure" PartNo="999" AllowArrays="true" BaseType="TestAbstractStructure" NotInAddressSpace="true" Purpose="Testing">
-    <opc:Field Name="D" DataType="s0:Int16" />
-    <opc:Field Name="E" DataType="s0:Double" />
-    <opc:Field Name="F" DataType="s0:String" />
-  </opc:ComplexType>
-
-  <opc:ComplexType Name="TestUnion" PartNo="999" AllowArrays="true" IsUnion="true" NotInAddressSpace="true" Purpose="Testing">
-    <opc:Field Name="A" DataType="s0:Int16" />
-    <opc:Field Name="B" DataType="s0:Double" />
-    <opc:Field Name="C" DataType="s0:String" />
-  </opc:ComplexType>
-
-  <opc:ComplexType Name="TestOptionalFields" PartNo="999" AllowArrays="true" NotInAddressSpace="true" Purpose="Testing">
-    <opc:Field Name="A" DataType="s0:Int16" IsOptional="true" />
-    <opc:Field Name="B" DataType="s0:Double" IsOptional="true"  />
-    <opc:Field Name="C" DataType="s0:String" IsOptional="true" />
-  </opc:ComplexType>
-
-  <opc:EnumeratedType Name="TestEnumeration" PartNo="999" AllowArrays="true" NotInAddressSpace="true" Purpose="Testing">
-    <opc:Value Name="Invalid" Value="0" />
-    <opc:Value Name="Red" Value="2" />
-    <opc:Value Name="Green" Value="4" />
-    <opc:Value Name="Blue" Value="6" />
-  </opc:EnumeratedType>
-
-  <opc:EnumeratedType Name="TestOptionSet" PartNo="999" IsOptionSet="true" BaseType="s0:UInt64" AllowArrays="true" NotInAddressSpace="true" Purpose="Testing">
-    <opc:Value Name="A" Value="0001" />
-    <opc:Value Name="B" Value="0002" />
-    <opc:Value Name="C" Value="0004" />
-  </opc:EnumeratedType>
-
-  <opc:ComplexType Name="TestScalarStructure" PartNo="999" AllowArrays="true" NotInAddressSpace="true" Purpose="Testing">
-    <opc:Field Name="A" DataType="s0:Boolean" />
-    <opc:Field Name="B" DataType="s0:SByte" />
-    <opc:Field Name="C" DataType="s0:Byte" />
-    <opc:Field Name="D" DataType="s0:Int16" />
-    <opc:Field Name="E" DataType="s0:UInt16" />
-    <opc:Field Name="F" DataType="s0:Int32" />
-    <opc:Field Name="G" DataType="s0:UInt32" />
-    <opc:Field Name="H" DataType="s0:Int64" />
-    <opc:Field Name="I" DataType="s0:UInt64" />
-    <opc:Field Name="J" DataType="s0:Float" />
-    <opc:Field Name="K" DataType="s0:Double" />
-    <opc:Field Name="L" DataType="s0:Guid" />
-    <opc:Field Name="M" DataType="s0:DateTime" />
-    <opc:Field Name="N" DataType="s0:String" />
-    <opc:Field Name="O" DataType="s0:ByteString" />
-    <opc:Field Name="P" DataType="s0:NodeId" />
-    <opc:Field Name="Q" DataType="s0:ExpandedNodeId" />
-    <opc:Field Name="R" DataType="s0:QualifiedName" />
-    <opc:Field Name="S" DataType="s0:LocalizedText" />
-    <opc:Field Name="T" DataType="s0:StatusCode" />
-    <opc:Field Name="U" DataType="s0:XmlElement" />
-    <opc:Field Name="V" DataType="s0:Variant" />
-    <opc:Field Name="W" DataType="TestAbstractStructure" AllowSubTypes="true" />
-    <opc:Field Name="X" DataType="TestConcreteStructure" />
-    <opc:Field Name="Y" DataType="TestEnumeration" />
-    <opc:Field Name="Z" DataType="TestOptionSet" />
-    <opc:Field Name="A1" DataType="TestUnion" />
-    <opc:Field Name="B1" DataType="TestOptionalFields" />
-    <opc:Field Name="C1" DataType="s0:DataValue" />
-  </opc:ComplexType>
-
-  <opc:ComplexType Name="TestArrayStructure" PartNo="999" AllowArrays="true" NotInAddressSpace="true" Purpose="Testing">
-    <opc:Field Name="A" DataType="s0:Boolean" ValueRank="0"  />
-    <opc:Field Name="B" DataType="s0:SByte" ValueRank="0"  />
-    <opc:Field Name="C" DataType="s0:Byte" ValueRank="0"  />
-    <opc:Field Name="D" DataType="s0:Int16" ValueRank="0"  />
-    <opc:Field Name="E" DataType="s0:UInt16" ValueRank="0"  />
-    <opc:Field Name="F" DataType="s0:Int32" ValueRank="0"  />
-    <opc:Field Name="G" DataType="s0:UInt32" ValueRank="0"  />
-    <opc:Field Name="H" DataType="s0:Int64" ValueRank="0"  />
-    <opc:Field Name="I" DataType="s0:UInt64" ValueRank="0"  />
-    <opc:Field Name="J" DataType="s0:Float" ValueRank="0"  />
-    <opc:Field Name="K" DataType="s0:Double" ValueRank="0"  />
-    <opc:Field Name="L" DataType="s0:Guid" ValueRank="0"  />
-    <opc:Field Name="M" DataType="s0:DateTime" ValueRank="0"  />
-    <opc:Field Name="N" DataType="s0:String" ValueRank="0"  />
-    <opc:Field Name="O" DataType="s0:ByteString" ValueRank="0"  />
-    <opc:Field Name="P" DataType="s0:NodeId" ValueRank="0"  />
-    <opc:Field Name="Q" DataType="s0:ExpandedNodeId" ValueRank="0"  />
-    <opc:Field Name="R" DataType="s0:QualifiedName" ValueRank="0"  />
-    <opc:Field Name="S" DataType="s0:LocalizedText" ValueRank="0"  />
-    <opc:Field Name="T" DataType="s0:StatusCode" ValueRank="0"  />
-    <opc:Field Name="U" DataType="s0:XmlElement" ValueRank="0"  />
-    <opc:Field Name="V" DataType="s0:Variant" ValueRank="0"  />
-    <opc:Field Name="W" DataType="TestAbstractStructure" ValueRank="0" AllowSubTypes="true" />
-    <opc:Field Name="X" DataType="TestConcreteStructure" ValueRank="0" />
-    <opc:Field Name="Y" DataType="TestEnumeration" ValueRank="0" />
-    <opc:Field Name="Z" DataType="TestOptionSet" ValueRank="0" />
-    <opc:Field Name="A1" DataType="TestUnion" ValueRank="0"  />
-    <opc:Field Name="B1" DataType="TestOptionalFields" ValueRank="0"  />
-    <opc:Field Name="C1" DataType="s0:DataValue" ValueRank="0"  />
-  </opc:ComplexType>
-
-  <opc:ComplexType Name="TestStructure" PartNo="999" AllowArrays="true" NotInAddressSpace="true" Purpose="Testing">
-    <opc:Field Name="A" DataType="TestScalarStructure" />
-    <opc:Field Name="B" DataType="TestArrayStructure" />
-    <opc:Field Name="C" DataType="TestScalarStructure" ValueRank="0"  />
-    <opc:Field Name="D" DataType="TestArrayStructure" ValueRank="0"  />
-  </opc:ComplexType>
-  
 </opc:TypeDictionary>

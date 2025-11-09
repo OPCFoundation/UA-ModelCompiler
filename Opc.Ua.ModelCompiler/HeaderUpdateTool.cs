@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace ModelCompiler
 {
-    class HeaderUpdateTool
+    public class HeaderUpdateTool
     {
         public enum LicenseType
         {

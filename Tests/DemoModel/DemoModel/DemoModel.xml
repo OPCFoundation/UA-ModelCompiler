@@ -43,7 +43,7 @@
 
   <opc:Namespaces>
     <opc:Namespace Name="DemoModel" Prefix="DemoModel" XmlNamespace="urn:opcfoundation.org:2024-01:DemoModelTypes.xsd"  XmlPrefix="DemoModel">urn:opcfoundation.org:2024-01:DemoModel</opc:Namespace>
-    <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" Version="1.05.02" PublicationDate="2022-06-28T00:00:00Z" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
+    <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
     <opc:Namespace Name="DI" Prefix="Opc.Ua.Di" InternalPrefix="Opc.Ua.Di.Server" XmlPrefix="OpcUaDi">http://opcfoundation.org/UA/DI/</opc:Namespace>
   </opc:Namespaces>
   

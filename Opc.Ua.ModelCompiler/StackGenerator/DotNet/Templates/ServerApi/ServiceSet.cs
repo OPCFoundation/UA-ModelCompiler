@@ -22,6 +22,7 @@ public interface I_ServiceSet_Server : IServerBase
 /// </summary>
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
 public partial class _ServiceSet_ServerBase : ServerBase, I_ServiceSet_Server
 {
     // _ServerStubs_

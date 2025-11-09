@@ -4,13 +4,12 @@ using Opc.Ua;
 
 namespace ModelCompiler
 {
-    static class ModelCompilerApplication
+    public static class ModelCompilerApplication
     {
+        private static Opc.Ua.DefaultTelemetry m_telemetry = new Opc.Ua.DefaultTelemetry();
+
         public static void Run(string[] args)
         {
-            Utils.SetTraceMask(Utils.TraceMasks.Error);
-            Utils.SetTraceOutput(Utils.TraceOutput.DebugAndFile);
-
             var app = new CommandLineApplication();
             app.Name = "ModelCompiler";
             app.Description = "An application takes an OPC UA model file and generates code for the .NETStandard stack.";
@@ -74,24 +73,24 @@ namespace ModelCompiler
                 path = path.Substring(7);
             }
 
-            return path.Trim('/').Replace("/", "").Replace('-', '_').Replace('+', '_');
+            return path.Trim('/').Replace("/", "", StringComparison.InvariantCulture).Replace('-', '_').Replace('+', '_');
         }
 
         private static void LoadNodeSet(FileInfo file, Dictionary<string, NodeSetInfo> nodesets)
         {
             try
             {
-                if (!NodeSetToModelDesign.IsNodeSet(file.FullName))
+                if (!NodeSetToModelDesign.IsNodeSet(LocalFileSystem.Instance, file.FullName))
                 {
                     return;
                 }
 
                 using (var istrm = file.OpenRead())
                 {
-                    SystemContext context = new SystemContext();
+                    SystemContext context = new SystemContext(m_telemetry);
                     Opc.Ua.Export.UANodeSet nodeset = Opc.Ua.Export.UANodeSet.Read(istrm);
                     var collection = new NodeStateCollection();
-                    
+
                     try
                     {
                         nodeset.Import(context, collection);
@@ -278,19 +277,16 @@ namespace ModelCompiler
             return true;
         }
 
-        private static void GenerateCode(
+        private static async Task GenerateCode(
             string inputPath,
             string outputPath,
             Dictionary<string, NodeSetInfo> nodesets,
             NodeSetInfo nodeset,
             Dictionary<string, NodeSetInfo> dependecies)
         {
-            ModelGenerator2 generator = new ModelGenerator2();
-            
-            generator.AvailableNodeSets = new Dictionary<string,string>(
-                nodesets.
-                Select(x => new KeyValuePair<string,string>(x.Key, x.Value.FileName)
-            ));
+            ModelGenerator2 generator = new ModelGenerator2(LocalFileSystem.Instance, m_telemetry);
+
+            generator.AvailableNodeSets = nodesets.ToDictionary(x => x.Key, x => x.Value.FileName);
 
             generator.LogMessage += (e) =>
             {
@@ -324,21 +320,21 @@ namespace ModelCompiler
 
             var relativePath = new FileInfo(nodeset.FileName).DirectoryName.Substring(new DirectoryInfo(inputPath).FullName.Length);
 
-            var output = Path.Join(outputPath, relativePath);
+            var output = Path.Combine(outputPath, relativePath);
 
             if (!Directory.Exists(output))
             {
                 Directory.CreateDirectory(output);
             }
 
-            var documentation = new FileInfo(nodeset.FileName.Replace(".xml", ".documentation.csv"));
+            var documentation = new FileInfo(nodeset.FileName.Replace(".xml", ".documentation.csv", StringComparison.InvariantCulture));
 
             if (documentation.Exists)
             {
-                documentation.CopyTo(Path.Join(output, $"{nodeset.Prefix}.NodeSet2.documentation.csv"));
+                documentation.CopyTo(Path.Combine(output, $"{nodeset.Prefix}.NodeSet2.documentation.csv"));
             }
 
-            generator.GenerateMultipleFiles(output, false, exclusions, false);
+            await generator.GenerateMultipleFiles(output, false, exclusions, false);
 
             WriteLine($"NodeSet ({nodeset.ModelUri}) code generated ({output}).", ConsoleColor.DarkGreen);
         }
@@ -346,8 +342,8 @@ namespace ModelCompiler
         private static void CompileNodeSets(CommandLineApplication app)
         {
             app.Description = "Searches a directory tree for nodesets and generates code for the specified model URIs.";
-            app.HelpOption("-?|-h|--help"); 
-            
+            app.HelpOption("-?|-h|--help");
+
             app.Option(
                 $"-{OptionsNames.InputPath}",
                 "The path to the directory containing the nodesets.",
@@ -368,7 +364,7 @@ namespace ModelCompiler
                 "The URI of the model to generate.",
                 CommandOptionType.MultipleValue);
 
-            app.OnExecuteAsync((CancellationToken ct) =>
+            app.OnExecuteAsync(async (CancellationToken ct) =>
             {
                 var options = GetCompileOptions(app);
 
@@ -395,14 +391,14 @@ namespace ModelCompiler
 
                     var relativePath = new FileInfo(nodeset.FileName).DirectoryName.Substring(new DirectoryInfo(input.FullName).FullName.Length);
 
-                    var output = Path.Join(options.OutputPath, relativePath);
+                    var output = Path.Combine(options.OutputPath, relativePath);
 
                     if (Directory.Exists(output))
                     {
                         Directory.Delete(output, true);
                     }
                 }
-                 
+
                 foreach (var modelUri in options.ModelUris)
                 {
                     if (!nodesets.TryGetValue(modelUri, out NodeSetInfo nodeset))
@@ -413,7 +409,7 @@ namespace ModelCompiler
                     found.Add(modelUri);
 
                     Dictionary<string, NodeSetInfo> dependencies = new();
-                    
+
                     if (!CollectDependencies(nodeset, nodesets, dependencies))
                     {
                         continue;
@@ -428,7 +424,7 @@ namespace ModelCompiler
 
                     try
                     {
-                        GenerateCode(input.FullName, options.OutputPath, nodesets, nodeset, dependencies);
+                        await GenerateCode(input.FullName, options.OutputPath, nodesets, nodeset, dependencies);
                     }
                     catch (Exception e)
                     {
@@ -444,7 +440,7 @@ namespace ModelCompiler
                     }
                 }
 
-                return Task.CompletedTask;
+                return 0;
             });
         }
 
@@ -454,11 +450,11 @@ namespace ModelCompiler
             app.HelpOption("-?|-h|--help");
             AddCompileOptions(app);
 
-            app.OnExecuteAsync((CancellationToken ct) =>
+            app.OnExecuteAsync(async (CancellationToken ct) =>
             {
                 var options = GetCompileOptions(app);
 
-                ModelGenerator2 generator = new ModelGenerator2();
+                ModelGenerator2 generator = new ModelGenerator2(LocalFileSystem.Instance, m_telemetry);
 
                 generator.LogMessage += (e) =>
                 {
@@ -516,6 +512,7 @@ namespace ModelCompiler
                     }
 
                     StackGenerator.GenerateDotNet(
+                        LocalFileSystem.Instance,
                         options.DesignFiles,
                         options.IdentifierFile,
                         options.DotNetStackPath,
@@ -523,6 +520,7 @@ namespace ModelCompiler
                         options.Exclusions);
 
                     StackGenerator.GenerateOpenApi(
+                        LocalFileSystem.Instance,
                         options.DesignFiles,
                         options.IdentifierFile,
                         options.DotNetStackPath,
@@ -538,9 +536,10 @@ namespace ModelCompiler
                     }
 
                     StackGenerator.GenerateAnsiC(
-                        options.DesignFiles, 
-                        options.IdentifierFile, 
-                        options.AnsiCStackPath, 
+                        LocalFileSystem.Instance,
+                        options.DesignFiles,
+                        options.IdentifierFile,
+                        options.AnsiCStackPath,
                         options.Version,
                         options.Exclusions);
 
@@ -554,10 +553,10 @@ namespace ModelCompiler
                         Directory.CreateDirectory(options.OutputPath);
                     }
 
-                    generator.GenerateMultipleFiles(options.OutputPath, false, options.Exclusions, false);
+                    await generator.GenerateMultipleFiles(options.OutputPath, false, options.Exclusions, false);
                 }
 
-                return Task.CompletedTask;
+                return 0;
             });
         }
 
@@ -635,7 +634,7 @@ namespace ModelCompiler
             public HeaderUpdateTool.LicenseType LicenseType;
             public bool Silent;
             public string Annex1Path;
-            public string Annex2Path;            
+            public string Annex2Path;
             public IList<string> ModelUris;
             public string OutputPrefix;
         }
@@ -793,7 +792,8 @@ namespace ModelCompiler
 
             if (!String.IsNullOrEmpty(licenseType))
             {
-                options.LicenseType = Enum.Parse<HeaderUpdateTool.LicenseType>(licenseType);
+                options.LicenseType = (HeaderUpdateTool.LicenseType)
+                    Enum.Parse(typeof(HeaderUpdateTool.LicenseType), licenseType);
             }
 
             return options;

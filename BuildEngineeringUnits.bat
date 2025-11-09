@@ -7,7 +7,7 @@ REM ****************************************************************************
 SETLOCAL
 
 set ROOT=%~dp0
-set MODELCOMPILER=%ROOT%build\bin\Release\net8.0\Opc.Ua.ModelCompiler.exe
+set MODELCOMPILER=%ROOT%build\bin\Release\net9.0\Opc.Ua.ModelCompiler.exe
 set OUTPUT=%ROOT%..\nodesets
 set INPUT=%ROOT%Opc.Ua.ModelCompiler\CSVs
 set EXCLUDE=-exclude nothing

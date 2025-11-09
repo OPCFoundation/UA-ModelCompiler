@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>DemoModel</AssemblyName>
     <IntermediateOutputPath>$(SolutionDir)build\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <RootNamespace>DemoModel</RootNamespace>
@@ -22,17 +22,16 @@
   <ItemGroup>
     <Compile Remove="build\**" />
     <Compile Remove="DemoModel\**" />
-    <Compile Remove="Models\IA\**" />
+    <Compile Remove="Models\**" />
     <EmbeddedResource Remove="build\**" />
     <EmbeddedResource Remove="DemoModel\**" />
-    <EmbeddedResource Remove="Models\IA\**" />
+    <EmbeddedResource Remove="Models\**" />
     <None Remove="build\**" />
     <None Remove="DemoModel\**" />
-    <None Remove="Models\IA\**" />
+    <None Remove="Models\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="DemoModel\Constants\CSharp\demomodel_constants.cs" />
     <Compile Include="DemoModel\DemoModel.Classes.cs" />
     <Compile Include="DemoModel\DemoModel.Constants.cs" />
     <Compile Include="DemoModel\DemoModel.DataTypes.cs" />
@@ -46,28 +45,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Scheduler\" />
     <Folder Include="Onboarding\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="DemoModel\Constants\JavaScript\demomodel_constants.js" />
-    <None Include="DemoModel\Constants\Python\demomodel_constants.py" />
-    <None Include="DemoModel\Constants\TypeScript\demomodel_constants.ts" />
-    <None Include="DemoModel\DemoModel.csv" />
-    <None Include="DemoModel\DemoModel.NodeIds.csv" />
-    <None Include="DemoModel\DemoModel.NodeIds.permissions.csv" />
-    <None Include="DemoModel\DemoModel.PredefinedNodes.uanodes" />
-    <None Include="DemoModel\DemoModel.Types.bsd" />
-    <None Include="DemoModel\DemoModel.Types.xsd" />
+    <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.2" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
+    <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.8" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\Stack\Libraries\Opc.Ua.Configuration\Opc.Ua.Configuration.csproj" />
     <ProjectReference Include="..\..\Stack\Libraries\Opc.Ua.Server\Opc.Ua.Server.csproj" />
     <ProjectReference Include="..\..\Stack\Stack\Opc.Ua.Core\Opc.Ua.Core.csproj" />
   </ItemGroup>

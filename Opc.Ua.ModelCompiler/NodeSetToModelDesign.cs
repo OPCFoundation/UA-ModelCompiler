@@ -1,14 +1,31 @@
-/* Copyright (c) 1996-2020 The OPC Foundation. All rights reserved.
-   The source code in m_nodeset file is covered under a dual-license scenario:
-     - RCL: for OPC Foundation members in good-standing
-     - GPL V2: everybody else
-   RCL license terms accompanied with m_nodeset source code. See http://opcfoundation.org/License/RCL/1.00/
-   GNU General Public License as published by the Free Software Foundation;
-   version 2 of the License are accompanied with m_nodeset source code. See http://opcfoundation.org/License/GPLv2
-   This source code is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-*/
+/* ========================================================================
+ * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
+ *
+ * OPC Foundation MIT License 1.00
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * The complete license agreement can be found here:
+ * http://opcfoundation.org/License/MIT/1.00/
+ * ======================================================================*/
 
 using Opc.Ua;
 using Opc.Ua.Export;
@@ -31,6 +48,8 @@ namespace ModelCompiler
             NamespaceTables = new Dictionary<string, string[]>();
         }
 
+        public ITelemetryContext Telemetry { get; set; }
+
         public NamespaceTable NamespaceUris { get; private set; }
 
         public IDictionary<string, string> DesignFilePaths { get; set; }
@@ -48,22 +67,25 @@ namespace ModelCompiler
     public partial class NodeSetToModelDesign
     {
         private NodeSetReaderSettings m_settings;
+        private readonly IFileSystem m_fileSystem;
         private StringTable m_serverUris = new StringTable();
         private NodeSet.UANodeSet m_nodeset;
         private Dictionary<string, NodeId> m_aliases = new Dictionary<string, NodeId>();
         private Dictionary<NodeId, NodeSet.UANode> m_index;
         private Dictionary<string, XmlQualifiedName> m_symbolicIds;
 
-        public NodeSetToModelDesign(NodeSetReaderSettings settings, string filePath)
+        public NodeSetToModelDesign(NodeSetReaderSettings settings, string filePath, IFileSystem fileSystem)
         {
             if (settings == null) throw new ArgumentNullException(nameof(settings));
             if (filePath == null) throw new ArgumentNullException(nameof(filePath));
+            if (fileSystem == null) throw new ArgumentNullException(nameof(fileSystem));
 
             m_settings = settings;
+            m_fileSystem = fileSystem;
             m_index = new Dictionary<NodeId, NodeSet.UANode>();
             m_symbolicIds = new Dictionary<string, XmlQualifiedName>();
 
-            using (var istrm = File.OpenRead(filePath))
+            using (var istrm = m_fileSystem.OpenRead(filePath))
             {
                 m_nodeset = Opc.Ua.Export.UANodeSet.Read(istrm);
 
@@ -109,42 +131,48 @@ namespace ModelCompiler
             }
         }
 
-        public static bool IsNodeSet(string filePath)
+        public static bool IsNodeSet(IFileSystem fileSystem, string filePath)
         {
+            if (fileSystem == null) throw new ArgumentNullException(nameof(fileSystem));
             if (filePath == null) throw new ArgumentNullException(nameof(filePath));
 
-            var lines = File.ReadAllLines(filePath);
-
-            for (int ii = 0; ii < 40; ii++)
+            using (TextReader reader = fileSystem.CreateTextReader(filePath))
             {
-                var line = lines[ii].TrimStart();
-
-                if (line.StartsWith("<?") || line.StartsWith("<!") || !line.StartsWith("<") || String.IsNullOrEmpty(line))
+                for (int ii = 0; ii < 40; ii++)
                 {
-                    continue;
+                    string line = reader.ReadLine();
+                    if (line == null)
+                    {
+                        break;
+                    }
+                    line = line.TrimStart();
+
+                    if (line.StartsWith("<?") || line.StartsWith("<!") || !line.StartsWith("<") || String.IsNullOrEmpty(line))
+                    {
+                        continue;
+                    }
+
+                    var fields = line.Split();
+
+                    if (fields.Length == 0)
+                    {
+                        break;
+                    }
+
+                    return fields[0].Contains("UANodeSet");
                 }
-
-                var fields = line.Split();
-
-                if (fields.Length == 0)
-                {
-                    break;
-                }
-
-                return fields[0].Contains("UANodeSet");
+                return false;
             }
-
-            return false;
         }
 
-        private static T Load<T>(string path)
+        private static T Load<T>(IFileSystem fileSystem, string path)
         {
             var settings = new XmlReaderSettings()
             {
                 DtdProcessing = DtdProcessing.Prohibit
             };
 
-            using (var stream = File.OpenRead(path))
+            using (var stream = fileSystem.OpenRead(path))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(T));
 
@@ -221,11 +249,12 @@ namespace ModelCompiler
             return ns;
         }
 
-        public static List<Namespace> LoadNamespaces(string filePath)
+        public static List<Namespace> LoadNamespaces(IFileSystem fileSystem, string filePath)
         {
+            if (fileSystem == null) throw new ArgumentNullException(nameof(fileSystem));
             if (filePath == null) throw new ArgumentNullException(nameof(filePath));
 
-            var nodeset = Load<UANodeSet>(filePath);
+            var nodeset = Load<UANodeSet>(fileSystem, filePath);
 
             List<ModelTableEntry> models = new();
 
@@ -1581,7 +1610,7 @@ namespace ModelCompiler
 
             return permissions.ToArray();
         }
-        
+
         private RolePermissionSet ToPermissionSet(NodeSet.UANode node, NodeSet.RolePermission[] input)
         {
             if (input == null)
@@ -1739,7 +1768,7 @@ namespace ModelCompiler
 
             foreach (var node in m_nodeset.Items)
             {
-                // hack to ensure DataTypeEncodings have right symbolic names. 
+                // hack to ensure DataTypeEncodings have right symbolic names.
                 if (node is UAObject)
                 {
                     if (String.IsNullOrEmpty(node.SymbolicName))
@@ -1903,11 +1932,10 @@ namespace ModelCompiler
         /// </summary>
         private XmlDecoder CreateDecoder(XmlElement source, string sourceNodeSetUri = null)
         {
-            IServiceMessageContext messageContext = new ServiceMessageContext()
+            IServiceMessageContext messageContext = new ServiceMessageContext(m_settings.Telemetry)
             {
                 NamespaceUris = m_settings.NamespaceUris,
-                ServerUris = m_serverUris,
-                Factory = ServiceMessageContext.GlobalContext.Factory
+                ServerUris = m_serverUris
             };
 
             XmlDecoder decoder = new XmlDecoder(source, messageContext);

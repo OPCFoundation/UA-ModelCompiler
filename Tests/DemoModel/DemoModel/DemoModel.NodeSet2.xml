@@ -35,7 +35,7 @@
   </NamespaceUris>
   <Models>
     <Model ModelUri="urn:opcfoundation.org:2024-01:DemoModel" XmlSchemaUri="urn:opcfoundation.org:2024-01:DemoModelTypes.xsd" Version="1.05.03" PublicationDate="2023-12-15T00:00:00Z" ModelVersion="1.5.3">
-      <RequiredModel ModelUri="http://opcfoundation.org/UA/" XmlSchemaUri="http://opcfoundation.org/UA/2008/02/Types.xsd" Version="1.05.02" PublicationDate="2022-06-28T00:00:00Z" ModelVersion="1.5.2" />
+      <RequiredModel ModelUri="http://opcfoundation.org/UA/" XmlSchemaUri="http://opcfoundation.org/UA/2008/02/Types.xsd" />
       <RequiredModel ModelUri="http://opcfoundation.org/UA/DI/" />
     </Model>
   </Models>

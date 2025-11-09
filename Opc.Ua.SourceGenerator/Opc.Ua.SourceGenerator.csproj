@@ -1,0 +1,85 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AssemblyName>Opc.Ua.SourceGenerator</AssemblyName>
+    <RootNamespace>ModelCompiler</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <Configurations>Debug;Release;Docker</Configurations>
+  </PropertyGroup>
+  <!-- Package as source generator -->
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <PackageId>OPCFoundation.Opc.Ua.SourceGenerator</PackageId>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Update="Nerdbank.GitVersioning" Version="3.9.50" />
+    <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Opc.Ua.ModelCompiler\Opc.Ua.ModelCompiler.csproj" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Take private dependencies on everything required by the packages referenced (PrivateAssets=all)
+         Consumers of this generator will not reference it.
+         Set GeneratePathProperty=true so we can reference the binaries via the PKGXXXX property -->
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.2" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="CsvHelper" Version="33.1.0" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.377.75-preview" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Security.Certificates" Version="1.5.377.75-preview" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.10" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.Bcl.HashCode" Version="6.0.0" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.OpenApi" Version="1.6.28" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.28" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.10" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.10" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="SharpYaml" Version="2.1.4" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="System.Memory" Version="4.6.3" GeneratePathProperty="true" />
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="9.0.10" GeneratePathProperty="true" />
+    <PackageReference Include="System.Buffers" Version="4.6.1" GeneratePathProperty="true" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.6.1" GeneratePathProperty="true" />
+    <PackageReference Include="System.Text.Json" Version="9.0.10" GeneratePathProperty="true" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="9.0.10" GeneratePathProperty="true" />
+    <PackageReference Include="System.Formats.Asn1" Version="9.0.10" GeneratePathProperty="true" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" GeneratePathProperty="true" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" GeneratePathProperty="true" />
+
+    <!-- Package the generator in the analyzer directory of the nuget package -->
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(OutputPath)\Opc.Ua.ModelCompiler.Core.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+
+    <None Include="$(PkgOPCFoundation_NetStandard_Opc_Ua_Core)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgOPCFoundation_NetStandard_Opc_Ua_Security_Certificates)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgNewtonsoft_Json)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgBouncyCastle_Cryptography)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgCsvHelper)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgSharpYaml)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgSystem_Memory)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgSystem_Buffers)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgSystem_Text_Json)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgSystem_Text_Encodings_Web)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgSystem_Threading_Tasks_Extensions)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgSystem_Diagnostics_DiagnosticSource)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgSystem_Runtime_CompilerServices_Unsafe)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgMicrosoft_OpenApi)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgMicrosoft_OpenApi_Readers)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgMicrosoft_Bcl_AsyncInterfaces)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgMicrosoft_Bcl_HashCode)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgMicrosoft_Extensions_Logging_Abstractions)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PkgMicrosoft_Extensions_DependencyInjection_Abstractions)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OPCFoundation.Opc.Ua.SourceGenerator.props" Visible="false" Pack="true" PackagePath="build" />
+  </ItemGroup>
+</Project>

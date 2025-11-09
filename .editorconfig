@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# Default severity for analyzer diagnostics with category 'Globalization'
+dotnet_analyzer_diagnostic.category-Globalization.severity = none

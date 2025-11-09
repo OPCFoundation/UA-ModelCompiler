@@ -1,0 +1,18 @@
+<Project>
+  <ItemGroup>
+    <CompilerVisibleProperty Include="ModelCompilerVersion" />
+    <CompilerVisibleProperty Include="ModelCompilerExclude" />
+    <CompilerVisibleProperty Include="ModelCompilerUseAllowSubtypes" />
+    <CompilerVisibleProperty Include="ModelCompilerStartId" />
+    <CompilerVisibleProperty Include="ModelCompilerModelVersion" />
+    <CompilerVisibleProperty Include="ModelCompilerModelPublicationDate" />
+    <CompilerVisibleProperty Include="ModelCompilerReleaseCandidate" />
+  </ItemGroup>
+  <ItemGroup>
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="ModelCompilerVersion" />
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="ModelCompilerModelUri" />
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="ModelCompilerName" />
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="ModelCompilerPrefix" />
+    <CompilerVisibleItemMetadata Include="AdditionalFiles" MetadataName="ModelCompilerIgnore" />
+  </ItemGroup>
+</Project>

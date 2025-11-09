@@ -6,16 +6,19 @@ namespace ModelCompiler
 {
     internal class BaseSchemaExporter
     {
+        private readonly IFileSystem m_fileSystem;
         protected SystemContext m_context;
         protected TypeTable m_typeTable;
         protected NodeIdDictionary<DataTypeState> m_index;
+        protected List<NodeId> m_order;
         protected Dictionary<string, BaseSchemaElement> m_builtInTypes;
         protected string m_modelUri;
         protected bool m_useCompactEncoding;
 
-        public BaseSchemaExporter()
+        public BaseSchemaExporter(IFileSystem fileSystem, ITelemetryContext telemetry)
         {
-            m_context = new SystemContext();
+            m_fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+            m_context = new (telemetry);
             m_context.NamespaceUris = new NamespaceTable();
             m_context.ServerUris = new StringTable();
 
@@ -23,6 +26,7 @@ namespace ModelCompiler
             m_context.TypeTable = m_typeTable;
 
             m_index = new NodeIdDictionary<DataTypeState>();
+            m_order = new List<NodeId>();
         }
 
         protected void AddTypesToTypeTree(NodeStateCollection nodes, BaseTypeState type)
@@ -61,7 +65,7 @@ namespace ModelCompiler
                 throw new ArgumentException(nameof(modelUri), "File not found.");
             }
 
-            using (var istrm = File.OpenRead(filePath))
+            using (var istrm = m_fileSystem.OpenRead(filePath))
             {
                 IndexDataTypes(istrm);
             }
@@ -79,7 +83,7 @@ namespace ModelCompiler
                 {
                     if (!loadedNodeSets.Contains(uri) && nodesets.TryGetValue(uri, out var dependencyFilePath))
                     {
-                        using (var istrm = File.OpenRead(dependencyFilePath))
+                        using (var istrm = m_fileSystem.OpenRead(dependencyFilePath))
                         {
                             IndexDataTypes(istrm);
                         }
@@ -93,9 +97,11 @@ namespace ModelCompiler
             while (found);
 
             m_modelUri = modelUri;
-
-            foreach (var type in m_index.Values)
+            
+            foreach (var ii in m_order)
             {
+                var type = m_index[ii];
+
                 Stack<DataTypeState> dataTypes = new Stack<DataTypeState>();
                 dataTypes.Push(type);
 
@@ -127,7 +133,7 @@ namespace ModelCompiler
 
         public void Load(string filePath)
         {
-            using (var istrm = File.OpenRead(filePath))
+            using (var istrm = m_fileSystem.OpenRead(filePath))
             {
                 Load(istrm);
             }
@@ -146,6 +152,7 @@ namespace ModelCompiler
                 if (node is DataTypeState dt)
                 {
                     m_index[node.NodeId] = dt;
+                    m_order.Add(node.NodeId);
                 }
             }
         }
@@ -163,6 +170,7 @@ namespace ModelCompiler
                 if (node is DataTypeState dt)
                 {
                     m_index[node.NodeId] = dt;
+                    m_order.Add(node.NodeId);
                 }
             }
 
@@ -262,11 +270,10 @@ namespace ModelCompiler
 
             if (bit.NodeId == Opc.Ua.DataTypes.Structure || bit.NodeId == Opc.Ua.DataTypes.Union)
             {
-                if (
-                    definition.StructureType == StructureType.StructureWithSubtypedValues ||
-                    definition.StructureType == StructureType.UnionWithSubtypedValues ||
-                    field.IsOptional ||
-                    fieldType.IsAbstract)
+                if (( definition.StructureType == StructureType.StructureWithSubtypedValues ||
+                      definition.StructureType == StructureType.UnionWithSubtypedValues
+                    ) &&
+                    (field.IsOptional || fieldType.IsAbstract))
                 {
                     if (field.IsOptional)
                     {
@@ -319,8 +326,10 @@ namespace ModelCompiler
                 exportedTypes.Add(type.Key, type.Value);
             }
 
-            foreach (var node in m_index.Values)
+            foreach (var ii in m_order)
             {
+                var node = m_index[ii];
+
                 if (node is DataTypeState dt)
                 {
                     var key = (dt.NodeId.NamespaceIndex == 0) ? dt.SymbolicName : $"{dt.NodeId.NamespaceIndex}:{dt.SymbolicName}";
@@ -427,7 +436,28 @@ namespace ModelCompiler
             if ((@namespace == null && @namespace != Namespaces.OpcUa && m_modelUri != Namespaces.OpcUa) ||
                 (@namespace != null && @namespace != m_modelUri))
             {
-                builder.Append(@namespace ?? Namespaces.OpcUa);
+                var ns = @namespace ?? Namespaces.OpcUa;
+
+                if (ns == Namespaces.OpcUa)
+                {
+                    ns = "https://opcfoundation.org/schemas/OpenApi/opc.ua.services.jsonschema.json#/$defs/";
+                }
+                else
+                {
+                    if (ns.StartsWith(Namespaces.OpcUa, StringComparison.Ordinal))
+                    {
+                        ns = "https://opcfoundation.org/schemas/" + ns.Substring(Namespaces.OpcUa.Length) + "#/$defs/";
+                    }
+                }
+
+                builder.Append(ns);
+                builder.Append(name);
+                return builder.ToString();
+            }
+
+            if (builder.Length == 0)
+            {
+                builder.Append("#/$defs/");
             }
 
             if (builder.Length == 0 || builder[builder.Length - 1] != '/')
@@ -435,7 +465,7 @@ namespace ModelCompiler
                 builder.Append('/');
             }
 
-            builder.Append(name.ToLowerInvariant());
+            builder.Append(name);
 
             return builder.ToString();
         }

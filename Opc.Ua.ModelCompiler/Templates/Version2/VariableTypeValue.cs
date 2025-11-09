@@ -1,12 +1,11 @@
 // ***START***
 #region _ClassName_Value Class
-/// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
 public class _ClassName_Value : BaseVariableValue
 {
     #region Constructors
-    /// <remarks />
     public _ClassName_Value(_ClassName_State variable, _DataType_ value, object dataLock) : base(dataLock)
     {
         m_value = value;
@@ -21,13 +20,11 @@ public class _ClassName_Value : BaseVariableValue
     #endregion
 
     #region Public Members
-    /// <remarks />
     public _ClassName_State Variable
     {
         get { return m_variable; }
     }
 
-    /// <remarks />
     public _DataType_ Value
     {
         get { return m_value; }
@@ -57,7 +54,6 @@ public class _ClassName_Value : BaseVariableValue
         }
     }
 
-    /// <remarks />
     protected ServiceResult OnReadValue(
         ISystemContext context,
         NodeState node,

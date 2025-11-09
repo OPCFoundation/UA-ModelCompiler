@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2009 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -31,6 +31,7 @@ using System.Text;
 using System.Xml;
 using System.Reflection;
 using System.Xml.Schema;
+using ModelCompiler;
 
 namespace Opc.Ua.Schema.Xml
 {
@@ -38,25 +39,27 @@ namespace Opc.Ua.Schema.Xml
     /// Generates files used to describe data types.
     /// </summary>
     public class XmlSchemaValidator : SchemaValidator
-    {       
+    {
         #region Constructors
 		/// <summary>
 		/// Intializes the object with default values.
 		/// </summary>
-		public XmlSchemaValidator()
+		public XmlSchemaValidator(IFileSystem fileSystem)
 		{
+            m_fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
             SetResourcePaths(WellKnownDictionaries);
 		}
 
 		/// <summary>
 		/// Intializes the object with a file table.
 		/// </summary>
-		public XmlSchemaValidator(Dictionary<string,string> fileTable) : base(fileTable)
+		public XmlSchemaValidator(IFileSystem fileSystem, Dictionary<string,string> fileTable) : base(fileTable)
 		{
+            m_fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
             SetResourcePaths(WellKnownDictionaries);
 		}
-        #endregion      
-        
+        #endregion
+
         #region Public Members
         /// <summary>
         /// The schema set that was validated.
@@ -72,13 +75,13 @@ namespace Opc.Ua.Schema.Xml
         {
             get { return m_schema; }
         }
-        
+
 		/// <summary>
 		/// Generates the code from the contents of the address space.
 		/// </summary>
 		public void Validate(string inputPath)
 		{
-            Validate(File.OpenRead(inputPath));
+            Validate(m_fileSystem.OpenRead(inputPath));
         }
 
 		/// <summary>
@@ -89,7 +92,7 @@ namespace Opc.Ua.Schema.Xml
             m_schema = XmlSchema.Read(stream, new ValidationEventHandler(OnValidate));
 
             foreach (XmlSchemaImport import in m_schema.Includes)
-            {                    
+            {
                 if (import.Namespace == Namespaces.OpcUa)
                 {
                     StreamReader strm = new StreamReader(Assembly.Load("Opc.Ua.Core").GetManifestResourceStream("Opc.Ua.Model.Opc.Ua.Types.xsd"));
@@ -100,28 +103,26 @@ namespace Opc.Ua.Schema.Xml
                 string location = null;
 
                 if (!KnownFiles.TryGetValue(import.Namespace, out location))
-                { 
+                {
                     location = import.SchemaLocation;
                 }
-                
-                FileInfo fileInfo = new FileInfo(location);
 
-                if (!fileInfo.Exists)
+                if (!m_fileSystem.Exists(location))
                 {
                     StreamReader strm = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(location));
                     import.Schema = XmlSchema.Read(strm, new ValidationEventHandler(OnValidate));
                 }
                 else
                 {
-                    Stream strm = File.OpenRead(location);
+                    Stream strm = m_fileSystem.OpenRead(location);
                     import.Schema = XmlSchema.Read(strm, new ValidationEventHandler(OnValidate));
-                }                
+                }
             }
- 
+
             m_schemaSet = new XmlSchemaSet();
             m_schemaSet.Add(m_schema);
-            m_schemaSet.Compile();                        
-		}       
+            m_schemaSet.Compile();
+		}
 
         /// <summary>
         /// Returns the schema for the specified type (returns the entire schema if null).
@@ -129,14 +130,14 @@ namespace Opc.Ua.Schema.Xml
         public override string GetSchema(string typeName)
         {
             XmlWriterSettings settings = new XmlWriterSettings();
-            
+
             settings.Encoding    = Encoding.UTF8;
             settings.Indent      = true;
             settings.IndentChars = "    ";
 
             MemoryStream ostrm = new MemoryStream();
             XmlWriter writer = XmlWriter.Create(ostrm, settings);
-            
+
             try
             {
                 if (typeName == null || m_schema.Elements.Values.Count == 0)
@@ -146,13 +147,13 @@ namespace Opc.Ua.Schema.Xml
                 else
                 {
                     foreach (XmlSchemaObject current in m_schema.Elements.Values)
-                    {       
+                    {
                         XmlSchemaElement element = current as XmlSchemaElement;
 
                         if (element != null)
                         {
                             if (element.Name == typeName)
-                            {                                
+                            {
                                 XmlSchema schema = new XmlSchema();
                                 schema.Items.Add(element.ElementSchemaType);
                                 schema.Items.Add(element);
@@ -169,9 +170,9 @@ namespace Opc.Ua.Schema.Xml
             }
 
             return new UTF8Encoding().GetString(ostrm.ToArray());
-        } 
-        #endregion      
-        
+        }
+        #endregion
+
         #region Private Methods
         /// <summary>
         /// Handles a valdiation error.
@@ -180,14 +181,14 @@ namespace Opc.Ua.Schema.Xml
         {
             throw new InvalidOperationException(args.Message, args.Exception);
         }
-        #endregion    
+        #endregion
 
         #region Private Fields
         private readonly string[][] WellKnownDictionaries = new string[][]
         {
             new string[] {  Namespaces.OpcUaBuiltInTypes, "Opc.Ua.Schema.Xml.BuiltInTypes.xsd" }
         };
-
+        private readonly IFileSystem m_fileSystem;
         private XmlSchema m_schema;
         private XmlSchemaSet m_schemaSet;
         #endregion

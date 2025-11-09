@@ -21,15 +21,11 @@
  * http://opcfoundation.org/License/RCL/1.00/
  * ======================================================================*/
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using System.Xml.Serialization;
-using System.IO;
 using System.Reflection;
 using System.Xml.Schema;
+using ModelCompiler;
 
 namespace Opc.Ua.Schema.Xml
 {
@@ -42,16 +38,18 @@ namespace Opc.Ua.Schema.Xml
 		/// <summary>
 		/// Intializes the object with default values.
 		/// </summary>
-		public XmlSchemaValidator2()
+		public XmlSchemaValidator2(IFileSystem fileSystem)
 		{
+            m_fileSystem = fileSystem ?? throw new ArgumentException(nameof(fileSystem));
             SetResourcePaths(WellKnownDictionaries);
 		}
 
 		/// <summary>
 		/// Intializes the object with a file table.
 		/// </summary>
-		public XmlSchemaValidator2(Dictionary<string,string> fileTable) : base(fileTable)
+		public XmlSchemaValidator2(IFileSystem fileSystem, Dictionary<string,string> fileTable) : base(fileTable)
 		{
+            m_fileSystem = fileSystem ?? throw new ArgumentException(nameof(fileSystem));
             SetResourcePaths(WellKnownDictionaries);
 		}
         #endregion
@@ -77,7 +75,7 @@ namespace Opc.Ua.Schema.Xml
 		/// </summary>
 		public void Validate(string inputPath)
 		{
-            using (Stream istrm = File.OpenRead(inputPath))
+            using (Stream istrm = m_fileSystem.OpenRead(inputPath))
             {
                 Validate(istrm);
             }
@@ -106,16 +104,14 @@ namespace Opc.Ua.Schema.Xml
                     location = import.SchemaLocation;
                 }
 
-                FileInfo fileInfo = new FileInfo(location);
-
-                if (!fileInfo.Exists)
+                if (!m_fileSystem.Exists(location))
                 {
                     StreamReader strm = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(location));
                     import.Schema = XmlSchema.Read(strm, new ValidationEventHandler(OnValidate));
                 }
                 else
                 {
-                    Stream strm = File.OpenRead(location);
+                    Stream strm = m_fileSystem.OpenRead(location);
                     import.Schema = XmlSchema.Read(strm, new ValidationEventHandler(OnValidate));
                 }
             }
@@ -189,7 +185,7 @@ namespace Opc.Ua.Schema.Xml
         {
             new string[] {  Namespaces.OpcUaBuiltInTypes, "Opc.Ua.Types.Schemas.BuiltInTypes.xsd" }
         };
-
+        private readonly IFileSystem m_fileSystem;
         private XmlSchema m_schema;
         private XmlSchemaSet m_schemaSet;
         #endregion

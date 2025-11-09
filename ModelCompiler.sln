@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36623.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Opc.Ua.ModelCompiler.Tool", "Opc.Ua.ModelCompiler.Tool\Opc.Ua.ModelCompiler.Tool.csproj", "{4619A54A-48B7-7787-67ED-8B3450978EB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Opc.Ua.ModelCompiler", "Opc.Ua.ModelCompiler\Opc.Ua.ModelCompiler.csproj", "{D5D38CF7-E2C4-B64D-10A8-04C16603FF18}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schemas", "Schemas", "{0F30E25C-730E-FC1B-A752-E8466D187ADC}"
+	ProjectSection(SolutionItems) = preProject
+		Schemas\OPCBinarySchema.xsd = Schemas\OPCBinarySchema.xsd
+		Schemas\SecuredApplication.xsd = Schemas\SecuredApplication.xsd
+		Schemas\ServerCapabilities.csv = Schemas\ServerCapabilities.csv
+		Schemas\UANodeSet.xsd = Schemas\UANodeSet.xsd
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{089100B1-113F-4E66-888A-E83F3999EAFD}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		BuildEngineeringUnits.bat = BuildEngineeringUnits.bat
+		BuildStandardTypes.bat = BuildStandardTypes.bat
+		CompileNodeSets.bat = CompileNodeSets.bat
+		PublishModel.bat = PublishModel.bat
+		PublishNodeSet.bat = PublishNodeSet.bat
+		TestNodeSets.bat = TestNodeSets.bat
+		UpdateLicense.bat = UpdateLicense.bat
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Docker|Any CPU = Docker|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4619A54A-48B7-7787-67ED-8B3450978EB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4619A54A-48B7-7787-67ED-8B3450978EB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4619A54A-48B7-7787-67ED-8B3450978EB1}.Docker|Any CPU.ActiveCfg = Docker|Any CPU
+		{4619A54A-48B7-7787-67ED-8B3450978EB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4619A54A-48B7-7787-67ED-8B3450978EB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5D38CF7-E2C4-B64D-10A8-04C16603FF18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5D38CF7-E2C4-B64D-10A8-04C16603FF18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5D38CF7-E2C4-B64D-10A8-04C16603FF18}.Docker|Any CPU.ActiveCfg = Docker|Any CPU
+		{D5D38CF7-E2C4-B64D-10A8-04C16603FF18}.Docker|Any CPU.Build.0 = Docker|Any CPU
+		{D5D38CF7-E2C4-B64D-10A8-04C16603FF18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5D38CF7-E2C4-B64D-10A8-04C16603FF18}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

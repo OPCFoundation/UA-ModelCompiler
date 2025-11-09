@@ -2,7 +2,6 @@ public class _ClassName_Value
 {
 // ***START***
 #region _ChildName_ Access Methods
-/// <remarks />
 private ServiceResult OnRead__ChildName_(
     ISystemContext context,
     NodeState node,
@@ -45,7 +44,6 @@ private ServiceResult OnRead__ChildName_(
     }
 }
 
-/// <remarks />
 private ServiceResult OnWrite__ChildName_(
     ISystemContext context,
     NodeState node,

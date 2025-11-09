@@ -1,12 +1,8 @@
 class _Name_{
 // ***START***
-/// <remarks />
 public new _ClassName_ _ChildName_
 {
-    get
-    {
-        return _FieldName_;
-    }
+    get => _FieldName_;
 
     set
     {

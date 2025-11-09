@@ -42,12 +42,14 @@ namespace ModelCompiler
     public partial class ModelCompilerValidator : Opc.Ua.Schema.SchemaValidator
     {
         #region Private Fields
+        private ITelemetryContext m_telemetry;
         private ModelDesign m_dictionary;
         private Dictionary<XmlQualifiedName, NodeDesign> m_nodes;
         private Dictionary<string, string[]> m_namespaceTables;
         private Dictionary<NodeId, NodeDesign> m_nodesByNodeId;
         private Dictionary<uint, NodeDesign> m_identifiers;
         private string DefaultNamespace = Namespaces.OpcUa;
+        private readonly IFileSystem m_fileSystem;
         private ServiceMessageContext m_context;
         private uint m_startId;
         private IList<string> m_exclusions;
@@ -60,9 +62,11 @@ namespace ModelCompiler
         /// <summary>
         /// Intializes the object with default values.
         /// </summary>
-        public ModelCompilerValidator(uint startId, IList<string> exclusions)
+        public ModelCompilerValidator(uint startId, IList<string> exclusions, IFileSystem fileSystem, ITelemetryContext telemetry)
         {
-            m_context = ServiceMessageContext.GlobalContext;
+            m_fileSystem = fileSystem;
+            m_telemetry = telemetry;
+            m_context = new ServiceMessageContext(telemetry);
             m_startId = startId;
             m_exclusions = exclusions;
             EmbeddedModelDesignPath = "ModelCompiler.Design";
@@ -145,7 +149,7 @@ namespace ModelCompiler
 
         public ModelDesign LoadBuiltInModel()
         {
-            var model = LoadBuiltInModeFromResource();
+            var model = LoadBuiltInModelFromResource();
 
             UpdateNamespaceTables(model);
 
@@ -190,7 +194,8 @@ namespace ModelCompiler
 
         public ModelDesign LoadModelDesign(string designFilePath, string identifierFilePath, bool generateIds)
         {
-            var model = (ModelDesign)LoadFile(typeof(ModelDesign), designFilePath);
+            using var stream = m_fileSystem.OpenRead(designFilePath);
+            var model = (ModelDesign)LoadFile(typeof(ModelDesign), stream);
             model.SourceFilePath = designFilePath;
             model.IsSourceNodeSet = false;
 
@@ -201,7 +206,7 @@ namespace ModelCompiler
 
             if (!model.TargetPublicationDateSpecified || model.TargetPublicationDate == DateTime.MinValue)
             {
-                model.TargetPublicationDate = new FileInfo(designFilePath).LastWriteTimeUtc;
+                model.TargetPublicationDate = m_fileSystem.GetLastWriteTime(designFilePath);
                 model.TargetPublicationDateSpecified = true;
             }
 
@@ -235,7 +240,7 @@ namespace ModelCompiler
                 // assign unique ids.
                 if (generateIds)
                 {
-                    File.Delete(identifierFilePath);
+                    m_fileSystem.Delete(identifierFilePath);
                 }
 
                 LoadIdentifiersFromFile2(model, identifierFilePath);
@@ -244,12 +249,12 @@ namespace ModelCompiler
             {
                 var path = Path.Combine(Path.GetDirectoryName(designFilePath), Path.GetFileNameWithoutExtension(designFilePath) + ".csv");
 
-                if (!File.Exists(path))
+                if (!m_fileSystem.Exists(path))
                 {
                     path = Path.Combine(Path.GetDirectoryName(designFilePath), "..\\CSVs", Path.GetFileNameWithoutExtension(designFilePath) + ".csv");
                 }
 
-                if (File.Exists(path))
+                if (m_fileSystem.Exists(path))
                 {
                     LoadIdentifiersFromFile2(model, path);
                 }
@@ -387,7 +392,7 @@ namespace ModelCompiler
 
         private ModelDesign ImportTypeDictionary(string filePath, string resourcePath)
         {
-            using (Stream stream = File.OpenRead(filePath))
+            using (Stream stream = m_fileSystem.OpenRead(filePath))
             {
                 return ImportTypeDictionary(stream, resourcePath);
             }
@@ -560,7 +565,7 @@ namespace ModelCompiler
         }
         #endregion
 
-        private ModelDesign LoadBuiltInModeFromResource()
+        private ModelDesign LoadBuiltInModelFromResource()
         {
             List<NodeDesign> nodes = new List<NodeDesign>();
 
@@ -710,7 +715,11 @@ namespace ModelCompiler
                 {
                     AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Binary, nodes);
                     AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Xml, nodes);
-                    AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Json, nodes);
+
+                    if (DefaultNamespace == Namespaces.OpcUa)
+                    {
+                        AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Json, nodes);
+                    }
                 }
                 else
                 {
@@ -950,11 +959,12 @@ namespace ModelCompiler
 
             try
             {
-                model = (ModelDesign)LoadInput(typeof(ModelDesign), designFilePath);
+                using var stream = m_fileSystem.OpenRead(designFilePath);
+                model = (ModelDesign)LoadInput(typeof(ModelDesign), stream);
 
                 if (model.Items == null)
                 {
-                    model.Items = new NodeDesign[0];
+                    model.Items = Array.Empty<NodeDesign>();
                 }
             }
             catch (Exception e)
@@ -1066,7 +1076,7 @@ namespace ModelCompiler
             var prefix = (fields.Length > 1) ? fields[1] : null;
             var name = (fields.Length > 2) ? fields[2] : null;
 
-            if (NodeSetToModelDesign.IsNodeSet(fileToLoad))
+            if (NodeSetToModelDesign.IsNodeSet(m_fileSystem, fileToLoad))
             {
                 var settings = new NodeSetReaderSettings()
                 {
@@ -1081,7 +1091,7 @@ namespace ModelCompiler
 
                 IndexNodesByNodeId(settings.NamespaceUris, m_nodes.Values, settings.NodesById, null);
 
-                var reader = new NodeSetToModelDesign(settings, fileToLoad);
+                var reader = new NodeSetToModelDesign(settings, fileToLoad, m_fileSystem);
                 model = reader.Import(prefix, name);
                 model.SourceFilePath = fileToLoad;
                 model.IsSourceNodeSet = true;
@@ -1280,7 +1290,7 @@ namespace ModelCompiler
             // assign unique ids.
             if (generateIds)
             {
-                File.Delete(identifierFilePath);
+                m_fileSystem.Delete(identifierFilePath);
             }
 
             LoadIdentifiersFromFile2(m_dictionary, identifierFilePath);
@@ -1333,14 +1343,15 @@ namespace ModelCompiler
 
                 List<Namespace> fileNamespaces = null;
 
-                if (NodeSetToModelDesign.IsNodeSet(fileToLoad))
+                if (NodeSetToModelDesign.IsNodeSet(m_fileSystem, fileToLoad))
                 {
-                    fileNamespaces = NodeSetToModelDesign.LoadNamespaces(fileToLoad);
+                    fileNamespaces = NodeSetToModelDesign.LoadNamespaces(m_fileSystem, fileToLoad);
                     fileNamespaces.Last().FilePath = path;
                 }
                 else
                 {
-                    var design = (ModelDesign)LoadFile(typeof(ModelDesign), fileToLoad);
+                    using var stream = m_fileSystem.OpenRead(fileToLoad);
+                    var design = (ModelDesign)LoadFile(typeof(ModelDesign), stream);
 
                     foreach (var ns in design.Namespaces)
                     {
@@ -1429,7 +1440,7 @@ namespace ModelCompiler
                 }
 
                 var dependency = LoadDesignFile(namespaces, namespaces[ii].FilePath, null, false);
-                                
+
                 if (dependency.Namespaces != null)
                 {
                     var ns = dependency.Namespaces.Where(x => x.Value == dependency.TargetNamespace).FirstOrDefault();
@@ -2539,26 +2550,19 @@ namespace ModelCompiler
         /// </summary>
         private void LoadIdentifiersFromFile2(ModelDesign dictionary, string filePath)
         {
-            if (String.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+            if (String.IsNullOrEmpty(filePath) || !m_fileSystem.Exists(filePath))
             {
                 throw new FileNotFoundException("The identifier file does not exist.", filePath);
             }
 
-            var file = new FileInfo(filePath);
-
-            if (!file.Directory.Exists)
-            {
-                file.Directory.Create();
-            }
-
             IDictionary<object, IdInfo> uniqueIdentifiers;
 
-            using (var istrm = File.Open(file.FullName, FileMode.Open))
+            using (var istrm = m_fileSystem.OpenRead(filePath))
             {
                 uniqueIdentifiers = LoadIdentifiersFromStream2(dictionary, istrm);
             }
 
-            using (StreamWriter writer = new StreamWriter(File.Open(file.FullName, FileMode.Create)))
+            using (TextWriter writer = m_fileSystem.CreateTextWriter(filePath))
             {
                 foreach (KeyValuePair<object, IdInfo> id in uniqueIdentifiers)
                 {
@@ -3258,7 +3262,7 @@ namespace ModelCompiler
 
         private void UpdateRolePermissions()
         {
-            SystemContext context = new SystemContext();
+            SystemContext context = new SystemContext(m_telemetry);
             context.NamespaceUris = this.m_context.NamespaceUris;
 
             var list = new List<NodeState>();
@@ -3363,7 +3367,7 @@ namespace ModelCompiler
                 if (path.Count > 0)
                 {
                     name += "_";
-                    name += String.Join('_', path.Select(x => x.SymbolicName));
+                    name += String.Join("_", path.Select(x => x.SymbolicName));
                 }
 
                 if (defaultPermissions.TryGetValue(name, out T output))
@@ -3414,7 +3418,7 @@ namespace ModelCompiler
             }
             else
             {
-                var name = String.Join('_', path.Select(x => x.SymbolicName));
+                var name = String.Join("_", path.Select(x => x.SymbolicName));
 
                 if (defaultPermissions.TryGetValue(name, out T output))
                 {
@@ -4734,6 +4738,7 @@ namespace ModelCompiler
             {
                 case ValueRank.Array: return ValueRanks.OneDimension;
                 case ValueRank.Scalar: return ValueRanks.Scalar;
+                case ValueRank.Any: return ValueRanks.Any;
                 case ValueRank.ScalarOrArray: return ValueRanks.Any;
                 case ValueRank.ScalarOrOneDimension: return ValueRanks.ScalarOrOneDimension;
 
@@ -5494,7 +5499,7 @@ namespace ModelCompiler
                 for (int ii = 0; ii < parent.Children.Items.Length; ii++)
                 {
                     InstanceDesign instance = parent.Children.Items[ii];
-                    
+
                     if (instance.ModellingRule == ModellingRule.ExposesItsArray)
                     {
                         continue;
@@ -5609,7 +5614,7 @@ namespace ModelCompiler
 
                     if (!String.IsNullOrEmpty(basePath))
                     {
-                        if (instance.ModellingRule == ModellingRule.None || 
+                        if (instance.ModellingRule == ModellingRule.None ||
                             instance.ModellingRule == ModellingRule.ExposesItsArray ||
                             instance.ModellingRule == ModellingRule.OptionalPlaceholder)
                         {
@@ -5698,7 +5703,7 @@ namespace ModelCompiler
                     {
                         if (!String.IsNullOrEmpty(basePath))
                         {
-                            if (instance.ModellingRule == ModellingRule.None || 
+                            if (instance.ModellingRule == ModellingRule.None ||
                                 instance.ModellingRule == ModellingRule.ExposesItsArray ||
                                 instance.ModellingRule == ModellingRule.OptionalPlaceholder)
                             {
@@ -6137,7 +6142,7 @@ namespace ModelCompiler
                 root.AccessRestrictions = ImportAccessRestrictions(design.DefaultAccessRestrictions, design.DefaultAccessRestrictionsSpecified);
             }
 
-            SystemContext context = new SystemContext();
+            SystemContext context = new SystemContext(m_telemetry);
             context.NamespaceUris = this.m_context.NamespaceUris;
 
             List<BaseInstanceState> children = new List<BaseInstanceState>();
@@ -6938,7 +6943,7 @@ namespace ModelCompiler
             state.Categories = null;
             state.ReleaseStatus = ToReleaseStatus(root.ReleaseStatus);
             state.DesignToolOnly = root.DesignToolOnly;
-    
+
             if (!String.IsNullOrEmpty(root.Category))
             {
                 state.Categories = root.Category.Split(new char[] { ',' });
@@ -7044,7 +7049,7 @@ namespace ModelCompiler
 
                 if (encodeable != null)
                 {
-                    qname = EncodeableFactory.GetXmlName(encodeable.GetType());
+                    qname = Opc.Ua.TypeInfo.GetXmlName(encodeable.GetType());
                 }
             }
 

@@ -7,6 +7,7 @@
 /// <exclude />
 // _XMLARRAYTYPE_
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
 public partial class _NAME_Collection : List<_NAME_>, ICloneable
 {
     #region Constructors

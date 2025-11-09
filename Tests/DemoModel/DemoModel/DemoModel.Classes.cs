@@ -37,41 +37,38 @@ using System.Threading.Tasks;
 using System.Threading;
 using Opc.Ua;
 
+#pragma warning disable 1591
+
 namespace DemoModel
 {
     #region RestrictedVariableState Class
     #if (!OPCUA_EXCLUDE_RestrictedVariableState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class RestrictedVariableState : BaseDataVariableState
     {
         #region Constructors
-        /// <remarks />
         public RestrictedVariableState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         protected override NodeId GetDefaultTypeDefinitionId(NamespaceTable namespaceUris)
         {
             return Opc.Ua.NodeId.Create(DemoModel.VariableTypes.RestrictedVariableType, DemoModel.Namespaces.DemoModel, namespaceUris);
         }
 
-        /// <remarks />
         protected override NodeId GetDefaultDataTypeId(NamespaceTable namespaceUris)
         {
             return Opc.Ua.NodeId.Create(Opc.Ua.DataTypes.String, Opc.Ua.Namespaces.OpcUa, namespaceUris);
         }
 
-        /// <remarks />
         protected override int GetDefaultValueRank()
         {
             return ValueRanks.Any;
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -79,14 +76,12 @@ namespace DemoModel
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void Initialize(ISystemContext context, NodeState source)
         {
             InitializeOptionalChildren(context);
             base.Initialize(context, source);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -105,13 +100,9 @@ namespace DemoModel
         #endregion
 
         #region Public Properties
-        /// <remarks />
         public PropertyState<int> Yellow
         {
-            get
-            {
-                return m_yellow;
-            }
+            get => m_yellow;
 
             set
             {
@@ -124,13 +115,9 @@ namespace DemoModel
             }
         }
 
-        /// <remarks />
         public PropertyState<int> X
         {
-            get
-            {
-                return m_x;
-            }
+            get => m_x;
 
             set
             {
@@ -143,13 +130,9 @@ namespace DemoModel
             }
         }
 
-        /// <remarks />
         public PropertyState<int> Y
         {
-            get
-            {
-                return m_y;
-            }
+            get => m_y;
 
             set
             {
@@ -162,13 +145,9 @@ namespace DemoModel
             }
         }
 
-        /// <remarks />
         public PropertyState<int> Z
         {
-            get
-            {
-                return m_z;
-            }
+            get => m_z;
 
             set
             {
@@ -183,7 +162,6 @@ namespace DemoModel
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         public override void GetChildren(
             ISystemContext context,
             IList<BaseInstanceState> children)
@@ -211,7 +189,35 @@ namespace DemoModel
             base.GetChildren(context, children);
         }
             
-        /// <remarks />
+        protected override void RemoveExplicitlyDefinedChild(BaseInstanceState child)
+        {
+            if (Object.ReferenceEquals(m_yellow, child))
+            {
+                m_yellow = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_x, child))
+            {
+                m_x = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_y, child))
+            {
+                m_y = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_z, child))
+            {
+                m_z = null;
+                return;
+            }
+
+            base.RemoveExplicitlyDefinedChild(child);
+        }
+
         protected override BaseInstanceState FindChild(
             ISystemContext context,
             QualifiedName browseName,
@@ -330,19 +336,17 @@ namespace DemoModel
     }
 
     #region RestrictedVariableState<T> Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public class RestrictedVariableState<T> : RestrictedVariableState
     {
         #region Constructors
-        /// <remarks />
         public RestrictedVariableState(NodeState parent) : base(parent)
         {
             Value = default(T);
         }
 
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -352,7 +356,6 @@ namespace DemoModel
             ValueRank = TypeInfo.GetValueRank(typeof(T));
         }
 
-        /// <remarks />
         protected override void Initialize(ISystemContext context, NodeState source)
         {
             InitializeOptionalChildren(context);
@@ -361,7 +364,6 @@ namespace DemoModel
         #endregion
 
         #region Public Members
-        /// <remarks />
         public new T Value
         {
             get
@@ -382,25 +384,22 @@ namespace DemoModel
 
     #region RestrictedObjectState Class
     #if (!OPCUA_EXCLUDE_RestrictedObjectState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class RestrictedObjectState : BaseObjectState
     {
         #region Constructors
-        /// <remarks />
         public RestrictedObjectState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         protected override NodeId GetDefaultTypeDefinitionId(NamespaceTable namespaceUris)
         {
             return Opc.Ua.NodeId.Create(DemoModel.ObjectTypes.RestrictedObjectType, DemoModel.Namespaces.DemoModel, namespaceUris);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -408,14 +407,12 @@ namespace DemoModel
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void Initialize(ISystemContext context, NodeState source)
         {
             InitializeOptionalChildren(context);
             base.Initialize(context, source);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -425,23 +422,24 @@ namespace DemoModel
         private const string InitializationString =
            "AgAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWwfAAAAaHR0cDovL29w" +
            "Y2ZvdW5kYXRpb24ub3JnL1VBL0RJL/////8EYIACAQAAAAEAHAAAAFJlc3RyaWN0ZWRPYmplY3RUeXBl" +
-           "SW5zdGFuY2UBAXwAAQF8AHwAAAD/////AgAAABVgiQoCAAAAAQADAAAAUmVkAQF9AAAvAQF6AH0AAAAA" +
+           "SW5zdGFuY2UBAXwAAQF8AHwAAAD/////AwAAABVgiQoCAAAAAQADAAAAUmVkAQF9AAAvAQF6AH0AAAAA" +
            "DP////8BAf////8EAAAAFWCJCgIAAAABAAYAAABZZWxsb3cBATkAAC8ARDkAAAAABv////8BAf////8A" +
            "AAAAFWCJCgIAAAABAAEAAABYAQHVAAAvAETVAAAAAAb/////AQH/////AAAAABVgiQoCAAAAAQABAAAA" +
            "WQEB1gAALwBE1gAAAAAG/////wEB/////wAAAAAVYIkKAgAAAAEAAQAAAFoBAdcAAC8ARNcAAAAABv//" +
-           "//8BAf////8AAAAABGGCCgQAAAABAAQAAABCbHVlAQF/AAAvAQF/AH8AAAABAf////8AAAAA";
+           "//8BAf////8AAAAAFWDJCgIAAAAQAAAAUGlua19QbGFjZWhvbGRlcgEABgAAADxQaW5rPgEBhAAALwEB" +
+           "egCEAAAAAAz/////AQH/////BAAAABVgiQoCAAAAAQAGAAAAWWVsbG93AQE6AAAvAEQ6AAAAAAb/////" +
+           "AQH/////AAAAABVgiQoCAAAAAQABAAAAWAEB2AAALwBE2AAAAAAG/////wEB/////wAAAAAVYIkKAgAA" +
+           "AAEAAQAAAFkBAdkAAC8ARNkAAAAABv////8BAf////8AAAAAFWCJCgIAAAABAAEAAABaAQHaAAAvAETa" +
+           "AAAAAAb/////AQH/////AAAAAARhggoEAAAAAQAEAAAAQmx1ZQEBfwAALwEBfwB/AAAAAQH/////AAAA" +
+           "AA==";
         #endregion
         #endif
         #endregion
 
         #region Public Properties
-        /// <remarks />
         public RestrictedVariableState<string> Red
         {
-            get
-            {
-                return m_red;
-            }
+            get => m_red;
 
             set
             {
@@ -454,13 +452,9 @@ namespace DemoModel
             }
         }
 
-        /// <remarks />
         public MethodState Blue
         {
-            get
-            {
-                return m_blueMethod;
-            }
+            get => m_blueMethod;
 
             set
             {
@@ -475,7 +469,6 @@ namespace DemoModel
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         public override void GetChildren(
             ISystemContext context,
             IList<BaseInstanceState> children)
@@ -493,7 +486,23 @@ namespace DemoModel
             base.GetChildren(context, children);
         }
             
-        /// <remarks />
+        protected override void RemoveExplicitlyDefinedChild(BaseInstanceState child)
+        {
+            if (Object.ReferenceEquals(m_red, child))
+            {
+                m_red = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_blueMethod, child))
+            {
+                m_blueMethod = null;
+                return;
+            }
+
+            base.RemoveExplicitlyDefinedChild(child);
+        }
+
         protected override BaseInstanceState FindChild(
             ISystemContext context,
             QualifiedName browseName,
@@ -571,25 +580,22 @@ namespace DemoModel
 
     #region WithTwoDimensionalVariableState Class
     #if (!OPCUA_EXCLUDE_WithTwoDimensionalVariableState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class WithTwoDimensionalVariableState : BaseObjectState
     {
         #region Constructors
-        /// <remarks />
         public WithTwoDimensionalVariableState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         protected override NodeId GetDefaultTypeDefinitionId(NamespaceTable namespaceUris)
         {
             return Opc.Ua.NodeId.Create(DemoModel.ObjectTypes.WithTwoDimensionalVariableType, DemoModel.Namespaces.DemoModel, namespaceUris);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -597,14 +603,12 @@ namespace DemoModel
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void Initialize(ISystemContext context, NodeState source)
         {
             InitializeOptionalChildren(context);
             base.Initialize(context, source);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -631,13 +635,9 @@ namespace DemoModel
         #endregion
 
         #region Public Properties
-        /// <remarks />
         public BaseDataVariableState X
         {
-            get
-            {
-                return m_x;
-            }
+            get => m_x;
 
             set
             {
@@ -652,7 +652,6 @@ namespace DemoModel
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         public override void GetChildren(
             ISystemContext context,
             IList<BaseInstanceState> children)
@@ -665,7 +664,17 @@ namespace DemoModel
             base.GetChildren(context, children);
         }
             
-        /// <remarks />
+        protected override void RemoveExplicitlyDefinedChild(BaseInstanceState child)
+        {
+            if (Object.ReferenceEquals(m_x, child))
+            {
+                m_x = null;
+                return;
+            }
+
+            base.RemoveExplicitlyDefinedChild(child);
+        }
+
         protected override BaseInstanceState FindChild(
             ISystemContext context,
             QualifiedName browseName,

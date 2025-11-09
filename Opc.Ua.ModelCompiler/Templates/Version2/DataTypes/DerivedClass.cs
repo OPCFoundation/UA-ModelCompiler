@@ -2,14 +2,13 @@ namespace X {
 // ***START***
 #region _BrowseName_ Class
 #if (!OPCUA_EXCLUDE__BrowseName_)
-/// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
 [DataContract(Namespace = _XmlNamespaceUri_)]
 public partial class _BrowseName_ : _BaseType_
 {
     #region Constructors
-    /// <remarks />
     public _BrowseName_()
     {
         Initialize();
@@ -33,16 +32,16 @@ public partial class _BrowseName_ : _BaseType_
 
     #region IEncodeable Members
     /// <summary cref="IEncodeable.TypeId" />
-    public override ExpandedNodeId TypeId => DataTypeIds._BrowseName_; 
+    public override ExpandedNodeId TypeId => DataTypeIds._BrowseName_;
 
     /// <summary cref="IEncodeable.BinaryEncodingId" />
     public override ExpandedNodeId BinaryEncodingId => ObjectIds._BrowseName__Encoding_DefaultBinary;
 
     /// <summary cref="IEncodeable.XmlEncodingId" />
     public override ExpandedNodeId XmlEncodingId => ObjectIds._BrowseName__Encoding_DefaultXml;
-        
+
     /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-    public override ExpandedNodeId JsonEncodingId => ObjectIds._BrowseName__Encoding_DefaultJson; 
+    public override ExpandedNodeId JsonEncodingId => ObjectIds._BrowseName__Encoding_DefaultJson;
 
     /// <summary cref="IEncodeable.Encode(IEncoder)" />
     public override void Encode(IEncoder encoder)
@@ -86,7 +85,7 @@ public partial class _BrowseName_ : _BaseType_
         // ListOfComparedFields
 
         return base.IsEqual(encodeable);
-    }    
+    }
 
     /// <summary cref="ICloneable.Clone" />
     public override object Clone()

@@ -1,12 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net9.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <IntermediateOutputPath>$(SolutionDir)build\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
-    <AssemblyName>Opc.Ua.ModelCompiler</AssemblyName>
+    <AssemblyName>Opc.Ua.ModelCompiler.Core</AssemblyName>
     <RootNamespace>ModelCompiler</RootNamespace>
     <VersionSuffix>2.7.$([System.DateTime]::UtcNow.ToString(yyMM)).$([System.DateTime]::UtcNow.ToString(ddmm))</VersionSuffix>
     <AssemblyVersion Condition=" '$(VersionSuffix)' == '' ">0.0.0.1</AssemblyVersion>
@@ -14,7 +12,9 @@
     <Version Condition=" '$(VersionSuffix)' == '' ">0.0.1.0</Version>
     <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)</Version>
     <Copyright>Copyright © OPC Foundation</Copyright>
-    <Product>OPC UA Model Compiler</Product>
+    <Product>OPC UA Model Compiler Core</Product>
+    <IntermediateOutputPath>$(SolutionDir)build\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
+    <LangVersion>13.0</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -28,6 +28,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Protobuf\**" />
+    <EmbeddedResource Remove="Protobuf\**" />
+    <None Remove="Protobuf\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="BatteryPassportReader.cs" />
+    <Compile Remove="ExceptionDlg.cs" />
+    <Compile Remove="ExceptionDlg.Designer.cs" />
+    <Compile Remove="MainForm.cs" />
+    <Compile Remove="MainForm.Designer.cs" />
+    <Compile Remove="ModelDesignerValidator - Copy.cs" />
+    <Compile Remove="OpenApiExporter v21.cs" />
+    <Compile Remove="OpenApiExporter-notworking-v21.cs" />
+    <Compile Remove="ProtobufExporter.cs" />
     <Compile Remove="StackGenerator\DataTypes\Templates\Constants\Constant.cs" />
     <Compile Remove="StackGenerator\DataTypes\Templates\Constants\CSharp\Constant.cs" />
     <Compile Remove="StackGenerator\DataTypes\Templates\Constants\CSharp\File.cs" />
@@ -106,8 +121,10 @@
     <Compile Remove="Templates\Version2\NodeIdDeclaration.cs" />
     <Compile Remove="Templates\Version2\NodeIdDeclarationAbsolute.cs" />
     <Compile Remove="Templates\Version2\ObjectType.cs" />
+    <Compile Remove="Templates\Version2\PredefinedNodesFile.cs" />
     <Compile Remove="Templates\Version2\Property.cs" />
     <Compile Remove="Templates\Version2\PropertyOverride.cs" />
+    <Compile Remove="Templates\Version2\RemoveChild.cs" />
     <Compile Remove="Templates\Version2\TypedVariableType.cs" />
     <Compile Remove="Templates\Version2\TypesFile.cs" />
     <Compile Remove="Templates\Version2\VariableType.cs" />
@@ -116,6 +133,83 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="ExceptionDlg.resx" />
+    <EmbeddedResource Remove="MainForm.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="CSVs\Attributes.csv" />
+    <None Remove="CSVs\DemoModel.csv" />
+    <None Remove="CSVs\MDIS.csv" />
+    <None Remove="CSVs\MTConnectModel.csv" />
+    <None Remove="CSVs\OpcUaAdiModel.csv" />
+    <None Remove="CSVs\OpcUaDiModel.csv" />
+    <None Remove="CSVs\OpcUaFdiPart5Model.csv" />
+    <None Remove="CSVs\OpcUaFdiPart7Model.csv" />
+    <None Remove="CSVs\OpcUaGdsModel.csv" />
+    <None Remove="CSVs\OpcUaNodeSetModel.csv" />
+    <None Remove="CSVs\OpcUaPLCopenModel.csv" />
+    <None Remove="CSVs\rec20_latest_a1.csv" />
+    <None Remove="CSVs\rec20_latest_a2-3.csv" />
+    <None Remove="CSVs\rec20_Rev15e-2020.xls" />
+    <None Remove="CSVs\SercosModel.csv" />
+    <None Remove="CSVs\ServerCapabilities.csv" />
+    <None Remove="CSVs\StandardTypes.csv" />
+    <None Remove="CSVs\Status Codes.csv" />
+    <None Remove="CSVs\UNECE_to_OPCUA.csv" />
+    <None Remove="Design.v103\BuiltInTypes.xml" />
+    <None Remove="Design.v103\MDIS.xml" />
+    <None Remove="Design.v103\MTConnectModel.xml" />
+    <None Remove="Design.v103\OpcUaAdiModel.xml" />
+    <None Remove="Design.v103\OpcUaDiModel.csv" />
+    <None Remove="Design.v103\OpcUaDiModel.xml" />
+    <None Remove="Design.v103\OpcUaFdiPart5Model.xml" />
+    <None Remove="Design.v103\OpcUaFdiPart7Model.xml" />
+    <None Remove="Design.v103\OpcUaGdsModel.csv" />
+    <None Remove="Design.v103\OpcUaGdsModel.xml" />
+    <None Remove="Design.v103\OpcUaPLCopenModel.xml" />
+    <None Remove="Design.v103\SercosModel.xml" />
+    <None Remove="Design.v103\StandardTypes.csv" />
+    <None Remove="Design.v103\StandardTypes.xml" />
+    <None Remove="Design.v103\UA Attributes.csv" />
+    <None Remove="Design.v103\UA Attributes.xml" />
+    <None Remove="Design.v103\UA Core Services.xml" />
+    <None Remove="Design.v103\UA ServerCapabilities.csv" />
+    <None Remove="Design.v103\UA Status Codes.csv" />
+    <None Remove="Design.v103\UA Status Codes.xml" />
+    <None Remove="Design.v104\BuiltInTypes.xml" />
+    <None Remove="Design.v104\DemoModel.xml" />
+    <None Remove="Design.v104\MDIS.xml" />
+    <None Remove="Design.v104\MTConnectModel.xml" />
+    <None Remove="Design.v104\OpcUaAdiModel.xml" />
+    <None Remove="Design.v104\OpcUaDiModel.xml" />
+    <None Remove="Design.v104\OpcUaFdiPart5Model.xml" />
+    <None Remove="Design.v104\OpcUaFdiPart7Model.xml" />
+    <None Remove="Design.v104\OpcUaGdsModel.xml" />
+    <None Remove="Design.v104\OpcUaPLCopenModel.xml" />
+    <None Remove="Design.v104\SercosModel.xml" />
+    <None Remove="Design.v104\StandardTypes.xml" />
+    <None Remove="Design.v104\UA Attributes.xml" />
+    <None Remove="Design.v104\UA Core Services.xml" />
+    <None Remove="Design.v104\UA Status Codes.xml" />
+    <None Remove="Design.v105\BuiltInTypes.xml" />
+    <None Remove="Design.v105\DemoModel.xml" />
+    <None Remove="Design.v105\I4AAS.IRDI.xml" />
+    <None Remove="Design.v105\I4AAS.Submodels.xml" />
+    <None Remove="Design.v105\OpcUaDiModel.xml" />
+    <None Remove="Design.v105\OpcUaGdsModel.xml" />
+    <None Remove="Design.v105\OpcUaNodeSetModel.xml" />
+    <None Remove="Design.v105\OpcUaProvisioningModel.xml" />
+    <None Remove="Design.v105\StandardTypes.xml" />
+    <None Remove="Design.v105\TestModel.xml" />
+    <None Remove="Design.v105\UA Attributes.xml" />
+    <None Remove="Design.v105\UA Core Services.xml" />
+    <None Remove="Design.v105\UA Status Codes.xml" />
+    <None Remove="Design.v105\WotConnection.xml" />
+    <None Remove="License\FLC.txt" />
+    <None Remove="License\NONE.txt" />
+    <None Remove="License\UA_MIT.txt" />
+    <None Remove="License\UA_MIT_XML.txt" />
     <None Remove="StackGenerator\AnsiC\Templates\ClientApi\File.c" />
     <None Remove="StackGenerator\AnsiC\Templates\ClientApi\File.h" />
     <None Remove="StackGenerator\AnsiC\Templates\ClientApi\Service.c" />
@@ -218,28 +312,29 @@
     <None Remove="Templates\XmlSchema\File.xml" />
     <None Remove="Templates\XmlSchema\SimpleType.xml" />
     <None Remove="Templates\XmlSchema\Union.xml" />
+    <None Remove="UANodeSet.xsd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="License\NONE.txt" />
+    <Resource Include="License\UA_MIT.txt" />
+    <Resource Include="License\UA_MIT_XML.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="CSVs\DemoModel.csv" />
-    <EmbeddedResource Include="CSVs\OpcUaAdiModel.csv" />
     <EmbeddedResource Include="CSVs\OpcUaDiModel.csv" />
     <EmbeddedResource Include="CSVs\OpcUaGdsModel.csv" />
-    <EmbeddedResource Include="CSVs\OpcUaPLCopenModel.csv" />
     <EmbeddedResource Include="CSVs\rec20_latest_a1.csv" />
     <EmbeddedResource Include="CSVs\rec20_latest_a2-3.csv" />
-    <EmbeddedResource Include="CSVs\SercosModel.csv" />
     <EmbeddedResource Include="CSVs\StandardTypes.csv" />
     <EmbeddedResource Include="CSVs\Attributes.csv" />
     <EmbeddedResource Include="CSVs\ServerCapabilities.csv" />
     <EmbeddedResource Include="CSVs\Status Codes.csv" />
     <EmbeddedResource Include="CSVs\UNECE_to_OPCUA.csv" />
     <EmbeddedResource Include="Design.v103\BuiltInTypes.xml" />
-    <EmbeddedResource Include="Design.v103\OpcUaAdiModel.xml" />
     <EmbeddedResource Include="Design.v103\OpcUaGdsModel.csv" />
     <EmbeddedResource Include="Design.v103\OpcUaGdsModel.xml" />
-    <EmbeddedResource Include="Design.v103\OpcUaPLCopenModel.xml" />
-    <EmbeddedResource Include="Design.v103\SercosModel.xml" />
     <EmbeddedResource Include="Design.v103\StandardTypes.csv" />
     <EmbeddedResource Include="Design.v103\StandardTypes.xml" />
     <EmbeddedResource Include="Design.v103\UA Attributes.csv" />
@@ -250,14 +345,12 @@
     <EmbeddedResource Include="Design.v103\UA Status Codes.xml" />
     <EmbeddedResource Include="Design.v104\BuiltInTypes.xml" />
     <EmbeddedResource Include="Design.v104\DemoModel.xml" />
-    <EmbeddedResource Include="Design.v104\OpcUaAdiModel.xml" />
     <EmbeddedResource Include="Design.v104\OpcUaGdsModel.xml" />
-    <EmbeddedResource Include="Design.v104\OpcUaPLCopenModel.xml" />
-    <EmbeddedResource Include="Design.v104\SercosModel.xml" />
     <EmbeddedResource Include="Design.v104\StandardTypes.xml" />
     <EmbeddedResource Include="Design.v104\UA Attributes.xml" />
     <EmbeddedResource Include="Design.v104\UA Core Services.xml" />
     <EmbeddedResource Include="Design.v104\UA Status Codes.xml" />
+    <EmbeddedResource Include="Design.v105\OpcUaDiSoftwarePackageModel.xml" />
     <EmbeddedResource Include="Design.v105\TestModel.xml" />
     <EmbeddedResource Include="Design.v105\WotConnection.xml" />
     <EmbeddedResource Include="Design.v105\BuiltInTypes.xml" />
@@ -390,6 +483,7 @@
     <EmbeddedResource Include="Templates\Version2\CSharp\Identifier_NoNamespace.cs" />
     <EmbeddedResource Include="Templates\Version2\CSharp\Identifier.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\DerivedClassWithOptionalFields.cs" />
+    <EmbeddedResource Include="Templates\Version2\RemoveChild.cs" />
     <EmbeddedResource Include="Templates\Version2\Python\Identifier.py" />
     <EmbeddedResource Include="Templates\Version2\Python\Identifier_NoNamespace.py" />
     <EmbeddedResource Include="Templates\Version2\Python\BrowseName.py" />
@@ -438,6 +532,7 @@
     <EmbeddedResource Include="Templates\Version2\PropertyOverride.cs" />
     <EmbeddedResource Include="Templates\Version2\TypedVariableType.cs" />
     <EmbeddedResource Include="Templates\Version2\JavaScript\NodeIdClass.js" />
+    <EmbeddedResource Include="Templates\Version2\PredefinedNodesFile.cs" />
     <EmbeddedResource Include="Templates\Version2\TypesFile.cs" />
     <EmbeddedResource Include="Templates\Version2\VariableType.cs" />
     <EmbeddedResource Include="Templates\Version2\VariableTypeValue.cs" />
@@ -457,15 +552,16 @@
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="33.1.0" />
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.8" />
-    <PackageReference Include="Microsoft.OpenApi" Version="1.6.24" />
-    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.24" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.28" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Stack\Libraries\Opc.Ua.Security.Certificates\Opc.Ua.Security.Certificates.csproj" />
     <ProjectReference Include="..\Stack\Stack\Opc.Ua.Core\Opc.Ua.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Nerdbank.GitVersioning" Version="3.9.50" />
   </ItemGroup>
 
 </Project>

@@ -1,74 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net9.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <IntermediateOutputPath>$(SolutionDir)build\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
-    <AssemblyName>Opc.Ua.ModelCompiler</AssemblyName>
+    <AssemblyName>Opc.Ua.ModelCompiler.Core</AssemblyName>
     <RootNamespace>ModelCompiler</RootNamespace>
-    <VersionSuffix>2.7.$([System.DateTime]::UtcNow.ToString(yyMM)).$([System.DateTime]::UtcNow.ToString(ddmm))</VersionSuffix>
-    <Version>2.7.0.0</Version>
-    <AssemblyVersion>2.7.0.0</AssemblyVersion>
-    <FileVersion>$(VersionSuffix)</FileVersion>
-    <Copyright>Copyright © OPC Foundation</Copyright>
-    <Product>OPC UA Model Compiler</Product>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IsPackable>false</IsPackable>
     <Configurations>Debug;Release;Docker</Configurations>
   </PropertyGroup>
 
-  <!-- Package for dotnet tool build -->
-  <PropertyGroup>
-    <PackageId>OPCFoundation.Opc.Ua.ModelCompiler</PackageId>
-    <PackAsTool>true</PackAsTool>
-    <ToolCommandName>Opc.Ua.ModelCompiler</ToolCommandName>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-  </PropertyGroup>
-  
-  <!-- License info-->
-  <PropertyGroup>
-    <PackageIcon>images/logo.jpg</PackageIcon>
-    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes>$(RepositoryUrl)/releases</PackageReleaseNotes>
-    <PackageTags>OPCFoundation OPC UA netstandard modelcompiler</PackageTags>
-  </PropertyGroup>
-
-  <ItemGroup Condition="'$(IsPackable)' != 'false' AND '$(PackageLicenseExpression)' == 'MIT'">
-    <None Include="$(MSBuildThisFileDirectory)/License/UA_MIT.txt" Pack="true" PackagePath="$(PackageLicenseFile)" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(IsPackable)' != 'false'">
-    <None Include="$(MSBuildThisFileDirectory)/License/logo.jpg" Pack="true" PackagePath="$(PackageIcon)" />
-  </ItemGroup>
-
-  <!-- Add source link in cloud build -->
-  <ItemGroup Condition="'$(TF_BUILD)' == 'true' OR '$(GITHUB_ACTIONS)' == 'true'">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-  </ItemGroup>
-
-  <!-- Deterministic cloud build -->
-  <PropertyGroup Condition="'$(TF_BUILD)' == 'true' OR '$(GITHUB_ACTIONS)' == 'true'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>$(SolutionDir)build\bin\$(Configuration)\</OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>$(SolutionDir)build\bin\$(Configuration)\</OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Docker|AnyCPU'">
-    <OutputPath>$(SolutionDir)build\bin\$(Configuration)\</OutputPath>
-  </PropertyGroup>
-
   <ItemGroup>
+    <Compile Remove="BatteryPassportReader.cs" />
+    <Compile Remove="ExceptionDlg.cs" />
+    <Compile Remove="ExceptionDlg.Designer.cs" />
+    <Compile Remove="MainForm.cs" />
+    <Compile Remove="MainForm.Designer.cs" />
+    <Compile Remove="ModelDesignerValidator - Copy.cs" />
+    <Compile Remove="OpenApiExporter v21.cs" />
+    <Compile Remove="OpenApiExporter-notworking-v21.cs" />
+    <Compile Remove="ProtobufExporter.cs" />
     <Compile Remove="StackGenerator\DataTypes\Templates\Constants\Constant.cs" />
     <Compile Remove="StackGenerator\DataTypes\Templates\Constants\CSharp\Constant.cs" />
     <Compile Remove="StackGenerator\DataTypes\Templates\Constants\CSharp\File.cs" />
@@ -121,10 +72,11 @@
     <Compile Remove="Templates\Version2\CSharp\ConstantsFile.cs" />
     <Compile Remove="Templates\Version2\CSharp\Identifier.cs" />
     <Compile Remove="Templates\Version2\CSharp\Identifier_NoNamespace.cs" />
+    <Compile Remove="Templates\Version2\CSharp\NamespaceUri.cs" />
     <Compile Remove="Templates\Version2\CSharp\NodeIdClass.cs" />
     <Compile Remove="Templates\Version2\DataTypes\ArrayProperty.cs" />
     <Compile Remove="Templates\Version2\DataTypes\Class.cs" />
-    <Compile Remove="Templates\Version2\DataTypes\ClassWithOptionalFields.cs" />
+    <Compile Remove="Templates\Version2\DataTypes\ClassWithOptionalFIelds.cs" />
     <Compile Remove="Templates\Version2\DataTypes\CollectionClass.cs" />
     <Compile Remove="Templates\Version2\DataTypes\DerivedClass.cs" />
     <Compile Remove="Templates\Version2\DataTypes\DerivedClassWithOptionalFields.cs" />
@@ -146,16 +98,84 @@
     <Compile Remove="Templates\Version2\NodeIdDeclaration.cs" />
     <Compile Remove="Templates\Version2\NodeIdDeclarationAbsolute.cs" />
     <Compile Remove="Templates\Version2\ObjectType.cs" />
+    <Compile Remove="Templates\Version2\PredefinedNodesFile.cs" />
     <Compile Remove="Templates\Version2\Property.cs" />
     <Compile Remove="Templates\Version2\PropertyOverride.cs" />
+    <Compile Remove="Templates\Version2\RemoveChild.cs" />
     <Compile Remove="Templates\Version2\TypedVariableType.cs" />
     <Compile Remove="Templates\Version2\TypesFile.cs" />
     <Compile Remove="Templates\Version2\VariableType.cs" />
     <Compile Remove="Templates\Version2\VariableTypeValue.cs" />
     <Compile Remove="Templates\Version2\VariableTypeValueField.cs" />
   </ItemGroup>
-  
+
   <ItemGroup>
+    <EmbeddedResource Remove="ExceptionDlg.resx" />
+    <EmbeddedResource Remove="MainForm.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="CSVs\Attributes.csv" />
+    <None Remove="CSVs\DemoModel.csv" />
+    <None Remove="CSVs\MDIS.csv" />
+    <None Remove="CSVs\MTConnectModel.csv" />
+    <None Remove="CSVs\OpcUaDiModel.csv" />
+    <None Remove="CSVs\OpcUaFdiPart5Model.csv" />
+    <None Remove="CSVs\OpcUaFdiPart7Model.csv" />
+    <None Remove="CSVs\OpcUaGdsModel.csv" />
+    <None Remove="CSVs\OpcUaNodeSetModel.csv" />
+    <None Remove="CSVs\rec20_latest_a1.csv" />
+    <None Remove="CSVs\rec20_latest_a2-3.csv" />
+    <None Remove="CSVs\rec20_Rev15e-2020.xls" />
+    <None Remove="CSVs\ServerCapabilities.csv" />
+    <None Remove="CSVs\StandardTypes.csv" />
+    <None Remove="CSVs\Status Codes.csv" />
+    <None Remove="CSVs\UNECE_to_OPCUA.csv" />
+    <None Remove="Design.v103\BuiltInTypes.xml" />
+    <None Remove="Design.v103\MDIS.xml" />
+    <None Remove="Design.v103\MTConnectModel.xml" />
+    <None Remove="Design.v103\OpcUaDiModel.csv" />
+    <None Remove="Design.v103\OpcUaDiModel.xml" />
+    <None Remove="Design.v103\OpcUaFdiPart5Model.xml" />
+    <None Remove="Design.v103\OpcUaFdiPart7Model.xml" />
+    <None Remove="Design.v103\OpcUaGdsModel.csv" />
+    <None Remove="Design.v103\OpcUaGdsModel.xml" />
+    <None Remove="Design.v103\StandardTypes.csv" />
+    <None Remove="Design.v103\StandardTypes.xml" />
+    <None Remove="Design.v103\UA Attributes.csv" />
+    <None Remove="Design.v103\UA Attributes.xml" />
+    <None Remove="Design.v103\UA Core Services.xml" />
+    <None Remove="Design.v103\UA ServerCapabilities.csv" />
+    <None Remove="Design.v103\UA Status Codes.csv" />
+    <None Remove="Design.v103\UA Status Codes.xml" />
+    <None Remove="Design.v104\BuiltInTypes.xml" />
+    <None Remove="Design.v104\DemoModel.xml" />
+    <None Remove="Design.v104\MDIS.xml" />
+    <None Remove="Design.v104\MTConnectModel.xml" />
+    <None Remove="Design.v104\OpcUaDiModel.xml" />
+    <None Remove="Design.v104\OpcUaFdiPart5Model.xml" />
+    <None Remove="Design.v104\OpcUaFdiPart7Model.xml" />
+    <None Remove="Design.v104\OpcUaGdsModel.xml" />
+    <None Remove="Design.v104\StandardTypes.xml" />
+    <None Remove="Design.v104\UA Attributes.xml" />
+    <None Remove="Design.v104\UA Core Services.xml" />
+    <None Remove="Design.v104\UA Status Codes.xml" />
+    <None Remove="Design.v105\BuiltInTypes.xml" />
+    <None Remove="Design.v105\DemoModel.xml" />
+    <None Remove="Design.v105\OpcUaDiModel.xml" />
+    <None Remove="Design.v105\OpcUaGdsModel.xml" />
+    <None Remove="Design.v105\OpcUaNodeSetModel.xml" />
+    <None Remove="Design.v105\OpcUaProvisioningModel.xml" />
+    <None Remove="Design.v105\StandardTypes.xml" />
+    <None Remove="Design.v105\TestModel.xml" />
+    <None Remove="Design.v105\UA Attributes.xml" />
+    <None Remove="Design.v105\UA Core Services.xml" />
+    <None Remove="Design.v105\UA Status Codes.xml" />
+    <None Remove="Design.v105\WotConnection.xml" />
+    <None Remove="License\FLC.txt" />
+    <None Remove="License\NONE.txt" />
+    <None Remove="License\UA_MIT.txt" />
+    <None Remove="License\UA_MIT_XML.txt" />
     <None Remove="StackGenerator\AnsiC\Templates\ClientApi\File.c" />
     <None Remove="StackGenerator\AnsiC\Templates\ClientApi\File.h" />
     <None Remove="StackGenerator\AnsiC\Templates\ClientApi\Service.c" />
@@ -181,6 +201,7 @@
     <None Remove="StackGenerator\DataTypes\Templates\BinarySchema\File.xml" />
     <None Remove="StackGenerator\DataTypes\Templates\BinarySchema\OpaqueType.xml" />
     <None Remove="StackGenerator\DataTypes\Templates\BinarySchema\ServiceType.xml" />
+    <None Remove="StackGenerator\DataTypes\Templates\Constants\BuiltInType.ts" />
     <None Remove="StackGenerator\DataTypes\Templates\Constants\Constant.csv" />
     <None Remove="StackGenerator\DataTypes\Templates\Constants\Constant.h" />
     <None Remove="StackGenerator\DataTypes\Templates\Constants\Constant.ts" />
@@ -195,9 +216,7 @@
     <None Remove="StackGenerator\DataTypes\Templates\Constants\Python\Constant.py" />
     <None Remove="StackGenerator\DataTypes\Templates\Constants\Python\File.py" />
     <None Remove="StackGenerator\DataTypes\Templates\Constants\Python\StatusCode.py" />
-    <None Remove="StackGenerator\DataTypes\Templates\Constants\TypeScript\Constant.ts" />
-    <None Remove="StackGenerator\DataTypes\Templates\Constants\TypeScript\File.ts" />
-    <None Remove="StackGenerator\DataTypes\Templates\Constants\TypeScript\StatusCode.ts" />
+    <None Remove="StackGenerator\DataTypes\Templates\Constants\StatusCode.ts" />
     <None Remove="StackGenerator\DataTypes\Templates\Nodes\DataType.xml" />
     <None Remove="StackGenerator\DataTypes\Templates\Nodes\File.xml" />
     <None Remove="StackGenerator\DataTypes\Templates\Nodes\Service.xml" />
@@ -231,12 +250,6 @@
     <None Remove="Templates\BinarySchema\OpaqueType.xml" />
     <None Remove="Templates\Types\Identifiers.h" />
     <None Remove="Templates\Version2\ConstantsFile.ts" />
-    <None Remove="Templates\Version2\JavaScript\BrowseName.js" />
-    <None Remove="Templates\Version2\JavaScript\BuiltInTypes.js" />
-    <None Remove="Templates\Version2\JavaScript\ConstantsFile.js" />
-    <None Remove="Templates\Version2\JavaScript\Identifier.js" />
-    <None Remove="Templates\Version2\JavaScript\Identifier_NoNamespace.js" />
-    <None Remove="Templates\Version2\JavaScript\NodeIdClass.js" />
     <None Remove="Templates\Version2\Python\BrowseName.py" />
     <None Remove="Templates\Version2\Python\BuiltInTypes.py" />
     <None Remove="Templates\Version2\Python\ConstantsFile.py" />
@@ -249,6 +262,12 @@
     <None Remove="Templates\Version2\TypeScript\Identifier.ts" />
     <None Remove="Templates\Version2\TypeScript\Identifier_NoNamespace.ts" />
     <None Remove="Templates\Version2\TypeScript\NodeIdClass.ts" />
+    <None Remove="Templates\Version2\JavaScript\BrowseName.js" />
+    <None Remove="Templates\Version2\JavaScript\BuiltInTypes.js" />
+    <None Remove="Templates\Version2\JavaScript\Identifier.js" />
+    <None Remove="Templates\Version2\JavaScript\Identifier_NoNamespace.js" />
+    <None Remove="Templates\Version2\JavaScript\NamespaceUri.ts" />
+    <None Remove="Templates\Version2\JavaScript\NodeIdClass.js" />
     <None Remove="Templates\XmlSchema\Array.xml" />
     <None Remove="Templates\XmlSchema\BuiltInTypes.xsd" />
     <None Remove="Templates\XmlSchema\CollectionType.xml" />
@@ -259,25 +278,29 @@
     <None Remove="Templates\XmlSchema\File.xml" />
     <None Remove="Templates\XmlSchema\SimpleType.xml" />
     <None Remove="Templates\XmlSchema\Union.xml" />
+    <None Remove="UANodeSet.xsd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="License\NONE.txt" />
+    <Resource Include="License\UA_MIT.txt" />
+    <Resource Include="License\UA_MIT_XML.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="CSVs\DemoModel.csv" />
-    <EmbeddedResource Include="CSVs\OpcUaAdiModel.csv" />
     <EmbeddedResource Include="CSVs\OpcUaDiModel.csv" />
     <EmbeddedResource Include="CSVs\OpcUaGdsModel.csv" />
-    <EmbeddedResource Include="CSVs\OpcUaPLCopenModel.csv" />
     <EmbeddedResource Include="CSVs\rec20_latest_a1.csv" />
     <EmbeddedResource Include="CSVs\rec20_latest_a2-3.csv" />
-    <EmbeddedResource Include="CSVs\SercosModel.csv" />
     <EmbeddedResource Include="CSVs\StandardTypes.csv" />
+    <EmbeddedResource Include="CSVs\Attributes.csv" />
+    <EmbeddedResource Include="CSVs\ServerCapabilities.csv" />
+    <EmbeddedResource Include="CSVs\Status Codes.csv" />
     <EmbeddedResource Include="CSVs\UNECE_to_OPCUA.csv" />
     <EmbeddedResource Include="Design.v103\BuiltInTypes.xml" />
-    <EmbeddedResource Include="Design.v103\OpcUaAdiModel.xml" />
     <EmbeddedResource Include="Design.v103\OpcUaGdsModel.csv" />
     <EmbeddedResource Include="Design.v103\OpcUaGdsModel.xml" />
-    <EmbeddedResource Include="Design.v103\OpcUaPLCopenModel.xml" />
-    <EmbeddedResource Include="Design.v103\SercosModel.xml" />
     <EmbeddedResource Include="Design.v103\StandardTypes.csv" />
     <EmbeddedResource Include="Design.v103\StandardTypes.xml" />
     <EmbeddedResource Include="Design.v103\UA Attributes.csv" />
@@ -288,14 +311,14 @@
     <EmbeddedResource Include="Design.v103\UA Status Codes.xml" />
     <EmbeddedResource Include="Design.v104\BuiltInTypes.xml" />
     <EmbeddedResource Include="Design.v104\DemoModel.xml" />
-    <EmbeddedResource Include="Design.v104\OpcUaAdiModel.xml" />
     <EmbeddedResource Include="Design.v104\OpcUaGdsModel.xml" />
-    <EmbeddedResource Include="Design.v104\OpcUaPLCopenModel.xml" />
-    <EmbeddedResource Include="Design.v104\SercosModel.xml" />
     <EmbeddedResource Include="Design.v104\StandardTypes.xml" />
     <EmbeddedResource Include="Design.v104\UA Attributes.xml" />
     <EmbeddedResource Include="Design.v104\UA Core Services.xml" />
     <EmbeddedResource Include="Design.v104\UA Status Codes.xml" />
+    <EmbeddedResource Include="Design.v105\OpcUaDiSoftwarePackageModel.xml" />
+    <EmbeddedResource Include="Design.v105\TestModel.xml" />
+    <EmbeddedResource Include="Design.v105\WotConnection.xml" />
     <EmbeddedResource Include="Design.v105\BuiltInTypes.xml" />
     <EmbeddedResource Include="Design.v105\DemoModel.xml" />
     <EmbeddedResource Include="Design.v105\OpcUaDiModel.xml" />
@@ -306,6 +329,7 @@
     <EmbeddedResource Include="Design.v105\UA Core Services.xml" />
     <EmbeddedResource Include="Design.v105\UA Status Codes.xml" />
     <EmbeddedResource Include="License\NONE.txt" />
+    <EmbeddedResource Include="License\FLC.txt" />
     <EmbeddedResource Include="License\UA_MIT.txt" />
     <EmbeddedResource Include="License\UA_MIT_XML.txt" />
     <EmbeddedResource Include="StackGenerator\AnsiC\Templates\ClientApi\File.c" />
@@ -333,26 +357,26 @@
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\BinarySchema\File.xml" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\BinarySchema\OpaqueType.xml" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\BinarySchema\ServiceType.xml" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Constant.cs" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Constant.csv" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Constant.h" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\CSharp\Constant.cs" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\CSharp\File.cs" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\CSharp\StatusCode.cs" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\DataTypes.cs" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\DataTypes.h" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.cs" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.csv" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.h" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\JavaScript\Constant.js" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\JavaScript\File.js" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\JavaScript\StatusCode.js" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Python\Constant.py" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Python\File.py" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Python\StatusCode.py" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\TypeScript\Constant.ts" />
-    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\TypeScript\File.ts" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\CSharp\Constant.cs" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\CSharp\File.cs" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\CSharp\StatusCode.cs" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\JavaScript\Constant.js" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\JavaScript\File.js" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\JavaScript\StatusCode.js" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\TypeScript\StatusCode.ts" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\TypeScript\Constant.ts" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Constant.cs" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Constant.csv" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\Constant.h" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\DataTypes.cs" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\DataTypes.h" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\TypeScript\File.ts" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.cs" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.csv" />
+    <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Constants\File.h" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Nodes\DataType.xml" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Nodes\File.xml" />
     <EmbeddedResource Include="StackGenerator\DataTypes\Templates\Nodes\Service.xml" />
@@ -422,23 +446,41 @@
     <EmbeddedResource Include="Templates\Types\Namespaces.cs" />
     <EmbeddedResource Include="Templates\Types\NamespaceUri.cs" />
     <EmbeddedResource Include="Templates\Version2\BrowseName.cs" />
-    <EmbeddedResource Include="Templates\Version2\ConstantsFile.cs" />
-    <EmbeddedResource Include="Templates\Version2\CSharp\BrowseName.cs" />
+    <EmbeddedResource Include="Templates\Version2\CSharp\Identifier_NoNamespace.cs" />
+    <EmbeddedResource Include="Templates\Version2\CSharp\Identifier.cs" />
+    <EmbeddedResource Include="Templates\Version2\DataTypes\DerivedClassWithOptionalFields.cs" />
+    <EmbeddedResource Include="Templates\Version2\Python\Identifier.py" />
+    <EmbeddedResource Include="Templates\Version2\Python\Identifier_NoNamespace.py" />
+    <EmbeddedResource Include="Templates\Version2\Python\BrowseName.py" />
+    <EmbeddedResource Include="Templates\Version2\Python\BuiltInTypes.py" />
+    <EmbeddedResource Include="Templates\Version2\Python\ConstantsFile.py" />
+    <EmbeddedResource Include="Templates\Version2\Python\NodeIdClass.py" />
     <EmbeddedResource Include="Templates\Version2\CSharp\BuiltInTypes.cs" />
     <EmbeddedResource Include="Templates\Version2\CSharp\ConstantsFile.cs" />
-    <EmbeddedResource Include="Templates\Version2\CSharp\Identifier.cs" />
-    <EmbeddedResource Include="Templates\Version2\CSharp\Identifier_NoNamespace.cs" />
     <EmbeddedResource Include="Templates\Version2\CSharp\NodeIdClass.cs" />
+    <EmbeddedResource Include="Templates\Version2\CSharp\BrowseName.cs" />
+    <EmbeddedResource Include="Templates\Version2\RemoveChild.cs" />
+    <EmbeddedResource Include="Templates\Version2\TypeScript\BrowseName.ts" />
+    <EmbeddedResource Include="Templates\Version2\TypeScript\BuiltInTypes.ts" />
+    <EmbeddedResource Include="Templates\Version2\TypeScript\ConstantsFile.ts" />
+    <EmbeddedResource Include="Templates\Version2\TypeScript\Identifier.ts" />
+    <EmbeddedResource Include="Templates\Version2\TypeScript\Identifier_NoNamespace.ts" />
+    <EmbeddedResource Include="Templates\Version2\TypeScript\NodeIdClass.ts" />
+    <EmbeddedResource Include="Templates\Version2\JavaScript\Identifier.js" />
+    <EmbeddedResource Include="Templates\Version2\JavaScript\Identifier_NoNamespace.js" />
+    <EmbeddedResource Include="Templates\Version2\JavaScript\BrowseName.js" />
+    <EmbeddedResource Include="Templates\Version2\JavaScript\BuiltInTypes.js" />
+    <EmbeddedResource Include="Templates\Version2\JavaScript\ConstantsFile.js" />
+    <EmbeddedResource Include="Templates\Version2\ConstantsFile.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\ArrayProperty.cs" />
-    <EmbeddedResource Include="Templates\Version2\DataTypes\Class.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\ClassWithOptionalFields.cs" />
+    <EmbeddedResource Include="Templates\Version2\DataTypes\Union.cs" />
+    <EmbeddedResource Include="Templates\Version2\DataTypes\Class.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\CollectionClass.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\DerivedClass.cs" />
-    <EmbeddedResource Include="Templates\Version2\DataTypes\DerivedClassWithOptionalFields.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\Enumeration.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\EnumerationValue.cs" />
     <EmbeddedResource Include="Templates\Version2\DataTypes\Property.cs" />
-    <EmbeddedResource Include="Templates\Version2\DataTypes\Union.cs" />
     <EmbeddedResource Include="Templates\Version2\File.cs" />
     <EmbeddedResource Include="Templates\Version2\FindChildCase.cs" />
     <EmbeddedResource Include="Templates\Version2\FindChildMethods.cs" />
@@ -446,12 +488,6 @@
     <EmbeddedResource Include="Templates\Version2\IdClass.cs" />
     <EmbeddedResource Include="Templates\Version2\IdDeclaration.cs" />
     <EmbeddedResource Include="Templates\Version2\InitializeOptionalChild.cs" />
-    <EmbeddedResource Include="Templates\Version2\JavaScript\BrowseName.js" />
-    <EmbeddedResource Include="Templates\Version2\JavaScript\BuiltInTypes.js" />
-    <EmbeddedResource Include="Templates\Version2\JavaScript\ConstantsFile.js" />
-    <EmbeddedResource Include="Templates\Version2\JavaScript\Identifier.js" />
-    <EmbeddedResource Include="Templates\Version2\JavaScript\Identifier_NoNamespace.js" />
-    <EmbeddedResource Include="Templates\Version2\JavaScript\NodeIdClass.js" />
     <EmbeddedResource Include="Templates\Version2\MethodType.cs" />
     <EmbeddedResource Include="Templates\Version2\NamespaceUri.cs" />
     <EmbeddedResource Include="Templates\Version2\NodeIdClass.cs" />
@@ -460,19 +496,9 @@
     <EmbeddedResource Include="Templates\Version2\ObjectType.cs" />
     <EmbeddedResource Include="Templates\Version2\Property.cs" />
     <EmbeddedResource Include="Templates\Version2\PropertyOverride.cs" />
-    <EmbeddedResource Include="Templates\Version2\Python\BrowseName.py" />
-    <EmbeddedResource Include="Templates\Version2\Python\BuiltInTypes.py" />
-    <EmbeddedResource Include="Templates\Version2\Python\ConstantsFile.py" />
-    <EmbeddedResource Include="Templates\Version2\Python\Identifier.py" />
-    <EmbeddedResource Include="Templates\Version2\Python\Identifier_NoNamespace.py" />
-    <EmbeddedResource Include="Templates\Version2\Python\NodeIdClass.py" />
     <EmbeddedResource Include="Templates\Version2\TypedVariableType.cs" />
-    <EmbeddedResource Include="Templates\Version2\TypeScript\BrowseName.ts" />
-    <EmbeddedResource Include="Templates\Version2\TypeScript\BuiltInTypes.ts" />
-    <EmbeddedResource Include="Templates\Version2\TypeScript\ConstantsFile.ts" />
-    <EmbeddedResource Include="Templates\Version2\TypeScript\Identifier.ts" />
-    <EmbeddedResource Include="Templates\Version2\TypeScript\Identifier_NoNamespace.ts" />
-    <EmbeddedResource Include="Templates\Version2\TypeScript\NodeIdClass.ts" />
+    <EmbeddedResource Include="Templates\Version2\JavaScript\NodeIdClass.js" />
+    <EmbeddedResource Include="Templates\Version2\PredefinedNodesFile.cs" />
     <EmbeddedResource Include="Templates\Version2\TypesFile.cs" />
     <EmbeddedResource Include="Templates\Version2\VariableType.cs" />
     <EmbeddedResource Include="Templates\Version2\VariableTypeValue.cs" />
@@ -480,22 +506,28 @@
     <EmbeddedResource Include="Templates\XmlSchema\Array.xml" />
     <EmbeddedResource Include="Templates\XmlSchema\BuiltInTypes.xsd" />
     <EmbeddedResource Include="Templates\XmlSchema\CollectionType.xml" />
+    <EmbeddedResource Include="Templates\XmlSchema\Union.xml" />
     <EmbeddedResource Include="Templates\XmlSchema\ComplexType.xml" />
     <EmbeddedResource Include="Templates\XmlSchema\DerivedType.xml" />
     <EmbeddedResource Include="Templates\XmlSchema\Documentation.xml" />
     <EmbeddedResource Include="Templates\XmlSchema\EnumeratedType.xml" />
     <EmbeddedResource Include="Templates\XmlSchema\File.xml" />
     <EmbeddedResource Include="Templates\XmlSchema\SimpleType.xml" />
-    <EmbeddedResource Include="Templates\XmlSchema\Union.xml" />
     <EmbeddedResource Include="UANodeSet.xsd" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="33.1.0" />
-    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.1" />
-    <PackageReference Include="Microsoft.OpenApi" Version="1.6.24" />
-    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.24" />
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.376.244" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.28" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.377.75-preview" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Security.Certificates" Version="1.5.377.75-preview" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Nerdbank.GitVersioning" Version="3.9.50" />
   </ItemGroup>
 
 </Project>

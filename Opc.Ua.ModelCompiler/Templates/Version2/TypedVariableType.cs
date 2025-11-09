@@ -2,6 +2,7 @@
 /// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
 public class _TypeName_State<T> : _TypeName_State
 {
     #region Constructors
@@ -42,19 +43,17 @@ public class _TypeName_State<T> : _TypeName_State
 #endregion
 // ***START***
 #region _ClassName_State<T> Class
-/// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
 public class _ClassName_State<T> : _ClassName_State
 {
     #region Constructors
-    /// <remarks />
     public _ClassName_State(NodeState parent) : base(parent)
     {
         Value = default(T);
     }
 
-    /// <remarks />
     protected override void Initialize(ISystemContext context)
     {
         base.Initialize(context);
@@ -64,7 +63,6 @@ public class _ClassName_State<T> : _ClassName_State
         ValueRank = TypeInfo.GetValueRank(typeof(T));
     }
 
-    /// <remarks />
     protected override void Initialize(ISystemContext context, NodeState source)
     {
         InitializeOptionalChildren(context);
@@ -73,7 +71,6 @@ public class _ClassName_State<T> : _ClassName_State
     #endregion
 
     #region Public Members
-    /// <remarks />
     public new T Value
     {
         get
