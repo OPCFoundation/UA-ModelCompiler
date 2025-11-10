@@ -577,10 +577,7 @@ namespace ModelCompiler
 
             nodes.AddRange(builtin.Items);
 
-            string filename = Path.GetTempFileName();
-
             ModelDesign datatypes = null;
-
             Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{EmbeddedModelDesignPath}.UA Core Services.xml");
 
             using (stream)
