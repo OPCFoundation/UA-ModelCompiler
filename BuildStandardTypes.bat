@@ -103,7 +103,6 @@ MOVE /Y "%OUTPUT%\Schema\Opc.Ua.DataTypes.cs" "%OUTPUT%\DotNet\Opc.Ua.DataTypes.
 MOVE /Y "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.cs" "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.cs"
 MOVE /Y "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.uanodes" "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.uanodes"
 MOVE /Y "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.xml" "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.xml"
-MOVE /Y "%OUTPUT%\Schema\Opc.Ua.NodeSet.xml" "%OUTPUT%\DotNet\Opc.Ua.NodeSet.xml"
 MOVE /Y "%OUTPUT%\DotNet\Opc.Ua.Services.wsdl" "%OUTPUT%\Schema\Opc.Ua.Services.wsdl"
 MOVE /Y "%OUTPUT%\DotNet\Opc.Ua.Endpoints.wsdl" "%OUTPUT%\Schema\Opc.Ua.Endpoints.wsdl"
 @ECHO OFF
@@ -152,22 +151,22 @@ IF "%DOTNET_TARGET%" NEQ "" (
 	ECHO Copying .NET code to %DOTNET_TARGET%
 
 	COPY "%OUTPUT%\Schema\NodeIds.csv" "%DOTNET_TARGET%\Schema\NodeIds.csv"
-	COPY "%OUTPUT%\Schema\AttributeIds.csv" "%DOTNET_TARGET%\Schema\AttributeIds.csv"
-	COPY "%OUTPUT%\Schema\ServerCapabilities.csv" "%DOTNET_TARGET%\Schema\ServerCapabilities.csv"
-	COPY "%OUTPUT%\Schema\StatusCode.csv" "%DOTNET_TARGET%\Schema\Opc.Ua.StatusCodes.csv"
-	COPY "%SCHEMAINPUT%\UANodeSet.xsd" "%DOTNET_TARGET%\Schema\UANodeSet.xsd"
-	COPY "%SCHEMAINPUT%\SecuredApplication.xsd" "%DOTNET_TARGET%\Schema\SecuredApplication.xsd"
-	COPY "%SCHEMAINPUT%\OPCBinarySchema.xsd" "%DOTNET_TARGET%\Types\Schemas\OPCBinarySchema.xsd"
+	REM COPY "%OUTPUT%\Schema\AttributeIds.csv" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\AttributeIds.csv"
+	REM COPY "%OUTPUT%\Schema\ServerCapabilities.csv" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\ServerCapabilities.csv"
+	REM COPY "%OUTPUT%\Schema\StatusCode.csv" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\Opc.Ua.StatusCodes.csv"
+	COPY "%SCHEMAINPUT%\UANodeSet.xsd" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\UANodeSet.xsd"
+	REM COPY "%SCHEMAINPUT%\SecuredApplication.xsd" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\SecuredApplication.xsd"
+	REM COPY "%SCHEMAINPUT%\OPCBinarySchema.xsd" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\OPCBinarySchema.xsd"
 
-	CD "%DOTNET_TARGET%\Schema\"
+	CD "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\"
 	CALL BuildSchema
 	CD %~dp0
 
 	COPY "%OUTPUT%\Schema\Opc.Ua.NodeSet2.xml" "%DOTNET_TARGET%\Schema\Opc.Ua.NodeSet2.xml"
-	COPY "%OUTPUT%\Schema\Opc.Ua.Types.bsd" "%DOTNET_TARGET%\Schema\Opc.Ua.Types.bsd"
-	COPY "%OUTPUT%\Schema\Opc.Ua.Types.xsd" "%DOTNET_TARGET%\Schema\Opc.Ua.Types.xsd"
-	COPY "%OUTPUT%\Schema\Opc.Ua.Endpoints.wsdl" "%DOTNET_TARGET%\Schema\Opc.Ua.Endpoints.wsdl"
-	COPY "%OUTPUT%\Schema\Opc.Ua.Services.wsdl" "%DOTNET_TARGET%\Schema\Opc.Ua.Services.wsdl"
+	COPY "%OUTPUT%\Schema\Opc.Ua.Types.xsd" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\Opc.Ua.Types.xsd"
+	REM COPY "%OUTPUT%\Schema\Opc.Ua.Types.bsd" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\Opc.Ua.Types.bsd"
+	REM COPY "%OUTPUT%\Schema\Opc.Ua.Endpoints.wsdl" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\Opc.Ua.Endpoints.wsdl"
+	REM COPY "%OUTPUT%\Schema\Opc.Ua.Services.wsdl" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\Opc.Ua.Services.wsdl"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.Channels.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Channels.cs"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.Client.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Client.cs"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.Endpoints.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Endpoints.cs"
@@ -179,7 +178,7 @@ IF "%DOTNET_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\DotNet\Opc.Ua.Classes.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Classes.cs"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.Constants.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Constants.cs"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.DataTypes.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.DataTypes.cs"
-	COPY "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.PredefinedNodes.cs"
+	REM COPY "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.PredefinedNodes.cs"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.uanodes" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.PredefinedNodes.uanodes"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.xml" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.PredefinedNodes.xml"
 )
@@ -210,16 +209,16 @@ IF "%GDS_TARGET%" NEQ "" (
 
 IF NOT "%3"=="DI" GOTO skipDI
 CALL PublishModel OpcUaDiModel DI %1 %2
-CALL PublishModel OpcUaDiSoftwarePackageModel DI %1 %2
+CALL PublishModel OpcUaDiPackageMetadataModel DI %1 %2
 CALL UpdateLicense "%OUTPUT%\DI"
 
 IF EXIST "%OUTPUT%\DI\Constants" RMDIR /S /Q "%OUTPUT%\DI\Constants"
 IF EXIST "%OUTPUT%\DI\Generated" RMDIR /S /Q "%OUTPUT%\DI\Generated"
 
-ECHO %MODELCOMPILER% compile-nodesets -input "%OUTPUT%" -uri "http://opcfoundation.org/UA/DI/SoftwarePackage/" -prefix "UAModel.DI.SoftwarePackage" -o2 "%OUTPUT%\DI\Generated"
-%MODELCOMPILER% compile-nodesets -input "%OUTPUT%" -uri "http://opcfoundation.org/UA/DI/SoftwarePackage/" -prefix "UAModel.DI.SoftwarePackage" -o2 "%OUTPUT%\DI\Generated"
+ECHO %MODELCOMPILER% compile-nodesets -input "%OUTPUT%" -uri "http://opcfoundation.org/UA/DI/PackageMetadata/" -prefix "UAModel.DI.PackageMetadata" -o2 "%OUTPUT%\DI\Generated"
+%MODELCOMPILER% compile-nodesets -input "%OUTPUT%" -uri "http://opcfoundation.org/UA/DI/PackageMetadata/" -prefix "UAModel.DI.PackageMetadata" -o2 "%OUTPUT%\DI\Generated"
 
-COPY "%OUTPUT%\DI\Generated\DI\*.json" "%OUTPUT%\DI"
+COPY "%OUTPUT%\DI\Generated\*.json" "%OUTPUT%\DI\"
 RMDIR /S /Q "%OUTPUT%\DI\Generated"
 DEL /F /Q "%OUTPUT%\DI\*.cs"
 DEL /F /Q "%OUTPUT%\DI\*.uanodes"

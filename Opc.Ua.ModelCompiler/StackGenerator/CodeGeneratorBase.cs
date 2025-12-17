@@ -28,6 +28,7 @@
  * ======================================================================*/
 
 using System.Collections;
+using System.Globalization;
 using System.Text;
 using System.Xml;
 
@@ -36,20 +37,20 @@ namespace CodeGenerator
     /// <summary>
     /// Generates code based on a UA Type Dictionary.
     /// </summary>
-    public class CodeGenerator
+    public class CodeGeneratorBase
     {
         #region Constructors
         /// <summary>
         /// Generates the code from the contents of the address space.
         /// </summary>
-        public CodeGenerator()
+        public CodeGeneratorBase()
         {
         }
 
         /// <summary>
         /// Generates the code from the contents of the address space.
         /// </summary>
-        public CodeGenerator(
+        public CodeGeneratorBase(
             string inputPath, 
             string outputDirectory, 
             Dictionary<string,string> knownFiles, 
@@ -163,7 +164,7 @@ namespace CodeGenerator
                 return name;
             }
 
-            return String.Format("{0}{1}", Char.ToLower(name[0]), name.Substring(1));
+            return String.Format(CultureInfo.InvariantCulture, "{0}{1}", Char.ToLower(name[0], CultureInfo.InvariantCulture), name.Substring(1));
         }
 
         /// <summary>
@@ -357,7 +358,7 @@ namespace CodeGenerator
 
             if (valueRank >= 0)
             {
-                return String.Format("{0}Collection", type);
+                return String.Format(CultureInfo.InvariantCulture, "{0}Collection", type);
             }
 
             return type;
@@ -384,16 +385,16 @@ namespace CodeGenerator
 
             if (qname.Namespace == Namespaces.OpcUaBuiltInTypes)
             {
-                type = String.Format("OpcUa_{0}", type);
+                type = String.Format(CultureInfo.InvariantCulture, "OpcUa_{0}", type);
             }
             else
             {
-                type = String.Format("{1}_{0}", type, prefix);
+                type = String.Format(CultureInfo.InvariantCulture, "{1}_{0}", type, prefix);
             }
 
             if (valueRank >= 0)
             {
-                return String.Format("{0}*", type);
+                return String.Format(CultureInfo.InvariantCulture, "{0}*", type);
             }
 
             return type;

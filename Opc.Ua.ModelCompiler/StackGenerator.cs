@@ -30,12 +30,14 @@
 using Opc.Ua.Schema.Binary;
 using Opc.Ua.Schema.Xml;
 using CodeGenerator;
+using Opc.Ua;
+using System.Globalization;
 
 namespace ModelCompiler
 {
-    public class StackGenerator
+    public static class StackGenerator
     {
-        public class Files
+        internal sealed class Files
         {
             public Dictionary<string, string> XmlSchemas;
             public Dictionary<string, string> BinarySchemas;
@@ -73,8 +75,8 @@ namespace ModelCompiler
 
             if (!noSchemaGeneration)
             {
-                string basePath = String.Format(@"{0}\{1}", output, name);
-                string fileName = String.Format("Opc.Ua{0}", name);
+                string basePath = String.Format(CultureInfo.InvariantCulture, @"{0}\{1}", output, name);
+                string fileName = String.Format(CultureInfo.InvariantCulture, "Opc.Ua{0}", name);
 
                 XmlSchemaGenerator generator1 = new XmlSchemaGenerator(
                     input,
@@ -88,9 +90,9 @@ namespace ModelCompiler
                 generator1.EndpointsNamespace = "http://opcfoundation.org/UA/2008/02/Endpoints.wsdl";
 
                 generator1.Generate(fileName, "Opc.Ua", name, true);
-                string filePath = String.Format(@"{0}\Opc.Ua.Types.xsd", output);
+                string filePath = String.Format(CultureInfo.InvariantCulture, @"{0}\Opc.Ua.Types.xsd", output);
 
-                XmlSchemaValidator2 validator1 = new XmlSchemaValidator2(fileSystem, files.XmlSchemas);
+                var validator1 = new Opc.Ua.Schema.Xml.XmlSchemaValidator2(fileSystem, files.XmlSchemas);
                 validator1.Validate(filePath);
                 files.XmlSchemas[validator1.TargetSchema.TargetNamespace] = filePath;
                 System.IO.File.Delete(filePath);
@@ -105,7 +107,7 @@ namespace ModelCompiler
                     exclusions);
 
                 generator2.Generate(fileName, true, "http://opcfoundation.org/UA/");
-                filePath = String.Format(@"{0}\{1}.bsd", output, fileName);
+                filePath = String.Format(CultureInfo.InvariantCulture, @"{0}\{1}.bsd", output, fileName);
 
                 BinarySchemaValidator validator2 = new BinarySchemaValidator(files.BinarySchemas);
                 validator2.Validate(filePath);

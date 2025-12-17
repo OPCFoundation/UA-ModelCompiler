@@ -27,6 +27,7 @@
  * http://opcfoundation.org/License/MIT/1.00/
  * ======================================================================*/
 
+using Opc.Ua;
 using System.Collections.Concurrent;
 using System.IO.MemoryMappedFiles;
 
@@ -377,6 +378,21 @@ namespace ModelCompiler
                         if (CanWrite)
                         {
                             m_file.Length = m_stream.Position;
+                        }
+
+                        if (m_file != null)
+                        {
+                            m_file.LastWrite = DateTime.UtcNow;
+                        }
+
+                        if (m_stream != null)
+                        {
+                            m_stream.Dispose();
+                        }
+
+                        if (m_file != null)
+                        {
+                            m_file.Dispose();
                         }
                     }
                     base.Dispose(disposing);

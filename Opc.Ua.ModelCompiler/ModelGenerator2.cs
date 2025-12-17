@@ -31,6 +31,7 @@
 
 using CodeGenerator;
 using Opc.Ua;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Xml;
@@ -41,7 +42,7 @@ using ValidationEventHandler = System.Xml.Schema.ValidationEventHandler;
 
 namespace ModelCompiler
 {
-    public partial class ModelGenerator2 : CodeGenerator.CodeGenerator
+    public partial class ModelGenerator2 : CodeGenerator.CodeGeneratorBase
     {
         #region Constructors
         /// <summary>
@@ -112,7 +113,7 @@ namespace ModelCompiler
             m_validator = new ModelCompilerValidator(startId, exclusions, m_fileSystem, m_telemetry);
             m_validator.LogMessage += this.LogMessage;
 
-            if (!String.IsNullOrEmpty(specificationVersion))
+            if (!string.IsNullOrEmpty(specificationVersion))
             {
                 m_validator.EmbeddedModelDesignPath = $"{m_validator.EmbeddedModelDesignPath}.{specificationVersion}";
 
@@ -162,7 +163,7 @@ namespace ModelCompiler
             WriteTemplate_XmlSchema(filePath, nodes);
             WriteTemplate_BinarySchema(filePath, nodes);
 
-            await WriteTemplate_XmlExport(filePath, minimal);
+            await WriteTemplate_XmlExport(filePath, minimal).ConfigureAwait(false);
 
             if (minimal)
             {
@@ -194,13 +195,13 @@ namespace ModelCompiler
             WriteTemplate_ExclusionsAnsiC(filePath, nodes);
         }
 
-        private void IndexDocumentation(SystemContext context, IEnumerable<NodeState> source, Dictionary<NodeId, NodeState> map)
+        private static void IndexDocumentation(SystemContext context, IEnumerable<NodeState> source, Dictionary<NodeId, NodeState> map)
         {
             foreach (var ii in source)
             {
                 if (!NodeId.IsNull(ii.NodeId))
                 {
-                    if (!String.IsNullOrEmpty(ii.NodeSetDocumentation) || ii.Categories?.Count > 0)
+                    if (!string.IsNullOrEmpty(ii.NodeSetDocumentation) || ii.Categories?.Count > 0)
                     {
                         map[ii.NodeId] = ii;
                     }
@@ -212,7 +213,7 @@ namespace ModelCompiler
             }
         }
 
-        private void UpdateDocumentation(SystemContext context, Dictionary<NodeId, NodeState> original, IEnumerable<NodeState> updated)
+        private static void UpdateDocumentation(SystemContext context, Dictionary<NodeId, NodeState> original, IEnumerable<NodeState> updated)
         {
             foreach (var ii in updated)
             {
@@ -221,7 +222,7 @@ namespace ModelCompiler
                 if (original.TryGetValue(ii.NodeId, out existingNode))
                 {
                     ii.NodeSetDocumentation =
-                            (!String.IsNullOrWhiteSpace(existingNode.NodeSetDocumentation))
+                            (!string.IsNullOrWhiteSpace(existingNode.NodeSetDocumentation))
                             ? existingNode.NodeSetDocumentation
                             : null;
 
@@ -234,7 +235,7 @@ namespace ModelCompiler
             }
         }
 
-        private ushort CollectNodes(SystemContext context, Dictionary<NodeId, NodeState> index, NodeState node)
+        private static ushort CollectNodes(SystemContext context, Dictionary<NodeId, NodeState> index, NodeState node)
         {
             index[node.NodeId] = node;
 
@@ -249,7 +250,7 @@ namespace ModelCompiler
             return node.NodeId.NamespaceIndex;
         }
 
-        private void RemoveChildrenWithNoNodeId(SystemContext context, NodeState parent)
+        private static void RemoveChildrenWithNoNodeId(SystemContext context, NodeState parent)
         {
             List<BaseInstanceState> children = new List<BaseInstanceState>();
             parent.GetChildren(context, children);
@@ -266,7 +267,7 @@ namespace ModelCompiler
             }
         }
 
-        private void WriteIdentifiers(SystemContext context, Dictionary<string, NodeState> list, NodeState node, string parentPath)
+        private static void WriteIdentifiers(SystemContext context, Dictionary<string, NodeState> list, NodeState node, string parentPath)
         {
             if (NodeId.IsNull(node.NodeId))
             {
@@ -321,7 +322,7 @@ namespace ModelCompiler
             }
         }
 
-        private void WritePermissions(SystemContext context, Dictionary<string, NodeState> list, NodeState node, string parentPath)
+        private static void WritePermissions(SystemContext context, Dictionary<string, NodeState> list, NodeState node, string parentPath)
         {
             if (NodeId.IsNull(node.NodeId))
             {
@@ -339,7 +340,7 @@ namespace ModelCompiler
             }
         }
 
-        private RolePermissionTypeCollection FindRolePermissions(NodeState node)
+        private static RolePermissionTypeCollection FindRolePermissions(NodeState node)
         {
             if (node.RolePermissions != null)
             {
@@ -354,7 +355,7 @@ namespace ModelCompiler
             return null;
         }
 
-        private AccessRestrictionType? FindAccessRestrictions(NodeState node)
+        private static AccessRestrictionType? FindAccessRestrictions(NodeState node)
         {
             if (node.AccessRestrictions != null)
             {
@@ -369,7 +370,7 @@ namespace ModelCompiler
             return null;
         }
 
-        private string FormatPermissions(uint flags)
+        private static string FormatPermissions(uint flags)
         {
             List<PermissionType> list = new();
 
@@ -396,10 +397,10 @@ namespace ModelCompiler
                 list.Add(PermissionType.None);
             }
 
-            return String.Join("|", list);
+            return string.Join("|", list);
         }
 
-        private string FormatAccessRestrictions(AccessRestrictionType flags)
+        private static string FormatAccessRestrictions(AccessRestrictionType flags)
         {
             List<AccessRestrictionType> list = new();
 
@@ -421,7 +422,7 @@ namespace ModelCompiler
                 list.Add(AccessRestrictionType.None);
             }
 
-            return String.Join(",", list);
+            return string.Join(",", list);
         }
 
         private void WritePermissions(SystemContext context, string identifiersFilePath, NodeStateCollection nodes)
@@ -525,7 +526,7 @@ namespace ModelCompiler
         /// <summary>
         /// Writes the schema information to a static XML export file.
         /// </summary>
-        private Task WriteTemplate_XmlExport(string filePath, bool minimal)
+        private async Task WriteTemplate_XmlExport(string filePath, bool minimal)
         {
             SystemContext context = new SystemContext(m_telemetry);
             context.NamespaceUris = m_model.NamespaceUris;
@@ -633,7 +634,7 @@ namespace ModelCompiler
                             {
                                 if (m_fileSystem.Exists(file))
                                 {
-                                    variable.Value = File.ReadAllBytes(file);
+                                    variable.Value = await File.ReadAllBytesAsync(file).ConfigureAwait(false);
                                 }
                                 else
                                 {
@@ -676,7 +677,7 @@ namespace ModelCompiler
 
                     if (index.TryGetValue(nodeId, out NodeState target))
                     {
-                        target.NodeSetDocumentation = (!String.IsNullOrEmpty(row.Link)) ? row.Link : null;
+                        target.NodeSetDocumentation = (!string.IsNullOrEmpty(row.Link)) ? row.Link : null;
                         target.Categories = row.ConformanceUnits;
                     }
                 }
@@ -694,7 +695,7 @@ namespace ModelCompiler
             var originalFile = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.xml");
             if (m_model.TargetNamespace == Opc.Ua.Namespaces.OpcUa)
             {
-                originalFile = String.Format(@"{0}{1}{2}.NodeSet2.Services.xml",
+                originalFile = String.Format(CultureInfo.InvariantCulture, @"{0}{1}{2}.NodeSet2.Services.xml",
                     filePath,
                     Path.DirectorySeparatorChar,
                     m_model.TargetNamespaceInfo.Prefix);
@@ -743,10 +744,9 @@ namespace ModelCompiler
 
             if (!minimal)
             {
-                return GenerateJsonSchema(filePath);
+                await GenerateJsonSchema(filePath).ConfigureAwait(false);
+                return;
             }
-
-            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -818,7 +818,7 @@ namespace ModelCompiler
 
             try
             {
-                Template template = new Template(
+                using Template template = new Template(
                     writer,
                     TemplatePath + "Version2.PredefinedNodesFile.cs",
                     Assembly.GetExecutingAssembly());
@@ -893,10 +893,10 @@ namespace ModelCompiler
         {
             string outputFile = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.xml");
 
-            var identifiersFilePath = String.Format($"{filePath}{Path.DirectorySeparatorChar}{m_model.TargetNamespaceInfo.Prefix}.NodeIds.csv");
+            var identifiersFilePath = String.Format(CultureInfo.InvariantCulture, $"{filePath}{Path.DirectorySeparatorChar}{m_model.TargetNamespaceInfo.Prefix}.NodeIds.csv");
             WriteIdentifiers(context, identifiersFilePath, collection);
 
-            identifiersFilePath = String.Format($"{filePath}{Path.DirectorySeparatorChar}{m_model.TargetNamespaceInfo.Prefix}.NodeIds.permissions.csv");
+            identifiersFilePath = String.Format(CultureInfo.InvariantCulture, $"{filePath}{Path.DirectorySeparatorChar}{m_model.TargetNamespaceInfo.Prefix}.NodeIds.permissions.csv");
             WritePermissions(context, identifiersFilePath, collection);
 
             using (Stream ostrm = m_fileSystem.OpenWrite(outputFile))
@@ -925,7 +925,7 @@ namespace ModelCompiler
 
                 if (m_model.TargetNamespace == Opc.Ua.Namespaces.OpcUa)
                 {
-                    var nodeSetFilePath = String.Format(@"{0}{1}{2}.NodeSet2.Services.xml", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
+                    var nodeSetFilePath = String.Format(CultureInfo.InvariantCulture, @"{0}{1}{2}.NodeSet2.Services.xml", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
 
                     using (Stream ostrm2 = m_fileSystem.OpenWrite(nodeSetFilePath))
                     {
@@ -937,10 +937,10 @@ namespace ModelCompiler
                             true);
                     }
 
-                    identifiersFilePath = String.Format(@"{0}{1}{2}.NodeIds.Services.csv", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
+                    identifiersFilePath = String.Format(CultureInfo.InvariantCulture, @"{0}{1}{2}.NodeIds.Services.csv", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
                     WriteIdentifiers(context, identifiersFilePath, collectionWithServices);
 
-                    identifiersFilePath = String.Format(@"{0}{1}{2}.NodeIds.Services.permissions.csv", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
+                    identifiersFilePath = String.Format(CultureInfo.InvariantCulture, @"{0}{1}{2}.NodeIds.Services.permissions.csv", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
                     WritePermissions(context, identifiersFilePath, collectionWithServices);
                 }
             }
@@ -984,7 +984,7 @@ namespace ModelCompiler
                     GenerateJsonSchema(filePath, m_model.TargetNamespaceInfo.Prefix + ".Services", true);
                     GenerateJsonSchema(filePath, m_model.TargetNamespaceInfo.Prefix + ".Services", false);
 
-                    var nodeSetFilePath = String.Format(@"{0}{1}{2}.xml", filePath, Path.DirectorySeparatorChar, completeNodeSet);
+                    var nodeSetFilePath = String.Format(CultureInfo.InvariantCulture, @"{0}{1}{2}.xml", filePath, Path.DirectorySeparatorChar, completeNodeSet);
 
                     OpenApiExporter openapi = new OpenApiExporter(m_telemetry, false);
 
@@ -994,11 +994,11 @@ namespace ModelCompiler
                         istrm.Close();
                     }
 
-                    var openapiPath = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix.ToLower() + ".openapi.sessionless.json");
+                    var openapiPath = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix.ToLowerInvariant() + ".openapi.sessionless.json");
 
                     using (Stream istrm = m_fileSystem.OpenWrite(openapiPath))
                     {
-                        await openapi.GenerateCore(istrm);
+                        await openapi.GenerateCore(istrm).ConfigureAwait(false);
                     }
 
                     using (Stream istrm = m_fileSystem.OpenRead(openapiPath))
@@ -1014,11 +1014,11 @@ namespace ModelCompiler
                         istrm.Close();
                     }
 
-                    openapiPath = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix.ToLower() + ".openapi.allservices.json");
+                    openapiPath = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix.ToLowerInvariant() + ".openapi.allservices.json");
 
                     using (Stream istrm = m_fileSystem.OpenWrite(openapiPath))
                     {
-                        await openapi.GenerateCore(istrm);
+                        await openapi.GenerateCore(istrm).ConfigureAwait(false);
                     }
 
                     using (Stream istrm = m_fileSystem.OpenRead(openapiPath))
@@ -1028,7 +1028,7 @@ namespace ModelCompiler
                 }
                 else
                 {
-                    var nodeSetFilePath = String.Format(@"{0}{1}{2}.xml", filePath, Path.DirectorySeparatorChar, nodeSet);
+                    var nodeSetFilePath = String.Format(CultureInfo.InvariantCulture, @"{0}{1}{2}.xml", filePath, Path.DirectorySeparatorChar, nodeSet);
 
                     OpenApiExporter openapi = new OpenApiExporter(m_telemetry, false);
 
@@ -1053,7 +1053,7 @@ namespace ModelCompiler
                         istrm.Close();
                     }
 
-                    var openapiPath = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix.ToLower() + ".openapi.json");
+                    var openapiPath = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix.ToLowerInvariant() + ".openapi.json");
 
                     using (Stream istrm = m_fileSystem.OpenWrite(openapiPath))
                     {
@@ -1062,7 +1062,7 @@ namespace ModelCompiler
                             m_model.TargetNamespaceInfo.Name,
                             m_model.TargetNamespaceInfo.Version,
                             m_model.TargetNamespaceInfo.Value
-                        );
+                        ).ConfigureAwait(false); 
                     }
 
                     using (Stream istrm = m_fileSystem.OpenRead(openapiPath))
@@ -1079,7 +1079,7 @@ namespace ModelCompiler
 
             json.Load(AvailableNodeSets, m_model.TargetNamespace);
 
-            string outputFile = Path.Combine(filePath, $"{baseName.ToLower()}.jsonschema{((!useCompactEncoding) ? ".verbose" : "")}.json");
+            string outputFile = Path.Combine(filePath, $"{baseName.ToLowerInvariant()}.jsonschema{((!useCompactEncoding) ? ".verbose" : "")}.json");
 
             using (var ostrm = m_fileSystem.OpenWrite(outputFile))
             {
@@ -1087,7 +1087,7 @@ namespace ModelCompiler
             }
         }
 
-        private Stream GetNodeSet2Schema()
+        private static Stream GetNodeSet2Schema()
         {
             foreach (var name in Assembly.GetExecutingAssembly().GetManifestResourceNames())
             {
@@ -1160,18 +1160,18 @@ namespace ModelCompiler
         {
             string prefix = m_model.TargetNamespaceInfo.Name;
 
-            TextWriter writer = m_fileSystem.CreateTextWriter(Path.Combine(filePath, prefix.ToLower() + "_identifiers.h"));
+            TextWriter writer = m_fileSystem.CreateTextWriter(Path.Combine(filePath, prefix.ToLowerInvariant() + "_identifiers.h"));
 
             try
             {
                 string templateName = "Types.Identifiers.h";
 
-                Template template = new Template(writer, TemplatePath + templateName, Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + templateName, Assembly.GetExecutingAssembly());
 
                 SortedDictionary<string, List<NodeDesign>> identifiers = GetIdentifiers();
 
                 template.AddReplacement("_Date_", DateTime.Now.ToShortDateString());
-                template.AddReplacement("_FileName_", String.Format("{0}_Identifiers", prefix));
+                template.AddReplacement("_FileName_", String.Format(CultureInfo.InvariantCulture, "{0}_Identifiers", prefix));
 
                 AddTemplate(
                     template,
@@ -1184,7 +1184,7 @@ namespace ModelCompiler
                 Context context = new Context();
                 context.BlankLine = true;
                 template.WriteTemplate(context);
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
             finally
             {
@@ -1199,13 +1199,13 @@ namespace ModelCompiler
         {
             string prefix = m_model.TargetNamespaceInfo.Name;
 
-            TextWriter writer = m_fileSystem.CreateTextWriter(Path.Combine(filePath, prefix.ToLower() + "_exclusions.h"));
+            TextWriter writer = m_fileSystem.CreateTextWriter(Path.Combine(filePath, prefix.ToLowerInvariant() + "_exclusions.h"));
 
             try
             {
                 string templateName = "Types.Identifiers.h";
 
-                Template template = new Template(writer, TemplatePath + templateName, Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + templateName, Assembly.GetExecutingAssembly());
 
                 var identifiers = new Dictionary<string, List<string>>();
 
@@ -1237,7 +1237,7 @@ namespace ModelCompiler
                 identifiers["DataType"] = datatypeNames;
 
                 template.AddReplacement("_Date_", DateTime.Now.ToShortDateString());
-                template.AddReplacement("_FileName_", String.Format("{0}_Exclusions", prefix));
+                template.AddReplacement("_FileName_", String.Format(CultureInfo.InvariantCulture, "{0}_Exclusions", prefix));
 
                 AddTemplate(
                     template,
@@ -1250,7 +1250,7 @@ namespace ModelCompiler
                 Context context = new Context();
                 context.BlankLine = true;
                 template.WriteTemplate(context);
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
             finally
             {
@@ -1332,16 +1332,16 @@ namespace ModelCompiler
         {
             string prefix = m_model.TargetNamespaceInfo.Name;
 
-            TextWriter writer = m_fileSystem.CreateTextWriter(Path.Combine(filePath, prefix.ToLower() + "_browsenames.h"));
+            TextWriter writer = m_fileSystem.CreateTextWriter(Path.Combine(filePath, prefix.ToLowerInvariant() + "_browsenames.h"));
 
             try
             {
                 string templateName = "Types.Identifiers.h";
 
-                Template template = new Template(writer, TemplatePath + templateName, Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + templateName, Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Date_", DateTime.Now.ToShortDateString());
-                template.AddReplacement("_FileName_", String.Format("{0}_BrowseNames", prefix));
+                template.AddReplacement("_FileName_", String.Format(CultureInfo.InvariantCulture, "{0}_BrowseNames", prefix));
 
                 SortedDictionary<string, string> browseNames = GetBrowseNames(nodes);
 
@@ -1354,7 +1354,7 @@ namespace ModelCompiler
                     null);
 
                 template.WriteTemplate(null);
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
             finally
             {
@@ -1411,9 +1411,9 @@ namespace ModelCompiler
         {
             try
             {
-                Template template = new Template(writer, TemplatePath + "XmlSchema.File.xml", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "XmlSchema.File.xml", Assembly.GetExecutingAssembly());
 
-                if (!String.IsNullOrEmpty(m_model.TargetNamespaceInfo.XmlNamespace))
+                if (!string.IsNullOrEmpty(m_model.TargetNamespaceInfo.XmlNamespace))
                 {
                     template.AddReplacement("_Namespace_", m_model.TargetNamespaceInfo.XmlNamespace);
                 }
@@ -1483,9 +1483,9 @@ namespace ModelCompiler
                 {
                     if (m_model.Namespaces[ii].Value == namespaceUri)
                     {
-                        if (String.IsNullOrEmpty(m_model.Namespaces[ii].XmlPrefix))
+                        if (string.IsNullOrEmpty(m_model.Namespaces[ii].XmlPrefix))
                         {
-                            return String.Format("s{0}", ii);
+                            return String.Format(CultureInfo.InvariantCulture, "s{0}", ii);
                         }
 
                         return m_model.Namespaces[ii].XmlPrefix;
@@ -1515,7 +1515,7 @@ namespace ModelCompiler
 
             string uri = ns.Value;
 
-            if (!String.IsNullOrEmpty(ns.XmlNamespace))
+            if (!string.IsNullOrEmpty(ns.XmlNamespace))
             {
                 uri = ns.XmlNamespace;
             }
@@ -1648,7 +1648,7 @@ namespace ModelCompiler
 
             if (context.FirstInList)
             {
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
 
             DataTypeDesign baseType = dataType.BaseTypeNode as DataTypeDesign;
@@ -1662,7 +1662,7 @@ namespace ModelCompiler
 
             if (dataType.BasicDataType == BasicDataType.Enumeration && dataType.IsOptionSet)
             {
-                template.AddReplacement("<xs:restriction base=\"xs:string\">", String.Format("<xs:restriction base=\"{0}\">", GetXmlDataType(baseType, ValueRank.Scalar)));
+                template.AddReplacement("<xs:restriction base=\"xs:string\">", String.Format(CultureInfo.InvariantCulture, "<xs:restriction base=\"{0}\">", GetXmlDataType(baseType, ValueRank.Scalar)));
             }
 
             AddTemplate(
@@ -1734,7 +1734,7 @@ namespace ModelCompiler
                         {
                             if (dataType.SymbolicName == new XmlQualifiedName("Structure", DefaultNamespace))
                             {
-                                return String.Format("ua:ListOfExtensionObject");
+                                return String.Format(CultureInfo.InvariantCulture, "ua:ListOfExtensionObject");
                             }
 
                             if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
@@ -1744,7 +1744,7 @@ namespace ModelCompiler
                                     return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
                                 }
 
-                                return String.Format("ua:ListOfInt32");
+                                return String.Format(CultureInfo.InvariantCulture, "ua:ListOfInt32");
                             }
 
                             string prefix = "tns";
@@ -1760,7 +1760,7 @@ namespace ModelCompiler
                                             return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
                                         }
 
-                                        return String.Format("ua:ListOfInt32");
+                                        return String.Format(CultureInfo.InvariantCulture, "ua:ListOfInt32");
                                     }
 
                                     prefix = "ua";
@@ -1771,7 +1771,7 @@ namespace ModelCompiler
                                 }
                             }
 
-                            return String.Format("{0}:ListOf{1}", prefix, dataType.SymbolicName.Name);
+                            return String.Format(CultureInfo.InvariantCulture, "{0}:ListOf{1}", prefix, dataType.SymbolicName.Name);
                         }
                 }
             }
@@ -1812,7 +1812,7 @@ namespace ModelCompiler
                     {
                         if (dataType.SymbolicName == new XmlQualifiedName("Structure", DefaultNamespace))
                         {
-                            return String.Format("ua:ExtensionObject");
+                            return String.Format(CultureInfo.InvariantCulture, "ua:ExtensionObject");
                         }
 
                         if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
@@ -1822,7 +1822,7 @@ namespace ModelCompiler
                                 return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
                             }
 
-                            return String.Format("xs:int");
+                            return String.Format(CultureInfo.InvariantCulture, "xs:int");
                         }
 
                         string prefix = "tns";
@@ -1838,7 +1838,7 @@ namespace ModelCompiler
                                         return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
                                     }
 
-                                    return String.Format("xs:int");
+                                    return String.Format(CultureInfo.InvariantCulture, "xs:int");
                                 }
 
                                 prefix = "ua";
@@ -1849,7 +1849,7 @@ namespace ModelCompiler
                             }
                         }
 
-                        return String.Format("{0}:{1}", prefix, dataType.SymbolicName.Name);
+                        return String.Format(CultureInfo.InvariantCulture, "{0}:{1}", prefix, dataType.SymbolicName.Name);
                     }
             }
         }
@@ -2031,7 +2031,7 @@ namespace ModelCompiler
             return context.TemplatePath;
         }
 
-        private bool IsNillable(BasicDataType type)
+        private static bool IsNillable(BasicDataType type)
         {
             switch (type)
             {
@@ -2065,7 +2065,7 @@ namespace ModelCompiler
                 return false;
             }
 
-            template.WriteLine(String.Empty);
+            template.WriteLine(string.Empty);
             template.AddReplacement("_TypeName_", dataType.SymbolicName.Name);
             template.AddReplacement("_Nillable_", (!IsNillable(dataType.BasicDataType)) ? "" : "nillable=\"true\" ");
 
@@ -2103,7 +2103,7 @@ namespace ModelCompiler
         {
             try
             {
-                Template template = new Template(writer, TemplatePath + "BinarySchema.File.xml", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "BinarySchema.File.xml", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_DictionaryUri_", m_model.TargetNamespace);
                 template.Replacements.Add("_BuildDate_", Utils.Format("{0:yyyy-MM-dd}", DateTime.UtcNow));
@@ -2269,7 +2269,7 @@ namespace ModelCompiler
             {
                 if (m_model.TargetNamespace == DefaultNamespace)
                 {
-                    template.WriteNextLine(String.Empty);
+                    template.WriteNextLine(string.Empty);
                     return template.WriteTemplate(context);
                 }
 
@@ -2285,7 +2285,7 @@ namespace ModelCompiler
 
             if (context.FirstInList)
             {
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
 
             template.AddReplacement("_TypeName_", dataType.SymbolicName.Name);
@@ -2441,7 +2441,7 @@ namespace ModelCompiler
                     {
                         if (dataType.SymbolicName == new XmlQualifiedName("Structure", DefaultNamespace))
                         {
-                            return String.Format("ua:ExtensionObject");
+                            return String.Format(CultureInfo.InvariantCulture, "ua:ExtensionObject");
                         }
 
                         if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
@@ -2451,7 +2451,7 @@ namespace ModelCompiler
                                 return GetBinaryDataType((DataTypeDesign)dataType.BaseTypeNode);
                             }
 
-                            return String.Format("opc:Int32");
+                            return String.Format(CultureInfo.InvariantCulture, "opc:Int32");
                         }
 
                         string prefix = "tns";
@@ -2468,7 +2468,7 @@ namespace ModelCompiler
                             }
                         }
 
-                        return String.Format("{0}:{1}", prefix, dataType.SymbolicName.Name);
+                        return String.Format(CultureInfo.InvariantCulture, "{0}:{1}", prefix, dataType.SymbolicName.Name);
                     }
             }
         }
@@ -2566,7 +2566,7 @@ namespace ModelCompiler
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "Version2.ConstantsFile.cs", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "Version2.ConstantsFile.cs", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Namespace_", GetNamespacePrefix(m_model.TargetNamespace));
                 template.AddReplacement("_NamespaceUri_", GetConstantForNamespace(m_model.TargetNamespace));
@@ -2585,7 +2585,7 @@ namespace ModelCompiler
                 {
                     namespaces.Add(m_model.Namespaces[ii].Value);
 
-                    if (!String.IsNullOrEmpty(m_model.Namespaces[ii].XmlNamespace))
+                    if (!string.IsNullOrEmpty(m_model.Namespaces[ii].XmlNamespace))
                     {
                         namespaces.Add(m_model.Namespaces[ii].XmlNamespace);
                     }
@@ -2639,13 +2639,17 @@ namespace ModelCompiler
 
         private void WriteTemplate_ConstantsOpenApi(string filePath, List<NodeDesign> nodes, string folderName, string suffix)
         {
-            var path = Path.Combine(filePath, "Constants", folderName, m_model.TargetNamespaceInfo.Prefix.ToLower().Replace(".", "", StringComparison.InvariantCulture) + $"_constants.{suffix}");
+            var path = Path.Combine(
+                filePath,
+                "Constants", 
+                folderName, 
+                m_model.TargetNamespaceInfo.Prefix.ToLowerInvariant().Replace(".", "", StringComparison.InvariantCulture) + $"_constants.{suffix}");
 
             TextWriter writer = m_fileSystem.CreateTextWriter(path);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + $"Version2.{folderName}.ConstantsFile.{suffix}", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + $"Version2.{folderName}.ConstantsFile.{suffix}", Assembly.GetExecutingAssembly());
 
                 SortedDictionary<string, string> browseNames = GetBrowseNames(nodes);
 
@@ -2672,15 +2676,17 @@ namespace ModelCompiler
 
                 if (m_model.TargetNamespace == DefaultNamespace)
                 {
+                    string[] targets = new string[] { "once" };
+
                     AddTemplate(
                         template,
                         "// BuiltInTypes",
                         TemplatePath + $"Version2.{folderName}.BuiltInTypes.{suffix}",
-                        new string[] { "once" },
+                        targets,
                         (Template template, Context context) => context.TemplatePath,
                         (Template template, Context context) =>
                         {
-                            template.WriteNextLine(String.Empty);
+                            template.WriteNextLine(string.Empty);
                             return template.WriteTemplate(context);
                         });
                 }
@@ -2716,10 +2722,10 @@ namespace ModelCompiler
 
             return template.WriteTemplate(context);
         }
-        #endregion
+        #endregion Template template = new Template(
 
         #region "// ListOfDataTypeFields"
-        private string LoadOpenApiTemplate_ListOfDataTypeFields(Template template, Context context)
+        private static string LoadOpenApiTemplate_ListOfDataTypeFields(Template template, Context context)
         {
             if (context.Target is not Parameter field)
             {
@@ -2784,7 +2790,7 @@ namespace ModelCompiler
             AddTemplate(
                 template,
                 "// ListOfIdentifiers",
-                String.Join(".", elements),
+                string.Join(".", elements),
                 list.Value.Value,
                 (template, context) => context.TemplatePath,
                 WriteOpenApiTemplate_Identifier);
@@ -2810,7 +2816,7 @@ namespace ModelCompiler
             {
                 template.AddReplacement("_Value_", $"i={node.NumericId}");
             }
-            else if (!String.IsNullOrEmpty(node.StringId))
+            else if (!string.IsNullOrEmpty(node.StringId))
             {
                 template.AddReplacement("_Value_", $"s={node.StringId}");
             }
@@ -2828,7 +2834,7 @@ namespace ModelCompiler
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "Version2.TypesFile.cs", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "Version2.TypesFile.cs", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Namespace_", GetNamespacePrefix(m_model.TargetNamespace));
                 template.AddReplacement("_NamespaceUri_", GetConstantForNamespace(m_model.TargetNamespace));
@@ -2847,7 +2853,7 @@ namespace ModelCompiler
                 {
                     namespaces.Add(m_model.Namespaces[ii].Value);
 
-                    if (!String.IsNullOrEmpty(m_model.Namespaces[ii].XmlNamespace))
+                    if (!string.IsNullOrEmpty(m_model.Namespaces[ii].XmlNamespace))
                     {
                         namespaces.Add(m_model.Namespaces[ii].XmlNamespace);
                     }
@@ -2890,7 +2896,7 @@ namespace ModelCompiler
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "Version2.TypesFile.cs", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "Version2.TypesFile.cs", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Namespace_", GetNamespacePrefix(m_model.TargetNamespace));
                 template.AddReplacement("_NamespaceUri_", GetConstantForNamespace(m_model.TargetNamespace));
@@ -2909,7 +2915,7 @@ namespace ModelCompiler
                 {
                     namespaces.Add(m_model.Namespaces[ii].Value);
 
-                    if (!String.IsNullOrEmpty(m_model.Namespaces[ii].XmlNamespace))
+                    if (!string.IsNullOrEmpty(m_model.Namespaces[ii].XmlNamespace))
                     {
                         namespaces.Add(m_model.Namespaces[ii].XmlNamespace);
                     }
@@ -3055,7 +3061,7 @@ namespace ModelCompiler
 
             while (parentId != null)
             {
-                int index = parentId.LastIndexOf("_");
+                int index = parentId.LastIndexOf('_');
 
                 if (index > 0)
                 {
@@ -3107,7 +3113,7 @@ namespace ModelCompiler
                     }
                 }
 
-                if (IsMethodTypeNode(node))
+                if (ModelGenerator2.IsMethodTypeNode(node))
                 {
                     continue;
                 }
@@ -3136,7 +3142,7 @@ namespace ModelCompiler
 
                 foreach (KeyValuePair<string, HierarchyNode> current in node.Hierarchy.Nodes)
                 {
-                    if (String.IsNullOrEmpty(current.Key))
+                    if (string.IsNullOrEmpty(current.Key))
                     {
                         continue;
                     }
@@ -3263,7 +3269,7 @@ namespace ModelCompiler
             return template.WriteTemplate(context);
         }
 
-        private bool IsMethodTypeNode(NodeDesign node)
+        private static bool IsMethodTypeNode(NodeDesign node)
         {
             if (node == null)
             {
@@ -3272,7 +3278,7 @@ namespace ModelCompiler
 
             string symbol = node.SymbolicId.Name;
 
-            int index = symbol.IndexOf("_");
+            int index = symbol.IndexOf('_');
 
             if (index > 0)
             {
@@ -3294,7 +3300,7 @@ namespace ModelCompiler
                 return;
             }
 
-            if (IsMethodTypeNode(node))
+            if (ModelGenerator2.IsMethodTypeNode(node))
             {
                 return;
             }
@@ -3470,7 +3476,7 @@ namespace ModelCompiler
                                 return TemplatePath + "Version2.DataTypes.Union.cs";
                             }
 
-                            if (datatype.HasFields && datatype.Fields.Where(x => x.IsOptional).Count() > 0)
+                            if (datatype.HasFields && datatype.Fields.Where(x => x.IsOptional).Any())
                             {
                                 if (GetBaseClassName(datatype) != "IEncodeable")
                                 {
@@ -3664,6 +3670,8 @@ namespace ModelCompiler
             if (dataType != null)
             {
                 List<Parameter> completeListOfFields = null;
+                bool hasOptionalFields = (dataType.HasFields && dataType.Fields.Where(x => x.IsOptional).Any());
+                bool parentHasOptionalFields = false;
 
                 if (dataType.IsStructure)
                 {
@@ -3675,6 +3683,16 @@ namespace ModelCompiler
                            parentDataType.SymbolicId != new XmlQualifiedName("Union", DefaultNamespace)
                     )
                     {
+                        if (!parentDataType.HasFields)
+                        {
+                            break;
+                        }
+
+                        if (!parentHasOptionalFields)
+                        {
+                            parentHasOptionalFields = (parentDataType.HasFields && parentDataType.Fields.Where(x => x.IsOptional).Any());
+                        }
+
                         inheiritanceTree.Add(parentDataType);
                         parentDataType = parentDataType.BaseTypeNode as DataTypeDesign;
                     }
@@ -3695,6 +3713,34 @@ namespace ModelCompiler
                             }
                         }
                     }
+
+                    if ( hasOptionalFields)
+                    {
+                        if (parentHasOptionalFields)
+                        {
+                            template.AddReplacement("// EncodingMaskProperty", "");
+                            template.AddReplacement("encoder.WriteEncodingMask((uint)EncodingMask);", "");
+                            template.AddReplacement("EncodingMask = decoder.ReadEncodingMask(m_FieldNames);", "");
+                            template.AddReplacement("if (value.EncodingMask != this.EncodingMask) return false;", "");
+                            template.AddReplacement("clone.EncodingMask = this.EncodingMask;", "");
+                        }
+                        else
+                        {
+                            AddTemplate(
+                                template,
+                                "// EncodingMaskProperty",
+                                null,
+                                new object[] { dataType },
+                                (Template template, Context context) =>
+                                {
+                                    return TemplatePath + "Version2.DataTypes.EncodingMask.cs";
+                                },
+                                (Template template, Context context) =>
+                                {
+                                    return template.WriteTemplate(context);
+                                });
+                        }
+                    }
                 }
 
                 // too much autogenerated code is broken.
@@ -3703,8 +3749,8 @@ namespace ModelCompiler
 
                 if (!dataType.IsOptionSet)
                 {
-                    template.AddReplacement("[Flags]", String.Empty);
-                    template.AddReplacement(" : _BasicType_", String.Empty);
+                    template.AddReplacement("[Flags]", string.Empty);
+                    template.AddReplacement(" : _BasicType_", string.Empty);
                 }
                 else
                 {
@@ -3743,7 +3789,7 @@ namespace ModelCompiler
                     foreach (var ii in new string[] { "Binary", "Xml", "Json" })
                     {
                         var encoding = m_model.Items
-                            .Where(x => x.SymbolicId.Name == $"{node.SymbolicName.Name}_Encoding_Default{ii}" && x.SymbolicId.Namespace == node.SymbolicName.Namespace)
+                            .Where(x => x.SymbolicId.Name == $"{dataType.SymbolicName.Name}_Encoding_Default{ii}" && x.SymbolicId.Namespace == dataType.SymbolicName.Namespace)
                             .Any();
 
                         if (!encoding)
@@ -3814,7 +3860,7 @@ namespace ModelCompiler
 
             if (objectType != null)
             {
-                template.AddReplacement("<BaseT>", String.Empty);
+                template.AddReplacement("<BaseT>", string.Empty);
                 template.AddReplacement("_IsAbstract_", GetBooleanValue(objectType.IsAbstract));
                 template.AddReplacement("_EventNotifier_", GetEventNotifier(objectType.SupportsEvents));
             }
@@ -3833,7 +3879,7 @@ namespace ModelCompiler
 
                 if (!TemplateParameterRequired(variableType.DataTypeNode, variableType.ValueRank))
                 {
-                    template.AddReplacement("<BaseT>", String.Empty);
+                    template.AddReplacement("<BaseT>", string.Empty);
                 }
                 else
                 {
@@ -4009,7 +4055,7 @@ namespace ModelCompiler
                             string childXml = ConstructInitializer(current.Instance, false);
                             WriteInitializationString(template, context, childXml);
                             template.Write(";");
-                            template.WriteNextLine(String.Empty);
+                            template.WriteNextLine(string.Empty);
                             break;
                         }
                     }
@@ -4043,7 +4089,7 @@ namespace ModelCompiler
         {
             if (xml == null)
             {
-                WriteInitializationStringLine(template, context, String.Empty);
+                WriteInitializationStringLine(template, context, string.Empty);
                 return;
             }
 
@@ -4077,7 +4123,7 @@ namespace ModelCompiler
                 {
                     line = line.Trim();
 
-                    if (String.IsNullOrEmpty(line))
+                    if (string.IsNullOrEmpty(line))
                     {
                         continue;
                     }
@@ -4101,7 +4147,7 @@ namespace ModelCompiler
         /// <summary>
         /// Writes the initalization string line.
         /// </summary>
-        private void WriteInitializationStringLine(Template template, Context context, string line)
+        private static void WriteInitializationStringLine(Template template, Context context, string line)
         {
             template.WriteNextLine(context.Prefix);
             template.Write(template.Indent);
@@ -4155,7 +4201,7 @@ namespace ModelCompiler
                 return false;
             }
 
-            template.WriteLine(String.Empty);
+            template.WriteLine(string.Empty);
 
             template.AddReplacement("_NodeClass_", GetNodeClass(type));
             template.AddReplacement("_ClassName_", type.ClassName);
@@ -4189,7 +4235,7 @@ namespace ModelCompiler
 
         private void CollectMatchingFields(VariableTypeDesign variableType, Dictionary<string, Parameter> fields)
         {
-            CollectFields(variableType.DataTypeNode, variableType.ValueRank, String.Empty, fields);
+            CollectFields(variableType.DataTypeNode, variableType.ValueRank, string.Empty, fields);
 
             List<string> availablePaths = new List<string>(fields.Keys);
 
@@ -4202,7 +4248,7 @@ namespace ModelCompiler
             }
         }
 
-        private void CollectFields(DataTypeDesign dataType, ValueRank valueRank, string basePath, Dictionary<string, Parameter> fields)
+        private static void CollectFields(DataTypeDesign dataType, ValueRank valueRank, string basePath, Dictionary<string, Parameter> fields)
         {
             if (dataType.BasicDataType != BasicDataType.UserDefined || valueRank != ValueRank.Scalar)
             {
@@ -4218,7 +4264,7 @@ namespace ModelCompiler
                         Parameter parameter = parent.Fields[ii];
                         string fieldPath = parameter.Name;
 
-                        if (!String.IsNullOrEmpty(basePath))
+                        if (!string.IsNullOrEmpty(basePath))
                         {
                             fieldPath = Utils.Format("{0}_{1}", basePath, parameter.Name);
                         }
@@ -4247,7 +4293,7 @@ namespace ModelCompiler
                 return false;
             }
 
-            template.WriteLine(String.Empty);
+            template.WriteLine(string.Empty);
 
             template.AddReplacement("_ClassName_", type.ClassName);
             template.AddReplacement("_DataType_", GetSystemTypeName(type.DataTypeNode, ValueRank.Scalar));
@@ -4396,7 +4442,7 @@ namespace ModelCompiler
                 return false;
             }
 
-            template.WriteLine(String.Empty);
+            template.WriteLine(string.Empty);
             template.AddReplacement("_XmlNamespaceUri_", GetConstantForXmlNamespace(dataType.SymbolicId.Namespace));
             template.AddReplacement("_BrowseName_", dataType.SymbolicName.Name);
 
@@ -4940,7 +4986,7 @@ namespace ModelCompiler
 
             if (context.Index == 0)
             {
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
 
             template.WriteNextLine(context.Prefix);
@@ -4981,7 +5027,7 @@ namespace ModelCompiler
 
             if (context.Index == 0)
             {
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
 
             template.WriteNextLine(context.Prefix);
@@ -5008,7 +5054,7 @@ namespace ModelCompiler
 
             if (context.Index == 0)
             {
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
 
             template.WriteNextLine(context.Prefix);
@@ -5138,7 +5184,7 @@ namespace ModelCompiler
 
             if (context.Index == 0)
             {
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
 
             template.WriteNextLine(context.Prefix);
@@ -5321,7 +5367,7 @@ namespace ModelCompiler
 
             if (context.FirstInList)
             {
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
 
             template.AddReplacement("_ChildName_", instance.SymbolicName.Name);
@@ -5402,7 +5448,7 @@ namespace ModelCompiler
             return context.TemplatePath;
         }
 
-        private bool IsOverridden(InstanceDesign instance)
+        private static bool IsOverridden(InstanceDesign instance)
         {
             if (instance.OveriddenNode != null && instance.ModellingRule != ModellingRule.None && instance.ModellingRule != ModellingRule.ExposesItsArray && instance.ModellingRule != ModellingRule.MandatoryPlaceholder && instance.ModellingRule != ModellingRule.OptionalPlaceholder)
             {
@@ -5433,7 +5479,7 @@ namespace ModelCompiler
         /// <summary>
         /// Returns the merged instance for an overriden node.
         /// </summary>
-        private InstanceDesign GetMergedInstance(InstanceDesign instance)
+        private static InstanceDesign GetMergedInstance(InstanceDesign instance)
         {
             for (NodeDesign parent = instance.Parent; parent != null; parent = parent.Parent)
             {
@@ -5465,16 +5511,17 @@ namespace ModelCompiler
             return instance;
         }
 
-        private readonly string[] BuiltInPropertyNames = new string[]
-        {
+        private readonly string[] BuiltInPropertyNames =
+        [
             "Description",
             "Save",
             "Handle",
             "Specification",
-            "Update"
-        };
+            "Update",
+            "Delete"
+        ];
 
-        private bool IsIndeterminateType(InstanceDesign instance)
+        private static bool IsIndeterminateType(InstanceDesign instance)
         {
             if (instance is VariableDesign variable)
             {
@@ -5492,7 +5539,7 @@ namespace ModelCompiler
             return false;
         }
 
-        private string EnsureUniqueEnumName(Parameter target)
+        private static string EnsureUniqueEnumName(Parameter target)
         {
             if (target?.Parent is DataTypeDesign dt && dt.HasFields)
             {
@@ -5582,7 +5629,7 @@ namespace ModelCompiler
                 template.AddReplacement(", EmitDefaultValue = _EmitDefaultValue_", (emitDefaultValue) ? "" : ", EmitDefaultValue = false");
                 template.AddReplacement("_FieldIndex_", Utils.Format("{0}", context.Index + 1));
                 template.AddReplacement("_DefaultValue_", GetDefaultValue(field.DataTypeNode, field.ValueRank, null, null, true));
-                template.AddReplacement("_Identifier_", field.Identifier.ToString());
+                template.AddReplacement("_Identifier_", field.Identifier.ToString(CultureInfo.InvariantCulture));
 
                 if (field.IdentifierInName)
                 {
@@ -5590,7 +5637,7 @@ namespace ModelCompiler
                 }
                 else
                 {
-                    template.AddReplacement("_XmlIdentifier_", String.Format("{0}_{1}", field.Name, field.Identifier));
+                    template.AddReplacement("_XmlIdentifier_", string.Format(CultureInfo.InvariantCulture, "{0}_{1}", field.Name, field.Identifier));
                 }
 
                 if (field.Name == "NodeId" && context.Container is DataTypeDesign dt)
@@ -5845,7 +5892,7 @@ namespace ModelCompiler
         /// <summary>
         /// Checks if the instance is a built in property that should not be generatd.
         /// </summary>
-        private bool IsBuiltInProperty(InstanceDesign instance)
+        private static bool IsBuiltInProperty(InstanceDesign instance)
         {
             if (instance == null)
             {
@@ -5950,20 +5997,25 @@ namespace ModelCompiler
                 if (method.TypeDefinition != null)
                 {
                     className = method.TypeDefinition.Name;
+
+                    if (className.EndsWith("MethodType"))
+                    {
+                        className = className.Substring(0, className.Length - "MethodType".Length);
+                    }
+                    else if (className.EndsWith("Type"))
+                    {
+                        className = className.Substring(0, className.Length - "Type".Length);
+                    }
                 }
 
                 if (className.EndsWith("MethodType"))
                 {
                     className = className.Substring(0, className.Length - "MethodType".Length);
                 }
-                else if (className.EndsWith("Type"))
-                {
-                    className = className.Substring(0, className.Length - "Type".Length);
-                }
 
                 if (method.HasArguments)
                 {
-                    return String.Format("{0}MethodState", className);
+                    return $"{className}MethodState";
                 }
 
                 return "MethodState";
@@ -5973,7 +6025,7 @@ namespace ModelCompiler
 
             if (variable == null)
             {
-                return String.Format("{0}State", FixClassName(instance.TypeDefinitionNode));
+                return $"{FixClassName(instance.TypeDefinitionNode)}State";
             }
 
             VariableTypeDesign variableType = instance.TypeDefinitionNode as VariableTypeDesign;
@@ -5981,13 +6033,13 @@ namespace ModelCompiler
             // check if the variable type restricted the datatype to eliminate the need for a template parameter.
             if (TemplateParameterRequired(variableType.DataTypeNode, variableType.ValueRank))
             {
-                return String.Format("{0}State", FixClassName(variableType));
+                return $"{FixClassName(variableType)}State";
             }
 
             // check if the variable instance did not restrict the datatype.
             if (!TemplateParameterRequired(variable.DataTypeNode, variable.ValueRank))
             {
-                return String.Format("{0}State", FixClassName(variableType));
+                return string.Format(CultureInfo.InvariantCulture, "{0}State", FixClassName(variableType));
             }
 
             // instance restricted the datatype but the type did not not.
@@ -6018,7 +6070,7 @@ namespace ModelCompiler
 
             if (variable.ValueRank == ValueRank.Array)
             {
-                return String.Format("{0}State<{1}[]>", FixClassName(variableType), scalarName);
+                return string.Format(CultureInfo.InvariantCulture, "{0}State<{1}[]>", FixClassName(variableType), scalarName);
             }
 
             if (IsIndeterminateType(variable))
@@ -6032,7 +6084,7 @@ namespace ModelCompiler
                 return $"{FixClassName(variableType)}State";
             }
 
-            return String.Format("{0}State<{1}>", FixClassName(variableType), scalarName);
+            return string.Format(CultureInfo.InvariantCulture, "{0}State<{1}>", FixClassName(variableType), scalarName);
         }
 
         /// <summary>
@@ -6059,14 +6111,18 @@ namespace ModelCompiler
         /// <summary>
         /// Returns the field name of a child node.
         /// </summary>
-        private string GetChildFieldName(Parameter field)
+        private static string GetChildFieldName(Parameter field)
         {
             if (field == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
-            string name = String.Format("m_{0}{1}", field.Name.Substring(0, 1).ToLower(), field.Name.Substring(1));
+            string name = string.Format(
+                CultureInfo.InvariantCulture, 
+                "m_{0}{1}", 
+                field.Name.Substring(0, 1).ToLowerInvariant(), 
+                field.Name.Substring(1));
 
             return name;
         }
@@ -6074,20 +6130,24 @@ namespace ModelCompiler
         /// <summary>
         /// Returns the field name of a child node.
         /// </summary>
-        private string GetChildFieldName(InstanceDesign instance)
+        private static string GetChildFieldName(InstanceDesign instance)
         {
             if (instance == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
-            string name = String.Format("m_{0}{1}", instance.SymbolicName.Name.Substring(0, 1).ToLower(), instance.SymbolicName.Name.Substring(1));
+            string name = string.Format(
+                CultureInfo.InvariantCulture,
+                "m_{0}{1}", 
+                instance.SymbolicName.Name.Substring(0, 1).ToLowerInvariant(),
+                instance.SymbolicName.Name.Substring(1));
 
             MethodDesign method = instance as MethodDesign;
 
             if (method != null)
             {
-                return String.Format("{0}Method", name);
+                return $"{name}Method";
             }
 
             return name;
@@ -6102,17 +6162,17 @@ namespace ModelCompiler
 
             if (variableType == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             if (type.BaseTypeNode == null)
             {
-                return String.Format("<T>");
+                return "<T>";
             }
 
             if (GetTemplateParameter(type.BaseTypeNode) != "<T>")
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             BasicDataType basicType = variableType.DataTypeNode.BasicDataType;
@@ -6157,7 +6217,7 @@ namespace ModelCompiler
         /// <summary>
         /// Fixes class names for nodes.
         /// </summary>
-        private string FixClassName(TypeDesign node)
+        private static string FixClassName(TypeDesign node)
         {
             if (node is DataTypeDesign)
             {
@@ -6184,7 +6244,7 @@ namespace ModelCompiler
         /// <summary>
         /// Returns the NodeClass of a Node
         /// </summary>
-        private string GetNodeClass(NodeDesign node)
+        private static string GetNodeClass(NodeDesign node)
         {
             if (node is VariableDesign)
             {
@@ -6240,7 +6300,7 @@ namespace ModelCompiler
         /// <summary>
         /// Maps the event notifier flag onto a string.
         /// </summary>
-        private string GetEventNotifier(bool supportsEvents)
+        private static string GetEventNotifier(bool supportsEvents)
         {
             if (supportsEvents)
             {
@@ -6253,7 +6313,7 @@ namespace ModelCompiler
         /// <summary>
         /// Maps the access level enumeration onto a string.
         /// </summary>
-        private string GetAccessLevel(AccessLevel accessLevel)
+        private static string GetAccessLevel(AccessLevel accessLevel)
         {
             switch (accessLevel)
             {
@@ -6271,7 +6331,7 @@ namespace ModelCompiler
         /// <summary>
         /// Maps the modelling rule enumeration onto a string.
         /// </summary>
-        private string GetModellingRule(ModellingRule modellingRule)
+        private static string GetModellingRule(ModellingRule modellingRule)
         {
             switch (modellingRule)
             {
@@ -6288,7 +6348,7 @@ namespace ModelCompiler
         /// <summary>
         /// Maps the value rank enumeration onto a string.
         /// </summary>
-        private string GetValueRank(ValueRank valueRank, string arrayDimensions)
+        private static string GetValueRank(ValueRank valueRank, string arrayDimensions)
         {
             switch (valueRank)
             {
@@ -6300,19 +6360,19 @@ namespace ModelCompiler
 
                 case ValueRank.OneOrMoreDimensions:
                     {
-                        if (String.IsNullOrEmpty(arrayDimensions))
+                        if (string.IsNullOrEmpty(arrayDimensions))
                         {
                             return "ValueRanks.OneOrMoreDimensions";
                         }
 
-                        string[] dimensions = arrayDimensions.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        string[] dimensions = arrayDimensions.Split([','], StringSplitOptions.RemoveEmptyEntries);
 
                         if (dimensions.Length == 1)
                         {
                             return "ValueRanks.TwoDimensions";
                         }
 
-                        return String.Format("{0}", dimensions.Length + 1);
+                        return $"{dimensions.Length + 1}";
                     }
             }
 
@@ -6322,20 +6382,20 @@ namespace ModelCompiler
         /// <summary>
         /// Maps the array dimensions onto a constant declaration.
         /// </summary>
-        private string GetArrayDimensions(ValueRank valueRank, string arrayDimensions)
+        private static string GetArrayDimensions(ValueRank valueRank, string arrayDimensions)
         {
             if (valueRank != ValueRank.OneOrMoreDimensions)
             {
                 return "null";
             }
 
-            return String.Format("new uint[] {{{0}}}", arrayDimensions);
+            return $"new uint[] {{{arrayDimensions}}}";
         }
 
         /// <summary>
         /// Maps the MinimumSamplingInterval onto a constant.
         /// </summary>
-        private string GetMinimumSamplingInterval(int minimumSamplingInterval)
+        private static string GetMinimumSamplingInterval(int minimumSamplingInterval)
         {
             switch (minimumSamplingInterval)
             {
@@ -6343,7 +6403,7 @@ namespace ModelCompiler
                 case 0: return "MinimumSamplingIntervals.Continuous";
             }
 
-            return minimumSamplingInterval.ToString();
+            return minimumSamplingInterval.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -6707,7 +6767,7 @@ namespace ModelCompiler
         /// <summary>
         /// Whether a template parameter is required.
         /// </summary>
-        private bool TemplateParameterRequired(DataTypeDesign dataType, ValueRank valueRank)
+        private static bool TemplateParameterRequired(DataTypeDesign dataType, ValueRank valueRank)
         {
             if (dataType.BasicDataType != BasicDataType.BaseDataType && dataType.BasicDataType != BasicDataType.Number && dataType.BasicDataType != BasicDataType.UInteger && dataType.BasicDataType != BasicDataType.Integer)
             {
@@ -6937,7 +6997,7 @@ namespace ModelCompiler
                 {
                     if (ns.Value == namespaceUri)
                     {
-                        return String.Format("{0}", ns.Prefix);
+                        return $"{ns.Prefix}";
                     }
                 }
             }
@@ -6972,7 +7032,7 @@ namespace ModelCompiler
             Namespace ns = GetNamespace(namespaceUri);
             if (ns != null)
             {
-                return String.Format("{1}.Namespaces.{0}", ns.Name, ns.Prefix);
+                return $"{ns.Prefix}.Namespaces.{ns.Name}";
             }
             return null;
         }
@@ -6985,12 +7045,12 @@ namespace ModelCompiler
             Namespace ns = GetNamespace(namespaceUri);
             if (ns != null)
             {
-                if (!String.IsNullOrEmpty(ns.XmlNamespace))
+                if (!string.IsNullOrEmpty(ns.XmlNamespace))
                 {
-                    return String.Format("{1}.Namespaces.{0}Xsd", ns.Name, ns.Prefix);
+                    return $"{ns.Prefix}.Namespaces.{ns.Name}Xsd";
                 }
 
-                return String.Format("{1}.Namespaces.{0}", ns.Name, ns.Prefix);
+                return $"{ns.Prefix}.Namespaces.{ns.Name}";
             }
             return null;
         }
@@ -7014,7 +7074,7 @@ namespace ModelCompiler
                         }
                     }
 
-                    if (!String.IsNullOrEmpty(node.Specification))
+                    if (!string.IsNullOrEmpty(node.Specification))
                     {
                         if (jj == node.Specification)
                         {

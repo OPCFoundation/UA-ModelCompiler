@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
- * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2025 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  * 
@@ -254,7 +254,7 @@
     <References>
       <Reference ReferenceType="HasComponent">ns=1;i=125</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=132</Reference>
-      <Reference ReferenceType="HasComponent">ns=1;i=127</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=342</Reference>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=58</Reference>
     </References>
     <Extensions>
@@ -354,8 +354,8 @@
       <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=132</Reference>
     </References>
   </UAVariable>
-  <UAMethod NodeId="ns=1;i=127" BrowseName="1:Blue" ParentNodeId="ns=1;i=124">
-    <DisplayName>Blue</DisplayName>
+  <UAMethod NodeId="ns=1;i=342" BrowseName="1:BlueType" ParentNodeId="ns=1;i=124">
+    <DisplayName>BlueType</DisplayName>
     <References>
       <Reference ReferenceType="HasModellingRule">i=78</Reference>
       <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=124</Reference>
@@ -365,7 +365,7 @@
     <DisplayName>TestObject</DisplayName>
     <References>
       <Reference ReferenceType="HasComponent">ns=1;i=60</Reference>
-      <Reference ReferenceType="HasComponent">ns=1;i=71</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=343</Reference>
       <Reference ReferenceType="HasTypeDefinition">ns=1;i=124</Reference>
     </References>
     <RolePermissions>
@@ -426,8 +426,8 @@
       <RolePermission Permissions="97">i=15704</RolePermission>
     </RolePermissions>
   </UAVariable>
-  <UAMethod NodeId="ns=1;i=71" BrowseName="1:Blue" AccessRestrictions="13" ParentNodeId="ns=1;i=128" MethodDeclarationId="ns=1;i=127">
-    <DisplayName>Blue</DisplayName>
+  <UAMethod NodeId="ns=1;i=343" BrowseName="1:BlueType" AccessRestrictions="13" ParentNodeId="ns=1;i=128" MethodDeclarationId="ns=1;i=342">
+    <DisplayName>BlueType</DisplayName>
     <References>
       <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=128</Reference>
     </References>
@@ -448,6 +448,91 @@
       <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
     </References>
   </UAObject>
+  <UAVariableType NodeId="ns=1;i=345" BrowseName="1:YellowType" DataType="String" ValueRank="-2">
+    <DisplayName>YellowType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty">ns=1;i=346</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=347</Reference>
+      <Reference ReferenceType="HasSubtype" IsForward="false">i=63</Reference>
+    </References>
+  </UAVariableType>
+  <UAVariable NodeId="ns=1;i=346" BrowseName="1:Shade" ParentNodeId="ns=1;i=345" DataType="String">
+    <DisplayName>Shade</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=345</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">Pale</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=347" BrowseName="DefaultInstanceBrowseName" ParentNodeId="ns=1;i=345" DataType="QualifiedName">
+    <DisplayName>DefaultInstanceBrowseName</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=345</Reference>
+    </References>
+    <Value>
+      <QualifiedName xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">
+        <NamespaceIndex>1</NamespaceIndex>
+        <Name>YellowThing</Name>
+      </QualifiedName>
+    </Value>
+  </UAVariable>
+  <UAObjectType NodeId="ns=1;i=348" BrowseName="1:PictureType">
+    <DisplayName>PictureType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty">ns=1;i=349</Reference>
+      <Reference ReferenceType="HasSubtype" IsForward="false">i=58</Reference>
+    </References>
+  </UAObjectType>
+  <UAVariable NodeId="ns=1;i=349" BrowseName="1:YellowThing" ParentNodeId="ns=1;i=348" DataType="String">
+    <DisplayName>YellowThing</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty">ns=1;i=350</Reference>
+      <Reference ReferenceType="HasTypeDefinition">ns=1;i=345</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=348</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=350" BrowseName="1:Shade" ParentNodeId="ns=1;i=349" DataType="String">
+    <DisplayName>Shade</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=349</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">Pale</String>
+    </Value>
+  </UAVariable>
+  <UAObject NodeId="ns=1;i=351" BrowseName="1:Picture">
+    <DisplayName>Picture</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty">ns=1;i=352</Reference>
+      <Reference ReferenceType="Organizes" IsForward="false">i=85</Reference>
+      <Reference ReferenceType="HasTypeDefinition">ns=1;i=348</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;i=352" BrowseName="1:YellowThing" ParentNodeId="ns=1;i=351" DataType="String">
+    <DisplayName>YellowThing</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty">ns=1;i=353</Reference>
+      <Reference ReferenceType="HasTypeDefinition">ns=1;i=345</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=351</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=353" BrowseName="1:Shade" ParentNodeId="ns=1;i=352" DataType="String">
+    <DisplayName>Shade</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=352</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">Pale</String>
+    </Value>
+  </UAVariable>
   <UADataType NodeId="ns=1;i=1" BrowseName="1:HeaterStatus">
     <DisplayName>HeaterStatus</DisplayName>
     <References>
@@ -517,6 +602,26 @@
       <Field Name="AssetID" DataType="i=12" />
       <Field Name="StartTime" DataType="i=13" />
       <Field Name="StatusComments" DataType="ns=1;i=4" ValueRank="1" />
+    </Definition>
+  </UADataType>
+  <UADataType NodeId="ns=1;i=322" BrowseName="1:ExtendedWorkOrderType">
+    <DisplayName>ExtendedWorkOrderType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=5</Reference>
+    </References>
+    <Definition Name="1:ExtendedWorkOrderType">
+      <Field Name="ContactX" DataType="i=7" />
+      <Field Name="ContactY" DataType="i=12" ValueRank="1" IsOptional="true" />
+      <Field Name="ContactZ" DataType="i=15" IsOptional="true" />
+    </Definition>
+  </UADataType>
+  <UADataType NodeId="ns=1;i=332" BrowseName="1:FinalWorkOrderType">
+    <DisplayName>FinalWorkOrderType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=322</Reference>
+    </References>
+    <Definition Name="1:FinalWorkOrderType">
+      <Field Name="Address" DataType="i=12" />
     </Definition>
   </UADataType>
   <UADataType NodeId="ns=1;i=41" BrowseName="1:SampleUnion">
@@ -621,6 +726,22 @@
       <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
     </References>
   </UAObject>
+  <UAObject NodeId="ns=1;i=323" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=322</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=324</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=333" BrowseName="Default Binary" SymbolicName="DefaultBinary">
+    <DisplayName>Default Binary</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=332</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=334</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
   <UAObject NodeId="ns=1;i=45" BrowseName="Default Binary" SymbolicName="DefaultBinary">
     <DisplayName>Default Binary</DisplayName>
     <References>
@@ -677,6 +798,8 @@
       <Reference ReferenceType="HasComponent">ns=1;i=27</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=30</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=33</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=324</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=334</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=50</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=53</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=56</Reference>
@@ -724,41 +847,72 @@ YzpGaWVsZCBOYW1lPSJTdGFydFRpbWUiIFR5cGVOYW1lPSJvcGM6RGF0ZVRpbWUiIC8+DQogICAg
 PG9wYzpGaWVsZCBOYW1lPSJOb09mU3RhdHVzQ29tbWVudHMiIFR5cGVOYW1lPSJvcGM6SW50MzIi
 IC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJTdGF0dXNDb21tZW50cyIgVHlwZU5hbWU9InRuczpX
 b3JrT3JkZXJTdGF0dXNUeXBlIiBMZW5ndGhGaWVsZD0iTm9PZlN0YXR1c0NvbW1lbnRzIiAvPg0K
-ICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0KICA8b3BjOlN0cnVjdHVyZWRUeXBlIE5hbWU9IlNh
-bXBsZVVuaW9uIiBCYXNlVHlwZT0idWE6VW5pb24iPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRmll
-bGRYIiBUeXBlTmFtZT0ib3BjOlVJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZG
-aWVsZFkiIFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJGaWVs
-ZFkiIFR5cGVOYW1lPSJvcGM6U3RyaW5nIiBMZW5ndGhGaWVsZD0iTm9PZkZpZWxkWSIgLz4NCiAg
-ICA8b3BjOkZpZWxkIE5hbWU9IkZpZWxkWiIgVHlwZU5hbWU9Im9wYzpCeXRlU3RyaW5nIiAvPg0K
-ICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0KICA8b3BjOlN0cnVjdHVyZWRUeXBlIE5hbWU9IlNh
-bXBsZVN0cnVjdHVyZVdpdGhPcHRpb25hbEZpZWxkcyIgQmFzZVR5cGU9InVhOkV4dGVuc2lvbk9i
-amVjdCI+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJGaWVsZFgiIFR5cGVOYW1lPSJvcGM6VUludDMy
-IiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZkZpZWxkWSIgVHlwZU5hbWU9Im9wYzpJbnQz
-MiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkZpZWxkWSIgVHlwZU5hbWU9Im9wYzpTdHJpbmci
-IExlbmd0aEZpZWxkPSJOb09mRmllbGRZIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRmllbGRa
-IiBUeXBlTmFtZT0ib3BjOkJ5dGVTdHJpbmciIC8+DQogIDwvb3BjOlN0cnVjdHVyZWRUeXBlPg0K
-DQogIDxvcGM6U3RydWN0dXJlZFR5cGUgTmFtZT0iU2FtcGxlVW5pb25BbGxvd1N1YnR5cGVzIiBC
-YXNlVHlwZT0idWE6VW5pb24iPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRmllbGRYIiBUeXBlTmFt
-ZT0idWE6RXh0ZW5zaW9uT2JqZWN0IiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRmllbGRZIiBU
-eXBlTmFtZT0idG5zOldvcmtPcmRlclN0YXR1c1R5cGUiIC8+DQogIDwvb3BjOlN0cnVjdHVyZWRU
-eXBlPg0KDQogIDxvcGM6U3RydWN0dXJlZFR5cGUgTmFtZT0iU2FtcGxlU3RydWN0dXJlQWxsb3dT
-dWJ0eXBlcyIgQmFzZVR5cGU9InVhOkV4dGVuc2lvbk9iamVjdCI+DQogICAgPG9wYzpGaWVsZCBO
-YW1lPSJGaWVsZFgiIFR5cGVOYW1lPSJ1YTpFeHRlbnNpb25PYmplY3QiIC8+DQogICAgPG9wYzpG
-aWVsZCBOYW1lPSJOb09mRmllbGRZIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6
-RmllbGQgTmFtZT0iRmllbGRZIiBUeXBlTmFtZT0idWE6RXh0ZW5zaW9uT2JqZWN0IiBMZW5ndGhG
-aWVsZD0iTm9PZkZpZWxkWSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZGaWVsZFoiIFR5
-cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJGaWVsZFoiIFR5cGVO
-YW1lPSJ1YTpFeHRlbnNpb25PYmplY3QiIExlbmd0aEZpZWxkPSJOb09mRmllbGRaIiAvPg0KICAg
-IDxvcGM6RmllbGQgTmFtZT0iRmllbGRXIiBUeXBlTmFtZT0idG5zOldvcmtPcmRlclN0YXR1c1R5
-cGUiIC8+DQogIDwvb3BjOlN0cnVjdHVyZWRUeXBlPg0KDQogIDxvcGM6U3RydWN0dXJlZFR5cGUg
-TmFtZT0iUGVyc29uIiBCYXNlVHlwZT0idWE6RXh0ZW5zaW9uT2JqZWN0Ij4NCiAgICA8b3BjOkZp
-ZWxkIE5hbWU9Ikxhc3ROYW1lIiBUeXBlTmFtZT0ib3BjOlN0cmluZyIgLz4NCiAgPC9vcGM6U3Ry
-dWN0dXJlZFR5cGU+DQoNCiAgPG9wYzpTdHJ1Y3R1cmVkVHlwZSBOYW1lPSJTdHVkZW50IiBCYXNl
-VHlwZT0idG5zOlBlcnNvbiI+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJMYXN0TmFtZSIgVHlwZU5h
-bWU9Im9wYzpTdHJpbmciIFNvdXJjZVR5cGU9InRuczpQZXJzb24iIC8+DQogICAgPG9wYzpGaWVs
-ZCBOYW1lPSJGaXJzdE5hbWUiIFR5cGVOYW1lPSJvcGM6U3RyaW5nIiAvPg0KICAgIDxvcGM6Rmll
-bGQgTmFtZT0iVW5pdmVyc2l0eSIgVHlwZU5hbWU9Im9wYzpTdHJpbmciIC8+DQogIDwvb3BjOlN0
-cnVjdHVyZWRUeXBlPg0KDQo8L29wYzpUeXBlRGljdGlvbmFyeT4=</ByteString>
+ICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0KICA8b3BjOlN0cnVjdHVyZWRUeXBlIE5hbWU9IkV4
+dGVuZGVkV29ya09yZGVyVHlwZSIgQmFzZVR5cGU9InRuczpXb3JrT3JkZXJUeXBlIj4NCiAgICA8
+b3BjOkZpZWxkIE5hbWU9IklEIiBUeXBlTmFtZT0ib3BjOkd1aWQiIFNvdXJjZVR5cGU9InRuczpX
+b3JrT3JkZXJUeXBlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iQXNzZXRJRCIgVHlwZU5hbWU9
+Im9wYzpTdHJpbmciIFNvdXJjZVR5cGU9InRuczpXb3JrT3JkZXJUeXBlIiAvPg0KICAgIDxvcGM6
+RmllbGQgTmFtZT0iU3RhcnRUaW1lIiBUeXBlTmFtZT0ib3BjOkRhdGVUaW1lIiBTb3VyY2VUeXBl
+PSJ0bnM6V29ya09yZGVyVHlwZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZTdGF0dXND
+b21tZW50cyIgVHlwZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IlN0
+YXR1c0NvbW1lbnRzIiBUeXBlTmFtZT0idG5zOldvcmtPcmRlclN0YXR1c1R5cGUiIExlbmd0aEZp
+ZWxkPSJOb09mU3RhdHVzQ29tbWVudHMiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJDb250YWN0
+WCIgVHlwZU5hbWU9Im9wYzpVSW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mQ29u
+dGFjdFkiIFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJDb250
+YWN0WSIgVHlwZU5hbWU9Im9wYzpTdHJpbmciIExlbmd0aEZpZWxkPSJOb09mQ29udGFjdFkiIC8+
+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJDb250YWN0WiIgVHlwZU5hbWU9Im9wYzpCeXRlU3RyaW5n
+IiAvPg0KICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0KICA8b3BjOlN0cnVjdHVyZWRUeXBlIE5h
+bWU9IkZpbmFsV29ya09yZGVyVHlwZSIgQmFzZVR5cGU9InRuczpFeHRlbmRlZFdvcmtPcmRlclR5
+cGUiPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iSUQiIFR5cGVOYW1lPSJvcGM6R3VpZCIgU291cmNl
+VHlwZT0idG5zOldvcmtPcmRlclR5cGUiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJBc3NldElE
+IiBUeXBlTmFtZT0ib3BjOlN0cmluZyIgU291cmNlVHlwZT0idG5zOldvcmtPcmRlclR5cGUiIC8+
+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJTdGFydFRpbWUiIFR5cGVOYW1lPSJvcGM6RGF0ZVRpbWUi
+IFNvdXJjZVR5cGU9InRuczpXb3JrT3JkZXJUeXBlIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0i
+Tm9PZlN0YXR1c0NvbW1lbnRzIiBUeXBlTmFtZT0ib3BjOkludDMyIiAvPg0KICAgIDxvcGM6Rmll
+bGQgTmFtZT0iU3RhdHVzQ29tbWVudHMiIFR5cGVOYW1lPSJ0bnM6V29ya09yZGVyU3RhdHVzVHlw
+ZSIgTGVuZ3RoRmllbGQ9Ik5vT2ZTdGF0dXNDb21tZW50cyIgLz4NCiAgICA8b3BjOkZpZWxkIE5h
+bWU9IkNvbnRhY3RYIiBUeXBlTmFtZT0ib3BjOlVJbnQzMiIgU291cmNlVHlwZT0idG5zOkV4dGVu
+ZGVkV29ya09yZGVyVHlwZSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9Ik5vT2ZDb250YWN0WSIg
+VHlwZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkNvbnRhY3RZIiBU
+eXBlTmFtZT0ib3BjOlN0cmluZyIgTGVuZ3RoRmllbGQ9Ik5vT2ZDb250YWN0WSIgLz4NCiAgICA8
+b3BjOkZpZWxkIE5hbWU9IkNvbnRhY3RaIiBUeXBlTmFtZT0ib3BjOkJ5dGVTdHJpbmciIFNvdXJj
+ZVR5cGU9InRuczpFeHRlbmRlZFdvcmtPcmRlclR5cGUiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1l
+PSJBZGRyZXNzIiBUeXBlTmFtZT0ib3BjOlN0cmluZyIgLz4NCiAgPC9vcGM6U3RydWN0dXJlZFR5
+cGU+DQoNCiAgPG9wYzpTdHJ1Y3R1cmVkVHlwZSBOYW1lPSJTYW1wbGVVbmlvbiIgQmFzZVR5cGU9
+InVhOlVuaW9uIj4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkZpZWxkWCIgVHlwZU5hbWU9Im9wYzpV
+SW50MzIiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mRmllbGRZIiBUeXBlTmFtZT0ib3Bj
+OkludDMyIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRmllbGRZIiBUeXBlTmFtZT0ib3BjOlN0
+cmluZyIgTGVuZ3RoRmllbGQ9Ik5vT2ZGaWVsZFkiIC8+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJG
+aWVsZFoiIFR5cGVOYW1lPSJvcGM6Qnl0ZVN0cmluZyIgLz4NCiAgPC9vcGM6U3RydWN0dXJlZFR5
+cGU+DQoNCiAgPG9wYzpTdHJ1Y3R1cmVkVHlwZSBOYW1lPSJTYW1wbGVTdHJ1Y3R1cmVXaXRoT3B0
+aW9uYWxGaWVsZHMiIEJhc2VUeXBlPSJ1YTpFeHRlbnNpb25PYmplY3QiPg0KICAgIDxvcGM6Rmll
+bGQgTmFtZT0iRmllbGRYIiBUeXBlTmFtZT0ib3BjOlVJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxk
+IE5hbWU9Ik5vT2ZGaWVsZFkiIFR5cGVOYW1lPSJvcGM6SW50MzIiIC8+DQogICAgPG9wYzpGaWVs
+ZCBOYW1lPSJGaWVsZFkiIFR5cGVOYW1lPSJvcGM6U3RyaW5nIiBMZW5ndGhGaWVsZD0iTm9PZkZp
+ZWxkWSIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkZpZWxkWiIgVHlwZU5hbWU9Im9wYzpCeXRl
+U3RyaW5nIiAvPg0KICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0KICA8b3BjOlN0cnVjdHVyZWRU
+eXBlIE5hbWU9IlNhbXBsZVVuaW9uQWxsb3dTdWJ0eXBlcyIgQmFzZVR5cGU9InVhOlVuaW9uIj4N
+CiAgICA8b3BjOkZpZWxkIE5hbWU9IkZpZWxkWCIgVHlwZU5hbWU9InVhOkV4dGVuc2lvbk9iamVj
+dCIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkZpZWxkWSIgVHlwZU5hbWU9InRuczpXb3JrT3Jk
+ZXJTdGF0dXNUeXBlIiAvPg0KICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0KICA8b3BjOlN0cnVj
+dHVyZWRUeXBlIE5hbWU9IlNhbXBsZVN0cnVjdHVyZUFsbG93U3VidHlwZXMiIEJhc2VUeXBlPSJ1
+YTpFeHRlbnNpb25PYmplY3QiPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRmllbGRYIiBUeXBlTmFt
+ZT0idWE6RXh0ZW5zaW9uT2JqZWN0IiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iTm9PZkZpZWxk
+WSIgVHlwZU5hbWU9Im9wYzpJbnQzMiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkZpZWxkWSIg
+VHlwZU5hbWU9InVhOkV4dGVuc2lvbk9iamVjdCIgTGVuZ3RoRmllbGQ9Ik5vT2ZGaWVsZFkiIC8+
+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJOb09mRmllbGRaIiBUeXBlTmFtZT0ib3BjOkludDMyIiAv
+Pg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRmllbGRaIiBUeXBlTmFtZT0idWE6RXh0ZW5zaW9uT2Jq
+ZWN0IiBMZW5ndGhGaWVsZD0iTm9PZkZpZWxkWiIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IkZp
+ZWxkVyIgVHlwZU5hbWU9InRuczpXb3JrT3JkZXJTdGF0dXNUeXBlIiAvPg0KICA8L29wYzpTdHJ1
+Y3R1cmVkVHlwZT4NCg0KICA8b3BjOlN0cnVjdHVyZWRUeXBlIE5hbWU9IlBlcnNvbiIgQmFzZVR5
+cGU9InVhOkV4dGVuc2lvbk9iamVjdCI+DQogICAgPG9wYzpGaWVsZCBOYW1lPSJMYXN0TmFtZSIg
+VHlwZU5hbWU9Im9wYzpTdHJpbmciIC8+DQogIDwvb3BjOlN0cnVjdHVyZWRUeXBlPg0KDQogIDxv
+cGM6U3RydWN0dXJlZFR5cGUgTmFtZT0iU3R1ZGVudCIgQmFzZVR5cGU9InRuczpQZXJzb24iPg0K
+ICAgIDxvcGM6RmllbGQgTmFtZT0iTGFzdE5hbWUiIFR5cGVOYW1lPSJvcGM6U3RyaW5nIiBTb3Vy
+Y2VUeXBlPSJ0bnM6UGVyc29uIiAvPg0KICAgIDxvcGM6RmllbGQgTmFtZT0iRmlyc3ROYW1lIiBU
+eXBlTmFtZT0ib3BjOlN0cmluZyIgLz4NCiAgICA8b3BjOkZpZWxkIE5hbWU9IlVuaXZlcnNpdHki
+IFR5cGVOYW1lPSJvcGM6U3RyaW5nIiAvPg0KICA8L29wYzpTdHJ1Y3R1cmVkVHlwZT4NCg0KPC9v
+cGM6VHlwZURpY3Rpb25hcnk+</ByteString>
     </Value>
   </UAVariable>
   <UAVariable NodeId="ns=1;i=26" BrowseName="NamespaceUri" ReleaseStatus="Deprecated" ParentNodeId="ns=1;i=24" DataType="String">
@@ -809,6 +963,26 @@ cnVjdHVyZWRUeXBlPg0KDQo8L29wYzpUeXBlRGljdGlvbmFyeT4=</ByteString>
     </References>
     <Value>
       <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">WorkOrderType</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=324" BrowseName="1:ExtendedWorkOrderType" ReleaseStatus="Deprecated" ParentNodeId="ns=1;i=24" DataType="String">
+    <DisplayName>ExtendedWorkOrderType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=24</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">ExtendedWorkOrderType</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=334" BrowseName="1:FinalWorkOrderType" ReleaseStatus="Deprecated" ParentNodeId="ns=1;i=24" DataType="String">
+    <DisplayName>FinalWorkOrderType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=24</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">FinalWorkOrderType</String>
     </Value>
   </UAVariable>
   <UAVariable NodeId="ns=1;i=50" BrowseName="1:SampleUnion" ReleaseStatus="Deprecated" ParentNodeId="ns=1;i=24" DataType="String">
@@ -895,6 +1069,22 @@ cnVjdHVyZWRUeXBlPg0KDQo8L29wYzpUeXBlRGljdGlvbmFyeT4=</ByteString>
       <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
     </References>
   </UAObject>
+  <UAObject NodeId="ns=1;i=327" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=322</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=328</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=337" BrowseName="Default XML" SymbolicName="DefaultXml">
+    <DisplayName>Default XML</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=332</Reference>
+      <Reference ReferenceType="HasDescription">ns=1;i=338</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
   <UAObject NodeId="ns=1;i=62" BrowseName="Default XML" SymbolicName="DefaultXml">
     <DisplayName>Default XML</DisplayName>
     <References>
@@ -951,6 +1141,8 @@ cnVjdHVyZWRUeXBlPg0KDQo8L29wYzpUeXBlRGljdGlvbmFyeT4=</ByteString>
       <Reference ReferenceType="HasComponent">ns=1;i=12</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=15</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=18</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=328</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=338</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=67</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=70</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=73</Reference>
@@ -1036,94 +1228,125 @@ OmVsZW1lbnQgbmFtZT0iV29ya09yZGVyVHlwZSIgdHlwZT0idG5zOldvcmtPcmRlclR5cGUiIG1p
 bk9jY3Vycz0iMCIgbWF4T2NjdXJzPSJ1bmJvdW5kZWQiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAg
 IDwveHM6c2VxdWVuY2U+DQogIDwveHM6Y29tcGxleFR5cGU+DQogIDx4czplbGVtZW50IG5hbWU9
 Ikxpc3RPZldvcmtPcmRlclR5cGUiIHR5cGU9InRuczpMaXN0T2ZXb3JrT3JkZXJUeXBlIiBuaWxs
-YWJsZT0idHJ1ZSI+PC94czplbGVtZW50Pg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJTYW1w
-bGVVbmlvbiI+DQogICAgPHhzOnNlcXVlbmNlPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iU3dp
-dGNoRmllbGQiIHR5cGU9InhzOnVuc2lnbmVkSW50IiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICA8
-eHM6Y2hvaWNlPg0KICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJGaWVsZFgiIHR5cGU9InhzOnVu
-c2lnbmVkSW50IiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICAgIDx4czplbGVtZW50IG5hbWU9IkZp
-ZWxkWSIgdHlwZT0idWE6TGlzdE9mU3RyaW5nIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVl
-IiAvPg0KICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJGaWVsZFoiIHR5cGU9InhzOmJhc2U2NEJp
-bmFyeSIgbWluT2NjdXJzPSIwIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICAgIDwveHM6Y2hvaWNl
-Pg0KICAgIDwveHM6c2VxdWVuY2U+DQogIDwveHM6Y29tcGxleFR5cGU+DQogIDx4czplbGVtZW50
-IG5hbWU9IlNhbXBsZVVuaW9uIiB0eXBlPSJ0bnM6U2FtcGxlVW5pb24iIC8+DQoNCiAgPHhzOmNv
-bXBsZXhUeXBlIG5hbWU9Ikxpc3RPZlNhbXBsZVVuaW9uIj4NCiAgICA8eHM6c2VxdWVuY2U+DQog
-ICAgICA8eHM6ZWxlbWVudCBuYW1lPSJTYW1wbGVVbmlvbiIgdHlwZT0idG5zOlNhbXBsZVVuaW9u
-IiBtaW5PY2N1cnM9IjAiIG1heE9jY3Vycz0idW5ib3VuZGVkIiBuaWxsYWJsZT0idHJ1ZSIgLz4N
-CiAgICA8L3hzOnNlcXVlbmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBu
-YW1lPSJMaXN0T2ZTYW1wbGVVbmlvbiIgdHlwZT0idG5zOkxpc3RPZlNhbXBsZVVuaW9uIiBuaWxs
-YWJsZT0idHJ1ZSI+PC94czplbGVtZW50Pg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJTYW1w
-bGVTdHJ1Y3R1cmVXaXRoT3B0aW9uYWxGaWVsZHMiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAg
-IDx4czplbGVtZW50IG5hbWU9IkZpZWxkWCIgdHlwZT0ieHM6dW5zaWduZWRJbnQiIG1pbk9jY3Vy
-cz0iMCIgLz4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IkZpZWxkWSIgdHlwZT0idWE6TGlzdE9m
-U3RyaW5nIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgPHhzOmVsZW1l
-bnQgbmFtZT0iRmllbGRaIiB0eXBlPSJ4czpiYXNlNjRCaW5hcnkiIG1pbk9jY3Vycz0iMCIgbmls
-bGFibGU9InRydWUiIC8+DQogICAgPC94czpzZXF1ZW5jZT4NCiAgPC94czpjb21wbGV4VHlwZT4N
-CiAgPHhzOmVsZW1lbnQgbmFtZT0iU2FtcGxlU3RydWN0dXJlV2l0aE9wdGlvbmFsRmllbGRzIiB0
-eXBlPSJ0bnM6U2FtcGxlU3RydWN0dXJlV2l0aE9wdGlvbmFsRmllbGRzIiAvPg0KDQogIDx4czpj
-b21wbGV4VHlwZSBuYW1lPSJMaXN0T2ZTYW1wbGVTdHJ1Y3R1cmVXaXRoT3B0aW9uYWxGaWVsZHMi
-Pg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IlNhbXBsZVN0cnVj
-dHVyZVdpdGhPcHRpb25hbEZpZWxkcyIgdHlwZT0idG5zOlNhbXBsZVN0cnVjdHVyZVdpdGhPcHRp
-b25hbEZpZWxkcyIgbWluT2NjdXJzPSIwIiBtYXhPY2N1cnM9InVuYm91bmRlZCIgbmlsbGFibGU9
-InRydWUiIC8+DQogICAgPC94czpzZXF1ZW5jZT4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAgPHhz
-OmVsZW1lbnQgbmFtZT0iTGlzdE9mU2FtcGxlU3RydWN0dXJlV2l0aE9wdGlvbmFsRmllbGRzIiB0
-eXBlPSJ0bnM6TGlzdE9mU2FtcGxlU3RydWN0dXJlV2l0aE9wdGlvbmFsRmllbGRzIiBuaWxsYWJs
-ZT0idHJ1ZSI+PC94czplbGVtZW50Pg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJTYW1wbGVV
-bmlvbkFsbG93U3VidHlwZXMiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50
-IG5hbWU9IlN3aXRjaEZpZWxkIiB0eXBlPSJ4czp1bnNpZ25lZEludCIgbWluT2NjdXJzPSIwIiAv
-Pg0KICAgICAgPHhzOmNob2ljZT4NCiAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iRmllbGRYIiB0
-eXBlPSJ1YTpFeHRlbnNpb25PYmplY3QiIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+
-DQogICAgICAgIDx4czplbGVtZW50IG5hbWU9IkZpZWxkWSIgdHlwZT0idG5zOldvcmtPcmRlclN0
-YXR1c1R5cGUiIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgICA8L3hzOmNo
-b2ljZT4NCiAgICA8L3hzOnNlcXVlbmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxl
-bWVudCBuYW1lPSJTYW1wbGVVbmlvbkFsbG93U3VidHlwZXMiIHR5cGU9InRuczpTYW1wbGVVbmlv
-bkFsbG93U3VidHlwZXMiIC8+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9Ikxpc3RPZlNhbXBs
-ZVVuaW9uQWxsb3dTdWJ0eXBlcyI+DQogICAgPHhzOnNlcXVlbmNlPg0KICAgICAgPHhzOmVsZW1l
-bnQgbmFtZT0iU2FtcGxlVW5pb25BbGxvd1N1YnR5cGVzIiB0eXBlPSJ0bnM6U2FtcGxlVW5pb25B
-bGxvd1N1YnR5cGVzIiBtaW5PY2N1cnM9IjAiIG1heE9jY3Vycz0idW5ib3VuZGVkIiBuaWxsYWJs
-ZT0idHJ1ZSIgLz4NCiAgICA8L3hzOnNlcXVlbmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8
-eHM6ZWxlbWVudCBuYW1lPSJMaXN0T2ZTYW1wbGVVbmlvbkFsbG93U3VidHlwZXMiIHR5cGU9InRu
-czpMaXN0T2ZTYW1wbGVVbmlvbkFsbG93U3VidHlwZXMiIG5pbGxhYmxlPSJ0cnVlIj48L3hzOmVs
-ZW1lbnQ+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9IlNhbXBsZVN0cnVjdHVyZUFsbG93U3Vi
-dHlwZXMiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IkZpZWxk
-WCIgdHlwZT0idWE6RXh0ZW5zaW9uT2JqZWN0IiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVl
-IiAvPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iRmllbGRZIiB0eXBlPSJ1YTpMaXN0T2ZFeHRl
-bnNpb25PYmplY3QiIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgICA8eHM6
-ZWxlbWVudCBuYW1lPSJGaWVsZFoiIHR5cGU9InVhOkxpc3RPZkV4dGVuc2lvbk9iamVjdCIgbWlu
-T2NjdXJzPSIwIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IkZp
-ZWxkVyIgdHlwZT0idG5zOldvcmtPcmRlclN0YXR1c1R5cGUiIG1pbk9jY3Vycz0iMCIgbmlsbGFi
-bGU9InRydWUiIC8+DQogICAgPC94czpzZXF1ZW5jZT4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAg
-PHhzOmVsZW1lbnQgbmFtZT0iU2FtcGxlU3RydWN0dXJlQWxsb3dTdWJ0eXBlcyIgdHlwZT0idG5z
-OlNhbXBsZVN0cnVjdHVyZUFsbG93U3VidHlwZXMiIC8+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5h
-bWU9Ikxpc3RPZlNhbXBsZVN0cnVjdHVyZUFsbG93U3VidHlwZXMiPg0KICAgIDx4czpzZXF1ZW5j
-ZT4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IlNhbXBsZVN0cnVjdHVyZUFsbG93U3VidHlwZXMi
-IHR5cGU9InRuczpTYW1wbGVTdHJ1Y3R1cmVBbGxvd1N1YnR5cGVzIiBtaW5PY2N1cnM9IjAiIG1h
-eE9jY3Vycz0idW5ib3VuZGVkIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICA8L3hzOnNlcXVlbmNl
-Pg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJMaXN0T2ZTYW1wbGVT
-dHJ1Y3R1cmVBbGxvd1N1YnR5cGVzIiB0eXBlPSJ0bnM6TGlzdE9mU2FtcGxlU3RydWN0dXJlQWxs
-b3dTdWJ0eXBlcyIgbmlsbGFibGU9InRydWUiPjwveHM6ZWxlbWVudD4NCg0KICA8eHM6Y29tcGxl
-eFR5cGUgbmFtZT0iUGVyc29uIj4NCiAgICA8eHM6c2VxdWVuY2U+DQogICAgICA8eHM6ZWxlbWVu
-dCBuYW1lPSJMYXN0TmFtZSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxl
-PSJ0cnVlIiAvPg0KICAgIDwveHM6c2VxdWVuY2U+DQogIDwveHM6Y29tcGxleFR5cGU+DQogIDx4
-czplbGVtZW50IG5hbWU9IlBlcnNvbiIgdHlwZT0idG5zOlBlcnNvbiIgLz4NCg0KICA8eHM6Y29t
-cGxleFR5cGUgbmFtZT0iTGlzdE9mUGVyc29uIj4NCiAgICA8eHM6c2VxdWVuY2U+DQogICAgICA8
-eHM6ZWxlbWVudCBuYW1lPSJQZXJzb24iIHR5cGU9InRuczpQZXJzb24iIG1pbk9jY3Vycz0iMCIg
-bWF4T2NjdXJzPSJ1bmJvdW5kZWQiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgIDwveHM6c2VxdWVu
-Y2U+DQogIDwveHM6Y29tcGxleFR5cGU+DQogIDx4czplbGVtZW50IG5hbWU9Ikxpc3RPZlBlcnNv
-biIgdHlwZT0idG5zOkxpc3RPZlBlcnNvbiIgbmlsbGFibGU9InRydWUiPjwveHM6ZWxlbWVudD4N
-Cg0KICA8eHM6Y29tcGxleFR5cGUgbmFtZT0iU3R1ZGVudCI+DQogICAgPHhzOmNvbXBsZXhDb250
-ZW50IG1peGVkPSJmYWxzZSI+DQogICAgICA8eHM6ZXh0ZW5zaW9uIGJhc2U9InRuczpQZXJzb24i
-Pg0KICAgICAgICA8eHM6c2VxdWVuY2U+DQogICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iRmly
-c3ROYW1lIiB0eXBlPSJ4czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+
-DQogICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iVW5pdmVyc2l0eSIgdHlwZT0ieHM6c3RyaW5n
-IiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgICA8L3hzOnNlcXVlbmNl
-Pg0KICAgICAgPC94czpleHRlbnNpb24+DQogICAgPC94czpjb21wbGV4Q29udGVudD4NCiAgPC94
-czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFtZT0iU3R1ZGVudCIgdHlwZT0idG5zOlN0
-dWRlbnQiIC8+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9Ikxpc3RPZlN0dWRlbnQiPg0KICAg
-IDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IlN0dWRlbnQiIHR5cGU9InRu
-czpTdHVkZW50IiBtaW5PY2N1cnM9IjAiIG1heE9jY3Vycz0idW5ib3VuZGVkIiBuaWxsYWJsZT0i
-dHJ1ZSIgLz4NCiAgICA8L3hzOnNlcXVlbmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6
-ZWxlbWVudCBuYW1lPSJMaXN0T2ZTdHVkZW50IiB0eXBlPSJ0bnM6TGlzdE9mU3R1ZGVudCIgbmls
-bGFibGU9InRydWUiPjwveHM6ZWxlbWVudD4NCg0KPC94czpzY2hlbWE+</ByteString>
+YWJsZT0idHJ1ZSI+PC94czplbGVtZW50Pg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJFeHRl
+bmRlZFdvcmtPcmRlclR5cGUiPg0KICAgIDx4czpjb21wbGV4Q29udGVudCBtaXhlZD0iZmFsc2Ui
+Pg0KICAgICAgPHhzOmV4dGVuc2lvbiBiYXNlPSJ0bnM6V29ya09yZGVyVHlwZSI+DQogICAgICAg
+IDx4czpzZXF1ZW5jZT4NCiAgICAgICAgICA8eHM6ZWxlbWVudCBuYW1lPSJDb250YWN0WCIgdHlw
+ZT0ieHM6dW5zaWduZWRJbnQiIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAgICAgICA8eHM6ZWxlbWVu
+dCBuYW1lPSJDb250YWN0WSIgdHlwZT0idWE6TGlzdE9mU3RyaW5nIiBtaW5PY2N1cnM9IjAiIG5p
+bGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgICAgIDx4czplbGVtZW50IG5hbWU9IkNvbnRhY3RaIiB0
+eXBlPSJ4czpiYXNlNjRCaW5hcnkiIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQog
+ICAgICAgIDwveHM6c2VxdWVuY2U+DQogICAgICA8L3hzOmV4dGVuc2lvbj4NCiAgICA8L3hzOmNv
+bXBsZXhDb250ZW50Pg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJF
+eHRlbmRlZFdvcmtPcmRlclR5cGUiIHR5cGU9InRuczpFeHRlbmRlZFdvcmtPcmRlclR5cGUiIC8+
+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9Ikxpc3RPZkV4dGVuZGVkV29ya09yZGVyVHlwZSI+
+DQogICAgPHhzOnNlcXVlbmNlPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iRXh0ZW5kZWRXb3Jr
+T3JkZXJUeXBlIiB0eXBlPSJ0bnM6RXh0ZW5kZWRXb3JrT3JkZXJUeXBlIiBtaW5PY2N1cnM9IjAi
+IG1heE9jY3Vycz0idW5ib3VuZGVkIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICA8L3hzOnNlcXVl
+bmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJMaXN0T2ZFeHRl
+bmRlZFdvcmtPcmRlclR5cGUiIHR5cGU9InRuczpMaXN0T2ZFeHRlbmRlZFdvcmtPcmRlclR5cGUi
+IG5pbGxhYmxlPSJ0cnVlIj48L3hzOmVsZW1lbnQ+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9
+IkZpbmFsV29ya09yZGVyVHlwZSI+DQogICAgPHhzOmNvbXBsZXhDb250ZW50IG1peGVkPSJmYWxz
+ZSI+DQogICAgICA8eHM6ZXh0ZW5zaW9uIGJhc2U9InRuczpFeHRlbmRlZFdvcmtPcmRlclR5cGUi
+Pg0KICAgICAgICA8eHM6c2VxdWVuY2U+DQogICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iQWRk
+cmVzcyIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0K
+ICAgICAgICA8L3hzOnNlcXVlbmNlPg0KICAgICAgPC94czpleHRlbnNpb24+DQogICAgPC94czpj
+b21wbGV4Q29udGVudD4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFtZT0i
+RmluYWxXb3JrT3JkZXJUeXBlIiB0eXBlPSJ0bnM6RmluYWxXb3JrT3JkZXJUeXBlIiAvPg0KDQog
+IDx4czpjb21wbGV4VHlwZSBuYW1lPSJMaXN0T2ZGaW5hbFdvcmtPcmRlclR5cGUiPg0KICAgIDx4
+czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IkZpbmFsV29ya09yZGVyVHlwZSIg
+dHlwZT0idG5zOkZpbmFsV29ya09yZGVyVHlwZSIgbWluT2NjdXJzPSIwIiBtYXhPY2N1cnM9InVu
+Ym91bmRlZCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgPC94czpzZXF1ZW5jZT4NCiAgPC94czpj
+b21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFtZT0iTGlzdE9mRmluYWxXb3JrT3JkZXJUeXBl
+IiB0eXBlPSJ0bnM6TGlzdE9mRmluYWxXb3JrT3JkZXJUeXBlIiBuaWxsYWJsZT0idHJ1ZSI+PC94
+czplbGVtZW50Pg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJTYW1wbGVVbmlvbiI+DQogICAg
+PHhzOnNlcXVlbmNlPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iU3dpdGNoRmllbGQiIHR5cGU9
+InhzOnVuc2lnbmVkSW50IiBtaW5PY2N1cnM9IjAiIC8+DQogICAgICA8eHM6Y2hvaWNlPg0KICAg
+ICAgICA8eHM6ZWxlbWVudCBuYW1lPSJGaWVsZFgiIHR5cGU9InhzOnVuc2lnbmVkSW50IiBtaW5P
+Y2N1cnM9IjAiIC8+DQogICAgICAgIDx4czplbGVtZW50IG5hbWU9IkZpZWxkWSIgdHlwZT0idWE6
+TGlzdE9mU3RyaW5nIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgICA8
+eHM6ZWxlbWVudCBuYW1lPSJGaWVsZFoiIHR5cGU9InhzOmJhc2U2NEJpbmFyeSIgbWluT2NjdXJz
+PSIwIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICAgIDwveHM6Y2hvaWNlPg0KICAgIDwveHM6c2Vx
+dWVuY2U+DQogIDwveHM6Y29tcGxleFR5cGU+DQogIDx4czplbGVtZW50IG5hbWU9IlNhbXBsZVVu
+aW9uIiB0eXBlPSJ0bnM6U2FtcGxlVW5pb24iIC8+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9
+Ikxpc3RPZlNhbXBsZVVuaW9uIj4NCiAgICA8eHM6c2VxdWVuY2U+DQogICAgICA8eHM6ZWxlbWVu
+dCBuYW1lPSJTYW1wbGVVbmlvbiIgdHlwZT0idG5zOlNhbXBsZVVuaW9uIiBtaW5PY2N1cnM9IjAi
+IG1heE9jY3Vycz0idW5ib3VuZGVkIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICA8L3hzOnNlcXVl
+bmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJMaXN0T2ZTYW1w
+bGVVbmlvbiIgdHlwZT0idG5zOkxpc3RPZlNhbXBsZVVuaW9uIiBuaWxsYWJsZT0idHJ1ZSI+PC94
+czplbGVtZW50Pg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJTYW1wbGVTdHJ1Y3R1cmVXaXRo
+T3B0aW9uYWxGaWVsZHMiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5h
+bWU9IkZpZWxkWCIgdHlwZT0ieHM6dW5zaWduZWRJbnQiIG1pbk9jY3Vycz0iMCIgLz4NCiAgICAg
+IDx4czplbGVtZW50IG5hbWU9IkZpZWxkWSIgdHlwZT0idWE6TGlzdE9mU3RyaW5nIiBtaW5PY2N1
+cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iRmllbGRa
+IiB0eXBlPSJ4czpiYXNlNjRCaW5hcnkiIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+
+DQogICAgPC94czpzZXF1ZW5jZT4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQg
+bmFtZT0iU2FtcGxlU3RydWN0dXJlV2l0aE9wdGlvbmFsRmllbGRzIiB0eXBlPSJ0bnM6U2FtcGxl
+U3RydWN0dXJlV2l0aE9wdGlvbmFsRmllbGRzIiAvPg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1l
+PSJMaXN0T2ZTYW1wbGVTdHJ1Y3R1cmVXaXRoT3B0aW9uYWxGaWVsZHMiPg0KICAgIDx4czpzZXF1
+ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IlNhbXBsZVN0cnVjdHVyZVdpdGhPcHRpb25h
+bEZpZWxkcyIgdHlwZT0idG5zOlNhbXBsZVN0cnVjdHVyZVdpdGhPcHRpb25hbEZpZWxkcyIgbWlu
+T2NjdXJzPSIwIiBtYXhPY2N1cnM9InVuYm91bmRlZCIgbmlsbGFibGU9InRydWUiIC8+DQogICAg
+PC94czpzZXF1ZW5jZT4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFtZT0i
+TGlzdE9mU2FtcGxlU3RydWN0dXJlV2l0aE9wdGlvbmFsRmllbGRzIiB0eXBlPSJ0bnM6TGlzdE9m
+U2FtcGxlU3RydWN0dXJlV2l0aE9wdGlvbmFsRmllbGRzIiBuaWxsYWJsZT0idHJ1ZSI+PC94czpl
+bGVtZW50Pg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJTYW1wbGVVbmlvbkFsbG93U3VidHlw
+ZXMiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IlN3aXRjaEZp
+ZWxkIiB0eXBlPSJ4czp1bnNpZ25lZEludCIgbWluT2NjdXJzPSIwIiAvPg0KICAgICAgPHhzOmNo
+b2ljZT4NCiAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iRmllbGRYIiB0eXBlPSJ1YTpFeHRlbnNp
+b25PYmplY3QiIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgICAgIDx4czpl
+bGVtZW50IG5hbWU9IkZpZWxkWSIgdHlwZT0idG5zOldvcmtPcmRlclN0YXR1c1R5cGUiIG1pbk9j
+Y3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgICA8L3hzOmNob2ljZT4NCiAgICA8L3hz
+OnNlcXVlbmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJTYW1w
+bGVVbmlvbkFsbG93U3VidHlwZXMiIHR5cGU9InRuczpTYW1wbGVVbmlvbkFsbG93U3VidHlwZXMi
+IC8+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9Ikxpc3RPZlNhbXBsZVVuaW9uQWxsb3dTdWJ0
+eXBlcyI+DQogICAgPHhzOnNlcXVlbmNlPg0KICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iU2FtcGxl
+VW5pb25BbGxvd1N1YnR5cGVzIiB0eXBlPSJ0bnM6U2FtcGxlVW5pb25BbGxvd1N1YnR5cGVzIiBt
+aW5PY2N1cnM9IjAiIG1heE9jY3Vycz0idW5ib3VuZGVkIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAg
+ICA8L3hzOnNlcXVlbmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1l
+PSJMaXN0T2ZTYW1wbGVVbmlvbkFsbG93U3VidHlwZXMiIHR5cGU9InRuczpMaXN0T2ZTYW1wbGVV
+bmlvbkFsbG93U3VidHlwZXMiIG5pbGxhYmxlPSJ0cnVlIj48L3hzOmVsZW1lbnQ+DQoNCiAgPHhz
+OmNvbXBsZXhUeXBlIG5hbWU9IlNhbXBsZVN0cnVjdHVyZUFsbG93U3VidHlwZXMiPg0KICAgIDx4
+czpzZXF1ZW5jZT4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IkZpZWxkWCIgdHlwZT0idWE6RXh0
+ZW5zaW9uT2JqZWN0IiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgPHhz
+OmVsZW1lbnQgbmFtZT0iRmllbGRZIiB0eXBlPSJ1YTpMaXN0T2ZFeHRlbnNpb25PYmplY3QiIG1p
+bk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgICA8eHM6ZWxlbWVudCBuYW1lPSJG
+aWVsZFoiIHR5cGU9InVhOkxpc3RPZkV4dGVuc2lvbk9iamVjdCIgbWluT2NjdXJzPSIwIiBuaWxs
+YWJsZT0idHJ1ZSIgLz4NCiAgICAgIDx4czplbGVtZW50IG5hbWU9IkZpZWxkVyIgdHlwZT0idG5z
+OldvcmtPcmRlclN0YXR1c1R5cGUiIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQog
+ICAgPC94czpzZXF1ZW5jZT4NCiAgPC94czpjb21wbGV4VHlwZT4NCiAgPHhzOmVsZW1lbnQgbmFt
+ZT0iU2FtcGxlU3RydWN0dXJlQWxsb3dTdWJ0eXBlcyIgdHlwZT0idG5zOlNhbXBsZVN0cnVjdHVy
+ZUFsbG93U3VidHlwZXMiIC8+DQoNCiAgPHhzOmNvbXBsZXhUeXBlIG5hbWU9Ikxpc3RPZlNhbXBs
+ZVN0cnVjdHVyZUFsbG93U3VidHlwZXMiPg0KICAgIDx4czpzZXF1ZW5jZT4NCiAgICAgIDx4czpl
+bGVtZW50IG5hbWU9IlNhbXBsZVN0cnVjdHVyZUFsbG93U3VidHlwZXMiIHR5cGU9InRuczpTYW1w
+bGVTdHJ1Y3R1cmVBbGxvd1N1YnR5cGVzIiBtaW5PY2N1cnM9IjAiIG1heE9jY3Vycz0idW5ib3Vu
+ZGVkIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICA8L3hzOnNlcXVlbmNlPg0KICA8L3hzOmNvbXBs
+ZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJMaXN0T2ZTYW1wbGVTdHJ1Y3R1cmVBbGxvd1N1
+YnR5cGVzIiB0eXBlPSJ0bnM6TGlzdE9mU2FtcGxlU3RydWN0dXJlQWxsb3dTdWJ0eXBlcyIgbmls
+bGFibGU9InRydWUiPjwveHM6ZWxlbWVudD4NCg0KICA8eHM6Y29tcGxleFR5cGUgbmFtZT0iUGVy
+c29uIj4NCiAgICA8eHM6c2VxdWVuY2U+DQogICAgICA8eHM6ZWxlbWVudCBuYW1lPSJMYXN0TmFt
+ZSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAg
+IDwveHM6c2VxdWVuY2U+DQogIDwveHM6Y29tcGxleFR5cGU+DQogIDx4czplbGVtZW50IG5hbWU9
+IlBlcnNvbiIgdHlwZT0idG5zOlBlcnNvbiIgLz4NCg0KICA8eHM6Y29tcGxleFR5cGUgbmFtZT0i
+TGlzdE9mUGVyc29uIj4NCiAgICA8eHM6c2VxdWVuY2U+DQogICAgICA8eHM6ZWxlbWVudCBuYW1l
+PSJQZXJzb24iIHR5cGU9InRuczpQZXJzb24iIG1pbk9jY3Vycz0iMCIgbWF4T2NjdXJzPSJ1bmJv
+dW5kZWQiIG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgIDwveHM6c2VxdWVuY2U+DQogIDwveHM6Y29t
+cGxleFR5cGU+DQogIDx4czplbGVtZW50IG5hbWU9Ikxpc3RPZlBlcnNvbiIgdHlwZT0idG5zOkxp
+c3RPZlBlcnNvbiIgbmlsbGFibGU9InRydWUiPjwveHM6ZWxlbWVudD4NCg0KICA8eHM6Y29tcGxl
+eFR5cGUgbmFtZT0iU3R1ZGVudCI+DQogICAgPHhzOmNvbXBsZXhDb250ZW50IG1peGVkPSJmYWxz
+ZSI+DQogICAgICA8eHM6ZXh0ZW5zaW9uIGJhc2U9InRuczpQZXJzb24iPg0KICAgICAgICA8eHM6
+c2VxdWVuY2U+DQogICAgICAgICAgPHhzOmVsZW1lbnQgbmFtZT0iRmlyc3ROYW1lIiB0eXBlPSJ4
+czpzdHJpbmciIG1pbk9jY3Vycz0iMCIgbmlsbGFibGU9InRydWUiIC8+DQogICAgICAgICAgPHhz
+OmVsZW1lbnQgbmFtZT0iVW5pdmVyc2l0eSIgdHlwZT0ieHM6c3RyaW5nIiBtaW5PY2N1cnM9IjAi
+IG5pbGxhYmxlPSJ0cnVlIiAvPg0KICAgICAgICA8L3hzOnNlcXVlbmNlPg0KICAgICAgPC94czpl
+eHRlbnNpb24+DQogICAgPC94czpjb21wbGV4Q29udGVudD4NCiAgPC94czpjb21wbGV4VHlwZT4N
+CiAgPHhzOmVsZW1lbnQgbmFtZT0iU3R1ZGVudCIgdHlwZT0idG5zOlN0dWRlbnQiIC8+DQoNCiAg
+PHhzOmNvbXBsZXhUeXBlIG5hbWU9Ikxpc3RPZlN0dWRlbnQiPg0KICAgIDx4czpzZXF1ZW5jZT4N
+CiAgICAgIDx4czplbGVtZW50IG5hbWU9IlN0dWRlbnQiIHR5cGU9InRuczpTdHVkZW50IiBtaW5P
+Y2N1cnM9IjAiIG1heE9jY3Vycz0idW5ib3VuZGVkIiBuaWxsYWJsZT0idHJ1ZSIgLz4NCiAgICA8
+L3hzOnNlcXVlbmNlPg0KICA8L3hzOmNvbXBsZXhUeXBlPg0KICA8eHM6ZWxlbWVudCBuYW1lPSJM
+aXN0T2ZTdHVkZW50IiB0eXBlPSJ0bnM6TGlzdE9mU3R1ZGVudCIgbmlsbGFibGU9InRydWUiPjwv
+eHM6ZWxlbWVudD4NCg0KPC94czpzY2hlbWE+</ByteString>
     </Value>
   </UAVariable>
   <UAVariable NodeId="ns=1;i=11" BrowseName="NamespaceUri" ReleaseStatus="Deprecated" ParentNodeId="ns=1;i=9" DataType="String">
@@ -1174,6 +1397,26 @@ bGFibGU9InRydWUiPjwveHM6ZWxlbWVudD4NCg0KPC94czpzY2hlbWE+</ByteString>
     </References>
     <Value>
       <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='WorkOrderType']</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=328" BrowseName="1:ExtendedWorkOrderType" ReleaseStatus="Deprecated" ParentNodeId="ns=1;i=9" DataType="String">
+    <DisplayName>ExtendedWorkOrderType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=9</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='ExtendedWorkOrderType']</String>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=338" BrowseName="1:FinalWorkOrderType" ReleaseStatus="Deprecated" ParentNodeId="ns=1;i=9" DataType="String">
+    <DisplayName>FinalWorkOrderType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=69</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=9</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='FinalWorkOrderType']</String>
     </Value>
   </UAVariable>
   <UAVariable NodeId="ns=1;i=67" BrowseName="1:SampleUnion" ReleaseStatus="Deprecated" ParentNodeId="ns=1;i=9" DataType="String">
@@ -1254,6 +1497,20 @@ bGFibGU9InRydWUiPjwveHM6ZWxlbWVudD4NCg0KPC94czpzY2hlbWE+</ByteString>
     <DisplayName>Default JSON</DisplayName>
     <References>
       <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=5</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=331" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=322</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;i=341" BrowseName="Default JSON" SymbolicName="DefaultJson">
+    <DisplayName>Default JSON</DisplayName>
+    <References>
+      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=332</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
     </References>
   </UAObject>

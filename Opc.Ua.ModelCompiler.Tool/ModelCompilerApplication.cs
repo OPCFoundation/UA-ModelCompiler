@@ -1,16 +1,19 @@
 ﻿using McMaster.Extensions.CommandLineUtils;
 using Newtonsoft.Json;
 using Opc.Ua;
+using System;
+using System.Globalization;
 
 namespace ModelCompiler
 {
     public static class ModelCompilerApplication
     {
-        private static Opc.Ua.DefaultTelemetry m_telemetry = new Opc.Ua.DefaultTelemetry();
+        private static ITelemetryContext m_telemetry = DefaultTelemetry.Create(_ => { });
+        private static readonly char[] trimChars = new char[] { '\\', '/' };
 
         public static void Run(string[] args)
         {
-            var app = new CommandLineApplication();
+            using var app = new CommandLineApplication();
             app.Name = "ModelCompiler";
             app.Description = "An application takes an OPC UA model file and generates code for the .NETStandard stack.";
             app.HelpOption("-?|-h|--help");
@@ -37,7 +40,7 @@ namespace ModelCompiler
             System.Console.ForegroundColor = current;
         }
 
-        public class NodeSetInfo
+        internal sealed class NodeSetInfo
         {
             public string FileName { get; set; }
             public string ModelUri { get; set; }
@@ -53,22 +56,24 @@ namespace ModelCompiler
             public List<NodeSetInfo> PreviousVersions { get; set; }
         }
 
-        public class NodeSetFile
+#pragma warning disable CA1812
+        internal sealed class NodeSetFile
         {
             public List<NodeSetInfo> NodeSets { get; set; }
         }
+#pragma warning restore CA1812
 
         private static string GetNameFromUri(string uri)
         {
             var builder = new Uri(uri);
             var path = builder.LocalPath.TrimEnd('/');
 
-            if (path.StartsWith("/UA/"))
+            if (path.StartsWith("/UA/", StringComparison.InvariantCulture))
             {
                 path = path.Substring(4);
             }
 
-            if (path.StartsWith("/OpcUa/"))
+            if (path.StartsWith("/OpcUa/", StringComparison.InvariantCulture))
             {
                 path = path.Substring(7);
             }
@@ -90,6 +95,10 @@ namespace ModelCompiler
                     SystemContext context = new SystemContext(m_telemetry);
                     Opc.Ua.Export.UANodeSet nodeset = Opc.Ua.Export.UANodeSet.Read(istrm);
                     var collection = new NodeStateCollection();
+                    context.NamespaceUris = new NamespaceTable(
+                        new List<string>([Namespaces.OpcUa]).Concat(nodeset.NamespaceUris ?? Enumerable.Empty<string>()
+                    ));
+                    context.ServerUris = new StringTable(nodeset.ServerUris ?? []);
 
                     try
                     {
@@ -121,7 +130,7 @@ namespace ModelCompiler
                     {
                         FileName = file.FullName,
                         ModelUri = model.ModelUri,
-                        Version = model.PublicationDate.ToString("yyyy-MM-dd"),
+                        Version = model.PublicationDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture),
                         Name = name,
                         Prefix = "UAModel." + name,
                         Ignore = false,
@@ -130,7 +139,7 @@ namespace ModelCompiler
 
                     if (nodesets.TryGetValue(model.ModelUri, out var existing))
                     {
-                        if (existing.Version.CompareTo(info.Version) < 0)
+                        if (string.Compare(existing.Version, info.Version, StringComparison.Ordinal) < 0)
                         {
                             info.PreviousVersions = new List<NodeSetInfo>();
 
@@ -202,8 +211,8 @@ namespace ModelCompiler
                 return false;
             }
 
-            var a = new FileInfo(".\\" + path1).FullName.ToUpperInvariant().Trim(new char[] { '\\', '/' });
-            var b = new FileInfo(path2).FullName.ToUpperInvariant().Trim(new char[] { '\\', '/' });
+            var a = new FileInfo(".\\" + path1).FullName.ToUpperInvariant().Trim(trimChars);
+            var b = new FileInfo(path2).FullName.ToUpperInvariant().Trim(trimChars);
 
             return a == b;
         }
@@ -282,7 +291,7 @@ namespace ModelCompiler
             string outputPath,
             Dictionary<string, NodeSetInfo> nodesets,
             NodeSetInfo nodeset,
-            Dictionary<string, NodeSetInfo> dependecies)
+            Dictionary<string, NodeSetInfo> dependencies)
         {
             ModelGenerator2 generator = new ModelGenerator2(LocalFileSystem.Instance, m_telemetry);
 
@@ -297,7 +306,7 @@ namespace ModelCompiler
             List<string> files = new List<string>();
             files.Add($"{nodeset.FileName},{nodeset.Prefix},{nodeset.Name}");
 
-            foreach (var dependency in dependecies.Values.Where(x => x.ModelUri != Namespaces.OpcUa))
+            foreach (var dependency in dependencies.Values.Where(x => x.ModelUri != Namespaces.OpcUa))
             {
                 files.Add($"{dependency.FileName},{dependency.Prefix},{dependency.Name}");
             }
@@ -318,23 +327,35 @@ namespace ModelCompiler
 
             WriteLine($"NodeSet ({nodeset.ModelUri}) loaded.", ConsoleColor.DarkYellow);
 
-            var relativePath = new FileInfo(nodeset.FileName).DirectoryName.Substring(new DirectoryInfo(inputPath).FullName.Length);
+            var path = new DirectoryInfo(inputPath).FullName;
+            var relativePath = new FileInfo(nodeset.FileName).DirectoryName;
+            
+            if (relativePath.Length > path.Length)
+            {
+                relativePath = relativePath.Substring(path.Length);
+            }
+            else
+            {
+                relativePath = ".";
+            }
 
-            var output = Path.Combine(outputPath, relativePath);
+            var output = outputPath; // Path.Combine(outputPath, relativePath);
 
             if (!Directory.Exists(output))
             {
                 Directory.CreateDirectory(output);
             }
 
+            WriteLine($"Writing to {Path.GetFullPath(output)}.", ConsoleColor.DarkYellow);
+
             var documentation = new FileInfo(nodeset.FileName.Replace(".xml", ".documentation.csv", StringComparison.InvariantCulture));
 
             if (documentation.Exists)
             {
-                documentation.CopyTo(Path.Combine(output, $"{nodeset.Prefix}.NodeSet2.documentation.csv"));
+                documentation.CopyTo(Path.Combine(output, $"{nodeset.Prefix}.NodeSet2.documentation.csv"), true);
             }
 
-            await generator.GenerateMultipleFiles(output, false, exclusions, false);
+            await generator.GenerateMultipleFiles(output, false, exclusions, false).ConfigureAwait(false);
 
             WriteLine($"NodeSet ({nodeset.ModelUri}) code generated ({output}).", ConsoleColor.DarkGreen);
         }
@@ -389,8 +410,17 @@ namespace ModelCompiler
                         continue;
                     }
 
-                    var relativePath = new FileInfo(nodeset.FileName).DirectoryName.Substring(new DirectoryInfo(input.FullName).FullName.Length);
+                    var relativePath = new FileInfo(nodeset.FileName).DirectoryName;
 
+                    if (relativePath.Length > input.FullName.Length)
+                    {
+                        relativePath = relativePath.Substring(input.FullName.Length);
+                    }
+                    else
+                    {
+                        relativePath = ".";
+                    }
+                        
                     var output = Path.Combine(options.OutputPath, relativePath);
 
                     if (Directory.Exists(output))
@@ -424,7 +454,7 @@ namespace ModelCompiler
 
                     try
                     {
-                        await GenerateCode(input.FullName, options.OutputPath, nodesets, nodeset, dependencies);
+                        await GenerateCode(input.FullName, options.OutputPath, nodesets, nodeset, dependencies).ConfigureAwait(false);
                     }
                     catch (Exception e)
                     {
@@ -553,7 +583,7 @@ namespace ModelCompiler
                         Directory.CreateDirectory(options.OutputPath);
                     }
 
-                    await generator.GenerateMultipleFiles(options.OutputPath, false, options.Exclusions, false);
+                    await generator.GenerateMultipleFiles(options.OutputPath, false, options.Exclusions, false).ConfigureAwait(false);
                 }
 
                 return 0;
@@ -614,9 +644,9 @@ namespace ModelCompiler
             public const string OutputPrefix = "prefix";
         }
 
-        private class OptionValues
+        private sealed class OptionValues
         {
-            public IList<string> DesignFiles;
+            public List<string> DesignFiles;
             public string IdentifierFile;
             public bool CreateIdentifierFile;
             public string OutputPath;
@@ -743,7 +773,7 @@ namespace ModelCompiler
 
             if (!String.IsNullOrEmpty(startId))
             {
-                options.StartId = UInt32.Parse(startId);
+                options.StartId = UInt32.Parse(startId, CultureInfo.InvariantCulture);
             }
 
             var exclusions = app.GetOption(OptionsNames.Exclusions);
@@ -792,8 +822,7 @@ namespace ModelCompiler
 
             if (!String.IsNullOrEmpty(licenseType))
             {
-                options.LicenseType = (HeaderUpdateTool.LicenseType)
-                    Enum.Parse(typeof(HeaderUpdateTool.LicenseType), licenseType);
+                options.LicenseType = Enum.Parse<HeaderUpdateTool.LicenseType>(licenseType);
             }
 
             return options;

@@ -26,7 +26,7 @@ namespace ModelCompiler
                         if (field[ii] == '+' || field[ii] == '-')
                         {
                             suffix = field.Substring(ii);
-                            UInt32.TryParse(field.Substring(0, ii), out element);
+                            if (!UInt32.TryParse(field.AsSpan(0, ii).ToString(), out element)) element = 0;
                             break;
                         }
                     }

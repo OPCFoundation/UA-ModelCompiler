@@ -16,7 +16,7 @@ namespace ModelCompiler
      * 
      * The bug may be fixed in future versions (specifically .NET 10).     * 
      */
-    internal class OpenApiExporter
+    internal sealed class OpenApiExporter
     {
         private SystemContext m_context;
         private TypeTable m_typeTable;
@@ -463,7 +463,7 @@ namespace ModelCompiler
             m_order = new List<NodeId>();
         }
 
-        protected void AddTypesToTypeTree(NodeStateCollection nodes, BaseTypeState type)
+        void AddTypesToTypeTree(NodeStateCollection nodes, BaseTypeState type)
         {
             if (!NodeId.IsNull(type.SuperTypeId))
             {
@@ -1238,7 +1238,7 @@ namespace ModelCompiler
             response.Properties = new Dictionary<string, OpenApiSchema>();
             response.OneOf = new List<OpenApiSchema>();
 
-            foreach (var node in m_index.Values.Where(x => x.NodeId.NamespaceIndex == ns))
+            foreach (var node in m_index.Values.Where(x => x.NodeId.NamespaceIndex == ns).OrderBy(x => x.NodeId))
             {
                 CollectIncludedTypes(included, node.NodeId);
 
@@ -1309,12 +1309,13 @@ namespace ModelCompiler
                 switch (name)
                 {
                     case BrowseNames.Structure: name = "ExtensionObject"; break;
-                    case BrowseNames.BaseObjectType: name = "Variant"; break;
+                    case BrowseNames.BaseDataType: name = "Variant"; break;
                 }
 
                 if (m_builtInTypes.TryGetValue(name, out var bitSchema))
                 {
                     schemas.Add(name, bitSchema);
+                    Console.WriteLine($"Added {bitSchema.ToString()}");
                     continue;
                 }
 
@@ -1349,7 +1350,7 @@ namespace ModelCompiler
                             Format = "int64",
                             Minimum = 0,
                             Maximum = 4294967295,
-                            Default = new OpenApiInteger(0)
+                            Default = new OpenApiLong(0)
                         };
                     }
 

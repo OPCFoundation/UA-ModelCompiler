@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace ModelCompiler
 {
-    internal class JsonSchemaExporter : BaseSchemaExporter
+    internal sealed class JsonSchemaExporter : BaseSchemaExporter
     {
         public JsonSchemaExporter(IFileSystem fileSystem, bool useCompactEncoding, ITelemetryContext telemetry) : base(fileSystem, telemetry)
         {

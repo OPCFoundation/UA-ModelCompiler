@@ -391,7 +391,7 @@ namespace ModelCompiler {
         
         private string nameField;
         
-        private int identifierField;
+        private decimal identifierField;
         
         private bool identifierFieldSpecified;
         
@@ -459,7 +459,7 @@ namespace ModelCompiler {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public int Identifier {
+        public decimal Identifier {
             get {
                 return this.identifierField;
             }

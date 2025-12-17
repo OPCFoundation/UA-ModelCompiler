@@ -28,6 +28,7 @@
  * ======================================================================*/
 
 using System.Collections;
+using System.Globalization;
 using System.Reflection;
 
 namespace CodeGenerator
@@ -35,7 +36,7 @@ namespace CodeGenerator
     /// <summary>
     /// Generates code based on a UA Type Dictionary.
     /// </summary>
-    public class WiresharkGenerator : CodeGenerator
+    public class WiresharkGenerator : CodeGeneratorBase
     {
         #region Constructors
         /// <summary>
@@ -44,7 +45,7 @@ namespace CodeGenerator
         public WiresharkGenerator(
             string inputPath,
             string outputDirectory,
-            Dictionary<string,string> knownFiles,
+            Dictionary<string, string> knownFiles,
             string resourcePath,
             IList<string> exclusions)
         :
@@ -104,7 +105,7 @@ namespace CodeGenerator
                         "\n";
         }
 
-        class HFEntry
+        sealed class HFEntry
         {
             public HFEntry(string sFieldName, string sDataTypeName)
             {
@@ -168,13 +169,13 @@ namespace CodeGenerator
             }
             m_lstFields = tmp;
 
-            string fileName = String.Format(@"{0}\{1}_hfindeces.c", OutputDirectory, namespacePrefix);
-            fileName = fileName.ToLower();
+            string fileName = String.Format(CultureInfo.InvariantCulture, @"{0}\{1}_hfindeces.c", OutputDirectory, namespacePrefix);
+            fileName = fileName.ToLowerInvariant();
 
             StreamWriter writer = new StreamWriter(fileName, false);
-            Template template = new Template(writer, WiresharkTemplatePath + "hfentries.c", Assembly.GetExecutingAssembly());
+            using Template template = new Template(writer, WiresharkTemplatePath + "hfentries.c", Assembly.GetExecutingAssembly());
 
-            template.AddReplacement("_Date_", DateTime.Now.ToString());
+            template.AddReplacement("_Date_", DateTime.Now.ToString("yyyy-MM-dd-HH:mm:hh:ss", CultureInfo.InvariantCulture));
 
             AddTemplate(
                 template,
@@ -200,13 +201,13 @@ namespace CodeGenerator
 
         private void WriteTemplate_HFIndecesHeader(string namespacePrefix, string dictionaryName)
         {
-            string fileName = String.Format(@"{0}\{1}_hfindeces.h", OutputDirectory, namespacePrefix);
-            fileName = fileName.ToLower();
+            string fileName = String.Format(CultureInfo.InvariantCulture, @"{0}\{1}_hfindeces.h", OutputDirectory, namespacePrefix);
+            fileName = fileName.ToLowerInvariant();
 
             StreamWriter writer = new StreamWriter(fileName, false);
-            Template template = new Template(writer, WiresharkTemplatePath + "hfentries.h", Assembly.GetExecutingAssembly());
+            using Template template = new Template(writer, WiresharkTemplatePath + "hfentries.h", Assembly.GetExecutingAssembly());
 
-            template.AddReplacement("_Date_", DateTime.Now.ToString());
+            template.AddReplacement("_Date_", DateTime.Now.ToString("yyyy-MM-dd-HH:mm:hh:ss", CultureInfo.InvariantCulture));
 
             AddTemplate(
                 template,
@@ -242,12 +243,12 @@ namespace CodeGenerator
 
             datatypes = sortedTypes;
 
-            string fileName = String.Format(@"{0}\{1}_serviceparser.h", OutputDirectory, namespacePrefix);
-            fileName = fileName.ToLower();
+            string fileName = String.Format(CultureInfo.InvariantCulture, @"{0}\{1}_serviceparser.h", OutputDirectory, namespacePrefix);
+            fileName = fileName.ToLowerInvariant();
 
             List<string> list = new List<string>();
             StreamWriter writer = new StreamWriter(fileName, false);
-            writer.Write(string.Format(m_sHeader, "OpcUa Service Type Parser", DateTime.Now));
+            writer.Write(string.Format(CultureInfo.InvariantCulture, m_sHeader, "OpcUa Service Type Parser", DateTime.Now));
             writer.Write("#ifdef HAVE_CONFIG_H\n" +
                         "# include \"config.h\"\n" +
                         "#endif\n" +
@@ -263,8 +264,8 @@ namespace CodeGenerator
 
                     if (Service != null)
                     {
-                        writer.Write(string.Format("void parse{0}Request(proto_tree *tree, tvbuff_t *tvb, gint *pOffset);\n", Service.Name));
-                        writer.Write(string.Format("void parse{0}Response(proto_tree *tree, tvbuff_t *tvb, gint *pOffset);\n", Service.Name));
+                        writer.Write(String.Format(CultureInfo.InvariantCulture, "void parse{0}Request(proto_tree *tree, tvbuff_t *tvb, gint *pOffset);\n", Service.Name));
+                        writer.Write(String.Format(CultureInfo.InvariantCulture, "void parse{0}Response(proto_tree *tree, tvbuff_t *tvb, gint *pOffset);\n", Service.Name));
                     }
                 }
             }
@@ -295,20 +296,20 @@ namespace CodeGenerator
 
             datatypes = sortedTypes;
 
-            string fileName = String.Format(@"{0}\{1}_serviceparser.c", OutputDirectory, namespacePrefix);
-            fileName = fileName.ToLower();
+            string fileName = String.Format(CultureInfo.InvariantCulture, @"{0}\{1}_serviceparser.c", OutputDirectory, namespacePrefix);
+            fileName = fileName.ToLowerInvariant();
 
             List<string> list = new List<string>();
             StreamWriter writer = new StreamWriter(fileName, false);
-            writer.Write(string.Format(m_sHeader, "OpcUa Service Type Parser", DateTime.Now));
+            writer.Write(string.Format(CultureInfo.InvariantCulture, m_sHeader, "OpcUa Service Type Parser", DateTime.Now));
             writer.Write("#ifdef HAVE_CONFIG_H\n" +
                         "# include \"config.h\"\n" +
                         "#endif\n" +
                         "\n" +
                         "#include <gmodule.h>\n" +
-                        "#include <epan/packet.h>\n"+
-                        "#include \"opcua_serviceparser.h\"\n"+
-                        "#include \"opcua_complextypeparser.h\"\n"+
+                        "#include <epan/packet.h>\n" +
+                        "#include \"opcua_serviceparser.h\"\n" +
+                        "#include \"opcua_complextypeparser.h\"\n" +
                         "#include \"opcua_enumparser.h\"\n" +
                         "#include \"opcua_simpletypes.h\"\n" +
                         "#include \"opcua_hfindeces.h\"\n\n");
@@ -321,35 +322,38 @@ namespace CodeGenerator
 
                     if (Service != null)
                     {
-                        Template template = new Template(writer, WiresharkTemplatePath + "serviceparserfunction.c", Assembly.GetExecutingAssembly());
+                        {
+                            using Template template1 = new Template(writer, WiresharkTemplatePath + "serviceparserfunction.c", Assembly.GetExecutingAssembly());
 
-                        template.AddReplacement("_NAME_", Service.Name + "Request");
-                        list.Add(Service.Name + "Request");
+                            template1.AddReplacement("_NAME_", Service.Name + "Request");
+                            list.Add(Service.Name + "Request");
 
-                        AddTemplate(
-                            template,
-                            "// _FIELDS_",
-                            WiresharkTemplatePath + "serviceparserfunction.c",
-                            Service.Request,
-                            null,
-                            new WriteTemplateEventHandler(WriteTemplate_Parser));
+                            AddTemplate(
+                                template1,
+                                "// _FIELDS_",
+                                WiresharkTemplatePath + "serviceparserfunction.c",
+                                Service.Request,
+                                null,
+                                new WriteTemplateEventHandler(WriteTemplate_Parser));
 
-                        template.WriteTemplate(null);
+                            template1.WriteTemplate(null);
+                        }
+                        {
+                            using var template2 = new Template(writer, WiresharkTemplatePath + "serviceparserfunction.c", Assembly.GetExecutingAssembly());
 
-                        template = new Template(writer, WiresharkTemplatePath + "serviceparserfunction.c", Assembly.GetExecutingAssembly());
+                            template2.AddReplacement("_NAME_", Service.Name + "Response");
+                            list.Add(Service.Name + "Response");
 
-                        template.AddReplacement("_NAME_", Service.Name + "Response");
-                        list.Add(Service.Name + "Response");
+                            AddTemplate(
+                                template2,
+                                "// _FIELDS_",
+                                WiresharkTemplatePath + "serviceparserfunction.c",
+                                Service.Response,
+                                null,
+                                new WriteTemplateEventHandler(WriteTemplate_Parser));
 
-                        AddTemplate(
-                            template,
-                            "// _FIELDS_",
-                            WiresharkTemplatePath + "serviceparserfunction.c",
-                            Service.Response,
-                            null,
-                            new WriteTemplateEventHandler(WriteTemplate_Parser));
-
-                        template.WriteTemplate(null);
+                            template2.WriteTemplate(null);
+                        }
                     }
                 }
             }
@@ -393,19 +397,19 @@ namespace CodeGenerator
 
             datatypes = sortedTypes;
 
-            string fileName = String.Format(@"{0}\{1}_complextypeparser.c", OutputDirectory, namespacePrefix);
-            fileName = fileName.ToLower();
+            string fileName = String.Format(CultureInfo.InvariantCulture, @"{0}\{1}_complextypeparser.c", OutputDirectory, namespacePrefix);
+            fileName = fileName.ToLowerInvariant();
 
             List<string> list = new List<string>();
 
             StreamWriter writer = new StreamWriter(fileName, false);
-            writer.Write(string.Format(m_sHeader, "OpcUa Complex Type Parser", DateTime.Now));
+            writer.Write(string.Format(CultureInfo.InvariantCulture, m_sHeader, "OpcUa Complex Type Parser", DateTime.Now));
             writer.Write("#ifdef HAVE_CONFIG_H\n" +
                         "# include \"config.h\"\n" +
                         "#endif\n" +
                         "\n" +
                         "#include <gmodule.h>\n" +
-                        "#include <epan/packet.h>\n"+
+                        "#include <epan/packet.h>\n" +
                         "#include \"opcua_complextypeparser.h\"\n" +
                         "#include \"opcua_enumparser.h\"\n" +
                         "#include \"opcua_simpletypes.h\"\n" +
@@ -418,7 +422,7 @@ namespace CodeGenerator
 
                     if (complextype != null)
                     {
-                        Template template = new Template(writer, WiresharkTemplatePath + "complexparserfunction.c", Assembly.GetExecutingAssembly());
+                        using Template template = new Template(writer, WiresharkTemplatePath + "complexparserfunction.c", Assembly.GetExecutingAssembly());
                         list.Add(complextype.Name);
 
                         template.AddReplacement("_NAME_", complextype.Name);
@@ -428,9 +432,9 @@ namespace CodeGenerator
                         }
                         else
                         {
-                            template.AddReplacement("// _BASE_", string.Format("  /* parse base class members */ \n  parse{0}(subtree, tvb, pOffset, \"[{0}]\");\n  /* parse additional members */", complextype.BaseType.Name));
+                            template.AddReplacement("// _BASE_", String.Format(CultureInfo.InvariantCulture, "  /* parse base class members */ \n  parse{0}(subtree, tvb, pOffset, \"[{0}]\");\n  /* parse additional members */", complextype.BaseType.Name));
                         }
-                        
+
                         List<FieldType> fields = new List<FieldType>();
 
                         foreach (var field in complextype.Field)
@@ -455,12 +459,12 @@ namespace CodeGenerator
             }
             finally
             {
-                writer.Write("\n/** Setup protocol subtree array */\n"+
+                writer.Write("\n/** Setup protocol subtree array */\n" +
                              "static gint *ett[] =\n{\n");
 
-                foreach(string sName in list)
+                foreach (string sName in list)
                 {
-                    writer.Write("  &ett_opcua_"+sName+",\n");
+                    writer.Write("  &ett_opcua_" + sName + ",\n");
                 }
 
                 writer.Write("};\n\n");
@@ -493,12 +497,12 @@ namespace CodeGenerator
 
             datatypes = sortedTypes;
 
-            string fileName = String.Format(@"{0}\{1}_complextypeparser.h", OutputDirectory, namespacePrefix);
-            fileName = fileName.ToLower();
+            string fileName = String.Format(CultureInfo.InvariantCulture, @"{0}\{1}_complextypeparser.h", OutputDirectory, namespacePrefix);
+            fileName = fileName.ToLowerInvariant();
 
             List<string> list = new List<string>();
             StreamWriter writer = new StreamWriter(fileName, false);
-            writer.Write(string.Format(m_sHeader, "OpcUa Complex Type Parser", DateTime.Now));
+            writer.Write(string.Format(CultureInfo.InvariantCulture, m_sHeader, "OpcUa Complex Type Parser", DateTime.Now));
             writer.Write("#ifdef HAVE_CONFIG_H\n" +
                         "# include \"config.h\"\n" +
                         "#endif\n" +
@@ -514,7 +518,7 @@ namespace CodeGenerator
 
                     if (complextype != null)
                     {
-                        writer.Write(string.Format("void parse{0}(proto_tree *tree, tvbuff_t *tvb, gint *pOffset, char *szFieldName);\n", complextype.Name));
+                        writer.Write(String.Format(CultureInfo.InvariantCulture, "void parse{0}(proto_tree *tree, tvbuff_t *tvb, gint *pOffset, char *szFieldName);\n", complextype.Name));
                     }
                 }
             }
@@ -546,11 +550,11 @@ namespace CodeGenerator
 
             datatypes = sortedTypes;
 
-            string fileName = String.Format(@"{0}\{1}_enumparser.c", OutputDirectory, namespacePrefix);
-            fileName = fileName.ToLower();
+            string fileName = String.Format(CultureInfo.InvariantCulture, @"{0}\{1}_enumparser.c", OutputDirectory, namespacePrefix);
+            fileName = fileName.ToLowerInvariant();
 
             StreamWriter writer = new StreamWriter(fileName, false);
-            writer.Write(string.Format(m_sHeader, "OpcUa Enum Type Parser", DateTime.Now));
+            writer.Write(string.Format(CultureInfo.InvariantCulture, m_sHeader, "OpcUa Enum Type Parser", DateTime.Now));
             writer.Write("#ifdef HAVE_CONFIG_H\n" +
                       "# include \"config.h\"\n" +
                       "#endif\n" +
@@ -566,7 +570,7 @@ namespace CodeGenerator
 
                     if (enumtype != null)
                     {
-                        Template template = new Template(writer, WiresharkTemplatePath + "enumparser.c", Assembly.GetExecutingAssembly());
+                        using Template template = new Template(writer, WiresharkTemplatePath + "enumparser.c", Assembly.GetExecutingAssembly());
 
                         template.AddReplacement("_NAME_", enumtype.Name);
 
@@ -604,7 +608,7 @@ namespace CodeGenerator
 
                     if (enumtype != null)
                     {
-                        Template template = new Template(writer, WiresharkTemplatePath + "enumregisterinfo.c", Assembly.GetExecutingAssembly());
+                        using Template template = new Template(writer, WiresharkTemplatePath + "enumregisterinfo.c", Assembly.GetExecutingAssembly());
 
                         template.AddReplacement("_NAME_", enumtype.Name);
                         template.WriteTemplate(null);
@@ -649,11 +653,11 @@ namespace CodeGenerator
 
             datatypes = sortedTypes;
 
-            string fileName = String.Format(@"{0}\{1}_enumparser.h", OutputDirectory, namespacePrefix);
-            fileName = fileName.ToLower();
+            string fileName = String.Format(CultureInfo.InvariantCulture, @"{0}\{1}_enumparser.h", OutputDirectory, namespacePrefix);
+            fileName = fileName.ToLowerInvariant();
 
             StreamWriter writer = new StreamWriter(fileName, false);
-            writer.Write(string.Format(m_sHeader, "OpcUa Enum Type Parser", DateTime.Now));
+            writer.Write(string.Format(CultureInfo.InvariantCulture, m_sHeader, "OpcUa Enum Type Parser", DateTime.Now));
             writer.Write("#ifdef HAVE_CONFIG_H\n" +
                       "# include \"config.h\"\n" +
                       "#endif\n" +
@@ -686,7 +690,7 @@ namespace CodeGenerator
 
             if (entry != null)
             {
-                string sVariableName = "hf_opcua_"+entry.FieldName();
+                string sVariableName = "hf_opcua_" + entry.FieldName();
                 string sFieldName = entry.FieldName();
                 string sDataType = "";
                 string sBase = "BASE_NONE";
@@ -722,19 +726,19 @@ namespace CodeGenerator
                     if (context.Token == "// _INDECES_")
                     {
                         string sFormat = "\nint {0} = -1;";
-                        string sEntry = string.Format(sFormat, sVariableName);
+                        string sEntry = string.Format(CultureInfo.InvariantCulture, sFormat, sVariableName);
                         template.Write(sEntry);
                     }
                     else if (context.Token == "// _EXTERNINDECES_")
                     {
                         string sFormat = "\nextern int {0};";
-                        string sEntry = string.Format(sFormat, sVariableName);
+                        string sEntry = string.Format(CultureInfo.InvariantCulture, sFormat, sVariableName);
                         template.Write(sEntry);
                     }
                     else if (context.Token == "// _FIELDS_")
                     {
                         string sFormat = "\n   {{ &{0}, {{ \"{1}\", \"\", {2}, {3}, NULL, 0x0, \"\", HFILL }} }}";
-                        string sEntry = string.Format(sFormat, sVariableName, sFieldName, sDataType, sBase);
+                        string sEntry = string.Format(CultureInfo.InvariantCulture, sFormat, sVariableName, sFieldName, sDataType, sBase);
 
                         if (!context.FirstInList)
                         {
@@ -764,15 +768,15 @@ namespace CodeGenerator
                     if (m_hashSimpleTypes.ContainsKey(sDataTypeName))
                     {
                         m_lstFields.Add(new HFEntry(field.Name, sDataTypeName));
-                        template.Write(string.Format("\n  parse{0}(subtree, tvb, pOffset, hf_opcua_{1});", sDataTypeName, field.Name));
+                        template.Write(String.Format(CultureInfo.InvariantCulture, "\n  parse{0}(subtree, tvb, pOffset, hf_opcua_{1});", sDataTypeName, field.Name));
                     }
                     else if ((dt as EnumeratedType) != null)
                     {
-                        template.Write(string.Format("\n  parse{0}(subtree, tvb, pOffset);", sDataTypeName));
+                        template.Write(String.Format(CultureInfo.InvariantCulture, "\n  parse{0}(subtree, tvb, pOffset);", sDataTypeName));
                     }
                     else
                     {
-                        template.Write(string.Format("\n  parse{0}(subtree, tvb, pOffset, \"{1}\");", sDataTypeName, field.Name));
+                        template.Write(String.Format(CultureInfo.InvariantCulture, "\n  parse{0}(subtree, tvb, pOffset, \"{1}\");", sDataTypeName, field.Name));
                     }
                 }
                 else
@@ -782,15 +786,15 @@ namespace CodeGenerator
                     if (m_hashSimpleTypes.ContainsKey(sDataTypeName))
                     {
                         m_lstFields.Add(new HFEntry(field.Name, sDataTypeName));
-                        template.Write(string.Format("\n  parseArraySimple(subtree, tvb, pOffset, hf_opcua_{1}, parse{0});", sDataTypeName, field.Name));
+                        template.Write(String.Format(CultureInfo.InvariantCulture, "\n  parseArraySimple(subtree, tvb, pOffset, hf_opcua_{1}, parse{0});", sDataTypeName, field.Name));
                     }
                     else if ((dt as EnumeratedType) != null)
                     {
-                        template.Write(string.Format("\n  parseArrayEnum(subtree, tvb, pOffset, parse{0});", sDataTypeName));
+                        template.Write(String.Format(CultureInfo.InvariantCulture, "\n  parseArrayEnum(subtree, tvb, pOffset, parse{0});", sDataTypeName));
                     }
                     else
                     {
-                        template.Write(string.Format("\n  parseArrayComplex(subtree, tvb, pOffset, \"{1}\", parse{0});", sDataTypeName, field.Name));
+                        template.Write(String.Format(CultureInfo.InvariantCulture, "\n  parseArrayComplex(subtree, tvb, pOffset, \"{1}\", parse{0});", sDataTypeName, field.Name));
                     }
                 }
             }
@@ -805,7 +809,7 @@ namespace CodeGenerator
             {
                 context.BlankLine = false;
 
-                template.Write(string.Format("\n  {{ {0}, \"{1}\" }},", field.Value, field.Name));
+                template.Write(String.Format(CultureInfo.InvariantCulture, "\n  {{ {0}, \"{1}\" }},", field.Value, field.Name));
                 return true;
             }
             return false;

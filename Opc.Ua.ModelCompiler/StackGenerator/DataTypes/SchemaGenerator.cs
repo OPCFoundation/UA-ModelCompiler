@@ -28,6 +28,7 @@
  * ======================================================================*/
 
 using System.Collections;
+using System.Globalization;
 using System.Text;
 using System.Xml;
 
@@ -170,6 +171,9 @@ namespace CodeGenerator
         /// </summary>
         protected void CollectDatatypes(TypeDictionary dictionary, Type type, bool exportApi, List<DataType> datatypes)
         {
+            if (dictionary == null) throw new ArgumentNullException(nameof(dictionary));
+            if (datatypes == null) throw new ArgumentNullException(nameof(datatypes));
+
             foreach (DataType datatype in dictionary.Items)
             {
                 ComplexType complexType = datatype as ComplexType;
@@ -237,14 +241,14 @@ namespace CodeGenerator
 
             if (qname.Namespace == Namespaces.OpcUaBuiltInTypes)
             {
-                return String.Format("ua:{0}", qname.Name);
+                return String.Format(CultureInfo.InvariantCulture, "ua:{0}", qname.Name);
             }
 
             int index = m_namespaceUris.IndexOf(qname.Namespace);
 
             if (index > 0)
             {
-                return String.Format("s{0}:{1}", index-1, qname.Name);
+                return String.Format(CultureInfo.InvariantCulture, "s{0}:{1}", index-1, qname.Name);
             }
 
             return qname.Name;

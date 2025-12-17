@@ -27,15 +27,17 @@
  * http://opcfoundation.org/License/MIT/1.00/
  * ======================================================================*/
 
-using System.Xml;
+using Opc.Ua;
+using System.Globalization;
 using System.Reflection;
+using System.Xml;
 
 namespace CodeGenerator
 {
     /// <summary>
     /// Generates code based on a UA Type Dictionary.
     /// </summary>
-    public class DotNetGenerator : CodeGenerator
+    public class DotNetGenerator : CodeGeneratorBase
     {
         #region Constructors
         /// <summary>
@@ -44,7 +46,7 @@ namespace CodeGenerator
         public DotNetGenerator(
             string inputPath,
             string outputDirectory,
-            Dictionary<string,string> knownFiles,
+            Dictionary<string, string> knownFiles,
             string resourcePath,
             IList<string> exclusions)
         :
@@ -92,11 +94,11 @@ namespace CodeGenerator
             serviceSets.Add(new ServiceSet("Session", InterfaceType.Discovery, InterfaceType.Session, InterfaceType.Test));
             serviceSets.Add(new ServiceSet("Discovery", InterfaceType.Discovery, InterfaceType.Registration));
 
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}.Endpoints.cs", OutputDirectory, namespacePrefix), false);
+            StreamWriter writer = new StreamWriter(String.Format(CultureInfo.InvariantCulture, @"{0}\{1}.Endpoints.cs", OutputDirectory, namespacePrefix), false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "Endpoints.File.cs", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "Endpoints.File.cs", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Date_", DateTime.Now);
                 template.AddReplacement("_Prefix_", namespacePrefix);
@@ -188,7 +190,7 @@ namespace CodeGenerator
                 template,
                 "// DeclareResponseParameters",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_InitializeResponseParameters),
                 null);
 
@@ -196,10 +198,10 @@ namespace CodeGenerator
                 template,
                 "InvokeService();",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_InvokeServiceSyncParameters),
                 null);
-            
+
             AddTemplate(
                 template,
                 "InvokeServiceAsync();",
@@ -212,7 +214,7 @@ namespace CodeGenerator
                 template,
                 "// SetResponseParameters",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_ResponseParameters),
                 null);
 
@@ -236,9 +238,13 @@ namespace CodeGenerator
             template.Write(context.Prefix);
             template.Write("response.{0} = ServerInstance.{1}(", serviceType.Response[0].Name, serviceType.Name);
 
+            template.WriteLine(String.Empty);
+            template.Write(context.Prefix);
+            template.Write("   secureChannelContext");
+
             if (serviceType.Request != null || serviceType.Request.Length > 0)
             {
-                bool first = true;
+                bool first = false;
 
                 foreach (FieldType field in serviceType.Request)
                 {
@@ -280,7 +286,7 @@ namespace CodeGenerator
             return null;
         }
 
-         /// <summary>
+        /// <summary>
         /// Writes an asynchronous method declaration.
         /// </summary>
         private string LoadTemplate_InvokeServiceAsyncParameters(Template template, Context context)
@@ -297,9 +303,13 @@ namespace CodeGenerator
             template.Write(context.Prefix);
             template.Write("response = await ServerInstance.{1}Async(", serviceType.Response[0].Name, serviceType.Name);
 
+            template.WriteLine(String.Empty);
+            template.Write(context.Prefix);
+            template.Write("   secureChannelContext");
+
             if (serviceType.Request != null || serviceType.Request.Length > 0)
             {
-                bool first = true;
+                bool first = false;
 
                 foreach (FieldType field in serviceType.Request)
                 {
@@ -340,7 +350,15 @@ namespace CodeGenerator
             // write method declaration.
             template.WriteLine(String.Empty);
             template.Write(context.Prefix);
-            template.Write("#if (OPCUA_INCLUDE_ASYNC && !OPCUA_EXCLUDE_{0} && !OPCUA_EXCLUDE_{0}_ASYNC)", serviceType.Name);
+            template.Write("#if (OPCUA_INCLUDE_ASYNC && NET_STANDARD_OBSOLETE_SYNC && !OPCUA_EXCLUDE_{0} && !OPCUA_EXCLUDE_{0}_ASYNC)", serviceType.Name);
+
+            template.WriteLine(String.Empty);
+            template.Write(context.Prefix);
+            template.Write("SupportedServices.Add(DataTypeIds.{0}Request, new ServiceDefinition(typeof({0}Request), new InvokeServiceAsyncEventHandler({0}Async)));", serviceType.Name);
+
+            template.WriteLine(String.Empty);
+            template.Write(context.Prefix);
+            template.Write("#elif (OPCUA_INCLUDE_ASYNC && !OPCUA_EXCLUDE_{0} && !OPCUA_EXCLUDE_{0}_ASYNC)", serviceType.Name);
 
             template.WriteLine(String.Empty);
             template.Write(context.Prefix);
@@ -371,11 +389,11 @@ namespace CodeGenerator
             serviceSets.Add(new ServiceSet("Session", InterfaceType.Discovery, InterfaceType.Session, InterfaceType.Test));
             serviceSets.Add(new ServiceSet("Discovery", InterfaceType.Discovery, InterfaceType.Registration));
 
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}.ServerBase.cs", OutputDirectory, namespacePrefix), false);
+            StreamWriter writer = new StreamWriter(String.Format(CultureInfo.InvariantCulture, @"{0}\{1}.ServerBase.cs", OutputDirectory, namespacePrefix), false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "ServerApi.File.cs", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "ServerApi.File.cs", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Date_", DateTime.Now);
                 template.AddReplacement("_Prefix_", namespacePrefix);
@@ -455,7 +473,7 @@ namespace CodeGenerator
                 template,
                 "void Interface();",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_SyncParameters),
                 null);
 
@@ -491,7 +509,7 @@ namespace CodeGenerator
                 template,
                 "void Stub()",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_SyncParameters),
                 null);
 
@@ -507,7 +525,7 @@ namespace CodeGenerator
                 template,
                 "// ResponseParameters",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_InitializeResponseParameters),
                 null);
 
@@ -542,7 +560,7 @@ namespace CodeGenerator
                     template.WriteLine(String.Empty);
                     template.Write(context.Prefix);
 
-                    if (context.Token.IndexOf("Declare") != -1)
+                    if (context.Token.Contains("Declare"))
                     {
                         template.Write("{1} {0} = ", ToLowerCamelCase(field.Name), GetDotNetTypeName(field.DataType, field.ValueRank));
                     }
@@ -572,11 +590,11 @@ namespace CodeGenerator
         {
             IList<ServiceSet> serviceSets = GetServiceSets();
 
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}.Client.cs", OutputDirectory, namespacePrefix), false);
+            StreamWriter writer = new StreamWriter(String.Format(CultureInfo.InvariantCulture, @"{0}\{1}.Client.cs", OutputDirectory, namespacePrefix), false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "ClientApi.File.cs", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "ClientApi.File.cs", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Date_", DateTime.Now);
                 template.AddReplacement("_Prefix_", namespacePrefix);
@@ -660,7 +678,7 @@ namespace CodeGenerator
                 template,
                 $"void SyncCall(){((semicolon) ? ";" : "")}",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_SyncParameters),
                 null);
 
@@ -676,7 +694,7 @@ namespace CodeGenerator
                 template,
                 $"void BeginAsyncCall(){((semicolon) ? ";" : "")}",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_BeginAsyncParameters),
                 null);
 
@@ -684,7 +702,7 @@ namespace CodeGenerator
                 template,
                 $"void EndAsyncCall(){((semicolon) ? ";" : "")}",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_EndAsyncParameters),
                 null);
 
@@ -692,7 +710,7 @@ namespace CodeGenerator
                 template,
                 "// RequestParameters",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_RequestParameters),
                 null);
 
@@ -700,7 +718,7 @@ namespace CodeGenerator
                 template,
                 "// ResponseParameters",
                 null,
-                new ServiceType[] { serviceType } ,
+                new ServiceType[] { serviceType },
                 new LoadTemplateEventHandler(LoadTemplate_ResponseParameters),
                 null);
 
@@ -724,6 +742,17 @@ namespace CodeGenerator
             List<string> types = new List<string>();
             List<string> names = new List<string>();
 
+            if (context.Token.Contains("Stub")|| context.Token.Contains("Interface"))
+            {
+                string secureChannelContextType = "SecureChannelContext";
+                if (secureChannelContextType.Length > length)
+                {
+                    length = secureChannelContextType.Length;
+                }
+                types.Add(secureChannelContextType);
+                names.Add("secureChannelContext");
+            }
+
             CollectParameters(serviceType.Request, false, types, names, ref length);
             CollectParameters(serviceType.Response, true, types, names, ref length);
 
@@ -732,7 +761,7 @@ namespace CodeGenerator
             template.Write(context.Prefix);
 
             // write method type if not writing an interface declaration.
-            if (!context.Token.Contains(";"))
+            if (!context.Token.Contains(';'))
             {
                 template.Write("public virtual ");
             }
@@ -742,9 +771,9 @@ namespace CodeGenerator
             WriteParameters(template, context, types, names, length);
 
             // write closing semicolon for interface.
-            if (context.Token.Contains(";"))
+            if (context.Token.Contains(';'))
             {
-                template.Write(";");
+                template.Write(';');
             }
 
             return null;
@@ -767,10 +796,21 @@ namespace CodeGenerator
             List<string> types = new List<string>();
             List<string> names = new List<string>();
 
+            if (context.Token.Contains("Stub") || context.Token.Contains("Interface"))
+            {
+                string secureChannelContextType = "SecureChannelContext";
+                if (secureChannelContextType.Length > length)
+                {
+                    length = secureChannelContextType.Length;
+                }
+                types.Add(secureChannelContextType);
+                names.Add("secureChannelContext");
+            }
+
             CollectParameters(serviceType.Request, false, types, names, ref length);
 
             string tokenType = "CancellationToken";
-            
+
             if (tokenType.Length > length)
             {
                 length = tokenType.Length;
@@ -784,7 +824,7 @@ namespace CodeGenerator
             template.Write(context.Prefix);
 
             // write method type if not writing an interface declaration.
-            if (!context.Token.Contains(";"))
+            if (!context.Token.Contains(';'))
             {
                 template.Write("public virtual async ");
             }
@@ -794,9 +834,9 @@ namespace CodeGenerator
             WriteParameters(template, context, types, names, length);
 
             // write closing semicolon for interface.
-            if (context.Token.Contains(";"))
+            if (context.Token.Contains(';'))
             {
-                template.Write(";");
+                template.Write(';');
             }
 
             return null;
@@ -831,7 +871,7 @@ namespace CodeGenerator
             template.WriteLine(String.Empty);
             template.Write(context.Prefix);
 
-            if (!context.Token.Contains(";"))
+            if (!context.Token.Contains(';'))
             {
                 template.Write("public virtual ");
             }
@@ -841,9 +881,9 @@ namespace CodeGenerator
             WriteParameters(template, context, types, names, length);
 
             // write closing semicolon for interface.
-            if (context.Token.Contains(";"))
+            if (context.Token.Contains(';'))
             {
-                template.Write(";");
+                template.Write(';');
             }
 
             return null;
@@ -875,7 +915,7 @@ namespace CodeGenerator
             template.WriteLine(String.Empty);
             template.Write(context.Prefix);
 
-            if (!context.Token.Contains(";"))
+            if (!context.Token.Contains(';'))
             {
                 template.Write("public virtual ");
             }
@@ -885,9 +925,9 @@ namespace CodeGenerator
             WriteParameters(template, context, types, names, length);
 
             // write closing semicolon for interface.
-            if (context.Token.Contains(";"))
+            if (context.Token.Contains(';'))
             {
-                template.Write(";");
+                template.Write(';');
             }
 
             return null;
@@ -926,7 +966,7 @@ namespace CodeGenerator
 
                     if (field.Name.Length < length)
                     {
-                        padding = new string(' ', length-field.Name.Length);
+                        padding = new string(' ', length - field.Name.Length);
                     }
 
                     template.WriteLine(String.Empty);
@@ -986,13 +1026,13 @@ namespace CodeGenerator
 
                     if (field.Name.Length < length)
                     {
-                        padding = new string(' ', length-field.Name.Length);
+                        padding = new string(' ', length - field.Name.Length);
                     }
 
                     template.WriteLine(String.Empty);
                     template.Write(context.Prefix);
 
-                    if (context.Token.IndexOf("Set") != -1)
+                    if (context.Token.Contains("Set"))
                     {
                         template.Write("response.{2}{1} = {0};", ToLowerCamelCase(field.Name), padding, field.Name);
                     }
@@ -1038,7 +1078,7 @@ namespace CodeGenerator
         /// <summary>
         /// A set of services that are grouped into a single interface.
         /// </summary>
-        private class ServiceSet
+        private sealed class ServiceSet
         {
             public ServiceSet(string serviceSet, params InterfaceType[] interfaces)
             {
@@ -1071,11 +1111,11 @@ namespace CodeGenerator
         {
             IList<ServiceSet> serviceSets = GetServiceSets();
 
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}.Interfaces.cs", OutputDirectory, namespacePrefix), false);
+            StreamWriter writer = new StreamWriter(String.Format(CultureInfo.InvariantCulture, @"{0}\{1}.Interfaces.cs", OutputDirectory, namespacePrefix), false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "Interfaces.File.cs", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "Interfaces.File.cs", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Prefix_", namespacePrefix);
 
@@ -1152,11 +1192,11 @@ namespace CodeGenerator
         {
             IList<ServiceSet> serviceSets = GetServiceSets();
 
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}.Channels.cs", OutputDirectory, namespacePrefix), false);
+            StreamWriter writer = new StreamWriter(String.Format(CultureInfo.InvariantCulture, @"{0}\{1}.Channels.cs", OutputDirectory, namespacePrefix), false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "Channels.File.cs", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "Channels.File.cs", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Date_", DateTime.Now);
                 template.AddReplacement("_Prefix_", namespacePrefix);
@@ -1275,11 +1315,11 @@ namespace CodeGenerator
                 return;
             }
 
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}.Messages.cs", OutputDirectory, namespacePrefix), false);
+            StreamWriter writer = new StreamWriter(String.Format(CultureInfo.InvariantCulture, @"{0}\{1}.Messages.cs", OutputDirectory, namespacePrefix), false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "Classes.File.cs", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "Classes.File.cs", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Date_", DateTime.Now);
                 template.AddReplacement("_Prefix_", namespacePrefix);
@@ -1345,7 +1385,7 @@ namespace CodeGenerator
             template.AddReplacement("_NAME_", datatype.Name);
             template.AddReplacement("_Namespace_", m_namespaceConstant);
             template.AddReplacement("_TypesNamespace_", m_schemaNamespaceConstant);
-            template.AddReplacement("// _XMLTYPE_", String.Format("[DataContract(Namespace = Namespaces.{0})]", m_schemaNamespaceConstant));
+            template.AddReplacement("// _XMLTYPE_", String.Format(CultureInfo.InvariantCulture, "[DataContract(Namespace = Namespaces.{0})]", m_schemaNamespaceConstant));
 
             AddTemplate(
                 template,
@@ -1507,7 +1547,7 @@ namespace CodeGenerator
             {
                 ComplexType requestType = new ComplexType();
 
-                requestType.Name  = serviceType.Name + "Request";
+                requestType.Name = serviceType.Name + "Request";
                 requestType.QName = new XmlQualifiedName(requestType.Name, serviceType.QName.Namespace);
                 requestType.Field = serviceType.Request;
 
@@ -1521,7 +1561,7 @@ namespace CodeGenerator
 
                 ComplexType responseType = new ComplexType();
 
-                responseType.Name  = serviceType.Name + "Response";
+                responseType.Name = serviceType.Name + "Response";
                 responseType.QName = new XmlQualifiedName(responseType.Name, serviceType.QName.Namespace);
                 responseType.Field = serviceType.Response;
 
@@ -1595,7 +1635,7 @@ namespace CodeGenerator
                 return false;
             }
 
-            template.AddReplacement("// _XMLTYPE_", String.Format("[DataMember(Name = \"{0}\", Order = {1}]", field.Name, context.Index + 1));
+            template.AddReplacement("// _XMLTYPE_", String.Format(CultureInfo.InvariantCulture, "[DataMember(Name = \"{0}\", Order = {1}]", field.Name, context.Index + 1));
             template.AddReplacement("_INTERNALNAME_", ToLowerCamelCase(field.Name));
             template.AddReplacement("_EXTERNALNAME_", field.Name);
             template.AddReplacement("_TYPE_", GetDotNetTypeName(field.DataType, field.ValueRank));
@@ -1617,7 +1657,7 @@ namespace CodeGenerator
 
             EnumeratedType enumeratedType = context.Container as EnumeratedType;
 
-            template.AddReplacement("// _XMLTYPE_", String.Format("[EnumMember(Value = \"{0}_{1}\")]", value.Name, value.Value));
+            template.AddReplacement("// _XMLTYPE_", String.Format(CultureInfo.InvariantCulture, "[EnumMember(Value = \"{0}_{1}\")]", value.Name, value.Value));
             template.AddReplacement("_NAME_", value.Name);
 
             if (context.Index < enumeratedType.Value.Length - 1)
@@ -1647,7 +1687,7 @@ namespace CodeGenerator
             template.WriteLine(String.Empty);
 
             template.AddReplacement("_NAME_", datatype.Name);
-            template.AddReplacement("// _XMLARRAYTYPE_", String.Format("[CollectionDataContract(Name = \"ListOf{0}\", Namespace = Namespaces.{1}, ItemName=\"{0}\")]", datatype.Name, m_schemaNamespaceConstant));
+            template.AddReplacement("// _XMLARRAYTYPE_", String.Format(CultureInfo.InvariantCulture, "[CollectionDataContract(Name = \"ListOf{0}\", Namespace = Namespaces.{1}, ItemName=\"{0}\")]", datatype.Name, m_schemaNamespaceConstant));
 
             return template.WriteTemplate(context);
         }
@@ -1929,7 +1969,7 @@ namespace CodeGenerator
 
                 if (typeName.Length < length)
                 {
-                    typeName += new string(' ', length-typeName.Length);
+                    typeName += new string(' ', length - typeName.Length);
                 }
 
                 template.WriteLine(String.Empty);
@@ -2013,14 +2053,14 @@ namespace CodeGenerator
                 case "DateTime":
                 case "StatusCode":
                 case "Variant":
-                {
-                    return false;
-                }
+                    {
+                        return false;
+                    }
 
                 default:
-                {
-                    return true;
-                }
+                    {
+                        return true;
+                    }
             }
         }
 
@@ -2041,32 +2081,32 @@ namespace CodeGenerator
                 switch (datatype.Name)
                 {
                     case "Guid":
-                    {
-                        return "new UuidCollection()";
-                    }
+                        {
+                            return "new UuidCollection()";
+                        }
                 }
 
-                return String.Format("new {0}Collection()", datatype.Name);
+                return String.Format(CultureInfo.InvariantCulture, "new {0}Collection()", datatype.Name);
             }
 
             EnumeratedType enumeratedType = datatype as EnumeratedType;
 
             if (enumeratedType != null)
             {
-                return String.Format("{0}.{1}", datatype.Name, enumeratedType.Value[0].Name);
+                return String.Format(CultureInfo.InvariantCulture, "{0}.{1}", datatype.Name, enumeratedType.Value[0].Name);
             }
 
             if (datatype.QName.Namespace != Namespaces.OpcUaBuiltInTypes)
             {
-                return String.Format("new {0}()", datatype.Name);
+                return String.Format(CultureInfo.InvariantCulture, "new {0}()", datatype.Name);
             }
 
             switch (datatype.Name)
             {
                 case "Boolean":
-                {
-                    return "false";
-                }
+                    {
+                        return "false";
+                    }
 
                 case "SByte":
                 case "Byte":
@@ -2078,57 +2118,57 @@ namespace CodeGenerator
                 case "UInt64":
                 case "Float":
                 case "Double":
-                {
-                    return "0";
-                }
+                    {
+                        return "0";
+                    }
 
                 case "String":
                 case "ByteString":
                 case "ExtensionObject":
                 case "XmlElement":
-                {
-                    return "null";
-                }
+                    {
+                        return "null";
+                    }
 
                 case "Guid":
-                {
-                    return "Opc.Ua.Uuid.Empty";
-                }
+                    {
+                        return "Opc.Ua.Uuid.Empty";
+                    }
 
                 case "DateTime":
-                {
-                    return "DateTime.MinValue";
-                }
+                    {
+                        return "DateTime.MinValue";
+                    }
 
                 case "StatusCode":
-                {
-                    return "Opc.Ua.StatusCodes.Good";
-                }
+                    {
+                        return "Opc.Ua.StatusCodes.Good";
+                    }
 
                 case "NodeId":
-                {
-                    return "Opc.Ua.NodeId.Null";
-                }
+                    {
+                        return "Opc.Ua.NodeId.Null";
+                    }
 
                 case "ExpandedNodeId":
-                {
-                    return "Opc.Ua.ExpandedNodeId.Null";
-                }
+                    {
+                        return "Opc.Ua.ExpandedNodeId.Null";
+                    }
 
                 case "LocalizedText":
-                {
-                    return "Opc.Ua.LocalizedText.Null";
-                }
+                    {
+                        return "Opc.Ua.LocalizedText.Null";
+                    }
 
                 case "QualifiedName":
-                {
-                    return "Opc.Ua.QualifiedName.Null";
-                }
+                    {
+                        return "Opc.Ua.QualifiedName.Null";
+                    }
 
                 default:
-                {
-                    return String.Format("new {0}()", datatype.Name);
-                }
+                    {
+                        return String.Format(CultureInfo.InvariantCulture, "new {0}()", datatype.Name);
+                    }
             }
         }
         #endregion

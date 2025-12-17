@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2025 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  * 
@@ -55,6 +55,10 @@ namespace DemoModel
 
         public const uint WorkOrderType = 5;
 
+        public const uint ExtendedWorkOrderType = 322;
+
+        public const uint FinalWorkOrderType = 332;
+
         public const uint SampleUnion = 41;
 
         public const uint SampleStructureWithOptionalFields = 42;
@@ -75,9 +79,9 @@ namespace DemoModel
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public static partial class Methods
     {
-        public const uint RestrictedObjectType_Blue = 127;
+        public const uint RestrictedObjectType_BlueType = 342;
 
-        public const uint TestObject_Blue = 71;
+        public const uint TestObject_BlueType = 343;
     }
     #endregion
 
@@ -95,11 +99,17 @@ namespace DemoModel
 
         public const uint Test_ErrorComponent = 94;
 
+        public const uint Picture = 351;
+
         public const uint Vector_Encoding_DefaultBinary = 21;
 
         public const uint WorkOrderStatusType_Encoding_DefaultBinary = 22;
 
         public const uint WorkOrderType_Encoding_DefaultBinary = 23;
+
+        public const uint ExtendedWorkOrderType_Encoding_DefaultBinary = 323;
+
+        public const uint FinalWorkOrderType_Encoding_DefaultBinary = 333;
 
         public const uint SampleUnion_Encoding_DefaultBinary = 45;
 
@@ -119,6 +129,10 @@ namespace DemoModel
 
         public const uint WorkOrderType_Encoding_DefaultXml = 8;
 
+        public const uint ExtendedWorkOrderType_Encoding_DefaultXml = 327;
+
+        public const uint FinalWorkOrderType_Encoding_DefaultXml = 337;
+
         public const uint SampleUnion_Encoding_DefaultXml = 62;
 
         public const uint SampleStructureWithOptionalFields_Encoding_DefaultXml = 63;
@@ -136,6 +150,10 @@ namespace DemoModel
         public const uint WorkOrderStatusType_Encoding_DefaultJson = 80;
 
         public const uint WorkOrderType_Encoding_DefaultJson = 81;
+
+        public const uint ExtendedWorkOrderType_Encoding_DefaultJson = 331;
+
+        public const uint FinalWorkOrderType_Encoding_DefaultJson = 341;
 
         public const uint SampleUnion_Encoding_DefaultJson = 82;
 
@@ -158,6 +176,8 @@ namespace DemoModel
     public static partial class ObjectTypes
     {
         public const uint RestrictedObjectType = 124;
+
+        public const uint PictureType = 348;
 
         public const uint WithTwoDimensionalVariableType = 120;
     }
@@ -223,6 +243,18 @@ namespace DemoModel
 
         public const uint TestObject_Red_Z = 221;
 
+        public const uint YellowType_Shade = 346;
+
+        public const uint YellowType_DefaultInstanceBrowseName = 347;
+
+        public const uint PictureType_YellowThing = 349;
+
+        public const uint PictureType_YellowThing_Shade = 350;
+
+        public const uint Picture_YellowThing = 352;
+
+        public const uint Picture_YellowThing_Shade = 353;
+
         public const uint HeaterStatus_EnumStrings = 2;
 
         public const uint WithTwoDimensionalVariableType_X = 121;
@@ -238,6 +270,10 @@ namespace DemoModel
         public const uint DemoModel_BinarySchema_WorkOrderStatusType = 30;
 
         public const uint DemoModel_BinarySchema_WorkOrderType = 33;
+
+        public const uint DemoModel_BinarySchema_ExtendedWorkOrderType = 324;
+
+        public const uint DemoModel_BinarySchema_FinalWorkOrderType = 334;
 
         public const uint DemoModel_BinarySchema_SampleUnion = 50;
 
@@ -263,6 +299,10 @@ namespace DemoModel
 
         public const uint DemoModel_XmlSchema_WorkOrderType = 18;
 
+        public const uint DemoModel_XmlSchema_ExtendedWorkOrderType = 328;
+
+        public const uint DemoModel_XmlSchema_FinalWorkOrderType = 338;
+
         public const uint DemoModel_XmlSchema_SampleUnion = 67;
 
         public const uint DemoModel_XmlSchema_SampleStructureWithOptionalFields = 70;
@@ -284,6 +324,8 @@ namespace DemoModel
     public static partial class VariableTypes
     {
         public const uint RestrictedVariableType = 122;
+
+        public const uint YellowType = 345;
     }
     #endregion
 
@@ -302,6 +344,10 @@ namespace DemoModel
         public static readonly ExpandedNodeId WorkOrderStatusType = new ExpandedNodeId(DemoModel.DataTypes.WorkOrderStatusType, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId WorkOrderType = new ExpandedNodeId(DemoModel.DataTypes.WorkOrderType, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId ExtendedWorkOrderType = new ExpandedNodeId(DemoModel.DataTypes.ExtendedWorkOrderType, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId FinalWorkOrderType = new ExpandedNodeId(DemoModel.DataTypes.FinalWorkOrderType, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId SampleUnion = new ExpandedNodeId(DemoModel.DataTypes.SampleUnion, DemoModel.Namespaces.DemoModel);
 
@@ -323,9 +369,9 @@ namespace DemoModel
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public static partial class MethodIds
     {
-        public static readonly ExpandedNodeId RestrictedObjectType_Blue = new ExpandedNodeId(DemoModel.Methods.RestrictedObjectType_Blue, DemoModel.Namespaces.DemoModel);
+        public static readonly ExpandedNodeId RestrictedObjectType_BlueType = new ExpandedNodeId(DemoModel.Methods.RestrictedObjectType_BlueType, DemoModel.Namespaces.DemoModel);
 
-        public static readonly ExpandedNodeId TestObject_Blue = new ExpandedNodeId(DemoModel.Methods.TestObject_Blue, DemoModel.Namespaces.DemoModel);
+        public static readonly ExpandedNodeId TestObject_BlueType = new ExpandedNodeId(DemoModel.Methods.TestObject_BlueType, DemoModel.Namespaces.DemoModel);
     }
     #endregion
 
@@ -343,11 +389,17 @@ namespace DemoModel
 
         public static readonly ExpandedNodeId Test_ErrorComponent = new ExpandedNodeId(DemoModel.Objects.Test_ErrorComponent, DemoModel.Namespaces.DemoModel);
 
+        public static readonly ExpandedNodeId Picture = new ExpandedNodeId(DemoModel.Objects.Picture, DemoModel.Namespaces.DemoModel);
+
         public static readonly ExpandedNodeId Vector_Encoding_DefaultBinary = new ExpandedNodeId(DemoModel.Objects.Vector_Encoding_DefaultBinary, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId WorkOrderStatusType_Encoding_DefaultBinary = new ExpandedNodeId(DemoModel.Objects.WorkOrderStatusType_Encoding_DefaultBinary, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId WorkOrderType_Encoding_DefaultBinary = new ExpandedNodeId(DemoModel.Objects.WorkOrderType_Encoding_DefaultBinary, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId ExtendedWorkOrderType_Encoding_DefaultBinary = new ExpandedNodeId(DemoModel.Objects.ExtendedWorkOrderType_Encoding_DefaultBinary, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId FinalWorkOrderType_Encoding_DefaultBinary = new ExpandedNodeId(DemoModel.Objects.FinalWorkOrderType_Encoding_DefaultBinary, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId SampleUnion_Encoding_DefaultBinary = new ExpandedNodeId(DemoModel.Objects.SampleUnion_Encoding_DefaultBinary, DemoModel.Namespaces.DemoModel);
 
@@ -367,6 +419,10 @@ namespace DemoModel
 
         public static readonly ExpandedNodeId WorkOrderType_Encoding_DefaultXml = new ExpandedNodeId(DemoModel.Objects.WorkOrderType_Encoding_DefaultXml, DemoModel.Namespaces.DemoModel);
 
+        public static readonly ExpandedNodeId ExtendedWorkOrderType_Encoding_DefaultXml = new ExpandedNodeId(DemoModel.Objects.ExtendedWorkOrderType_Encoding_DefaultXml, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId FinalWorkOrderType_Encoding_DefaultXml = new ExpandedNodeId(DemoModel.Objects.FinalWorkOrderType_Encoding_DefaultXml, DemoModel.Namespaces.DemoModel);
+
         public static readonly ExpandedNodeId SampleUnion_Encoding_DefaultXml = new ExpandedNodeId(DemoModel.Objects.SampleUnion_Encoding_DefaultXml, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId SampleStructureWithOptionalFields_Encoding_DefaultXml = new ExpandedNodeId(DemoModel.Objects.SampleStructureWithOptionalFields_Encoding_DefaultXml, DemoModel.Namespaces.DemoModel);
@@ -384,6 +440,10 @@ namespace DemoModel
         public static readonly ExpandedNodeId WorkOrderStatusType_Encoding_DefaultJson = new ExpandedNodeId(DemoModel.Objects.WorkOrderStatusType_Encoding_DefaultJson, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId WorkOrderType_Encoding_DefaultJson = new ExpandedNodeId(DemoModel.Objects.WorkOrderType_Encoding_DefaultJson, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId ExtendedWorkOrderType_Encoding_DefaultJson = new ExpandedNodeId(DemoModel.Objects.ExtendedWorkOrderType_Encoding_DefaultJson, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId FinalWorkOrderType_Encoding_DefaultJson = new ExpandedNodeId(DemoModel.Objects.FinalWorkOrderType_Encoding_DefaultJson, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId SampleUnion_Encoding_DefaultJson = new ExpandedNodeId(DemoModel.Objects.SampleUnion_Encoding_DefaultJson, DemoModel.Namespaces.DemoModel);
 
@@ -406,6 +466,8 @@ namespace DemoModel
     public static partial class ObjectTypeIds
     {
         public static readonly ExpandedNodeId RestrictedObjectType = new ExpandedNodeId(DemoModel.ObjectTypes.RestrictedObjectType, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId PictureType = new ExpandedNodeId(DemoModel.ObjectTypes.PictureType, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId WithTwoDimensionalVariableType = new ExpandedNodeId(DemoModel.ObjectTypes.WithTwoDimensionalVariableType, DemoModel.Namespaces.DemoModel);
     }
@@ -471,6 +533,18 @@ namespace DemoModel
 
         public static readonly ExpandedNodeId TestObject_Red_Z = new ExpandedNodeId(DemoModel.Variables.TestObject_Red_Z, DemoModel.Namespaces.DemoModel);
 
+        public static readonly ExpandedNodeId YellowType_Shade = new ExpandedNodeId(DemoModel.Variables.YellowType_Shade, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId YellowType_DefaultInstanceBrowseName = new ExpandedNodeId(DemoModel.Variables.YellowType_DefaultInstanceBrowseName, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId PictureType_YellowThing = new ExpandedNodeId(DemoModel.Variables.PictureType_YellowThing, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId PictureType_YellowThing_Shade = new ExpandedNodeId(DemoModel.Variables.PictureType_YellowThing_Shade, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId Picture_YellowThing = new ExpandedNodeId(DemoModel.Variables.Picture_YellowThing, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId Picture_YellowThing_Shade = new ExpandedNodeId(DemoModel.Variables.Picture_YellowThing_Shade, DemoModel.Namespaces.DemoModel);
+
         public static readonly ExpandedNodeId HeaterStatus_EnumStrings = new ExpandedNodeId(DemoModel.Variables.HeaterStatus_EnumStrings, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId WithTwoDimensionalVariableType_X = new ExpandedNodeId(DemoModel.Variables.WithTwoDimensionalVariableType_X, DemoModel.Namespaces.DemoModel);
@@ -486,6 +560,10 @@ namespace DemoModel
         public static readonly ExpandedNodeId DemoModel_BinarySchema_WorkOrderStatusType = new ExpandedNodeId(DemoModel.Variables.DemoModel_BinarySchema_WorkOrderStatusType, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId DemoModel_BinarySchema_WorkOrderType = new ExpandedNodeId(DemoModel.Variables.DemoModel_BinarySchema_WorkOrderType, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId DemoModel_BinarySchema_ExtendedWorkOrderType = new ExpandedNodeId(DemoModel.Variables.DemoModel_BinarySchema_ExtendedWorkOrderType, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId DemoModel_BinarySchema_FinalWorkOrderType = new ExpandedNodeId(DemoModel.Variables.DemoModel_BinarySchema_FinalWorkOrderType, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId DemoModel_BinarySchema_SampleUnion = new ExpandedNodeId(DemoModel.Variables.DemoModel_BinarySchema_SampleUnion, DemoModel.Namespaces.DemoModel);
 
@@ -511,6 +589,10 @@ namespace DemoModel
 
         public static readonly ExpandedNodeId DemoModel_XmlSchema_WorkOrderType = new ExpandedNodeId(DemoModel.Variables.DemoModel_XmlSchema_WorkOrderType, DemoModel.Namespaces.DemoModel);
 
+        public static readonly ExpandedNodeId DemoModel_XmlSchema_ExtendedWorkOrderType = new ExpandedNodeId(DemoModel.Variables.DemoModel_XmlSchema_ExtendedWorkOrderType, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId DemoModel_XmlSchema_FinalWorkOrderType = new ExpandedNodeId(DemoModel.Variables.DemoModel_XmlSchema_FinalWorkOrderType, DemoModel.Namespaces.DemoModel);
+
         public static readonly ExpandedNodeId DemoModel_XmlSchema_SampleUnion = new ExpandedNodeId(DemoModel.Variables.DemoModel_XmlSchema_SampleUnion, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId DemoModel_XmlSchema_SampleStructureWithOptionalFields = new ExpandedNodeId(DemoModel.Variables.DemoModel_XmlSchema_SampleStructureWithOptionalFields, DemoModel.Namespaces.DemoModel);
@@ -532,6 +614,8 @@ namespace DemoModel
     public static partial class VariableTypeIds
     {
         public static readonly ExpandedNodeId RestrictedVariableType = new ExpandedNodeId(DemoModel.VariableTypes.RestrictedVariableType, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId YellowType = new ExpandedNodeId(DemoModel.VariableTypes.YellowType, DemoModel.Namespaces.DemoModel);
     }
     #endregion
 
@@ -540,7 +624,7 @@ namespace DemoModel
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public static partial class BrowseNames
     {
-        public const string Blue = "Blue";
+        public const string BlueType = "BlueType";
 
         public const string DemoModel_BinarySchema = "DemoModel";
 
@@ -548,9 +632,17 @@ namespace DemoModel
 
         public const string EnumUnderscoreTest = "EnumUnderscoreTest";
 
+        public const string ExtendedWorkOrderType = "ExtendedWorkOrderType";
+
+        public const string FinalWorkOrderType = "FinalWorkOrderType";
+
         public const string HeaterStatus = "HeaterStatus";
 
         public const string Person = "Person";
+
+        public const string Picture = "Picture";
+
+        public const string PictureType = "PictureType";
 
         public const string Pink_Placeholder = "<Pink>";
 
@@ -569,6 +661,8 @@ namespace DemoModel
         public const string SampleUnionAllowSubtypes = "SampleUnionAllowSubtypes";
 
         public const string Seeker = "Seeker";
+
+        public const string Shade = "Shade";
 
         public const string Student = "Student";
 
@@ -591,6 +685,10 @@ namespace DemoModel
         public const string Y = "Y";
 
         public const string Yellow = "Yellow";
+
+        public const string YellowThing = "YellowThing";
+
+        public const string YellowType = "YellowType";
 
         public const string Z = "Z";
     }

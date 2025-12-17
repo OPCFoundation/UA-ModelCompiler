@@ -759,7 +759,7 @@
       <xs:element name="DisplayName" type="LocalizedText" minOccurs="0" />
     </xs:sequence>
     <xs:attribute name="Name" type="xs:string" use="optional" />
-    <xs:attribute name="Identifier" type="xs:int" use="optional" />
+    <xs:attribute name="Identifier" type="xs:decimal" use="optional" />
     <xs:attribute name="BitMask" type="xs:string" use="optional" />
     <xs:attribute name="DataType" type="xs:QName" use="optional" />
     <xs:attribute name="ValueRank" type="ValueRank" use="optional" default="Scalar" />

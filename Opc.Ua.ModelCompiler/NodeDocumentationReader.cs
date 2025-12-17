@@ -109,7 +109,7 @@ namespace ModelCompiler
         }
     }
 
-    public class NodeDocumentationReader
+    public static class NodeDocumentationReader
     {
         private static void Append(string filepath, IList<NodeDocumentationRow> results)
         {
@@ -134,9 +134,9 @@ namespace ModelCompiler
             }
         }
 
-        public static IList<NodeDocumentationRow> Load(params string[] filepaths)
+        public static List<NodeDocumentationRow> Load(params string[] filepaths)
         {
-            IList<NodeDocumentationRow> records = new List<NodeDocumentationRow>();
+            var records = new List<NodeDocumentationRow>();
 
             foreach (var filepath in filepaths)
             {

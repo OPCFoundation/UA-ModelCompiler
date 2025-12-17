@@ -27,6 +27,7 @@
  * http://opcfoundation.org/License/MIT/1.00/
  * ======================================================================*/
 
+using System.Globalization;
 using System.Xml;
 using System.Xml.Serialization;
 using Opc.Ua;
@@ -80,13 +81,13 @@ namespace ModelCompiler
         /// <summary>
         /// Returns the string representation of the object.
         /// </summary>
-        public string ToString(string format, IFormatProvider provider)
+        public string ToString(string format, IFormatProvider formatProvider)
         {
             if (format == null)
             {
                 if (Instance != null && Instance.SymbolicId != null)
                 {
-                    return String.Format(provider, "{0}={1}", RelativePath, Instance.SymbolicId.Name);
+                    return String.Format(formatProvider, "{0}={1}", RelativePath, Instance.SymbolicId.Name);
                 }
 
                 return RelativePath;
@@ -116,16 +117,16 @@ namespace ModelCompiler
         /// <summary>
         /// Returns the string representation of the object.
         /// </summary>
-        public string ToString(string format, IFormatProvider provider)
+        public string ToString(string format, IFormatProvider formatProvider)
         {
             if (format == null)
             {
                 if (TargetId != null)
                 {
-                    return String.Format(provider, "{0} => {1}", SourcePath, TargetId.Name);
+                    return String.Format(formatProvider, "{0} => {1}", SourcePath, TargetId.Name);
                 }
 
-                return String.Format(provider, "{0} => {1}", SourcePath, TargetPath);
+                return String.Format(formatProvider, "{0} => {1}", SourcePath, TargetPath);
             }
 
             throw new FormatException(Utils.Format("Invalid format string: '{0}'.", format));
@@ -177,16 +178,16 @@ namespace ModelCompiler
         /// <summary>
         /// Returns the string representation of the object.
         /// </summary>
-        public string ToString(string format, IFormatProvider provider)
+        public string ToString(string format, IFormatProvider formatProvider)
         {
             if (format == null)
             {
                 if (SymbolicName != null)
                 {
-                    return String.Format(provider, "{0}", SymbolicName.Name);
+                    return String.Format(formatProvider, "{0}", SymbolicName.Name);
                 }
 
-                return String.Format(provider, "{0}", GetType().Name);
+                return String.Format(formatProvider, "{0}", GetType().Name);
             }
 
             throw new FormatException(Utils.Format("Invalid format string: '{0}'.", format));
@@ -214,10 +215,10 @@ namespace ModelCompiler
                 return childName;
             }
 
-            return String.Format("{0}{1}{2}", parentId, PathChar, childName);
+            return string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}", parentId, PathChar, childName);
         }
 
-        public const string PathChar = "_";
+        public const char PathChar = '_';
     }
 
     /// <summary>

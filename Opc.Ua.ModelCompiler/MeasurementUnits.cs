@@ -3,7 +3,7 @@
 namespace ModelCompiler
 {
 
-    public class MeasurementUnits
+    public static class MeasurementUnits
     {
         public static bool ProcessCommandLine(IList<string> args)
         {
@@ -145,6 +145,9 @@ namespace ModelCompiler
 
         public static void Write(TextWriter writer, List<Unit> units)
         {
+            if (writer == null) throw new ArgumentNullException(nameof(writer));
+            if (units == null) throw new ArgumentNullException(nameof(units));
+
             Dictionary<string, Unit> index = new Dictionary<string, Unit>();
 
             int duplicates = 0;
@@ -195,10 +198,10 @@ namespace ModelCompiler
                 writer.Write(ii.UnitId);
                 writer.Write(",");
                 writer.Write("\"");
-                writer.Write(ii.Symbol.Trim().Replace("\"", "\"\""));
+                writer.Write(ii.Symbol.Trim().Replace("\"", "\"\"", StringComparison.InvariantCulture));
                 writer.Write("\",");
                 writer.Write("\"");
-                writer.Write(ii.Name.Trim().Replace("\"", "\"\""));
+                writer.Write(ii.Name.Trim().Replace("\"", "\"\"", StringComparison.InvariantCulture));
                 writer.Write("\"");
                 writer.WriteLine();
             }
@@ -320,6 +323,9 @@ namespace ModelCompiler
 
         public void ParseAnnex1(IList<string> columns)
         {
+            if (columns == null) throw new ArgumentNullException(nameof(columns));
+            if (columns.Count < 0 || columns.Count > 10) throw new ArgumentOutOfRangeException(nameof(columns));
+
             Status = columns[5];
             Code = columns[6];
             Name = columns[7];
@@ -330,6 +336,9 @@ namespace ModelCompiler
 
         public void ParseAnnex2(IList<string> columns)
         {
+            if (columns == null) throw new ArgumentNullException(nameof(columns));
+            if (columns.Count < 0 || columns.Count > 6) throw new ArgumentOutOfRangeException(nameof(columns));
+
             Status = columns[0];
             Code = columns[1];
             Name = columns[2];

@@ -83,20 +83,29 @@ namespace Opc.Ua.Schema.Xml
 		{
             Validate(m_fileSystem.OpenRead(inputPath));
         }
-
+        
 		/// <summary>
 		/// Generates the code from the contents of the address space.
 		/// </summary>
 		public void Validate(Stream stream)
-		{
-            m_schema = XmlSchema.Read(stream, new ValidationEventHandler(OnValidate));
+        {
+            var settings = new XmlReaderSettings()
+            {
+                DtdProcessing = DtdProcessing.Prohibit
+            };
+
+            using (var reader = XmlReader.Create(stream, settings))
+            {
+                m_schema = XmlSchema.Read(reader, new ValidationEventHandler(OnValidate));
+            }
 
             foreach (XmlSchemaImport import in m_schema.Includes)
             {
                 if (import.Namespace == Namespaces.OpcUa)
                 {
-                    StreamReader strm = new StreamReader(Assembly.Load("Opc.Ua.Core").GetManifestResourceStream("Opc.Ua.Model.Opc.Ua.Types.xsd"));
-                    import.Schema = XmlSchema.Read(strm, new ValidationEventHandler(OnValidate));
+                    using var strm = new StreamReader(Assembly.Load("Opc.Ua.Core").GetManifestResourceStream("Opc.Ua.Model.Opc.Ua.Types.xsd"));
+                    using var reader = XmlReader.Create(strm, settings);
+                    import.Schema = XmlSchema.Read(reader, new ValidationEventHandler(OnValidate));
                     continue;
                 }
 
@@ -109,13 +118,15 @@ namespace Opc.Ua.Schema.Xml
 
                 if (!m_fileSystem.Exists(location))
                 {
-                    StreamReader strm = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(location));
-                    import.Schema = XmlSchema.Read(strm, new ValidationEventHandler(OnValidate));
+                    using var strm = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(location));
+                    using var reader = XmlReader.Create(strm, settings);
+                    import.Schema = XmlSchema.Read(reader, new ValidationEventHandler(OnValidate));
                 }
                 else
                 {
-                    Stream strm = m_fileSystem.OpenRead(location);
-                    import.Schema = XmlSchema.Read(strm, new ValidationEventHandler(OnValidate));
+                    using var strm = m_fileSystem.OpenRead(location);
+                    using var reader = XmlReader.Create(strm, settings);
+                    import.Schema = XmlSchema.Read(reader, new ValidationEventHandler(OnValidate));
                 }
             }
 
@@ -184,10 +195,10 @@ namespace Opc.Ua.Schema.Xml
         #endregion
 
         #region Private Fields
-        private readonly string[][] WellKnownDictionaries = new string[][]
-        {
-            new string[] {  Namespaces.OpcUaBuiltInTypes, "Opc.Ua.Schema.Xml.BuiltInTypes.xsd" }
-        };
+        private readonly string[][] WellKnownDictionaries =
+        [
+            [Namespaces.OpcUaBuiltInTypes, "Opc.Ua.Schema.Xml.BuiltInTypes.xsd"]
+        ];
         private readonly IFileSystem m_fileSystem;
         private XmlSchema m_schema;
         private XmlSchemaSet m_schemaSet;

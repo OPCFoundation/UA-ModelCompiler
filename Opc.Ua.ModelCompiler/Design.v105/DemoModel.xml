@@ -86,13 +86,16 @@
     <opc:DefaultAccessRestrictions>EncryptionRequired</opc:DefaultAccessRestrictions>
   </opc:VariableType>
 
+  <opc:Method SymbolicName="BlueTypeMethodType">
+  </opc:Method>
+  
   <opc:ObjectType SymbolicName="RestrictedObjectType" BaseType="ua:BaseObjectType">
     <opc:Children>
       <opc:Variable SymbolicName="Red" TypeDefinition="RestrictedVariableType" ModellingRule="Mandatory"/>
       <opc:Variable SymbolicName="Pink_Placeholder" TypeDefinition="RestrictedVariableType" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;Pink&gt;</opc:BrowseName>
       </opc:Variable>
-      <opc:Method SymbolicName="Blue" ModellingRule="Mandatory">
+      <opc:Method SymbolicName="BlueType" ModellingRule="Mandatory">
         <opc:DefaultRolePermissions Name="SecurityAdminOnly" />
         <opc:DefaultAccessRestrictions>SessionWithSigningAndApplyToBrowseRequired</opc:DefaultAccessRestrictions>
       </opc:Method>
@@ -122,6 +125,40 @@
     </opc:References>
   </opc:Object>
 
+  <opc:VariableType SymbolicName="YellowType" BaseType="ua:BaseDataVariableType" DataType="ua:String">
+    <opc:Children>
+      <opc:Property SymbolicName="Shade" DataType="ua:String" ModellingRule="Mandatory">
+        <opc:DefaultValue>
+          <uax:String>Pale</uax:String>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="ua:DefaultInstanceBrowseName" DataType="ua:QualifiedName" ModellingRule="None">
+        <opc:DefaultValue>
+          <uax:QualifiedName>
+            <uax:NamespaceIndex>1</uax:NamespaceIndex>
+            <uax:Name>YellowThing</uax:Name>
+          </uax:QualifiedName>
+        </opc:DefaultValue>
+      </opc:Property>
+    </opc:Children>
+  </opc:VariableType>
+
+  <opc:ObjectType SymbolicName="PictureType" BaseType="ua:BaseObjectType">
+    <opc:Children>
+      <opc:Property SymbolicName="YellowThing" TypeDefinition="YellowType" ModellingRule="Mandatory">
+      </opc:Property>
+    </opc:Children>
+  </opc:ObjectType>
+  
+  <opc:Object SymbolicName="Picture" TypeDefinition="PictureType">
+    <opc:References>
+      <opc:Reference IsInverse="true">
+        <opc:ReferenceType>ua:Organizes</opc:ReferenceType>
+        <opc:TargetId>ua:ObjectsFolder</opc:TargetId>
+      </opc:Reference>
+    </opc:References>
+  </opc:Object>
+  
   <opc:DataType SymbolicName="HeaterStatus" BaseType="ua:Enumeration">
     <opc:Fields>
       <opc:Field Name="Off" Identifier="0">
@@ -163,6 +200,20 @@
       <opc:Field Name="AssetID" DataType="ua:String" />
       <opc:Field Name="StartTime" DataType="ua:DateTime" />
       <opc:Field Name="StatusComments" DataType="WorkOrderStatusType" ValueRank="Array" />
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="ExtendedWorkOrderType" BaseType="WorkOrderType">
+    <opc:Fields>
+      <opc:Field Name="ContactX" DataType="ua:UInt32" />
+      <opc:Field Name="ContactY" DataType="ua:String" ValueRank="Array" IsOptional="true" />
+      <opc:Field Name="ContactZ" DataType="ua:ByteString" IsOptional="true" />
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="FinalWorkOrderType" BaseType="ExtendedWorkOrderType">
+    <opc:Fields>
+      <opc:Field Name="Address" DataType="ua:String" />
     </opc:Fields>
   </opc:DataType>
 
@@ -216,5 +267,6 @@
       <opc:Field Name="University" DataType="ua:String" IsOptional="true" />
     </opc:Fields>
   </opc:DataType>
+
 
 </opc:ModelDesign>

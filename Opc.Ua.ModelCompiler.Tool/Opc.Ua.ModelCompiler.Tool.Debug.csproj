@@ -22,7 +22,7 @@
   <!-- Package for dotnet tool build -->
   <PropertyGroup>
     <PackageId>OPCFoundation.Opc.Ua.ModelCompiler</PackageId>
-    <PackAsTool>true</PackAsTool>
+    <PackAsTool>false</PackAsTool>
     <ToolCommandName>Opc.Ua.ModelCompiler</ToolCommandName>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>

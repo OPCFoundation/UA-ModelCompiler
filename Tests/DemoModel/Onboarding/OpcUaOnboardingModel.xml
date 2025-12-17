@@ -59,7 +59,7 @@
           <uax:String>1.05.04</uax:String>
         </opc:DefaultValue>
       </opc:Property>
-      <opc:Property SymbolicName="ModelVersion" DataType="ua:SemanticVersionString">
+      <opc:Property SymbolicName="ua:ModelVersion" DataType="ua:SemanticVersionString">
         <opc:DefaultValue>
           <uax:String>1.5.4</uax:String>
         </opc:DefaultValue>

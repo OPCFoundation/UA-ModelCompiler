@@ -26,10 +26,12 @@
  * The complete license agreement can be found here:
  * http://opcfoundation.org/License/MIT/1.00/
  * ======================================================================*/
+#define OPCUA_EXCLUDE_AccessLevelExType
 
 using Opc.Ua;
 using Opc.Ua.Export;
 using System.Globalization;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -37,6 +39,44 @@ using NodeSet = Opc.Ua.Export;
 
 namespace ModelCompiler
 {
+// REMOVE WHEN PREVIEW IS FIXED
+
+    [DataContract(Namespace = "http://opcfoundation.org/UA/2008/02/Types.xsd")]
+    [Flags]
+#pragma warning disable CA1028 // Enum Storage should be Int32
+    public enum AccessLevelExType : uint
+#pragma warning restore CA1028 // Enum Storage should be Int32
+    {
+        [EnumMember(Value = "None_0")]
+        None = 0u,
+        [EnumMember(Value = "CurrentRead_1")]
+        CurrentRead = 1u,
+        [EnumMember(Value = "CurrentWrite_2")]
+        CurrentWrite = 2u,
+        [EnumMember(Value = "HistoryRead_4")]
+        HistoryRead = 4u,
+        [EnumMember(Value = "HistoryWrite_8")]
+        HistoryWrite = 8u,
+        [EnumMember(Value = "SemanticChange_16")]
+        SemanticChange = 0x10u,
+        [EnumMember(Value = "StatusWrite_32")]
+        StatusWrite = 0x20u,
+        [EnumMember(Value = "TimestampWrite_64")]
+        TimestampWrite = 0x40u,
+        [EnumMember(Value = "NonatomicRead_256")]
+        NonatomicRead = 0x100u,
+        [EnumMember(Value = "NonatomicWrite_512")]
+        NonatomicWrite = 0x200u,
+        [EnumMember(Value = "WriteFullArrayOnly_1024")]
+        WriteFullArrayOnly = 0x400u,
+        [EnumMember(Value = "NoSubDataTypes_2048")]
+        NoSubDataTypes = 0x800u,
+        [EnumMember(Value = "NonVolatile_4096")]
+        NonVolatile = 0x1000u,
+        [EnumMember(Value = "Constant_8192")]
+        Constant = 0x2000u
+    }
+
     public class NodeSetReaderSettings
     {
         public NodeSetReaderSettings()
@@ -76,7 +116,10 @@ namespace ModelCompiler
 
         public NodeSetToModelDesign(NodeSetReaderSettings settings, string filePath, IFileSystem fileSystem)
         {
-            if (settings == null) throw new ArgumentNullException(nameof(settings));
+            if (settings == null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
             if (filePath == null) throw new ArgumentNullException(nameof(filePath));
             if (fileSystem == null) throw new ArgumentNullException(nameof(fileSystem));
 
@@ -147,7 +190,7 @@ namespace ModelCompiler
                     }
                     line = line.TrimStart();
 
-                    if (line.StartsWith("<?") || line.StartsWith("<!") || !line.StartsWith("<") || String.IsNullOrEmpty(line))
+                    if (line.StartsWith("<?", StringComparison.InvariantCulture) || line.StartsWith("<!", StringComparison.InvariantCulture) || !line.StartsWith('<') || String.IsNullOrEmpty(line))
                     {
                         continue;
                     }
@@ -213,31 +256,43 @@ namespace ModelCompiler
         {
             Namespace ns = null;
 
-            if (model.ModelUri.StartsWith(Namespaces.OpcUa))
+            if (model.ModelUri.StartsWith(Namespaces.OpcUa, StringComparison.InvariantCulture))
             {
                 ns = new Namespace()
                 {
-                    Name = model.ModelUri.Substring(Namespaces.OpcUa.Length).Replace("/", " ").Trim().Replace(" ", "."),
+                    Name = model.ModelUri.Substring(Namespaces.OpcUa.Length).Replace("/", " ", StringComparison.InvariantCulture).Trim().Replace(" ", ".", StringComparison.InvariantCulture),
                     Value = model.ModelUri,
                     XmlNamespace = model.XmlSchemaUri,
                     PublicationDate = model.PublicationDate.ToString("yyyy-MM-ddT00:00:00Z", CultureInfo.InvariantCulture),
                     Version = model.Version
                 };
                 ns.XmlPrefix = ns.Prefix = "Opc.Ua." + ns.Name;
-                ns.Name = ns.Name.Replace(".", "").Replace("-", "").Replace(",", "").Replace(":", "");
+                ns.Name = ns.Name
+                    .Replace(".", "", StringComparison.InvariantCulture)
+                    .Replace("-", "", StringComparison.InvariantCulture)
+                    .Replace(",", "", StringComparison.InvariantCulture)
+                    .Replace(":", "", StringComparison.InvariantCulture);
             }
             else
             {
                 ns = new Namespace()
                 {
-                    Name = model.ModelUri.Replace("http://", "").Replace("/", " ").Trim().Replace(" ", "."),
+                    Name = model.ModelUri
+                        .Replace("http://", "", StringComparison.InvariantCulture)
+                        .Replace("/", " ", StringComparison.InvariantCulture)
+                        .Trim()
+                        .Replace(" ", ".", StringComparison.InvariantCulture),
                     Value = model.ModelUri,
                     XmlNamespace = model.XmlSchemaUri,
                     PublicationDate = model.PublicationDate.ToString("yyyy-MM-ddT00:00:00Z", CultureInfo.InvariantCulture),
                     Version = model.Version
                 };
                 ns.XmlPrefix = ns.Prefix = ns.Name;
-                ns.Name = ns.Name.Replace(".", "").Replace("-", "").Replace(",", "").Replace(":", "");
+                ns.Name = ns.Name
+                    .Replace(".", "", StringComparison.InvariantCulture)
+                    .Replace("-", "", StringComparison.InvariantCulture)
+                    .Replace(",", "", StringComparison.InvariantCulture)
+                    .Replace(":", "", StringComparison.InvariantCulture);
             }
 
             if (ns.Value == Namespaces.OpcUa)
@@ -284,7 +339,7 @@ namespace ModelCompiler
             return namespaces;
         }
 
-        private void ImportModel(IList<Namespace> namespaces, NodeSet.ModelTableEntry model)
+        private static void ImportModel(IList<Namespace> namespaces, NodeSet.ModelTableEntry model)
         {
             var ns = (from x in namespaces where x.Value == model.ModelUri select x).FirstOrDefault();
 
@@ -364,7 +419,7 @@ namespace ModelCompiler
             return new XmlQualifiedName(ToSymbolicName(browseName.Name), browseName.Namespace);
         }
 
-        private LocalizedText ImportLocalizedText(IList<NodeSet.LocalizedText> input)
+        private static LocalizedText ImportLocalizedText(IList<NodeSet.LocalizedText> input)
         {
             if (input != null && input.Count > 0 && !String.IsNullOrWhiteSpace(input[0].Value))
             {
@@ -504,7 +559,7 @@ namespace ModelCompiler
             return output;
         }
 
-        private NodeDesign CreateNodeDesign(NodeSet.UANode input)
+        private static NodeDesign CreateNodeDesign(NodeSet.UANode input)
         {
             if (input is NodeSet.UAObjectType)
             {
@@ -687,7 +742,7 @@ namespace ModelCompiler
             return false;
         }
 
-        private BasicDataType GetBasicDataType(DataTypeDesign dataType)
+        private static BasicDataType GetBasicDataType(DataTypeDesign dataType)
         {
             if (dataType == null)
             {
@@ -743,8 +798,8 @@ namespace ModelCompiler
             return false;
         }
 
-        private static readonly string[] Keywords = new string[]
-        {
+        private static readonly string[] Keywords =
+        [
             "private",
             "public",
             "protected",
@@ -763,7 +818,7 @@ namespace ModelCompiler
             "foreach",
             "while",
             "string"
-        };
+        ];
 
         public static string ToSymbolicName(string name)
         {
@@ -816,6 +871,11 @@ namespace ModelCompiler
             output.HasFields = false;
             output.Fields = null;
             output.HasEncodings = false;
+
+            if (output.BasicDataType == BasicDataType.UserDefined && input.Definition == null)
+            {
+                output.IsStructure = true;
+            }
 
             if (input.Definition != null)
             {
@@ -885,9 +945,9 @@ namespace ModelCompiler
 
                         if (output.IsOptionSet)
                         {
-                            long mask = 1 << ii.Value;
+                            long mask = 1L << ii.Value;
                             field.BitMask = $"{mask:X8}";
-                            field.Identifier = (int)mask;
+                            field.Identifier = mask;
                             field.IdentifierSpecified = true;
                         }
                         else if (output.IsEnumeration)
@@ -957,7 +1017,7 @@ namespace ModelCompiler
             output.SupportsEventsSpecified = true;
         }
 
-        private void UpdateViewDesign(NodeSet.UAView input, ViewDesign output)
+        private static void UpdateViewDesign(NodeSet.UAView input, ViewDesign output)
         {
             if (input == null || output == null)
             {
@@ -1034,7 +1094,7 @@ namespace ModelCompiler
                         ArrayDimensions = ImportArrayDimensions(argument.ArrayDimensions),
                         ValueRank = ImportValueRank(argument.ValueRank),
                         Parent = method,
-                        DataType = dataType?.SymbolicId,
+                        DataType = dataType.SymbolicId,
                         DataTypeNode = dataType,
                         Description = null
                     };
@@ -1519,7 +1579,7 @@ namespace ModelCompiler
             }
         }
 
-        private Permissions[] ToPermissions(PermissionType input)
+        private static Permissions[] ToPermissions(PermissionType input)
         {
             List<Permissions> permissions = new List<Permissions>();
 
@@ -1648,7 +1708,7 @@ namespace ModelCompiler
             };
         }
 
-        private ModelCompiler.AccessRestrictions ToAccessRestrictions(AccessRestrictionType input)
+        private static ModelCompiler.AccessRestrictions ToAccessRestrictions(AccessRestrictionType input)
         {
             if ((input & AccessRestrictionType.EncryptionRequired) != 0)
             {
@@ -1853,6 +1913,7 @@ namespace ModelCompiler
             }
 
             List<NodeDesign> items = new();
+            HashSet<string> typeNames = new();
 
             for (int ii = 0; ii < m_nodeset.Items.Length; ii++)
             {
@@ -1864,6 +1925,16 @@ namespace ModelCompiler
                     {
                         continue;
                     }
+                }
+
+                if (node is UAType type)
+                {
+                    if (typeNames.Contains(type.BrowseName))
+                    {
+                        throw new InvalidOperationException($"{node.NodeId} is a type with a duplicate name.");
+                    }
+
+                    typeNames.Add(type.BrowseName); 
                 }
 
                 NodeId nodeId = ImportNodeId(node.NodeId);
@@ -1880,6 +1951,45 @@ namespace ModelCompiler
             foreach (var method in methods.Values)
             {
                 items.Add(method);
+            }
+
+            foreach (var item in items)
+            {
+                if (item is TypeDesign type)
+                {
+                    var className = type.SymbolicName.Name;
+
+                    if (type is DataTypeDesign dt)
+                    {
+                        if (dt.HasFields)
+                        {
+                            foreach (var field in dt.Fields)
+                            {
+                                if (field.Name == className)
+                                {
+                                    type.ClassName = className + "DataType";
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else if (type.HasChildren)
+                    {
+                        if (className.EndsWith("Type"))
+                        {
+                            className = className.Substring(0, type.ClassName.Length - 4);
+                        }
+
+                        foreach (var child in type.Children.Items)
+                        {
+                            if (child.BrowseName == type.ClassName)
+                            {
+                                type.ClassName = $"{className}{((type is VariableTypeDesign) ? "Variable" : "Object")}";
+                                break;
+                            }
+                        }
+                    }
+                }
             }
 
             dictionary.Items = items.ToArray();
@@ -1972,7 +2082,7 @@ namespace ModelCompiler
             return decoder;
         }
 
-        private AccessLevel ImportAccessLevel(uint input)
+        private static AccessLevel ImportAccessLevel(uint input)
         {
             if ((AccessLevelExType.CurrentRead & (AccessLevelExType)input) != 0)
             {
@@ -2007,7 +2117,7 @@ namespace ModelCompiler
             return AccessLevel.None;
         }
 
-        private ValueRank ImportValueRank(int input) =>
+        private static ValueRank ImportValueRank(int input) =>
             input switch
             {
                 (> 1) => ValueRank.OneOrMoreDimensions,
@@ -2019,7 +2129,7 @@ namespace ModelCompiler
                 (< -3) => ValueRank.ScalarOrArray
             };
 
-        private ModellingRule ImportModellingRule(ExpandedNodeId input)
+        private static ModellingRule ImportModellingRule(ExpandedNodeId input)
         {
             if (input == ObjectIds.ModellingRule_Mandatory)
             {
@@ -2049,7 +2159,7 @@ namespace ModelCompiler
             return ModellingRule.None;
         }
 
-        private string ImportCategories(string[] input)
+        private static string ImportCategories(string[] input)
         {
             if (input != null)
             {
@@ -2071,7 +2181,7 @@ namespace ModelCompiler
             return null;
         }
 
-        private ReleaseStatus ImportReleaseStatus(NodeSet.ReleaseStatus input) =>
+        private static ReleaseStatus ImportReleaseStatus(NodeSet.ReleaseStatus input) =>
             input switch
             {
                 (NodeSet.ReleaseStatus.Deprecated) => ReleaseStatus.Deprecated,
@@ -2235,7 +2345,7 @@ namespace ModelCompiler
         /// <summary>
         /// Imports the array dimensions.
         /// </summary>
-        private string ImportArrayDimensions(IList<uint> arrayDimensions)
+        private static string ImportArrayDimensions(IList<uint> arrayDimensions)
         {
             if (arrayDimensions == null)
             {

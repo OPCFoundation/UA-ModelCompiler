@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
- * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2025 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  * 
@@ -72,6 +72,31 @@
     <opc:Field Name="StartTime" TypeName="opc:DateTime" />
     <opc:Field Name="NoOfStatusComments" TypeName="opc:Int32" />
     <opc:Field Name="StatusComments" TypeName="tns:WorkOrderStatusType" LengthField="NoOfStatusComments" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="ExtendedWorkOrderType" BaseType="tns:WorkOrderType">
+    <opc:Field Name="ID" TypeName="opc:Guid" SourceType="tns:WorkOrderType" />
+    <opc:Field Name="AssetID" TypeName="opc:String" SourceType="tns:WorkOrderType" />
+    <opc:Field Name="StartTime" TypeName="opc:DateTime" SourceType="tns:WorkOrderType" />
+    <opc:Field Name="NoOfStatusComments" TypeName="opc:Int32" />
+    <opc:Field Name="StatusComments" TypeName="tns:WorkOrderStatusType" LengthField="NoOfStatusComments" />
+    <opc:Field Name="ContactX" TypeName="opc:UInt32" />
+    <opc:Field Name="NoOfContactY" TypeName="opc:Int32" />
+    <opc:Field Name="ContactY" TypeName="opc:String" LengthField="NoOfContactY" />
+    <opc:Field Name="ContactZ" TypeName="opc:ByteString" />
+  </opc:StructuredType>
+
+  <opc:StructuredType Name="FinalWorkOrderType" BaseType="tns:ExtendedWorkOrderType">
+    <opc:Field Name="ID" TypeName="opc:Guid" SourceType="tns:WorkOrderType" />
+    <opc:Field Name="AssetID" TypeName="opc:String" SourceType="tns:WorkOrderType" />
+    <opc:Field Name="StartTime" TypeName="opc:DateTime" SourceType="tns:WorkOrderType" />
+    <opc:Field Name="NoOfStatusComments" TypeName="opc:Int32" />
+    <opc:Field Name="StatusComments" TypeName="tns:WorkOrderStatusType" LengthField="NoOfStatusComments" />
+    <opc:Field Name="ContactX" TypeName="opc:UInt32" SourceType="tns:ExtendedWorkOrderType" />
+    <opc:Field Name="NoOfContactY" TypeName="opc:Int32" />
+    <opc:Field Name="ContactY" TypeName="opc:String" LengthField="NoOfContactY" />
+    <opc:Field Name="ContactZ" TypeName="opc:ByteString" SourceType="tns:ExtendedWorkOrderType" />
+    <opc:Field Name="Address" TypeName="opc:String" />
   </opc:StructuredType>
 
   <opc:StructuredType Name="SampleUnion" BaseType="ua:Union">

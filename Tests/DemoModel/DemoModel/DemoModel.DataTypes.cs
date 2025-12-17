@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2025 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  * 
@@ -813,6 +813,421 @@ namespace DemoModel
             for (int ii = 0; ii < this.Count; ii++)
             {
                 clone.Add((WorkOrderType)Utils.Clone(this[ii]));
+            }
+
+            return clone;
+        }
+    }
+    #endregion
+    #endif
+    #endregion
+
+    #region ExtendedWorkOrderType Class
+    #if (!OPCUA_EXCLUDE_ExtendedWorkOrderType)
+    /// <exclude />
+    
+    public enum ExtendedWorkOrderFields : uint
+    {
+        None = 0,
+        ContactY = 0x1,
+        ContactZ = 0x2,
+    }
+
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
+    public partial class ExtendedWorkOrderType : DemoModel.WorkOrderType
+    {
+        #region Constructors
+        public ExtendedWorkOrderType()
+        {
+            Initialize();
+        }
+
+        [OnDeserializing]
+        private void Initialize(StreamingContext context)
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            m_contactX = (uint)0;
+            m_contactY = new StringCollection();
+            m_contactZ = null;
+        }
+        #endregion
+
+        #region Public Properties
+        /// <remarks />
+        [DataMember(Name = "EncodingMask", IsRequired = true, Order = 0)]
+        public virtual uint EncodingMask { get; set; }
+
+        [DataMember(Name = "ContactX", IsRequired = false, Order = 1)]
+        public uint ContactX
+        {
+            get { return m_contactX;  }
+            set { m_contactX = value; }
+        }
+
+        /// <remarks />
+        [DataMember(Name = "ContactY", IsRequired = false, Order = 2)]
+        public StringCollection ContactY
+        {
+            get
+            {
+                return m_contactY;
+            }
+
+            set
+            {
+                m_contactY = value;
+
+                if (value == null)
+                {
+                    m_contactY = new StringCollection();
+                }
+            }
+        }
+
+        [DataMember(Name = "ContactZ", IsRequired = false, Order = 3)]
+        public byte[] ContactZ
+        {
+            get { return m_contactZ;  }
+            set { m_contactZ = value; }
+        }
+        #endregion
+
+        #region IEncodeable Members
+        /// <summary cref="IEncodeable.TypeId" />
+        public override ExpandedNodeId TypeId => DataTypeIds.ExtendedWorkOrderType;
+
+        /// <summary cref="IEncodeable.BinaryEncodingId" />
+        public override ExpandedNodeId BinaryEncodingId => ObjectIds.ExtendedWorkOrderType_Encoding_DefaultBinary;
+
+        /// <summary cref="IEncodeable.XmlEncodingId" />
+        public override ExpandedNodeId XmlEncodingId => ObjectIds.ExtendedWorkOrderType_Encoding_DefaultXml;
+
+        /// <summary cref="IJsonEncodeable.JsonEncodingId" />
+        public override ExpandedNodeId JsonEncodingId => ObjectIds.ExtendedWorkOrderType_Encoding_DefaultJson;
+
+        /// <summary cref="IEncodeable.Encode(IEncoder)" />
+        public override void Encode(IEncoder encoder)
+        {
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+            encoder.WriteEncodingMask((uint)EncodingMask);
+            encoder.PopNamespace();
+
+            base.Encode(encoder);
+
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+
+            encoder.WriteUInt32("ContactX", ContactX);
+            if ((EncodingMask & (uint)ExtendedWorkOrderFields.ContactY) != 0) encoder.WriteStringArray("ContactY", ContactY);
+            if ((EncodingMask & (uint)ExtendedWorkOrderFields.ContactZ) != 0) encoder.WriteByteString("ContactZ", ContactZ);
+
+            encoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.Decode(IDecoder)" />
+        public override void Decode(IDecoder decoder)
+        {
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+            EncodingMask = decoder.ReadEncodingMask(m_FieldNames);
+            decoder.PopNamespace();
+                
+            base.Decode(decoder);
+
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+
+            ContactX = decoder.ReadUInt32("ContactX");
+            if ((EncodingMask & (uint)ExtendedWorkOrderFields.ContactY) != 0) ContactY = decoder.ReadStringArray("ContactY");
+            if ((EncodingMask & (uint)ExtendedWorkOrderFields.ContactZ) != 0) ContactZ = decoder.ReadByteString("ContactZ");
+
+            decoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
+        public override bool IsEqual(IEncodeable encodeable)
+        {
+            if (Object.ReferenceEquals(this, encodeable))
+            {
+                return true;
+            }
+
+            ExtendedWorkOrderType value = encodeable as ExtendedWorkOrderType;
+
+            if (value == null)
+            {
+                return false;
+            }
+
+            if (value.EncodingMask != this.EncodingMask) return false;
+
+            if (!Utils.IsEqual(m_contactX, value.m_contactX)) return false;
+            if ((EncodingMask & (uint)ExtendedWorkOrderFields.ContactY) != 0) if (!Utils.IsEqual(m_contactY, value.m_contactY)) return false;
+            if ((EncodingMask & (uint)ExtendedWorkOrderFields.ContactZ) != 0) if (!Utils.IsEqual(m_contactZ, value.m_contactZ)) return false;
+
+            return base.IsEqual(encodeable);
+        }
+
+        /// <summary cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            return (ExtendedWorkOrderType)this.MemberwiseClone();
+        }
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            ExtendedWorkOrderType clone = (ExtendedWorkOrderType)base.MemberwiseClone();
+                
+            clone.EncodingMask = this.EncodingMask;
+            clone.m_contactX = (uint)Utils.Clone(this.m_contactX);
+            if ((EncodingMask & (uint)ExtendedWorkOrderFields.ContactY) != 0) clone.m_contactY = (StringCollection)Utils.Clone(this.m_contactY);
+            if ((EncodingMask & (uint)ExtendedWorkOrderFields.ContactZ) != 0) clone.m_contactZ = (byte[])Utils.Clone(this.m_contactZ);
+
+            return clone;
+        }
+        #endregion
+
+        #region Private Fields
+        private uint m_contactX;
+        private StringCollection m_contactY;
+        private byte[] m_contactZ;
+
+        private static readonly string[] m_FieldNames = Enum.GetNames(typeof(ExtendedWorkOrderFields)).Where(x => x != nameof(ExtendedWorkOrderFields.None)).ToArray();
+        #endregion
+    }
+
+    #region ExtendedWorkOrderTypeCollection Class
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [CollectionDataContract(Name = "ListOfExtendedWorkOrderType", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "ExtendedWorkOrderType")]
+    public partial class ExtendedWorkOrderTypeCollection : List<ExtendedWorkOrderType>, ICloneable
+    {
+        #region Constructors
+        public ExtendedWorkOrderTypeCollection() {}
+
+        public ExtendedWorkOrderTypeCollection(int capacity) : base(capacity) {}
+
+        public ExtendedWorkOrderTypeCollection(IEnumerable<ExtendedWorkOrderType> collection) : base(collection) {}
+        #endregion
+
+        #region Static Operators
+        public static implicit operator ExtendedWorkOrderTypeCollection(ExtendedWorkOrderType[] values)
+        {
+            if (values != null)
+            {
+                return new ExtendedWorkOrderTypeCollection(values);
+            }
+
+            return new ExtendedWorkOrderTypeCollection();
+        }
+
+        public static explicit operator ExtendedWorkOrderType[](ExtendedWorkOrderTypeCollection values)
+        {
+            if (values != null)
+            {
+                return values.ToArray();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #region ICloneable Methods
+        public object Clone()
+        {
+            return (ExtendedWorkOrderTypeCollection)this.MemberwiseClone();
+        }
+        #endregion
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            ExtendedWorkOrderTypeCollection clone = new ExtendedWorkOrderTypeCollection(this.Count);
+
+            for (int ii = 0; ii < this.Count; ii++)
+            {
+                clone.Add((ExtendedWorkOrderType)Utils.Clone(this[ii]));
+            }
+
+            return clone;
+        }
+    }
+    #endregion
+    #endif
+    #endregion
+
+    #region FinalWorkOrderType Class
+    #if (!OPCUA_EXCLUDE_FinalWorkOrderType)
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
+    public partial class FinalWorkOrderType : DemoModel.ExtendedWorkOrderType
+    {
+        #region Constructors
+        public FinalWorkOrderType()
+        {
+            Initialize();
+        }
+
+        [OnDeserializing]
+        private void Initialize(StreamingContext context)
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            m_address = null;
+        }
+        #endregion
+
+        #region Public Properties
+        [DataMember(Name = "Address", IsRequired = false, Order = 1)]
+        public string Address
+        {
+            get { return m_address;  }
+            set { m_address = value; }
+        }
+        #endregion
+
+        #region IEncodeable Members
+        /// <summary cref="IEncodeable.TypeId" />
+        public override ExpandedNodeId TypeId => DataTypeIds.FinalWorkOrderType;
+
+        /// <summary cref="IEncodeable.BinaryEncodingId" />
+        public override ExpandedNodeId BinaryEncodingId => ObjectIds.FinalWorkOrderType_Encoding_DefaultBinary;
+
+        /// <summary cref="IEncodeable.XmlEncodingId" />
+        public override ExpandedNodeId XmlEncodingId => ObjectIds.FinalWorkOrderType_Encoding_DefaultXml;
+
+        /// <summary cref="IJsonEncodeable.JsonEncodingId" />
+        public override ExpandedNodeId JsonEncodingId => ObjectIds.FinalWorkOrderType_Encoding_DefaultJson;
+
+        /// <summary cref="IEncodeable.Encode(IEncoder)" />
+        public override void Encode(IEncoder encoder)
+        {
+            base.Encode(encoder);
+
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+
+            encoder.WriteString("Address", Address);
+
+            encoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.Decode(IDecoder)" />
+        public override void Decode(IDecoder decoder)
+        {
+            base.Decode(decoder);
+
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+
+            Address = decoder.ReadString("Address");
+
+            decoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
+        public override bool IsEqual(IEncodeable encodeable)
+        {
+            if (Object.ReferenceEquals(this, encodeable))
+            {
+                return true;
+            }
+
+            FinalWorkOrderType value = encodeable as FinalWorkOrderType;
+
+            if (value == null)
+            {
+                return false;
+            }
+
+            if (!Utils.IsEqual(m_address, value.m_address)) return false;
+
+            return base.IsEqual(encodeable);
+        }
+
+        /// <summary cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            return (FinalWorkOrderType)this.MemberwiseClone();
+        }
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            FinalWorkOrderType clone = (FinalWorkOrderType)base.MemberwiseClone();
+
+            clone.m_address = (string)Utils.Clone(this.m_address);
+
+            return clone;
+        }
+        #endregion
+
+        #region Private Fields
+        private string m_address;
+        #endregion
+    }
+
+    #region FinalWorkOrderTypeCollection Class
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [CollectionDataContract(Name = "ListOfFinalWorkOrderType", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "FinalWorkOrderType")]
+    public partial class FinalWorkOrderTypeCollection : List<FinalWorkOrderType>, ICloneable
+    {
+        #region Constructors
+        public FinalWorkOrderTypeCollection() {}
+
+        public FinalWorkOrderTypeCollection(int capacity) : base(capacity) {}
+
+        public FinalWorkOrderTypeCollection(IEnumerable<FinalWorkOrderType> collection) : base(collection) {}
+        #endregion
+
+        #region Static Operators
+        public static implicit operator FinalWorkOrderTypeCollection(FinalWorkOrderType[] values)
+        {
+            if (values != null)
+            {
+                return new FinalWorkOrderTypeCollection(values);
+            }
+
+            return new FinalWorkOrderTypeCollection();
+        }
+
+        public static explicit operator FinalWorkOrderType[](FinalWorkOrderTypeCollection values)
+        {
+            if (values != null)
+            {
+                return values.ToArray();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #region ICloneable Methods
+        public object Clone()
+        {
+            return (FinalWorkOrderTypeCollection)this.MemberwiseClone();
+        }
+        #endregion
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            FinalWorkOrderTypeCollection clone = new FinalWorkOrderTypeCollection(this.Count);
+
+            for (int ii = 0; ii < this.Count; ii++)
+            {
+                clone.Add((FinalWorkOrderType)Utils.Clone(this[ii]));
             }
 
             return clone;
@@ -1989,6 +2404,7 @@ namespace DemoModel
         #endregion
 
         #region Public Properties
+        
         [DataMember(Name = "FirstName", IsRequired = false, Order = 1)]
         public string FirstName
         {
@@ -2020,6 +2436,10 @@ namespace DemoModel
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public override void Encode(IEncoder encoder)
         {
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+            
+            encoder.PopNamespace();
+
             base.Encode(encoder);
 
             encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
@@ -2033,6 +2453,10 @@ namespace DemoModel
         /// <summary cref="IEncodeable.Decode(IDecoder)" />
         public override void Decode(IDecoder decoder)
         {
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+            
+            decoder.PopNamespace();
+                
             base.Decode(decoder);
 
             decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
@@ -2058,6 +2482,8 @@ namespace DemoModel
                 return false;
             }
 
+            
+
             if ((EncodingMask & (uint)StudentFields.FirstName) != 0) if (!Utils.IsEqual(m_firstName, value.m_firstName)) return false;
             if ((EncodingMask & (uint)StudentFields.University) != 0) if (!Utils.IsEqual(m_university, value.m_university)) return false;
 
@@ -2074,7 +2500,8 @@ namespace DemoModel
         public new object MemberwiseClone()
         {
             Student clone = (Student)base.MemberwiseClone();
-
+                
+            
             if ((EncodingMask & (uint)StudentFields.FirstName) != 0) clone.m_firstName = (string)Utils.Clone(this.m_firstName);
             if ((EncodingMask & (uint)StudentFields.University) != 0) clone.m_university = (string)Utils.Clone(this.m_university);
 

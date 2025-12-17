@@ -24,7 +24,4 @@
     <Build Solution="Docker|*" Project="false" />
   </Project>
   <Project Path="Opc.Ua.ModelCompiler/Opc.Ua.ModelCompiler.csproj" />
-  <Project Path="Opc.Ua.SourceGenerator/Opc.Ua.SourceGenerator.csproj" Id="8d812557-9f53-47c0-a97d-18b947bf6d53">
-    <Build Solution="Docker|*" Project="false" />
-  </Project>
 </Solution>

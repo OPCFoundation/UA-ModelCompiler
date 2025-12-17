@@ -171,7 +171,7 @@
       </opc:Property>
       <opc:Property SymbolicName="NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2025-10-31T00:00:00</uax:DateTime>
+          <uax:DateTime>2025-11-08T00:00:00</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="IsNamespaceSubset" DataType="ua:Boolean">

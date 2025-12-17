@@ -30,13 +30,14 @@
 using System.Text;
 using System.Xml;
 using System.Reflection;
+using System.Globalization;
 
 namespace CodeGenerator
 {
     /// <summary>
     /// Generates code based on a UA Type Dictionary.
     /// </summary>
-    public class ConstantsGenerator : CodeGenerator
+    public class ConstantsGenerator : CodeGeneratorBase
     {
         #region Constructors
         /// <summary>
@@ -137,7 +138,7 @@ namespace CodeGenerator
                     Name = "Bad",
                     Identifier = 0,
                     IdentifierSpecified = true,
-                    Documentation = new Documentation() { Text = new string[] { "The operation failed." } }
+                    Documentation = new Documentation() { Text = ["The operation failed."] }
                 });
 
                 datatypes.Insert(0, new Constant()
@@ -147,7 +148,7 @@ namespace CodeGenerator
                     Identifier = 0,
                     IdentifierSpecified = true,
                     QName = new XmlQualifiedName("Uncertain", Namespaces.OpcUa),
-                    Documentation = new Documentation() { Text = new string[] { "The operation was uncertain." } }
+                    Documentation = new Documentation() { Text = ["The operation was uncertain."] }
                 });
 
                 datatypes.Insert(0, new Constant()
@@ -157,7 +158,7 @@ namespace CodeGenerator
                     Identifier = 0,
                     IdentifierSpecified = true,
                     QName = new XmlQualifiedName("Good", Namespaces.OpcUa),
-                    Documentation = new Documentation() { Text = new string[] { "The operation succeeded." } }
+                    Documentation = new Documentation() { Text = ["The operation succeeded."] }
                 });
             }
 
@@ -167,29 +168,29 @@ namespace CodeGenerator
             {
                 case Language.DotNet:
                 {
-                    fileName = String.Format(@"{0}\{1}.{2}.cs", OutputDirectory, namespacePrefix, className);
+                    fileName = String.Format(CultureInfo.InvariantCulture, @"{0}\{1}.{2}.cs", OutputDirectory, namespacePrefix, className);
                     m_templateSuffix = ".cs";
                     break;
                 }
 
                 case Language.AnsiC:
                 {
-                    fileName = String.Format(@"{0}\{1}_{2}.h", OutputDirectory, namespacePrefix, className);
-                    fileName = fileName.ToLower();
+                    fileName = String.Format(CultureInfo.InvariantCulture, @"{0}\{1}_{2}.h", OutputDirectory, namespacePrefix, className);
+                    fileName = fileName.ToLowerInvariant();
                     m_templateSuffix = ".h";
                     break;
                 }
 
                 case Language.CSV:
                 {
-                    fileName = String.Format(@"{0}\{1}.{2}.csv", OutputDirectory, namespacePrefix, className);
+                    fileName = String.Format(CultureInfo.InvariantCulture, @"{0}\{1}.{2}.csv", OutputDirectory, namespacePrefix, className);
                     m_templateSuffix = ".csv";
                     break;
                 }
 
                 case Language.OpenApi:
                 {
-                    fileName = @$"{OutputDirectory}\Constants\{folderName}\{namespacePrefix.ToLower().Replace(".", "").Replace("-", "").Replace(",", "").Replace(":", "")}_{className.ToLower()}.{suffix}";
+                    fileName = @$"{OutputDirectory}\Constants\{folderName}\{namespacePrefix.ToLowerInvariant().Replace(".", "").Replace("-", "").Replace(",", "").Replace(":", "")}_{className.ToLowerInvariant()}.{suffix}";
                     m_templateSuffix = $".{suffix}";
                     break;
                 }
@@ -212,7 +213,7 @@ namespace CodeGenerator
                     templatePath = TemplatePath + "Constants.DataTypes" + m_templateSuffix;
                 }
 
-                Template template = new Template(writer, templatePath, Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, templatePath, Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Date_", DateTime.Now);
                 template.AddReplacement("_Prefix_", namespacePrefix);
@@ -237,11 +238,13 @@ namespace CodeGenerator
 
                 if (folderName != null && isStatusCodes)
                 {
+                    string[] targets = new[] { "placeholder" };
+
                     AddTemplate(
                         template,
                         "// StatusCodeHelpers",
                         templateRoot + "StatusCode" + m_templateSuffix,
-                        new[] { "placeholder" },
+                        targets,
                         new LoadTemplateEventHandler(LoadTemplate_StatusCodeHelpers),
                         new WriteTemplateEventHandler(WriteTemplate_StatusCodeHelpers));
                 }
@@ -314,7 +317,7 @@ namespace CodeGenerator
                 if (!String.IsNullOrEmpty(constant.Value))
                 {
                     template.AddReplacement("_IdType_", "string");
-                    template.AddReplacement("_Identifier_", String.Format("\"{0}\"", constant.Value));
+                    template.AddReplacement("_Identifier_", String.Format(CultureInfo.InvariantCulture, "\"{0}\"", constant.Value));
                     template.AddReplacement("_ClassName_", "_" + m_className);
                 }
 
@@ -334,7 +337,7 @@ namespace CodeGenerator
                         }
 
                         template.AddReplacement("_IdType_", "uint");
-                        template.AddReplacement("_Identifier_", String.Format("0x{0:X8}", id));
+                        template.AddReplacement("_Identifier_", String.Format(CultureInfo.InvariantCulture, "0x{0:X8}", id));
                         template.AddReplacement("_ClassName_", String.Empty);
                     }
                     else
@@ -361,7 +364,7 @@ namespace CodeGenerator
                         name = name.Substring(index+1);
                     }
 
-                    symbolicId = String.Format("{0}{1}", constant.Severity, name);
+                    symbolicId = String.Format(CultureInfo.InvariantCulture, "{0}{1}", constant.Severity, name);
                 }
             }
             else
@@ -377,7 +380,7 @@ namespace CodeGenerator
 
             if (String.IsNullOrEmpty(description))
             {
-                description = String.Format("The identifier for the {0} datatype.", symbolicId);
+                description = String.Format(CultureInfo.InvariantCulture, "The identifier for the {0} datatype.", symbolicId);
             }
 
             template.AddReplacement("_Description_", description);
@@ -421,7 +424,7 @@ namespace CodeGenerator
                 {
                     ComplexType requestType = new ComplexType();
 
-                    requestType.Name = String.Format("{0}Request", serviceType.Name);
+                    requestType.Name = String.Format(CultureInfo.InvariantCulture, "{0}Request", serviceType.Name);
                     requestType.QName = new XmlQualifiedName(requestType.Name, serviceType.QName.Namespace);
                     requestType.Field = serviceType.Request;
 
@@ -432,7 +435,7 @@ namespace CodeGenerator
                 {
                     ComplexType responseType = new ComplexType();
 
-                    responseType.Name = String.Format("{0}Response", serviceType.Name);
+                    responseType.Name = String.Format(CultureInfo.InvariantCulture, "{0}Response", serviceType.Name);
                     responseType.QName = new XmlQualifiedName(responseType.Name, serviceType.QName.Namespace);
                     responseType.Field = serviceType.Response;
 
@@ -487,7 +490,7 @@ namespace CodeGenerator
                         {
                             string name = line.Substring(0,index).Trim();
 
-                            int uid = Convert.ToInt32(line.Substring(index+1).Trim());
+                            int uid = Convert.ToInt32(line.Substring(index+1).Trim(), CultureInfo.InvariantCulture);
 
                             if (maxId <= uid)
                             {
@@ -544,7 +547,7 @@ namespace CodeGenerator
 
                 if (complexType != null)
                 {
-                    string name = String.Format("{0}_Encoding_DefaultXml", datatype.Name);
+                    string name = String.Format(CultureInfo.InvariantCulture, "{0}_Encoding_DefaultXml", datatype.Name);
 
                     if (!identifiers.ContainsKey(name))
                     {
@@ -565,7 +568,7 @@ namespace CodeGenerator
                         uniqueIdentifiers.Add(complexType.XmlEncodingId, name);
                     }
 
-                    name = String.Format("{0}_Encoding_DefaultBinary", datatype.Name);
+                    name = String.Format(CultureInfo.InvariantCulture, "{0}_Encoding_DefaultBinary", datatype.Name);
 
                     if (!identifiers.ContainsKey(name))
                     {
@@ -597,7 +600,7 @@ namespace CodeGenerator
 
                 foreach (KeyValuePair<string,int> current in duplicateIdentifiers)
                 {
-                    buffer.AppendFormat("{0},0x{1:X8}\r\n", current.Key, current.Value);
+                    buffer.AppendFormat(CultureInfo.InvariantCulture, "{0},0x{1:X8}\r\n", current.Key, current.Value);
                 }
 
                 throw new InvalidOperationException(buffer.ToString());

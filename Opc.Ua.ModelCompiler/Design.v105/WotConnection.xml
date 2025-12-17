@@ -8,8 +8,8 @@
   xmlns="http://opcfoundation.org/UA/WoT-Con/"
   TargetNamespace="http://opcfoundation.org/UA/WoT-Con/"
   TargetXmlNamespace="http://opcfoundation.org/UA/WoT-Con/"
-  TargetVersion="1.01.0"
-  TargetPublicationDate="2025-06-30T00:00:00Z">
+  TargetVersion="1.02.0"
+  TargetPublicationDate="2025-12-05T00:00:00Z">
 
   <opc:Namespaces>
     <opc:Namespace Name="WotCon" Prefix="Opc.Ua.WotCon" XmlPrefix="WotCon">http://opcfoundation.org/UA/WoT-Con/</opc:Namespace>
@@ -26,12 +26,17 @@
       </opc:Property>
       <opc:Property SymbolicName="ua:NamespaceVersion" DataType="ua:String">
         <opc:DefaultValue>
-          <uax:String>1.01.0</uax:String>
+          <uax:String>1.02.0</uax:String>
+        </opc:DefaultValue>
+      </opc:Property>
+      <opc:Property SymbolicName="ua:ModelVersion" DataType="ua:SemanticVersionString">
+        <opc:DefaultValue>
+          <uax:String>1.2.0</uax:String>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="ua:NamespacePublicationDate" DataType="ua:DateTime">
         <opc:DefaultValue>
-          <uax:DateTime>2025-06-30</uax:DateTime>
+          <uax:DateTime>2025-12-05</uax:DateTime>
         </opc:DefaultValue>
       </opc:Property>
       <opc:Property SymbolicName="ua:IsNamespaceSubset" DataType="ua:Boolean">
@@ -144,7 +149,7 @@
     </opc:OutputArguments>
   </opc:Method>
   
-  <opc:ObjectType SymbolicName="WoTAssetConfigurationType" BaseType="ua:BaseInterfaceType" IsAbstract="true">
+  <opc:ObjectType SymbolicName="WoTAssetConfigurationType" BaseType="ua:BaseInterfaceType" IsAbstract="false">
     <opc:Children>
       <opc:Property SymbolicName="WoTConfigurationParameterName_Placeholder" ModellingRule="OptionalPlaceholder">
         <opc:BrowseName>&lt;WoTConfigurationParameterName&gt;</opc:BrowseName>

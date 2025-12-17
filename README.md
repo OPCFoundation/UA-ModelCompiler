@@ -86,7 +86,7 @@ Opc.Ua.ModelCompiler compile-nodesets -input .\v105\ -o2 .\Tests -uri http://opc
 |2.3|Added UA 1.05.03 support.<br/>Numerous fixes needed for 1.05.03.<br/>Upgrade to .NET 8.0.<br/>Generate constants in TypeScript.| 
 |2.4|Added JSON schema generation.| 
 |2.6|Added OpenAPI schema generation.<br/>1.05.04 Release| 
-|2.7|Refactored to make the tool a <a href='https://devblogs.microsoft.com/dotnet/introducing-c-source-generators/'>.NET Source Generator</a>.<br/>1.05.06 Release| 
+|2.7|Refactoring<br/>1.05.06 Release| 
 
 The executable file version has the form 2.0.YYMM.DDHH where the last two fields are based on the time that it was built.
 
@@ -110,6 +110,7 @@ The public repository is updated as frequently as the OPC UA Specification (once
 
 The ModelCompiler code is [MIT license](https://github.com/OPCFoundation/UA-ModelCompiler/blob/master/license.md), however, it links to the UA-.NETStandard NuGet packages which is covered under the [OPC Foundation Redistributables licence](https://opcfoundation.org/license/redistributables/1.3/index.html). 
 
+The 2.7 version introduced unit tests that depend on [AGPL assemblies](https://www.newtonsoft.com/jsonschema). These assemblies are not part of the published NuGets. Users who maintain forks of the repository may wish to delete the [unit tests](https://github.com/OPCF-Members/UA-ModelCompiler/tree/master/Tests/SchemaGeneration.Tests) if the AGPL license is a concern.
   
 ## Docker Build
 

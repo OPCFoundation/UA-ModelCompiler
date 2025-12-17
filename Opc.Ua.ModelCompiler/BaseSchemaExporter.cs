@@ -62,7 +62,7 @@ namespace ModelCompiler
 
             if (!nodesets.TryGetValue(modelUri, out var filePath))
             {
-                throw new ArgumentException(nameof(modelUri), "File not found.");
+                throw new ArgumentException("File not found.", nameof(modelUri));
             }
 
             using (var istrm = m_fileSystem.OpenRead(filePath))
@@ -112,6 +112,11 @@ namespace ModelCompiler
                     if (m_index.TryGetValue(superTypeId, out var superType))
                     {
                         dataTypes.Push(superType);
+                    }
+
+                    if (superType == null)
+                    {
+                        break;
                     }
 
                     superTypeId = superType.SuperTypeId;
@@ -323,6 +328,7 @@ namespace ModelCompiler
 
             foreach (var type in m_builtInTypes)
             {
+                type.Value.Namespace = Opc.Ua.Namespaces.OpcUa;
                 exportedTypes.Add(type.Key, type.Value);
             }
 
@@ -433,8 +439,7 @@ namespace ModelCompiler
 
             StringBuilder builder = new();
 
-            if ((@namespace == null && @namespace != Namespaces.OpcUa && m_modelUri != Namespaces.OpcUa) ||
-                (@namespace != null && @namespace != m_modelUri))
+            if (@namespace == null || @namespace != m_modelUri)
             {
                 var ns = @namespace ?? Namespaces.OpcUa;
 
@@ -446,7 +451,7 @@ namespace ModelCompiler
                 {
                     if (ns.StartsWith(Namespaces.OpcUa, StringComparison.Ordinal))
                     {
-                        ns = "https://opcfoundation.org/schemas/" + ns.Substring(Namespaces.OpcUa.Length) + "#/$defs/";
+                        ns = $"https://opcfoundation.org/schemas/{ns.Substring(Namespaces.OpcUa.Length)}#/$defs/";
                     }
                 }
 
@@ -471,7 +476,7 @@ namespace ModelCompiler
         }
     }
 
-    internal class BaseSchemaElement
+    internal sealed class BaseSchemaElement
     {
         public string Name { get; set; }
         public string Namespace { get; set; }
@@ -483,7 +488,7 @@ namespace ModelCompiler
         public bool Sealed { get; set; }
     }
 
-    internal class BaseSchemaField
+    internal sealed class BaseSchemaField
     {
         public string Name { get; set; }
         public string ExportType { get; set; }

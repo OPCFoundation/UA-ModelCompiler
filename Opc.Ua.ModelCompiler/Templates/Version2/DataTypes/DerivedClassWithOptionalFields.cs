@@ -39,6 +39,7 @@ public partial class _BrowseName_ : _BaseType_
     #endregion
 
     #region Public Properties
+    // EncodingMaskProperty
     // ListOfProperties
     #endregion
 
@@ -58,6 +59,10 @@ public partial class _BrowseName_ : _BaseType_
     /// <summary cref="IEncodeable.Encode(IEncoder)" />
     public override void Encode(IEncoder encoder)
     {
+        encoder.PushNamespace(_XmlNamespaceUri_);
+        encoder.WriteEncodingMask((uint)EncodingMask);
+        encoder.PopNamespace();
+
         base.Encode(encoder);
 
         encoder.PushNamespace(_XmlNamespaceUri_);
@@ -70,6 +75,10 @@ public partial class _BrowseName_ : _BaseType_
     /// <summary cref="IEncodeable.Decode(IDecoder)" />
     public override void Decode(IDecoder decoder)
     {
+        decoder.PushNamespace(_XmlNamespaceUri_);
+        EncodingMask = decoder.ReadEncodingMask(m_FieldNames);
+        decoder.PopNamespace();
+            
         base.Decode(decoder);
 
         decoder.PushNamespace(_XmlNamespaceUri_);
@@ -94,6 +103,8 @@ public partial class _BrowseName_ : _BaseType_
             return false;
         }
 
+        if (value.EncodingMask != this.EncodingMask) return false;
+
         // ListOfComparedFields
 
         return base.IsEqual(encodeable);
@@ -109,7 +120,8 @@ public partial class _BrowseName_ : _BaseType_
     public new object MemberwiseClone()
     {
         _BrowseName_ clone = (_BrowseName_)base.MemberwiseClone();
-
+            
+        clone.EncodingMask = this.EncodingMask;
         // ListOfClonedFields
 
         return clone;

@@ -13,7 +13,7 @@
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUaGds" Prefix="Opc.Ua.Gds" XmlNamespace="http://opcfoundation.org/UA/GDS/Types.xsd" XmlPrefix="GDS">http://opcfoundation.org/UA/GDS/</opc:Namespace>
-    <opc:Namespace Name="OpcUa" Version="1.05.06" PublicationDate="2025-10-31T00:00:00Z" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
+    <opc:Namespace Name="OpcUa" Version="1.05.06" PublicationDate="2025-11-08T00:00:00Z" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</opc:Namespace>
   </opc:Namespaces>
 
   <opc:PermissionSets>
@@ -37,7 +37,7 @@
         <opc:Permission>Call</opc:Permission>
       </opc:RolePermission>
     </opc:PermissionSet>
-    
+
     <opc:PermissionSet Name="KeyCredentialAdmin">
       <opc:RolePermission Role="ua:WellKnownRole_Anonymous">
         <opc:Permission>Browse</opc:Permission>
@@ -47,7 +47,7 @@
         <opc:Permission>Call</opc:Permission>
       </opc:RolePermission>
     </opc:PermissionSet>
-    
+
     <opc:PermissionSet Name="AuditEventDefaultPermissions">
       <opc:RolePermission Role="ua:WellKnownRole_Anonymous">
         <opc:Permission>Browse</opc:Permission>
@@ -74,7 +74,7 @@
           <uax:String>1.05.06</uax:String>
         </opc:DefaultValue>
       </opc:Property>
-      <opc:Property SymbolicName="ModelVersion" DataType="ua:SemanticVersionString">
+      <opc:Property SymbolicName="ua:ModelVersion" DataType="ua:SemanticVersionString">
         <opc:DefaultValue>
           <uax:String>1.5.6</uax:String>
         </opc:DefaultValue>
@@ -674,6 +674,9 @@
   <opc:Object SymbolicName="Directory" TypeDefinition="CertificateDirectoryType">
 
     <opc:Children>
+      <opc:Method SymbolicName="RevokeCertificate" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="GetCertificates" ModellingRule="Mandatory" />
+      <opc:Method SymbolicName="CheckRevocationStatus" ModellingRule="Mandatory" />
       <opc:Object SymbolicName="CertificateGroups" ModellingRule="Mandatory">
         <opc:Children>
           <opc:Object SymbolicName="ua:DefaultApplicationGroup" ModellingRule="Mandatory">

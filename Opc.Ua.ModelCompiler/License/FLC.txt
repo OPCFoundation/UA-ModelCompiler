@@ -1,5 +1,5 @@
 ﻿/* ========================================================================
- * Copyright (c) 2020-2024 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2020-2025 The OPC Foundation, Inc. All rights reserved.
  *
  * The source code in this file is covered under a dual-license scenario:
  *    - RCL: for OPC Foundation Corporate Members in good-standing

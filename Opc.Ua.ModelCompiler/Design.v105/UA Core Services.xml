@@ -94,7 +94,7 @@
     <opc:Value Name="NonVolatile" BitMask="001000" />
     <opc:Value Name="Constant" BitMask="002000" />
   </opc:EnumeratedType>
-
+  
   <opc:EnumeratedType Name="EventNotifierType" PartNo="3" IsOptionSet="true" BaseType="s0:Byte">
     <opc:Value Name="SubscribeToEvents" BitMask="0001" />
     <opc:Value Name="HistoryRead" BitMask="0004" />

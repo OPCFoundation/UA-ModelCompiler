@@ -24,13 +24,16 @@ _NAME_ResponseMessage _NAME_(_NAME_Message request);
 [OperationContractAttribute(AsyncPattern=true, Action=Namespaces._ServicesNamespace_ + "/_NAME_", ReplyAction = Namespaces._ServicesNamespace_ + "/_NAME_Response")]
 #endif
 #if (NET_STANDARD_OBSOLETE_APM && NET_STANDARD_ASYNC)
-[Obsolete("Begin/e methods are deprecated in this version. Use _NAME_Async instead.")]
+[Obsolete("Begin/End methods are deprecated in this version. Use _NAME_Async instead.")]
 #endif
 IAsyncResult Begin_NAME_(_NAME_Message request, AsyncCallback callback, object asyncState);
 
 /// <summary>
 /// The method used to retrieve the results of a _NAME_ service request.
 /// </summary>
+#if (NET_STANDARD_OBSOLETE_APM && NET_STANDARD_ASYNC)
+[Obsolete("Begin/End methods are deprecated in this version. Use _NAME_Async instead.")]
+#endif
 _NAME_ResponseMessage End_NAME_(IAsyncResult result);
 #endif
 

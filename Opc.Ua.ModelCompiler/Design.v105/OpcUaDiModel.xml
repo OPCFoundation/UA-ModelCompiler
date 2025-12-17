@@ -37,7 +37,7 @@
   TargetNamespace="http://opcfoundation.org/UA/DI/"
   TargetXmlNamespace="http://opcfoundation.org/UA/DI/"
   TargetVersion="1.05.0"
-  TargetPublicationDate="2025-04-01T00:00:00Z"
+  TargetPublicationDate="2025-11-15T00:00:00Z"
   xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
 
   <Namespaces>
@@ -58,9 +58,14 @@
           <uax:String>1.05.0</uax:String>
         </DefaultValue>
       </Property>
+      <Property SymbolicName="OpcUa:ModelVersion" DataType="OpcUa:SemanticVersionString">
+        <DefaultValue>
+          <uax:String>1.5.0</uax:String>
+        </DefaultValue>
+      </Property>
       <Property SymbolicName="OpcUa:NamespacePublicationDate" DataType="OpcUa:DateTime">
         <DefaultValue>
-          <uax:DateTime>2025-04-01</uax:DateTime>
+          <uax:DateTime>2025-11-15</uax:DateTime>
         </DefaultValue>
       </Property>
       <Property SymbolicName="OpcUa:IsNamespaceSubset" DataType="OpcUa:Boolean">

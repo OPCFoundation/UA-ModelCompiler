@@ -28,6 +28,7 @@
  * ======================================================================*/
 
 using System.Collections;
+using System.Globalization;
 using System.Reflection;
 
 namespace CodeGenerator
@@ -35,15 +36,44 @@ namespace CodeGenerator
     /// <summary>
     /// Generates types used to implement an address space.
     /// </summary>
-    public class Template
+    public class Template : IDisposable
     {
         #region Constructors
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (m_reader != null)
+                {
+                    m_reader.Dispose();
+                    m_reader = null;
+                }
+
+                if (m_writer != null)
+                {
+                    m_writer.Dispose();
+                    m_writer = null;
+                }
+            }
+        }
+
         /// <summary>
         /// Initializes the stream from the resource block of the specified assembly.
         /// </summary>
         public Template(TextWriter writer, string templatePath, Assembly assembly)
         :
-            this(writer, false, templatePath, assembly)
+            this(
+                writer,
+                false, 
+                templatePath ?? throw new ArgumentNullException(nameof(templatePath)), 
+                assembly ?? throw new ArgumentNullException(nameof(assembly))
+            )
         {
         }
 
@@ -69,7 +99,7 @@ namespace CodeGenerator
             }
             catch (Exception e)
             {
-                throw new ApplicationException(String.Format("Template '{0}' not found.", templatePath), e);
+                throw new FileNotFoundException(String.Format(CultureInfo.InvariantCulture, "Template '{0}' not found.", templatePath), e);
             }
 
             m_writer = writer;
@@ -183,7 +213,7 @@ namespace CodeGenerator
             }
             else
             {
-                m_replacements.Add(token, String.Format("{0}", replacement));
+                m_replacements.Add(token, String.Format(CultureInfo.InvariantCulture, "{0}", replacement));
             }
         }
 
@@ -219,7 +249,7 @@ namespace CodeGenerator
                 // if skipping lines look for the template start tag.
                 if (skipping)
                 {
-                    if (line.IndexOf(TemplateStartTag) != -1)
+                    if (line.Contains(TemplateStartTag))
                     {
                         skipping = false;
                     }
@@ -231,12 +261,12 @@ namespace CodeGenerator
                 // if writing lines look for the template end tag.
                 else
                 {
-                    if (line.IndexOf(TemplateEndAppendNewLineTag) != -1)
+                    if (line.Contains(TemplateEndAppendNewLineTag))
                     {
                         Write(NewLine);
                         break;
                     }
-                    if (line.IndexOf(TemplateEndTag) != -1)
+                    if (line.Contains(TemplateEndTag))
                     {
                         break;
                     }
@@ -295,7 +325,7 @@ namespace CodeGenerator
                         bool result = WriteTemplate(
                             context.Target,
                             token,
-                            context.Prefix + line.Substring(0, index));
+                            $"{context.Prefix}{line.Substring(0, index)}");
 
                         if (result)
                         {
@@ -437,7 +467,7 @@ namespace CodeGenerator
         /// </summary>
         public void WriteLine(string text, object arg1)
         {
-            WriteLine(text, new object[] { arg1 });
+            WriteLine(text, [arg1]);
         }
 
         /// <summary>
@@ -445,7 +475,7 @@ namespace CodeGenerator
         /// </summary>
         public void WriteLine(string text, object arg1, object arg2)
         {
-            WriteLine(text, new object[] { arg1, arg2 });
+            WriteLine(text, [arg1, arg2]);
         }
 
         /// <summary>
@@ -453,7 +483,7 @@ namespace CodeGenerator
         /// </summary>
         public void WriteLine(string text, object arg1, object arg2, object arg3)
         {
-            WriteLine(text, new object[] { arg1, arg2, arg3 });
+            WriteLine(text, [arg1, arg2, arg3]);
         }
 
         /// <summary>
@@ -540,21 +570,18 @@ namespace CodeGenerator
                 // load the template.
                 Template template = new Template(m_writer, m_written, templatePath, m_assembly);
 
-                if (template != null)
+                if (!context.FirstInList && context.BlankLine)
                 {
-                    if (!context.FirstInList && context.BlankLine)
-                    {
-                        Write(NewLine);
-                    }
-
-                    if (definition.Write(template, context))
-                    {
-                        context.FirstInList = false;
-                        written = true;
-                    }
-
-                    m_written = template.m_written;
+                    Write(NewLine);
                 }
+
+                if (definition.Write(template, context))
+                {
+                    context.FirstInList = false;
+                    written = true;
+                }
+
+                m_written = template.m_written;
 
                 context.Index++;
             }
@@ -655,6 +682,9 @@ namespace CodeGenerator
         /// </summary>
         public string Load(Template template, Context context)
         {
+            if (template == null) throw new ArgumentNullException(nameof(template));
+            if (context == null) throw new ArgumentNullException(nameof(context));
+
             // check for override.
             if (m_loadTemplate != null)
             {

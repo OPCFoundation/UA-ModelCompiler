@@ -22,31 +22,39 @@
   <ItemGroup>
     <Compile Remove="build\**" />
     <Compile Remove="DemoModel\**" />
-    <Compile Remove="Models\**" />
+    <Compile Remove="Models\Machinery\**" />
     <EmbeddedResource Remove="build\**" />
     <EmbeddedResource Remove="DemoModel\**" />
-    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="Models\Machinery\**" />
     <None Remove="build\**" />
     <None Remove="DemoModel\**" />
-    <None Remove="Models\**" />
+    <None Remove="Models\Machinery\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Include="DemoModel\DemoModel.Classes.cs" />
     <Compile Include="DemoModel\DemoModel.Constants.cs" />
     <Compile Include="DemoModel\DemoModel.DataTypes.cs" />
+    <Compile Include="DemoModel\DemoModel.PredefinedNodes.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="DemoModel\DemoModel.NodeSet.xml" />
     <Content Include="DemoModel\DemoModel.NodeSet2.xml" />
     <Content Include="DemoModel\DemoModel.PredefinedNodes.xml" />
-    <Content Include="DemoModel\DemoModel.xml" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\" />
     <Folder Include="Scheduler\" />
     <Folder Include="Onboarding\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="DemoModel\DemoModel.NodeIds.csv" />
+    <None Include="DemoModel\DemoModel.NodeIds.permissions.csv" />
+    <EmbeddedResource Include="DemoModel\DemoModel.PredefinedNodes.uanodes" />
+    <None Include="DemoModel\DemoModel.Types.bsd" />
+    <None Include="DemoModel\DemoModel.Types.xsd" />
   </ItemGroup>
 
   <ItemGroup>

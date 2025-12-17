@@ -16,6 +16,7 @@ namespace ModelCompiler
 
         static readonly string[] ModelNamespaceUris = new string[]
         {
+            "urn:opcfoundation.org:2024-01:DemoModel"
         };
 
         #region Constructors
@@ -95,28 +96,28 @@ namespace ModelCompiler
                 }
             }
 
-            string[] models = [
-                "DI.Opc",
-                "IA.Opc",
-                "Machinery.Opc",
-                "PADIM.Opc",
-                "MachineryProcessValues.Opc",
-                "ISA95Jobcontrol.Opc",
-                "PackML.Opc",
-                "BmwUa.BMW",
-                "VendorUaUACTT.Vendor",
-                "VendorUaUACTTInstance.Vendor"
-            ];
+            //string[] models = [
+            //    "DI.Opc",
+            //    "IA.Opc",
+            //    "Machinery.Opc",
+            //    "PADIM.Opc",
+            //    "MachineryProcessValues.Opc",
+            //    "ISA95Jobcontrol.Opc",
+            //    "PackML.Opc",
+            //    "BmwUa.BMW",
+            //    "VendorUaUACTT.Vendor",
+            //    "VendorUaUACTTInstance.Vendor"
+            //];
 
-            foreach (var model in models)
-            {
-                var name = names.Where(x => x.Contains(model)).FirstOrDefault();
+            //foreach (var model in models)
+            //{
+            //    var name = names.Where(x => x.Contains(model)).FirstOrDefault();
 
-                if (name != null)
-                {
-                    predefinedNodes.LoadFromBinaryResource(context, name, Assembly.GetExecutingAssembly(), true);
-                }
-            }
+            //    if (name != null)
+            //    {
+            //        predefinedNodes.LoadFromBinaryResource(context, name, Assembly.GetExecutingAssembly(), true);
+            //    }
+            //}
 
             return predefinedNodes;
         }

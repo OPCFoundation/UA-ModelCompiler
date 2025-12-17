@@ -33,16 +33,16 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:OpcUa="http://opcfoundation.org/UA/"
   xmlns:DI="http://opcfoundation.org/UA/DI/"
-  xmlns:Pack="http://opcfoundation.org/UA/DI/SoftwarePackage/"
+  xmlns:Pack="http://opcfoundation.org/UA/DI/PackageMetadata/"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  TargetNamespace="http://opcfoundation.org/UA/DI/SoftwarePackage/"
-  TargetXmlNamespace="http://opcfoundation.org/UA/DI/SoftwarePackage/"
+  TargetNamespace="http://opcfoundation.org/UA/DI/PackageMetadata/"
+  TargetXmlNamespace="http://opcfoundation.org/UA/DI/PackageMetadata/"
   TargetVersion="1.05.0"
   TargetPublicationDate="2025-04-01T00:00:00Z"
   xmlns="http://opcfoundation.org/UA/ModelDesign.xsd">
 
   <Namespaces>
-    <Namespace Name="OpcUaDiSoftwarePackage" Prefix="Opc.Ua.Di.SoftwarePackage" XmlNamespace="http://opcfoundation.org/UA/DI/SoftwarePackage/Types.xsd" XmlPrefix="DI">http://opcfoundation.org/UA/DI/SoftwarePackage/</Namespace>
+    <Namespace Name="OpcUaDiPackageMetadata" Prefix="Opc.Ua.Di.PackageMetadata" XmlNamespace="http://opcfoundation.org/UA/DI/PackageMetadata/Types.xsd" XmlPrefix="DI">http://opcfoundation.org/UA/DI/PackageMetadata/</Namespace>
     <Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd" XmlPrefix="OpcUa">http://opcfoundation.org/UA/</Namespace>
   </Namespaces>
 
