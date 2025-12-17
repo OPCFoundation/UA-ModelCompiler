@@ -20,20 +20,22 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        token: ${{ secrets.DOCKER_UPLOAD }}
         fetch-depth: 0
         submodules: true
         
-    - name: Set up .NET 8.0
+    - name: Set up .NET 9
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.x'
+        dotnet-version: '9.x'
 
     - name: Restore dependencies
-      run: dotnet restore "ModelCompiler.slnx"
+      run: dotnet restore "ModelCompiler.sln" 
       
     - name: Build
-      run: dotnet build --no-restore --configuration Docker "ModelCompiler.slnx" 
+      run: dotnet build --no-restore --configuration Docker "ModelCompiler.sln" 
       
+      
+      
+
       
       
