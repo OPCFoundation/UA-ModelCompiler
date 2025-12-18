@@ -34,7 +34,7 @@ jobs:
       with:
         dotnet-version: '9.x'
         
-    # Install the cosign tool except on PR
+    # Install the cosign tool except on pull request.
     # https://github.com/sigstore/cosign-installer
     - name: Install cosign
       if: github.event_name != 'pull_request' && env.DOCKERSIGN == 'true'
