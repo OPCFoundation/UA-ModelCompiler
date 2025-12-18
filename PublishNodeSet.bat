@@ -6,7 +6,7 @@ IF "%2"=="" (goto :usage)
 IF "%3"=="" (goto :usage)
 
 set ROOT=%~dp0
-set MODELCOMPILER=%ROOT%build\bin\Release\net6.0\Opc.Ua.ModelCompiler.exe
+set MODELCOMPILER=%ROOT%build\bin\Release\net9.0\Opc.Ua.ModelCompiler.exe
 set NODESETS=%1
 set NAME=%2
 set TARGET=-uri %3
