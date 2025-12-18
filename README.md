@@ -114,11 +114,11 @@ The 2.7 version introduced unit tests that depend on [AGPL assemblies](https://w
   
 ## Docker Build
 
-A Docker build with the UA Model Compiler is available in GitHub as [ua-modelcompiler](https://github.com/OPCF-Members/UA-ModelCompiler/pkgs/container/ua-modelcompiler).
+A Docker build with the UA Model Compiler is available in GitHub as [ua-modelcompiler](https://github.com/OPCFoundation/UA-ModelCompiler/pkgs/container/ua-modelcompiler).
 
 It can be downloaded with this command:
 ```
-docker pull ghcr.io/opcf-members/ua-modelcompiler:latest
+docker pull ghcr.io/opcfoundation/ua-modelcompiler:latest
 ```
 
 You may need to use this command before downloading the docker image:
@@ -129,13 +129,13 @@ docker login ghcr.io -u <user> -p <person access token>
 Running the image requires a local directory with the source files which is specified with the -v option (the ${pwd} is using bash/powershell syntax. Use %CD% if using Windows CMD). The following command is run from the directory where the source files are:
 
 ```
-docker run -v ${pwd}:/data --rm ghcr.io/opcf-members/ua-modelcompiler:latest compile -d2 /data/Opc.Ua.Di.NodeSet2.xml,Opc.Ua.DI,DI -o2 /data/generated 
+docker run -v ${pwd}:/data --rm ghcr.io/opcfoundation/ua-modelcompiler:latest compile -d2 /data/Opc.Ua.Di.NodeSet2.xml,Opc.Ua.DI,DI -o2 /data/generated 
 ```
 
 The tool can also automatically find all NodeSet dependencies if it is run from a directory with all necessary NodeSets (i.e. [UA-Nodeset](https://github.com/OPCFoundation/UA-Nodeset)). The command to run from the nodeset directory is:
 
 ```
-docker run -v ${pwd}:/nodesets --rm ghcr.io/opcf-members/ua-modelcompiler:latest compile-nodesets -input /nodesets -o2 /nodesets/generated -uri http://opcfoundation.org/UA/Machinery/ -uri http://opcfoundation.org/UA/DI/
+docker run -v ${pwd}:/nodesets --rm ghcr.io/opcfoundation/ua-modelcompiler:latest compile-nodesets -input /nodesets -o2 /nodesets/generated -uri http://opcfoundation.org/UA/Machinery/ -uri http://opcfoundation.org/UA/DI/
 ```
 
 The docker image can be rebuilt from source with this command:
