@@ -25,5 +25,4 @@
   <Project Path="Opc.Ua.ModelCompiler.Tool/Opc.Ua.ModelCompiler.Tool.Debug.csproj" />
   <Project Path="Opc.Ua.ModelCompiler/Opc.Ua.ModelCompiler.Debug.csproj" />
   <Project Path="Tests/DemoModel/DemoModel.Debug.csproj" />
-  <Project Path="Tests/SchemaGeneration.Tests/SchemaGeneration.Tests.csproj" />
 </Solution>
