@@ -31,6 +31,7 @@ using System.Text;
 using System.Xml;
 using System.Reflection;
 using Opc.Ua;
+using System.Globalization;
 
 namespace CodeGenerator
 {
@@ -97,11 +98,11 @@ namespace CodeGenerator
         /// </summary>
         private void WriteTemplate_EndpointWsdl(string fileName, string namespacePrefix, string dictionaryName)
         {
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}.Endpoints.wsdl", OutputDirectory, namespacePrefix, fileName), false);
+            StreamWriter writer = new StreamWriter(String.Format(CultureInfo.InvariantCulture, @"{0}\{1}.Endpoints.wsdl", OutputDirectory, namespacePrefix), false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "Endpoint.wsdl", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "Endpoint.wsdl", Assembly.GetExecutingAssembly());
 
                 template.Replacements.Add("_BuildDate_", Utils.Format("{0:yyyy-MM-dd}", DateTime.UtcNow));
                 template.Replacements.Add("_Version_", Utils.Format("{0}.{1}", Utils.GetAssemblySoftwareVersion(), Utils.GetAssemblyBuildNumber()));
@@ -150,11 +151,11 @@ namespace CodeGenerator
         /// </summary>
         private void WriteTemplate_ServicesWsdl(string fileName, string namespacePrefix, string dictionaryName)
         {
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}.Services.wsdl", OutputDirectory, namespacePrefix, fileName), false);
+            StreamWriter writer = new StreamWriter(String.Format(CultureInfo.InvariantCulture, @"{0}\{1}.Services.wsdl", OutputDirectory, namespacePrefix), false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "Services.wsdl", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "Services.wsdl", Assembly.GetExecutingAssembly());
 
                 template.Replacements.Add("_BuildDate_", Utils.Format("{0:yyyy-MM-dd}", DateTime.UtcNow));
                 template.Replacements.Add("_Version_", Utils.Format("{0}.{1}", Utils.GetAssemblySoftwareVersion(), Utils.GetAssemblyBuildNumber()));
@@ -250,18 +251,18 @@ namespace CodeGenerator
         /// </summary>
         private void WriteTemplate_XmlSchema(string fileName, string dictionaryName)
         {
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}.Types.xsd", OutputDirectory, fileName, dictionaryName), false);
+            var writer = new StreamWriter(String.Format(CultureInfo.InvariantCulture, @"{0}\{1}.Types.xsd", OutputDirectory, fileName), false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "File.xml", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "File.xml", Assembly.GetExecutingAssembly());
 
                 template.Replacements.Add("_BuildDate_", Utils.Format("{0:yyyy-MM-dd}", DateTime.UtcNow));
                 template.Replacements.Add("_Version_", Utils.Format("{0}.{1}", Utils.GetAssemblySoftwareVersion(), Utils.GetAssemblyBuildNumber()));
                 template.Replacements.Add("_Namespace_", TargetNamespace);
 
                 StringBuilder buffer = new StringBuilder();
-                buffer.AppendFormat("xmlns:tns=\"{0}\"", TargetNamespace);
+                buffer.AppendFormat(CultureInfo.InvariantCulture, "xmlns:tns=\"{0}\"", TargetNamespace);
 
                 if (!m_exportAll)
                 {
@@ -269,7 +270,7 @@ namespace CodeGenerator
                     {
                         buffer.Append(template.NewLine);
                         buffer.Append("  ");
-                        buffer.AppendFormat("xmlns:s{0}=\"{1}\"", ii - 1, NamespaceUris[ii]);
+                        buffer.AppendFormat(CultureInfo.InvariantCulture, "xmlns:s{0}=\"{1}\"", ii - 1, NamespaceUris[ii]);
                     }
                 }
 
@@ -316,7 +317,7 @@ namespace CodeGenerator
         private string GetImportStatment(string uri)
         {
             string location = null;
-            string[] elements = uri.Split(new char[] { '/' });
+            string[] elements = uri.Split(['/']);
 
             for (int ii = elements.Length-1; ii >= 0; ii--)
             {
@@ -327,7 +328,7 @@ namespace CodeGenerator
                 }
             }
 
-            return String.Format("<xs:import namespace=\"{0}\" schemaLocation=\"{1}.xsd\" />", uri, location);
+            return String.Format(CultureInfo.InvariantCulture, "<xs:import namespace=\"{0}\" schemaLocation=\"{1}.xsd\" />", uri, location);
         }
 
         /// <summary>
@@ -431,7 +432,7 @@ namespace CodeGenerator
 
                     if (basetype == null)
                     {
-                        throw new ApplicationException(String.Format("Could not find base type '{0}' for complex type '{1}'.", complexType.BaseType, complexType.QName));
+                        throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Could not find base type '{0}' for complex type '{1}'.", complexType.BaseType, complexType.QName));
                     }
 
                     template.AddReplacement("_BaseType_", GetXmlSchemaTypeName(basetype.QName, -1));
@@ -543,7 +544,7 @@ namespace CodeGenerator
 
             if (datatype == null)
             {
-                throw new ApplicationException(String.Format("Could not find datatype '{0}' for field '{1}'.", fieldType.DataType, fieldType.Name));
+                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Could not find datatype '{0}' for field '{1}'.", fieldType.DataType, fieldType.Name));
             }
 
             template.WriteLine(String.Empty);
@@ -673,7 +674,7 @@ namespace CodeGenerator
                     prefix = "tns:";
                 }
 
-                typeName = String.Format("{0}ListOf{1}", prefix, typeName);
+                typeName = String.Format(CultureInfo.InvariantCulture, "{0}ListOf{1}", prefix, typeName);
             }
             else
             {

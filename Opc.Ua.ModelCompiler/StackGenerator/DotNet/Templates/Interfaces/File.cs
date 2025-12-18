@@ -39,6 +39,7 @@ using System.Runtime.Serialization;
 
 #if (NET_STANDARD_ASYNC)
 using System.Threading.Tasks;
+using System.Threading;
 #endif
 
 namespace _Prefix_

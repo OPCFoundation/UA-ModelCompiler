@@ -3,10 +3,14 @@ class Placeholder
 // ***START***
 #region _NAME_ Service
 #if (!OPCUA_EXCLUDE__NAME_)
+#if (!NET_STANDARD_NO_SYNC && !NET_STANDARD_NO_APM)
 /// <summary>
 /// Invokes the _NAME_ service.
 /// </summary>
-public IServiceResponse _NAME_(IServiceRequest incoming)
+#if (NET_STANDARD_OBSOLETE_SYNC && !OPCUA_EXCLUDE__NAME__ASYNC)
+[Obsolete("Sync methods are deprecated in this version. Use _NAME_Async instead.")]
+#endif
+public IServiceResponse _NAME_(IServiceRequest incoming, SecureChannelContext secureChannelContext)
 {
     _NAME_Response response = null;
 
@@ -60,6 +64,9 @@ public virtual _NAME_ResponseMessage _NAME_(_NAME_Message request)
 /// <summary>
 /// Asynchronously calls the _NAME_ service.
 /// </summary>
+#if NET_STANDARD_OBSOLETE_APM
+[Obsolete("Begin/End methods are deprecated in this version. Use _NAME_Async instead.")]
+#endif
 public virtual IAsyncResult Begin_NAME_(_NAME_Message message, AsyncCallback callback, object callbackData)
 {
     try
@@ -87,6 +94,9 @@ public virtual IAsyncResult Begin_NAME_(_NAME_Message message, AsyncCallback cal
 /// <summary>
 /// Waits for an asynchronous call to the _NAME_ service to complete.
 /// </summary>
+#if NET_STANDARD_OBSOLETE_APM
+[Obsolete("Begin/End methods are deprecated in this version. Use _NAME_Async instead.")]
+#endif
 public virtual _NAME_ResponseMessage End_NAME_(IAsyncResult ar)
 {
     try
@@ -103,12 +113,13 @@ public virtual _NAME_ResponseMessage End_NAME_(IAsyncResult ar)
     }
 }
 #endif
-
+#endif
+ 
 #if (!OPCUA_EXCLUDE__NAME__ASYNC)
 /// <summary>
 /// Invokes the _NAME_ service.
 /// </summary>
-public async Task<IServiceResponse> _NAME_Async(IServiceRequest incoming, CancellationToken cancellationToken = default)
+public async Task<IServiceResponse> _NAME_Async(IServiceRequest incoming, SecureChannelContext secureChannelContext, CancellationToken cancellationToken = default)
 {
     _NAME_Response response = null;
 

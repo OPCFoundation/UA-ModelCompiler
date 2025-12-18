@@ -29,12 +29,12 @@ jobs:
       with:
         fetch-depth: 0
         
-    - name: Set up .NET 8
+    - name: Set up .NET 9.0
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '8.x'
+        dotnet-version: '9.x'
         
-    # Install the cosign tool except on PR
+    # Install the cosign tool except on pull request.
     # https://github.com/sigstore/cosign-installer
     - name: Install cosign
       if: github.event_name != 'pull_request' && env.DOCKERSIGN == 'true'
@@ -79,8 +79,8 @@ jobs:
     - name: Only use preview tag if no github tag info
       if: github.ref_type == 'branch'
       run: |
-        echo TAG_BRANCH= >> $GITHUB_ENV
-        echo TAG_LATEST=$(echo ${{ env.IMAGE_REPOSITORY }}:preview${{ env.IMAGE_BRANCH }}) >> $GITHUB_ENV
+        echo TAG_BRANCH=$(echo ${{ env.IMAGE_REPOSITORY }}:preview${{ env.IMAGE_BRANCH }}) >> $GITHUB_ENV
+        echo TAG_LATEST=$(echo ,${{ env.IMAGE_REPOSITORY }}:latest${{ env.IMAGE_BRANCH }}) >> $GITHUB_ENV
 
     # Extract metadata (tags, labels) for Docker
     # https://github.com/docker/metadata-action
@@ -101,6 +101,7 @@ jobs:
         tags: ${{ env.TAG_BRANCH }} ${{ env.TAG_LATEST }}
         platforms: linux/amd64
         file: ./Dockerfile
+        provenance: false
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max

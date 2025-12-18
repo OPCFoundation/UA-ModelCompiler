@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!--
- * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2025 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  * 
@@ -127,6 +127,44 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ListOfWorkOrderType" type="tns:ListOfWorkOrderType" nillable="true"></xs:element>
+
+  <xs:complexType name="ExtendedWorkOrderType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:WorkOrderType">
+        <xs:sequence>
+          <xs:element name="ContactX" type="xs:unsignedInt" minOccurs="0" />
+          <xs:element name="ContactY" type="ua:ListOfString" minOccurs="0" nillable="true" />
+          <xs:element name="ContactZ" type="xs:base64Binary" minOccurs="0" nillable="true" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ExtendedWorkOrderType" type="tns:ExtendedWorkOrderType" />
+
+  <xs:complexType name="ListOfExtendedWorkOrderType">
+    <xs:sequence>
+      <xs:element name="ExtendedWorkOrderType" type="tns:ExtendedWorkOrderType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ListOfExtendedWorkOrderType" type="tns:ListOfExtendedWorkOrderType" nillable="true"></xs:element>
+
+  <xs:complexType name="FinalWorkOrderType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ExtendedWorkOrderType">
+        <xs:sequence>
+          <xs:element name="Address" type="xs:string" minOccurs="0" nillable="true" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="FinalWorkOrderType" type="tns:FinalWorkOrderType" />
+
+  <xs:complexType name="ListOfFinalWorkOrderType">
+    <xs:sequence>
+      <xs:element name="FinalWorkOrderType" type="tns:FinalWorkOrderType" minOccurs="0" maxOccurs="unbounded" nillable="true" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ListOfFinalWorkOrderType" type="tns:ListOfFinalWorkOrderType" nillable="true"></xs:element>
 
   <xs:complexType name="SampleUnion">
     <xs:sequence>

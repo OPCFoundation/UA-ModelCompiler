@@ -29,13 +29,14 @@
 
 using System.Xml;
 using System.Reflection;
+using System.Globalization;
 
 namespace CodeGenerator
 {
     /// <summary>
     /// Generates code based on a UA Type Dictionary.
     /// </summary>
-    public class AnsiCGenerator : CodeGenerator
+    public class AnsiCGenerator : CodeGeneratorBase
     {
         #region Constructors
         /// <summary>
@@ -91,11 +92,11 @@ namespace CodeGenerator
                 return;
             }
 
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}_serverapi.h", OutputDirectory, namespacePrefix).ToLower(), false);
+            StreamWriter writer = new StreamWriter(String.Format(CultureInfo.InvariantCulture, @"{0}\{1}_serverapi.h", OutputDirectory, namespacePrefix).ToLower(CultureInfo.InvariantCulture), false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "ServerApi.File.h", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "ServerApi.File.h", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Date_", DateTime.Now);
                 template.AddReplacement("_Prefix_", namespacePrefix);
@@ -129,11 +130,11 @@ namespace CodeGenerator
                 return;
             }
 
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}_serverapi.c", OutputDirectory, namespacePrefix).ToLower(), false);
+            StreamWriter writer = new StreamWriter(String.Format(CultureInfo.InvariantCulture, @"{0}\{1}_serverapi.c", OutputDirectory, namespacePrefix).ToLowerInvariant(), false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "ServerApi.File.c", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "ServerApi.File.c", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Date_", DateTime.Now);
                 template.AddReplacement("_Prefix_", namespacePrefix);
@@ -175,11 +176,11 @@ namespace CodeGenerator
                 return;
             }
 
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}_clientapi.h", OutputDirectory, namespacePrefix).ToLower(), false);
+            StreamWriter writer = new StreamWriter(String.Format(CultureInfo.InvariantCulture, @"{0}\{1}_clientapi.h", OutputDirectory, namespacePrefix).ToLowerInvariant(), false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "ClientApi.File.h", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "ClientApi.File.h", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Date_", DateTime.Now);
                 template.AddReplacement("_Prefix_", namespacePrefix);
@@ -213,11 +214,11 @@ namespace CodeGenerator
                 return;
             }
 
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}_clientapi.c", OutputDirectory, namespacePrefix).ToLower(), false);
+            StreamWriter writer = new StreamWriter(String.Format(CultureInfo.InvariantCulture, @"{0}\{1}_clientapi.c", OutputDirectory, namespacePrefix).ToLowerInvariant(), false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "ClientApi.File.c", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "ClientApi.File.c", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Date_", DateTime.Now);
                 template.AddReplacement("_Prefix_", namespacePrefix);
@@ -479,7 +480,7 @@ namespace CodeGenerator
 
             context.BlankLine = false;
 
-            bool declaration = context.Token.EndsWith(";");
+            bool declaration = context.Token.EndsWith(';');
             bool server      = context.Token.Contains("Server");
 
             List<string> types = new List<string>();
@@ -526,7 +527,7 @@ namespace CodeGenerator
 
             context.BlankLine = false;
 
-            bool declaration = context.Token.EndsWith(";");
+            bool declaration = context.Token.EndsWith(';');
 
             List<string> types = new List<string>();
             List<string> names = new List<string>();
@@ -567,7 +568,7 @@ namespace CodeGenerator
 
             context.BlankLine = false;
 
-            bool declaration = context.Token.EndsWith(";");
+            bool declaration = context.Token.EndsWith(';');
 
             List<string> types = new List<string>();
             List<string> names = new List<string>();
@@ -608,7 +609,7 @@ namespace CodeGenerator
 
             context.BlankLine = false;
 
-            bool declaration = context.Token.EndsWith(";");
+            bool declaration = context.Token.EndsWith(';');
 
             List<string> types = new List<string>();
             List<string> names = new List<string>();
@@ -662,7 +663,7 @@ namespace CodeGenerator
 
             for (int ii = 0; ii < names.Count; ii++)
             {
-                if (names[ii].IndexOf("NoOf") != -1)
+                if (names[ii].Contains("NoOf"))
                 {
                     isArray = true;
 
@@ -680,7 +681,7 @@ namespace CodeGenerator
                     template.Write("OpcUa_ReturnErrorIfArrayArgumentNull({0}, {1});", names[ii-1].Trim(), names[ii]);
                     isArray = false;
                 }
-                else if (types[ii].EndsWith("*"))
+                else if (types[ii].EndsWith('*'))
                 {
                     template.Write("OpcUa_ReturnErrorIfArgumentNull({0});", names[ii]);
                 }
@@ -740,7 +741,7 @@ namespace CodeGenerator
                     template.Write("cRequest.{0}{1} = {2};", names1[ii], padding, names2[ii]);
                     // template.Write("OpcUa_String_SafeAttachReadOnly(&cRequest.{0}, {1});", names1[ii], names2[ii].Substring(1));
                 }
-                else if (types[ii].EndsWith("*"))
+                else if (types[ii].EndsWith('*'))
                 {
                     template.Write("cRequest.{0}{1} = ({3}){2};", names1[ii], padding, names2[ii], types[ii]);
                 }
@@ -859,11 +860,11 @@ namespace CodeGenerator
 
             datatypes = sortedTypes;
 
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}_types.h", OutputDirectory, namespacePrefix).ToLower(), false);
+            StreamWriter writer = new StreamWriter(String.Format(CultureInfo.InvariantCulture, @"{0}\{1}_types.h", OutputDirectory, namespacePrefix).ToLowerInvariant(), false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "Types.File.h", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "Types.File.h", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Date_", DateTime.Now);
                 template.AddReplacement("_Prefix_", namespacePrefix);
@@ -897,11 +898,11 @@ namespace CodeGenerator
                 return;
             }
 
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}_types.c", OutputDirectory, namespacePrefix).ToLower(), false);
+            StreamWriter writer = new StreamWriter(String.Format(CultureInfo.InvariantCulture, @"{0}\{1}_types.c", OutputDirectory, namespacePrefix).ToLowerInvariant(), false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "Types.File.c", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "Types.File.c", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Date_", DateTime.Now);
                 template.AddReplacement("_Prefix_", namespacePrefix);
@@ -991,7 +992,7 @@ namespace CodeGenerator
             }
 
             template.AddReplacement("_NAME_", datatype.Name);
-            template.AddReplacement("_TYPE_", String.Format("{0}_{1}", m_namespaceConstant, datatype.Name));
+            template.AddReplacement("_TYPE_", String.Format(CultureInfo.InvariantCulture, "{0}_{1}", m_namespaceConstant, datatype.Name));
 
             ComplexType complexType = datatype as ComplexType;
 
@@ -1062,7 +1063,7 @@ namespace CodeGenerator
 
                 if (enumeratedType.IsOptionSet)
                 {
-                    template.AddReplacement("_DEFAULT_", String.Format("OpcUa_{0}_None", enumeratedType.Name));
+                    template.AddReplacement("_DEFAULT_", String.Format(CultureInfo.InvariantCulture, "OpcUa_{0}_None", enumeratedType.Name));
 
                     values.Insert(0, new EnumeratedValue()
                     {
@@ -1073,7 +1074,7 @@ namespace CodeGenerator
                 }
                 else if (enumeratedType.Value != null && enumeratedType.Value.Length > 0)
                 {
-                    template.AddReplacement("_DEFAULT_", String.Format("OpcUa_{0}_{1}", enumeratedType.Name, enumeratedType.Value[0].Name));
+                    template.AddReplacement("_DEFAULT_", String.Format(CultureInfo.InvariantCulture, "OpcUa_{0}_{1}", enumeratedType.Name, enumeratedType.Value[0].Name));
                 }
 
                 AddTemplate(
@@ -1315,7 +1316,7 @@ namespace CodeGenerator
             {
                 if (enumeratedType.IsOptionSet)
                 {
-                    string name = String.Format("{0}_None", typeName);
+                    string name = String.Format(CultureInfo.InvariantCulture, "{0}_None", typeName);
                     names.Add(name);
                     values.Add("= 0");
                 }
@@ -1327,7 +1328,7 @@ namespace CodeGenerator
                         continue;
                     }
 
-                    string name = String.Format("{0}_{1}", typeName, value.Name);
+                    string name = String.Format(CultureInfo.InvariantCulture, "{0}_{1}", typeName, value.Name);
 
                     if (length < name.Length)
                     {
@@ -1351,7 +1352,7 @@ namespace CodeGenerator
                         }
                     }
 
-                    values.Add(String.Format("= {0}", value.Value));
+                    values.Add(String.Format(CultureInfo.InvariantCulture, "= {0}", value.Value));
                 }
             }
 
@@ -1571,7 +1572,7 @@ namespace CodeGenerator
 
                     if (prefix == "p" && !typeDef && !output)
                     {
-                        typeName = String.Format("const {0}", typeName);
+                        typeName = String.Format(CultureInfo.InvariantCulture, "const {0}", typeName);
                     }
 
                     types.Add(typeName);

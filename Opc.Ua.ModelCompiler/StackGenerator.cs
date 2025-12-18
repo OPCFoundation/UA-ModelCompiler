@@ -30,12 +30,14 @@
 using Opc.Ua.Schema.Binary;
 using Opc.Ua.Schema.Xml;
 using CodeGenerator;
+using Opc.Ua;
+using System.Globalization;
 
 namespace ModelCompiler
 {
-    class StackGenerator
+    public static class StackGenerator
     {
-        public class Files
+        internal sealed class Files
         {
             public Dictionary<string, string> XmlSchemas;
             public Dictionary<string, string> BinarySchemas;
@@ -52,10 +54,11 @@ namespace ModelCompiler
         }
 
         static void ProcessDictionary(
-            string name, 
-            string input, 
-            string output, 
-            Files files, 
+            IFileSystem fileSystem,
+            string name,
+            string input,
+            string output,
+            Files files,
             string specificationVersion,
             IList<string> exclusions,
             bool noSchemaGeneration = false)
@@ -72,8 +75,8 @@ namespace ModelCompiler
 
             if (!noSchemaGeneration)
             {
-                string basePath = String.Format(@"{0}\{1}", output, name);
-                string fileName = String.Format("Opc.Ua{0}", name);
+                string basePath = String.Format(CultureInfo.InvariantCulture, @"{0}\{1}", output, name);
+                string fileName = String.Format(CultureInfo.InvariantCulture, "Opc.Ua{0}", name);
 
                 XmlSchemaGenerator generator1 = new XmlSchemaGenerator(
                     input,
@@ -87,9 +90,9 @@ namespace ModelCompiler
                 generator1.EndpointsNamespace = "http://opcfoundation.org/UA/2008/02/Endpoints.wsdl";
 
                 generator1.Generate(fileName, "Opc.Ua", name, true);
-                string filePath = String.Format(@"{0}\Opc.Ua.Types.xsd", output);
+                string filePath = String.Format(CultureInfo.InvariantCulture, @"{0}\Opc.Ua.Types.xsd", output);
 
-                XmlSchemaValidator2 validator1 = new XmlSchemaValidator2(files.XmlSchemas);
+                var validator1 = new Opc.Ua.Schema.Xml.XmlSchemaValidator2(fileSystem, files.XmlSchemas);
                 validator1.Validate(filePath);
                 files.XmlSchemas[validator1.TargetSchema.TargetNamespace] = filePath;
                 System.IO.File.Delete(filePath);
@@ -104,7 +107,7 @@ namespace ModelCompiler
                     exclusions);
 
                 generator2.Generate(fileName, true, "http://opcfoundation.org/UA/");
-                filePath = String.Format(@"{0}\{1}.bsd", output, fileName);
+                filePath = String.Format(CultureInfo.InvariantCulture, @"{0}\{1}.bsd", output, fileName);
 
                 BinarySchemaValidator validator2 = new BinarySchemaValidator(files.BinarySchemas);
                 validator2.Validate(filePath);
@@ -114,10 +117,10 @@ namespace ModelCompiler
         }
 
         static void GenerateAnsiC(
-            Files files, 
-            string modelDir, 
-            string csvDir, 
-            string outputDir, 
+            Files files,
+            string modelDir,
+            string csvDir,
+            string outputDir,
             string specificationVersion,
             IList<string> exclusions)
         {
@@ -184,7 +187,7 @@ namespace ModelCompiler
                 false,
                 folderName,
                 suffix);
-            
+
             ConstantsGenerator generator9a = new ConstantsGenerator(
                 Language.OpenApi,
                 $"{modelDir}UA Status Codes.xml",
@@ -203,10 +206,10 @@ namespace ModelCompiler
         }
 
         static void GenerateDotNet(
-            Files files, 
-            string modelDir, 
-            string csvDir, 
-            string outputDir, 
+            Files files,
+            string modelDir,
+            string csvDir,
+            string outputDir,
             string specificationVersion,
             IList<string> exclusions)
         {
@@ -263,6 +266,7 @@ namespace ModelCompiler
         }
 
         public static void GenerateDotNet(
+            IFileSystem fileSystem,
             IList<string> designFilePaths,
             string identifierFilePath,
             string rootDir,
@@ -275,6 +279,7 @@ namespace ModelCompiler
             Files files = new Files();
 
             ProcessDictionary(
+                fileSystem,
                 "",
                 $"{modelDir}UA Core Services.xml",
                 rootDir,
@@ -286,6 +291,7 @@ namespace ModelCompiler
         }
 
         public static void GenerateOpenApi(
+            IFileSystem fileSystem,
             IList<string> designFilePaths,
             string identifierFilePath,
             string rootDir,
@@ -298,6 +304,7 @@ namespace ModelCompiler
             Files files = new Files();
 
             ProcessDictionary(
+                fileSystem,
                 "",
                 $"{modelDir}UA Core Services.xml",
                 rootDir,
@@ -313,9 +320,10 @@ namespace ModelCompiler
 
 
         public static void GenerateAnsiC(
+            IFileSystem fileSystem,
             IList<string> designFilePaths,
-            string identifierFilePath, 
-            string rootDir, 
+            string identifierFilePath,
+            string rootDir,
             string specificationVersion,
             IList<string> exclusions)
         {
@@ -325,12 +333,13 @@ namespace ModelCompiler
             Files files = new Files();
 
             ProcessDictionary(
+                fileSystem,
                 "",
                 $"{modelDir}UA Core Services.xml",
                 rootDir,
                 files,
                 specificationVersion,
-                exclusions, 
+                exclusions,
                 true);
 
             GenerateAnsiC(files, modelDir, csvDir, rootDir, specificationVersion, exclusions);

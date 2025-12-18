@@ -2,9 +2,9 @@ namespace X {
 // ***START***
 #region _BrowseName_ Class
 #if (!OPCUA_EXCLUDE__BrowseName_)
-/// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
 [DataContract(Namespace = _XmlNamespaceUri_)]
 public partial class _BrowseName_ : _BaseType_
 {
@@ -75,7 +75,7 @@ public partial class _BrowseName_ : _BaseType_
         // ListOfComparedFields
 
         return base.IsEqual(encodeable);
-    }    
+    }
 
     /// <summary cref="ICloneable.Clone" />
     public override object Clone()

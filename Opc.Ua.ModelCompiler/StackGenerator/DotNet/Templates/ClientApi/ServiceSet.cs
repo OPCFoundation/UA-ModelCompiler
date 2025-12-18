@@ -23,8 +23,9 @@ public interface I_ServiceSet_ClientMethods
 /// </summary>
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
 public partial class _ServiceSet_Client : ClientBase, I_ServiceSet_ClientMethods
-    {
+{
     #region Constructors
     /// <summary>
     /// Intializes the object with a channel and a message context.

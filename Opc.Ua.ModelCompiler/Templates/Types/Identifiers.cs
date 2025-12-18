@@ -14,6 +14,7 @@ namespace _Namespace_
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public static partial class ReferenceTypes
     {
         // ListOfReferenceTypes
@@ -24,6 +25,7 @@ namespace _Namespace_
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public static partial class DataTypes
     {
         // ListOfDataTypes
@@ -34,6 +36,7 @@ namespace _Namespace_
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public static partial class ObjectTypes
     {
         // ListOfObjectTypes
@@ -45,6 +48,7 @@ namespace _Namespace_
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public static partial class VariableTypes
     {
         // ListOfVariableTypes
@@ -55,6 +59,7 @@ namespace _Namespace_
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public static partial class Objects
     {
         // ListOfObjects
@@ -65,6 +70,7 @@ namespace _Namespace_
     /// </summary>
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public static partial class Variables
     {
         // ListOfVariables

@@ -1,5 +1,5 @@
 /* ========================================================================
- * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2025 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
  * 
@@ -37,57 +37,50 @@ using System.Threading.Tasks;
 using System.Threading;
 using Opc.Ua;
 
+#pragma warning disable 1591
+
 namespace DemoModel
 {
     #region EnumUnderscoreTest Enumeration
     #if (!OPCUA_EXCLUDE_EnumUnderscoreTest)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
+    
     public enum EnumUnderscoreTest
     {
-        /// <remarks />
         [EnumMember(Value = "x_x_1")]
         x_x = 1,
 
-        /// <remarks />
         [EnumMember(Value = "_x_2")]
         _x = 2,
 
-        /// <remarks />
         [EnumMember(Value = "x__3")]
         x_ = 3,
 
-        /// <remarks />
         [EnumMember(Value = "__4")]
         _ = 4,
 
-        /// <remarks />
         [EnumMember(Value = "Test5_-1")]
         Test5 = -1,
     }
 
     #region EnumUnderscoreTestCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfEnumUnderscoreTest", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "EnumUnderscoreTest")]
     public partial class EnumUnderscoreTestCollection : List<EnumUnderscoreTest>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public EnumUnderscoreTestCollection() {}
 
-        /// <remarks />
         public EnumUnderscoreTestCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public EnumUnderscoreTestCollection(IEnumerable<EnumUnderscoreTest> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator EnumUnderscoreTestCollection(EnumUnderscoreTest[] values)
         {
             if (values != null)
@@ -98,7 +91,6 @@ namespace DemoModel
             return new EnumUnderscoreTestCollection();
         }
 
-        /// <remarks />
         public static explicit operator EnumUnderscoreTest[](EnumUnderscoreTestCollection values)
         {
             if (values != null)
@@ -111,7 +103,6 @@ namespace DemoModel
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (EnumUnderscoreTestCollection)this.MemberwiseClone();
@@ -137,45 +128,38 @@ namespace DemoModel
 
     #region HeaterStatus Enumeration
     #if (!OPCUA_EXCLUDE_HeaterStatus)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
+    
     public enum HeaterStatus
     {
-        /// <remarks />
         [EnumMember(Value = "Off_0")]
         Off = 0,
 
-        /// <remarks />
         [EnumMember(Value = "Heating_1")]
         Heating = 1,
 
-        /// <remarks />
         [EnumMember(Value = "Cooling_2")]
         Cooling = 2,
     }
 
     #region HeaterStatusCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfHeaterStatus", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "HeaterStatus")]
     public partial class HeaterStatusCollection : List<HeaterStatus>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public HeaterStatusCollection() {}
 
-        /// <remarks />
         public HeaterStatusCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public HeaterStatusCollection(IEnumerable<HeaterStatus> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator HeaterStatusCollection(HeaterStatus[] values)
         {
             if (values != null)
@@ -186,7 +170,6 @@ namespace DemoModel
             return new HeaterStatusCollection();
         }
 
-        /// <remarks />
         public static explicit operator HeaterStatus[](HeaterStatusCollection values)
         {
             if (values != null)
@@ -199,7 +182,6 @@ namespace DemoModel
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (HeaterStatusCollection)this.MemberwiseClone();
@@ -225,25 +207,24 @@ namespace DemoModel
 
     #region Vector Class
     #if (!OPCUA_EXCLUDE_Vector)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public partial class Vector : IEncodeable, IJsonEncodeable
     {
         #region Constructors
-        /// <remarks />
         public Vector()
         {
             Initialize();
         }
-            
+
         [OnDeserializing]
         private void Initialize(StreamingContext context)
         {
             Initialize();
         }
-            
+
         private void Initialize()
         {
             m_x = (double)0;
@@ -253,7 +234,6 @@ namespace DemoModel
         #endregion
 
         #region Public Properties
-        /// <remarks />
         [DataMember(Name = "X", IsRequired = false, Order = 1)]
         public double X
         {
@@ -261,7 +241,6 @@ namespace DemoModel
             set { m_x = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "Y", IsRequired = false, Order = 2)]
         public double Y
         {
@@ -269,7 +248,6 @@ namespace DemoModel
             set { m_y = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "Z", IsRequired = false, Order = 3)]
         public double Z
         {
@@ -280,16 +258,16 @@ namespace DemoModel
 
         #region IEncodeable Members
         /// <summary cref="IEncodeable.TypeId" />
-        public virtual ExpandedNodeId TypeId => DataTypeIds.Vector; 
+        public virtual ExpandedNodeId TypeId => DataTypeIds.Vector;
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
         public virtual ExpandedNodeId BinaryEncodingId => ObjectIds.Vector_Encoding_DefaultBinary;
 
         /// <summary cref="IEncodeable.XmlEncodingId" />
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.Vector_Encoding_DefaultXml;
-                    
+
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.Vector_Encoding_DefaultJson; 
+        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.Vector_Encoding_DefaultJson;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -364,25 +342,21 @@ namespace DemoModel
     }
 
     #region VectorCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfVector", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "Vector")]
     public partial class VectorCollection : List<Vector>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public VectorCollection() {}
 
-        /// <remarks />
         public VectorCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public VectorCollection(IEnumerable<Vector> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator VectorCollection(Vector[] values)
         {
             if (values != null)
@@ -393,7 +367,6 @@ namespace DemoModel
             return new VectorCollection();
         }
 
-        /// <remarks />
         public static explicit operator Vector[](VectorCollection values)
         {
             if (values != null)
@@ -406,7 +379,6 @@ namespace DemoModel
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (VectorCollection)this.MemberwiseClone();
@@ -432,25 +404,24 @@ namespace DemoModel
 
     #region WorkOrderStatusType Class
     #if (!OPCUA_EXCLUDE_WorkOrderStatusType)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public partial class WorkOrderStatusType : IEncodeable, IJsonEncodeable
     {
         #region Constructors
-        /// <remarks />
         public WorkOrderStatusType()
         {
             Initialize();
         }
-            
+
         [OnDeserializing]
         private void Initialize(StreamingContext context)
         {
             Initialize();
         }
-            
+
         private void Initialize()
         {
             m_actor = null;
@@ -460,7 +431,6 @@ namespace DemoModel
         #endregion
 
         #region Public Properties
-        /// <remarks />
         [DataMember(Name = "Actor", IsRequired = false, Order = 1)]
         public string Actor
         {
@@ -468,7 +438,6 @@ namespace DemoModel
             set { m_actor = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "Timestamp", IsRequired = false, Order = 2)]
         public DateTime Timestamp
         {
@@ -476,7 +445,6 @@ namespace DemoModel
             set { m_timestamp = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "Comment", IsRequired = false, Order = 3)]
         public LocalizedText Comment
         {
@@ -487,16 +455,16 @@ namespace DemoModel
 
         #region IEncodeable Members
         /// <summary cref="IEncodeable.TypeId" />
-        public virtual ExpandedNodeId TypeId => DataTypeIds.WorkOrderStatusType; 
+        public virtual ExpandedNodeId TypeId => DataTypeIds.WorkOrderStatusType;
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
         public virtual ExpandedNodeId BinaryEncodingId => ObjectIds.WorkOrderStatusType_Encoding_DefaultBinary;
 
         /// <summary cref="IEncodeable.XmlEncodingId" />
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.WorkOrderStatusType_Encoding_DefaultXml;
-                    
+
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.WorkOrderStatusType_Encoding_DefaultJson; 
+        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.WorkOrderStatusType_Encoding_DefaultJson;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -571,25 +539,21 @@ namespace DemoModel
     }
 
     #region WorkOrderStatusTypeCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfWorkOrderStatusType", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "WorkOrderStatusType")]
     public partial class WorkOrderStatusTypeCollection : List<WorkOrderStatusType>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public WorkOrderStatusTypeCollection() {}
 
-        /// <remarks />
         public WorkOrderStatusTypeCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public WorkOrderStatusTypeCollection(IEnumerable<WorkOrderStatusType> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator WorkOrderStatusTypeCollection(WorkOrderStatusType[] values)
         {
             if (values != null)
@@ -600,7 +564,6 @@ namespace DemoModel
             return new WorkOrderStatusTypeCollection();
         }
 
-        /// <remarks />
         public static explicit operator WorkOrderStatusType[](WorkOrderStatusTypeCollection values)
         {
             if (values != null)
@@ -613,7 +576,6 @@ namespace DemoModel
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (WorkOrderStatusTypeCollection)this.MemberwiseClone();
@@ -639,25 +601,24 @@ namespace DemoModel
 
     #region WorkOrderType Class
     #if (!OPCUA_EXCLUDE_WorkOrderType)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public partial class WorkOrderType : IEncodeable, IJsonEncodeable
     {
         #region Constructors
-        /// <remarks />
         public WorkOrderType()
         {
             Initialize();
         }
-            
+
         [OnDeserializing]
         private void Initialize(StreamingContext context)
         {
             Initialize();
         }
-            
+
         private void Initialize()
         {
             m_iD = Uuid.Empty;
@@ -668,7 +629,6 @@ namespace DemoModel
         #endregion
 
         #region Public Properties
-        /// <remarks />
         [DataMember(Name = "ID", IsRequired = false, Order = 1)]
         public Uuid ID
         {
@@ -676,7 +636,6 @@ namespace DemoModel
             set { m_iD = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "AssetID", IsRequired = false, Order = 2)]
         public string AssetID
         {
@@ -684,7 +643,6 @@ namespace DemoModel
             set { m_assetID = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "StartTime", IsRequired = false, Order = 3)]
         public DateTime StartTime
         {
@@ -715,16 +673,16 @@ namespace DemoModel
 
         #region IEncodeable Members
         /// <summary cref="IEncodeable.TypeId" />
-        public virtual ExpandedNodeId TypeId => DataTypeIds.WorkOrderType; 
+        public virtual ExpandedNodeId TypeId => DataTypeIds.WorkOrderType;
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
         public virtual ExpandedNodeId BinaryEncodingId => ObjectIds.WorkOrderType_Encoding_DefaultBinary;
 
         /// <summary cref="IEncodeable.XmlEncodingId" />
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.WorkOrderType_Encoding_DefaultXml;
-                    
+
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.WorkOrderType_Encoding_DefaultJson; 
+        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.WorkOrderType_Encoding_DefaultJson;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -804,25 +762,21 @@ namespace DemoModel
     }
 
     #region WorkOrderTypeCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfWorkOrderType", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "WorkOrderType")]
     public partial class WorkOrderTypeCollection : List<WorkOrderType>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public WorkOrderTypeCollection() {}
 
-        /// <remarks />
         public WorkOrderTypeCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public WorkOrderTypeCollection(IEnumerable<WorkOrderType> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator WorkOrderTypeCollection(WorkOrderType[] values)
         {
             if (values != null)
@@ -833,7 +787,6 @@ namespace DemoModel
             return new WorkOrderTypeCollection();
         }
 
-        /// <remarks />
         public static explicit operator WorkOrderType[](WorkOrderTypeCollection values)
         {
             if (values != null)
@@ -846,7 +799,6 @@ namespace DemoModel
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (WorkOrderTypeCollection)this.MemberwiseClone();
@@ -870,30 +822,439 @@ namespace DemoModel
     #endif
     #endregion
 
+    #region ExtendedWorkOrderType Class
+    #if (!OPCUA_EXCLUDE_ExtendedWorkOrderType)
+    /// <exclude />
+    
+    public enum ExtendedWorkOrderFields : uint
+    {
+        None = 0,
+        ContactY = 0x1,
+        ContactZ = 0x2,
+    }
+
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
+    public partial class ExtendedWorkOrderType : DemoModel.WorkOrderType
+    {
+        #region Constructors
+        public ExtendedWorkOrderType()
+        {
+            Initialize();
+        }
+
+        [OnDeserializing]
+        private void Initialize(StreamingContext context)
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            m_contactX = (uint)0;
+            m_contactY = new StringCollection();
+            m_contactZ = null;
+        }
+        #endregion
+
+        #region Public Properties
+        /// <remarks />
+        [DataMember(Name = "EncodingMask", IsRequired = true, Order = 0)]
+        public virtual uint EncodingMask { get; set; }
+
+        [DataMember(Name = "ContactX", IsRequired = false, Order = 1)]
+        public uint ContactX
+        {
+            get { return m_contactX;  }
+            set { m_contactX = value; }
+        }
+
+        /// <remarks />
+        [DataMember(Name = "ContactY", IsRequired = false, Order = 2)]
+        public StringCollection ContactY
+        {
+            get
+            {
+                return m_contactY;
+            }
+
+            set
+            {
+                m_contactY = value;
+
+                if (value == null)
+                {
+                    m_contactY = new StringCollection();
+                }
+            }
+        }
+
+        [DataMember(Name = "ContactZ", IsRequired = false, Order = 3)]
+        public byte[] ContactZ
+        {
+            get { return m_contactZ;  }
+            set { m_contactZ = value; }
+        }
+        #endregion
+
+        #region IEncodeable Members
+        /// <summary cref="IEncodeable.TypeId" />
+        public override ExpandedNodeId TypeId => DataTypeIds.ExtendedWorkOrderType;
+
+        /// <summary cref="IEncodeable.BinaryEncodingId" />
+        public override ExpandedNodeId BinaryEncodingId => ObjectIds.ExtendedWorkOrderType_Encoding_DefaultBinary;
+
+        /// <summary cref="IEncodeable.XmlEncodingId" />
+        public override ExpandedNodeId XmlEncodingId => ObjectIds.ExtendedWorkOrderType_Encoding_DefaultXml;
+
+        /// <summary cref="IJsonEncodeable.JsonEncodingId" />
+        public override ExpandedNodeId JsonEncodingId => ObjectIds.ExtendedWorkOrderType_Encoding_DefaultJson;
+
+        /// <summary cref="IEncodeable.Encode(IEncoder)" />
+        public override void Encode(IEncoder encoder)
+        {
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+            encoder.WriteEncodingMask((uint)EncodingMask);
+            encoder.PopNamespace();
+
+            base.Encode(encoder);
+
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+
+            encoder.WriteUInt32("ContactX", ContactX);
+            if ((EncodingMask & (uint)ExtendedWorkOrderFields.ContactY) != 0) encoder.WriteStringArray("ContactY", ContactY);
+            if ((EncodingMask & (uint)ExtendedWorkOrderFields.ContactZ) != 0) encoder.WriteByteString("ContactZ", ContactZ);
+
+            encoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.Decode(IDecoder)" />
+        public override void Decode(IDecoder decoder)
+        {
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+            EncodingMask = decoder.ReadEncodingMask(m_FieldNames);
+            decoder.PopNamespace();
+                
+            base.Decode(decoder);
+
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+
+            ContactX = decoder.ReadUInt32("ContactX");
+            if ((EncodingMask & (uint)ExtendedWorkOrderFields.ContactY) != 0) ContactY = decoder.ReadStringArray("ContactY");
+            if ((EncodingMask & (uint)ExtendedWorkOrderFields.ContactZ) != 0) ContactZ = decoder.ReadByteString("ContactZ");
+
+            decoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
+        public override bool IsEqual(IEncodeable encodeable)
+        {
+            if (Object.ReferenceEquals(this, encodeable))
+            {
+                return true;
+            }
+
+            ExtendedWorkOrderType value = encodeable as ExtendedWorkOrderType;
+
+            if (value == null)
+            {
+                return false;
+            }
+
+            if (value.EncodingMask != this.EncodingMask) return false;
+
+            if (!Utils.IsEqual(m_contactX, value.m_contactX)) return false;
+            if ((EncodingMask & (uint)ExtendedWorkOrderFields.ContactY) != 0) if (!Utils.IsEqual(m_contactY, value.m_contactY)) return false;
+            if ((EncodingMask & (uint)ExtendedWorkOrderFields.ContactZ) != 0) if (!Utils.IsEqual(m_contactZ, value.m_contactZ)) return false;
+
+            return base.IsEqual(encodeable);
+        }
+
+        /// <summary cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            return (ExtendedWorkOrderType)this.MemberwiseClone();
+        }
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            ExtendedWorkOrderType clone = (ExtendedWorkOrderType)base.MemberwiseClone();
+                
+            clone.EncodingMask = this.EncodingMask;
+            clone.m_contactX = (uint)Utils.Clone(this.m_contactX);
+            if ((EncodingMask & (uint)ExtendedWorkOrderFields.ContactY) != 0) clone.m_contactY = (StringCollection)Utils.Clone(this.m_contactY);
+            if ((EncodingMask & (uint)ExtendedWorkOrderFields.ContactZ) != 0) clone.m_contactZ = (byte[])Utils.Clone(this.m_contactZ);
+
+            return clone;
+        }
+        #endregion
+
+        #region Private Fields
+        private uint m_contactX;
+        private StringCollection m_contactY;
+        private byte[] m_contactZ;
+
+        private static readonly string[] m_FieldNames = Enum.GetNames(typeof(ExtendedWorkOrderFields)).Where(x => x != nameof(ExtendedWorkOrderFields.None)).ToArray();
+        #endregion
+    }
+
+    #region ExtendedWorkOrderTypeCollection Class
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [CollectionDataContract(Name = "ListOfExtendedWorkOrderType", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "ExtendedWorkOrderType")]
+    public partial class ExtendedWorkOrderTypeCollection : List<ExtendedWorkOrderType>, ICloneable
+    {
+        #region Constructors
+        public ExtendedWorkOrderTypeCollection() {}
+
+        public ExtendedWorkOrderTypeCollection(int capacity) : base(capacity) {}
+
+        public ExtendedWorkOrderTypeCollection(IEnumerable<ExtendedWorkOrderType> collection) : base(collection) {}
+        #endregion
+
+        #region Static Operators
+        public static implicit operator ExtendedWorkOrderTypeCollection(ExtendedWorkOrderType[] values)
+        {
+            if (values != null)
+            {
+                return new ExtendedWorkOrderTypeCollection(values);
+            }
+
+            return new ExtendedWorkOrderTypeCollection();
+        }
+
+        public static explicit operator ExtendedWorkOrderType[](ExtendedWorkOrderTypeCollection values)
+        {
+            if (values != null)
+            {
+                return values.ToArray();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #region ICloneable Methods
+        public object Clone()
+        {
+            return (ExtendedWorkOrderTypeCollection)this.MemberwiseClone();
+        }
+        #endregion
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            ExtendedWorkOrderTypeCollection clone = new ExtendedWorkOrderTypeCollection(this.Count);
+
+            for (int ii = 0; ii < this.Count; ii++)
+            {
+                clone.Add((ExtendedWorkOrderType)Utils.Clone(this[ii]));
+            }
+
+            return clone;
+        }
+    }
+    #endregion
+    #endif
+    #endregion
+
+    #region FinalWorkOrderType Class
+    #if (!OPCUA_EXCLUDE_FinalWorkOrderType)
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
+    public partial class FinalWorkOrderType : DemoModel.ExtendedWorkOrderType
+    {
+        #region Constructors
+        public FinalWorkOrderType()
+        {
+            Initialize();
+        }
+
+        [OnDeserializing]
+        private void Initialize(StreamingContext context)
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            m_address = null;
+        }
+        #endregion
+
+        #region Public Properties
+        [DataMember(Name = "Address", IsRequired = false, Order = 1)]
+        public string Address
+        {
+            get { return m_address;  }
+            set { m_address = value; }
+        }
+        #endregion
+
+        #region IEncodeable Members
+        /// <summary cref="IEncodeable.TypeId" />
+        public override ExpandedNodeId TypeId => DataTypeIds.FinalWorkOrderType;
+
+        /// <summary cref="IEncodeable.BinaryEncodingId" />
+        public override ExpandedNodeId BinaryEncodingId => ObjectIds.FinalWorkOrderType_Encoding_DefaultBinary;
+
+        /// <summary cref="IEncodeable.XmlEncodingId" />
+        public override ExpandedNodeId XmlEncodingId => ObjectIds.FinalWorkOrderType_Encoding_DefaultXml;
+
+        /// <summary cref="IJsonEncodeable.JsonEncodingId" />
+        public override ExpandedNodeId JsonEncodingId => ObjectIds.FinalWorkOrderType_Encoding_DefaultJson;
+
+        /// <summary cref="IEncodeable.Encode(IEncoder)" />
+        public override void Encode(IEncoder encoder)
+        {
+            base.Encode(encoder);
+
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+
+            encoder.WriteString("Address", Address);
+
+            encoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.Decode(IDecoder)" />
+        public override void Decode(IDecoder decoder)
+        {
+            base.Decode(decoder);
+
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+
+            Address = decoder.ReadString("Address");
+
+            decoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
+        public override bool IsEqual(IEncodeable encodeable)
+        {
+            if (Object.ReferenceEquals(this, encodeable))
+            {
+                return true;
+            }
+
+            FinalWorkOrderType value = encodeable as FinalWorkOrderType;
+
+            if (value == null)
+            {
+                return false;
+            }
+
+            if (!Utils.IsEqual(m_address, value.m_address)) return false;
+
+            return base.IsEqual(encodeable);
+        }
+
+        /// <summary cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            return (FinalWorkOrderType)this.MemberwiseClone();
+        }
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            FinalWorkOrderType clone = (FinalWorkOrderType)base.MemberwiseClone();
+
+            clone.m_address = (string)Utils.Clone(this.m_address);
+
+            return clone;
+        }
+        #endregion
+
+        #region Private Fields
+        private string m_address;
+        #endregion
+    }
+
+    #region FinalWorkOrderTypeCollection Class
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [CollectionDataContract(Name = "ListOfFinalWorkOrderType", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "FinalWorkOrderType")]
+    public partial class FinalWorkOrderTypeCollection : List<FinalWorkOrderType>, ICloneable
+    {
+        #region Constructors
+        public FinalWorkOrderTypeCollection() {}
+
+        public FinalWorkOrderTypeCollection(int capacity) : base(capacity) {}
+
+        public FinalWorkOrderTypeCollection(IEnumerable<FinalWorkOrderType> collection) : base(collection) {}
+        #endregion
+
+        #region Static Operators
+        public static implicit operator FinalWorkOrderTypeCollection(FinalWorkOrderType[] values)
+        {
+            if (values != null)
+            {
+                return new FinalWorkOrderTypeCollection(values);
+            }
+
+            return new FinalWorkOrderTypeCollection();
+        }
+
+        public static explicit operator FinalWorkOrderType[](FinalWorkOrderTypeCollection values)
+        {
+            if (values != null)
+            {
+                return values.ToArray();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #region ICloneable Methods
+        public object Clone()
+        {
+            return (FinalWorkOrderTypeCollection)this.MemberwiseClone();
+        }
+        #endregion
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            FinalWorkOrderTypeCollection clone = new FinalWorkOrderTypeCollection(this.Count);
+
+            for (int ii = 0; ii < this.Count; ii++)
+            {
+                clone.Add((FinalWorkOrderType)Utils.Clone(this[ii]));
+            }
+
+            return clone;
+        }
+    }
+    #endregion
+    #endif
+    #endregion
+
     #region SampleUnion Class
     #if (!OPCUA_EXCLUDE_SampleUnion)
-    /// <remarks />
     /// <exclude />
     public enum SampleUnionFields : uint
     {
-        /// <remarks />
         None = 0,
-        /// <remarks />
         FieldX = 1,
-        /// <remarks />
         FieldY = 2,
-        /// <remarks />
         FieldZ = 3
     }
 
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public partial class SampleUnion : IEncodeable, IJsonEncodeable
     {
         #region Constructors
-        /// <remarks />
         public SampleUnion()
         {
             Initialize();
@@ -915,11 +1276,9 @@ namespace DemoModel
         #endregion
 
         #region Public Properties
-        /// <remarks />
         [DataMember(Name = "SwitchField", IsRequired = true, Order = 0)]
         public SampleUnionFields SwitchField { get; set; }
 
-        /// <remarks />
         [DataMember(Name = "FieldX", IsRequired = false, Order = 1)]
         public uint FieldX
         {
@@ -947,7 +1306,6 @@ namespace DemoModel
             }
         }
 
-        /// <remarks />
         [DataMember(Name = "FieldZ", IsRequired = false, Order = 3)]
         public byte[] FieldZ
         {
@@ -958,7 +1316,7 @@ namespace DemoModel
 
         #region IEncodeable Members
         /// <summary cref="IEncodeable.TypeId" />
-        public virtual ExpandedNodeId TypeId => DataTypeIds.SampleUnion; 
+        public virtual ExpandedNodeId TypeId => DataTypeIds.SampleUnion;
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
         public virtual ExpandedNodeId BinaryEncodingId => ObjectIds.SampleUnion_Encoding_DefaultBinary;
@@ -967,7 +1325,7 @@ namespace DemoModel
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.SampleUnion_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.SampleUnion_Encoding_DefaultJson; 
+        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.SampleUnion_Encoding_DefaultJson;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -982,7 +1340,7 @@ namespace DemoModel
                 case SampleUnionFields.FieldY: { encoder.WriteStringArray(fieldName ?? "FieldY", FieldY); break; }
                 case SampleUnionFields.FieldZ: { encoder.WriteByteString(fieldName ?? "FieldZ", FieldZ); break; }
             }
-            
+
             encoder.PopNamespace();
         }
 
@@ -1061,31 +1419,27 @@ namespace DemoModel
         private uint m_fieldX;
         private StringCollection m_fieldY;
         private byte[] m_fieldZ;
-           
+
         private static readonly string[] m_FieldNames = Enum.GetNames(typeof(SampleUnionFields)).Where(x => x != nameof(SampleUnionFields.None)).ToArray();
         #endregion
     }
 
     #region SampleUnionCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfSampleUnion", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "SampleUnion")]
     public partial class SampleUnionCollection : List<SampleUnion>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public SampleUnionCollection() {}
 
-        /// <remarks />
         public SampleUnionCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public SampleUnionCollection(IEnumerable<SampleUnion> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator SampleUnionCollection(SampleUnion[] values)
         {
             if (values != null)
@@ -1096,7 +1450,6 @@ namespace DemoModel
             return new SampleUnionCollection();
         }
 
-        /// <remarks />
         public static explicit operator SampleUnion[](SampleUnionCollection values)
         {
             if (values != null)
@@ -1109,7 +1462,6 @@ namespace DemoModel
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (SampleUnionCollection)this.MemberwiseClone();
@@ -1135,27 +1487,22 @@ namespace DemoModel
 
     #region SampleStructureWithOptionalFields Class
     #if (!OPCUA_EXCLUDE_SampleStructureWithOptionalFields)
-    /// <remarks />
     /// <exclude />
     
     public enum SampleStructureWithOptionalFieldsFields : uint
-    {   
-        /// <remarks />
+    {
         None = 0,
-        /// <remarks />
         FieldY = 0x1,
-        /// <remarks />
         FieldZ = 0x2,
     }
-        
-    /// <remarks />
+
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public partial class SampleStructureWithOptionalFields : IEncodeable, IJsonEncodeable
     {
         #region Constructors
-        /// <remarks />
         public SampleStructureWithOptionalFields()
         {
             Initialize();
@@ -1177,11 +1524,9 @@ namespace DemoModel
         #endregion
 
         #region Public Properties
-        /// <remarks />
         [DataMember(Name = "EncodingMask", IsRequired = true, Order = 0)]
         public virtual uint EncodingMask { get; set; }
 
-        /// <remarks />
         [DataMember(Name = "FieldX", IsRequired = false, Order = 1)]
         public uint FieldX
         {
@@ -1209,7 +1554,6 @@ namespace DemoModel
             }
         }
 
-        /// <remarks />
         [DataMember(Name = "FieldZ", IsRequired = false, Order = 3)]
         public byte[] FieldZ
         {
@@ -1220,16 +1564,16 @@ namespace DemoModel
 
         #region IEncodeable Members
         /// <summary cref="IEncodeable.TypeId" />
-        public virtual ExpandedNodeId TypeId => DataTypeIds.SampleStructureWithOptionalFields; 
+        public virtual ExpandedNodeId TypeId => DataTypeIds.SampleStructureWithOptionalFields;
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
         public virtual ExpandedNodeId BinaryEncodingId => ObjectIds.SampleStructureWithOptionalFields_Encoding_DefaultBinary;
 
         /// <summary cref="IEncodeable.XmlEncodingId" />
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.SampleStructureWithOptionalFields_Encoding_DefaultXml;
-            
+
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.SampleStructureWithOptionalFields_Encoding_DefaultJson; 
+        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.SampleStructureWithOptionalFields_Encoding_DefaultJson;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -1307,31 +1651,27 @@ namespace DemoModel
         private uint m_fieldX;
         private StringCollection m_fieldY;
         private byte[] m_fieldZ;
-        
+
         private static readonly string[] m_FieldNames = Enum.GetNames(typeof(SampleStructureWithOptionalFieldsFields)).Where(x => x != nameof(SampleStructureWithOptionalFieldsFields.None)).ToArray();
         #endregion
     }
 
     #region SampleStructureWithOptionalFieldsCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfSampleStructureWithOptionalFields", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "SampleStructureWithOptionalFields")]
     public partial class SampleStructureWithOptionalFieldsCollection : List<SampleStructureWithOptionalFields>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public SampleStructureWithOptionalFieldsCollection() {}
 
-        /// <remarks />
         public SampleStructureWithOptionalFieldsCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public SampleStructureWithOptionalFieldsCollection(IEnumerable<SampleStructureWithOptionalFields> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator SampleStructureWithOptionalFieldsCollection(SampleStructureWithOptionalFields[] values)
         {
             if (values != null)
@@ -1342,7 +1682,6 @@ namespace DemoModel
             return new SampleStructureWithOptionalFieldsCollection();
         }
 
-        /// <remarks />
         public static explicit operator SampleStructureWithOptionalFields[](SampleStructureWithOptionalFieldsCollection values)
         {
             if (values != null)
@@ -1355,7 +1694,6 @@ namespace DemoModel
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (SampleStructureWithOptionalFieldsCollection)this.MemberwiseClone();
@@ -1381,26 +1719,21 @@ namespace DemoModel
 
     #region SampleUnionAllowSubtypes Class
     #if (!OPCUA_EXCLUDE_SampleUnionAllowSubtypes)
-    /// <remarks />
     /// <exclude />
     public enum SampleUnionAllowSubtypesFields : uint
     {
-        /// <remarks />
         None = 0,
-        /// <remarks />
         FieldX = 1,
-        /// <remarks />
         FieldY = 2
     }
 
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public partial class SampleUnionAllowSubtypes : IEncodeable, IJsonEncodeable
     {
         #region Constructors
-        /// <remarks />
         public SampleUnionAllowSubtypes()
         {
             Initialize();
@@ -1421,11 +1754,9 @@ namespace DemoModel
         #endregion
 
         #region Public Properties
-        /// <remarks />
         [DataMember(Name = "SwitchField", IsRequired = true, Order = 0)]
         public SampleUnionAllowSubtypesFields SwitchField { get; set; }
 
-        /// <remarks />
         [DataMember(Name = "FieldX", IsRequired = false, Order = 1)]
         public ExtensionObject FieldX
         {
@@ -1456,7 +1787,7 @@ namespace DemoModel
 
         #region IEncodeable Members
         /// <summary cref="IEncodeable.TypeId" />
-        public virtual ExpandedNodeId TypeId => DataTypeIds.SampleUnionAllowSubtypes; 
+        public virtual ExpandedNodeId TypeId => DataTypeIds.SampleUnionAllowSubtypes;
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
         public virtual ExpandedNodeId BinaryEncodingId => ObjectIds.SampleUnionAllowSubtypes_Encoding_DefaultBinary;
@@ -1465,7 +1796,7 @@ namespace DemoModel
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.SampleUnionAllowSubtypes_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.SampleUnionAllowSubtypes_Encoding_DefaultJson; 
+        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.SampleUnionAllowSubtypes_Encoding_DefaultJson;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -1479,7 +1810,7 @@ namespace DemoModel
                 case SampleUnionAllowSubtypesFields.FieldX: { encoder.WriteExtensionObject(fieldName ?? "FieldX", FieldX); break; }
                 case SampleUnionAllowSubtypesFields.FieldY: { encoder.WriteEncodeable(fieldName ?? "FieldY", FieldY, typeof(WorkOrderStatusType)); break; }
             }
-            
+
             encoder.PopNamespace();
         }
 
@@ -1554,31 +1885,27 @@ namespace DemoModel
         #region Private Fields
         private ExtensionObject m_fieldX;
         private WorkOrderStatusType m_fieldY;
-           
+
         private static readonly string[] m_FieldNames = Enum.GetNames(typeof(SampleUnionAllowSubtypesFields)).Where(x => x != nameof(SampleUnionAllowSubtypesFields.None)).ToArray();
         #endregion
     }
 
     #region SampleUnionAllowSubtypesCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfSampleUnionAllowSubtypes", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "SampleUnionAllowSubtypes")]
     public partial class SampleUnionAllowSubtypesCollection : List<SampleUnionAllowSubtypes>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public SampleUnionAllowSubtypesCollection() {}
 
-        /// <remarks />
         public SampleUnionAllowSubtypesCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public SampleUnionAllowSubtypesCollection(IEnumerable<SampleUnionAllowSubtypes> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator SampleUnionAllowSubtypesCollection(SampleUnionAllowSubtypes[] values)
         {
             if (values != null)
@@ -1589,7 +1916,6 @@ namespace DemoModel
             return new SampleUnionAllowSubtypesCollection();
         }
 
-        /// <remarks />
         public static explicit operator SampleUnionAllowSubtypes[](SampleUnionAllowSubtypesCollection values)
         {
             if (values != null)
@@ -1602,7 +1928,6 @@ namespace DemoModel
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (SampleUnionAllowSubtypesCollection)this.MemberwiseClone();
@@ -1628,25 +1953,24 @@ namespace DemoModel
 
     #region SampleStructureAllowSubtypes Class
     #if (!OPCUA_EXCLUDE_SampleStructureAllowSubtypes)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public partial class SampleStructureAllowSubtypes : IEncodeable, IJsonEncodeable
     {
         #region Constructors
-        /// <remarks />
         public SampleStructureAllowSubtypes()
         {
             Initialize();
         }
-            
+
         [OnDeserializing]
         private void Initialize(StreamingContext context)
         {
             Initialize();
         }
-            
+
         private void Initialize()
         {
             m_fieldX = null;
@@ -1657,7 +1981,6 @@ namespace DemoModel
         #endregion
 
         #region Public Properties
-        /// <remarks />
         [DataMember(Name = "FieldX", IsRequired = false, Order = 1)]
         public ExtensionObject FieldX
         {
@@ -1665,7 +1988,6 @@ namespace DemoModel
             set { m_fieldX = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "FieldY", IsRequired = false, Order = 2)]
         public ExtensionObjectCollection FieldY
         {
@@ -1673,7 +1995,6 @@ namespace DemoModel
             set { m_fieldY = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "FieldZ", IsRequired = false, Order = 3)]
         public Variant FieldZ
         {
@@ -1704,16 +2025,16 @@ namespace DemoModel
 
         #region IEncodeable Members
         /// <summary cref="IEncodeable.TypeId" />
-        public virtual ExpandedNodeId TypeId => DataTypeIds.SampleStructureAllowSubtypes; 
+        public virtual ExpandedNodeId TypeId => DataTypeIds.SampleStructureAllowSubtypes;
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
         public virtual ExpandedNodeId BinaryEncodingId => ObjectIds.SampleStructureAllowSubtypes_Encoding_DefaultBinary;
 
         /// <summary cref="IEncodeable.XmlEncodingId" />
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.SampleStructureAllowSubtypes_Encoding_DefaultXml;
-                    
+
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.SampleStructureAllowSubtypes_Encoding_DefaultJson; 
+        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.SampleStructureAllowSubtypes_Encoding_DefaultJson;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -1793,25 +2114,21 @@ namespace DemoModel
     }
 
     #region SampleStructureAllowSubtypesCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfSampleStructureAllowSubtypes", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "SampleStructureAllowSubtypes")]
     public partial class SampleStructureAllowSubtypesCollection : List<SampleStructureAllowSubtypes>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public SampleStructureAllowSubtypesCollection() {}
 
-        /// <remarks />
         public SampleStructureAllowSubtypesCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public SampleStructureAllowSubtypesCollection(IEnumerable<SampleStructureAllowSubtypes> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator SampleStructureAllowSubtypesCollection(SampleStructureAllowSubtypes[] values)
         {
             if (values != null)
@@ -1822,7 +2139,6 @@ namespace DemoModel
             return new SampleStructureAllowSubtypesCollection();
         }
 
-        /// <remarks />
         public static explicit operator SampleStructureAllowSubtypes[](SampleStructureAllowSubtypesCollection values)
         {
             if (values != null)
@@ -1835,7 +2151,6 @@ namespace DemoModel
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (SampleStructureAllowSubtypesCollection)this.MemberwiseClone();
@@ -1861,25 +2176,21 @@ namespace DemoModel
 
     #region Person Class
     #if (!OPCUA_EXCLUDE_Person)
-    /// <remarks />
     /// <exclude />
     
     public enum PersonFields : uint
-    {   
-        /// <remarks />
+    {
         None = 0,
-        /// <remarks />
         LastName = 0x1,
     }
-        
-    /// <remarks />
+
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public partial class Person : IEncodeable, IJsonEncodeable
     {
         #region Constructors
-        /// <remarks />
         public Person()
         {
             Initialize();
@@ -1899,11 +2210,9 @@ namespace DemoModel
         #endregion
 
         #region Public Properties
-        /// <remarks />
         [DataMember(Name = "EncodingMask", IsRequired = true, Order = 0)]
         public virtual uint EncodingMask { get; set; }
 
-        /// <remarks />
         [DataMember(Name = "LastName", IsRequired = false, Order = 1)]
         public string LastName
         {
@@ -1914,16 +2223,16 @@ namespace DemoModel
 
         #region IEncodeable Members
         /// <summary cref="IEncodeable.TypeId" />
-        public virtual ExpandedNodeId TypeId => DataTypeIds.Person; 
+        public virtual ExpandedNodeId TypeId => DataTypeIds.Person;
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
         public virtual ExpandedNodeId BinaryEncodingId => ObjectIds.Person_Encoding_DefaultBinary;
 
         /// <summary cref="IEncodeable.XmlEncodingId" />
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.Person_Encoding_DefaultXml;
-            
+
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.Person_Encoding_DefaultJson; 
+        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.Person_Encoding_DefaultJson;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -1991,31 +2300,27 @@ namespace DemoModel
 
         #region Private Fields
         private string m_lastName;
-        
+
         private static readonly string[] m_FieldNames = Enum.GetNames(typeof(PersonFields)).Where(x => x != nameof(PersonFields.None)).ToArray();
         #endregion
     }
 
     #region PersonCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfPerson", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "Person")]
     public partial class PersonCollection : List<Person>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public PersonCollection() {}
 
-        /// <remarks />
         public PersonCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public PersonCollection(IEnumerable<Person> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator PersonCollection(Person[] values)
         {
             if (values != null)
@@ -2026,7 +2331,6 @@ namespace DemoModel
             return new PersonCollection();
         }
 
-        /// <remarks />
         public static explicit operator Person[](PersonCollection values)
         {
             if (values != null)
@@ -2039,7 +2343,6 @@ namespace DemoModel
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (PersonCollection)this.MemberwiseClone();
@@ -2065,28 +2368,23 @@ namespace DemoModel
 
     #region Student Class
     #if (!OPCUA_EXCLUDE_Student)
-    /// <remarks />
     /// <exclude />
     
     public enum StudentFields : uint
-    {   
+    {
         None = 0,
-        /// <remarks />
         LastName = 0x1,
-        /// <remarks />
         FirstName = 0x2,
-        /// <remarks />
         University = 0x4,
     }
 
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
     public partial class Student : DemoModel.Person
     {
         #region Constructors
-        /// <remarks />
         public Student()
         {
             Initialize();
@@ -2106,7 +2404,7 @@ namespace DemoModel
         #endregion
 
         #region Public Properties
-        /// <remarks />
+        
         [DataMember(Name = "FirstName", IsRequired = false, Order = 1)]
         public string FirstName
         {
@@ -2114,7 +2412,6 @@ namespace DemoModel
             set { m_firstName = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "University", IsRequired = false, Order = 2)]
         public string University
         {
@@ -2125,20 +2422,24 @@ namespace DemoModel
 
         #region IEncodeable Members
         /// <summary cref="IEncodeable.TypeId" />
-        public override ExpandedNodeId TypeId => DataTypeIds.Student; 
+        public override ExpandedNodeId TypeId => DataTypeIds.Student;
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
         public override ExpandedNodeId BinaryEncodingId => ObjectIds.Student_Encoding_DefaultBinary;
 
         /// <summary cref="IEncodeable.XmlEncodingId" />
         public override ExpandedNodeId XmlEncodingId => ObjectIds.Student_Encoding_DefaultXml;
-            
+
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public override ExpandedNodeId JsonEncodingId => ObjectIds.Student_Encoding_DefaultJson; 
+        public override ExpandedNodeId JsonEncodingId => ObjectIds.Student_Encoding_DefaultJson;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public override void Encode(IEncoder encoder)
         {
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+            
+            encoder.PopNamespace();
+
             base.Encode(encoder);
 
             encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
@@ -2152,6 +2453,10 @@ namespace DemoModel
         /// <summary cref="IEncodeable.Decode(IDecoder)" />
         public override void Decode(IDecoder decoder)
         {
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+            
+            decoder.PopNamespace();
+                
             base.Decode(decoder);
 
             decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
@@ -2177,9 +2482,11 @@ namespace DemoModel
                 return false;
             }
 
+            
+
             if ((EncodingMask & (uint)StudentFields.FirstName) != 0) if (!Utils.IsEqual(m_firstName, value.m_firstName)) return false;
             if ((EncodingMask & (uint)StudentFields.University) != 0) if (!Utils.IsEqual(m_university, value.m_university)) return false;
-            
+
             return base.IsEqual(encodeable);
         }
 
@@ -2193,7 +2500,8 @@ namespace DemoModel
         public new object MemberwiseClone()
         {
             Student clone = (Student)base.MemberwiseClone();
-
+                
+            
             if ((EncodingMask & (uint)StudentFields.FirstName) != 0) clone.m_firstName = (string)Utils.Clone(this.m_firstName);
             if ((EncodingMask & (uint)StudentFields.University) != 0) clone.m_university = (string)Utils.Clone(this.m_university);
 
@@ -2210,25 +2518,21 @@ namespace DemoModel
     }
 
     #region StudentCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfStudent", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "Student")]
     public partial class StudentCollection : List<Student>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public StudentCollection() {}
 
-        /// <remarks />
         public StudentCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public StudentCollection(IEnumerable<Student> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator StudentCollection(Student[] values)
         {
             if (values != null)
@@ -2239,7 +2543,6 @@ namespace DemoModel
             return new StudentCollection();
         }
 
-        /// <remarks />
         public static explicit operator Student[](StudentCollection values)
         {
             if (values != null)
@@ -2252,7 +2555,6 @@ namespace DemoModel
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (StudentCollection)this.MemberwiseClone();

@@ -46,7 +46,7 @@ namespace CodeGenerator
         {
             var WellKnownDictionaries = new string[][]
             {
-                new string[] { Namespaces.OpcUaBuiltInTypes, $"ModelCompiler.StackGenerator.Validators.BuiltInTypes.xml" }
+                [Namespaces.OpcUaBuiltInTypes, $"ModelCompiler.StackGenerator.Validators.BuiltInTypes.xml"]
             };
 
             SetResourcePaths(WellKnownDictionaries);
@@ -59,7 +59,7 @@ namespace CodeGenerator
         {
             var WellKnownDictionaries = new string[][]
             {
-                new string[] { Namespaces.OpcUaBuiltInTypes, $"ModelCompiler.StackGenerator.Validators.BuiltInTypes.xml" }
+                [Namespaces.OpcUaBuiltInTypes, $"ModelCompiler.StackGenerator.Validators.BuiltInTypes.xml"]
             };
 
             SetResourcePaths(WellKnownDictionaries);
@@ -466,7 +466,7 @@ namespace CodeGenerator
         {
             if (complexType.Field == null)
             {
-                complexType.Field = new FieldType[0];
+                complexType.Field = [];
             }
 
             Dictionary<string,FieldType> fields = new Dictionary<string,FieldType>();
@@ -551,7 +551,7 @@ namespace CodeGenerator
                 throw Exception("The enumerated type '{0}' does not have any values specified.", enumeratedType.Name);
             }
 
-            int nextIndex = 0;
+            decimal nextIndex = 0;
             Dictionary<string,EnumeratedValue> values = new Dictionary<string,EnumeratedValue>();
 
             for (int ii = 0; ii < enumeratedType.Value.Length; ii++)

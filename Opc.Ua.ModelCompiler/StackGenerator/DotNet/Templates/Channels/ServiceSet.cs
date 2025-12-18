@@ -7,6 +7,7 @@ namespace _Prefix_
 /// </summary>
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
 #if (!NET_STANDARD)
 public partial class _ServiceSet_Channel : WcfChannelBase<I_ServiceSet_Channel>, I_ServiceSet_Channel
 #else

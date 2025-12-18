@@ -1,0 +1,27 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Docker" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Schemas/">
+    <File Path="Schemas/OPCBinarySchema.xsd" />
+    <File Path="Schemas/SecuredApplication.xsd" />
+    <File Path="Schemas/ServerCapabilities.csv" />
+    <File Path="Schemas/UANodeSet.xsd" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="BuildEngineeringUnits.bat" />
+    <File Path="BuildStandardTypes.bat" />
+    <File Path="CompileNodeSets.bat" />
+    <File Path="PublishModel.bat" />
+    <File Path="PublishNodeSet.bat" />
+    <File Path="TestNodeSets.bat" />
+    <File Path="UpdateLicense.bat" />
+  </Folder>
+  <Project Path="Opc.Ua.ModelCompiler.Tool/Opc.Ua.ModelCompiler.Tool.csproj">
+    <Build Solution="Docker|*" Project="false" />
+  </Project>
+  <Project Path="Opc.Ua.ModelCompiler/Opc.Ua.ModelCompiler.csproj" />
+</Solution>

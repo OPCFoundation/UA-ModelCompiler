@@ -31,6 +31,7 @@ using System.Text;
 using System.Xml;
 using System.Reflection;
 using Opc.Ua;
+using System.Globalization;
 
 namespace CodeGenerator
 {
@@ -78,11 +79,11 @@ namespace CodeGenerator
         /// </summary>
         private void WriteTemplate_BinarySchema(string fileName)
         {
-            StreamWriter writer = new StreamWriter(String.Format(@"{0}\{1}.bsd", OutputDirectory, fileName), false);
+            StreamWriter writer = new StreamWriter(String.Format(CultureInfo.InvariantCulture, @"{0}\{1}.bsd", OutputDirectory, fileName), false);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "File.xml", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "File.xml", Assembly.GetExecutingAssembly());
 
                 template.Replacements.Add("_BuildDate_", Utils.Format("{0:yyyy-MM-dd}", DateTime.UtcNow));
                 template.Replacements.Add("_Version_", Utils.Format("{0}.{1}", Utils.GetAssemblySoftwareVersion(), Utils.GetAssemblyBuildNumber()));
@@ -90,7 +91,7 @@ namespace CodeGenerator
 
                 StringBuilder buffer = new StringBuilder();
 
-                buffer.AppendFormat("xmlns=\"{0}\"", NamespaceUris[0]);
+                buffer.AppendFormat(CultureInfo.InvariantCulture, "xmlns=\"{0}\"", NamespaceUris[0]);
 
                 if (!m_exportAll)
                 {
@@ -98,7 +99,7 @@ namespace CodeGenerator
                     {
                         buffer.Append(template.NewLine);
                         buffer.Append("  ");
-                        buffer.AppendFormat("xmlns:s{0}=\"{1}\"", ii - 1, NamespaceUris[ii]);
+                        buffer.AppendFormat(CultureInfo.InvariantCulture, "xmlns:s{0}=\"{1}\"", ii - 1, NamespaceUris[ii]);
                     }
                 }
 
@@ -145,7 +146,7 @@ namespace CodeGenerator
         private string GetImportStatment(string uri)
         {
             string location = null;
-            string[] elements = uri.Split(new char[] { '/' });
+            string[] elements = uri.Split(['/']);
 
             for (int ii = elements.Length-1; ii >= 0; ii--)
             {
@@ -156,7 +157,7 @@ namespace CodeGenerator
                 }
             }
 
-            return String.Format("<opc:Import Namespace=\"{0}\" Location=\"{1}.bsd\" />", uri, location);
+            return String.Format(CultureInfo.InvariantCulture, "<opc:Import Namespace=\"{0}\" Location=\"{1}.bsd\" />", uri, location);
         }
 
         /// <summary>
@@ -358,7 +359,7 @@ namespace CodeGenerator
 
             if (datatype == null)
             {
-                throw new ApplicationException(String.Format("Could not find datatype '{0}' for field '{1}'.", fieldType.DataType, fieldType.Name));
+                throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Could not find datatype '{0}' for field '{1}'.", fieldType.DataType, fieldType.Name));
             }
 
             template.WriteLine(String.Empty);
@@ -434,7 +435,7 @@ namespace CodeGenerator
                     case "DateTime":
                     case "ByteString":
                     {
-                        return String.Format("opc:{0}", qname.Name);
+                        return String.Format(CultureInfo.InvariantCulture, "opc:{0}", qname.Name);
                     }
 
                     case "String":

@@ -1,0 +1,28 @@
+<Solution>
+  <Folder Name="/Schemas/">
+    <File Path="Schemas/OPCBinarySchema.xsd" />
+    <File Path="Schemas/SecuredApplication.xsd" />
+    <File Path="Schemas/ServerCapabilities.csv" />
+    <File Path="Schemas/UANodeSet.xsd" />
+  </Folder>
+  <Folder Name="/Solution Files/">
+    <File Path="BuildEngineeringUnits.bat" />
+    <File Path="BuildStandardTypes.bat" />
+    <File Path="CompileNodeSets.bat" />
+    <File Path="PublishModel.bat" />
+    <File Path="PublishNodeSet.bat" />
+    <File Path="TestNodeSets.bat" />
+    <File Path="UpdateLicense.bat" />
+  </Folder>
+  <Folder Name="/UaStack/">
+    <Project Path="Stack/Libraries/Opc.Ua.Client/Opc.Ua.Client.csproj" />
+    <Project Path="Stack/Libraries/Opc.Ua.Configuration/Opc.Ua.Configuration.csproj" />
+    <Project Path="Stack/Libraries/Opc.Ua.Security.Certificates/Opc.Ua.Security.Certificates.csproj" />
+    <Project Path="Stack/Libraries/Opc.Ua.Server/Opc.Ua.Server.csproj" />
+    <Project Path="Stack/Stack/Opc.Ua.Core/Opc.Ua.Core.csproj" />
+    <Project Path="Stack/Stack/Opc.Ua.Types/Opc.Ua.Types.csproj" />
+  </Folder>
+  <Project Path="Opc.Ua.ModelCompiler.Tool/Opc.Ua.ModelCompiler.Tool.Debug.csproj" />
+  <Project Path="Opc.Ua.ModelCompiler/Opc.Ua.ModelCompiler.Debug.csproj" />
+  <Project Path="Tests/DemoModel/DemoModel.Debug.csproj" />
+</Solution>

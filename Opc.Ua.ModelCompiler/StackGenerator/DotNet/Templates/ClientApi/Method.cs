@@ -116,9 +116,13 @@ void EndAsyncCall()
     return response.ResponseHeader;
 }
 #else  // NET_STANDARD
+#if (!NET_STANDARD_NO_SYNC && !NET_STANDARD_NO_APM)
 /// <summary>
 /// Invokes the _NAME_ service.
 /// </summary>
+#if (NET_STANDARD_OBSOLETE_SYNC && NET_STANDARD_ASYNC)
+[Obsolete("Sync methods are deprecated in this version. Use _NAME_Async instead.")]
+#endif
 void SyncCall()
 {
     _NAME_Request request = new _NAME_Request();
@@ -149,10 +153,15 @@ void SyncCall()
 
     return response.ResponseHeader;
 }
+#endif
 
+#if (!NET_STANDARD_NO_APM)
 /// <summary>
 /// Begins an asynchronous invocation of the _NAME_ service.
 /// </summary>
+#if (NET_STANDARD_OBSOLETE_APM && NET_STANDARD_ASYNC)
+[Obsolete("Begin/End methods are deprecated in this version. Use _NAME_Async instead.")]
+#endif
 void BeginAsyncCall()
 {
     _NAME_Request request = new _NAME_Request();
@@ -167,6 +176,9 @@ void BeginAsyncCall()
 /// <summary>
 /// Finishes an asynchronous invocation of the _NAME_ service.
 /// </summary>
+#if (NET_STANDARD_OBSOLETE_APM && NET_STANDARD_ASYNC)
+[Obsolete("Begin/End methods are deprecated in this version. Use _NAME_Async instead.")]
+#endif
 void EndAsyncCall()
 {
     _NAME_Response response = null;
@@ -192,6 +204,7 @@ void EndAsyncCall()
 
     return response.ResponseHeader;
 }
+#endif
 #endif
 
 #if (NET_STANDARD_ASYNC)

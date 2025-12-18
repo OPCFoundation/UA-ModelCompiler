@@ -224,6 +224,12 @@
   <opc:Constant Name="Bad_OutOfRange">
     <opc:Documentation>The value was out of range.</opc:Documentation>
   </opc:Constant>
+  <opc:Constant Name="Uncertain_OverRange">
+    <opc:Documentation>The value is over the allowed range.</opc:Documentation>
+  </opc:Constant>
+  <opc:Constant Name="Uncertain_UnderRange">
+    <opc:Documentation>The value is under the allowed range.</opc:Documentation>
+  </opc:Constant>
   <opc:Constant Name="Bad_NotSupported">
     <opc:Documentation>The requested operation is not supported.</opc:Documentation>
   </opc:Constant>

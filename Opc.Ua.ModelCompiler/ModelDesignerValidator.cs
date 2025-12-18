@@ -42,12 +42,14 @@ namespace ModelCompiler
     public partial class ModelCompilerValidator : Opc.Ua.Schema.SchemaValidator
     {
         #region Private Fields
+        private ITelemetryContext m_telemetry;
         private ModelDesign m_dictionary;
         private Dictionary<XmlQualifiedName, NodeDesign> m_nodes;
         private Dictionary<string, string[]> m_namespaceTables;
         private Dictionary<NodeId, NodeDesign> m_nodesByNodeId;
         private Dictionary<uint, NodeDesign> m_identifiers;
         private string DefaultNamespace = Namespaces.OpcUa;
+        private readonly IFileSystem m_fileSystem;
         private ServiceMessageContext m_context;
         private uint m_startId;
         private IList<string> m_exclusions;
@@ -60,9 +62,11 @@ namespace ModelCompiler
         /// <summary>
         /// Intializes the object with default values.
         /// </summary>
-        public ModelCompilerValidator(uint startId, IList<string> exclusions)
+        public ModelCompilerValidator(uint startId, IList<string> exclusions, IFileSystem fileSystem, ITelemetryContext telemetry)
         {
-            m_context = ServiceMessageContext.GlobalContext;
+            m_fileSystem = fileSystem;
+            m_telemetry = telemetry;
+            m_context = new ServiceMessageContext(telemetry);
             m_startId = startId;
             m_exclusions = exclusions;
             EmbeddedModelDesignPath = "ModelCompiler.Design";
@@ -145,7 +149,7 @@ namespace ModelCompiler
 
         public ModelDesign LoadBuiltInModel()
         {
-            var model = LoadBuiltInModeFromResource();
+            var model = LoadBuiltInModelFromResource();
 
             UpdateNamespaceTables(model);
 
@@ -190,7 +194,8 @@ namespace ModelCompiler
 
         public ModelDesign LoadModelDesign(string designFilePath, string identifierFilePath, bool generateIds)
         {
-            var model = (ModelDesign)LoadFile(typeof(ModelDesign), designFilePath);
+            using var stream = m_fileSystem.OpenRead(designFilePath);
+            var model = (ModelDesign)LoadFile(typeof(ModelDesign), stream);
             model.SourceFilePath = designFilePath;
             model.IsSourceNodeSet = false;
 
@@ -201,7 +206,7 @@ namespace ModelCompiler
 
             if (!model.TargetPublicationDateSpecified || model.TargetPublicationDate == DateTime.MinValue)
             {
-                model.TargetPublicationDate = new FileInfo(designFilePath).LastWriteTimeUtc;
+                model.TargetPublicationDate = m_fileSystem.GetLastWriteTime(designFilePath);
                 model.TargetPublicationDateSpecified = true;
             }
 
@@ -235,7 +240,7 @@ namespace ModelCompiler
                 // assign unique ids.
                 if (generateIds)
                 {
-                    File.Delete(identifierFilePath);
+                    m_fileSystem.Delete(identifierFilePath);
                 }
 
                 LoadIdentifiersFromFile2(model, identifierFilePath);
@@ -244,12 +249,12 @@ namespace ModelCompiler
             {
                 var path = Path.Combine(Path.GetDirectoryName(designFilePath), Path.GetFileNameWithoutExtension(designFilePath) + ".csv");
 
-                if (!File.Exists(path))
+                if (!m_fileSystem.Exists(path))
                 {
                     path = Path.Combine(Path.GetDirectoryName(designFilePath), "..\\CSVs", Path.GetFileNameWithoutExtension(designFilePath) + ".csv");
                 }
 
-                if (File.Exists(path))
+                if (m_fileSystem.Exists(path))
                 {
                     LoadIdentifiersFromFile2(model, path);
                 }
@@ -387,7 +392,7 @@ namespace ModelCompiler
 
         private ModelDesign ImportTypeDictionary(string filePath, string resourcePath)
         {
-            using (Stream stream = File.OpenRead(filePath))
+            using (Stream stream = m_fileSystem.OpenRead(filePath))
             {
                 return ImportTypeDictionary(stream, resourcePath);
             }
@@ -560,7 +565,7 @@ namespace ModelCompiler
         }
         #endregion
 
-        private ModelDesign LoadBuiltInModeFromResource()
+        private ModelDesign LoadBuiltInModelFromResource()
         {
             List<NodeDesign> nodes = new List<NodeDesign>();
 
@@ -572,10 +577,7 @@ namespace ModelCompiler
 
             nodes.AddRange(builtin.Items);
 
-            string filename = Path.GetTempFileName();
-
             ModelDesign datatypes = null;
-
             Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{EmbeddedModelDesignPath}.UA Core Services.xml");
 
             using (stream)
@@ -680,9 +682,20 @@ namespace ModelCompiler
         {
             bool hasDataTypesDefined = false;
             bool hasMethodsDefined = false;
+            HashSet<string> typeNames = new();
 
             foreach (NodeDesign node in dictionary.Items)
             {
+                if (node is TypeDesign type)
+                {
+                    if (typeNames.Contains(type.SymbolicName.Name))
+                    {
+                        throw new InvalidOperationException($"{type.SymbolicId} is a type with a duplicate name.");
+                    }
+
+                    typeNames.Add(type.SymbolicName.Name);
+                }
+
                 if (node is DataTypeDesign)
                 {
                     hasDataTypesDefined = true;
@@ -710,7 +723,11 @@ namespace ModelCompiler
                 {
                     AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Binary, nodes);
                     AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Xml, nodes);
-                    AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Json, nodes);
+
+                    if (DefaultNamespace == Namespaces.OpcUa)
+                    {
+                        AddDataTypeDictionary(dictionary, dictionary.TargetNamespaceInfo, EncodingType.Json, nodes);
+                    }
                 }
                 else
                 {
@@ -816,15 +833,13 @@ namespace ModelCompiler
                 }
                 else
                 {
-                    if (!dynamicIds.Contains(ii))
+                    if (!dynamicIds.Remove(ii))
                     {
                         start = (int)ii;
                         readingStaticRange = true;
                     }
                     else
                     {
-                        dynamicIds.Remove(ii);
-
                         if (dynamicIds.Count == 0)
                         {
                             start = (int)ii + 1;
@@ -837,7 +852,7 @@ namespace ModelCompiler
             ranges.Add(new NumericRange(start, Int32.MaxValue).ToString());
 
             // Fix avoid a null metadata in some cases
-            if ((metadata != null) && (metadata.Hierarchy.NodeList != null))
+            if (metadata.Hierarchy.NodeList != null)
             {
                 foreach (var child in metadata.Hierarchy.NodeList)
                 {
@@ -950,11 +965,12 @@ namespace ModelCompiler
 
             try
             {
-                model = (ModelDesign)LoadInput(typeof(ModelDesign), designFilePath);
+                using var stream = m_fileSystem.OpenRead(designFilePath);
+                model = (ModelDesign)LoadInput(typeof(ModelDesign), stream);
 
                 if (model.Items == null)
                 {
-                    model.Items = new NodeDesign[0];
+                    model.Items = Array.Empty<NodeDesign>();
                 }
             }
             catch (Exception e)
@@ -1066,7 +1082,7 @@ namespace ModelCompiler
             var prefix = (fields.Length > 1) ? fields[1] : null;
             var name = (fields.Length > 2) ? fields[2] : null;
 
-            if (NodeSetToModelDesign.IsNodeSet(fileToLoad))
+            if (NodeSetToModelDesign.IsNodeSet(m_fileSystem, fileToLoad))
             {
                 var settings = new NodeSetReaderSettings()
                 {
@@ -1081,7 +1097,7 @@ namespace ModelCompiler
 
                 IndexNodesByNodeId(settings.NamespaceUris, m_nodes.Values, settings.NodesById, null);
 
-                var reader = new NodeSetToModelDesign(settings, fileToLoad);
+                var reader = new NodeSetToModelDesign(settings, fileToLoad, m_fileSystem);
                 model = reader.Import(prefix, name);
                 model.SourceFilePath = fileToLoad;
                 model.IsSourceNodeSet = true;
@@ -1121,7 +1137,7 @@ namespace ModelCompiler
         {
             if (designFilePaths == null || designFilePaths.Count == 0)
             {
-                throw new ArgumentException("No design files specified", "designFilePaths");
+                throw new ArgumentException("No design files specified", nameof(designFilePaths));
             }
 
             if (designFilePaths[0].EndsWith("StandardTypes.xml"))
@@ -1135,6 +1151,11 @@ namespace ModelCompiler
 
         public void ValidateCoreModel(IList<string> designFilePaths, string identifierFilePath, bool generateIds)
         {
+            if (designFilePaths == null || designFilePaths.Count == 0)
+            {
+                throw new ArgumentException("No design files specified", nameof(designFilePaths));
+            }
+
             string inputPath = designFilePaths[0];
 
             // initialize tables.
@@ -1155,7 +1176,7 @@ namespace ModelCompiler
 
             if (dictionary.Items == null)
             {
-                dictionary.Items = new NodeDesign[0];
+                dictionary.Items = [];
             }
 
             for (int ii = 0; ii < designFilePaths.Count; ii++)
@@ -1280,7 +1301,7 @@ namespace ModelCompiler
             // assign unique ids.
             if (generateIds)
             {
-                File.Delete(identifierFilePath);
+                m_fileSystem.Delete(identifierFilePath);
             }
 
             LoadIdentifiersFromFile2(m_dictionary, identifierFilePath);
@@ -1333,14 +1354,15 @@ namespace ModelCompiler
 
                 List<Namespace> fileNamespaces = null;
 
-                if (NodeSetToModelDesign.IsNodeSet(fileToLoad))
+                if (NodeSetToModelDesign.IsNodeSet(m_fileSystem, fileToLoad))
                 {
-                    fileNamespaces = NodeSetToModelDesign.LoadNamespaces(fileToLoad);
+                    fileNamespaces = NodeSetToModelDesign.LoadNamespaces(m_fileSystem, fileToLoad);
                     fileNamespaces.Last().FilePath = path;
                 }
                 else
                 {
-                    var design = (ModelDesign)LoadFile(typeof(ModelDesign), fileToLoad);
+                    using var stream = m_fileSystem.OpenRead(fileToLoad);
+                    var design = (ModelDesign)LoadFile(typeof(ModelDesign), stream);
 
                     foreach (var ns in design.Namespaces)
                     {
@@ -1403,6 +1425,11 @@ namespace ModelCompiler
 
         public void ValidateModel(IList<string> designFilePaths, string identifierFilePath, bool generateIds)
         {
+            if (designFilePaths == null || designFilePaths.Count == 0)
+            {
+                throw new ArgumentException("No design files specified", nameof(designFilePaths));
+            }
+
             string inputPath = designFilePaths[0];
 
             // initialize tables.
@@ -1429,7 +1456,7 @@ namespace ModelCompiler
                 }
 
                 var dependency = LoadDesignFile(namespaces, namespaces[ii].FilePath, null, false);
-                                
+
                 if (dependency.Namespaces != null)
                 {
                     var ns = dependency.Namespaces.Where(x => x.Value == dependency.TargetNamespace).FirstOrDefault();
@@ -1623,7 +1650,7 @@ namespace ModelCompiler
                     new XmlQualifiedName("InputArguments", DefaultNamespace),
                     new XmlQualifiedName("Argument", DefaultNamespace),
                     ValueRank.Array,
-                    new uint[] { (uint)arguments.Count },
+                    [(uint)arguments.Count],
                     arguments.ToArray(),
                     children);
             }
@@ -1662,7 +1689,7 @@ namespace ModelCompiler
                     new XmlQualifiedName("OutputArguments", DefaultNamespace),
                     new XmlQualifiedName("Argument", DefaultNamespace),
                     ValueRank.Array,
-                    new uint[] { (uint)arguments.Count },
+                    [(uint)arguments.Count],
                     arguments.ToArray(),
                     children);
             }
@@ -1724,7 +1751,7 @@ namespace ModelCompiler
                     new XmlQualifiedName("OptionSetValues", DefaultNamespace),
                     new XmlQualifiedName("LocalizedText", DefaultNamespace),
                     ValueRank.Array,
-                    new uint[] { (uint)values.Count },
+                    [(uint)values.Count],
                     values.ToArray(),
                     children);
             }
@@ -1770,7 +1797,7 @@ namespace ModelCompiler
                         new XmlQualifiedName("EnumStrings", DefaultNamespace),
                         new XmlQualifiedName("LocalizedText", DefaultNamespace),
                         ValueRank.Array,
-                        new uint[] { (uint)values.Count },
+                        [(uint)values.Count],
                         values.ToArray(),
                         children);
                 }
@@ -1792,7 +1819,7 @@ namespace ModelCompiler
                             value.DisplayName = new Opc.Ua.LocalizedText(String.Empty, parameter.Name);
                         }
 
-                        value.Value = parameter.Identifier;
+                        value.Value = (long)parameter.Identifier;
 
                         if (parameter.Description != null && !parameter.Description.IsAutogenerated)
                         {
@@ -1807,7 +1834,7 @@ namespace ModelCompiler
                         new XmlQualifiedName("EnumValues", DefaultNamespace),
                         new XmlQualifiedName("EnumValueType", DefaultNamespace),
                         ValueRank.Array,
-                        new uint[] { (uint)values.Count },
+                        [(uint)values.Count],
                         values.ToArray(),
                         children);
                 }
@@ -1947,7 +1974,7 @@ namespace ModelCompiler
                     reference.TargetId = new XmlQualifiedName("OPCBinarySchema_TypeSystem", DefaultNamespace);
                 }
 
-                dictionary.References = new Reference[] { reference };
+                dictionary.References = [reference];
 
                 AddProperty(
                     dictionary,
@@ -2050,7 +2077,7 @@ namespace ModelCompiler
                             property.ArrayDimensions += ",";
                         }
 
-                        property.ArrayDimensions += ii.ToString();
+                        property.ArrayDimensions += ii.ToString(CultureInfo.InvariantCulture);
                     }
                 }
             }
@@ -2202,11 +2229,11 @@ namespace ModelCompiler
                 reference2.TargetId = description.SymbolicId;
                 reference2.TargetNode = description;
 
-                encoding.References = new Reference[] { reference1, reference2 };
+                encoding.References = [reference1, reference2];
             }
             else
             {
-                encoding.References = new Reference[] { reference1 };
+                encoding.References = [reference1];
             }
 
             m_nodes[encoding.SymbolicId] = encoding;
@@ -2231,7 +2258,7 @@ namespace ModelCompiler
             return false;
         }
 
-        private class IdInfo
+        private sealed class IdInfo
         {
             public object Id;
             public string SymbolicId;
@@ -2252,12 +2279,12 @@ namespace ModelCompiler
                 {
                     string line = reader.ReadLine();
 
-                    if (String.IsNullOrEmpty(line) || line.StartsWith("#"))
+                    if (String.IsNullOrEmpty(line) || line.StartsWith('#'))
                     {
                         continue;
                     }
 
-                    int index = line.IndexOf(',');
+                    int index = line.IndexOf(',', StringComparison.InvariantCulture);
 
                     if (index == -1)
                     {
@@ -2278,13 +2305,13 @@ namespace ModelCompiler
                         string id = line.Substring(index + 1).Trim();
                         Log("Loaded ID: {0}={1}", name, id);
 
-                        if (id.StartsWith("\""))
+                        if (id.StartsWith('"'))
                         {
                             identifiers[name] = id.Substring(1, id.Length - 2);
                         }
                         else
                         {
-                            uint numericId = Convert.ToUInt32(id);
+                            uint numericId = Convert.ToUInt32(id, CultureInfo.InvariantCulture);
                             identifiers[name] = numericId;
                         }
                     }
@@ -2490,7 +2517,8 @@ namespace ModelCompiler
                         continue;
                     }
 
-                    var isExplicitlyDefined = (node is InstanceDesign && !current.Instance.SymbolicId.Name.Contains("Placeholder")) || current.ExplicitlyDefined || IsExplicitlyDefined(current, node);
+                    var isExplicitlyDefined = (node is InstanceDesign && !
+                        current.Instance.SymbolicId.Name.Contains("Placeholder")) || current.ExplicitlyDefined || IsExplicitlyDefined(current, node);
 
                     current.Identifier = AssignIdToNode(
                         current.Instance,
@@ -2511,7 +2539,7 @@ namespace ModelCompiler
 
                 foreach (KeyValuePair<string, object> current in duplicateIdentifiers)
                 {
-                    buffer.AppendFormat("{0},{1}\r\n", current.Key, current.Value);
+                    buffer.AppendFormat(CultureInfo.InvariantCulture, "{0},{1}\r\n", current.Key, current.Value);
                 }
 
                 throw new InvalidOperationException(buffer.ToString());
@@ -2539,26 +2567,19 @@ namespace ModelCompiler
         /// </summary>
         private void LoadIdentifiersFromFile2(ModelDesign dictionary, string filePath)
         {
-            if (String.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+            if (String.IsNullOrEmpty(filePath) || !m_fileSystem.Exists(filePath))
             {
                 throw new FileNotFoundException("The identifier file does not exist.", filePath);
             }
 
-            var file = new FileInfo(filePath);
-
-            if (!file.Directory.Exists)
-            {
-                file.Directory.Create();
-            }
-
             IDictionary<object, IdInfo> uniqueIdentifiers;
 
-            using (var istrm = File.Open(file.FullName, FileMode.Open))
+            using (var istrm = m_fileSystem.OpenRead(filePath))
             {
                 uniqueIdentifiers = LoadIdentifiersFromStream2(dictionary, istrm);
             }
 
-            using (StreamWriter writer = new StreamWriter(File.Open(file.FullName, FileMode.Create)))
+            using (TextWriter writer = m_fileSystem.CreateTextWriter(filePath))
             {
                 foreach (KeyValuePair<object, IdInfo> id in uniqueIdentifiers)
                 {
@@ -2781,7 +2802,7 @@ namespace ModelCompiler
                         continue;
                     }
 
-                    if (Char.IsLetterOrDigit(node.BrowseName[ii]) || node.BrowseName[ii] == NodeDesign.PathChar[0])
+                    if (Char.IsLetterOrDigit(node.BrowseName[ii]) || node.BrowseName[ii] == NodeDesign.PathChar)
                     {
                         name.Append(node.BrowseName[ii]);
                         continue;
@@ -2840,7 +2861,7 @@ namespace ModelCompiler
 
             if (String.IsNullOrEmpty(node.DisplayName.Key))
             {
-                node.DisplayName.Key = String.Format("{0}_DisplayName", node.SymbolicId.Name);
+                node.DisplayName.Key = String.Format(CultureInfo.InvariantCulture, "{0}_DisplayName", node.SymbolicId.Name);
             }
 
             // add a decription.
@@ -2850,7 +2871,7 @@ namespace ModelCompiler
 
                 if (String.IsNullOrEmpty(node.Description.Key))
                 {
-                    node.Description.Key = String.Format("{0}_Description", node.SymbolicId.Name);
+                    node.Description.Key = String.Format(CultureInfo.InvariantCulture, "{0}_Description", node.SymbolicId.Name);
                 }
             }
 
@@ -3050,7 +3071,7 @@ namespace ModelCompiler
 
                 if (String.IsNullOrEmpty(referenceType.InverseName.Key))
                 {
-                    referenceType.InverseName.Key = String.Format("{0}_InverseName", referenceType.SymbolicId.Name);
+                    referenceType.InverseName.Key = String.Format(CultureInfo.InvariantCulture, "{0}_InverseName", referenceType.SymbolicId.Name);
                 }
 
                 if (referenceType.SymbolicName != new XmlQualifiedName("References", DefaultNamespace))
@@ -3086,7 +3107,7 @@ namespace ModelCompiler
                     throw Exception("Encoding nodes cannot have childen", dataType.SymbolicId.Name);
                 }
 
-                encoding.SymbolicId = new XmlQualifiedName(String.Format("{0}_Encoding_{1}", dataType.SymbolicId.Name, encoding.SymbolicName.Name), dataType.SymbolicId.Namespace);
+                encoding.SymbolicId = new XmlQualifiedName(String.Format(CultureInfo.InvariantCulture, "{0}_Encoding_{1}", dataType.SymbolicId.Name, encoding.SymbolicName.Name), dataType.SymbolicId.Namespace);
                 encoding.BrowseName = encoding.SymbolicName.Name;
 
                 // add a display name.
@@ -3141,7 +3162,7 @@ namespace ModelCompiler
             return (output > AccessRestrictionType.None) ? output : null;
         }
 
-        private PermissionType ImportRolePermission(Permissions[] input)
+        private static PermissionType ImportRolePermission(Permissions[] input)
         {
             PermissionType output = PermissionType.None;
 
@@ -3186,11 +3207,11 @@ namespace ModelCompiler
                 return null;
             }
 
-            if (input?.RolePermission != null)
+            if (input.RolePermission != null)
             {
                 RolePermissionTypeCollection output = new();
 
-                foreach (var ii in input?.RolePermission)
+                foreach (var ii in input.RolePermission)
                 {
                     RolePermissionType role = new RolePermissionType();
 
@@ -3258,7 +3279,7 @@ namespace ModelCompiler
 
         private void UpdateRolePermissions()
         {
-            SystemContext context = new SystemContext();
+            SystemContext context = new SystemContext(m_telemetry);
             context.NamespaceUris = this.m_context.NamespaceUris;
 
             var list = new List<NodeState>();
@@ -3363,7 +3384,7 @@ namespace ModelCompiler
                 if (path.Count > 0)
                 {
                     name += "_";
-                    name += String.Join('_', path.Select(x => x.SymbolicName));
+                    name += String.Join("_", path.Select(x => x.SymbolicName));
                 }
 
                 if (defaultPermissions.TryGetValue(name, out T output))
@@ -3405,21 +3426,13 @@ namespace ModelCompiler
 
             path.Reverse();
 
-
             T permissions = default(T);
 
-            if (type != null)
-            {
-                permissions = FindDefaultPermissions(type, path, defaultPermissions);
-            }
-            else
-            {
-                var name = String.Join('_', path.Select(x => x.SymbolicName));
+            var name = String.Join("_", path.Select(x => x.SymbolicName));
 
-                if (defaultPermissions.TryGetValue(name, out T output))
-                {
-                    permissions = output;
-                }
+            if (defaultPermissions.TryGetValue(name, out T output))
+            {
+                permissions = output;
             }
 
             while (permissions == null && path.Count > 0)
@@ -3574,7 +3587,7 @@ namespace ModelCompiler
             property.DefaultValue = null;
             property.DisplayName = new LocalizedText();
             property.DisplayName.Value = property.BrowseName;
-            property.DisplayName.Key = String.Format("{0}_(1)_DisplayName", property.SymbolicId.Name, type);
+            property.DisplayName.Key = String.Format(CultureInfo.InvariantCulture, "{0}_{1}_DisplayName", property.SymbolicId.Name, type);
             property.DisplayName.IsAutogenerated = true;
             property.Historizing = false;
             property.MinimumSamplingInterval = 0;
@@ -3609,7 +3622,7 @@ namespace ModelCompiler
                 return false;
             }
 
-            int id = 0;
+            decimal id = 0;
             List<Parameter> filteredParameters = new List<Parameter>();
 
             foreach (Parameter parameter in parameters)
@@ -3643,7 +3656,7 @@ namespace ModelCompiler
                     if (UInt64.TryParse(parameter.BitMask, NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out mask))
                     {
                         var bytes = BitConverter.GetBytes(mask);
-                        parameter.Identifier = BitConverter.ToInt32(bytes, 0);
+                        parameter.Identifier = BitConverter.ToUInt64(bytes, 0);
                         parameter.IdentifierSpecified = true;
                     }
                 }
@@ -3655,7 +3668,7 @@ namespace ModelCompiler
                 }
 
                 // update id if specified in name.
-                int index = name.LastIndexOf(NodeDesign.PathChar[0]);
+                int index = name.LastIndexOf(NodeDesign.PathChar);
 
                 if (index != -1)
                 {
@@ -3670,7 +3683,7 @@ namespace ModelCompiler
 
                     if (index > 0)
                     {
-                        if (Int32.TryParse(name.Substring(index + 1), out id))
+                        if (Decimal.TryParse(name.AsSpan(index + 1).ToString(), out id))
                         {
                             parameter.Identifier = id;
                             parameter.IdentifierSpecified = true;
@@ -3680,7 +3693,7 @@ namespace ModelCompiler
 
                 if (parameter.Description != null && String.IsNullOrEmpty(parameter.Description.Key))
                 {
-                    parameter.Description.Key = String.Format("{0}_{1}_{2}_Description", node.SymbolicId.Name, parameterType, parameter.Name);
+                    parameter.Description.Key = String.Format(CultureInfo.InvariantCulture, "{0}_{1}_{2}_Description", node.SymbolicId.Name, parameterType, parameter.Name);
                 }
 
                 // add a datatype.
@@ -3931,11 +3944,11 @@ namespace ModelCompiler
                         if (!EmbeddedModelDesignPath.EndsWith("v103"))
                         {
                             EncodingDesign jsonEncoding = CreateEncoding(dataType, new XmlQualifiedName("DefaultJson", DefaultNamespace));
-                            dataType.Encodings = new EncodingDesign[] { xmlEncoding, binaryEncoding, jsonEncoding };
+                            dataType.Encodings = [xmlEncoding, binaryEncoding, jsonEncoding];
                         }
                         else
                         {
-                            dataType.Encodings = new EncodingDesign[] { xmlEncoding, binaryEncoding };
+                            dataType.Encodings = [xmlEncoding, binaryEncoding];
                         }
 
                         dataType.HasEncodings = true;
@@ -4279,7 +4292,7 @@ namespace ModelCompiler
 
         private EncodingDesign CreateEncoding(DataTypeDesign dataType, XmlQualifiedName encodingName)
         {
-            var symbolicId = new XmlQualifiedName(String.Format("{0}_Encoding_{1}", dataType.SymbolicId.Name, encodingName.Name), dataType.SymbolicId.Namespace);
+            var symbolicId = new XmlQualifiedName(String.Format(CultureInfo.InvariantCulture, "{0}_Encoding_{1}", dataType.SymbolicId.Name, encodingName.Name), dataType.SymbolicId.Namespace);
 
             EncodingDesign encoding = new EncodingDesign();
             encoding.SymbolicName = encodingName;
@@ -4323,7 +4336,9 @@ namespace ModelCompiler
         }
 
         public bool IsExcluded(NodeDesign node)
-        {
+        {   
+            if (node == null) throw new ArgumentNullException(nameof(node));
+
             if (m_exclusions != null)
             {
                 foreach (var exclusion in m_exclusions)
@@ -4353,6 +4368,8 @@ namespace ModelCompiler
 
         public bool IsExcluded(CodeGenerator.DataType dataType)
         {
+            if (dataType == null) throw new ArgumentNullException(nameof(dataType));
+
             if (m_exclusions != null)
             {
                 foreach (var exclusion in m_exclusions)
@@ -4382,6 +4399,8 @@ namespace ModelCompiler
 
         public bool IsExcluded(Parameter field)
         {
+            if (field == null) throw new ArgumentNullException(nameof(field));
+
             if (m_exclusions != null)
             {
                 foreach (var exclusion in m_exclusions)
@@ -4711,7 +4730,7 @@ namespace ModelCompiler
         /// <summary>
         /// Maps the modelling rule enumeration onto a string.
         /// </summary>
-        private NodeId ConstructModellingRule(ModellingRule modellingRule)
+        private static NodeId ConstructModellingRule(ModellingRule modellingRule)
         {
             switch (modellingRule)
             {
@@ -4728,12 +4747,13 @@ namespace ModelCompiler
         /// <summary>
         /// Maps the value rank enumeration onto a integer.
         /// </summary>
-        private int ConstructValueRank(ValueRank valueRank, string arrayDimensions)
+        private static int ConstructValueRank(ValueRank valueRank, string arrayDimensions)
         {
             switch (valueRank)
             {
                 case ValueRank.Array: return ValueRanks.OneDimension;
                 case ValueRank.Scalar: return ValueRanks.Scalar;
+                case ValueRank.Any: return ValueRanks.Any;
                 case ValueRank.ScalarOrArray: return ValueRanks.Any;
                 case ValueRank.ScalarOrOneDimension: return ValueRanks.ScalarOrOneDimension;
 
@@ -4744,7 +4764,7 @@ namespace ModelCompiler
                         return ValueRanks.OneOrMoreDimensions;
                     }
 
-                    string[] dimensions = arrayDimensions.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] dimensions = arrayDimensions.Split([','], StringSplitOptions.RemoveEmptyEntries);
 
                     return dimensions.Length;
                 }
@@ -4756,7 +4776,7 @@ namespace ModelCompiler
         /// <summary>
         /// Maps the array dimensions onto a constant declaration..
         /// </summary>
-        private UInt32Collection ConstructArrayDimensionsRW(ValueRank valueRank, string arrayDimensions)
+        private static UInt32Collection ConstructArrayDimensionsRW(ValueRank valueRank, string arrayDimensions)
         {
             if (valueRank < 0 && valueRank != ValueRank.OneOrMoreDimensions)
             {
@@ -4773,7 +4793,7 @@ namespace ModelCompiler
                 return null;
             }
 
-            string[] tokens = arrayDimensions.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] tokens = arrayDimensions.Split([','], StringSplitOptions.RemoveEmptyEntries);
 
             if (tokens == null || tokens.Length < 1)
             {
@@ -4786,7 +4806,7 @@ namespace ModelCompiler
             {
                 try
                 {
-                    dimensions.Add(Convert.ToUInt32(tokens[ii]));
+                    dimensions.Add(Convert.ToUInt32(tokens[ii], CultureInfo.InvariantCulture));
                 }
                 catch
                 {
@@ -4812,7 +4832,7 @@ namespace ModelCompiler
             return null;
         }
 
-        private NodeId ConstructNodeId(NodeDesign node, NamespaceTable namespaceUris)
+        private static NodeId ConstructNodeId(NodeDesign node, NamespaceTable namespaceUris)
         {
             int index = 0;
 
@@ -4830,7 +4850,7 @@ namespace ModelCompiler
                     {
                         string browsePath = node.SymbolicId.Name;
 
-                        if (browsePath.StartsWith(parent.SymbolicId.Name) && browsePath[parent.SymbolicId.Name.Length] == NodeDesign.PathChar[0])
+                        if (browsePath.StartsWith(parent.SymbolicId.Name, StringComparison.InvariantCulture) && browsePath[parent.SymbolicId.Name.Length] == NodeDesign.PathChar)
                         {
                             browsePath = browsePath.Substring(parent.SymbolicId.Name.Length + 1);
                         }
@@ -4870,7 +4890,7 @@ namespace ModelCompiler
         /// <summary>
         /// Returns the browse path to the instance.
         /// </summary>
-        private string GetBrowsePath(string basePath, InstanceDesign instance)
+        private static string GetBrowsePath(string basePath, InstanceDesign instance)
         {
             return NodeDesign.CreateSymbolicId(basePath, instance.SymbolicName.Name);
         }
@@ -4980,7 +5000,7 @@ namespace ModelCompiler
             }
         }
 
-        private void MergeTypes(ObjectTypeDesign mergedType, ObjectTypeDesign objectType)
+        private static void MergeTypes(ObjectTypeDesign mergedType, ObjectTypeDesign objectType)
         {
             if (objectType.SupportsEventsSpecified)
             {
@@ -5071,7 +5091,7 @@ namespace ModelCompiler
             return mergedInstance;
         }
 
-        private InstanceDesign CreateMergedInstance(ObjectTypeDesign type)
+        private static InstanceDesign CreateMergedInstance(ObjectTypeDesign type)
         {
             ObjectDesign objectd = new ObjectDesign();
 
@@ -5094,7 +5114,7 @@ namespace ModelCompiler
             return objectd;
         }
 
-        private InstanceDesign CreateMergedInstance(VariableTypeDesign type)
+        private static InstanceDesign CreateMergedInstance(VariableTypeDesign type)
         {
             VariableDesign variable = new VariableDesign();
 
@@ -5343,7 +5363,7 @@ namespace ModelCompiler
             }
         }
 
-        private void UpdateMergedInstance(ObjectDesign mergedObject, ObjectTypeDesign objectType)
+        private static void UpdateMergedInstance(ObjectDesign mergedObject, ObjectTypeDesign objectType)
         {
             mergedObject.TypeDefinition = objectType.SymbolicId;
             mergedObject.TypeDefinitionNode = objectType;
@@ -5494,7 +5514,7 @@ namespace ModelCompiler
                 for (int ii = 0; ii < parent.Children.Items.Length; ii++)
                 {
                     InstanceDesign instance = parent.Children.Items[ii];
-                    
+
                     if (instance.ModellingRule == ModellingRule.ExposesItsArray)
                     {
                         continue;
@@ -5609,7 +5629,7 @@ namespace ModelCompiler
 
                     if (!String.IsNullOrEmpty(basePath))
                     {
-                        if (instance.ModellingRule == ModellingRule.None || 
+                        if (instance.ModellingRule == ModellingRule.None ||
                             instance.ModellingRule == ModellingRule.ExposesItsArray ||
                             instance.ModellingRule == ModellingRule.OptionalPlaceholder)
                         {
@@ -5698,7 +5718,7 @@ namespace ModelCompiler
                     {
                         if (!String.IsNullOrEmpty(basePath))
                         {
-                            if (instance.ModellingRule == ModellingRule.None || 
+                            if (instance.ModellingRule == ModellingRule.None ||
                                 instance.ModellingRule == ModellingRule.ExposesItsArray ||
                                 instance.ModellingRule == ModellingRule.OptionalPlaceholder)
                             {
@@ -5851,9 +5871,9 @@ namespace ModelCompiler
                 return mergedReference;
             }
 
-            string[] currentPathParts = currentPath.Split(new char[] { NodeDesign.PathChar[0] }, StringSplitOptions.RemoveEmptyEntries);
-            string[] sourceIdParts = sourceId.Name.Split(new char[] { NodeDesign.PathChar[0] }, StringSplitOptions.RemoveEmptyEntries);
-            string[] targetIdParts = reference.TargetId.Name.Split(new char[] { NodeDesign.PathChar[0] }, StringSplitOptions.RemoveEmptyEntries);
+            string[] currentPathParts = currentPath.Split(new char[] { NodeDesign.PathChar }, StringSplitOptions.RemoveEmptyEntries);
+            string[] sourceIdParts = sourceId.Name.Split(new char[] { NodeDesign.PathChar }, StringSplitOptions.RemoveEmptyEntries);
+            string[] targetIdParts = reference.TargetId.Name.Split(new char[] { NodeDesign.PathChar }, StringSplitOptions.RemoveEmptyEntries);
 
             // find the common root in the type declaration.
             string[] targetPath = null;
@@ -5870,7 +5890,7 @@ namespace ModelCompiler
                 {
                     sourcePath = new string[sourceIdParts.Length - ii];
                     Array.Copy(sourceIdParts, ii, sourcePath, 0, sourcePath.Length);
-                    targetPath = new string[0];
+                    targetPath = Array.Empty<string>();
                     break;
                 }
 
@@ -5887,7 +5907,7 @@ namespace ModelCompiler
             // no common root.
             if (sourcePath == null)
             {
-                sourcePath = new string[0];
+                sourcePath = Array.Empty<string>();
                 targetPath = new string[targetIdParts.Length - sourceIdParts.Length];
                 Array.Copy(targetIdParts, sourceIdParts.Length, targetPath, 0, targetPath.Length);
             }
@@ -5924,17 +5944,14 @@ namespace ModelCompiler
 
             StringBuilder builder = new StringBuilder();
 
-            if (targetRoot != null)
+            for (int ii = 0; ii < targetRoot.Length; ii++)
             {
-                for (int ii = 0; ii < targetRoot.Length; ii++)
+                if (builder.Length > 0)
                 {
-                    if (builder.Length > 0)
-                    {
-                        builder.Append(NodeDesign.PathChar);
-                    }
-
-                    builder.Append(targetRoot[ii]);
+                    builder.Append(NodeDesign.PathChar);
                 }
+
+                builder.Append(targetRoot[ii]);
             }
 
             if (targetPath != null)
@@ -6137,7 +6154,7 @@ namespace ModelCompiler
                 root.AccessRestrictions = ImportAccessRestrictions(design.DefaultAccessRestrictions, design.DefaultAccessRestrictionsSpecified);
             }
 
-            SystemContext context = new SystemContext();
+            SystemContext context = new SystemContext(m_telemetry);
             context.NamespaceUris = this.m_context.NamespaceUris;
 
             List<BaseInstanceState> children = new List<BaseInstanceState>();
@@ -6149,7 +6166,7 @@ namespace ModelCompiler
             }
         }
 
-        private Export.ReleaseStatus ToReleaseStatus(ReleaseStatus input)
+        private static Export.ReleaseStatus ToReleaseStatus(ReleaseStatus input)
         {
             switch (input)
             {
@@ -6192,7 +6209,7 @@ namespace ModelCompiler
 
                 if (!String.IsNullOrEmpty(root.Category))
                 {
-                    root.State.Categories = root.Category.Split(new char[] { ',' });
+                    root.State.Categories = root.Category.Split([',']);
                 }
 
                 if (root.PartNo != 0)
@@ -6238,7 +6255,7 @@ namespace ModelCompiler
 
                         if (!String.IsNullOrEmpty(root.Category))
                         {
-                            root.InstanceState.Categories = root.Category.Split(new char[] { ',' });
+                            root.InstanceState.Categories = root.Category.Split([',']);
                         }
 
                         if (root.PartNo != 0)
@@ -6368,7 +6385,7 @@ namespace ModelCompiler
                     continue;
                 }
 
-                if (reference.TargetPath == String.Empty)
+                if (string.IsNullOrEmpty(reference.TargetPath))
                 {
                     if (parent != null)
                     {
@@ -6457,7 +6474,7 @@ namespace ModelCompiler
                 string childPath = current.RelativePath;
 
                 // only looking for nodes in the current tree.
-                if (!childPath.StartsWith(basePath))
+                if (!childPath.StartsWith(basePath, StringComparison.InvariantCulture))
                 {
                     continue;
                 }
@@ -6469,7 +6486,7 @@ namespace ModelCompiler
                 }
 
                 // relative should always end in the name of the current instance.
-                if (!childPath.EndsWith(current.Instance.SymbolicName.Name))
+                if (!childPath.EndsWith(current.Instance.SymbolicName.Name, StringComparison.InvariantCulture))
                 {
                     continue;
                 }
@@ -6486,7 +6503,7 @@ namespace ModelCompiler
                 }
                 else
                 {
-                    if (String.Empty != basePath)
+                    if (!string.IsNullOrEmpty(basePath))
                     {
                         continue;
                     }
@@ -6495,7 +6512,7 @@ namespace ModelCompiler
                 if (!String.IsNullOrEmpty(basePath))
                 {
                     childPath = childPath.Substring(basePath.Length + 1);
-                    childPath = String.Format("{0}{1}{2}", basePath, NodeDesign.PathChar, childPath);
+                    childPath = $"{basePath}{NodeDesign.PathChar}{childPath}";
                 }
 
                 if (!explicitOnly)
@@ -6533,7 +6550,7 @@ namespace ModelCompiler
                         // this assumes that ad-hoc instances are not more than one level deep.
                         // i.e. a type defines folder and adds a few instances but does not defined subfolders.
                         // need a better way to identify when to suppress inherited adhoc instances.
-                        if (!basePath.Contains(NodeDesign.PathChar))
+                        if (!basePath.Contains(NodeDesign.PathChar, StringComparison.InvariantCulture))
                         {
                             continue;
                         }
@@ -6753,7 +6770,7 @@ namespace ModelCompiler
             {
                 if (root.Fields == null)
                 {
-                    root.Fields = new Parameter[0];
+                    root.Fields = Array.Empty<Parameter>();
                 }
 
                 DataTypeDefinition definition = null;
@@ -6819,7 +6836,7 @@ namespace ModelCompiler
                                 long bit = 1;
                                 int value = 0;
 
-                                while (field.Identifier > 0 && bit <= UInt32.MaxValue)
+                                while (field.Identifier > 0 && bit <= Int64.MaxValue)
                                 {
                                     if ((bit & (long)field.Identifier) != 0)
                                     {
@@ -6843,7 +6860,7 @@ namespace ModelCompiler
                                 {
                                     Name = field.Name,
                                     DisplayName = new Opc.Ua.LocalizedText(field.Name),
-                                    Value = field.Identifier,
+                                    Value = (long)field.Identifier,
                                 };
                             }
 
@@ -6938,10 +6955,10 @@ namespace ModelCompiler
             state.Categories = null;
             state.ReleaseStatus = ToReleaseStatus(root.ReleaseStatus);
             state.DesignToolOnly = root.DesignToolOnly;
-    
+
             if (!String.IsNullOrEmpty(root.Category))
             {
-                state.Categories = root.Category.Split(new char[] { ',' });
+                state.Categories = root.Category.Split([',']);
             }
 
             if (root.PartNo != 0)
@@ -6968,7 +6985,7 @@ namespace ModelCompiler
 
             if (!String.IsNullOrEmpty(root.Category))
             {
-                state.Categories = root.Category.Split(new char[] { ',' });
+                state.Categories = root.Category.Split([',']);
             }
 
             if (root.PartNo != 0)
@@ -6993,7 +7010,7 @@ namespace ModelCompiler
 
             if (!String.IsNullOrEmpty(root.Category))
             {
-                state.Categories = root.Category.Split(new char[] { ',' });
+                state.Categories = root.Category.Split([',']);
             }
 
             if (root.PartNo != 0)
@@ -7025,7 +7042,7 @@ namespace ModelCompiler
 
                 if (!String.IsNullOrEmpty(xsitype))
                 {
-                    int index = xsitype.IndexOf(':');
+                    int index = xsitype.IndexOf(':', StringComparison.InvariantCulture);
 
                     if (index > 0)
                     {
@@ -7044,7 +7061,7 @@ namespace ModelCompiler
 
                 if (encodeable != null)
                 {
-                    qname = EncodeableFactory.GetXmlName(encodeable.GetType());
+                    qname = Opc.Ua.TypeInfo.GetXmlName(encodeable.GetType());
                 }
             }
 
@@ -7102,7 +7119,7 @@ namespace ModelCompiler
 
             if (!String.IsNullOrEmpty(root.Category))
             {
-                state.Categories = root.Category.Split(new char[] { ',' });
+                state.Categories = root.Category.Split([',']);
             }
 
             if (root.PartNo != 0)

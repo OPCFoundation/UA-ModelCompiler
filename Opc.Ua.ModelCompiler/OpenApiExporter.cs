@@ -9,12 +9,21 @@ using Opc.Ua.Export;
 
 namespace ModelCompiler
 {
-    internal class OpenApiExporter
+    /*
+     * The new version of the OpenAPI libaries (>2.X) have bugs that make the out unusuable by OpenApiGenerators
+     * 
+     * This code uses the 1.6X libraries that work.
+     * 
+     * The bug may be fixed in future versions (specifically .NET 10).     * 
+     */
+    internal sealed class OpenApiExporter
     {
         private SystemContext m_context;
         private TypeTable m_typeTable;
         private NodeIdDictionary<DataTypeState> m_index;
+        private List<NodeId> m_order;
         private bool m_allServices;
+        private string m_modelVersion;
 
         readonly Dictionary<string, OpenApiSchema> m_builtInTypes = new Dictionary<string, OpenApiSchema>()
         {
@@ -440,9 +449,9 @@ namespace ModelCompiler
             },
         };
 
-        public OpenApiExporter(bool allServices)
+        public OpenApiExporter(ITelemetryContext telemetry, bool allServices)
         {
-            m_context = new SystemContext();
+            m_context = new SystemContext(telemetry);
             m_context.NamespaceUris = new NamespaceTable();
             m_context.ServerUris = new StringTable();
 
@@ -451,9 +460,10 @@ namespace ModelCompiler
             m_allServices = allServices;
 
             m_index = new NodeIdDictionary<DataTypeState>();
+            m_order = new List<NodeId>();
         }
 
-        protected void AddTypesToTypeTree(NodeStateCollection nodes, BaseTypeState type)
+        void AddTypesToTypeTree(NodeStateCollection nodes, BaseTypeState type)
         {
             if (!NodeId.IsNull(type.SuperTypeId))
             {
@@ -487,9 +497,21 @@ namespace ModelCompiler
 
             foreach (var node in collection)
             {
+                if (node.BrowseName.Name == Opc.Ua.BrowseNames.ModelVersion)
+                {
+                    var version = node as BaseVariableState;
+
+                    if (version?.Value != null)
+                    {
+                        m_modelVersion = version?.Value as string;
+                        Console.WriteLine($"Model Version: {version?.Value}");
+                    }
+                }
+
                 if (node is DataTypeState dt)
                 {
                     m_index[node.NodeId] = dt;
+                    m_order.Add(node.NodeId);
                 }
             }
 
@@ -566,7 +588,7 @@ namespace ModelCompiler
 
             m_index.TryGetValue(requestTypeId, out var requestType);
             m_index.TryGetValue(responseTypeId, out var responseType);
-            
+
             return new OpenApiPathItem
             {
                 Operations = new Dictionary<OperationType, OpenApiOperation>()
@@ -583,7 +605,7 @@ namespace ModelCompiler
                                 {
                                     Schema = new OpenApiSchema()
                                     {
-                                        Title = $"{serviceName}RequestMessage",
+                                        Title = $"{serviceName}RequestMessage2",
                                         Reference = new OpenApiReference()
                                         {
                                             Type = ReferenceType.Schema,
@@ -720,7 +742,7 @@ namespace ModelCompiler
             };
         }
 
-        public void GenerateCore(Stream ostrm, bool generateCore = true, bool generateYaml = false)
+        public Task GenerateCore(Stream ostrm, bool generateCore = true, bool generateYaml = false)
         {
             var document = new OpenApiDocument
             {
@@ -734,7 +756,7 @@ namespace ModelCompiler
                 Info = new OpenApiInfo
                 {
                     Title = "OPC UA Web API",
-                    Version = "1.05.4",
+                    Version = m_modelVersion ?? "1.0.0",
                     Description = "Provides simple HTTPS based access to an OPC UA server.",
                     Contact = new OpenApiContact()
                     {
@@ -960,8 +982,10 @@ namespace ModelCompiler
                 document.Paths["/deletesubscriptions"] = GetPathItem("DeleteSubscriptions");
             }
 
-            foreach (var node in m_index.Values)
+            foreach (var ii in m_order)
             {
+                var node = m_index[ii];
+
                 if (node is DataTypeState dt)
                 {
                     if (m_builtInTypes.ContainsKey(dt.SymbolicName))
@@ -1085,9 +1109,11 @@ namespace ModelCompiler
                 OpenApiSpecVersion.OpenApi3_0,
                 (generateYaml) ? OpenApiFormat.Yaml : OpenApiFormat.Json);
 
+            return Task.CompletedTask;
+
         }
 
-        static readonly Dictionary<string, string>  JsonMessageTypes = new()
+        static readonly Dictionary<string, string> JsonMessageTypes = new()
         {
             ["Data"] = "ua-data",
             ["DataSetMetadata"] = "ua-metadata",
@@ -1128,7 +1154,7 @@ namespace ModelCompiler
         }
 
         private static void SetEnumerationFieldSchema(
-            Dictionary<string, OpenApiSchema> schemas, 
+            Dictionary<string, OpenApiSchema> schemas,
             DataTypeState dt,
             EnumDefinition et)
         {
@@ -1199,7 +1225,7 @@ namespace ModelCompiler
             Opc.Ua.DataTypes.QualifiedName
         };
 
-        public void GenerateModel(Stream ostrm, string modelName, string modelVersion, string modelUri, bool generateYaml = false)
+        public Task GenerateModel(Stream ostrm, string modelName, string modelVersion, string modelUri, bool generateYaml = false)
         {
             var ns = m_context.NamespaceUris.GetIndexOrAppend(modelUri);
             var schemas = new Dictionary<string, OpenApiSchema>();
@@ -1212,7 +1238,7 @@ namespace ModelCompiler
             response.Properties = new Dictionary<string, OpenApiSchema>();
             response.OneOf = new List<OpenApiSchema>();
 
-            foreach (var node in m_index.Values.Where(x => x.NodeId.NamespaceIndex == ns))
+            foreach (var node in m_index.Values.Where(x => x.NodeId.NamespaceIndex == ns).OrderBy(x => x.NodeId))
             {
                 CollectIncludedTypes(included, node.NodeId);
 
@@ -1283,12 +1309,13 @@ namespace ModelCompiler
                 switch (name)
                 {
                     case BrowseNames.Structure: name = "ExtensionObject"; break;
-                    case BrowseNames.BaseObjectType: name = "Variant"; break;
+                    case BrowseNames.BaseDataType: name = "Variant"; break;
                 }
 
                 if (m_builtInTypes.TryGetValue(name, out var bitSchema))
                 {
                     schemas.Add(name, bitSchema);
+                    Console.WriteLine($"Added {bitSchema.ToString()}");
                     continue;
                 }
 
@@ -1323,7 +1350,7 @@ namespace ModelCompiler
                             Format = "int64",
                             Minimum = 0,
                             Maximum = 4294967295,
-                            Default = new OpenApiInteger(0)
+                            Default = new OpenApiLong(0)
                         };
                     }
 
@@ -1421,6 +1448,8 @@ namespace ModelCompiler
                 ostrm,
                 OpenApiSpecVersion.OpenApi3_0,
                 (generateYaml) ? OpenApiFormat.Yaml : OpenApiFormat.Json);
+
+            return Task.CompletedTask;
         }
 
         private void SetStructureAllowSubtypesFieldSchema(OpenApiSchema schema, StructureField field)

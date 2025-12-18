@@ -29,33 +29,30 @@
 
 #undef TEST_JSON_SCHEMAS
 
+using CodeGenerator;
+using Opc.Ua;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.Schema;
-using CodeGenerator;
-using Microsoft.Extensions.DependencyInjection;
-using Opc.Ua;
 using Export = Opc.Ua.Export;
 using ValidationEventArgs = System.Xml.Schema.ValidationEventArgs;
 using ValidationEventHandler = System.Xml.Schema.ValidationEventHandler;
 
 namespace ModelCompiler
 {
-    public partial class ModelGenerator2 : CodeGenerator.CodeGenerator
+    public partial class ModelGenerator2 : CodeGenerator.CodeGeneratorBase
     {
-#if TEST_JSON_SCHEMAS
-        internal const bool DoJsonSchemaTests = true;
-#else
-        internal const bool DoJsonSchemaTests = false;
-#endif
-
         #region Constructors
         /// <summary>
         /// Loads the model design from the specified file and validates it.
         /// </summary>
-        public ModelGenerator2()
+        public ModelGenerator2(IFileSystem fileSystem, ITelemetryContext telemetry)
         {
+            m_telemetry = telemetry;
+            m_context = new ServiceMessageContext(telemetry);
+            m_fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
         }
         #endregion
 
@@ -65,11 +62,14 @@ namespace ModelCompiler
         #endregion
 
         #region Private Fields
+        private IServiceMessageContext m_context;
+        private ITelemetryContext m_telemetry;
         private ModelCompilerValidator m_validator;
         private ModelDesign m_model;
         private bool m_useXmlInitializers;
         private bool m_includeDisplayNames;
         private IList<string> m_exclusions;
+        private readonly IFileSystem m_fileSystem;
         #endregion
 
         /// <summary>
@@ -88,6 +88,9 @@ namespace ModelCompiler
             get { return m_includeDisplayNames; }
         }
 
+        /// <summary>
+        /// Subscribe to log messages.
+        /// </summary>
         public event Func<LogMessageEventArgs, Task> LogMessage;
 
         public Dictionary<string, string> AvailableNodeSets { get; set; }
@@ -107,10 +110,10 @@ namespace ModelCompiler
             bool releaseCandidate,
             bool extractIdentifiers)
         {
-            m_validator = new ModelCompilerValidator(startId, exclusions);
+            m_validator = new ModelCompilerValidator(startId, exclusions, m_fileSystem, m_telemetry);
             m_validator.LogMessage += this.LogMessage;
 
-            if (!String.IsNullOrEmpty(specificationVersion))
+            if (!string.IsNullOrEmpty(specificationVersion))
             {
                 m_validator.EmbeddedModelDesignPath = $"{m_validator.EmbeddedModelDesignPath}.{specificationVersion}";
 
@@ -135,7 +138,12 @@ namespace ModelCompiler
         /// <summary>
         /// Generates a single file containing all of the classes.
         /// </summary>
-        public virtual void GenerateMultipleFiles(string filePath, bool useXmlInitializers, IList<string> excludedCategories, bool includeDisplayNames)
+        public virtual async Task GenerateMultipleFiles(
+            string filePath,
+            bool useXmlInitializers,
+            IList<string> excludedCategories,
+            bool includeDisplayNames,
+            bool minimal = false)
         {
             m_useXmlInitializers = useXmlInitializers;
             m_exclusions = excludedCategories;
@@ -154,7 +162,13 @@ namespace ModelCompiler
             WriteTemplate_NonDataTypesSingleFile(filePath, nodes);
             WriteTemplate_XmlSchema(filePath, nodes);
             WriteTemplate_BinarySchema(filePath, nodes);
-            WriteTemplate_XmlExport(filePath);
+
+            await WriteTemplate_XmlExport(filePath, minimal).ConfigureAwait(false);
+
+            if (minimal)
+            {
+                return;
+            }
 
             WriteTemplate_ConstantsOpenApi(filePath, nodes, "CSharp", "cs");
             WriteTemplate_ConstantsOpenApi(filePath, nodes, "TypeScript", "ts");
@@ -181,13 +195,13 @@ namespace ModelCompiler
             WriteTemplate_ExclusionsAnsiC(filePath, nodes);
         }
 
-        private void IndexDocumentation(SystemContext context, IEnumerable<NodeState> source, Dictionary<NodeId, NodeState> map)
+        private static void IndexDocumentation(SystemContext context, IEnumerable<NodeState> source, Dictionary<NodeId, NodeState> map)
         {
             foreach (var ii in source)
             {
                 if (!NodeId.IsNull(ii.NodeId))
                 {
-                    if (!String.IsNullOrEmpty(ii.NodeSetDocumentation) || ii.Categories?.Count > 0)
+                    if (!string.IsNullOrEmpty(ii.NodeSetDocumentation) || ii.Categories?.Count > 0)
                     {
                         map[ii.NodeId] = ii;
                     }
@@ -195,11 +209,11 @@ namespace ModelCompiler
 
                 IList<BaseInstanceState> children = new List<BaseInstanceState>();
                 ii.GetChildren(context, children);
-                IndexDocumentation(context, (IEnumerable<NodeState>)children, map);
+                IndexDocumentation(context, children, map);
             }
         }
 
-        private void UpdateDocumentation(SystemContext context, Dictionary<NodeId, NodeState> original, IEnumerable<NodeState> updated)
+        private static void UpdateDocumentation(SystemContext context, Dictionary<NodeId, NodeState> original, IEnumerable<NodeState> updated)
         {
             foreach (var ii in updated)
             {
@@ -208,7 +222,7 @@ namespace ModelCompiler
                 if (original.TryGetValue(ii.NodeId, out existingNode))
                 {
                     ii.NodeSetDocumentation =
-                            (!String.IsNullOrWhiteSpace(existingNode.NodeSetDocumentation))
+                            (!string.IsNullOrWhiteSpace(existingNode.NodeSetDocumentation))
                             ? existingNode.NodeSetDocumentation
                             : null;
 
@@ -217,11 +231,11 @@ namespace ModelCompiler
 
                 IList<BaseInstanceState> children = new List<BaseInstanceState>();
                 ii.GetChildren(context, children);
-                UpdateDocumentation(context, original, (IEnumerable<NodeState>)children);
+                UpdateDocumentation(context, original, children);
             }
         }
 
-        private ushort CollectNodes(SystemContext context, Dictionary<NodeId, NodeState> index, NodeState node)
+        private static ushort CollectNodes(SystemContext context, Dictionary<NodeId, NodeState> index, NodeState node)
         {
             index[node.NodeId] = node;
 
@@ -236,7 +250,7 @@ namespace ModelCompiler
             return node.NodeId.NamespaceIndex;
         }
 
-        private void RemoveChildrenWithNoNodeId(SystemContext context, NodeState parent)
+        private static void RemoveChildrenWithNoNodeId(SystemContext context, NodeState parent)
         {
             List<BaseInstanceState> children = new List<BaseInstanceState>();
             parent.GetChildren(context, children);
@@ -253,7 +267,7 @@ namespace ModelCompiler
             }
         }
 
-        private void WriteIdentifiers(SystemContext context, Dictionary<string, NodeState> list, NodeState node, string parentPath)
+        private static void WriteIdentifiers(SystemContext context, Dictionary<string, NodeState> list, NodeState node, string parentPath)
         {
             if (NodeId.IsNull(node.NodeId))
             {
@@ -290,7 +304,7 @@ namespace ModelCompiler
 
             var entries = list.OrderBy(x => x.Value.NodeId);
 
-            using (StreamWriter writer = new StreamWriter(File.Open(identifiersFilePath, FileMode.Create)))
+            using (TextWriter writer = m_fileSystem.CreateTextWriter(identifiersFilePath))
             {
                 foreach (var ii in entries)
                 {
@@ -308,7 +322,7 @@ namespace ModelCompiler
             }
         }
 
-        private void WritePermissions(SystemContext context, Dictionary<string, NodeState> list, NodeState node, string parentPath)
+        private static void WritePermissions(SystemContext context, Dictionary<string, NodeState> list, NodeState node, string parentPath)
         {
             if (NodeId.IsNull(node.NodeId))
             {
@@ -326,7 +340,7 @@ namespace ModelCompiler
             }
         }
 
-        private RolePermissionTypeCollection FindRolePermissions(NodeState node)
+        private static RolePermissionTypeCollection FindRolePermissions(NodeState node)
         {
             if (node.RolePermissions != null)
             {
@@ -341,7 +355,7 @@ namespace ModelCompiler
             return null;
         }
 
-        private AccessRestrictionType? FindAccessRestrictions(NodeState node)
+        private static AccessRestrictionType? FindAccessRestrictions(NodeState node)
         {
             if (node.AccessRestrictions != null)
             {
@@ -356,11 +370,11 @@ namespace ModelCompiler
             return null;
         }
 
-        private string FormatPermissions(uint flags)
+        private static string FormatPermissions(uint flags)
         {
             List<PermissionType> list = new();
 
-            if (flags == (uint)0x1FFFF || (flags & (uint)PermissionType.AddReference) != 0)
+            if (flags == 0x1FFFF || (flags & (uint)PermissionType.AddReference) != 0)
             {
                 return "All";
             }
@@ -383,10 +397,10 @@ namespace ModelCompiler
                 list.Add(PermissionType.None);
             }
 
-            return String.Join("|", list);
+            return string.Join("|", list);
         }
 
-        private string FormatAccessRestrictions(AccessRestrictionType flags)
+        private static string FormatAccessRestrictions(AccessRestrictionType flags)
         {
             List<AccessRestrictionType> list = new();
 
@@ -408,7 +422,7 @@ namespace ModelCompiler
                 list.Add(AccessRestrictionType.None);
             }
 
-            return String.Join(",", list);
+            return string.Join(",", list);
         }
 
         private void WritePermissions(SystemContext context, string identifiersFilePath, NodeStateCollection nodes)
@@ -430,7 +444,7 @@ namespace ModelCompiler
 
             var entries = list.OrderBy(x => x.Key);
 
-            using (StreamWriter writer = new StreamWriter(File.Open(identifiersFilePath, FileMode.Create)))
+            using (TextWriter writer = m_fileSystem.CreateTextWriter(identifiersFilePath))
             {
                 foreach (var ii in entries)
                 {
@@ -485,7 +499,15 @@ namespace ModelCompiler
                                     .FirstOrDefault();
                             }
 
-                            if (!start) writer.Write(","); else start = false;
+                            if (!start)
+                            {
+                                writer.Write(",");
+                            }
+                            else
+                            {
+                                start = false;
+                            }
+
                             writer.Write($"'{role?.DisplayName.Value ?? "Unknown"}':'({permission.Permissions}) {FormatPermissions(permission.Permissions)}'");
                         }
 
@@ -504,9 +526,9 @@ namespace ModelCompiler
         /// <summary>
         /// Writes the schema information to a static XML export file.
         /// </summary>
-        private void WriteTemplate_XmlExport(string filePath)
+        private async Task WriteTemplate_XmlExport(string filePath, bool minimal)
         {
-            SystemContext context = new SystemContext();
+            SystemContext context = new SystemContext(m_telemetry);
             context.NamespaceUris = m_model.NamespaceUris;
             context.ServerUris = new StringTable();
 
@@ -550,7 +572,7 @@ namespace ModelCompiler
 
                 if (state != null)
                 {
-                    if (!DoJsonSchemaTests && node.Purpose == DataTypePurpose.Testing)
+                    if (node.Purpose == DataTypePurpose.Testing)
                     {
                         continue;
                     }
@@ -598,19 +620,26 @@ namespace ModelCompiler
 
                         if (references.Count > 0 && references[0].TargetId == Opc.Ua.ObjectIds.XmlSchema_TypeSystem)
                         {
-                            file = Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix + ".Types.xsd");
+                            file = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".Types.xsd");
                         }
 
                         if (references.Count > 0 && references[0].TargetId == Opc.Ua.ObjectIds.OPCBinarySchema_TypeSystem)
                         {
-                            file = Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix + ".Types.bsd");
+                            file = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".Types.bsd");
                         }
 
                         if (file != null)
                         {
                             try
                             {
-                                variable.Value = File.ReadAllBytes(file);
+                                if (m_fileSystem.Exists(file))
+                                {
+                                    variable.Value = await File.ReadAllBytesAsync(file).ConfigureAwait(false);
+                                }
+                                else
+                                {
+                                    variable.Value = null;
+                                }
                             }
                             catch
                             {
@@ -621,14 +650,14 @@ namespace ModelCompiler
                 }
             }
 
-            string documentationFile = Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.documentation.csv");
+            string documentationFile = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.documentation.csv");
 
-            if (!File.Exists(documentationFile))
+            if (!m_fileSystem.Exists(documentationFile))
             {
-                documentationFile = Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.Services.documentation.csv");
+                documentationFile = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.Services.documentation.csv");
             }
 
-            if (File.Exists(documentationFile))
+            if (m_fileSystem.Exists(documentationFile))
             {
                 Dictionary<NodeId, NodeState> index = new Dictionary<NodeId, NodeState>();
 
@@ -648,61 +677,38 @@ namespace ModelCompiler
 
                     if (index.TryGetValue(nodeId, out NodeState target))
                     {
-                        target.NodeSetDocumentation = (!String.IsNullOrEmpty(row.Link)) ? row.Link : null;
+                        target.NodeSetDocumentation = (!string.IsNullOrEmpty(row.Link)) ? row.Link : null;
                         target.Categories = row.ConformanceUnits;
                     }
                 }
             }
 
-            // open the output file.
-            string outputFile = Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix + ".PredefinedNodes.xml");
-
-            // save the xml.
-            using (Stream ostrm = File.Open(outputFile, FileMode.Create))
+            if (!minimal)
             {
-                collection.SaveAsXml(context, ostrm);
-            }
+                // save the xml.
+                GeneratePredefinedNodesXml(filePath, context, collection);
 
-            // load from xml.
-            NodeStateCollection collection2 = new NodeStateCollection();
-
-            using (Stream istrm = File.Open(outputFile, FileMode.Open))
-            {
-                collection2.LoadFromXml(context, istrm, true);
+                GenerateNodesetXml(filePath, context, collection);
             }
 
             // save as nodeset.
-            string outputFile2 = Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet.xml");
-
-            using (Stream ostrm = File.Open(outputFile2, FileMode.Create))
-            {
-                collection.SaveAsNodeSet(context, ostrm);
-            }
-
-            // load as node set.
-            using (Stream istrm = File.Open(outputFile2, FileMode.Open))
-            {
-                Opc.Ua.NodeSet nodeSet = Opc.Ua.NodeSet.Read(istrm);
-            }
-
-            // save as nodeset.
-            var outputFile3 = Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.xml");
-
-            var originalFile = outputFile3;
-
+            var originalFile = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.xml");
             if (m_model.TargetNamespace == Opc.Ua.Namespaces.OpcUa)
             {
-                originalFile = String.Format(@"{0}{1}{2}.NodeSet2.Services.xml", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
+                originalFile = String.Format(CultureInfo.InvariantCulture, @"{0}{1}{2}.NodeSet2.Services.xml",
+                    filePath,
+                    Path.DirectorySeparatorChar,
+                    m_model.TargetNamespaceInfo.Prefix);
             }
 
             // load existing file from xml.
-            if (File.Exists(originalFile))
+            if (m_fileSystem.Exists(originalFile))
             {
                 try
                 {
                     NodeStateCollection existingCollection = null;
 
-                    using (Stream istrm = File.Open(originalFile, FileMode.Open))
+                    using (Stream istrm = m_fileSystem.OpenRead(originalFile))
                     {
                         Opc.Ua.Export.UANodeSet nodeSet = Opc.Ua.Export.UANodeSet.Read(istrm);
                         existingCollection = new NodeStateCollection();
@@ -725,13 +731,175 @@ namespace ModelCompiler
                 }
             }
 
-            var identifiersFilePath = String.Format($"{filePath}{Path.DirectorySeparatorChar}{m_model.TargetNamespaceInfo.Prefix}.NodeIds.csv");
+            if (!minimal)
+            {
+                GenerateNodeset2Xml(filePath, context, collection, collectionWithServices);
+
+                // Generate predefined nodes in binary format (.uanodes)
+                GeneratePredefinedNodesBinary(filePath, context, collection);
+            }
+
+            // Generate predefined nodes as source code (.cs)
+            GeneratePredefinedNodesSource(filePath, context, collection);
+
+            if (!minimal)
+            {
+                await GenerateJsonSchema(filePath).ConfigureAwait(false);
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Generate initialization file in xml format
+        /// </summary>
+        private void GeneratePredefinedNodesXml(string filePath, SystemContext context, NodeStateCollection collection)
+        {
+            string outputFile = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".PredefinedNodes.xml");
+
+            using (Stream ostrm = m_fileSystem.OpenWrite(outputFile))
+            {
+                collection.SaveAsXml(context, ostrm);
+            }
+
+            // load from xml.
+            NodeStateCollection collection2 = new NodeStateCollection();
+
+            using (Stream istrm = m_fileSystem.OpenRead(outputFile))
+            {
+                collection2.LoadFromXml(context, istrm, true);
+            }
+        }
+
+        /// <summary>
+        /// Generate initialization file in binary format
+        /// </summary>
+        private void GeneratePredefinedNodesBinary(string filePath, SystemContext context, NodeStateCollection collection)
+        {
+            // open the output file.
+            string outputFile = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".PredefinedNodes.uanodes");
+
+            // save the xml.
+            using (Stream ostrm = m_fileSystem.OpenWrite(outputFile))
+            {
+                collection.SaveAsBinary(context, ostrm);
+                ostrm.Close();
+            }
+        }
+
+        /// <summary>
+        /// Generate initialization file as source code
+        /// </summary>
+        private void GeneratePredefinedNodesSource(string filePath, SystemContext context, NodeStateCollection collection)
+        {
+            // save as base64 string.
+            string initializationString;
+
+            if (!UseXmlInitializers)
+            {
+                using (var ostrm = new MemoryStream())
+                {
+                    collection.SaveAsBinary(context, ostrm);
+                    ostrm.Close();
+                    initializationString = Convert.ToBase64String(ostrm.ToArray());
+                }
+            }
+            else
+            {
+                using (var ostrm = new MemoryStream())
+                {
+                    collection.SaveAsXml(context, ostrm);
+                    ostrm.Close();
+                    initializationString = Encoding.UTF8.GetString(ostrm.ToArray());
+                }
+            }
+
+            TextWriter writer = m_fileSystem.CreateTextWriter(
+                Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".PredefinedNodes.cs"));
+
+            try
+            {
+                using Template template = new Template(
+                    writer,
+                    TemplatePath + "Version2.PredefinedNodesFile.cs",
+                    Assembly.GetExecutingAssembly());
+
+                AddTemplate(
+                    template,
+                    "// ListOfImports",
+                    null,
+                    m_model.Namespaces,
+                    new LoadTemplateEventHandler(LoadTemplate_NamespaceImports),
+                    null);
+
+                template.AddReplacement("_Namespace_",
+                    GetNamespacePrefix(m_model.TargetNamespace));
+                template.AddReplacement("_Encoding_",
+                    UseXmlInitializers ? "Xml" : "Binary");
+                template.AddReplacement("_Decode_",
+                    UseXmlInitializers ? "Encoding.UTF8.GetBytes" : "Convert.FromBase64String");
+
+                AddTemplate(
+                    template,
+                    "// InitializationString",
+                    null,
+                    new object[] { initializationString },
+                    new LoadTemplateEventHandler(LoadTemplate_InitializationString),
+                    null);
+                string LoadTemplate_InitializationString(Template template, Context context)
+                {
+                    WriteInitializationString(template, context, context.Target as string);
+                    return null;
+                }
+
+                Context templateContext = new Context();
+                template.WriteTemplate(templateContext);
+            }
+            finally
+            {
+                writer.Close();
+            }
+        }
+
+        /// <summary>
+        /// Generate nodeset xml file
+        /// </summary>
+        private void GenerateNodesetXml(string filePath, SystemContext context, NodeStateCollection collection)
+        {
+            // save as nodeset.
+            string outputFile = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet.xml");
+
+            using (Stream ostrm = m_fileSystem.OpenWrite(outputFile))
+            {
+                collection.SaveAsNodeSet(context, ostrm);
+            }
+
+            // load as node set.
+            using (Stream istrm = m_fileSystem.OpenRead(outputFile))
+            {
+                Opc.Ua.NodeSet nodeSet = Opc.Ua.NodeSet.Read(istrm);
+            }
+
+            File.Delete(outputFile);
+        }
+
+        /// <summary>
+        /// Generate nodeset 2 xml file
+        /// </summary>
+        private void GenerateNodeset2Xml(
+            string filePath,
+            SystemContext context,
+            NodeStateCollection collection,
+            NodeStateCollection collectionWithServices)
+        {
+            string outputFile = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".NodeSet2.xml");
+
+            var identifiersFilePath = String.Format(CultureInfo.InvariantCulture, $"{filePath}{Path.DirectorySeparatorChar}{m_model.TargetNamespaceInfo.Prefix}.NodeIds.csv");
             WriteIdentifiers(context, identifiersFilePath, collection);
 
-            identifiersFilePath = String.Format($"{filePath}{Path.DirectorySeparatorChar}{m_model.TargetNamespaceInfo.Prefix}.NodeIds.permissions.csv");
+            identifiersFilePath = String.Format(CultureInfo.InvariantCulture, $"{filePath}{Path.DirectorySeparatorChar}{m_model.TargetNamespaceInfo.Prefix}.NodeIds.permissions.csv");
             WritePermissions(context, identifiersFilePath, collection);
 
-            using (Stream ostrm = File.Open(outputFile3, FileMode.Create))
+            using (Stream ostrm = m_fileSystem.OpenWrite(outputFile))
             {
                 var model = new Export.ModelTableEntry()
                 {
@@ -757,9 +925,9 @@ namespace ModelCompiler
 
                 if (m_model.TargetNamespace == Opc.Ua.Namespaces.OpcUa)
                 {
-                    var nodeSetFilePath = String.Format(@"{0}{1}{2}.NodeSet2.Services.xml", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
+                    var nodeSetFilePath = String.Format(CultureInfo.InvariantCulture, @"{0}{1}{2}.NodeSet2.Services.xml", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
 
-                    using (Stream ostrm2 = File.Open(nodeSetFilePath, FileMode.Create))
+                    using (Stream ostrm2 = m_fileSystem.OpenWrite(nodeSetFilePath))
                     {
                         collectionWithServices.SaveAsNodeSet2(
                             context,
@@ -769,36 +937,33 @@ namespace ModelCompiler
                             true);
                     }
 
-                    identifiersFilePath = String.Format(@"{0}{1}{2}.NodeIds.Services.csv", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
+                    identifiersFilePath = String.Format(CultureInfo.InvariantCulture, @"{0}{1}{2}.NodeIds.Services.csv", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
                     WriteIdentifiers(context, identifiersFilePath, collectionWithServices);
 
-                    identifiersFilePath = String.Format(@"{0}{1}{2}.NodeIds.Services.permissions.csv", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
+                    identifiersFilePath = String.Format(CultureInfo.InvariantCulture, @"{0}{1}{2}.NodeIds.Services.permissions.csv", filePath, Path.DirectorySeparatorChar, m_model.TargetNamespaceInfo.Prefix);
                     WritePermissions(context, identifiersFilePath, collectionWithServices);
                 }
             }
 
             // load as node set.
-            using (Stream istrm = File.Open(outputFile3, FileMode.Open))
+            using (Stream istrm = m_fileSystem.OpenRead(outputFile))
             {
                 Opc.Ua.Export.UANodeSet nodeSet = Opc.Ua.Export.UANodeSet.Read(istrm);
-                collection2 = new NodeStateCollection();
+                NodeStateCollection collection2 = new NodeStateCollection();
                 nodeSet.Import(context, collection2);
                 istrm.Close();
             }
 
-            ValidateNodeSet2(outputFile3);
+            ValidateNodeSet2(outputFile);
+        }
 
-            // open the output file.
-            string outputFile4 = Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix + ".PredefinedNodes.uanodes");
-
-            // save the xml.
-            using (Stream ostrm = File.Open(outputFile4, FileMode.Create))
-            {
-                collection.SaveAsBinary(context, ostrm);
-                ostrm.Close();
-            }
-
-            // generate JSON schema.
+        /// <summary>
+        /// Generate json schema
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        private async Task GenerateJsonSchema(string filePath)
+        {
             if (m_model.TargetNamespace == DefaultNamespace || AvailableNodeSets != null)
             {
                 var nodeSet = $"{m_model.TargetNamespaceInfo.Prefix}.NodeSet2";
@@ -806,7 +971,7 @@ namespace ModelCompiler
                 if (AvailableNodeSets == null)
                 {
                     AvailableNodeSets = new Dictionary<string, string>();
-                    AvailableNodeSets[m_model.TargetNamespace] = Path.Join(filePath, nodeSet + ".xml");
+                    AvailableNodeSets[m_model.TargetNamespace] = Path.Combine(filePath, nodeSet + ".xml");
                 }
 
                 GenerateJsonSchema(filePath, m_model.TargetNamespaceInfo.Prefix, true);
@@ -815,57 +980,57 @@ namespace ModelCompiler
                 if (m_model.TargetNamespace == DefaultNamespace)
                 {
                     var completeNodeSet = $"{m_model.TargetNamespaceInfo.Prefix}.NodeSet2.Services";
-                    AvailableNodeSets[m_model.TargetNamespace] = Path.Join(filePath, completeNodeSet + ".xml");
+                    AvailableNodeSets[m_model.TargetNamespace] = Path.Combine(filePath, completeNodeSet + ".xml");
                     GenerateJsonSchema(filePath, m_model.TargetNamespaceInfo.Prefix + ".Services", true);
                     GenerateJsonSchema(filePath, m_model.TargetNamespaceInfo.Prefix + ".Services", false);
 
-                    var nodeSetFilePath = String.Format(@"{0}{1}{2}.xml", filePath, Path.DirectorySeparatorChar, completeNodeSet);
+                    var nodeSetFilePath = String.Format(CultureInfo.InvariantCulture, @"{0}{1}{2}.xml", filePath, Path.DirectorySeparatorChar, completeNodeSet);
 
-                    OpenApiExporter openapi = new OpenApiExporter(false);
+                    OpenApiExporter openapi = new OpenApiExporter(m_telemetry, false);
 
-                    using (Stream istrm = File.Open(nodeSetFilePath, FileMode.Open))
+                    using (Stream istrm = m_fileSystem.OpenRead(nodeSetFilePath))
                     {
                         openapi.Load(istrm);
                         istrm.Close();
                     }
 
-                    var openapiPath = Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix.ToLower() + ".openapi.sessionless.json");
+                    var openapiPath = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix.ToLowerInvariant() + ".openapi.sessionless.json");
 
-                    using (Stream istrm = File.Open(openapiPath, FileMode.Create))
+                    using (Stream istrm = m_fileSystem.OpenWrite(openapiPath))
                     {
-                        openapi.GenerateCore(istrm);
+                        await openapi.GenerateCore(istrm).ConfigureAwait(false);
                     }
 
-                    using (Stream istrm = File.Open(openapiPath, FileMode.Open))
+                    using (Stream istrm = m_fileSystem.OpenRead(openapiPath))
                     {
                         OpenApiExporter.Verify(istrm);
                     }
 
-                    openapi = new OpenApiExporter(true);
+                    openapi = new OpenApiExporter(m_telemetry, true);
 
-                    using (Stream istrm = File.Open(nodeSetFilePath, FileMode.Open))
+                    using (Stream istrm = m_fileSystem.OpenRead(nodeSetFilePath))
                     {
                         openapi.Load(istrm);
                         istrm.Close();
                     }
 
-                    openapiPath = Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix.ToLower() + ".openapi.allservices.json");
+                    openapiPath = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix.ToLowerInvariant() + ".openapi.allservices.json");
 
-                    using (Stream istrm = File.Open(openapiPath, FileMode.Create))
+                    using (Stream istrm = m_fileSystem.OpenWrite(openapiPath))
                     {
-                        openapi.GenerateCore(istrm);
+                        await openapi.GenerateCore(istrm).ConfigureAwait(false);
                     }
 
-                    using (Stream istrm = File.Open(openapiPath, FileMode.Open))
+                    using (Stream istrm = m_fileSystem.OpenRead(openapiPath))
                     {
                         OpenApiExporter.Verify(istrm);
                     }
                 }
                 else
                 {
-                    var nodeSetFilePath = String.Format(@"{0}{1}{2}.xml", filePath, Path.DirectorySeparatorChar, nodeSet);
+                    var nodeSetFilePath = String.Format(CultureInfo.InvariantCulture, @"{0}{1}{2}.xml", filePath, Path.DirectorySeparatorChar, nodeSet);
 
-                    OpenApiExporter openapi = new OpenApiExporter(false);
+                    OpenApiExporter openapi = new OpenApiExporter(m_telemetry, false);
 
                     if (m_model.Dependencies != null)
                     {
@@ -873,7 +1038,7 @@ namespace ModelCompiler
                         {
                             if (AvailableNodeSets.TryGetValue(dependency.Value.ModelUri, out var nodeset))
                             {
-                                using (Stream istrm = File.Open(nodeset, FileMode.Open))
+                                using (Stream istrm = m_fileSystem.OpenRead(nodeset))
                                 {
                                     openapi.Load(istrm);
                                     istrm.Close();
@@ -882,25 +1047,25 @@ namespace ModelCompiler
                         }
                     }
 
-                    using (Stream istrm = File.Open(nodeSetFilePath, FileMode.Open))
+                    using (Stream istrm = m_fileSystem.OpenRead(nodeSetFilePath))
                     {
                         openapi.Load(istrm);
                         istrm.Close();
                     }
 
-                    var openapiPath = Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix.ToLower() + ".openapi.json");
+                    var openapiPath = Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix.ToLowerInvariant() + ".openapi.json");
 
-                    using (Stream istrm = File.Open(openapiPath, FileMode.Create))
+                    using (Stream istrm = m_fileSystem.OpenWrite(openapiPath))
                     {
-                        openapi.GenerateModel(
+                        await openapi.GenerateModel(
                             istrm,
                             m_model.TargetNamespaceInfo.Name,
                             m_model.TargetNamespaceInfo.Version,
                             m_model.TargetNamespaceInfo.Value
-                        );
+                        ).ConfigureAwait(false); 
                     }
 
-                    using (Stream istrm = File.Open(openapiPath, FileMode.Open))
+                    using (Stream istrm = m_fileSystem.OpenRead(openapiPath))
                     {
                         OpenApiExporter.Verify(istrm);
                     }
@@ -908,366 +1073,21 @@ namespace ModelCompiler
             }
         }
 
-#if TEST_JSON_SCHEMAS
-        private TestScalarStructure CreateTestScalarStructure(IServiceMessageContext context)
-        {
-            ushort ns = (ushort)(context.NamespaceUris.ToArray().Length - 1);
-
-            var eo = new CurrencyUnitType()
-            {
-                Currency = "Dollar",
-                AlphabeticCode = "USD",
-                NumericCode = 840,
-                Exponent = 2
-            };
-
-            var eo2 = new TestConcreteStructure()
-            {
-                A = 1,
-                B = 2.234,
-                C = "apple",
-                D = 3,
-                E = 3.14,
-                F = "banana"
-            };
-
-            var eo3 = new TestConcreteStructure()
-            {
-                A = 3,
-                B = 4.234,
-                C = "orange",
-                D = 4,
-                E = 5.14,
-                F = "green"
-            };
-
-            return new TestScalarStructure()
-            {
-                A = true,
-                B = SByte.MaxValue,
-                C = Byte.MaxValue,
-                D = Int16.MaxValue,
-                E = UInt16.MaxValue,
-                F = Int32.MaxValue,
-                G = UInt32.MaxValue,
-                H = Int64.MaxValue,
-                I = UInt64.MaxValue,
-                J = Single.MaxValue,
-                K = Double.MaxValue,
-                L = (Uuid)Guid.NewGuid(),
-                M = DateTime.UtcNow,
-                N = "Test",
-                O = Guid.NewGuid().ToByteArray(),
-                P = new NodeId("Hello", ns),
-                Q = new ExpandedNodeId("Hello", "urn:tempuri.org:2024-01:good bye;world"),
-                R = new QualifiedName("Hello", ns),
-                S = new Opc.Ua.LocalizedText("de", "Hello"),
-                T = StatusCodes.BadAggregateNotSupported,
-                U = null,
-                V = new ExtensionObject(eo.TypeId, eo),
-                W = new ExtensionObject(eo2.TypeId, eo2),
-                X = eo3,
-                Y = TestEnumeration.Blue,
-                Z = (ulong)(TestOptionSet.A | TestOptionSet.B),
-                A1 = new TestUnion() { SwitchField = TestUnionFields.B, B = 3.1415 },
-                B1 = new TestOptionalFields() 
-                { 
-                    EncodingMask = (uint)(TestOptionalFieldsFields.B | TestOptionalFieldsFields.C),
-                    B = 2.4567,
-                    C = "Orange"
-                },
-                C1 = new DataValue()
-                {
-                    WrappedValue = 123.567,
-                    ServerTimestamp = DateTime.UtcNow,
-                    SourceTimestamp = DateTime.UtcNow,
-                    StatusCode = StatusCodes.Good
-                }
-            };
-        }
-
-        private TestArrayStructure CreateTestArrayStructure(IServiceMessageContext context)
-        {
-            ushort ns = (ushort)(context.NamespaceUris.ToArray().Length - 1);
-
-            var eo = new CurrencyUnitType()
-            {
-                Currency = "Dollar",
-                AlphabeticCode = "USD",
-                NumericCode = 840,
-                Exponent = 2
-            };
-
-            var eo2 = new TestConcreteStructure()
-            {
-                A = 1,
-                B = 2.234,
-                C = "apple",
-                D = 3,
-                E = 3.14,
-                F = "banana"
-            };
-
-            var eo3 = new TestConcreteStructure()
-            {
-                A = 3,
-                B = 4.234,
-                C = "orange",
-                D = 4,
-                E = 5.14,
-                F = "green"
-            };
-
-            return new TestArrayStructure()
-            {
-                A = new Boolean[] { true, false, true },
-                B = new SByte[] { SByte.MinValue, 0, SByte.MaxValue },
-                C = new Byte[] { Byte.MinValue, (Byte)SByte.MaxValue, Byte.MaxValue },
-                D = new Int16[] { Int16.MinValue, 0, Int16.MaxValue },
-                E = new UInt16[] { UInt16.MinValue, (UInt16)Int16.MaxValue, UInt16.MaxValue },
-                F = new Int32[] { Int32.MinValue, 0, Int32.MaxValue },
-                G = new UInt32[] { UInt32.MinValue, (UInt32)SByte.MaxValue, UInt32.MaxValue },
-                H = new Int64[] { Int64.MinValue, 0, Int64.MaxValue },
-                I = new UInt64[] { UInt64.MinValue, (UInt64)Int64.MaxValue, UInt64.MaxValue },
-                J = new Single[] { Single.MinValue, Single.Pi, Single.MaxValue },
-                K = new Double[] { Double.MinValue, Double.Pi, Double.MaxValue },
-                L = new Uuid[] { (Uuid)Guid.NewGuid(), (Uuid)Guid.NewGuid(), (Uuid)Guid.NewGuid() },
-                M = new DateTime[] { DateTime.UtcNow, new DateTime(DateTime.Now.Ticks, DateTimeKind.Utc), DateTime.MaxValue },
-                N = new String[] { "Red", "Yellow", "Green" },
-                O = new byte[][] { Guid.NewGuid().ToByteArray(), Guid.NewGuid().ToByteArray(), Guid.NewGuid().ToByteArray() },
-                P = new NodeId[] { new NodeId(1234U, ns), new NodeId("Hello", ns), new NodeId(Guid.NewGuid(), ns) },
-                Q = new ExpandedNodeId[] { new ExpandedNodeId(1234U, 1), new ExpandedNodeId("Hello", "urn:tempuri.org:2024-01:good bye;world"), new ExpandedNodeId(Guid.NewGuid(), "urn:tempuri.org:2024-01:goodbye:world") },
-                R = new QualifiedName[] { new QualifiedName("Red", ns), new QualifiedName("Yellow", ns), new QualifiedName("Green", ns) },
-                S = new Opc.Ua.LocalizedText[] { new Opc.Ua.LocalizedText("en", "Red"), new Opc.Ua.LocalizedText("de", "Yellow"), new Opc.Ua.LocalizedText("jp", "Green") },
-                T = new StatusCode[] { StatusCodes.BadAggregateInvalidInputs, StatusCodes.BadCertificateTimeInvalid, StatusCodes.BadAggregateNotSupported },
-                U = new XmlElement[0],
-                V = new Variant[] {
-                    new ExtensionObject(eo.TypeId, new CurrencyUnitType()
-                    {
-                        Currency = "Dollar",
-                        AlphabeticCode = "USD",
-                        NumericCode = 840,
-                        Exponent = 2
-                    }),
-                    new Variant(new Matrix(
-                        new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2 }, 
-                        BuiltInType.Int32, 
-                        new int[] { 2, 3, 2 }
-                    )),
-                    new Variant(new Matrix(
-                        new ExtensionObject[] { 
-                            new ExtensionObject(eo.TypeId, new CurrencyUnitType()
-                            {
-                                Currency = "Euro",
-                                AlphabeticCode = "EUR",
-                                NumericCode = 654,
-                                Exponent = 1
-                            }),
-                            new ExtensionObject(eo.TypeId, new CurrencyUnitType()
-                            {
-                                Currency = "Japanese Yen",
-                                AlphabeticCode = "JPY",
-                                NumericCode = 123,
-                                Exponent = 0
-                            })},
-                        BuiltInType.ExtensionObject,
-                        new int[] { 1, 2 }
-                    ))
-                },
-                W = new ExtensionObjectCollection()
-                {
-                    new ExtensionObject(eo2.TypeId, eo2),
-                    new ExtensionObject(eo2.TypeId, new TestConcreteStructure()
-                    {
-                        A = 1,
-                        B = 2.234,
-                        C = "red",
-                        D = 3,
-                        E = 3.14,
-                        F = "blue"
-                    }),
-                    new ExtensionObject(eo2.TypeId, new TestConcreteStructure()
-                    {
-                        A = 1,
-                        B = 2.234,
-                        C = "dog",
-                        D = 3,
-                        E = 3.14,
-                        F = "cat"
-                    })
-                },
-                X = new(new TestConcreteStructure[]
-                {
-                    eo2,
-                    eo3,
-                    new TestConcreteStructure()
-                    {
-                        A = 1,
-                        B = 2.234,
-                        C = "dog",
-                        D = 3,
-                        E = 3.14,
-                        F = "cat"
-                    }
-                }),
-                Y = new TestEnumeration[] { TestEnumeration.Red, TestEnumeration.Green, TestEnumeration.Blue },
-                Z = [ (ulong)TestOptionSet.C, (ulong)(TestOptionSet.A | TestOptionSet.B), (ulong)0 ],
-                A1 = [new TestUnion() { SwitchField = TestUnionFields.A, A = 1234 }, new TestUnion() { SwitchField = TestUnionFields.C, C = "Grape" }, new TestUnion() { SwitchField = TestUnionFields.B, B = 3.1415 } ],
-                B1 = [
-                    new TestOptionalFields()
-                    {
-                        EncodingMask = (uint)(TestOptionalFieldsFields.A),
-                        A = 12345
-                    },
-                    new TestOptionalFields()
-                    {
-                        EncodingMask = (uint)(TestOptionalFieldsFields.B | TestOptionalFieldsFields.C),
-                        B = 2.4567,
-                        C = "Orange"
-                    },
-                    new TestOptionalFields()
-                    {
-                        EncodingMask = (uint)(TestOptionalFieldsFields.A | TestOptionalFieldsFields.C),
-                        A = 12345,
-                        C = "Grape"
-                    }
-                ],
-                C1 = new DataValue[]
-                {
-                    new DataValue()
-                    {
-                        WrappedValue = 123,
-                        ServerTimestamp = DateTime.UtcNow,
-                        StatusCode = StatusCodes.UncertainDataSubNormal
-                    },
-                    new DataValue()
-                    {
-                        WrappedValue = "unicorn",
-                        SourceTimestamp = DateTime.UtcNow,
-                        SourcePicoseconds = 1234,
-                        StatusCode = StatusCodes.GoodCallAgain
-                    },
-                    new DataValue() {
-                        WrappedValue = new ExtensionObject(DataTypeIds.TestConcreteStructure, new TestConcreteStructure()
-                        {
-                            A = 6,
-                            B = 10.234,
-                            C = "rat",
-                            D = 9,
-                            E = 8.78,
-                            F = "pop"
-                        }),
-                        StatusCode = StatusCodes.UncertainEngineeringUnitsExceeded,
-             
-                    },
-                    new DataValue() {
-                        WrappedValue = new Variant(new Matrix(
-                            new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2 },
-                            BuiltInType.Int32,
-                            new int[] { 2, 3, 2 }
-                        )),
-                        StatusCode = StatusCodes.UncertainDataSubNormal
-                    }
-                }
-            };
-        }
-#endif
-
         private void GenerateJsonSchema(string filePath, string baseName, bool useCompactEncoding)
         {
-            JsonSchemaExporter json = new JsonSchemaExporter(useCompactEncoding);
+            JsonSchemaExporter json = new JsonSchemaExporter(m_fileSystem, useCompactEncoding, m_telemetry);
 
             json.Load(AvailableNodeSets, m_model.TargetNamespace);
 
-            string outputFile = Path.Join(filePath, $"{baseName.ToLower()}.jsonschema{((!useCompactEncoding) ? ".verbose" : "")}.json");
+            string outputFile = Path.Combine(filePath, $"{baseName.ToLowerInvariant()}.jsonschema{((!useCompactEncoding) ? ".verbose" : "")}.json");
 
-            using (var ostrm = File.Open(outputFile, FileMode.Create, FileAccess.ReadWrite))
+            using (var ostrm = m_fileSystem.OpenWrite(outputFile))
             {
                 json.Generate(Path.GetFileNameWithoutExtension(outputFile), ostrm);
             }
-
-#if TEST_JSON_SCHEMAS
-            if (DoJsonSchemaTests)
-            {
-                if (m_model.TargetNamespace == DefaultNamespace && outputFile.Contains(".services.", StringComparison.OrdinalIgnoreCase))
-                {
-                    if (useCompactEncoding) CheckSchema(outputFile, true, true);
-                    CheckSchema(outputFile, useCompactEncoding, false);
-                }
-            }
-#endif
         }
 
-#if TEST_JSON_SCHEMAS
-        private void CheckSchema(string outputFile, bool useCompactEncoding, bool noSchemaCheck)
-        {
-            try
-            {
-                ServiceMessageContext context = new();
-                context.NamespaceUris = m_model.NamespaceUris;
-                var ns = context.NamespaceUris.GetIndexOrAppend("urn:tempuri.org:2024-01:hello;world");
-
-                var encoding = noSchemaCheck ? JsonEncodingType.Reversible : useCompactEncoding ? JsonEncodingType.Compact : JsonEncodingType.Verbose;
-                JsonEncoder encoder = new JsonEncoder(context, encoding);
-
-                TestStructure test = new()
-                {
-                    A = CreateTestScalarStructure(context),
-                    B = CreateTestArrayStructure(context),
-                    C = new TestScalarStructure[] { CreateTestScalarStructure(context), CreateTestScalarStructure(context), CreateTestScalarStructure(context) },
-                    D = new TestArrayStructure[] { CreateTestArrayStructure(context), CreateTestArrayStructure(context), CreateTestArrayStructure(context) }
-                };
-
-                test.Encode(encoder);
-                var json = encoder.CloseAndReturnText();
-
-                var rootPath = Path.GetFileNameWithoutExtension(outputFile);
-                JToken parsedJson = JToken.Parse(json);
-                string formattedJson = parsedJson.ToString(Newtonsoft.Json.Formatting.Indented);
-                Directory.CreateDirectory(Path.GetDirectoryName(outputFile) + "/TestOutput");
-                File.AppendAllText($"{Path.GetDirectoryName(outputFile)}/TestOutput/{rootPath}.json", formattedJson); 
-
-                if (!noSchemaCheck)
-                {
-                    var text = File.ReadAllText(outputFile).Replace(@"""$ref"": ""/basedatatype"",", @"""$ref"": ""/" + test.GetType().Name.ToLower() + @""",");
-                    var schema = JSchema.Parse(text);
-
-                    JObject instance = JObject.Parse(json);
-
-                    IList<ValidationError> messages;
-                    if (!instance.IsValid(schema, out messages))
-                    {
-                        foreach (var message in messages)
-                        {
-                            foreach (var child in message.ChildErrors)
-                            {
-                                Console.WriteLine($"[JSON Schema] {child.Message}");
-                            }
-                        }
-                    }
-                }
-
-                JsonDecoder decoder = new JsonDecoder(json, context);
-                decoder.UpdateNamespaceTable = false;
-
-                TestStructure test2 = new();
-                test2.Decode(decoder);
-
-                if (!test2.IsEqual(test))
-                {
-                    Console.WriteLine($"[JsonDecoder] Decoded does not match.");
-                }
-
-                Console.WriteLine($"[JSON Schema] {Path.GetFileName(outputFile)} is GOOD!");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"[JSON Schema] {Path.GetFileName(outputFile)} {e.Message}");
-            }
-        }
-#endif
-
-        private Stream GetNodeSet2Schema()
+        private static Stream GetNodeSet2Schema()
         {
             foreach (var name in Assembly.GetExecutingAssembly().GetManifestResourceNames())
             {
@@ -1303,7 +1123,7 @@ namespace ModelCompiler
                     settings.Schemas.Add("http://opcfoundation.org/UA/2011/03/UANodeSet.xsd", schema);
                     settings.ValidationType = ValidationType.Schema;
 
-                    XmlReader reader = XmlReader.Create(nodesetPath, settings);
+                    using XmlReader reader = XmlReader.Create(nodesetPath, settings);
                     XmlDocument document = new XmlDocument();
                     document.Load(reader);
 
@@ -1340,18 +1160,18 @@ namespace ModelCompiler
         {
             string prefix = m_model.TargetNamespaceInfo.Name;
 
-            StreamWriter writer = new StreamWriter(Path.Combine(filePath, prefix.ToLower() + "_identifiers.h"), false);
+            TextWriter writer = m_fileSystem.CreateTextWriter(Path.Combine(filePath, prefix.ToLowerInvariant() + "_identifiers.h"));
 
             try
             {
                 string templateName = "Types.Identifiers.h";
 
-                Template template = new Template(writer, TemplatePath + templateName, Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + templateName, Assembly.GetExecutingAssembly());
 
                 SortedDictionary<string, List<NodeDesign>> identifiers = GetIdentifiers();
 
                 template.AddReplacement("_Date_", DateTime.Now.ToShortDateString());
-                template.AddReplacement("_FileName_", String.Format("{0}_Identifiers", prefix));
+                template.AddReplacement("_FileName_", String.Format(CultureInfo.InvariantCulture, "{0}_Identifiers", prefix));
 
                 AddTemplate(
                     template,
@@ -1364,7 +1184,7 @@ namespace ModelCompiler
                 Context context = new Context();
                 context.BlankLine = true;
                 template.WriteTemplate(context);
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
             finally
             {
@@ -1379,13 +1199,13 @@ namespace ModelCompiler
         {
             string prefix = m_model.TargetNamespaceInfo.Name;
 
-            StreamWriter writer = new StreamWriter(Path.Combine(filePath, prefix.ToLower() + "_exclusions.h"), false);
+            TextWriter writer = m_fileSystem.CreateTextWriter(Path.Combine(filePath, prefix.ToLowerInvariant() + "_exclusions.h"));
 
             try
             {
                 string templateName = "Types.Identifiers.h";
 
-                Template template = new Template(writer, TemplatePath + templateName, Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + templateName, Assembly.GetExecutingAssembly());
 
                 var identifiers = new Dictionary<string, List<string>>();
 
@@ -1396,7 +1216,7 @@ namespace ModelCompiler
                 {
                     if (ii < nodes.Count - 1 && nodes[ii].SymbolicName.Name.EndsWith("Request") && nodes[ii + 1].SymbolicName.Name.EndsWith("Response"))
                     {
-                        serviceNames.Add(nodes[ii].SymbolicName.Name.Replace("Request", ""));
+                        serviceNames.Add(nodes[ii].SymbolicName.Name.Replace("Request", "", StringComparison.InvariantCulture));
                         continue;
                     }
 
@@ -1417,7 +1237,7 @@ namespace ModelCompiler
                 identifiers["DataType"] = datatypeNames;
 
                 template.AddReplacement("_Date_", DateTime.Now.ToShortDateString());
-                template.AddReplacement("_FileName_", String.Format("{0}_Exclusions", prefix));
+                template.AddReplacement("_FileName_", String.Format(CultureInfo.InvariantCulture, "{0}_Exclusions", prefix));
 
                 AddTemplate(
                     template,
@@ -1430,7 +1250,7 @@ namespace ModelCompiler
                 Context context = new Context();
                 context.BlankLine = true;
                 template.WriteTemplate(context);
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
             finally
             {
@@ -1512,16 +1332,16 @@ namespace ModelCompiler
         {
             string prefix = m_model.TargetNamespaceInfo.Name;
 
-            StreamWriter writer = new StreamWriter(Path.Combine(filePath, prefix.ToLower() + "_browsenames.h"), false);
+            TextWriter writer = m_fileSystem.CreateTextWriter(Path.Combine(filePath, prefix.ToLowerInvariant() + "_browsenames.h"));
 
             try
             {
                 string templateName = "Types.Identifiers.h";
 
-                Template template = new Template(writer, TemplatePath + templateName, Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + templateName, Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Date_", DateTime.Now.ToShortDateString());
-                template.AddReplacement("_FileName_", String.Format("{0}_BrowseNames", prefix));
+                template.AddReplacement("_FileName_", String.Format(CultureInfo.InvariantCulture, "{0}_BrowseNames", prefix));
 
                 SortedDictionary<string, string> browseNames = GetBrowseNames(nodes);
 
@@ -1534,7 +1354,7 @@ namespace ModelCompiler
                     null);
 
                 template.WriteTemplate(null);
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
             finally
             {
@@ -1568,13 +1388,32 @@ namespace ModelCompiler
         /// </summary>
         private void WriteTemplate_XmlSchema(string filePath, List<NodeDesign> nodes)
         {
-            StreamWriter writer = new StreamWriter(Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".Types.xsd"), false);
+            TextWriter writer = m_fileSystem.CreateTextWriter(Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".Types.xsd"));
+            WriteTemplate_XmlSchema(writer, nodes);
+        }
 
+        /// <summary>
+        /// Get the xml schema (Types.xsd) as a string.
+        /// </summary>
+        private string Get_XmlSchema(List<NodeDesign> nodes)
+        {
+            using (TextWriter writer = new StringWriter())
+            {
+                WriteTemplate_XmlSchema(writer, nodes);
+                return writer.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Write the xml schema to a writer
+        /// </summary>
+        private void WriteTemplate_XmlSchema(TextWriter writer, List<NodeDesign> nodes)
+        {
             try
             {
-                Template template = new Template(writer, TemplatePath + "XmlSchema.File.xml", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "XmlSchema.File.xml", Assembly.GetExecutingAssembly());
 
-                if (!String.IsNullOrEmpty(m_model.TargetNamespaceInfo.XmlNamespace))
+                if (!string.IsNullOrEmpty(m_model.TargetNamespaceInfo.XmlNamespace))
                 {
                     template.AddReplacement("_Namespace_", m_model.TargetNamespaceInfo.XmlNamespace);
                 }
@@ -1644,9 +1483,9 @@ namespace ModelCompiler
                 {
                     if (m_model.Namespaces[ii].Value == namespaceUri)
                     {
-                        if (String.IsNullOrEmpty(m_model.Namespaces[ii].XmlPrefix))
+                        if (string.IsNullOrEmpty(m_model.Namespaces[ii].XmlPrefix))
                         {
-                            return String.Format("s{0}", ii);
+                            return String.Format(CultureInfo.InvariantCulture, "s{0}", ii);
                         }
 
                         return m_model.Namespaces[ii].XmlPrefix;
@@ -1676,12 +1515,12 @@ namespace ModelCompiler
 
             string uri = ns.Value;
 
-            if (!String.IsNullOrEmpty(ns.XmlNamespace))
+            if (!string.IsNullOrEmpty(ns.XmlNamespace))
             {
                 uri = ns.XmlNamespace;
             }
 
-            if (context.Token.Contains("xmlns:s0"))
+            if (context.Token.Contains("xmlns:s0", StringComparison.InvariantCulture))
             {
                 if (ns.Value == DefaultNamespace)
                 {
@@ -1739,14 +1578,14 @@ namespace ModelCompiler
                     case DataTypes.StructureType:
                     case DataTypes.EnumDefinition:
                     case DataTypes.EnumField:
-                    {
-                        break;
-                    }
+                        {
+                            break;
+                        }
 
                     default:
-                    {
-                        return null;
-                    }
+                        {
+                            return null;
+                        }
                 }
             }
 
@@ -1809,7 +1648,7 @@ namespace ModelCompiler
 
             if (context.FirstInList)
             {
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
 
             DataTypeDesign baseType = dataType.BaseTypeNode as DataTypeDesign;
@@ -1823,7 +1662,7 @@ namespace ModelCompiler
 
             if (dataType.BasicDataType == BasicDataType.Enumeration && dataType.IsOptionSet)
             {
-                template.AddReplacement("<xs:restriction base=\"xs:string\">", String.Format("<xs:restriction base=\"{0}\">", GetXmlDataType(baseType, ValueRank.Scalar)));
+                template.AddReplacement("<xs:restriction base=\"xs:string\">", String.Format(CultureInfo.InvariantCulture, "<xs:restriction base=\"{0}\">", GetXmlDataType(baseType, ValueRank.Scalar)));
             }
 
             AddTemplate(
@@ -1892,48 +1731,48 @@ namespace ModelCompiler
                     default:
                     case BasicDataType.Enumeration:
                     case BasicDataType.Structure:
-                    {
-                        if (dataType.SymbolicName == new XmlQualifiedName("Structure", DefaultNamespace))
                         {
-                            return String.Format("ua:ListOfExtensionObject");
-                        }
-
-                        if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
-                        {
-                            if (dataType.IsOptionSet)
+                            if (dataType.SymbolicName == new XmlQualifiedName("Structure", DefaultNamespace))
                             {
-                                return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
+                                return String.Format(CultureInfo.InvariantCulture, "ua:ListOfExtensionObject");
                             }
 
-                            return String.Format("ua:ListOfInt32");
-                        }
-
-                        string prefix = "tns";
-
-                        if (dataType.SymbolicName.Namespace != m_model.TargetNamespace)
-                        {
-                            if (dataType.SymbolicName.Namespace == DefaultNamespace)
+                            if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
                             {
-                                if (dataType.SymbolicName.Name == "Enumeration")
+                                if (dataType.IsOptionSet)
                                 {
-                                    if (dataType.IsOptionSet)
-                                    {
-                                        return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
-                                    }
-
-                                    return String.Format("ua:ListOfInt32");
+                                    return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
                                 }
 
-                                prefix = "ua";
+                                return String.Format(CultureInfo.InvariantCulture, "ua:ListOfInt32");
                             }
-                            else
-                            {
-                                prefix = GetXmlNamespacePrefix(dataType.SymbolicName.Namespace);
-                            }
-                        }
 
-                        return String.Format("{0}:ListOf{1}", prefix, dataType.SymbolicName.Name);
-                    }
+                            string prefix = "tns";
+
+                            if (dataType.SymbolicName.Namespace != m_model.TargetNamespace)
+                            {
+                                if (dataType.SymbolicName.Namespace == DefaultNamespace)
+                                {
+                                    if (dataType.SymbolicName.Name == "Enumeration")
+                                    {
+                                        if (dataType.IsOptionSet)
+                                        {
+                                            return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
+                                        }
+
+                                        return String.Format(CultureInfo.InvariantCulture, "ua:ListOfInt32");
+                                    }
+
+                                    prefix = "ua";
+                                }
+                                else
+                                {
+                                    prefix = GetXmlNamespacePrefix(dataType.SymbolicName.Namespace);
+                                }
+                            }
+
+                            return String.Format(CultureInfo.InvariantCulture, "{0}:ListOf{1}", prefix, dataType.SymbolicName.Name);
+                        }
                 }
             }
 
@@ -1970,48 +1809,48 @@ namespace ModelCompiler
                 default:
                 case BasicDataType.Enumeration:
                 case BasicDataType.Structure:
-                {
-                    if (dataType.SymbolicName == new XmlQualifiedName("Structure", DefaultNamespace))
                     {
-                        return String.Format("ua:ExtensionObject");
-                    }
-
-                    if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
-                    {
-                        if (dataType.IsOptionSet)
+                        if (dataType.SymbolicName == new XmlQualifiedName("Structure", DefaultNamespace))
                         {
-                            return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
+                            return String.Format(CultureInfo.InvariantCulture, "ua:ExtensionObject");
                         }
 
-                        return String.Format("xs:int");
-                    }
-
-                    string prefix = "tns";
-
-                    if (dataType.SymbolicName.Namespace != m_model.TargetNamespace)
-                    {
-                        if (dataType.SymbolicName.Namespace == DefaultNamespace)
+                        if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
                         {
-                            if (dataType.SymbolicName.Name == "Enumeration")
+                            if (dataType.IsOptionSet)
                             {
-                                if (dataType.IsOptionSet)
-                                {
-                                    return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
-                                }
-
-                                return String.Format("xs:int");
+                                return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
                             }
 
-                            prefix = "ua";
+                            return String.Format(CultureInfo.InvariantCulture, "xs:int");
                         }
-                        else
-                        {
-                            prefix = GetXmlNamespacePrefix(dataType.SymbolicName.Namespace);
-                        }
-                    }
 
-                    return String.Format("{0}:{1}", prefix, dataType.SymbolicName.Name);
-                }
+                        string prefix = "tns";
+
+                        if (dataType.SymbolicName.Namespace != m_model.TargetNamespace)
+                        {
+                            if (dataType.SymbolicName.Namespace == DefaultNamespace)
+                            {
+                                if (dataType.SymbolicName.Name == "Enumeration")
+                                {
+                                    if (dataType.IsOptionSet)
+                                    {
+                                        return GetXmlDataType((DataTypeDesign)dataType.BaseTypeNode, valueRank);
+                                    }
+
+                                    return String.Format(CultureInfo.InvariantCulture, "xs:int");
+                                }
+
+                                prefix = "ua";
+                            }
+                            else
+                            {
+                                prefix = GetXmlNamespacePrefix(dataType.SymbolicName.Namespace);
+                            }
+                        }
+
+                        return String.Format(CultureInfo.InvariantCulture, "{0}:{1}", prefix, dataType.SymbolicName.Name);
+                    }
             }
         }
         #endregion
@@ -2104,36 +1943,36 @@ namespace ModelCompiler
                     case BasicDataType.QualifiedName:
                     case BasicDataType.Structure:
                     case BasicDataType.DataValue:
-                    {
-                        template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" nillable=\"true\" />", field.Name, GetXmlDataType(field.DataTypeNode, field.ValueRank));
-                        break;
-                    }
+                        {
+                            template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" nillable=\"true\" />", field.Name, GetXmlDataType(field.DataTypeNode, field.ValueRank));
+                            break;
+                        }
 
                     case BasicDataType.Guid:
                     case BasicDataType.StatusCode:
-                    {
-                        template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" />", field.Name, GetXmlDataType(field.DataTypeNode, field.ValueRank));
-                        break;
-                    }
-
-                    case BasicDataType.UserDefined:
-                    {
-                        var fieldDataType = GetXmlDataType(field.DataTypeNode, field.ValueRank);
-
-                        if (field.AllowSubTypes)
                         {
-                            fieldDataType = "ua:ExtensionObject";
+                            template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" />", field.Name, GetXmlDataType(field.DataTypeNode, field.ValueRank));
+                            break;
                         }
 
-                        template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" nillable=\"true\" />", field.Name, fieldDataType);
-                        break;
-                    }
+                    case BasicDataType.UserDefined:
+                        {
+                            var fieldDataType = GetXmlDataType(field.DataTypeNode, field.ValueRank);
+
+                            if (field.AllowSubTypes)
+                            {
+                                fieldDataType = "ua:ExtensionObject";
+                            }
+
+                            template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" nillable=\"true\" />", field.Name, fieldDataType);
+                            break;
+                        }
 
                     default:
-                    {
-                        template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" />", field.Name, GetXmlDataType(field.DataTypeNode, field.ValueRank));
-                        break;
-                    }
+                        {
+                            template.Write("<xs:element name=\"{0}\" type=\"{1}\" minOccurs=\"0\" />", field.Name, GetXmlDataType(field.DataTypeNode, field.ValueRank));
+                            break;
+                        }
                 }
             }
 
@@ -2192,7 +2031,7 @@ namespace ModelCompiler
             return context.TemplatePath;
         }
 
-        private bool IsNillable(BasicDataType type)
+        private static bool IsNillable(BasicDataType type)
         {
             switch (type)
             {
@@ -2209,9 +2048,9 @@ namespace ModelCompiler
                 case BasicDataType.Double:
                 case BasicDataType.StatusCode:
                 case BasicDataType.Enumeration:
-                {
-                    return false;
-                }
+                    {
+                        return false;
+                    }
             }
 
             return true;
@@ -2226,7 +2065,7 @@ namespace ModelCompiler
                 return false;
             }
 
-            template.WriteLine(String.Empty);
+            template.WriteLine(string.Empty);
             template.AddReplacement("_TypeName_", dataType.SymbolicName.Name);
             template.AddReplacement("_Nillable_", (!IsNillable(dataType.BasicDataType)) ? "" : "nillable=\"true\" ");
 
@@ -2241,11 +2080,30 @@ namespace ModelCompiler
         /// </summary>
         private void WriteTemplate_BinarySchema(string filePath, List<NodeDesign> nodes)
         {
-            StreamWriter writer = new StreamWriter(Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix + ".Types.bsd"), false);
+            TextWriter writer = m_fileSystem.CreateTextWriter(Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".Types.bsd"));
+            WriteTemplate_BinarySchema(writer, nodes);
+        }
 
+        /// <summary>
+        /// Get the binary schema as string
+        /// </summary>
+        private string Get_BinarySchema(List<NodeDesign> nodes)
+        {
+            using (TextWriter writer = new StringWriter())
+            {
+                WriteTemplate_BinarySchema(writer, nodes);
+                return writer.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Write the binary schema to a writer
+        /// </summary>
+        private void WriteTemplate_BinarySchema(TextWriter writer, List<NodeDesign> nodes)
+        {
             try
             {
-                Template template = new Template(writer, TemplatePath + "BinarySchema.File.xml", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "BinarySchema.File.xml", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_DictionaryUri_", m_model.TargetNamespace);
                 template.Replacements.Add("_BuildDate_", Utils.Format("{0:yyyy-MM-dd}", DateTime.UtcNow));
@@ -2309,7 +2167,7 @@ namespace ModelCompiler
                 return null;
             }
 
-            if (context.Token.Contains("xmlns:s0"))
+            if (context.Token.Contains("xmlns:s0", StringComparison.InvariantCulture))
             {
                 if (ns.Value == DefaultNamespace)
                 {
@@ -2369,14 +2227,14 @@ namespace ModelCompiler
                     case DataTypes.DataTypeDefinition:
                     case DataTypes.Enumeration:
                     case DataTypes.Union:
-                    {
-                        break;
-                    }
+                        {
+                            break;
+                        }
 
                     default:
-                    {
-                        return null;
-                    }
+                        {
+                            return null;
+                        }
                 }
             }
 
@@ -2411,7 +2269,7 @@ namespace ModelCompiler
             {
                 if (m_model.TargetNamespace == DefaultNamespace)
                 {
-                    template.WriteNextLine(String.Empty);
+                    template.WriteNextLine(string.Empty);
                     return template.WriteTemplate(context);
                 }
 
@@ -2427,7 +2285,7 @@ namespace ModelCompiler
 
             if (context.FirstInList)
             {
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
 
             template.AddReplacement("_TypeName_", dataType.SymbolicName.Name);
@@ -2580,38 +2438,38 @@ namespace ModelCompiler
                 default:
                 case BasicDataType.Enumeration:
                 case BasicDataType.Structure:
-                {
-                    if (dataType.SymbolicName == new XmlQualifiedName("Structure", DefaultNamespace))
                     {
-                        return String.Format("ua:ExtensionObject");
-                    }
-
-                    if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
-                    {
-                        if (dataType.IsOptionSet)
+                        if (dataType.SymbolicName == new XmlQualifiedName("Structure", DefaultNamespace))
                         {
-                            return GetBinaryDataType((DataTypeDesign)dataType.BaseTypeNode);
+                            return String.Format(CultureInfo.InvariantCulture, "ua:ExtensionObject");
                         }
 
-                        return String.Format("opc:Int32");
-                    }
-
-                    string prefix = "tns";
-
-                    if (dataType.SymbolicName.Namespace != m_model.TargetNamespace)
-                    {
-                        if (dataType.SymbolicName.Namespace == DefaultNamespace)
+                        if (dataType.SymbolicName == new XmlQualifiedName("Enumeration", DefaultNamespace))
                         {
-                            prefix = "ua";
-                        }
-                        else
-                        {
-                            prefix = GetXmlNamespacePrefix(dataType.SymbolicName.Namespace);
-                        }
-                    }
+                            if (dataType.IsOptionSet)
+                            {
+                                return GetBinaryDataType((DataTypeDesign)dataType.BaseTypeNode);
+                            }
 
-                    return String.Format("{0}:{1}", prefix, dataType.SymbolicName.Name);
-                }
+                            return String.Format(CultureInfo.InvariantCulture, "opc:Int32");
+                        }
+
+                        string prefix = "tns";
+
+                        if (dataType.SymbolicName.Namespace != m_model.TargetNamespace)
+                        {
+                            if (dataType.SymbolicName.Namespace == DefaultNamespace)
+                            {
+                                prefix = "ua";
+                            }
+                            else
+                            {
+                                prefix = GetXmlNamespacePrefix(dataType.SymbolicName.Namespace);
+                            }
+                        }
+
+                        return String.Format(CultureInfo.InvariantCulture, "{0}:{1}", prefix, dataType.SymbolicName.Name);
+                    }
             }
         }
         #endregion
@@ -2704,11 +2562,11 @@ namespace ModelCompiler
         /// </summary>
         private void WriteTemplate_ConstantsSingleFile(string filePath, List<NodeDesign> nodes)
         {
-            StreamWriter writer = new StreamWriter(Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix + ".Constants.cs"), false);
+            TextWriter writer = m_fileSystem.CreateTextWriter(Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".Constants.cs"));
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "Version2.ConstantsFile.cs", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "Version2.ConstantsFile.cs", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Namespace_", GetNamespacePrefix(m_model.TargetNamespace));
                 template.AddReplacement("_NamespaceUri_", GetConstantForNamespace(m_model.TargetNamespace));
@@ -2727,19 +2585,19 @@ namespace ModelCompiler
                 {
                     namespaces.Add(m_model.Namespaces[ii].Value);
 
-                    if (!String.IsNullOrEmpty(m_model.Namespaces[ii].XmlNamespace))
+                    if (!string.IsNullOrEmpty(m_model.Namespaces[ii].XmlNamespace))
                     {
                         namespaces.Add(m_model.Namespaces[ii].XmlNamespace);
                     }
                 }
 
                 AddTemplate(
-                  template,
-                  "// ListOfNamespaceUris",
-                  TemplatePath + "Version2.NamespaceUri.cs",
-                  namespaces,
-                  null,
-                  new WriteTemplateEventHandler(WriteTemplate_CodeNamespaceUri));
+                    template,
+                    "// ListOfNamespaceUris",
+                    TemplatePath + "Version2.NamespaceUri.cs",
+                    namespaces,
+                    null,
+                    new WriteTemplateEventHandler(WriteTemplate_CodeNamespaceUri));
 
                 SortedDictionary<string, string> browseNames = GetBrowseNames(nodes);
 
@@ -2781,18 +2639,17 @@ namespace ModelCompiler
 
         private void WriteTemplate_ConstantsOpenApi(string filePath, List<NodeDesign> nodes, string folderName, string suffix)
         {
-            var path = Path.Join(filePath, "Constants", folderName, m_model.TargetNamespaceInfo.Prefix.ToLower().Replace(".", "") + $"_constants.{suffix}");
+            var path = Path.Combine(
+                filePath,
+                "Constants", 
+                folderName, 
+                m_model.TargetNamespaceInfo.Prefix.ToLowerInvariant().Replace(".", "", StringComparison.InvariantCulture) + $"_constants.{suffix}");
 
-            if (!Directory.Exists(Path.GetDirectoryName(path)))
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(path));
-            }
-
-            StreamWriter writer = new StreamWriter(path, false);
+            TextWriter writer = m_fileSystem.CreateTextWriter(path);
 
             try
             {
-                Template template = new Template(writer, TemplatePath + $"Version2.{folderName}.ConstantsFile.{suffix}", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + $"Version2.{folderName}.ConstantsFile.{suffix}", Assembly.GetExecutingAssembly());
 
                 SortedDictionary<string, string> browseNames = GetBrowseNames(nodes);
 
@@ -2819,15 +2676,17 @@ namespace ModelCompiler
 
                 if (m_model.TargetNamespace == DefaultNamespace)
                 {
+                    string[] targets = new string[] { "once" };
+
                     AddTemplate(
                         template,
                         "// BuiltInTypes",
                         TemplatePath + $"Version2.{folderName}.BuiltInTypes.{suffix}",
-                        new string[] { "once" },
+                        targets,
                         (Template template, Context context) => context.TemplatePath,
                         (Template template, Context context) =>
                         {
-                            template.WriteNextLine(String.Empty);
+                            template.WriteNextLine(string.Empty);
                             return template.WriteTemplate(context);
                         });
                 }
@@ -2863,10 +2722,10 @@ namespace ModelCompiler
 
             return template.WriteTemplate(context);
         }
-        #endregion
+        #endregion Template template = new Template(
 
         #region "// ListOfDataTypeFields"
-        private string LoadOpenApiTemplate_ListOfDataTypeFields(Template template, Context context)
+        private static string LoadOpenApiTemplate_ListOfDataTypeFields(Template template, Context context)
         {
             if (context.Target is not Parameter field)
             {
@@ -2931,7 +2790,7 @@ namespace ModelCompiler
             AddTemplate(
                 template,
                 "// ListOfIdentifiers",
-                String.Join(".", elements),
+                string.Join(".", elements),
                 list.Value.Value,
                 (template, context) => context.TemplatePath,
                 WriteOpenApiTemplate_Identifier);
@@ -2957,7 +2816,7 @@ namespace ModelCompiler
             {
                 template.AddReplacement("_Value_", $"i={node.NumericId}");
             }
-            else if (!String.IsNullOrEmpty(node.StringId))
+            else if (!string.IsNullOrEmpty(node.StringId))
             {
                 template.AddReplacement("_Value_", $"s={node.StringId}");
             }
@@ -2971,11 +2830,11 @@ namespace ModelCompiler
         /// </summary>
         private void WriteTemplate_DataTypesSingleFile(string filePath, List<NodeDesign> nodes)
         {
-            StreamWriter writer = new StreamWriter(Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix + ".DataTypes.cs"), false);
+            TextWriter writer = m_fileSystem.CreateTextWriter(Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".DataTypes.cs"));
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "Version2.TypesFile.cs", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "Version2.TypesFile.cs", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Namespace_", GetNamespacePrefix(m_model.TargetNamespace));
                 template.AddReplacement("_NamespaceUri_", GetConstantForNamespace(m_model.TargetNamespace));
@@ -2994,7 +2853,7 @@ namespace ModelCompiler
                 {
                     namespaces.Add(m_model.Namespaces[ii].Value);
 
-                    if (!String.IsNullOrEmpty(m_model.Namespaces[ii].XmlNamespace))
+                    if (!string.IsNullOrEmpty(m_model.Namespaces[ii].XmlNamespace))
                     {
                         namespaces.Add(m_model.Namespaces[ii].XmlNamespace);
                     }
@@ -3033,11 +2892,11 @@ namespace ModelCompiler
         /// </summary>
         private void WriteTemplate_NonDataTypesSingleFile(string filePath, List<NodeDesign> nodes)
         {
-            StreamWriter writer = new StreamWriter(Path.Join(filePath, m_model.TargetNamespaceInfo.Prefix + ".Classes.cs"), false);
+            TextWriter writer = m_fileSystem.CreateTextWriter(Path.Combine(filePath, m_model.TargetNamespaceInfo.Prefix + ".Classes.cs"));
 
             try
             {
-                Template template = new Template(writer, TemplatePath + "Version2.TypesFile.cs", Assembly.GetExecutingAssembly());
+                using Template template = new Template(writer, TemplatePath + "Version2.TypesFile.cs", Assembly.GetExecutingAssembly());
 
                 template.AddReplacement("_Namespace_", GetNamespacePrefix(m_model.TargetNamespace));
                 template.AddReplacement("_NamespaceUri_", GetConstantForNamespace(m_model.TargetNamespace));
@@ -3056,7 +2915,7 @@ namespace ModelCompiler
                 {
                     namespaces.Add(m_model.Namespaces[ii].Value);
 
-                    if (!String.IsNullOrEmpty(m_model.Namespaces[ii].XmlNamespace))
+                    if (!string.IsNullOrEmpty(m_model.Namespaces[ii].XmlNamespace))
                     {
                         namespaces.Add(m_model.Namespaces[ii].XmlNamespace);
                     }
@@ -3202,7 +3061,7 @@ namespace ModelCompiler
 
             while (parentId != null)
             {
-                int index = parentId.LastIndexOf("_");
+                int index = parentId.LastIndexOf('_');
 
                 if (index > 0)
                 {
@@ -3254,7 +3113,7 @@ namespace ModelCompiler
                     }
                 }
 
-                if (IsMethodTypeNode(node))
+                if (ModelGenerator2.IsMethodTypeNode(node))
                 {
                     continue;
                 }
@@ -3283,7 +3142,7 @@ namespace ModelCompiler
 
                 foreach (KeyValuePair<string, HierarchyNode> current in node.Hierarchy.Nodes)
                 {
-                    if (String.IsNullOrEmpty(current.Key))
+                    if (string.IsNullOrEmpty(current.Key))
                     {
                         continue;
                     }
@@ -3410,7 +3269,7 @@ namespace ModelCompiler
             return template.WriteTemplate(context);
         }
 
-        private bool IsMethodTypeNode(NodeDesign node)
+        private static bool IsMethodTypeNode(NodeDesign node)
         {
             if (node == null)
             {
@@ -3419,7 +3278,7 @@ namespace ModelCompiler
 
             string symbol = node.SymbolicId.Name;
 
-            int index = symbol.IndexOf("_");
+            int index = symbol.IndexOf('_');
 
             if (index > 0)
             {
@@ -3441,7 +3300,7 @@ namespace ModelCompiler
                 return;
             }
 
-            if (IsMethodTypeNode(node))
+            if (ModelGenerator2.IsMethodTypeNode(node))
             {
                 return;
             }
@@ -3606,56 +3465,56 @@ namespace ModelCompiler
                 switch (datatype.BasicDataType)
                 {
                     case BasicDataType.Structure:
-                    {
-                        return null;
-                    }
+                        {
+                            return null;
+                        }
 
                     case BasicDataType.UserDefined:
-                    {
-                        if (datatype.IsUnion)
                         {
-                            return TemplatePath + "Version2.DataTypes.Union.cs";
-                        }
-
-                        if (datatype.HasFields && datatype.Fields.Where(x => x.IsOptional).Count() > 0)
-                        {
-                            if (GetBaseClassName(datatype) != "IEncodeable")
+                            if (datatype.IsUnion)
                             {
-                                return TemplatePath + "Version2.DataTypes.DerivedClassWithOptionalFields.cs";
+                                return TemplatePath + "Version2.DataTypes.Union.cs";
                             }
 
-                            return TemplatePath + "Version2.DataTypes.ClassWithOptionalFields.cs";
-                        }
+                            if (datatype.HasFields && datatype.Fields.Where(x => x.IsOptional).Any())
+                            {
+                                if (GetBaseClassName(datatype) != "IEncodeable")
+                                {
+                                    return TemplatePath + "Version2.DataTypes.DerivedClassWithOptionalFields.cs";
+                                }
 
-                        if (GetBaseClassName(datatype) == "IEncodeable")
-                        {
-                            return TemplatePath + "Version2.DataTypes.Class.cs";
-                        }
+                                return TemplatePath + "Version2.DataTypes.ClassWithOptionalFields.cs";
+                            }
 
-                        return TemplatePath + "Version2.DataTypes.DerivedClass.cs";
-                    }
+                            if (GetBaseClassName(datatype) == "IEncodeable")
+                            {
+                                return TemplatePath + "Version2.DataTypes.Class.cs";
+                            }
 
-                    case BasicDataType.Enumeration:
-                    {
-                        DataTypeDesign baseType = datatype.BaseTypeNode as DataTypeDesign;
-
-                        if (baseType?.SymbolicId == new XmlQualifiedName("OptionSet", DefaultNamespace))
-                        {
                             return TemplatePath + "Version2.DataTypes.DerivedClass.cs";
                         }
 
-                        return TemplatePath + "Version2.DataTypes.Enumeration.cs";
-                    }
-
-                    default:
-                    {
-                        if (datatype.IsOptionSet)
+                    case BasicDataType.Enumeration:
                         {
+                            DataTypeDesign baseType = datatype.BaseTypeNode as DataTypeDesign;
+
+                            if (baseType?.SymbolicId == new XmlQualifiedName("OptionSet", DefaultNamespace))
+                            {
+                                return TemplatePath + "Version2.DataTypes.DerivedClass.cs";
+                            }
+
                             return TemplatePath + "Version2.DataTypes.Enumeration.cs";
                         }
 
-                        return null;
-                    }
+                    default:
+                        {
+                            if (datatype.IsOptionSet)
+                            {
+                                return TemplatePath + "Version2.DataTypes.Enumeration.cs";
+                            }
+
+                            return null;
+                        }
                 }
             }
 
@@ -3796,7 +3655,7 @@ namespace ModelCompiler
                     method.OutputArguments,
                     new LoadTemplateEventHandler(LoadTemplate_ListOfOutputArguments),
                     null);
-                               
+
                 AddTemplate(
                     template,
                     "// ListOfResultProperties",
@@ -3811,6 +3670,8 @@ namespace ModelCompiler
             if (dataType != null)
             {
                 List<Parameter> completeListOfFields = null;
+                bool hasOptionalFields = (dataType.HasFields && dataType.Fields.Where(x => x.IsOptional).Any());
+                bool parentHasOptionalFields = false;
 
                 if (dataType.IsStructure)
                 {
@@ -3822,6 +3683,16 @@ namespace ModelCompiler
                            parentDataType.SymbolicId != new XmlQualifiedName("Union", DefaultNamespace)
                     )
                     {
+                        if (!parentDataType.HasFields)
+                        {
+                            break;
+                        }
+
+                        if (!parentHasOptionalFields)
+                        {
+                            parentHasOptionalFields = (parentDataType.HasFields && parentDataType.Fields.Where(x => x.IsOptional).Any());
+                        }
+
                         inheiritanceTree.Add(parentDataType);
                         parentDataType = parentDataType.BaseTypeNode as DataTypeDesign;
                     }
@@ -3842,6 +3713,34 @@ namespace ModelCompiler
                             }
                         }
                     }
+
+                    if ( hasOptionalFields)
+                    {
+                        if (parentHasOptionalFields)
+                        {
+                            template.AddReplacement("// EncodingMaskProperty", "");
+                            template.AddReplacement("encoder.WriteEncodingMask((uint)EncodingMask);", "");
+                            template.AddReplacement("EncodingMask = decoder.ReadEncodingMask(m_FieldNames);", "");
+                            template.AddReplacement("if (value.EncodingMask != this.EncodingMask) return false;", "");
+                            template.AddReplacement("clone.EncodingMask = this.EncodingMask;", "");
+                        }
+                        else
+                        {
+                            AddTemplate(
+                                template,
+                                "// EncodingMaskProperty",
+                                null,
+                                new object[] { dataType },
+                                (Template template, Context context) =>
+                                {
+                                    return TemplatePath + "Version2.DataTypes.EncodingMask.cs";
+                                },
+                                (Template template, Context context) =>
+                                {
+                                    return template.WriteTemplate(context);
+                                });
+                        }
+                    }
                 }
 
                 // too much autogenerated code is broken.
@@ -3850,8 +3749,8 @@ namespace ModelCompiler
 
                 if (!dataType.IsOptionSet)
                 {
-                    template.AddReplacement("[Flags]", String.Empty);
-                    template.AddReplacement(" : _BasicType_", String.Empty);
+                    template.AddReplacement("[Flags]", string.Empty);
+                    template.AddReplacement(" : _BasicType_", string.Empty);
                 }
                 else
                 {
@@ -3890,7 +3789,7 @@ namespace ModelCompiler
                     foreach (var ii in new string[] { "Binary", "Xml", "Json" })
                     {
                         var encoding = m_model.Items
-                            .Where(x => x.SymbolicId.Name == $"{node.SymbolicName.Name}_Encoding_Default{ii}" && x.SymbolicId.Namespace == node.SymbolicName.Namespace)
+                            .Where(x => x.SymbolicId.Name == $"{dataType.SymbolicName.Name}_Encoding_Default{ii}" && x.SymbolicId.Namespace == dataType.SymbolicName.Namespace)
                             .Any();
 
                         if (!encoding)
@@ -3969,7 +3868,7 @@ namespace ModelCompiler
 
             if (objectType != null)
             {
-                template.AddReplacement("<BaseT>", String.Empty);
+                template.AddReplacement("<BaseT>", string.Empty);
                 template.AddReplacement("_IsAbstract_", GetBooleanValue(objectType.IsAbstract));
                 template.AddReplacement("_EventNotifier_", GetEventNotifier(objectType.SupportsEvents));
             }
@@ -3988,7 +3887,7 @@ namespace ModelCompiler
 
                 if (!TemplateParameterRequired(variableType.DataTypeNode, variableType.ValueRank))
                 {
-                    template.AddReplacement("<BaseT>", String.Empty);
+                    template.AddReplacement("<BaseT>", string.Empty);
                 }
                 else
                 {
@@ -4164,7 +4063,7 @@ namespace ModelCompiler
                             string childXml = ConstructInitializer(current.Instance, false);
                             WriteInitializationString(template, context, childXml);
                             template.Write(";");
-                            template.WriteNextLine(String.Empty);
+                            template.WriteNextLine(string.Empty);
                             break;
                         }
                     }
@@ -4198,7 +4097,7 @@ namespace ModelCompiler
         {
             if (xml == null)
             {
-                WriteInitializationStringLine(template, context, String.Empty);
+                WriteInitializationStringLine(template, context, string.Empty);
                 return;
             }
 
@@ -4232,7 +4131,7 @@ namespace ModelCompiler
                 {
                     line = line.Trim();
 
-                    if (String.IsNullOrEmpty(line))
+                    if (string.IsNullOrEmpty(line))
                     {
                         continue;
                     }
@@ -4256,7 +4155,7 @@ namespace ModelCompiler
         /// <summary>
         /// Writes the initalization string line.
         /// </summary>
-        private void WriteInitializationStringLine(Template template, Context context, string line)
+        private static void WriteInitializationStringLine(Template template, Context context, string line)
         {
             template.WriteNextLine(context.Prefix);
             template.Write(template.Indent);
@@ -4310,7 +4209,7 @@ namespace ModelCompiler
                 return false;
             }
 
-            template.WriteLine(String.Empty);
+            template.WriteLine(string.Empty);
 
             template.AddReplacement("_NodeClass_", GetNodeClass(type));
             template.AddReplacement("_ClassName_", type.ClassName);
@@ -4344,7 +4243,7 @@ namespace ModelCompiler
 
         private void CollectMatchingFields(VariableTypeDesign variableType, Dictionary<string, Parameter> fields)
         {
-            CollectFields(variableType.DataTypeNode, variableType.ValueRank, String.Empty, fields);
+            CollectFields(variableType.DataTypeNode, variableType.ValueRank, string.Empty, fields);
 
             List<string> availablePaths = new List<string>(fields.Keys);
 
@@ -4357,7 +4256,7 @@ namespace ModelCompiler
             }
         }
 
-        private void CollectFields(DataTypeDesign dataType, ValueRank valueRank, string basePath, Dictionary<string, Parameter> fields)
+        private static void CollectFields(DataTypeDesign dataType, ValueRank valueRank, string basePath, Dictionary<string, Parameter> fields)
         {
             if (dataType.BasicDataType != BasicDataType.UserDefined || valueRank != ValueRank.Scalar)
             {
@@ -4373,7 +4272,7 @@ namespace ModelCompiler
                         Parameter parameter = parent.Fields[ii];
                         string fieldPath = parameter.Name;
 
-                        if (!String.IsNullOrEmpty(basePath))
+                        if (!string.IsNullOrEmpty(basePath))
                         {
                             fieldPath = Utils.Format("{0}_{1}", basePath, parameter.Name);
                         }
@@ -4402,7 +4301,7 @@ namespace ModelCompiler
                 return false;
             }
 
-            template.WriteLine(String.Empty);
+            template.WriteLine(string.Empty);
 
             template.AddReplacement("_ClassName_", type.ClassName);
             template.AddReplacement("_DataType_", GetSystemTypeName(type.DataTypeNode, ValueRank.Scalar));
@@ -4551,7 +4450,7 @@ namespace ModelCompiler
                 return false;
             }
 
-            template.WriteLine(String.Empty);
+            template.WriteLine(string.Empty);
             template.AddReplacement("_XmlNamespaceUri_", GetConstantForXmlNamespace(dataType.SymbolicId.Namespace));
             template.AddReplacement("_BrowseName_", dataType.SymbolicName.Name);
 
@@ -4637,8 +4536,6 @@ namespace ModelCompiler
             int index = context.Index + 1;
 
             template.WriteNextLine(context.Prefix);
-            template.Write($"/// <remarks />");
-            template.WriteNextLine(context.Prefix);
             template.Write($"{field.Name} = {index}{((index == dataType.Fields.Length) ? "" : ",")}");
 
             return context.TemplatePath;
@@ -4677,8 +4574,6 @@ namespace ModelCompiler
                 //    }
                 //}
 
-                template.WriteNextLine(context.Prefix);
-                template.Write($"/// <remarks />");
                 template.WriteNextLine(context.Prefix);
                 template.Write($"{field.Name} = 0x{1 << (index):X},");
             }
@@ -4723,63 +4618,100 @@ namespace ModelCompiler
                 case BasicDataType.Integer:
                 case BasicDataType.UInteger:
                 case BasicDataType.BaseDataType:
-                {
-                    functionName = "Variant";
-                    break;
-                }
-
-                case BasicDataType.Structure:
-                {
-                    functionName = "ExtensionObject";
-                    break;
-                }
-
-                case BasicDataType.Enumeration:
-                {
-                    if (field.DataType == new XmlQualifiedName("Enumeration", DefaultNamespace))
                     {
-                        functionName = "Int32";
+                        functionName = "Variant";
                         break;
                     }
 
-                    if (field.DataTypeNode.IsOptionSet)
+                case BasicDataType.Structure:
                     {
-                        if (field.DataTypeNode.BaseTypeNode.SymbolicId == new XmlQualifiedName("OptionSet", DefaultNamespace))
+                        functionName = "ExtensionObject";
+                        break;
+                    }
+
+                case BasicDataType.Enumeration:
+                    {
+                        if (field.DataType == new XmlQualifiedName("Enumeration", DefaultNamespace))
                         {
-                            functionName = "Encodeable";
-                            elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
+                            functionName = "Int32";
                             break;
                         }
 
-                        functionName = ((DataTypeDesign)field.DataTypeNode.BaseTypeNode).BasicDataType.ToString();
+                        if (field.DataTypeNode.IsOptionSet)
+                        {
+                            if (field.DataTypeNode.BaseTypeNode.SymbolicId == new XmlQualifiedName("OptionSet", DefaultNamespace))
+                            {
+                                functionName = "Encodeable";
+                                elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
+                                break;
+                            }
+
+                            functionName = ((DataTypeDesign)field.DataTypeNode.BaseTypeNode).BasicDataType.ToString();
+                            break;
+                        }
+
+                        functionName = "Enumerated";
+
+                        if (field.ValueRank == ValueRank.Array)
+                        {
+                            elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
+                            template.Write($"encoder.WriteEnumeratedArray({fieldName}, {field.Name}.ToArray(), typeof({elementName}));");
+
+                            if (isUnion)
+                            {
+                                template.Write(" break; }");
+                            }
+
+                            return context.TemplatePath;
+                        }
+
                         break;
                     }
 
-                    functionName = "Enumerated";
-
-                    if (field.ValueRank == ValueRank.Array)
+                case BasicDataType.UserDefined:
                     {
-                        elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
-                        template.Write($"encoder.WriteEnumeratedArray({fieldName}, {field.Name}.ToArray(), typeof({elementName}));");
-
-                        if (isUnion)
+                        if (field.AllowSubTypes)
                         {
-                            template.Write(" break; }");
+                            if (field.ValueRank == ValueRank.Array)
+                            {
+                                template.Write($"encoder.WriteExtensionObjectArray({fieldName}, ExtensionObjectCollection.ToExtensionObjects({field.Name}));");
+
+                                if (isUnion)
+                                {
+                                    template.Write(" break; }");
+                                }
+
+                                return context.TemplatePath;
+                            }
+
+                            if (field.ValueRank == ValueRank.Scalar)
+                            {
+                                template.Write($"encoder.WriteExtensionObject({fieldName}, new ExtensionObject({field.Name}));");
+
+                                if (isUnion)
+                                {
+                                    template.Write(" break; }");
+                                }
+
+                                return context.TemplatePath;
+                            }
+
+                            template.Write($"encoder.WriteVariant({fieldName}, {field.Name});");
+
+                            if (isUnion)
+                            {
+                                template.Write(" break; }");
+                            }
+
+                            return context.TemplatePath;
                         }
 
-                        return context.TemplatePath;
-                    }
+                        functionName = "Encodeable";
+                        elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
 
-                    break;
-                }
-
-                case BasicDataType.UserDefined:
-                {
-                    if (field.AllowSubTypes)
-                    {
                         if (field.ValueRank == ValueRank.Array)
                         {
-                            template.Write($"encoder.WriteExtensionObjectArray({fieldName}, ExtensionObjectCollection.ToExtensionObjects({field.Name}));");
+                            template.Write($"encoder.WriteEncodeableArray({fieldName}, {field.Name}.ToArray(), typeof({elementName}));");
 
                             if (isUnion)
                             {
@@ -4789,45 +4721,8 @@ namespace ModelCompiler
                             return context.TemplatePath;
                         }
 
-                        if (field.ValueRank == ValueRank.Scalar)
-                        {
-                            template.Write($"encoder.WriteExtensionObject({fieldName}, new ExtensionObject({field.Name}));");
-
-                            if (isUnion)
-                            {
-                                template.Write(" break; }");
-                            }
-
-                            return context.TemplatePath;
-                        }
-
-                        template.Write($"encoder.WriteVariant({fieldName}, {field.Name});");
-
-                        if (isUnion)
-                        {
-                            template.Write(" break; }");
-                        }
-
-                        return context.TemplatePath;
+                        break;
                     }
-
-                    functionName = "Encodeable";
-                    elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
-
-                    if (field.ValueRank == ValueRank.Array)
-                    {
-                        template.Write($"encoder.WriteEncodeableArray({fieldName}, {field.Name}.ToArray(), typeof({elementName}));");
-
-                        if (isUnion)
-                        {
-                            template.Write(" break; }");
-                        }
-
-                        return context.TemplatePath;
-                    }
-
-                    break;
-                }
             }
 
             if (field.ValueRank == ValueRank.Array)
@@ -4894,88 +4789,88 @@ namespace ModelCompiler
                 case BasicDataType.Integer:
                 case BasicDataType.UInteger:
                 case BasicDataType.BaseDataType:
-                {
-                    functionName = "Variant";
-                    break;
-                }
-
-                case BasicDataType.Structure:
-                {
-                    functionName = "ExtensionObject";
-                    break;
-                }
-
-                case BasicDataType.Enumeration:
-                {
-                    if (field.DataType == new XmlQualifiedName("Enumeration", DefaultNamespace))
                     {
-                        functionName = "Int32";
+                        functionName = "Variant";
                         break;
                     }
 
-                    if (field.DataTypeNode.IsOptionSet)
+                case BasicDataType.Structure:
                     {
-                        if (field.DataTypeNode.BaseTypeNode.SymbolicId == new XmlQualifiedName("OptionSet", DefaultNamespace))
+                        functionName = "ExtensionObject";
+                        break;
+                    }
+
+                case BasicDataType.Enumeration:
+                    {
+                        if (field.DataType == new XmlQualifiedName("Enumeration", DefaultNamespace))
                         {
-                            functionName = "Encodeable";
-                            elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
+                            functionName = "Int32";
                             break;
                         }
 
-                        functionName = ((DataTypeDesign)field.DataTypeNode.BaseTypeNode).BasicDataType.ToString();
+                        if (field.DataTypeNode.IsOptionSet)
+                        {
+                            if (field.DataTypeNode.BaseTypeNode.SymbolicId == new XmlQualifiedName("OptionSet", DefaultNamespace))
+                            {
+                                functionName = "Encodeable";
+                                elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
+                                break;
+                            }
+
+                            functionName = ((DataTypeDesign)field.DataTypeNode.BaseTypeNode).BasicDataType.ToString();
+                            break;
+                        }
+
+                        functionName = "Enumerated";
+                        elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
                         break;
                     }
 
-                    functionName = "Enumerated";
-                    elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
-                    break;
-                }
-
                 case BasicDataType.UserDefined:
-                {
-                    if (field.AllowSubTypes)
                     {
-                        template.Write($"{valueName} = ");
+                        if (field.AllowSubTypes)
+                        {
+                            template.Write($"{valueName} = ");
+                            elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
+
+                            if (field.ValueRank == ValueRank.Array)
+                            {
+                                template.Write($"({elementName}[])ExtensionObject.ToArray(decoder.ReadExtensionObjectArray({fieldName}), typeof({elementName}));");
+
+                                if (isUnion)
+                                {
+                                    template.Write(" break; }");
+                                }
+
+                                return context.TemplatePath;
+                            }
+
+                            if (field.ValueRank == ValueRank.Scalar)
+                            {
+                                template.Write($"({elementName})ExtensionObject.ToEncodeable(decoder.ReadExtensionObject({fieldName}));");
+
+                                if (isUnion)
+                                {
+                                    template.Write(" break; }");
+                                }
+
+                                return context.TemplatePath;
+                            }
+
+                            template.Write($"decoder.ReadVariant({fieldName});");
+
+                            if (isUnion)
+                            {
+                                template.Write(" break; }");
+                            }
+
+                            return context.TemplatePath;
+                        }
+
+                        functionName = "Encodeable";
                         elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
-
-                        if (field.ValueRank == ValueRank.Array)
-                        {
-                            template.Write($"({elementName}[])ExtensionObject.ToArray(decoder.ReadExtensionObjectArray({fieldName}), typeof({elementName}));");
-
-                            if (isUnion)
-                            {
-                                template.Write(" break; }");
-                            }
-
-                            return context.TemplatePath;
-                        }
-
-                        if (field.ValueRank == ValueRank.Scalar)
-                        {
-                            template.Write($"({elementName})ExtensionObject.ToEncodeable(decoder.ReadExtensionObject({fieldName}));");
-
-                            if (isUnion)
-                            {
-                                template.Write(" break; }");
-                            }
-
-                            return context.TemplatePath;
-                        }
-
-                        template.Write($"decoder.ReadVariant({fieldName});");
-
-                        if (isUnion)
-                        {
-                            template.Write(" break; }");
-                        }
-
-                        return context.TemplatePath;
+                        break;
                     }
-
-                    functionName = "Encodeable";
-                    elementName = GetSystemTypeName(field.DataTypeNode, ValueRank.Scalar);
-                    break;
-                }
             }
 
             if (field.ValueRank == ValueRank.Array)
@@ -5099,7 +4994,7 @@ namespace ModelCompiler
 
             if (context.Index == 0)
             {
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
 
             template.WriteNextLine(context.Prefix);
@@ -5140,7 +5035,7 @@ namespace ModelCompiler
 
             if (context.Index == 0)
             {
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
 
             template.WriteNextLine(context.Prefix);
@@ -5167,7 +5062,7 @@ namespace ModelCompiler
 
             if (context.Index == 0)
             {
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
 
             template.WriteNextLine(context.Prefix);
@@ -5297,7 +5192,7 @@ namespace ModelCompiler
 
             if (context.Index == 0)
             {
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
 
             template.WriteNextLine(context.Prefix);
@@ -5324,8 +5219,6 @@ namespace ModelCompiler
                 return null;
             }
 
-            template.WriteNextLine(context.Prefix);
-            template.Write("/// <remarks />");
             template.WriteNextLine(context.Prefix);
 
             string fieldName = GetChildFieldName(field);
@@ -5387,7 +5280,7 @@ namespace ModelCompiler
             return context.TemplatePath;
         }
         #endregion
-        
+
         #region "_result =await  OnCallAsync(_context);"
         private string LoadTemplate_OnCallAsyncImplementation(Template template, Context context)
         {
@@ -5482,7 +5375,7 @@ namespace ModelCompiler
 
             if (context.FirstInList)
             {
-                template.WriteNextLine(String.Empty);
+                template.WriteNextLine(string.Empty);
             }
 
             template.AddReplacement("_ChildName_", instance.SymbolicName.Name);
@@ -5611,7 +5504,7 @@ namespace ModelCompiler
             return context.TemplatePath;
         }
 
-        private bool IsOverridden(InstanceDesign instance)
+        private static bool IsOverridden(InstanceDesign instance)
         {
             if (instance.OveriddenNode != null && instance.ModellingRule != ModellingRule.None && instance.ModellingRule != ModellingRule.ExposesItsArray && instance.ModellingRule != ModellingRule.MandatoryPlaceholder && instance.ModellingRule != ModellingRule.OptionalPlaceholder)
             {
@@ -5642,7 +5535,7 @@ namespace ModelCompiler
         /// <summary>
         /// Returns the merged instance for an overriden node.
         /// </summary>
-        private InstanceDesign GetMergedInstance(InstanceDesign instance)
+        private static InstanceDesign GetMergedInstance(InstanceDesign instance)
         {
             for (NodeDesign parent = instance.Parent; parent != null; parent = parent.Parent)
             {
@@ -5650,7 +5543,7 @@ namespace ModelCompiler
                 {
                     string relativePath = instance.SymbolicId.Name;
 
-                    int index = relativePath.IndexOf('_');
+                    int index = relativePath.IndexOf('_', StringComparison.InvariantCulture);
 
                     if (index != -1)
                     {
@@ -5674,16 +5567,17 @@ namespace ModelCompiler
             return instance;
         }
 
-        private readonly string[] BuiltInPropertyNames = new string[]
-        {
+        private readonly string[] BuiltInPropertyNames =
+        [
             "Description",
             "Save",
             "Handle",
             "Specification",
-            "Update"
-        };
+            "Update",
+            "Delete"
+        ];
 
-        private bool IsIndeterminateType(InstanceDesign instance)
+        private static bool IsIndeterminateType(InstanceDesign instance)
         {
             if (instance is VariableDesign variable)
             {
@@ -5701,7 +5595,7 @@ namespace ModelCompiler
             return false;
         }
 
-        private string EnsureUniqueEnumName(Parameter target)
+        private static string EnsureUniqueEnumName(Parameter target)
         {
             if (target?.Parent is DataTypeDesign dt && dt.HasFields)
             {
@@ -5764,20 +5658,20 @@ namespace ModelCompiler
                     case BasicDataType.Structure:
                     case BasicDataType.UserDefined:
                     case BasicDataType.DataValue:
-                    {
-                        valueType = false;
-                        break;
-                    }
-
-                    default:
-                    {
-                        if (field.ValueRank != ValueRank.Scalar)
                         {
                             valueType = false;
+                            break;
                         }
 
-                        break;
-                    }
+                    default:
+                        {
+                            if (field.ValueRank != ValueRank.Scalar)
+                            {
+                                valueType = false;
+                            }
+
+                            break;
+                        }
                 }
 
                 bool emitDefaultValue = true;
@@ -5791,7 +5685,7 @@ namespace ModelCompiler
                 template.AddReplacement(", EmitDefaultValue = _EmitDefaultValue_", (emitDefaultValue) ? "" : ", EmitDefaultValue = false");
                 template.AddReplacement("_FieldIndex_", Utils.Format("{0}", context.Index + 1));
                 template.AddReplacement("_DefaultValue_", GetDefaultValue(field.DataTypeNode, field.ValueRank, null, null, true));
-                template.AddReplacement("_Identifier_", field.Identifier.ToString());
+                template.AddReplacement("_Identifier_", field.Identifier.ToString(CultureInfo.InvariantCulture));
 
                 if (field.IdentifierInName)
                 {
@@ -5799,7 +5693,7 @@ namespace ModelCompiler
                 }
                 else
                 {
-                    template.AddReplacement("_XmlIdentifier_", String.Format("{0}_{1}", field.Name, field.Identifier));
+                    template.AddReplacement("_XmlIdentifier_", string.Format(CultureInfo.InvariantCulture, "{0}_{1}", field.Name, field.Identifier));
                 }
 
                 if (field.Name == "NodeId" && context.Container is DataTypeDesign dt)
@@ -5968,6 +5862,14 @@ namespace ModelCompiler
                 new LoadTemplateEventHandler(LoadTemplate_ListOfFindChildCase),
                 new WriteTemplateEventHandler(WriteTemplate_ListOfFindChildCase));
 
+            AddTemplate(
+                template,
+                "// ListOfRemoveChild",
+                TemplatePath + "Version2.RemoveChild.cs",
+                childrenToUse,
+                (template, context) => (context.Target as InstanceDesign != null) ? context.TemplatePath : null,
+                new WriteTemplateEventHandler(WriteTemplate_ListOfRemoveChild));
+
             return template.WriteTemplate(context);
         }
         #endregion
@@ -6012,13 +5914,41 @@ namespace ModelCompiler
 
             return template.WriteTemplate(context);
         }
+
+        private bool WriteTemplate_ListOfRemoveChild(Template template, Context context)
+        {
+            InstanceDesign instance = context.Target as InstanceDesign;
+
+            if (instance == null)
+            {
+                return false;
+            }
+
+            TypeDesign type = instance.Parent as TypeDesign;
+
+            if (type != null)
+            {
+                template.AddReplacement("_TypeName_", type.SymbolicName.Name);
+            }
+
+            template.AddReplacement("_ClassName_", GetClassName(instance));
+            template.AddReplacement("_ChildName_", instance.SymbolicName.Name);
+            template.AddReplacement("_FieldName_", GetChildFieldName(instance));
+            template.AddReplacement("_NodeClass_", GetNodeClass(instance));
+
+            template.AddReplacement("_BrowseName_", instance.SymbolicName.Name);
+            template.AddReplacement("_BrowseNameNamespacePrefix_", GetNamespacePrefix(instance.SymbolicName.Namespace));
+            template.AddReplacement("_BrowseNameNamespaceUri_", GetConstantForNamespace(instance.SymbolicName.Namespace));
+
+            return template.WriteTemplate(context);
+        }
         #endregion
 
         #region Private Methods
         /// <summary>
         /// Checks if the instance is a built in property that should not be generatd.
         /// </summary>
-        private bool IsBuiltInProperty(InstanceDesign instance)
+        private static bool IsBuiltInProperty(InstanceDesign instance)
         {
             if (instance == null)
             {
@@ -6123,20 +6053,25 @@ namespace ModelCompiler
                 if (method.TypeDefinition != null)
                 {
                     className = method.TypeDefinition.Name;
+
+                    if (className.EndsWith("MethodType"))
+                    {
+                        className = className.Substring(0, className.Length - "MethodType".Length);
+                    }
+                    else if (className.EndsWith("Type"))
+                    {
+                        className = className.Substring(0, className.Length - "Type".Length);
+                    }
                 }
 
                 if (className.EndsWith("MethodType"))
                 {
                     className = className.Substring(0, className.Length - "MethodType".Length);
                 }
-                else if (className.EndsWith("Type"))
-                {
-                    className = className.Substring(0, className.Length - "Type".Length);
-                }
 
                 if (method.HasArguments)
                 {
-                    return String.Format("{0}MethodState", className);
+                    return $"{className}MethodState";
                 }
 
                 return "MethodState";
@@ -6146,7 +6081,7 @@ namespace ModelCompiler
 
             if (variable == null)
             {
-                return String.Format("{0}State", FixClassName(instance.TypeDefinitionNode));
+                return $"{FixClassName(instance.TypeDefinitionNode)}State";
             }
 
             VariableTypeDesign variableType = instance.TypeDefinitionNode as VariableTypeDesign;
@@ -6154,13 +6089,13 @@ namespace ModelCompiler
             // check if the variable type restricted the datatype to eliminate the need for a template parameter.
             if (TemplateParameterRequired(variableType.DataTypeNode, variableType.ValueRank))
             {
-                return String.Format("{0}State", FixClassName(variableType));
+                return $"{FixClassName(variableType)}State";
             }
 
             // check if the variable instance did not restrict the datatype.
             if (!TemplateParameterRequired(variable.DataTypeNode, variable.ValueRank))
             {
-                return String.Format("{0}State", FixClassName(variableType));
+                return string.Format(CultureInfo.InvariantCulture, "{0}State", FixClassName(variableType));
             }
 
             // instance restricted the datatype but the type did not not.
@@ -6171,27 +6106,27 @@ namespace ModelCompiler
             switch (basicType)
             {
                 case BasicDataType.UserDefined:
-                {
-                    scalarName = FixClassName(variable.DataTypeNode);
-                    break;
-                }
+                    {
+                        scalarName = FixClassName(variable.DataTypeNode);
+                        break;
+                    }
 
                 case BasicDataType.Structure:
-                {
-                    scalarName = "ExtensionObject";
-                    break;
-                }
+                    {
+                        scalarName = "ExtensionObject";
+                        break;
+                    }
 
                 default:
-                {
-                    scalarName = GetSystemTypeName(variable.DataTypeNode);
-                    break;
-                }
+                    {
+                        scalarName = GetSystemTypeName(variable.DataTypeNode);
+                        break;
+                    }
             }
 
             if (variable.ValueRank == ValueRank.Array)
             {
-                return String.Format("{0}State<{1}[]>", FixClassName(variableType), scalarName);
+                return string.Format(CultureInfo.InvariantCulture, "{0}State<{1}[]>", FixClassName(variableType), scalarName);
             }
 
             if (IsIndeterminateType(variable))
@@ -6205,7 +6140,7 @@ namespace ModelCompiler
                 return $"{FixClassName(variableType)}State";
             }
 
-            return String.Format("{0}State<{1}>", FixClassName(variableType), scalarName);
+            return string.Format(CultureInfo.InvariantCulture, "{0}State<{1}>", FixClassName(variableType), scalarName);
         }
 
         /// <summary>
@@ -6232,14 +6167,18 @@ namespace ModelCompiler
         /// <summary>
         /// Returns the field name of a child node.
         /// </summary>
-        private string GetChildFieldName(Parameter field)
+        private static string GetChildFieldName(Parameter field)
         {
             if (field == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
-            string name = String.Format("m_{0}{1}", field.Name.Substring(0, 1).ToLower(), field.Name.Substring(1));
+            string name = string.Format(
+                CultureInfo.InvariantCulture, 
+                "m_{0}{1}", 
+                field.Name.Substring(0, 1).ToLowerInvariant(), 
+                field.Name.Substring(1));
 
             return name;
         }
@@ -6247,20 +6186,24 @@ namespace ModelCompiler
         /// <summary>
         /// Returns the field name of a child node.
         /// </summary>
-        private string GetChildFieldName(InstanceDesign instance)
+        private static string GetChildFieldName(InstanceDesign instance)
         {
             if (instance == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
-            string name = String.Format("m_{0}{1}", instance.SymbolicName.Name.Substring(0, 1).ToLower(), instance.SymbolicName.Name.Substring(1));
+            string name = string.Format(
+                CultureInfo.InvariantCulture,
+                "m_{0}{1}", 
+                instance.SymbolicName.Name.Substring(0, 1).ToLowerInvariant(),
+                instance.SymbolicName.Name.Substring(1));
 
             MethodDesign method = instance as MethodDesign;
 
             if (method != null)
             {
-                return String.Format("{0}Method", name);
+                return $"{name}Method";
             }
 
             return name;
@@ -6275,17 +6218,17 @@ namespace ModelCompiler
 
             if (variableType == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             if (type.BaseTypeNode == null)
             {
-                return String.Format("<T>");
+                return "<T>";
             }
 
             if (GetTemplateParameter(type.BaseTypeNode) != "<T>")
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             BasicDataType basicType = variableType.DataTypeNode.BasicDataType;
@@ -6300,23 +6243,23 @@ namespace ModelCompiler
             switch (basicType)
             {
                 case BasicDataType.UserDefined:
-                {
-                    var ns = GetNamespacePrefix(variableType.DataTypeNode.SymbolicId.Namespace);
-                    scalarName = ns + "." + FixClassName(variableType.DataTypeNode);
-                    break;
-                }
+                    {
+                        var ns = GetNamespacePrefix(variableType.DataTypeNode.SymbolicId.Namespace);
+                        scalarName = ns + "." + FixClassName(variableType.DataTypeNode);
+                        break;
+                    }
 
                 case BasicDataType.Structure:
-                {
-                    scalarName = "ExtensionObject";
-                    break;
-                }
+                    {
+                        scalarName = "ExtensionObject";
+                        break;
+                    }
 
                 default:
-                {
-                    scalarName = GetSystemTypeName(variableType.DataTypeNode);
-                    break;
-                }
+                    {
+                        scalarName = GetSystemTypeName(variableType.DataTypeNode);
+                        break;
+                    }
             }
 
             if (variableType.ValueRank != ValueRank.Scalar)
@@ -6330,7 +6273,7 @@ namespace ModelCompiler
         /// <summary>
         /// Fixes class names for nodes.
         /// </summary>
-        private string FixClassName(TypeDesign node)
+        private static string FixClassName(TypeDesign node)
         {
             if (node is DataTypeDesign)
             {
@@ -6357,7 +6300,7 @@ namespace ModelCompiler
         /// <summary>
         /// Returns the NodeClass of a Node
         /// </summary>
-        private string GetNodeClass(NodeDesign node)
+        private static string GetNodeClass(NodeDesign node)
         {
             if (node is VariableDesign)
             {
@@ -6413,7 +6356,7 @@ namespace ModelCompiler
         /// <summary>
         /// Maps the event notifier flag onto a string.
         /// </summary>
-        private string GetEventNotifier(bool supportsEvents)
+        private static string GetEventNotifier(bool supportsEvents)
         {
             if (supportsEvents)
             {
@@ -6426,7 +6369,7 @@ namespace ModelCompiler
         /// <summary>
         /// Maps the access level enumeration onto a string.
         /// </summary>
-        private string GetAccessLevel(AccessLevel accessLevel)
+        private static string GetAccessLevel(AccessLevel accessLevel)
         {
             switch (accessLevel)
             {
@@ -6444,7 +6387,7 @@ namespace ModelCompiler
         /// <summary>
         /// Maps the modelling rule enumeration onto a string.
         /// </summary>
-        private string GetModellingRule(ModellingRule modellingRule)
+        private static string GetModellingRule(ModellingRule modellingRule)
         {
             switch (modellingRule)
             {
@@ -6461,31 +6404,32 @@ namespace ModelCompiler
         /// <summary>
         /// Maps the value rank enumeration onto a string.
         /// </summary>
-        private string GetValueRank(ValueRank valueRank, string arrayDimensions)
+        private static string GetValueRank(ValueRank valueRank, string arrayDimensions)
         {
             switch (valueRank)
             {
                 case ValueRank.Array: return "ValueRanks.OneDimension";
                 case ValueRank.Scalar: return "ValueRanks.Scalar";
+                case ValueRank.Any: return "ValueRanks.Any";
                 case ValueRank.ScalarOrArray: return "ValueRanks.Any";
                 case ValueRank.ScalarOrOneDimension: return "ValueRanks.ScalarOrOneDimension";
 
                 case ValueRank.OneOrMoreDimensions:
-                {
-                    if (String.IsNullOrEmpty(arrayDimensions))
                     {
-                        return "ValueRanks.OneOrMoreDimensions";
+                        if (string.IsNullOrEmpty(arrayDimensions))
+                        {
+                            return "ValueRanks.OneOrMoreDimensions";
+                        }
+
+                        string[] dimensions = arrayDimensions.Split([','], StringSplitOptions.RemoveEmptyEntries);
+
+                        if (dimensions.Length == 1)
+                        {
+                            return "ValueRanks.TwoDimensions";
+                        }
+
+                        return $"{dimensions.Length + 1}";
                     }
-
-                    string[] dimensions = arrayDimensions.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    if (dimensions.Length == 1)
-                    {
-                        return "ValueRanks.TwoDimensions";
-                    }
-
-                    return String.Format("{0}", dimensions.Length + 1);
-                }
             }
 
             return "ValueRanks.Any";
@@ -6494,20 +6438,20 @@ namespace ModelCompiler
         /// <summary>
         /// Maps the array dimensions onto a constant declaration.
         /// </summary>
-        private string GetArrayDimensions(ValueRank valueRank, string arrayDimensions)
+        private static string GetArrayDimensions(ValueRank valueRank, string arrayDimensions)
         {
             if (valueRank != ValueRank.OneOrMoreDimensions)
             {
                 return "null";
             }
 
-            return String.Format("new uint[] {{{0}}}", arrayDimensions);
+            return $"new uint[] {{{arrayDimensions}}}";
         }
 
         /// <summary>
         /// Maps the MinimumSamplingInterval onto a constant.
         /// </summary>
-        private string GetMinimumSamplingInterval(int minimumSamplingInterval)
+        private static string GetMinimumSamplingInterval(int minimumSamplingInterval)
         {
             switch (minimumSamplingInterval)
             {
@@ -6515,7 +6459,7 @@ namespace ModelCompiler
                 case 0: return "MinimumSamplingIntervals.Continuous";
             }
 
-            return minimumSamplingInterval.ToString();
+            return minimumSamplingInterval.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -6554,7 +6498,7 @@ namespace ModelCompiler
             {
                 if (defaultValue != null)
                 {
-                    using (XmlDecoder decoder = new XmlDecoder(defaultValue, ServiceMessageContext.GlobalContext))
+                    using (XmlDecoder decoder = new XmlDecoder(defaultValue, m_context))
                     {
                         decodedValue = decoder.ReadVariantContents(out decodedValueType);
                     }
@@ -6564,313 +6508,313 @@ namespace ModelCompiler
             switch (dataType.BasicDataType)
             {
                 case BasicDataType.Boolean:
-                {
-                    bool? value = decodedValue as bool?;
-
-                    if (value == null)
                     {
-                        value = false;
-                    }
+                        bool? value = decodedValue as bool?;
 
-                    if (defaultValue != null && decodedValueType == Opc.Ua.TypeInfo.Scalars.Boolean)
-                    {
-                        var x = (value.Value) ? "true" : "false";
-                        return x;
-                    }
+                        if (value == null)
+                        {
+                            value = false;
+                        }
 
-                    // this is technically a bug but the potential for side effects is
-                    // so large that it is better to leave as is.
-                    if (value.Value)
-                    {
-                        return "false";
-                    }
+                        if (defaultValue != null && decodedValueType == Opc.Ua.TypeInfo.Scalars.Boolean)
+                        {
+                            var x = (value.Value) ? "true" : "false";
+                            return x;
+                        }
 
-                    return "true";
-                }
+                        // this is technically a bug but the potential for side effects is
+                        // so large that it is better to leave as is.
+                        if (value.Value)
+                        {
+                            return "false";
+                        }
+
+                        return "true";
+                    }
 
                 case BasicDataType.SByte:
-                {
-                    sbyte? value = decodedValue as sbyte?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        sbyte? value = decodedValue as sbyte?;
 
-                    return Utils.Format("(sbyte){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(sbyte){0}", value.Value);
+                    }
 
                 case BasicDataType.Byte:
-                {
-                    byte? value = decodedValue as byte?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        byte? value = decodedValue as byte?;
 
-                    return Utils.Format("(byte){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(byte){0}", value.Value);
+                    }
 
                 case BasicDataType.Int16:
-                {
-                    short? value = decodedValue as short?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        short? value = decodedValue as short?;
 
-                    return Utils.Format("(short){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(short){0}", value.Value);
+                    }
 
                 case BasicDataType.UInt16:
-                {
-                    ushort? value = decodedValue as ushort?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        ushort? value = decodedValue as ushort?;
 
-                    return Utils.Format("(ushort){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(ushort){0}", value.Value);
+                    }
 
                 case BasicDataType.Int32:
-                {
-                    int? value = decodedValue as int?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        int? value = decodedValue as int?;
 
-                    return Utils.Format("(int){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(int){0}", value.Value);
+                    }
 
                 case BasicDataType.UInt32:
-                {
-                    uint? value = decodedValue as uint?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        uint? value = decodedValue as uint?;
 
-                    return Utils.Format("(uint){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(uint){0}", value.Value);
+                    }
 
                 case BasicDataType.Integer:
                 case BasicDataType.Int64:
-                {
-                    long? value = decodedValue as long?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        long? value = decodedValue as long?;
 
-                    return Utils.Format("(long){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(long){0}", value.Value);
+                    }
 
                 case BasicDataType.UInteger:
                 case BasicDataType.UInt64:
-                {
-                    ulong? value = decodedValue as ulong?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        ulong? value = decodedValue as ulong?;
 
-                    return Utils.Format("(ulong){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(ulong){0}", value.Value);
+                    }
 
                 case BasicDataType.Float:
-                {
-                    float? value = decodedValue as float?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        float? value = decodedValue as float?;
 
-                    return Utils.Format("(float){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(float){0}", value.Value);
+                    }
 
                 case BasicDataType.Number:
                 case BasicDataType.Double:
-                {
-                    double? value = decodedValue as double?;
-
-                    if (value == null)
                     {
-                        value = 0;
-                    }
+                        double? value = decodedValue as double?;
 
-                    return Utils.Format("(double){0}", value.Value);
-                }
+                        if (value == null)
+                        {
+                            value = 0;
+                        }
+
+                        return Utils.Format("(double){0}", value.Value);
+                    }
 
                 case BasicDataType.String:
-                {
-                    string value = decodedValue as string;
-
-                    if (value == null)
                     {
-                        return "null";
-                    }
+                        string value = decodedValue as string;
 
-                    return Utils.Format("\"{0}\"", value);
-                }
+                        if (value == null)
+                        {
+                            return "null";
+                        }
+
+                        return Utils.Format("\"{0}\"", value);
+                    }
 
                 case BasicDataType.DateTime:
-                {
-                    DateTime? value = decodedValue as DateTime?;
-
-                    if (value == null)
                     {
-                        return "DateTime.MinValue";
-                    }
+                        DateTime? value = decodedValue as DateTime?;
 
-                    return Utils.Format("DateTime.ParseExact(\"{0:yyyy-MM-dd HH:mm:ss}\", \"yyyy-MM-dd HH:mm:ss\", System.Globalization.CultureInfo.InvariantCulture)", value);
-                }
+                        if (value == null)
+                        {
+                            return "DateTime.MinValue";
+                        }
+
+                        return Utils.Format("DateTime.ParseExact(\"{0:yyyy-MM-dd HH:mm:ss}\", \"yyyy-MM-dd HH:mm:ss\", System.Globalization.CultureInfo.InvariantCulture)", value);
+                    }
 
                 case BasicDataType.Guid:
-                {
-                    Uuid? value = decodedValue as Uuid?;
-
-                    if (value == null)
                     {
-                        return "Uuid.Empty";
-                    }
+                        Uuid? value = decodedValue as Uuid?;
 
-                    return Utils.Format("new Uuid(\"{0}\")", value.Value);
-                }
+                        if (value == null)
+                        {
+                            return "Uuid.Empty";
+                        }
+
+                        return Utils.Format("new Uuid(\"{0}\")", value.Value);
+                    }
 
                 case BasicDataType.ByteString:
-                {
-                    byte[] value = decodedValue as byte[];
-
-                    if (value == null)
                     {
-                        return "null";
-                    }
+                        byte[] value = decodedValue as byte[];
 
-                    return Utils.Format("Utils.FromHexString(\"{0}\")", Utils.ToHexString(value));
-                }
+                        if (value == null)
+                        {
+                            return "null";
+                        }
+
+                        return Utils.Format("Utils.FromHexString(\"{0}\")", Utils.ToHexString(value));
+                    }
 
                 case BasicDataType.NodeId:
-                {
-                    NodeId value = decodedValue as NodeId;
-
-                    if (value == null)
                     {
-                        return "null";
+                        NodeId value = decodedValue as NodeId;
+
+                        if (value == null)
+                        {
+                            return "null";
+                        }
+
+                        if (value.NamespaceIndex == 0 || value.NamespaceIndex >= m_model.Namespaces.Length)
+                        {
+                            return Utils.Format("NodeId.Parse(\"{0}\")", value);
+                        }
+
+                        ExpandedNodeId absoluteId = new ExpandedNodeId(value, m_model.Namespaces[value.NamespaceIndex].Value);
+
+                        return Utils.Format("ExpandedNodeId.Parse(\"{0}\", context.NamespaceUris)", absoluteId);
                     }
-
-                    if (value.NamespaceIndex == 0 || value.NamespaceIndex >= m_model.Namespaces.Length)
-                    {
-                        return Utils.Format("NodeId.Parse(\"{0}\")", value);
-                    }
-
-                    ExpandedNodeId absoluteId = new ExpandedNodeId(value, m_model.Namespaces[value.NamespaceIndex].Value);
-
-                    return Utils.Format("ExpandedNodeId.Parse(\"{0}\", context.NamespaceUris)", absoluteId);
-                }
 
                 case BasicDataType.ExpandedNodeId:
-                {
-                    ExpandedNodeId value = decodedValue as ExpandedNodeId;
-
-                    if (value == null)
                     {
-                        return "null";
-                    }
+                        ExpandedNodeId value = decodedValue as ExpandedNodeId;
 
-                    return Utils.Format("ExpandedNodeId.Parse(\"{0}\")", value);
-                }
+                        if (value == null)
+                        {
+                            return "null";
+                        }
+
+                        return Utils.Format("ExpandedNodeId.Parse(\"{0}\")", value);
+                    }
 
                 case BasicDataType.QualifiedName:
-                {
-                    QualifiedName value = decodedValue as QualifiedName;
-
-                    if (value == null)
                     {
-                        return "null";
-                    }
+                        QualifiedName value = decodedValue as QualifiedName;
 
-                    return Utils.Format("QualifiedName.Parse(\"{0}\")", value);
-                }
+                        if (value == null)
+                        {
+                            return "null";
+                        }
+
+                        return Utils.Format("QualifiedName.Parse(\"{0}\")", value);
+                    }
 
                 case BasicDataType.LocalizedText:
-                {
-                    Opc.Ua.LocalizedText value = decodedValue as Opc.Ua.LocalizedText;
-
-                    if (value == null)
                     {
-                        return "null";
-                    }
+                        Opc.Ua.LocalizedText value = decodedValue as Opc.Ua.LocalizedText;
 
-                    return Utils.Format("new LocalizedText(\"{0}\", \"{1}\")", value.Locale, value.Text);
-                }
+                        if (value == null)
+                        {
+                            return "null";
+                        }
+
+                        return Utils.Format("new LocalizedText(\"{0}\", \"{1}\")", value.Locale, value.Text);
+                    }
 
                 case BasicDataType.StatusCode:
-                {
-                    Opc.Ua.StatusCode? value = decodedValue as Opc.Ua.StatusCode?;
-
-                    if (value == null)
                     {
-                        return "StatusCodes.Good";
-                    }
+                        Opc.Ua.StatusCode? value = decodedValue as Opc.Ua.StatusCode?;
 
-                    return Utils.Format("(StatusCode){0}", value.Value.Code);
-                }
+                        if (value == null)
+                        {
+                            return "StatusCodes.Good";
+                        }
+
+                        return Utils.Format("(StatusCode){0}", value.Value.Code);
+                    }
 
                 case BasicDataType.Enumeration:
-                {
-                    if (dataType.SymbolicId == new XmlQualifiedName("Enumeration", DefaultNamespace))
                     {
-                        return "0";
-                    }
+                        if (dataType.SymbolicId == new XmlQualifiedName("Enumeration", DefaultNamespace))
+                        {
+                            return "0";
+                        }
 
-                    if (dataType.BaseTypeNode.SymbolicId == new XmlQualifiedName("OptionSet", DefaultNamespace))
-                    {
-                        return $"new {dataType.SymbolicName.Name}()";
-                    }
+                        if (dataType.BaseTypeNode.SymbolicId == new XmlQualifiedName("OptionSet", DefaultNamespace))
+                        {
+                            return $"new {dataType.SymbolicName.Name}()";
+                        }
 
-                    if (dataType.IsOptionSet)
-                    {
-                        return "0";
-                    }
+                        if (dataType.IsOptionSet)
+                        {
+                            return "0";
+                        }
 
-                    if (dataType.IsOptionSet)
-                    {
-                        return Utils.Format("{0}.None", dataType.SymbolicName.Name);
-                    }
+                        if (dataType.IsOptionSet)
+                        {
+                            return Utils.Format("{0}.None", dataType.SymbolicName.Name);
+                        }
 
-                    return Utils.Format("{0}.{1}", dataType.SymbolicName.Name, dataType.Fields[0].Name);
-                }
+                        return Utils.Format("{0}.{1}", dataType.SymbolicName.Name, dataType.Fields[0].Name);
+                    }
 
                 case BasicDataType.DataValue:
-                {
-                    return "new DataValue()";
-                }
+                    {
+                        return "new DataValue()";
+                    }
 
                 case BasicDataType.Structure:
                 case BasicDataType.XmlElement:
-                {
-                    return "null";
-                }
-
-                case BasicDataType.UserDefined:
-                {
-                    if (useVariantForObject)
                     {
-                        return Utils.Format("new {0}()", GetSystemTypeName(dataType, ValueRank.Scalar));
+                        return "null";
                     }
 
-                    return "null";
-                }
+                case BasicDataType.UserDefined:
+                    {
+                        if (useVariantForObject)
+                        {
+                            return Utils.Format("new {0}()", GetSystemTypeName(dataType, ValueRank.Scalar));
+                        }
+
+                        return "null";
+                    }
             }
 
             return "null";
@@ -6879,7 +6823,7 @@ namespace ModelCompiler
         /// <summary>
         /// Whether a template parameter is required.
         /// </summary>
-        private bool TemplateParameterRequired(DataTypeDesign dataType, ValueRank valueRank)
+        private static bool TemplateParameterRequired(DataTypeDesign dataType, ValueRank valueRank)
         {
             if (dataType.BasicDataType != BasicDataType.BaseDataType && dataType.BasicDataType != BasicDataType.Number && dataType.BasicDataType != BasicDataType.UInteger && dataType.BasicDataType != BasicDataType.Integer)
             {
@@ -6966,40 +6910,40 @@ namespace ModelCompiler
                 case BasicDataType.Integer:
                 case BasicDataType.UInteger:
                 case BasicDataType.BaseDataType:
-                {
-                    return "object";
-                }
+                    {
+                        return "object";
+                    }
 
                 case BasicDataType.Structure:
-                {
-                    return "ExtensionObject";
-                }
+                    {
+                        return "ExtensionObject";
+                    }
 
                 case BasicDataType.Enumeration:
-                {
-                    if (datatype.SymbolicId == new XmlQualifiedName("Enumeration", DefaultNamespace))
                     {
-                        return "int";
-                    }
+                        if (datatype.SymbolicId == new XmlQualifiedName("Enumeration", DefaultNamespace))
+                        {
+                            return "int";
+                        }
 
-                    if (datatype.IsOptionSet)
-                    {
-                        return GetSystemTypeName((DataTypeDesign)datatype.BaseTypeNode);
-                    }
+                        if (datatype.IsOptionSet)
+                        {
+                            return GetSystemTypeName((DataTypeDesign)datatype.BaseTypeNode);
+                        }
 
-                    return datatype.SymbolicName.Name;
-                }
+                        return datatype.SymbolicName.Name;
+                    }
 
                 case BasicDataType.UserDefined:
-                {
-                    if (datatype.SymbolicId.Namespace != m_model.TargetNamespace)
                     {
-                        var ns = m_model.Namespaces.Where(x => x.Value == datatype.SymbolicId.Namespace).FirstOrDefault();
-                        return $"{ns.Prefix}.{datatype.SymbolicName.Name}";
-                    }
+                        if (datatype.SymbolicId.Namespace != m_model.TargetNamespace)
+                        {
+                            var ns = m_model.Namespaces.Where(x => x.Value == datatype.SymbolicId.Namespace).FirstOrDefault();
+                            return $"{ns.Prefix}.{datatype.SymbolicName.Name}";
+                        }
 
-                    return datatype.SymbolicName.Name;
-                }
+                        return datatype.SymbolicName.Name;
+                    }
             }
 
             return "object";
@@ -7064,34 +7008,34 @@ namespace ModelCompiler
                     case BasicDataType.Integer:
                     case BasicDataType.UInteger:
                     case BasicDataType.BaseDataType:
-                    {
-                        return "VariantCollection";
-                    }
+                        {
+                            return "VariantCollection";
+                        }
 
                     case BasicDataType.Structure:
-                    {
-                        return "ExtensionObjectCollection";
-                    }
+                        {
+                            return "ExtensionObjectCollection";
+                        }
 
                     case BasicDataType.Enumeration:
-                    {
-                        if (datatype.SymbolicId == new XmlQualifiedName("Enumeration", DefaultNamespace))
                         {
-                            return "Int32Collection";
-                        }
+                            if (datatype.SymbolicId == new XmlQualifiedName("Enumeration", DefaultNamespace))
+                            {
+                                return "Int32Collection";
+                            }
 
-                        if (datatype.IsOptionSet || datatype.BaseType != new XmlQualifiedName("Enumeration", DefaultNamespace))
-                        {
-                            return GetSystemTypeName((DataTypeDesign)datatype.BaseTypeNode, valueRank);
-                        }
+                            if (datatype.IsOptionSet || datatype.BaseType != new XmlQualifiedName("Enumeration", DefaultNamespace))
+                            {
+                                return GetSystemTypeName((DataTypeDesign)datatype.BaseTypeNode, valueRank);
+                            }
 
-                        return datatype.SymbolicName.Name + "Collection";
-                    }
+                            return datatype.SymbolicName.Name + "Collection";
+                        }
 
                     case BasicDataType.UserDefined:
-                    {
-                        return datatype.SymbolicName.Name + "Collection";
-                    }
+                        {
+                            return datatype.SymbolicName.Name + "Collection";
+                        }
                 }
             }
 
@@ -7109,7 +7053,26 @@ namespace ModelCompiler
                 {
                     if (ns.Value == namespaceUri)
                     {
-                        return String.Format("{0}", ns.Prefix);
+                        return $"{ns.Prefix}";
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns a constant for the namespace uri.
+        /// </summary>
+        private Namespace GetNamespace(string namespaceUri)
+        {
+            if (m_model.Namespaces != null)
+            {
+                foreach (Namespace ns in m_model.Namespaces)
+                {
+                    if (ns.Value == namespaceUri)
+                    {
+                        return ns;
                     }
                 }
             }
@@ -7122,17 +7085,11 @@ namespace ModelCompiler
         /// </summary>
         private string GetConstantForNamespace(string namespaceUri)
         {
-            if (m_model.Namespaces != null)
+            Namespace ns = GetNamespace(namespaceUri);
+            if (ns != null)
             {
-                foreach (Namespace ns in m_model.Namespaces)
-                {
-                    if (ns.Value == namespaceUri)
-                    {
-                        return String.Format("{1}.Namespaces.{0}", ns.Name, ns.Prefix);
-                    }
-                }
+                return $"{ns.Prefix}.Namespaces.{ns.Name}";
             }
-
             return null;
         }
 
@@ -7141,22 +7098,16 @@ namespace ModelCompiler
         /// </summary>
         private string GetConstantForXmlNamespace(string namespaceUri)
         {
-            if (m_model.Namespaces != null)
+            Namespace ns = GetNamespace(namespaceUri);
+            if (ns != null)
             {
-                foreach (Namespace ns in m_model.Namespaces)
+                if (!string.IsNullOrEmpty(ns.XmlNamespace))
                 {
-                    if (ns.Value == namespaceUri)
-                    {
-                        if (!String.IsNullOrEmpty(ns.XmlNamespace))
-                        {
-                            return String.Format("{1}.Namespaces.{0}Xsd", ns.Name, ns.Prefix);
-                        }
-
-                        return String.Format("{1}.Namespaces.{0}", ns.Name, ns.Prefix);
-                    }
+                    return $"{ns.Prefix}.Namespaces.{ns.Name}Xsd";
                 }
-            }
 
+                return $"{ns.Prefix}.Namespaces.{ns.Name}";
+            }
             return null;
         }
 
@@ -7179,7 +7130,7 @@ namespace ModelCompiler
                         }
                     }
 
-                    if (!String.IsNullOrEmpty(node.Specification))
+                    if (!string.IsNullOrEmpty(node.Specification))
                     {
                         if (jj == node.Specification)
                         {
@@ -7203,15 +7154,14 @@ namespace ModelCompiler
             {
                 return true;
             }
-            
-            if (!DoJsonSchemaTests && node.Purpose == DataTypePurpose.Testing)
+
+            if (node.Purpose == DataTypePurpose.Testing)
             {
-                return true;
+               return true;
             }
 
             if (m_exclusions != null)
             {
-
                 foreach (var jj in m_exclusions)
                 {
                     if (jj == node.ReleaseStatus.ToString())
@@ -7219,7 +7169,7 @@ namespace ModelCompiler
                         return true;
                     }
 
-                    if (node.Category != null && node.Category.Contains(jj))
+                    if (node.Category != null && node.Category.Contains(jj, StringComparison.InvariantCulture))
                     {
                         return true;
                     }
@@ -7276,19 +7226,11 @@ namespace ModelCompiler
         }
 
         /// <summary>
-        /// Returns the browse path to the instance.
-        /// </summary>
-        private string GetBrowsePath(string basePath, InstanceDesign instance)
-        {
-            return NodeDesign.CreateSymbolicId(basePath, instance.SymbolicName.Name);
-        }
-
-        /// <summary>
         /// Constructs the initializer for a object type.
         /// </summary>
         private string ConstructInitializer(NodeDesign node, bool forInstance)
         {
-            SystemContext context = new SystemContext();
+            SystemContext context = new SystemContext(m_telemetry);
             context.NamespaceUris = m_model.NamespaceUris;
 
             NodeState state = node.State;
@@ -7321,6 +7263,7 @@ namespace ModelCompiler
                 return Convert.ToBase64String(ostrm.ToArray());
             }
         }
+
         #endregion
     }
 }

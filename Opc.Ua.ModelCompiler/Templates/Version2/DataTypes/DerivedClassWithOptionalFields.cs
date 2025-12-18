@@ -6,18 +6,17 @@ namespace X {
 // ***START***
 #region _BrowseName_ Class
 #if (!OPCUA_EXCLUDE__BrowseName_)
-/// <remarks />
 /// <exclude />
 [Flags]
 public enum _ClassName_Fields : uint
-{   
+{
     None = 0,
     // ListOfEncodingMaskFields
 }
 
-/// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
 [DataContract(Namespace = _XmlNamespaceUri_)]
 public partial class _BrowseName_ : _BaseType_
 {
@@ -96,8 +95,10 @@ public partial class _BrowseName_ : _BaseType_
             return false;
         }
 
+        if (value.EncodingMask != this.EncodingMask) return false;
+
         // ListOfComparedFields
-        
+
         return base.IsEqual(encodeable);
     }
 
@@ -111,7 +112,8 @@ public partial class _BrowseName_ : _BaseType_
     public new object MemberwiseClone()
     {
         _BrowseName_ clone = (_BrowseName_)base.MemberwiseClone();
-
+            
+        clone.EncodingMask = this.EncodingMask;
         // ListOfClonedFields
 
         return clone;

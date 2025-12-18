@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
 using Opc.Ua;
+using System.Diagnostics;
 
 namespace ModelCompiler
 {
-    internal class JsonSchemaExporter : BaseSchemaExporter
+    internal sealed class JsonSchemaExporter : BaseSchemaExporter
     {
-        public JsonSchemaExporter(bool useCompactEncoding)
+        public JsonSchemaExporter(IFileSystem fileSystem, bool useCompactEncoding, ITelemetryContext telemetry) : base(fileSystem, telemetry)
         {
             m_useCompactEncoding = useCompactEncoding;
 
@@ -155,7 +156,8 @@ namespace ModelCompiler
                         new BaseSchemaField()
                         {
                             Name = "UaTypeId",
-                            ExportType = "NodeId"
+                            ExportType = "string",
+                            ExportSubType = "UaNodeId"
                         },
                         new BaseSchemaField()
                         {
@@ -377,7 +379,7 @@ namespace ModelCompiler
 
         private void WriteExportType(JsonWriter writer, string exportType)
         {
-            if (exportType.StartsWith("["))
+            if (exportType.StartsWith('['))
             {
                 writer.WriteStartArray();
 
@@ -461,14 +463,14 @@ namespace ModelCompiler
                 writer.WriteStartObject();
                 writer.WritePropertyName("$schema");
                 writer.WriteValue("https://json-schema.org/draft/2020-12/schema");
-                writer.WritePropertyName("$id");
-                writer.WriteValue($"{m_modelUri}{((m_modelUri.EndsWith('/')) ? "" : "/")}{fileName}");
-                writer.WritePropertyName("type");
-                writer.WriteValue("object");
+                //writer.WritePropertyName("$id");
+                //writer.WriteValue($"{m_modelUri}{((m_modelUri.EndsWith('/')) ? "" : "/")}{fileName}");
+                //writer.WritePropertyName("type");
+                //writer.WriteValue("object");
 
                 bool first = false;
 
-                foreach (var type in types)
+                foreach (var type in types.OrderBy(x => x.Value.DataTypeId))
                 {
                     if ((type.Value.Namespace != null && m_modelUri != type.Value.Namespace) || (type.Value.Namespace == null && m_modelUri != Namespaces.OpcUa))
                     {
@@ -479,8 +481,8 @@ namespace ModelCompiler
 
                     if (!first)
                     {
-                        writer.WritePropertyName("$ref");
-                        writer.WriteValue((m_modelUri == Opc.Ua.Namespaces.OpcUa) ? "/basedatatype" : "/" + name.ToLowerInvariant());
+                        //writer.WritePropertyName("$ref");
+                        //writer.WriteValue(GetRef(m_modelUri, (m_modelUri == Opc.Ua.Namespaces.OpcUa) ? BrowseNames.BaseDataType : name));
                         writer.WritePropertyName("$defs");
                         writer.WriteStartObject();
                         first = true;
@@ -488,30 +490,68 @@ namespace ModelCompiler
 
                     writer.WritePropertyName(name);
                     writer.WriteStartObject();
-                    writer.WritePropertyName("$id");
-                    writer.WriteValue("/" + name.ToLowerInvariant());
+                    //writer.WritePropertyName("$id");
+                    //writer.WriteValue("/" + name.ToLowerInvariant());
 
                     if (type.Value.Type == SchemaElementType.Simple)
                     {
-                        var dataTypeName = (type.Value.DataTypeId != null && type.Value.DataTypeId.NamespaceIndex != 0)
-                            ? $"{type.Value.DataTypeId.NamespaceIndex}:{type.Value.ExportType}"
-                            : type.Value.ExportType;
-
-                        if (types.TryGetValue(dataTypeName, out var dataType) && dataType.Name != null)
+                        if (type.Value.DataTypeId == null)
                         {
-                            writer.WritePropertyName("$ref");
-                            writer.WriteValue(GetRef(type.Value.Namespace, dataType.Name));
+                            if (type.Value.ExportType != null && types.TryGetValue(type.Value.ExportType, out var refType))
+                            {
+                                writer.WritePropertyName("$ref");
+                                writer.WriteValue(GetRef(refType.Namespace, refType.Name ?? refType.ExportType));
+                            }
+                            else
+                            {
+                                writer.WritePropertyName("type");
+                                WriteExportType(writer, type.Value.ExportType);
+
+                                if (type.Value.ExportSubType != null)
+                                {
+                                    writer.WritePropertyName("format");
+                                    writer.WriteValue(type.Value.ExportSubType);
+                                }
+                            }
                         }
                         else
                         {
-                            writer.WritePropertyName("type");
-                            WriteExportType(writer, type.Value.ExportType);
-                        }
+                            var dataTypeId = type.Value.DataTypeId;
+                            var builtInType = TypeInfo.GetBuiltInType(dataTypeId);
 
-                        if (type.Value.ExportSubType != null)
-                        {
-                            writer.WritePropertyName("format");
-                            writer.WriteValue(type.Value.ExportSubType);
+                            while (builtInType == BuiltInType.Null)
+                            {
+                                var dataType = FindDataType(type.Value.DataTypeId);
+
+                                if (dataType?.SuperTypeId == null)
+                                {
+                                    break;
+                                }
+
+                                dataTypeId = dataType?.SuperTypeId;
+                                builtInType = TypeInfo.GetBuiltInType(dataTypeId);
+                            }
+
+                            if (builtInType != BuiltInType.Null)
+                            {
+                                var builtInTypeName = (builtInType == BuiltInType.Variant) ? "BaseDataType" : builtInType.ToString();
+
+                                if (!types.TryGetValue(builtInTypeName, out var resolvedType))
+                                {
+                                    writer.WritePropertyName("type");
+                                    WriteExportType(writer, resolvedType.ExportType);
+
+                                    if (resolvedType.ExportSubType != null)
+                                    {
+                                        writer.WritePropertyName("format");
+                                        writer.WriteValue(resolvedType.ExportSubType);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                Debug.Assert(false, "Could not resolve built-in type.");
+                            }
                         }
                     }
                     else if (type.Value.Type == SchemaElementType.Enumeration)
@@ -523,7 +563,7 @@ namespace ModelCompiler
                         {
                             writer.WriteStartObject();
                             writer.WritePropertyName("const");
-                            
+
                             if (m_useCompactEncoding)
                             {
                                 writer.WriteValue(field.Value);
@@ -565,8 +605,8 @@ namespace ModelCompiler
                         writer.WriteEndObject();
                         writer.WritePropertyName(name + "Masks");
                         writer.WriteStartObject();
-                        writer.WritePropertyName("$id");
-                        writer.WriteValue("/" + name.ToLowerInvariant() + "masks");
+                        //writer.WritePropertyName("$id");
+                        //writer.WriteValue("/" + name.ToLowerInvariant() + "masks");
 
                         writer.WritePropertyName("anyOf");
                         writer.WriteStartArray();

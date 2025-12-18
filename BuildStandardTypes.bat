@@ -2,7 +2,7 @@
 SETLOCAL
 
 set ROOT=%~dp0
-set MODELCOMPILER=%ROOT%build\bin\Release\net8.0\Opc.Ua.ModelCompiler.exe
+set MODELCOMPILER=%ROOT%build\bin\Release\net9.0\Opc.Ua.ModelCompiler.exe
 set OUTPUT=%ROOT%..\nodesets
 set INPUT=%ROOT%Opc.Ua.ModelCompiler\Design
 set CSVINPUT=%ROOT%Opc.Ua.ModelCompiler\CSVs
@@ -23,7 +23,7 @@ set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
 set GDS_TARGET=.\Stack\Libraries\Opc.Ua.Gds.Server.Common\Model\
 set DI_TARGET=
 set ADI_TARGET=
-set NODESET_TARGET=.\Tests\NodeSetTest
+set UNIT_TESTS_TARGET=.\Tests\SchemaGeneration.Tests\
 set DEMOMODEL_TARGET=.\Tests\DemoModel\DemoModel\
 set ONBOARDING_TARGET=.\Tests\DemoModel\Onboarding\
 set SCHEDULER_TARGET=.\Tests\DemoModel\Scheduler\
@@ -40,7 +40,8 @@ set MODELVERSION=
 
 REM Set overrides for older versions. set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
 IF "%1"=="v105" (
-	set MODELVERSION=-mv 1.05.05 -pd 2025-06-30
+    set MODELVERSION=-mv 1.05.06 -pd 2025-11-08
+    REM set MODELVERSION=-mv 1.05.05 -pd 2025-06-30
 	set USEALLOWSUBTYPES=
 )
 
@@ -96,17 +97,30 @@ DEL /Q "%OUTPUT%\Schema\Opc.Ua.NodeIds.Services.csv"
 
 ECHO Moving .NET files to %OUTPUT%\DotNet\
 MOVE /Y "%OUTPUT%\Schema\Opc.Ua.Classes.cs" "%OUTPUT%\DotNet\Opc.Ua.Classes.cs"
-MOVE /Y "%OUTPUT%\Schema\Opc.Ua.Constants.cs" "%OUTPUT%\DotNet\Opc.Ua.Constants.cs"
+COPY /Y "%OUTPUT%\Schema\Opc.Ua.Constants.cs" "%OUTPUT%\DotNet\Opc.Ua.Constants.cs"
+DEL /Q "%OUTPUT%\Schema\Opc.Ua.Constants.cs" 
 MOVE /Y "%OUTPUT%\Schema\Opc.Ua.DataTypes.cs" "%OUTPUT%\DotNet\Opc.Ua.DataTypes.cs"
+MOVE /Y "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.cs" "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.cs"
 MOVE /Y "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.uanodes" "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.uanodes"
 MOVE /Y "%OUTPUT%\Schema\Opc.Ua.PredefinedNodes.xml" "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.xml"
-MOVE /Y "%OUTPUT%\Schema\Opc.Ua.NodeSet.xml" "%OUTPUT%\DotNet\Opc.Ua.NodeSet.xml"
 MOVE /Y "%OUTPUT%\DotNet\Opc.Ua.Services.wsdl" "%OUTPUT%\Schema\Opc.Ua.Services.wsdl"
 MOVE /Y "%OUTPUT%\DotNet\Opc.Ua.Endpoints.wsdl" "%OUTPUT%\Schema\Opc.Ua.Endpoints.wsdl"
 @ECHO OFF
 
 IF NOT EXIST "%OUTPUT%\OpenApi" MKDIR "%OUTPUT%\OpenApi"
 COPY "%OUTPUT%\Schema\*.json" "%OUTPUT%\OpenApi\"
+
+IF EXIST "%UNIT_TESTS_TARGET%" (
+	CALL PublishModel TestModel TestModel %1 %2
+	CALL UpdateLicense "%OUTPUT%\TestModel"
+	COPY "%OUTPUT%\TestModel\*.cs" "%UNIT_TESTS_TARGET%Model\"
+	COPY "%OUTPUT%\Schema\*.json" "%UNIT_TESTS_TARGET%Data\"
+	COPY "%OUTPUT%\Schema\Opc.Ua.NodeSet2.Services.xml" "%UNIT_TESTS_TARGET%Data\"
+	COPY "%OUTPUT%\Schema\opc.ua.services.jsonschema.json" "%UNIT_TESTS_TARGET%Data\"
+	COPY "%CSVINPUT%\StandardTypes.csv" "%UNIT_TESTS_TARGET%Data\"
+	COPY "%CSVINPUT%\TestModel.csv" "%UNIT_TESTS_TARGET%Data\"
+	COPY "%INPUT%\TestModel.xml" "%UNIT_TESTS_TARGET%Data\"
+)
 
 ECHO Moving Constants to %OUTPUT%\OpenApi\Constants\
 IF EXIST "%OUTPUT%\OpenApi\Constants" RMDIR /S /Q "%OUTPUT%\OpenApi\Constants"
@@ -137,22 +151,22 @@ IF "%DOTNET_TARGET%" NEQ "" (
 	ECHO Copying .NET code to %DOTNET_TARGET%
 
 	COPY "%OUTPUT%\Schema\NodeIds.csv" "%DOTNET_TARGET%\Schema\NodeIds.csv"
-	COPY "%OUTPUT%\Schema\AttributeIds.csv" "%DOTNET_TARGET%\Schema\AttributeIds.csv"
-	COPY "%OUTPUT%\Schema\ServerCapabilities.csv" "%DOTNET_TARGET%\Schema\ServerCapabilities.csv"
-	COPY "%OUTPUT%\Schema\StatusCode.csv" "%DOTNET_TARGET%\Schema\Opc.Ua.StatusCodes.csv"
-	COPY "%SCHEMAINPUT%\UANodeSet.xsd" "%DOTNET_TARGET%\Schema\UANodeSet.xsd"
-	COPY "%SCHEMAINPUT%\SecuredApplication.xsd" "%DOTNET_TARGET%\Schema\SecuredApplication.xsd"
-	COPY "%SCHEMAINPUT%\OPCBinarySchema.xsd" "%DOTNET_TARGET%\Types\Schemas\OPCBinarySchema.xsd"
+	REM COPY "%OUTPUT%\Schema\AttributeIds.csv" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\AttributeIds.csv"
+	REM COPY "%OUTPUT%\Schema\ServerCapabilities.csv" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\ServerCapabilities.csv"
+	REM COPY "%OUTPUT%\Schema\StatusCode.csv" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\Opc.Ua.StatusCodes.csv"
+	COPY "%SCHEMAINPUT%\UANodeSet.xsd" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\UANodeSet.xsd"
+	REM COPY "%SCHEMAINPUT%\SecuredApplication.xsd" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\SecuredApplication.xsd"
+	REM COPY "%SCHEMAINPUT%\OPCBinarySchema.xsd" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\OPCBinarySchema.xsd"
 
-	CD "%DOTNET_TARGET%\Schema\"
+	CD "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\"
 	CALL BuildSchema
 	CD %~dp0
 
 	COPY "%OUTPUT%\Schema\Opc.Ua.NodeSet2.xml" "%DOTNET_TARGET%\Schema\Opc.Ua.NodeSet2.xml"
-	COPY "%OUTPUT%\Schema\Opc.Ua.Types.bsd" "%DOTNET_TARGET%\Schema\Opc.Ua.Types.bsd"
-	COPY "%OUTPUT%\Schema\Opc.Ua.Types.xsd" "%DOTNET_TARGET%\Schema\Opc.Ua.Types.xsd"
-	COPY "%OUTPUT%\Schema\Opc.Ua.Endpoints.wsdl" "%DOTNET_TARGET%\Schema\Opc.Ua.Endpoints.wsdl"
-	COPY "%OUTPUT%\Schema\Opc.Ua.Services.wsdl" "%DOTNET_TARGET%\Schema\Opc.Ua.Services.wsdl"
+	COPY "%OUTPUT%\Schema\Opc.Ua.Types.xsd" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\Opc.Ua.Types.xsd"
+	REM COPY "%OUTPUT%\Schema\Opc.Ua.Types.bsd" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\Opc.Ua.Types.bsd"
+	REM COPY "%OUTPUT%\Schema\Opc.Ua.Endpoints.wsdl" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\Opc.Ua.Endpoints.wsdl"
+	REM COPY "%OUTPUT%\Schema\Opc.Ua.Services.wsdl" "%DOTNET_TARGET%\..\Opc.Ua.Types\Schema\Opc.Ua.Services.wsdl"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.Channels.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Channels.cs"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.Client.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Client.cs"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.Endpoints.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Endpoints.cs"
@@ -164,6 +178,7 @@ IF "%DOTNET_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\DotNet\Opc.Ua.Classes.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Classes.cs"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.Constants.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Constants.cs"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.DataTypes.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.DataTypes.cs"
+	REM COPY "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.PredefinedNodes.cs"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.uanodes" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.PredefinedNodes.uanodes"
 	COPY "%OUTPUT%\DotNet\Opc.Ua.PredefinedNodes.xml" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.PredefinedNodes.xml"
 )
@@ -186,6 +201,7 @@ IF "%GDS_TARGET%" NEQ "" (
 	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Constants.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Gds.Constants.cs"
 	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.DataTypes.cs" "%DOTNET_TARGET%\Stack\Generated\Opc.Ua.Gds.DataTypes.cs"
 	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.Classes.cs" "%GDS_TARGET%\Opc.Ua.Gds.Classes.cs"
+	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.PredefinedNodes.cs" "%GDS_TARGET%\Opc.Ua.Gds.PredefinedNodes.cs"
 	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.PredefinedNodes.uanodes" "%GDS_TARGET%\Opc.Ua.Gds.PredefinedNodes.uanodes"
 	COPY "%OUTPUT%\GDS\Opc.Ua.Gds.PredefinedNodes.xml" "%GDS_TARGET%\Opc.Ua.Gds.PredefinedNodes.xml"
 )
@@ -193,7 +209,19 @@ IF "%GDS_TARGET%" NEQ "" (
 
 IF NOT "%3"=="DI" GOTO skipDI
 CALL PublishModel OpcUaDiModel DI %1 %2
+CALL PublishModel OpcUaDiPackageMetadataModel DI %1 %2
 CALL UpdateLicense "%OUTPUT%\DI"
+
+IF EXIST "%OUTPUT%\DI\Constants" RMDIR /S /Q "%OUTPUT%\DI\Constants"
+IF EXIST "%OUTPUT%\DI\Generated" RMDIR /S /Q "%OUTPUT%\DI\Generated"
+
+ECHO %MODELCOMPILER% compile-nodesets -input "%OUTPUT%" -uri "http://opcfoundation.org/UA/DI/PackageMetadata/" -prefix "UAModel.DI.PackageMetadata" -o2 "%OUTPUT%\DI\Generated"
+%MODELCOMPILER% compile-nodesets -input "%OUTPUT%" -uri "http://opcfoundation.org/UA/DI/PackageMetadata/" -prefix "UAModel.DI.PackageMetadata" -o2 "%OUTPUT%\DI\Generated"
+
+COPY "%OUTPUT%\DI\Generated\*.json" "%OUTPUT%\DI\"
+RMDIR /S /Q "%OUTPUT%\DI\Generated"
+DEL /F /Q "%OUTPUT%\DI\*.cs"
+DEL /F /Q "%OUTPUT%\DI\*.uanodes"
 
 IF EXIST "%DI_TARGET%" (
 	ECHO Copying .NET code to %DI_TARGET%
@@ -239,16 +267,6 @@ IF EXIST "%SCHEDULER_TARGET%" (
 	COPY "%OUTPUT%\Scheduler\*.*" "%SCHEDULER_TARGET%"
 )
 :skipScheduler 
-
-IF NOT "%3"=="NodeSet" GOTO skipNodeSet
-CALL PublishModel OpcUaNodeSetModel NodeSet %1 %2
-CALL UpdateLicense "%OUTPUT%\NodeSet"
-
-IF EXIST "%NODESET_TARGET%" (
-	ECHO Copying .NET code to %NODESET_TARGET%
-	COPY "%OUTPUT%\NodeSet\*.*" "%NODESET_TARGET%"
-)
-:skipNodeSet
 
 GOTO theEnd
 

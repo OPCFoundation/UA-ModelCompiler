@@ -1,22 +1,19 @@
 #region _TypeName_State Class
-/// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
 public partial class _TypeName_State : _BaseType_State<BaseT>
 {
     #region Constructors
-    /// <remarks />
     public _TypeName_State()
     {
     }
 
-    /// <remarks />
     public new static NodeState Construct(NodeState parent)
     {
         return new _TypeName_State();
     }
 
-    /// <remarks />
     public override void Initialize(ISystemContext context)
     {
         base.Initialize(context);
@@ -34,7 +31,6 @@ public partial class _TypeName_State : _BaseType_State<BaseT>
     #endregion
 
     #region Overridden Methods
-    /// <remarks />
     public override BaseInstanceState CreateInstance(NodeState parent)
     {
         return new _ClassName_State(parent);
@@ -51,25 +47,22 @@ public partial class _TypeName_State : _BaseType_State<BaseT>
 // ***START***
 #region _ClassName_State Class
 #if (!OPCUA_EXCLUDE__ClassName_State)
-/// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
 public partial class _ClassName_State : _BaseClassName_State<BaseT>
 {
     #region Constructors
-    /// <remarks />
     public _ClassName_State(NodeState parent) : base(parent)
     {
     }
 
-    /// <remarks />
     protected override NodeId GetDefaultTypeDefinitionId(NamespaceTable namespaceUris)
     {
         return Opc.Ua.NodeId.Create(_NamespacePrefix_.ObjectTypes._TypeName_, _NamespaceUri_, namespaceUris);
     }
 
     #if (!OPCUA_EXCLUDE_InitializationStrings)
-    /// <remarks />
     protected override void Initialize(ISystemContext context)
     {
         base.Initialize(context);
@@ -77,14 +70,12 @@ public partial class _ClassName_State : _BaseClassName_State<BaseT>
         InitializeOptionalChildren(context);
     }
 
-    /// <remarks />
     protected override void Initialize(ISystemContext context, NodeState source)
     {
         InitializeOptionalChildren(context);
         base.Initialize(context, source);
     }
 
-    /// <remarks />
     protected override void InitializeOptionalChildren(ISystemContext context)
     {
         base.InitializeOptionalChildren(context);

@@ -77,7 +77,7 @@ namespace CodeGenerator {
         
         private string nameField;
         
-        private int valueField;
+        private decimal valueField;
         
         private bool valueFieldSpecified;
         
@@ -112,7 +112,7 @@ namespace CodeGenerator {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public int Value {
+        public decimal Value {
             get {
                 return this.valueField;
             }

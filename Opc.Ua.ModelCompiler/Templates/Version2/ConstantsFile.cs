@@ -37,6 +37,8 @@ using System.Xml;
 using System.Runtime.Serialization;
 // ListOfImports
 
+#pragma warning disable 1591
+
 namespace _Namespace_
 {
     // ListOfIdentifiers
@@ -44,8 +46,8 @@ namespace _Namespace_
     // ListOfNodeIds
 
     #region BrowseName Declarations
-    /// <remarks />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public static partial class BrowseNames
     {
         // ListOfBrowseNames
@@ -53,8 +55,8 @@ namespace _Namespace_
     #endregion
 
     #region Namespace Declarations
-    /// <remarks />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public static partial class Namespaces
     {
         // ListOfNamespaceUris

@@ -1,25 +1,22 @@
 // ***START***
 #region _ClassName_ Class
 #if (!OPCUA_EXCLUDE__ClassName_)
-/// <remarks />
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
 public partial class _ClassName_ : MethodState
 {
     #region Constructors
-    /// <remarks />
     public _ClassName_(NodeState parent) : base(parent)
     {
     }
 
-    /// <remarks />
     public new static NodeState Construct(NodeState parent)
     {
         return new _ClassName_(parent);
     }
 
     #if (!OPCUA_EXCLUDE_InitializationStrings)
-    /// <remarks />
     protected override void Initialize(ISystemContext context)
     {
         base.Initialize(context);
@@ -27,7 +24,6 @@ public partial class _ClassName_ : MethodState
         InitializeOptionalChildren(context);
     }
 
-    /// <remarks />
     protected override void InitializeOptionalChildren(ISystemContext context)
     {
         base.InitializeOptionalChildren(context);
@@ -41,10 +37,8 @@ public partial class _ClassName_ : MethodState
     #endregion
 
     #region Event Callbacks
-    /// <remarks />
     public _ClassName_MethodCallHandler OnCall;
 
-    /// <remarks />
     public _ClassName_MethodAsyncCallHandler OnCallAsync;
     #endregion
 
@@ -53,7 +47,6 @@ public partial class _ClassName_ : MethodState
     #endregion
 
     #region Overridden Methods
-    /// <remarks />
     protected override ServiceResult Call(
         ISystemContext _context,
         NodeId _objectId,
@@ -79,7 +72,6 @@ public partial class _ClassName_ : MethodState
     }
 
     #if (OPCUA_INCLUDE_ASYNC)
-    /// <remarks />
     protected override async ValueTask<ServiceResult> CallAsync(
         ISystemContext _context,
         NodeId _objectId,
@@ -108,7 +100,7 @@ public partial class _ClassName_ : MethodState
         return _result.ServiceResult;
     }
     #endif
-    
+
     // FindChildMethods
     #endregion
 
@@ -117,22 +109,17 @@ public partial class _ClassName_ : MethodState
     #endregion
 }
 
-/// <remarks />
 /// <exclude />
 public delegate ServiceResult _ClassName_MethodCallHandler(
     _ISystemContext context_);
 
-/// <remarks />
 /// <exclude />
 public partial class _ClassName_Result
 {
-    /// <remarks />
     public ServiceResult ServiceResult { get; set; }
     // ListOfResultProperties
 }
 
-
-/// <remarks />
 /// <exclude />
 public delegate ValueTask<_ClassName_Result> _ClassName_MethodAsyncCallHandler(
     _ISystemContext context_, CancellationToken cancellationToken);

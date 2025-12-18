@@ -1,16 +1,16 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /source
 
 # copy csproj and restore as distinct layers
 COPY . .
-RUN dotnet restore "ModelCompiler Solution.sln"
+RUN dotnet restore "Opc.Ua.ModelCompiler.Tool\Opc.Ua.ModelCompiler.Tool.csproj"
 
 # copy and publish app and libraries
 COPY . .
-RUN dotnet publish "ModelCompiler Solution.sln" -f net8.0 -c Release -o /app 
+RUN dotnet publish "Opc.Ua.ModelCompiler.Tool\Opc.Ua.ModelCompiler.Tool.csproj" -f net9.0 -c Docker -o /app
 
 # final stage/image
-FROM mcr.microsoft.com/dotnet/runtime:8.0
+FROM mcr.microsoft.com/dotnet/runtime:9.0
 WORKDIR /app
 COPY --from=build /app .
-ENTRYPOINT ["dotnet", "/app/Opc.Ua.ModelCompiler.dll"]
+ENTRYPOINT ["/app/Opc.Ua.ModelCompiler"]

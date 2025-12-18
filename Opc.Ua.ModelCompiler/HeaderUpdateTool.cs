@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace ModelCompiler
 {
-    class HeaderUpdateTool
+    public static class HeaderUpdateTool
     {
         public enum LicenseType
         {
@@ -138,7 +138,7 @@ namespace ModelCompiler
         {
             int count = 0;
             ProcessDirectory(new DirectoryInfo(directory), fileType, licenseType, silent, ref count);
-            Console.WriteLine("Updating {0} files.", count);
+            Console.WriteLine(format: "Updating {0} files.", count);
         }
 
         private static void ProcessDirectory(DirectoryInfo directory, string fileType, LicenseType licenseType, bool silent, ref int count)
