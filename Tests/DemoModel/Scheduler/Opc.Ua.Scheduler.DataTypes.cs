@@ -34,6 +34,10 @@ using System.Xml;
 using System.Runtime.Serialization;
 using Opc.Ua;
 
+#pragma warning disable CA1028 // Enum Storage should be Int32
+#pragma warning disable CA1515 // Consider making public types internal
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+
 namespace Opc.Ua.Scheduler
 {
     #region SpecialEventType Class

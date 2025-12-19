@@ -34,6 +34,9 @@ using System.Xml;
 using System.Runtime.Serialization;
 using Opc.Ua;
 
+#pragma warning disable CA1515 // Consider making public types internal
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+
 namespace Opc.Ua.Scheduler
 {
     #region CalendarState Class

@@ -35,7 +35,8 @@ using System.Xml;
 using System.Runtime.Serialization;
 using Opc.Ua;
 
-#pragma warning disable 1591
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable CA1707 // Identifiers should not contain underscores
 
 namespace TestModel
 {

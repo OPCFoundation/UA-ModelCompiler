@@ -7,7 +7,7 @@ using Opc.Ua.Server;
 
 namespace ModelCompiler
 {
-    public class ReferenceNodeManager : CustomNodeManager2
+    internal sealed class ReferenceNodeManager : CustomNodeManager2
     {
         #region Private Fields
         private ushort m_namespaceIndex;
@@ -69,6 +69,8 @@ namespace ModelCompiler
         #region INodeManager Members
         public override void CreateAddressSpace(IDictionary<NodeId, IList<IReference>> externalReferences)
         {
+            ArgumentNullException.ThrowIfNull(externalReferences);
+
             lock (Lock)
             {
                 IList<IReference> references = null;
@@ -90,7 +92,7 @@ namespace ModelCompiler
 
             foreach (var name in Assembly.GetExecutingAssembly().GetManifestResourceNames())
             {
-                if (name.EndsWith(".uanodes"))
+                if (name.EndsWith(".uanodes", StringComparison.Ordinal))
                 {
                     names.Add(name);
                 }

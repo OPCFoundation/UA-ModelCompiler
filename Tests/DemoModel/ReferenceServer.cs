@@ -7,7 +7,7 @@ using Opc.Ua.Server;
 
 namespace ModelCompiler
 {
-    public partial class ReferenceServer : ReverseConnectServer
+    internal sealed partial class ReferenceServer : ReverseConnectServer
     {
         #region Properties
         #endregion

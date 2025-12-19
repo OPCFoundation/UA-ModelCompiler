@@ -35,6 +35,9 @@ using System.Runtime.Serialization;
 using Opc.Ua.Gds;
 using Opc.Ua;
 
+#pragma warning disable CA1515 // Consider making public types internal
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+
 namespace Opc.Ua.Onboarding
 {
     #region RegisterTicketsMethodState Class

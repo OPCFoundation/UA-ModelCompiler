@@ -37,7 +37,10 @@ using System.Threading.Tasks;
 using System.Threading;
 using Opc.Ua;
 
-#pragma warning disable 1591
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable CA1515 // Consider making public types internal
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+#pragma warning disable CA1028 // Enum Storage should be Int32
 
 namespace TestModel
 {
@@ -677,7 +680,7 @@ namespace TestModel
     #region TestOptionalFields Class
     #if (!OPCUA_EXCLUDE_TestOptionalFields)
     /// <exclude />
-    
+    [Flags]
     public enum TestOptionalFieldsFields : uint
     {
         None = 0,
@@ -3670,7 +3673,7 @@ namespace TestModel
     #region ExtendedWorkOrderType Class
     #if (!OPCUA_EXCLUDE_ExtendedWorkOrderType)
     /// <exclude />
-    
+    [Flags]
     public enum ExtendedWorkOrderFields : uint
     {
         None = 0,
@@ -3910,7 +3913,7 @@ namespace TestModel
     #region FinalWorkOrderType Class
     #if (!OPCUA_EXCLUDE_FinalWorkOrderType)
     /// <exclude />
-    
+    [Flags]
     public enum FinalWorkOrderFields : uint
     {
         None = 0,
@@ -4370,7 +4373,7 @@ namespace TestModel
     #region SampleStructureWithOptionalFields Class
     #if (!OPCUA_EXCLUDE_SampleStructureWithOptionalFields)
     /// <exclude />
-    
+    [Flags]
     public enum SampleStructureWithOptionalFieldsFields : uint
     {
         None = 0,
@@ -5059,7 +5062,7 @@ namespace TestModel
     #region Person Class
     #if (!OPCUA_EXCLUDE_Person)
     /// <exclude />
-    
+    [Flags]
     public enum PersonFields : uint
     {
         None = 0,
@@ -5251,7 +5254,7 @@ namespace TestModel
     #region Student Class
     #if (!OPCUA_EXCLUDE_Student)
     /// <exclude />
-    
+    [Flags]
     public enum StudentFields : uint
     {
         None = 0,

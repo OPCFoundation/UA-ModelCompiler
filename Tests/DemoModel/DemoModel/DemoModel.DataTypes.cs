@@ -1,8 +1,8 @@
 /* ========================================================================
- * Copyright (c) 2005-2025 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -37,7 +37,10 @@ using System.Threading.Tasks;
 using System.Threading;
 using Opc.Ua;
 
-#pragma warning disable 1591
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable CA1515 // Consider making public types internal
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+#pragma warning disable CA1028 // Enum Storage should be Int32
 
 namespace DemoModel
 {
@@ -825,7 +828,7 @@ namespace DemoModel
     #region ExtendedWorkOrderType Class
     #if (!OPCUA_EXCLUDE_ExtendedWorkOrderType)
     /// <exclude />
-    
+    [Flags]
     public enum ExtendedWorkOrderFields : uint
     {
         None = 0,
@@ -1062,16 +1065,16 @@ namespace DemoModel
     #endif
     #endregion
 
-    #region FinalWorkOrderType Class
-    #if (!OPCUA_EXCLUDE_FinalWorkOrderType)
+    #region PenultimateWorkOrderType Class
+    #if (!OPCUA_EXCLUDE_PenultimateWorkOrderType)
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
-    public partial class FinalWorkOrderType : DemoModel.ExtendedWorkOrderType
+    public partial class PenultimateWorkOrderType : DemoModel.ExtendedWorkOrderType
     {
         #region Constructors
-        public FinalWorkOrderType()
+        public PenultimateWorkOrderType()
         {
             Initialize();
         }
@@ -1099,16 +1102,16 @@ namespace DemoModel
 
         #region IEncodeable Members
         /// <summary cref="IEncodeable.TypeId" />
-        public override ExpandedNodeId TypeId => DataTypeIds.FinalWorkOrderType;
+        public override ExpandedNodeId TypeId => DataTypeIds.PenultimateWorkOrderType;
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
-        public override ExpandedNodeId BinaryEncodingId => ObjectIds.FinalWorkOrderType_Encoding_DefaultBinary;
+        public override ExpandedNodeId BinaryEncodingId => ObjectIds.PenultimateWorkOrderType_Encoding_DefaultBinary;
 
         /// <summary cref="IEncodeable.XmlEncodingId" />
-        public override ExpandedNodeId XmlEncodingId => ObjectIds.FinalWorkOrderType_Encoding_DefaultXml;
+        public override ExpandedNodeId XmlEncodingId => ObjectIds.PenultimateWorkOrderType_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public override ExpandedNodeId JsonEncodingId => ObjectIds.FinalWorkOrderType_Encoding_DefaultJson;
+        public override ExpandedNodeId JsonEncodingId => ObjectIds.PenultimateWorkOrderType_Encoding_DefaultJson;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public override void Encode(IEncoder encoder)
@@ -1142,7 +1145,7 @@ namespace DemoModel
                 return true;
             }
 
-            FinalWorkOrderType value = encodeable as FinalWorkOrderType;
+            PenultimateWorkOrderType value = encodeable as PenultimateWorkOrderType;
 
             if (value == null)
             {
@@ -1157,13 +1160,13 @@ namespace DemoModel
         /// <summary cref="ICloneable.Clone" />
         public override object Clone()
         {
-            return (FinalWorkOrderType)this.MemberwiseClone();
+            return (PenultimateWorkOrderType)this.MemberwiseClone();
         }
 
         /// <summary cref="Object.MemberwiseClone" />
         public new object MemberwiseClone()
         {
-            FinalWorkOrderType clone = (FinalWorkOrderType)base.MemberwiseClone();
+            PenultimateWorkOrderType clone = (PenultimateWorkOrderType)base.MemberwiseClone();
 
             clone.m_address = (string)Utils.Clone(this.m_address);
 
@@ -1173,6 +1176,218 @@ namespace DemoModel
 
         #region Private Fields
         private string m_address;
+        #endregion
+    }
+
+    #region PenultimateWorkOrderTypeCollection Class
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [CollectionDataContract(Name = "ListOfPenultimateWorkOrderType", Namespace = DemoModel.Namespaces.DemoModelXsd, ItemName = "PenultimateWorkOrderType")]
+    public partial class PenultimateWorkOrderTypeCollection : List<PenultimateWorkOrderType>, ICloneable
+    {
+        #region Constructors
+        public PenultimateWorkOrderTypeCollection() {}
+
+        public PenultimateWorkOrderTypeCollection(int capacity) : base(capacity) {}
+
+        public PenultimateWorkOrderTypeCollection(IEnumerable<PenultimateWorkOrderType> collection) : base(collection) {}
+        #endregion
+
+        #region Static Operators
+        public static implicit operator PenultimateWorkOrderTypeCollection(PenultimateWorkOrderType[] values)
+        {
+            if (values != null)
+            {
+                return new PenultimateWorkOrderTypeCollection(values);
+            }
+
+            return new PenultimateWorkOrderTypeCollection();
+        }
+
+        public static explicit operator PenultimateWorkOrderType[](PenultimateWorkOrderTypeCollection values)
+        {
+            if (values != null)
+            {
+                return values.ToArray();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #region ICloneable Methods
+        public object Clone()
+        {
+            return (PenultimateWorkOrderTypeCollection)this.MemberwiseClone();
+        }
+        #endregion
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            PenultimateWorkOrderTypeCollection clone = new PenultimateWorkOrderTypeCollection(this.Count);
+
+            for (int ii = 0; ii < this.Count; ii++)
+            {
+                clone.Add((PenultimateWorkOrderType)Utils.Clone(this[ii]));
+            }
+
+            return clone;
+        }
+    }
+    #endregion
+    #endif
+    #endregion
+
+    #region FinalWorkOrderType Class
+    #if (!OPCUA_EXCLUDE_FinalWorkOrderType)
+    /// <exclude />
+    [Flags]
+    public enum FinalWorkOrderFields : uint
+    {
+        None = 0,
+        ContactY = 0x1,
+        ContactZ = 0x2,
+        Phone = 0x4,
+    }
+
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    [DataContract(Namespace = DemoModel.Namespaces.DemoModelXsd)]
+    public partial class FinalWorkOrderType : DemoModel.PenultimateWorkOrderType
+    {
+        #region Constructors
+        public FinalWorkOrderType()
+        {
+            Initialize();
+        }
+
+        [OnDeserializing]
+        private void Initialize(StreamingContext context)
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            m_phone = null;
+            m_email = null;
+        }
+        #endregion
+
+        #region Public Properties
+        
+        [DataMember(Name = "Phone", IsRequired = false, Order = 1)]
+        public string Phone
+        {
+            get { return m_phone;  }
+            set { m_phone = value; }
+        }
+
+        [DataMember(Name = "Email", IsRequired = false, Order = 2)]
+        public string Email
+        {
+            get { return m_email;  }
+            set { m_email = value; }
+        }
+        #endregion
+
+        #region IEncodeable Members
+        /// <summary cref="IEncodeable.TypeId" />
+        public override ExpandedNodeId TypeId => DataTypeIds.FinalWorkOrderType;
+
+        /// <summary cref="IEncodeable.BinaryEncodingId" />
+        public override ExpandedNodeId BinaryEncodingId => ObjectIds.FinalWorkOrderType_Encoding_DefaultBinary;
+
+        /// <summary cref="IEncodeable.XmlEncodingId" />
+        public override ExpandedNodeId XmlEncodingId => ObjectIds.FinalWorkOrderType_Encoding_DefaultXml;
+
+        /// <summary cref="IJsonEncodeable.JsonEncodingId" />
+        public override ExpandedNodeId JsonEncodingId => ObjectIds.FinalWorkOrderType_Encoding_DefaultJson;
+
+        /// <summary cref="IEncodeable.Encode(IEncoder)" />
+        public override void Encode(IEncoder encoder)
+        {
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+            
+            encoder.PopNamespace();
+
+            base.Encode(encoder);
+
+            encoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+
+            if ((EncodingMask & (uint)FinalWorkOrderFields.Phone) != 0) encoder.WriteString("Phone", Phone);
+            encoder.WriteString("Email", Email);
+
+            encoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.Decode(IDecoder)" />
+        public override void Decode(IDecoder decoder)
+        {
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+            
+            decoder.PopNamespace();
+                
+            base.Decode(decoder);
+
+            decoder.PushNamespace(DemoModel.Namespaces.DemoModelXsd);
+
+            if ((EncodingMask & (uint)FinalWorkOrderFields.Phone) != 0) Phone = decoder.ReadString("Phone");
+            Email = decoder.ReadString("Email");
+
+            decoder.PopNamespace();
+        }
+
+        /// <summary cref="IEncodeable.IsEqual(IEncodeable)" />
+        public override bool IsEqual(IEncodeable encodeable)
+        {
+            if (Object.ReferenceEquals(this, encodeable))
+            {
+                return true;
+            }
+
+            FinalWorkOrderType value = encodeable as FinalWorkOrderType;
+
+            if (value == null)
+            {
+                return false;
+            }
+
+            
+
+            if ((EncodingMask & (uint)FinalWorkOrderFields.Phone) != 0) if (!Utils.IsEqual(m_phone, value.m_phone)) return false;
+            if (!Utils.IsEqual(m_email, value.m_email)) return false;
+
+            return base.IsEqual(encodeable);
+        }
+
+        /// <summary cref="ICloneable.Clone" />
+        public override object Clone()
+        {
+            return (FinalWorkOrderType)this.MemberwiseClone();
+        }
+
+        /// <summary cref="Object.MemberwiseClone" />
+        public new object MemberwiseClone()
+        {
+            FinalWorkOrderType clone = (FinalWorkOrderType)base.MemberwiseClone();
+                
+            
+            if ((EncodingMask & (uint)FinalWorkOrderFields.Phone) != 0) clone.m_phone = (string)Utils.Clone(this.m_phone);
+            clone.m_email = (string)Utils.Clone(this.m_email);
+
+            return clone;
+        }
+        #endregion
+
+        #region Private Fields
+        private string m_phone;
+        private string m_email;
+
+        private static readonly string[] m_FieldNames = Enum.GetNames(typeof(FinalWorkOrderFields)).Where(x => x != nameof(FinalWorkOrderFields.None)).ToArray();
         #endregion
     }
 
@@ -1488,7 +1703,7 @@ namespace DemoModel
     #region SampleStructureWithOptionalFields Class
     #if (!OPCUA_EXCLUDE_SampleStructureWithOptionalFields)
     /// <exclude />
-    
+    [Flags]
     public enum SampleStructureWithOptionalFieldsFields : uint
     {
         None = 0,
@@ -2177,7 +2392,7 @@ namespace DemoModel
     #region Person Class
     #if (!OPCUA_EXCLUDE_Person)
     /// <exclude />
-    
+    [Flags]
     public enum PersonFields : uint
     {
         None = 0,
@@ -2369,7 +2584,7 @@ namespace DemoModel
     #region Student Class
     #if (!OPCUA_EXCLUDE_Student)
     /// <exclude />
-    
+    [Flags]
     public enum StudentFields : uint
     {
         None = 0,

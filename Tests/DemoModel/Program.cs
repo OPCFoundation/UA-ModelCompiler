@@ -10,20 +10,20 @@ namespace DemoModel
 {
     static class Program
     {
-        private static ConsoleTelemetry m_telemetry = new();
+        private static ITelemetryContext m_telemetry = DefaultTelemetry.Create(_ => {});
 
         public static async Task<int> Main(string[] args)
         {
-            m_telemetry.ConfigureLogging();
-
             TextWriter output = Console.Out;
-            output.WriteLine("{0} OPC UA Reference Server", Utils.IsRunningOnMono() ? "Mono" : ".NET Core");
 
-            output.WriteLine("OPC UA library: {0} @ {1} -- {2}",
-                Utils.GetAssemblyBuildNumber(),
-                Utils.GetAssemblyTimestamp().ToString("G", CultureInfo.InvariantCulture),
-                Utils.GetAssemblySoftwareVersion());
+            await output.WriteLineAsync(
+                $"{(Utils.IsRunningOnMono() ? "Mono" : ".NET Core")} OPC UA Reference Server").ConfigureAwait(false);
 
+            await output.WriteLineAsync(
+                $"OPC UA library: {Utils.GetAssemblyBuildNumber()}" +
+                $"@ {Utils.GetAssemblyTimestamp().ToString("G", CultureInfo.InvariantCulture)}" +
+                $"-- {Utils.GetAssemblySoftwareVersion()}").ConfigureAwait(false);
+         
             // The application name and config file names
             var applicationName = Utils.IsRunningOnMono() ? "MonoReferenceServer" : "ConsoleReferenceServer";
             var configSectionName = Utils.IsRunningOnMono() ? "Quickstarts.MonoReferenceServer" : "Quickstarts.ReferenceServer";
@@ -38,32 +38,32 @@ namespace DemoModel
                 };
 
                 // load the server configuration, validate certificates
-                output.WriteLine("Loading configuration from {0}.", configSectionName);
+                await output.WriteLineAsync($"Loading configuration from {configSectionName}.").ConfigureAwait(false);
                 await server.LoadAsync(m_telemetry, applicationName, configSectionName).ConfigureAwait(false);
 
                 // check or renew the certificate
-                output.WriteLine("Check the certificate.");
+                await output.WriteLineAsync("Check the certificate.").ConfigureAwait(false);
                 await server.CheckCertificateAsync(false).ConfigureAwait(false);
 
                 // start the server
-                output.WriteLine("Start the server.");
+                await output.WriteLineAsync("Start the server.").ConfigureAwait(false);
                 await server.StartAsync().ConfigureAwait(false);
 
-                output.WriteLine("Server started. Press Ctrl-C to exit...");
+                await output.WriteLineAsync("Server started. Press Ctrl-C to exit...").ConfigureAwait(false);
 
                 // wait for timeout or Ctrl-C
-                var quitEvent = CtrlCHandler();
+                using var quitEvent = CtrlCHandler();
                 bool ctrlc = quitEvent.WaitOne(300000);
 
                 // stop server. May have to wait for clients to disconnect.
-                output.WriteLine("Server stopped. Waiting for exit...");
+                await output.WriteLineAsync("Server stopped. Waiting for exit...").ConfigureAwait(false);
                 await server.StopAsync().ConfigureAwait(false);
 
                 return 0;
             }
-            catch (Exception eee)
+            catch (Exception exception)
             {
-                output.WriteLine("The application exits with error: {0}", eee.Message);
+                await output.WriteLineAsync($"The application exits with error: {exception}").ConfigureAwait(false);
                 return (int)-1;
             }
         }
@@ -82,7 +82,7 @@ namespace DemoModel
                     eArgs.Cancel = true;
                 };
             }
-            catch
+            finally
             {
                 // intentionally left blank
             }

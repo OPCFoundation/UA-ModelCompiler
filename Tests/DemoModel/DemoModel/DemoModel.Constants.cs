@@ -1,8 +1,8 @@
 /* ========================================================================
- * Copyright (c) 2005-2025 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -35,7 +35,8 @@ using System.Xml;
 using System.Runtime.Serialization;
 using Opc.Ua;
 
-#pragma warning disable 1591
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable CA1707 // Identifiers should not contain underscores
 
 namespace DemoModel
 {
@@ -56,6 +57,8 @@ namespace DemoModel
         public const uint WorkOrderType = 5;
 
         public const uint ExtendedWorkOrderType = 322;
+
+        public const uint PenultimateWorkOrderType = 354;
 
         public const uint FinalWorkOrderType = 332;
 
@@ -109,6 +112,8 @@ namespace DemoModel
 
         public const uint ExtendedWorkOrderType_Encoding_DefaultBinary = 323;
 
+        public const uint PenultimateWorkOrderType_Encoding_DefaultBinary = 355;
+
         public const uint FinalWorkOrderType_Encoding_DefaultBinary = 333;
 
         public const uint SampleUnion_Encoding_DefaultBinary = 45;
@@ -131,6 +136,8 @@ namespace DemoModel
 
         public const uint ExtendedWorkOrderType_Encoding_DefaultXml = 327;
 
+        public const uint PenultimateWorkOrderType_Encoding_DefaultXml = 359;
+
         public const uint FinalWorkOrderType_Encoding_DefaultXml = 337;
 
         public const uint SampleUnion_Encoding_DefaultXml = 62;
@@ -152,6 +159,8 @@ namespace DemoModel
         public const uint WorkOrderType_Encoding_DefaultJson = 81;
 
         public const uint ExtendedWorkOrderType_Encoding_DefaultJson = 331;
+
+        public const uint PenultimateWorkOrderType_Encoding_DefaultJson = 363;
 
         public const uint FinalWorkOrderType_Encoding_DefaultJson = 341;
 
@@ -273,6 +282,8 @@ namespace DemoModel
 
         public const uint DemoModel_BinarySchema_ExtendedWorkOrderType = 324;
 
+        public const uint DemoModel_BinarySchema_PenultimateWorkOrderType = 356;
+
         public const uint DemoModel_BinarySchema_FinalWorkOrderType = 334;
 
         public const uint DemoModel_BinarySchema_SampleUnion = 50;
@@ -300,6 +311,8 @@ namespace DemoModel
         public const uint DemoModel_XmlSchema_WorkOrderType = 18;
 
         public const uint DemoModel_XmlSchema_ExtendedWorkOrderType = 328;
+
+        public const uint DemoModel_XmlSchema_PenultimateWorkOrderType = 360;
 
         public const uint DemoModel_XmlSchema_FinalWorkOrderType = 338;
 
@@ -346,6 +359,8 @@ namespace DemoModel
         public static readonly ExpandedNodeId WorkOrderType = new ExpandedNodeId(DemoModel.DataTypes.WorkOrderType, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId ExtendedWorkOrderType = new ExpandedNodeId(DemoModel.DataTypes.ExtendedWorkOrderType, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId PenultimateWorkOrderType = new ExpandedNodeId(DemoModel.DataTypes.PenultimateWorkOrderType, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId FinalWorkOrderType = new ExpandedNodeId(DemoModel.DataTypes.FinalWorkOrderType, DemoModel.Namespaces.DemoModel);
 
@@ -399,6 +414,8 @@ namespace DemoModel
 
         public static readonly ExpandedNodeId ExtendedWorkOrderType_Encoding_DefaultBinary = new ExpandedNodeId(DemoModel.Objects.ExtendedWorkOrderType_Encoding_DefaultBinary, DemoModel.Namespaces.DemoModel);
 
+        public static readonly ExpandedNodeId PenultimateWorkOrderType_Encoding_DefaultBinary = new ExpandedNodeId(DemoModel.Objects.PenultimateWorkOrderType_Encoding_DefaultBinary, DemoModel.Namespaces.DemoModel);
+
         public static readonly ExpandedNodeId FinalWorkOrderType_Encoding_DefaultBinary = new ExpandedNodeId(DemoModel.Objects.FinalWorkOrderType_Encoding_DefaultBinary, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId SampleUnion_Encoding_DefaultBinary = new ExpandedNodeId(DemoModel.Objects.SampleUnion_Encoding_DefaultBinary, DemoModel.Namespaces.DemoModel);
@@ -421,6 +438,8 @@ namespace DemoModel
 
         public static readonly ExpandedNodeId ExtendedWorkOrderType_Encoding_DefaultXml = new ExpandedNodeId(DemoModel.Objects.ExtendedWorkOrderType_Encoding_DefaultXml, DemoModel.Namespaces.DemoModel);
 
+        public static readonly ExpandedNodeId PenultimateWorkOrderType_Encoding_DefaultXml = new ExpandedNodeId(DemoModel.Objects.PenultimateWorkOrderType_Encoding_DefaultXml, DemoModel.Namespaces.DemoModel);
+
         public static readonly ExpandedNodeId FinalWorkOrderType_Encoding_DefaultXml = new ExpandedNodeId(DemoModel.Objects.FinalWorkOrderType_Encoding_DefaultXml, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId SampleUnion_Encoding_DefaultXml = new ExpandedNodeId(DemoModel.Objects.SampleUnion_Encoding_DefaultXml, DemoModel.Namespaces.DemoModel);
@@ -442,6 +461,8 @@ namespace DemoModel
         public static readonly ExpandedNodeId WorkOrderType_Encoding_DefaultJson = new ExpandedNodeId(DemoModel.Objects.WorkOrderType_Encoding_DefaultJson, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId ExtendedWorkOrderType_Encoding_DefaultJson = new ExpandedNodeId(DemoModel.Objects.ExtendedWorkOrderType_Encoding_DefaultJson, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId PenultimateWorkOrderType_Encoding_DefaultJson = new ExpandedNodeId(DemoModel.Objects.PenultimateWorkOrderType_Encoding_DefaultJson, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId FinalWorkOrderType_Encoding_DefaultJson = new ExpandedNodeId(DemoModel.Objects.FinalWorkOrderType_Encoding_DefaultJson, DemoModel.Namespaces.DemoModel);
 
@@ -563,6 +584,8 @@ namespace DemoModel
 
         public static readonly ExpandedNodeId DemoModel_BinarySchema_ExtendedWorkOrderType = new ExpandedNodeId(DemoModel.Variables.DemoModel_BinarySchema_ExtendedWorkOrderType, DemoModel.Namespaces.DemoModel);
 
+        public static readonly ExpandedNodeId DemoModel_BinarySchema_PenultimateWorkOrderType = new ExpandedNodeId(DemoModel.Variables.DemoModel_BinarySchema_PenultimateWorkOrderType, DemoModel.Namespaces.DemoModel);
+
         public static readonly ExpandedNodeId DemoModel_BinarySchema_FinalWorkOrderType = new ExpandedNodeId(DemoModel.Variables.DemoModel_BinarySchema_FinalWorkOrderType, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId DemoModel_BinarySchema_SampleUnion = new ExpandedNodeId(DemoModel.Variables.DemoModel_BinarySchema_SampleUnion, DemoModel.Namespaces.DemoModel);
@@ -590,6 +613,8 @@ namespace DemoModel
         public static readonly ExpandedNodeId DemoModel_XmlSchema_WorkOrderType = new ExpandedNodeId(DemoModel.Variables.DemoModel_XmlSchema_WorkOrderType, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId DemoModel_XmlSchema_ExtendedWorkOrderType = new ExpandedNodeId(DemoModel.Variables.DemoModel_XmlSchema_ExtendedWorkOrderType, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId DemoModel_XmlSchema_PenultimateWorkOrderType = new ExpandedNodeId(DemoModel.Variables.DemoModel_XmlSchema_PenultimateWorkOrderType, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId DemoModel_XmlSchema_FinalWorkOrderType = new ExpandedNodeId(DemoModel.Variables.DemoModel_XmlSchema_FinalWorkOrderType, DemoModel.Namespaces.DemoModel);
 
@@ -637,6 +662,8 @@ namespace DemoModel
         public const string FinalWorkOrderType = "FinalWorkOrderType";
 
         public const string HeaterStatus = "HeaterStatus";
+
+        public const string PenultimateWorkOrderType = "PenultimateWorkOrderType";
 
         public const string Person = "Person";
 

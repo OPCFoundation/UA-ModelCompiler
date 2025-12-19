@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -39,7 +40,7 @@ using Opc.Ua.Server;
 
 namespace ModelCompiler
 {
-    public class UAServer<T> where T : StandardServer, new()
+    internal sealed class UAServer<T> where T : StandardServer, new()
     {
         public ApplicationInstance Application => m_application;
         public ApplicationConfiguration Configuration => m_application.ApplicationConfiguration;
@@ -159,7 +160,7 @@ namespace ModelCompiler
                 var endpoints = m_application.Server.GetEndpoints().Select(e => e.EndpointUrl).Distinct();
                 foreach (var endpoint in endpoints)
                 {
-                    m_output.WriteLine(endpoint);
+                    await m_output.WriteLineAsync(endpoint).ConfigureAwait(false);
                 }
 
                 // start the status thread
@@ -192,7 +193,7 @@ namespace ModelCompiler
                         await m_status.ConfigureAwait(false);
 
                         // Stop server and dispose
-                        await server.StopAsync();
+                        await server.StopAsync().ConfigureAwait(false);
                     }
                 }
 
@@ -239,18 +240,18 @@ namespace ModelCompiler
             StringBuilder item = new StringBuilder();
             lock (session.DiagnosticsLock)
             {
-                item.AppendFormat("{0,9}:{1,20}:", reason, session.SessionDiagnostics.SessionName);
+                item.AppendFormat(CultureInfo.InvariantCulture, "{0,9}:{1,20}:", reason, session.SessionDiagnostics.SessionName);
                 if (lastContact)
                 {
-                    item.AppendFormat("Last Event:{0:HH:mm:ss}", session.SessionDiagnostics.ClientLastContactTime.ToLocalTime());
+                    item.AppendFormat(CultureInfo.InvariantCulture, "Last Event:{0:HH:mm:ss}", session.SessionDiagnostics.ClientLastContactTime.ToLocalTime());
                 }
                 else
                 {
                     if (session.Identity != null)
                     {
-                        item.AppendFormat(":{0,20}", session.Identity.DisplayName);
+                        item.AppendFormat(CultureInfo.InvariantCulture, ":{0,20}", session.Identity.DisplayName);
                     }
-                    item.AppendFormat(":{0}", session.Id);
+                    item.AppendFormat(CultureInfo.InvariantCulture, ":{0}", session.Id);
                 }
             }
             m_output.WriteLine(item.ToString());

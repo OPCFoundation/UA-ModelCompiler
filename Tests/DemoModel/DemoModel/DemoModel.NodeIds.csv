@@ -113,3 +113,9 @@ PictureType_YellowThing_Shade,350,Variable
 Picture,351,Object
 Picture_YellowThing,352,Variable
 Picture_YellowThing_Shade,353,Variable
+PenultimateWorkOrderType,354,DataType
+PenultimateWorkOrderType_Encoding_DefaultBinary,355,Object
+DemoModel_BinarySchema_PenultimateWorkOrderType,356,Variable
+PenultimateWorkOrderType_Encoding_DefaultXml,359,Object
+DemoModel_XmlSchema_PenultimateWorkOrderType,360,Variable
+PenultimateWorkOrderType_Encoding_DefaultJson,363,Object
