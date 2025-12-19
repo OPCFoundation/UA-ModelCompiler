@@ -1,4 +1,7 @@
 // ***START***
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+#pragma warning disable CA1515 // Types can be made internal
+
 namespace _NamespacePrefix_.WebApi
 {
     /// <summary>

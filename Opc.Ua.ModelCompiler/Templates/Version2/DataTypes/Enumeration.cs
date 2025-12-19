@@ -4,7 +4,7 @@
 /// <exclude />
 [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
 [DataContract(Namespace = _XmlNamespaceUri_)]
-[Flags]
+[OptionSetFlags]
 public enum _BrowseName_ : _BasicType_
 {
     // ListOfProperties

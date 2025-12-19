@@ -3749,11 +3749,12 @@ namespace ModelCompiler
 
                 if (!dataType.IsOptionSet)
                 {
-                    template.AddReplacement("[Flags]", string.Empty);
+                    template.AddReplacement("[OptionSetFlags]", string.Empty);
                     template.AddReplacement(" : _BasicType_", string.Empty);
                 }
                 else
                 {
+                    template.AddReplacement("[OptionSetFlags]", "[Flags]");
                     template.AddReplacement("_BasicType_", dataType.BaseType.Name);
 
                     DataTypeDesign baseType = dataType.BaseTypeNode as DataTypeDesign;

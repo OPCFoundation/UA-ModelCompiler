@@ -18,7 +18,7 @@ public static class _NodeClass_Ids {
             }
         }
 
-        return value.ToString();
+        return value?.ToString();
     }
 }
 // ***END***

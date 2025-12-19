@@ -211,9 +211,16 @@
     </opc:Fields>
   </opc:DataType>
   
-  <opc:DataType SymbolicName="FinalWorkOrderType" BaseType="ExtendedWorkOrderType">
+  <opc:DataType SymbolicName="PenultimateWorkOrderType" BaseType="ExtendedWorkOrderType">
     <opc:Fields>
       <opc:Field Name="Address" DataType="ua:String" />
+    </opc:Fields>
+  </opc:DataType>
+  
+  <opc:DataType SymbolicName="FinalWorkOrderType" BaseType="PenultimateWorkOrderType">
+    <opc:Fields>
+      <opc:Field Name="Phone" DataType="ua:String" IsOptional="true" />
+      <opc:Field Name="Email" DataType="ua:String" />
     </opc:Fields>
   </opc:DataType>
 
