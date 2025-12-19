@@ -3817,14 +3817,6 @@ namespace ModelCompiler
 
                 AddTemplate(
                     template,
-                    "// EncodingMaskProperty",
-                    TemplatePath + "Version2.EncodingMaskProperty.cs",
-                    new DataTypeDesign[] { dataType },
-                    new LoadTemplateEventHandler(LoadTemplate_EncodingMaskProperty),
-                    new WriteTemplateEventHandler(WriteTemplate_EncodingMaskProperty));
-
-                AddTemplate(
-                    template,
                     "// ListOfEncodedFields",
                     null,
                     children,
@@ -4604,7 +4596,7 @@ namespace ModelCompiler
 
             if (field.IsOptional)
             {
-                template.Write($"if ((EncodingMask & {dataType.ClassName}Fields.{field.Name}) != 0) ");
+                template.Write($"if ((EncodingMask & (uint){dataType.ClassName}Fields.{field.Name}) != 0) ");
             }
 
             string functionName = field.DataTypeNode.BasicDataType.ToString();
@@ -4775,7 +4767,7 @@ namespace ModelCompiler
 
             if (field.IsOptional)
             {
-                template.Write($"if ((EncodingMask & {dataType.ClassName}Fields.{field.Name}) != 0) ");
+                template.Write($"if ((EncodingMask & (uint){dataType.ClassName}Fields.{field.Name}) != 0) ");
             }
 
             string functionName = field.DataTypeNode.BasicDataType.ToString();
@@ -4933,7 +4925,7 @@ namespace ModelCompiler
 
             if (field.IsOptional)
             {
-                template.Write($"if ((EncodingMask & {dataType.ClassName}Fields.{field.Name}) != 0) ");
+                template.Write($"if ((EncodingMask & (uint){dataType.ClassName}Fields.{field.Name}) != 0) ");
             }
 
             template.Write("if (!Utils.IsEqual({0}, value.{0})) return false;", GetChildFieldName(field));
@@ -4968,7 +4960,7 @@ namespace ModelCompiler
 
             if (field.IsOptional)
             {
-                template.Write($"if ((EncodingMask & {dataType.ClassName}Fields.{field.Name}) != 0) ");
+                template.Write($"if ((EncodingMask & (uint){dataType.ClassName}Fields.{field.Name}) != 0) ");
             }
 
             template.Write("clone.{0} = ({1})Utils.Clone(this.{0});", GetChildFieldName(field), GetSystemTypeName(field.DataTypeNode, field.ValueRank));
@@ -5382,54 +5374,6 @@ namespace ModelCompiler
 
             return template.WriteTemplate(context);
         }
-        #endregion
-
-        #region "// EncodingMaskProperty"
-
-        private string LoadTemplate_EncodingMaskProperty(Template template, Context context)
-        {
-            if (context.Target is not DataTypeDesign _)
-            {
-                return null;
-            }
-
-            return TemplatePath + "Version2.DataTypes.EncodingMaskProperty.cs";
-        }
-
-        private bool WriteTemplate_EncodingMaskProperty(Template template, Context context)
-        {
-            if (context.Target is not DataTypeDesign dataType)
-            {
-                return false;
-            }
-
-            template.AddReplacement("_hide_by_new_", IsFirstDataTypeWithOptionalFields(dataType) ? string.Empty : "new ");
-            template.AddReplacement("_ClassName_", dataType.ClassName);
-
-            var result = template.WriteTemplate(context);
-            template.WriteLine(string.Empty);
-
-            return result;
-        }
-
-        private static bool HasOptionalFields(DataTypeDesign dataType)
-        {
-            return dataType.Fields?.Any(field => field.IsOptional) ?? false;
-        }
-
-        private static bool HasOptionalFieldsInherited(DataTypeDesign dataType)
-        {
-            return dataType.BaseTypeNode is DataTypeDesign baseDataType
-                && (HasOptionalFields(baseDataType) || HasOptionalFieldsInherited(baseDataType));
-        }
-
-        private static bool IsFirstDataTypeWithOptionalFields(DataTypeDesign dataType)
-        {
-            return dataType.IsStructure
-                && HasOptionalFields(dataType)
-                && !HasOptionalFieldsInherited(dataType);
-        }
-
         #endregion
 
         #region "// ListOfPropertiesForType and // ListOfProperties"
