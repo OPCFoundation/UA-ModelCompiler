@@ -2736,7 +2736,7 @@ namespace ModelCompiler
             context.BlankLine = false;
 
             template.AddReplacement("_Key_", name.Value.Key);
-            template.AddReplacement("_Value_", name.Value.Value);
+            template.AddReplacement("_Value_", EscapeStringLiteral(name.Value.Value));
 
             return template.WriteTemplate(context);
         }
@@ -2836,7 +2836,7 @@ namespace ModelCompiler
             }
             else if (!string.IsNullOrEmpty(node.StringId))
             {
-                template.AddReplacement("_Value_", $"s={node.StringId}");
+                template.AddReplacement("_Value_", $"s={EscapeStringLiteral(node.StringId)}");
             }
 
             return template.WriteTemplate(context);
@@ -3058,7 +3058,7 @@ namespace ModelCompiler
             }
             else
             {
-                id = $"\"{node.StringId}\"";
+                id = $"\"{EscapeStringLiteral(node.StringId)}\"";
                 idType = "string";
             }
 
@@ -3282,7 +3282,7 @@ namespace ModelCompiler
             }
 
             template.AddReplacement("_SymbolicName_", browseName.Value.Key);
-            template.AddReplacement("_BrowseName_", browseName.Value.Value);
+            template.AddReplacement("_BrowseName_", EscapeStringLiteral(browseName.Value.Value));
 
             return template.WriteTemplate(context);
         }
@@ -6231,6 +6231,27 @@ namespace ModelCompiler
             }
 
             return $"<{scalarName}>";
+        }
+
+        private static string EscapeStringLiteral(string value)
+        {
+            StringBuilder output = new();
+
+            foreach (var ch in value)
+            {
+                switch (ch)
+                {
+                    case '\\': output.Append("\\\\"); break;
+                    case '"': output.Append("\\\""); break;
+                    case '\n': output.Append("\\n"); break;
+                    case '\r': output.Append("\\r"); break;
+                    case '\t': output.Append("\\t"); break;
+                    case '\0': output.Append("\\0"); break;
+                    default: output.Append(ch); break;
+                }
+            }
+
+            return output.ToString();
         }
 
         /// <summary>
