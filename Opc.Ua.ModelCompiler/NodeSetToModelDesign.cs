@@ -1875,7 +1875,6 @@ namespace ModelCompiler
             }
 
             List<NodeDesign> items = new();
-            HashSet<string> typeNames = new();
 
             for (int ii = 0; ii < m_nodeset.Items.Length; ii++)
             {
@@ -1887,16 +1886,6 @@ namespace ModelCompiler
                     {
                         continue;
                     }
-                }
-
-                if (node is UAType type)
-                {
-                    if (typeNames.Contains(type.BrowseName))
-                    {
-                        throw new InvalidOperationException($"{node.NodeId} is a type with a duplicate name.");
-                    }
-
-                    typeNames.Add(type.BrowseName); 
                 }
 
                 NodeId nodeId = ImportNodeId(node.NodeId);
