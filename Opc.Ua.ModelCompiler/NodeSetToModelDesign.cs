@@ -779,7 +779,8 @@ namespace ModelCompiler
             "for",
             "foreach",
             "while",
-            "string"
+            "string",
+            "override"
         ];
 
         public static string ToSymbolicName(string name)
