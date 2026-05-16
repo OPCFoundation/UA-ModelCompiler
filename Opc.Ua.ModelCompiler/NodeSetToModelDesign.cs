@@ -1281,10 +1281,10 @@ namespace ModelCompiler
 
             if (input is UAType)
             {
-                if (output.SymbolicId.Name.EndsWith("_" + nodeId.Identifier.ToString()))
+                if (output.SymbolicId.Name.EndsWith("_" + ToSymbolicName(nodeId.Identifier.ToString())))
                 {
                     output.SymbolicName = new XmlQualifiedName(
-                        $"{output.SymbolicName.Name}_{nodeId.Identifier}",
+                        $"{output.SymbolicName.Name}_{ToSymbolicName(nodeId.Identifier.ToString())}",
                         output.SymbolicName.Namespace);
                 }
             }
@@ -1845,7 +1845,7 @@ namespace ModelCompiler
                 while (m_symbolicIds.Values.Where(x => x == symbolicId).FirstOrDefault() != null)
                 {
                     symbolicId = new XmlQualifiedName(
-                        $"{symbolicId.Name}_{NodeId.Parse(node.NodeId).Identifier}",
+                        $"{symbolicId.Name}_{ToSymbolicName(NodeId.Parse(node.NodeId).Identifier.ToString())}",
                         symbolicId.Namespace);
                 }
 
