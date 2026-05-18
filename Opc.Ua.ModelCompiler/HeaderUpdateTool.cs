@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Reflection;
+using System.Globalization;
 
 namespace ModelCompiler
 {
@@ -9,7 +10,8 @@ namespace ModelCompiler
         {
             MIT,
             MITXML,
-            FLC
+            FLC,
+            PRIVATE
         }
 
         static string RemoveXmlHeader(string fileText)
@@ -74,6 +76,8 @@ namespace ModelCompiler
 
         static string RemoveCStyleHeader(string fileText)
         {
+            if (String.IsNullOrWhiteSpace(fileText)) return String.Empty;
+
             bool inComment = false;
             bool newLine = false;
 
@@ -116,7 +120,13 @@ namespace ModelCompiler
                             {
                                 if (newLine)
                                 {
-                                    while (fileText[ii++] != '\n') ;
+                                    while (ii < fileText.Length && fileText[ii++] != '\n');
+                                    
+                                    if (ii >= fileText.Length)
+                                    {
+                                        return Environment.NewLine;
+                                    }
+
                                     var text = fileText.Substring(ii).Trim();
                                     text = $"{Environment.NewLine}{text}";
                                     return text;
@@ -170,6 +180,10 @@ namespace ModelCompiler
                 {
                     fileText = RemoveCStyleHeader(fileText);
                 }
+                else if (licenseType == LicenseType.PRIVATE)
+                {
+                    fileText = RemoveCStyleHeader(fileText);
+                }
                 else if (licenseType == LicenseType.FLC)
                 {
                     fileText = RemoveCStyleHeader(fileText);
@@ -184,6 +198,7 @@ namespace ModelCompiler
                     case LicenseType.FLC: { resourcePath = "ModelCompiler.License.FLC.txt"; break; }
                     case LicenseType.MIT: { resourcePath = "ModelCompiler.License.UA_MIT.txt"; break; }
                     case LicenseType.MITXML: { resourcePath = "ModelCompiler.License.UA_MIT_XML.txt"; break; }
+                    case LicenseType.PRIVATE: { resourcePath = "ModelCompiler.License.OPC_PRIVATE.txt"; break; }
                 }
 
                 Stream istrm = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourcePath);
@@ -191,6 +206,7 @@ namespace ModelCompiler
                 using (StreamReader reader = new StreamReader(istrm))
                 {
                     license = reader.ReadToEnd().Trim();
+                    license = license.Replace("2026", DateTime.UtcNow.ToString("yyyy", CultureInfo.InvariantCulture));
                 }
 
                 // write header and body.

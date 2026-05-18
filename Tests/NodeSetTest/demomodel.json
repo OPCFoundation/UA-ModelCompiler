@@ -1,0 +1,88 @@
+[
+  {
+    "NamespaceUri": {
+      "ua": "x",
+      "tns": "y"
+    },
+    "ServerUris": {
+    },
+    "Model": {
+      "ModelUri": "y",
+      "PublicationDate": "2021-01-01",
+      "RequiredModels": [
+        {
+          "ModelUri": "x",
+          "PublicationDate": "2021-01-01"
+        }
+      ]
+    }
+
+  }
+  [
+    {
+      "NodeId": "tns:i=36",
+      "BrowseName": "tns:Signal",
+      "DisplayName": [
+        "en:Signal"
+      ],
+      "Description": [
+        "en:Signal"
+      ],
+      "WriteMask": 0
+    }
+  ],
+  "Variables"
+  :
+  [
+    {
+      "MergeRule": 1,
+      "NodeId": "tns:i=37",
+      "BrowseName": "tns:Red",
+      "DisplayName": [
+        "en:Red"
+      ],
+      "DataType": "ua:i=4",
+      "Value": {
+        "x": "x"
+      }
+    }
+  ],
+  "References"
+  :
+  [
+    {
+      "MergeRule": 1,
+      "SourceId": "tns:i=36",
+      "ReferenceTypeId": "ua:i=2",
+      "IsInverse": false,
+      "TargetId": "tns:i=37"
+    }
+  ]
+]
+
+/*
+
+  <xs:element name="UANodeSet">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="NamespaceUris" type="UriTable" minOccurs="0" />
+        <xs:element name="ServerUris" type="UriTable" minOccurs="0" />
+        <xs:element name="Models" type="ModelTable" minOccurs="0" />
+        <xs:element name="Aliases" type="AliasTable" minOccurs="0" />
+        <xs:element name="Extensions" type="ListOfExtensions" minOccurs="0" />
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="UAObject" type="UAObject" />
+          <xs:element name="UAVariable" type="UAVariable" />
+          <xs:element name="UAMethod" type="UAMethod" />
+          <xs:element name="UAView" type="UAView" />
+          <xs:element name="UAObjectType" type="UAObjectType" />
+          <xs:element name="UAVariableType" type="UAVariableType" />
+          <xs:element name="UADataType" type="UADataType" />
+          <xs:element name="UAReferenceType" type="UAReferenceType" />
+        </xs:choice>
+      </xs:sequence>
+      <xs:attribute name="LastModified" type="xs:dateTime" />
+    </xs:complexType>
+  </xs:element>
+
+*/

@@ -37,6 +37,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Opc.Ua;
 
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable CA1515 // Consider making public types internal
 #pragma warning disable CA1707 // Identifiers should not contain underscores
@@ -106,7 +107,7 @@ namespace TestModel
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.TestAbstractStructure_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.TestAbstractStructure_Encoding_DefaultJson;
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -303,7 +304,7 @@ namespace TestModel
         public override ExpandedNodeId XmlEncodingId => ObjectIds.TestConcreteStructure_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public override ExpandedNodeId JsonEncodingId => ObjectIds.TestConcreteStructure_Encoding_DefaultJson;
+        public override ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public override void Encode(IEncoder encoder)
@@ -517,7 +518,7 @@ namespace TestModel
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.TestUnion_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.TestUnion_Encoding_DefaultJson;
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -753,7 +754,7 @@ namespace TestModel
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.TestOptionalFields_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.TestOptionalFields_Encoding_DefaultJson;
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -1463,7 +1464,7 @@ namespace TestModel
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.TestScalarStructure_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.TestScalarStructure_Encoding_DefaultJson;
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -2362,7 +2363,7 @@ namespace TestModel
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.TestArrayStructure_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.TestArrayStructure_Encoding_DefaultJson;
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -2749,7 +2750,7 @@ namespace TestModel
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.TestStructure_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.TestStructure_Encoding_DefaultJson;
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -3115,7 +3116,7 @@ namespace TestModel
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.Vector_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.Vector_Encoding_DefaultJson;
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -3312,7 +3313,7 @@ namespace TestModel
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.WorkOrderStatusType_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.WorkOrderStatusType_Encoding_DefaultJson;
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -3530,7 +3531,7 @@ namespace TestModel
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.WorkOrderType_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.WorkOrderType_Encoding_DefaultJson;
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -3758,7 +3759,7 @@ namespace TestModel
         public override ExpandedNodeId XmlEncodingId => ObjectIds.ExtendedWorkOrderType_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public override ExpandedNodeId JsonEncodingId => ObjectIds.ExtendedWorkOrderType_Encoding_DefaultJson;
+        public override ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public override void Encode(IEncoder encoder)
@@ -3975,7 +3976,7 @@ namespace TestModel
         public override ExpandedNodeId XmlEncodingId => ObjectIds.FinalWorkOrderType_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public override ExpandedNodeId JsonEncodingId => ObjectIds.FinalWorkOrderType_Encoding_DefaultJson;
+        public override ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public override void Encode(IEncoder encoder)
@@ -4210,7 +4211,7 @@ namespace TestModel
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.SampleUnion_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.SampleUnion_Encoding_DefaultJson;
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -4458,7 +4459,7 @@ namespace TestModel
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.SampleStructureWithOptionalFields_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.SampleStructureWithOptionalFields_Encoding_DefaultJson;
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -4681,7 +4682,7 @@ namespace TestModel
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.SampleUnionAllowSubtypes_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.SampleUnionAllowSubtypes_Encoding_DefaultJson;
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -4919,7 +4920,7 @@ namespace TestModel
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.SampleStructureAllowSubtypes_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.SampleStructureAllowSubtypes_Encoding_DefaultJson;
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -5117,7 +5118,7 @@ namespace TestModel
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.Person_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.Person_Encoding_DefaultJson;
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -5316,7 +5317,7 @@ namespace TestModel
         public override ExpandedNodeId XmlEncodingId => ObjectIds.Student_Encoding_DefaultXml;
 
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public override ExpandedNodeId JsonEncodingId => ObjectIds.Student_Encoding_DefaultJson;
+        public override ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public override void Encode(IEncoder encoder)

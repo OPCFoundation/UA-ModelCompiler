@@ -1,33 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<!--
- * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
- *
- * OPC Foundation MIT License 1.00
- * 
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
- * 
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- *
- * The complete license agreement can be found here:
- * http://opcfoundation.org/License/MIT/1.00/
--->
-
+﻿<?xml version="1.0" encoding="utf-8"?>
 <UANodeSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" LastModified="2022-11-01T00:00:00Z" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
   <NamespaceUris>
     <Uri>http://opcfoundation.org/UA/Scheduler/</Uri>
@@ -84,10 +55,15 @@
     <Alias Alias="HasGuard">i=15112</Alias>
     <Alias Alias="HasAddIn">i=17604</Alias>
     <Alias Alias="HasInterface">i=17603</Alias>
+    <Alias Alias="GeneratesEvent">i=41</Alias>
+    <Alias Alias="AlwaysGeneratesEvent">i=3065</Alias>
+    <Alias Alias="HasOrderedComponent">i=49</Alias>
+    <Alias Alias="HasAlarmSuppressionGroup">i=16361</Alias>
+    <Alias Alias="AlarmGroupMember">i=16362</Alias>
+    <Alias Alias="AlarmSuppressionGroupMember">i=32059</Alias>
   </Aliases>
   <UAObject NodeId="ns=1;i=1" BrowseName="1:http://opcfoundation.org/UA/Scheduler/" SymbolicName="OPCUASchedulerNamespaceMetadata">
     <DisplayName>http://opcfoundation.org/UA/Scheduler/</DisplayName>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/10.1</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=2</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=3</Reference>
@@ -99,6 +75,7 @@
       <Reference ReferenceType="HasProperty">ns=1;i=33</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=34</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=35</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;i=196</Reference>
       <Reference ReferenceType="HasComponent" IsForward="false">i=11715</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=11616</Reference>
     </References>
@@ -198,11 +175,19 @@
       <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=1</Reference>
     </References>
   </UAVariable>
+  <UAVariable NodeId="ns=1;i=196" BrowseName="ModelVersion" ParentNodeId="ns=1;i=1" DataType="i=24263">
+    <DisplayName>ModelVersion</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=1</Reference>
+    </References>
+    <Value>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">1.5.2</String>
+    </Value>
+  </UAVariable>
   <UAObjectType NodeId="ns=1;i=37" BrowseName="1:CalendarType">
     <DisplayName>CalendarType</DisplayName>
     <Description>Provides a list of calendar dates. Each entry in the list describes a specific date or date pattern, or range of dates</Description>
-    <Category>Scheduler Calendar Base</Category>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/7.1.2</Documentation>
     <References>
       <Reference ReferenceType="HasComponent">ns=1;i=38</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=39</Reference>
@@ -232,7 +217,6 @@
   <UAMethod NodeId="ns=1;i=40" BrowseName="1:AddDateListElements" ParentNodeId="ns=1;i=37">
     <DisplayName>AddDateListElements</DisplayName>
     <Description>Adds elements to the DateList</Description>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/7.1.3</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=41</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=42</Reference>
@@ -301,7 +285,6 @@
   <UAMethod NodeId="ns=1;i=43" BrowseName="1:RemoveDateListElements" ParentNodeId="ns=1;i=37">
     <DisplayName>RemoveDateListElements</DisplayName>
     <Description>Removes elements of the DateList</Description>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/7.1.4</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=44</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=45</Reference>
@@ -370,8 +353,6 @@
   <UAObjectType NodeId="ns=1;i=52" BrowseName="1:ScheduleType">
     <DisplayName>ScheduleType</DisplayName>
     <Description>Defines a periodic schedule that can recur over a range of dates. The schedule may have optional exceptions at arbitrary times or dates. The basic unit of a schedule is days, which are divided into two types: normal days within a week and exception days. A priority mechanism defines which scheduled event is currently valid. The schedule includes a PresentValue Variable whose value describes the current state of the schedule, including a default value when no schedules are in effect.</Description>
-    <Category>Scheduler Scheduling Base</Category>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/7.2.2</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=53</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=54</Reference>
@@ -395,7 +376,6 @@
   <UAMethod NodeId="ns=1;i=54" BrowseName="1:AddExceptionScheduleElements" ParentNodeId="ns=1;i=52">
     <DisplayName>AddExceptionScheduleElements</DisplayName>
     <Description>Adds elements to the ExceptionSchedule</Description>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/7.2.3</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=55</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=56</Reference>
@@ -464,7 +444,6 @@
   <UAMethod NodeId="ns=1;i=57" BrowseName="1:RemoveExceptionScheduleElements" ParentNodeId="ns=1;i=52">
     <DisplayName>RemoveExceptionScheduleElements</DisplayName>
     <Description>Removes elements from the ExceptionSchedule</Description>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/7.2.4</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=58</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=59</Reference>
@@ -569,8 +548,6 @@
   <UADataType NodeId="ns=1;i=70" BrowseName="1:SpecialEventType">
     <DisplayName>SpecialEventType</DisplayName>
     <Description>This structure contains a period, a list of time values, and a priority. It is a means to identify moments in time over one or more days.</Description>
-    <Category>Scheduler Scheduling Base</Category>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/8.1</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
     </References>
@@ -583,8 +560,6 @@
   <UADataType NodeId="ns=1;i=71" BrowseName="1:SpecialEventPeriodType">
     <DisplayName>SpecialEventPeriodType</DisplayName>
     <Description>This union contains a calendar entry or a reference to a calendar object</Description>
-    <Category>Scheduler Scheduling Base</Category>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/8.2</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=12756</Reference>
     </References>
@@ -596,9 +571,6 @@
   <UADataType NodeId="ns=1;i=72" BrowseName="1:CalendarEntryType">
     <DisplayName>CalendarEntryType</DisplayName>
     <Description>This union that defines various calendar date values</Description>
-    <Category>Scheduler Scheduling Base</Category>
-    <Category>Scheduler Calendar Base</Category>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/8.3</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=12756</Reference>
     </References>
@@ -610,9 +582,6 @@
   <UADataType NodeId="ns=1;i=73" BrowseName="1:DateType">
     <DisplayName>DateType</DisplayName>
     <Description>This structure defines a calendar date. It allows to define a concrete date, e.g. 2022-02-12. By using wildcards, it also allows to define repeating dates, like every Wednesday, every odd day of a month, every 24th of December, every last day of a month in 2023, etc.</Description>
-    <Category>Scheduler Scheduling Base</Category>
-    <Category>Scheduler Calendar Base</Category>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/8.4</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
     </References>
@@ -626,9 +595,6 @@
   <UADataType NodeId="ns=1;i=74" BrowseName="1:Month">
     <DisplayName>Month</DisplayName>
     <Description>This enumeration indicates either a specific Gregorian calendar month, or a relative relationship ("odd", "even", and "unspecified").</Description>
-    <Category>Scheduler Scheduling Base</Category>
-    <Category>Scheduler Calendar Base</Category>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/8.5</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=194</Reference>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=29</Reference>
@@ -710,9 +676,6 @@
   <UADataType NodeId="ns=1;i=76" BrowseName="1:DayOfMonth">
     <DisplayName>DayOfMonth</DisplayName>
     <Description>This enumeration indicates specific days of the month by specific date ("1", "22", and so on) or by relative position ("last day of month", "even day of month", and so on).</Description>
-    <Category>Scheduler Scheduling Base</Category>
-    <Category>Scheduler Calendar Base</Category>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/8.6</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=195</Reference>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=29</Reference>
@@ -874,9 +837,6 @@
   <UADataType NodeId="ns=1;i=78" BrowseName="1:DayOfWeek">
     <DisplayName>DayOfWeek</DisplayName>
     <Description>This enumeration indicates each of the seven days of the week, or "unspecified".</Description>
-    <Category>Scheduler Scheduling Base</Category>
-    <Category>Scheduler Calendar Base</Category>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/8.7</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=79</Reference>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=29</Reference>
@@ -930,9 +890,6 @@
   <UADataType NodeId="ns=1;i=80" BrowseName="1:DateRangeType">
     <DisplayName>DateRangeType</DisplayName>
     <Description>This structure defines a time span, with absolute start and end dates. The StartDate and EndDate are limited to specific values, i.e., wild cards like odd months are not allowed. The Year field shall not be 0; the Month field shall be a value between 1 to 12; the DayOfMonth field shall be between 1 to 31 and the DayOfMonth field shall be "unspecified".</Description>
-    <Category>Scheduler Scheduling Base</Category>
-    <Category>Scheduler Calendar Base</Category>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/8.8</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
     </References>
@@ -944,8 +901,6 @@
   <UADataType NodeId="ns=1;i=81" BrowseName="1:TimeActionsType">
     <DisplayName>TimeActionsType</DisplayName>
     <Description>This structure contains a time and an array of actions. It is used to define actions to be executed at a specific point in time.</Description>
-    <Category>Scheduler Scheduling Base</Category>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/8.9</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
     </References>
@@ -957,8 +912,6 @@
   <UADataType NodeId="ns=1;i=82" BrowseName="1:BaseActionType" IsAbstract="true">
     <DisplayName>BaseActionType</DisplayName>
     <Description>This abstract structure defines the base of an action. The base only contains information, if the last execution of the action was successful.</Description>
-    <Category>Scheduler Scheduling Base</Category>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/8.10</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
     </References>
@@ -969,8 +922,6 @@
   <UADataType NodeId="ns=1;i=83" BrowseName="1:WriteLocalVariableActionType">
     <DisplayName>WriteLocalVariableActionType</DisplayName>
     <Description>This structure defines an action to write the value of a Variable managed in the same Server where the action is used.</Description>
-    <Category>Scheduler Scheduling Base</Category>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/8.11</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=82</Reference>
     </References>
@@ -982,8 +933,6 @@
   <UADataType NodeId="ns=1;i=84" BrowseName="1:CallLocalMethodActionType">
     <DisplayName>CallLocalMethodActionType</DisplayName>
     <Description>This structure defines an action to call a Method of an Object managed in the same Server where the action is used.</Description>
-    <Category>Scheduler Scheduling Base</Category>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/8.12</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=82</Reference>
     </References>
@@ -997,8 +946,6 @@
   <UADataType NodeId="ns=1;i=85" BrowseName="1:TimeType">
     <DisplayName>TimeType</DisplayName>
     <Description>This structure that represents a point in time during a day</Description>
-    <Category>Scheduler Scheduling Base</Category>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/8.13</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
     </References>
@@ -1011,8 +958,6 @@
   <UADataType NodeId="ns=1;i=86" BrowseName="1:DailyScheduleType">
     <DisplayName>DailyScheduleType</DisplayName>
     <Description>This structure defines a sequence of TimeActionsType structures. Each element in the sequence defines a time/actions pair that describes the actions to be executed at a given point in the day.</Description>
-    <Category>Scheduler Scheduling Base</Category>
-    <Documentation>https://reference.opcfoundation.org/Scheduler/docs/8.14</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
     </References>
@@ -1960,81 +1905,4 @@ ZSIgbmlsbGFibGU9InRydWUiPjwveHM6ZWxlbWVudD4NCg0KPC94czpzY2hlbWE+</ByteString>
       <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='DailyScheduleType']</String>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=1;i=183" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=70</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=184" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=71</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=185" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=72</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=186" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=73</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=187" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=80</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=188" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=81</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=189" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=82</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=190" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=83</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=191" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=84</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=192" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=85</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=193" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=86</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
 </UANodeSet>

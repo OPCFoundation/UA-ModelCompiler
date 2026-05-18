@@ -1,8 +1,8 @@
 /* ========================================================================
- * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2026 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- *
+ * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -34,6 +34,7 @@ using System.Reflection;
 using System.Xml;
 using System.Runtime.Serialization;
 using Opc.Ua;
+
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable CA1707 // Identifiers should not contain underscores
@@ -96,11 +97,21 @@ namespace DemoModel
     {
         public const uint Seeker = 95;
 
+        public const uint RestrictedObjectType_Purple = 379;
+
         public const uint TestObject = 128;
+
+        public const uint TestObject_Purple = 411;
 
         public const uint Test_Error = 93;
 
         public const uint Test_ErrorComponent = 94;
+
+        public const uint BrightnessType_Amber_Placeholder = 365;
+
+        public const uint BrightnessType_Green_Placeholder = 367;
+
+        public const uint PictureType_Indigo_Placeholder = 380;
 
         public const uint Picture = 351;
 
@@ -186,6 +197,8 @@ namespace DemoModel
     {
         public const uint RestrictedObjectType = 124;
 
+        public const uint BrightnessType = 364;
+
         public const uint PictureType = 348;
 
         public const uint WithTwoDimensionalVariableType = 120;
@@ -222,6 +235,50 @@ namespace DemoModel
 
         public const uint RestrictedVariableType_Z = 212;
 
+        public const uint RestrictedObjectType_Purple_CurrentState = 381;
+
+        public const uint RestrictedObjectType_Purple_CurrentState_Id = 382;
+
+        public const uint RestrictedObjectType_Purple_CurrentState_Number = 384;
+
+        public const uint RestrictedObjectType_Purple_LastTransition = 386;
+
+        public const uint RestrictedObjectType_Purple_LastTransition_Id = 387;
+
+        public const uint RestrictedObjectType_Purple_LastTransition_Number = 389;
+
+        public const uint RestrictedObjectType_Purple_LastTransition_TransitionTime = 390;
+
+        public const uint RestrictedObjectType_Purple_Deletable = 394;
+
+        public const uint RestrictedObjectType_Purple_AutoDelete = 395;
+
+        public const uint RestrictedObjectType_Purple_RecycleCount = 396;
+
+        public const uint RestrictedObjectType_Purple_ProgramDiagnostic_CreateSessionId = 398;
+
+        public const uint RestrictedObjectType_Purple_ProgramDiagnostic_CreateClientName = 399;
+
+        public const uint RestrictedObjectType_Purple_ProgramDiagnostic_InvocationCreationTime = 400;
+
+        public const uint RestrictedObjectType_Purple_ProgramDiagnostic_LastTransitionTime = 401;
+
+        public const uint RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodCall = 402;
+
+        public const uint RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodSessionId = 403;
+
+        public const uint RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodInputArguments = 404;
+
+        public const uint RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodOutputArguments = 405;
+
+        public const uint RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodInputValues = 406;
+
+        public const uint RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodOutputValues = 407;
+
+        public const uint RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodCallTime = 408;
+
+        public const uint RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodReturnStatus = 409;
+
         public const uint RestrictedObjectType_Red = 125;
 
         public const uint RestrictedObjectType_Red_Yellow = 57;
@@ -242,6 +299,50 @@ namespace DemoModel
 
         public const uint RestrictedObjectType_Pink_Placeholder_Z = 218;
 
+        public const uint TestObject_Purple_CurrentState = 412;
+
+        public const uint TestObject_Purple_CurrentState_Id = 413;
+
+        public const uint TestObject_Purple_CurrentState_Number = 415;
+
+        public const uint TestObject_Purple_LastTransition = 417;
+
+        public const uint TestObject_Purple_LastTransition_Id = 418;
+
+        public const uint TestObject_Purple_LastTransition_Number = 420;
+
+        public const uint TestObject_Purple_LastTransition_TransitionTime = 421;
+
+        public const uint TestObject_Purple_Deletable = 425;
+
+        public const uint TestObject_Purple_AutoDelete = 426;
+
+        public const uint TestObject_Purple_RecycleCount = 427;
+
+        public const uint TestObject_Purple_ProgramDiagnostic_CreateSessionId = 429;
+
+        public const uint TestObject_Purple_ProgramDiagnostic_CreateClientName = 430;
+
+        public const uint TestObject_Purple_ProgramDiagnostic_InvocationCreationTime = 431;
+
+        public const uint TestObject_Purple_ProgramDiagnostic_LastTransitionTime = 432;
+
+        public const uint TestObject_Purple_ProgramDiagnostic_LastMethodCall = 433;
+
+        public const uint TestObject_Purple_ProgramDiagnostic_LastMethodSessionId = 434;
+
+        public const uint TestObject_Purple_ProgramDiagnostic_LastMethodInputArguments = 435;
+
+        public const uint TestObject_Purple_ProgramDiagnostic_LastMethodOutputArguments = 436;
+
+        public const uint TestObject_Purple_ProgramDiagnostic_LastMethodInputValues = 437;
+
+        public const uint TestObject_Purple_ProgramDiagnostic_LastMethodOutputValues = 438;
+
+        public const uint TestObject_Purple_ProgramDiagnostic_LastMethodCallTime = 439;
+
+        public const uint TestObject_Purple_ProgramDiagnostic_LastMethodReturnStatus = 440;
+
         public const uint TestObject_Red = 60;
 
         public const uint TestObject_Red_Yellow = 61;
@@ -255,6 +356,14 @@ namespace DemoModel
         public const uint YellowType_Shade = 346;
 
         public const uint YellowType_DefaultInstanceBrowseName = 347;
+
+        public const uint BrightnessType_Amber_Placeholder_StateNumber = 366;
+
+        public const uint BrightnessType_Green_Placeholder_CurrentState = 368;
+
+        public const uint BrightnessType_Green_Placeholder_CurrentState_Id = 369;
+
+        public const uint BrightnessType_Green_Placeholder_LastTransition_Id = 374;
 
         public const uint PictureType_YellowThing = 349;
 
@@ -398,11 +507,21 @@ namespace DemoModel
     {
         public static readonly ExpandedNodeId Seeker = new ExpandedNodeId(DemoModel.Objects.Seeker, DemoModel.Namespaces.DemoModel);
 
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple = new ExpandedNodeId(DemoModel.Objects.RestrictedObjectType_Purple, DemoModel.Namespaces.DemoModel);
+
         public static readonly ExpandedNodeId TestObject = new ExpandedNodeId(DemoModel.Objects.TestObject, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple = new ExpandedNodeId(DemoModel.Objects.TestObject_Purple, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId Test_Error = new ExpandedNodeId(DemoModel.Objects.Test_Error, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId Test_ErrorComponent = new ExpandedNodeId(DemoModel.Objects.Test_ErrorComponent, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId BrightnessType_Amber_Placeholder = new ExpandedNodeId(DemoModel.Objects.BrightnessType_Amber_Placeholder, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId BrightnessType_Green_Placeholder = new ExpandedNodeId(DemoModel.Objects.BrightnessType_Green_Placeholder, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId PictureType_Indigo_Placeholder = new ExpandedNodeId(DemoModel.Objects.PictureType_Indigo_Placeholder, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId Picture = new ExpandedNodeId(DemoModel.Objects.Picture, DemoModel.Namespaces.DemoModel);
 
@@ -488,6 +607,8 @@ namespace DemoModel
     {
         public static readonly ExpandedNodeId RestrictedObjectType = new ExpandedNodeId(DemoModel.ObjectTypes.RestrictedObjectType, DemoModel.Namespaces.DemoModel);
 
+        public static readonly ExpandedNodeId BrightnessType = new ExpandedNodeId(DemoModel.ObjectTypes.BrightnessType, DemoModel.Namespaces.DemoModel);
+
         public static readonly ExpandedNodeId PictureType = new ExpandedNodeId(DemoModel.ObjectTypes.PictureType, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId WithTwoDimensionalVariableType = new ExpandedNodeId(DemoModel.ObjectTypes.WithTwoDimensionalVariableType, DemoModel.Namespaces.DemoModel);
@@ -524,6 +645,50 @@ namespace DemoModel
 
         public static readonly ExpandedNodeId RestrictedVariableType_Z = new ExpandedNodeId(DemoModel.Variables.RestrictedVariableType_Z, DemoModel.Namespaces.DemoModel);
 
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_CurrentState = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_CurrentState, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_CurrentState_Id = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_CurrentState_Id, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_CurrentState_Number = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_CurrentState_Number, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_LastTransition = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_LastTransition, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_LastTransition_Id = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_LastTransition_Id, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_LastTransition_Number = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_LastTransition_Number, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_LastTransition_TransitionTime = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_LastTransition_TransitionTime, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_Deletable = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_Deletable, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_AutoDelete = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_AutoDelete, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_RecycleCount = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_RecycleCount, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_ProgramDiagnostic_CreateSessionId = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_ProgramDiagnostic_CreateSessionId, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_ProgramDiagnostic_CreateClientName = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_ProgramDiagnostic_CreateClientName, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_ProgramDiagnostic_InvocationCreationTime = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_ProgramDiagnostic_InvocationCreationTime, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_ProgramDiagnostic_LastTransitionTime = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_ProgramDiagnostic_LastTransitionTime, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodCall = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodCall, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodSessionId = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodSessionId, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodInputArguments = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodInputArguments, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodOutputArguments = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodOutputArguments, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodInputValues = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodInputValues, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodOutputValues = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodOutputValues, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodCallTime = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodCallTime, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodReturnStatus = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Purple_ProgramDiagnostic_LastMethodReturnStatus, DemoModel.Namespaces.DemoModel);
+
         public static readonly ExpandedNodeId RestrictedObjectType_Red = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Red, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId RestrictedObjectType_Red_Yellow = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Red_Yellow, DemoModel.Namespaces.DemoModel);
@@ -544,6 +709,50 @@ namespace DemoModel
 
         public static readonly ExpandedNodeId RestrictedObjectType_Pink_Placeholder_Z = new ExpandedNodeId(DemoModel.Variables.RestrictedObjectType_Pink_Placeholder_Z, DemoModel.Namespaces.DemoModel);
 
+        public static readonly ExpandedNodeId TestObject_Purple_CurrentState = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_CurrentState, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_CurrentState_Id = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_CurrentState_Id, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_CurrentState_Number = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_CurrentState_Number, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_LastTransition = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_LastTransition, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_LastTransition_Id = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_LastTransition_Id, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_LastTransition_Number = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_LastTransition_Number, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_LastTransition_TransitionTime = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_LastTransition_TransitionTime, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_Deletable = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_Deletable, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_AutoDelete = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_AutoDelete, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_RecycleCount = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_RecycleCount, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_ProgramDiagnostic_CreateSessionId = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_ProgramDiagnostic_CreateSessionId, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_ProgramDiagnostic_CreateClientName = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_ProgramDiagnostic_CreateClientName, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_ProgramDiagnostic_InvocationCreationTime = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_ProgramDiagnostic_InvocationCreationTime, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_ProgramDiagnostic_LastTransitionTime = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_ProgramDiagnostic_LastTransitionTime, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_ProgramDiagnostic_LastMethodCall = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_ProgramDiagnostic_LastMethodCall, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_ProgramDiagnostic_LastMethodSessionId = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_ProgramDiagnostic_LastMethodSessionId, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_ProgramDiagnostic_LastMethodInputArguments = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_ProgramDiagnostic_LastMethodInputArguments, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_ProgramDiagnostic_LastMethodOutputArguments = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_ProgramDiagnostic_LastMethodOutputArguments, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_ProgramDiagnostic_LastMethodInputValues = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_ProgramDiagnostic_LastMethodInputValues, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_ProgramDiagnostic_LastMethodOutputValues = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_ProgramDiagnostic_LastMethodOutputValues, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_ProgramDiagnostic_LastMethodCallTime = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_ProgramDiagnostic_LastMethodCallTime, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId TestObject_Purple_ProgramDiagnostic_LastMethodReturnStatus = new ExpandedNodeId(DemoModel.Variables.TestObject_Purple_ProgramDiagnostic_LastMethodReturnStatus, DemoModel.Namespaces.DemoModel);
+
         public static readonly ExpandedNodeId TestObject_Red = new ExpandedNodeId(DemoModel.Variables.TestObject_Red, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId TestObject_Red_Yellow = new ExpandedNodeId(DemoModel.Variables.TestObject_Red_Yellow, DemoModel.Namespaces.DemoModel);
@@ -557,6 +766,14 @@ namespace DemoModel
         public static readonly ExpandedNodeId YellowType_Shade = new ExpandedNodeId(DemoModel.Variables.YellowType_Shade, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId YellowType_DefaultInstanceBrowseName = new ExpandedNodeId(DemoModel.Variables.YellowType_DefaultInstanceBrowseName, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId BrightnessType_Amber_Placeholder_StateNumber = new ExpandedNodeId(DemoModel.Variables.BrightnessType_Amber_Placeholder_StateNumber, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId BrightnessType_Green_Placeholder_CurrentState = new ExpandedNodeId(DemoModel.Variables.BrightnessType_Green_Placeholder_CurrentState, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId BrightnessType_Green_Placeholder_CurrentState_Id = new ExpandedNodeId(DemoModel.Variables.BrightnessType_Green_Placeholder_CurrentState_Id, DemoModel.Namespaces.DemoModel);
+
+        public static readonly ExpandedNodeId BrightnessType_Green_Placeholder_LastTransition_Id = new ExpandedNodeId(DemoModel.Variables.BrightnessType_Green_Placeholder_LastTransition_Id, DemoModel.Namespaces.DemoModel);
 
         public static readonly ExpandedNodeId PictureType_YellowThing = new ExpandedNodeId(DemoModel.Variables.PictureType_YellowThing, DemoModel.Namespaces.DemoModel);
 
@@ -649,7 +866,11 @@ namespace DemoModel
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public static partial class BrowseNames
     {
+        public const string Amber_Placeholder = "<Amber>";
+
         public const string BlueType = "BlueType";
+
+        public const string BrightnessType = "BrightnessType";
 
         public const string DemoModel_BinarySchema = "DemoModel";
 
@@ -661,7 +882,11 @@ namespace DemoModel
 
         public const string FinalWorkOrderType = "FinalWorkOrderType";
 
+        public const string Green_Placeholder = "<Green>";
+
         public const string HeaterStatus = "HeaterStatus";
+
+        public const string Indigo_Placeholder = "<Indigo>";
 
         public const string PenultimateWorkOrderType = "PenultimateWorkOrderType";
 
@@ -672,6 +897,8 @@ namespace DemoModel
         public const string PictureType = "PictureType";
 
         public const string Pink_Placeholder = "<Pink>";
+
+        public const string Purple = "Purple";
 
         public const string Red = "Red";
 
@@ -745,11 +972,6 @@ namespace DemoModel
         /// The URI for the OpcUaXsd namespace (.NET code namespace is 'Opc.Ua').
         /// </summary>
         public const string OpcUaXsd = "http://opcfoundation.org/UA/2008/02/Types.xsd";
-
-        /// <summary>
-        /// The URI for the DI namespace (.NET code namespace is 'Opc.Ua.Di').
-        /// </summary>
-        public const string DI = "http://opcfoundation.org/UA/DI/";
     }
     #endregion
 }

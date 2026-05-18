@@ -2,7 +2,7 @@
 SETLOCAL
 
 set ROOT=%~dp0
-set MODELCOMPILER=%ROOT%build\bin\Release\net9.0\Opc.Ua.ModelCompiler.exe
+set MODELCOMPILER=%ROOT%build\bin\Release\net8.0\Opc.Ua.ModelCompiler.exe
 set SOURCE=%1
 set TARGET=%2
 set OUTPUT=%ROOT%..\nodesets
@@ -19,8 +19,8 @@ IF "%3"=="v103" set CSVINPUT=%INPUT%
 
 ECHO Building Model %TARGET%
 IF NOT EXIST "%OUTPUT%\%TARGET%" MKDIR "%OUTPUT%\%TARGET%"
-ECHO %MODELCOMPILER% compile %VERSION% %EXCLUDE% -d2 "%INPUT%\%SOURCE%.xml" -cg "%CSVINPUT%\%SOURCE%.csv" -o2 "%OUTPUT%\%TARGET%\\" %USEALLOWSUBTYPES%
-%MODELCOMPILER% compile %VERSION% %EXCLUDE% -d2 "%INPUT%\%SOURCE%.xml" -cg "%CSVINPUT%\%SOURCE%.csv" -o2 "%OUTPUT%\%TARGET%\\" %USEALLOWSUBTYPES%
+ECHO %MODELCOMPILER% compile %VERSION% %EXCLUDE% -rc -d2 "%INPUT%\%SOURCE%.xml" -cg "%CSVINPUT%\%SOURCE%.csv" -o2 "%OUTPUT%\%TARGET%\\" %USEALLOWSUBTYPES%
+%MODELCOMPILER% compile %VERSION% %EXCLUDE% -rc -d2 "%INPUT%\%SOURCE%.xml" -cg "%CSVINPUT%\%SOURCE%.csv" -o2 "%OUTPUT%\%TARGET%\\" %USEALLOWSUBTYPES%
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %TARGET% & EXIT /B 3 )
 
 ECHO Copying Model files to %OUTPUT%\%TARGET%\%SOURCE%

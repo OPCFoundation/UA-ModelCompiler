@@ -33,6 +33,8 @@ using System.Text;
 using System.IO;
 // ListOfImports
 
+// ListOfNamespaceDeclarations
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable CA1515 // Consider making public types internal
 #pragma warning disable CA1707 // Identifiers should not contain underscores

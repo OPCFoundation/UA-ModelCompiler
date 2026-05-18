@@ -41,7 +41,7 @@ public partial class _BrowseName_ : _BaseType_
     public override ExpandedNodeId XmlEncodingId => ObjectIds._BrowseName__Encoding_DefaultXml;
 
     /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-    public override ExpandedNodeId JsonEncodingId => ObjectIds._BrowseName__Encoding_DefaultJson;
+    public override ExpandedNodeId JsonEncodingId => DataTypeIds._BrowseName_;
 
     /// <summary cref="IEncodeable.Encode(IEncoder)" />
     public override void Encode(IEncoder encoder)

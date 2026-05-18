@@ -6,8 +6,8 @@
   xmlns="http://opcfoundation.org/UA/Core/"
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/Core/"
-  TargetVersion="1.05.03"
-  TargetPublicationDate="2023-12-15T00:00:00Z"
+  TargetVersion="1.05.07"
+  TargetPublicationDate="2026-05-01T00:00:00Z"
   xmlns:opc="http://opcfoundation.org/UA/TypeDictionary/"
 >
   <opc:Import Namespace="http://opcfoundation.org/UA/BuiltInTypes/" />
@@ -513,7 +513,7 @@
 
   <opc:TypeDeclaration Name="SessionAuthenticationToken" PartNo="4" SourceType="s0:NodeId" />
 
-  <opc:ComplexType Name="SignatureData" NotInAddressSpace="true" PartNo="4" Purpose="ServicesOnly">
+  <opc:ComplexType Name="SignatureData" PartNo="4">
     <opc:Field Name="Algorithm" DataType="s0:String" />
     <opc:Field Name="Signature" DataType="s0:ByteString" />
   </opc:ComplexType>
@@ -2031,7 +2031,7 @@
     <opc:Field Name="LastMethodReturnStatus" DataType="s0:StatusCode" />
   </opc:ComplexType>
 
-  <opc:ComplexType Name="Annotation" PartNo="11">
+  <opc:ComplexType Name="Annotation" PartNo="11" AllowArrays="true">
     <opc:Field Name="Message" DataType="s0:String" />
     <opc:Field Name="UserName" DataType="s0:String" />
     <opc:Field Name="AnnotationTime" DataType="UtcTime" />

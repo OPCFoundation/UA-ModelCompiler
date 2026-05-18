@@ -779,8 +779,7 @@ namespace ModelCompiler
             "for",
             "foreach",
             "while",
-            "string",
-            "override"
+            "string"
         ];
 
         public static string ToSymbolicName(string name)
@@ -1353,14 +1352,11 @@ namespace ModelCompiler
                 return null;
             }
 
-            foreach (var ii in nodeset.Items)
-            {
-                var id = ImportNodeId(ii.NodeId, true);
+            var nodeId = ExpandedNodeId.ToNodeId(targetId, m_settings.NamespaceUris);
 
-                if (id == targetId)
-                {
-                    return ii;
-                }
+            if (nodeId != null && m_index.TryGetValue(nodeId, out var node))
+            {
+                return node;
             }
 
             return null;
@@ -1800,7 +1796,7 @@ namespace ModelCompiler
                         {
                             case BrowseNames.DefaultBinary: { node.SymbolicName = "DefaultBinary"; break; }
                             case BrowseNames.DefaultXml: { node.SymbolicName = "DefaultXml"; break; }
-                            case BrowseNames.DefaultJson: { node.SymbolicName = "DefaultJson"; break; }
+                            //case BrowseNames.DefaultJson: { node.SymbolicName = "DefaultJson"; break; }
                         }
                     }
                     else if (node.SymbolicName == "DefaultXML")
@@ -1835,6 +1831,18 @@ namespace ModelCompiler
                             {
                                 instance.ParentNodeId = ii.Value;
                                 break;
+                            }
+                        }
+
+                        // ensure inferred parents are in the same namespace.
+                        if (instance.ParentNodeId != null)
+                        {
+                            var parentId = ImportNodeId(instance.ParentNodeId);
+                            var childId = ImportNodeId(instance.NodeId);
+
+                            if (parentId.NamespaceIndex != childId.NamespaceIndex)
+                            {
+                                instance.ParentNodeId = null;
                             }
                         }
                     }

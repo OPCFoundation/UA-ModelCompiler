@@ -26,10 +26,6 @@ TestModel_XmlSchema_TestAbstractStructure,41,Variable
 TestModel_XmlSchema_TestConcreteStructure,44,Variable
 TestModel_XmlSchema_TestScalarStructure,47,Variable
 TestModel_XmlSchema_TestArrayStructure,50,Variable
-TestAbstractStructure_Encoding_DefaultJson,56,Object
-TestConcreteStructure_Encoding_DefaultJson,57,Object
-TestScalarStructure_Encoding_DefaultJson,58,Object
-TestArrayStructure_Encoding_DefaultJson,59,Object
 TestUnion,163,DataType
 TestOptionalFields,164,DataType
 TestOptionSet,165,DataType
@@ -47,9 +43,6 @@ TestStructure_Encoding_DefaultXml,182,Object
 TestModel_XmlSchema_TestUnion,183,Variable
 TestModel_XmlSchema_TestOptionalFields,186,Variable
 TestModel_XmlSchema_TestStructure,189,Variable
-TestUnion_Encoding_DefaultJson,192,Object
-TestOptionalFields_Encoding_DefaultJson,193,Object
-TestStructure_Encoding_DefaultJson,194,Object
 Seeker,195,Object
 Seeker_Identities,196,Variable
 EnumUnderscoreTest,214,DataType
@@ -139,14 +132,3 @@ TestModel_XmlSchema_SampleUnionAllowSubtypes,333,Variable
 TestModel_XmlSchema_SampleStructureAllowSubtypes,336,Variable
 TestModel_XmlSchema_Person,339,Variable
 TestModel_XmlSchema_Student,342,Variable
-Vector_Encoding_DefaultJson,345,Object
-WorkOrderStatusType_Encoding_DefaultJson,346,Object
-WorkOrderType_Encoding_DefaultJson,347,Object
-ExtendedWorkOrderType_Encoding_DefaultJson,348,Object
-FinalWorkOrderType_Encoding_DefaultJson,349,Object
-SampleUnion_Encoding_DefaultJson,350,Object
-SampleStructureWithOptionalFields_Encoding_DefaultJson,351,Object
-SampleUnionAllowSubtypes_Encoding_DefaultJson,352,Object
-SampleStructureAllowSubtypes_Encoding_DefaultJson,353,Object
-Person_Encoding_DefaultJson,354,Object
-Student_Encoding_DefaultJson,355,Object

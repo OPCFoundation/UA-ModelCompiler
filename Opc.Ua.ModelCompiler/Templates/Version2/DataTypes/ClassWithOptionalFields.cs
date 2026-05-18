@@ -56,7 +56,7 @@ public partial class _BrowseName_ : IEncodeable, IJsonEncodeable
     public virtual ExpandedNodeId XmlEncodingId => ObjectIds._BrowseName__Encoding_DefaultXml;
 
     /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-    public virtual ExpandedNodeId JsonEncodingId => ObjectIds._BrowseName__Encoding_DefaultJson;
+    public virtual ExpandedNodeId JsonEncodingId => DataTypeIds._BrowseName_;
 
     /// <summary cref="IEncodeable.Encode(IEncoder)" />
     public virtual void Encode(IEncoder encoder)

@@ -1,4 +1,4 @@
-﻿using McMaster.Extensions.CommandLineUtils;
+using System.CommandLine;
 using Newtonsoft.Json;
 using Opc.Ua;
 using System;
@@ -11,25 +11,16 @@ namespace ModelCompiler
         private static ITelemetryContext m_telemetry = DefaultTelemetry.Create(_ => { });
         private static readonly char[] trimChars = new char[] { '\\', '/' };
 
-        public static void Run(string[] args)
+        public static async Task<int> Run(string[] args)
         {
-            using var app = new CommandLineApplication();
-            app.Name = "ModelCompiler";
-            app.Description = "An application takes an OPC UA model file and generates code for the .NETStandard stack.";
-            app.HelpOption("-?|-h|--help");
+            var rootCommand = new RootCommand("An application takes an OPC UA model file and generates code for the .NETStandard stack.");
 
-            app.Command("compile", (e) => Compile(e));
-            app.Command("units", (e) => Units(e));
-            app.Command("update-headers", (e) => UpdateHeaders(e));
-            app.Command("compile-nodesets", (e) => CompileNodeSets(e));
+            rootCommand.Subcommands.Add(CreateCompileCommand());
+            rootCommand.Subcommands.Add(CreateUnitsCommand());
+            rootCommand.Subcommands.Add(CreateUpdateHeadersCommand());
+            rootCommand.Subcommands.Add(CreateCompileNodeSetsCommand());
 
-            app.OnExecute(() =>
-            {
-                app.ShowHelp();
-                return 0;
-            });
-
-            app.Execute(args);
+            return await rootCommand.Parse(args).InvokeAsync().ConfigureAwait(false);
         }
 
         private static void WriteLine(string message, ConsoleColor color)
@@ -68,6 +59,12 @@ namespace ModelCompiler
             var builder = new Uri(uri);
             var path = builder.LocalPath.TrimEnd('/');
 
+            if (builder.Scheme == "urn")
+            {
+                var fields = builder.PathAndQuery.Split(':', StringSplitOptions.RemoveEmptyEntries);
+                path = String.Join(".", fields, 2, fields.Length - 2);
+            }
+
             if (path.StartsWith("/UA/", StringComparison.InvariantCulture))
             {
                 path = path.Substring(4);
@@ -78,7 +75,17 @@ namespace ModelCompiler
                 path = path.Substring(7);
             }
 
-            return path.Trim('/').Replace("/", "", StringComparison.InvariantCulture).Replace('-', '_').Replace('+', '_');
+            if (path == "/UA")
+            {
+                path = builder.DnsSafeHost;
+            }
+
+            return path.Trim('/')
+                .Replace("/", "", StringComparison.InvariantCulture)
+                .Replace('-', '_')
+                .Replace('+', '_')
+                .Replace(':', '_')
+                .Replace('.', '_');
         }
 
         private static void LoadNodeSet(FileInfo file, Dictionary<string, NodeSetInfo> nodesets)
@@ -154,7 +161,6 @@ namespace ModelCompiler
                     }
 
                     nodesets[model.ModelUri] = info;
-                    // WriteLine($"NodeSet ({model.ModelUri}) found.", ConsoleColor.Cyan);
                 }
             }
             catch (Exception e)
@@ -248,7 +254,7 @@ namespace ModelCompiler
 
             foreach (var ns in target.NodeSet.NamespaceUris)
             {
-                if (dependencies.ContainsKey(ns) || ns == target.ModelUri)
+                if (dependencies.ContainsKey(ns) || ns == target.ModelUri || ns == Namespaces.OpcUa)
                 {
                     continue;
                 }
@@ -291,7 +297,8 @@ namespace ModelCompiler
             string outputPath,
             Dictionary<string, NodeSetInfo> nodesets,
             NodeSetInfo nodeset,
-            Dictionary<string, NodeSetInfo> dependencies)
+            Dictionary<string, NodeSetInfo> dependencies,
+            OutputType suppressedOutputs = 0)
         {
             ModelGenerator2 generator = new ModelGenerator2(LocalFileSystem.Instance, m_telemetry);
 
@@ -329,7 +336,7 @@ namespace ModelCompiler
 
             var path = new DirectoryInfo(inputPath).FullName;
             var relativePath = new FileInfo(nodeset.FileName).DirectoryName;
-            
+
             if (relativePath.Length > path.Length)
             {
                 relativePath = relativePath.Substring(path.Length);
@@ -355,134 +362,241 @@ namespace ModelCompiler
                 documentation.CopyTo(Path.Combine(output, $"{nodeset.Prefix}.NodeSet2.documentation.csv"), true);
             }
 
-            await generator.GenerateMultipleFiles(output, false, exclusions, false).ConfigureAwait(false);
+            await generator.GenerateMultipleFiles(
+                output,
+                false,
+                exclusions,
+                false,
+                suppressedOutputs).ConfigureAwait(false);
 
             WriteLine($"NodeSet ({nodeset.ModelUri}) code generated ({output}).", ConsoleColor.DarkGreen);
         }
 
-        private static void CompileNodeSets(CommandLineApplication app)
+        private static class OptionsNames
         {
-            app.Description = "Searches a directory tree for nodesets and generates code for the specified model URIs.";
-            app.HelpOption("-?|-h|--help");
-
-            app.Option(
-                $"-{OptionsNames.InputPath}",
-                "The path to the directory containing the nodesets.",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.OutputPath}",
-                "The path to the directory to use to write the generated files.",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.OutputPrefix}",
-                "The prefix on generated files.",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.ModelUris}",
-                "The URI of the model to generate.",
-                CommandOptionType.MultipleValue);
-
-            app.OnExecuteAsync(async (CancellationToken ct) =>
-            {
-                var options = GetCompileOptions(app);
-
-                var input = new DirectoryInfo(options.InputPath);
-
-                if (!input.Exists)
-                {
-                    throw new ArgumentException($"The input directory does not exist ({options.InputPath}).");
-                }
-
-                Dictionary<string, NodeSetInfo> nodesets = new();
-                CollectNodeSets(input, nodesets);
-                WriteLine($"{nodesets.Count} NodeSets found.", ConsoleColor.Cyan);
-                WriteLine($"Writing output to {options.OutputPath}", ConsoleColor.Cyan);
-
-                HashSet<string> found = new();
-
-                foreach (var modelUri in options.ModelUris)
-                {
-                    if (!nodesets.TryGetValue(modelUri, out NodeSetInfo nodeset))
-                    {
-                        continue;
-                    }
-
-                    var relativePath = new FileInfo(nodeset.FileName).DirectoryName;
-
-                    if (relativePath.Length > input.FullName.Length)
-                    {
-                        relativePath = relativePath.Substring(input.FullName.Length);
-                    }
-                    else
-                    {
-                        relativePath = ".";
-                    }
-                        
-                    var output = Path.Combine(options.OutputPath, relativePath);
-
-                    if (Directory.Exists(output))
-                    {
-                        Directory.Delete(output, true);
-                    }
-                }
-
-                foreach (var modelUri in options.ModelUris)
-                {
-                    if (!nodesets.TryGetValue(modelUri, out NodeSetInfo nodeset))
-                    {
-                        continue;
-                    }
-
-                    found.Add(modelUri);
-
-                    Dictionary<string, NodeSetInfo> dependencies = new();
-
-                    if (!CollectDependencies(nodeset, nodesets, dependencies))
-                    {
-                        continue;
-                    }
-
-                    WriteLine($"NodeSet ({nodeset.ModelUri}) dependencies found.", ConsoleColor.DarkYellow);
-
-                    if (!String.IsNullOrEmpty(options.OutputPrefix))
-                    {
-                        nodeset.Prefix = options.OutputPrefix;
-                    }
-
-                    try
-                    {
-                        await GenerateCode(input.FullName, options.OutputPath, nodesets, nodeset, dependencies).ConfigureAwait(false);
-                    }
-                    catch (Exception e)
-                    {
-                        WriteLine($"NodeSet ({nodeset.ModelUri}) code generation failed: {e.Message}", ConsoleColor.Red);
-                    }
-                }
-
-                foreach (var uri in options.ModelUris)
-                {
-                    if (!found.Contains(uri))
-                    {
-                        WriteLine($"NodeSet ({uri}) not found!", ConsoleColor.Red);
-                    }
-                }
-
-                return 0;
-            });
+            public const string DesignFiles = "d2";
+            public const string IdentifierFile = "c";
+            public const string GenerateIdentifierFile = "cg";
+            public const string OutputPath = "o2";
+            public const string Version = "version";
+            public const string AnsiCStackPath = "ansic";
+            public const string DotNetStackPath = "stack";
+            public const string UseAllowSubtypes = "useAllowSubtypes";
+            public const string StartId = "id";
+            public const string Exclusions = "exclude";
+            public const string InputPath = "input";
+            public const string FilePattern = "pattern";
+            public const string LicenseType = "license";
+            public const string Silent = "silent";
+            public const string Annex1Path = "annex1";
+            public const string Annex2Path = "annex2";
+            public const string UnitsOutputPath = "output";
+            public const string ModelVersion = "mv";
+            public const string ModelPublicationDate = "pd";
+            public const string ReleaseCandidate = "rc";
+            public const string ModelUris = "uri";
+            public const string OutputPrefix = "prefix";
+            public const string SuppressOutput = "suppress";
         }
 
-        private static void Compile(CommandLineApplication app)
+        private sealed class OptionValues
         {
-            app.Description = "Takes an OPC UA ModelDesign file and generates a NodeSet and code for the .NETStandard stack.";
-            app.HelpOption("-?|-h|--help");
-            AddCompileOptions(app);
+            public List<string> DesignFiles;
+            public string IdentifierFile;
+            public bool CreateIdentifierFile;
+            public string OutputPath;
+            public string DotNetStackPath;
+            public string AnsiCStackPath;
+            public string Version;
+            public bool UseAllowSubtypes;
+            public uint StartId;
+            public IList<string> Exclusions;
+            public string ModelVersion;
+            public string ModelPublicationDate;
+            public bool ReleaseCandidate;
+            public string InputPath;
+            public string FilePattern;
+            public HeaderUpdateTool.LicenseType LicenseType;
+            public bool Silent;
+            public string Annex1Path;
+            public string Annex2Path;
+            public string OutputPrefix;
+            public OutputType SuppressedOutputs;
+        }
 
-            app.OnExecuteAsync(async (CancellationToken ct) =>
+        private static OptionValues GetCompileOptions(ParseResult parseResult,
+            Option<string[]> designFilesOpt,
+            Option<string> identifierFileOpt,
+            Option<string> generateIdentifierFileOpt,
+            Option<string> outputPathOpt,
+            Option<string> ansiCStackPathOpt,
+            Option<string> dotNetStackPathOpt,
+            Option<string> versionOpt,
+            Option<bool> useAllowSubtypesOpt,
+            Option<string> startIdOpt,
+            Option<string> exclusionsOpt,
+            Option<string> modelVersionOpt,
+            Option<string> modelPublicationDateOpt,
+            Option<bool> releaseCandidateOpt,
+            Option<string> outputPrefixOpt,
+            Option<string> suppressOutputOpt)
+        {
+            var options = new OptionValues()
             {
-                var options = GetCompileOptions(app);
+                DesignFiles = new List<string>(parseResult.GetValue(designFilesOpt) ?? Array.Empty<string>()),
+                IdentifierFile = parseResult.GetValue(identifierFileOpt) ?? "",
+                OutputPath = parseResult.GetValue(outputPathOpt) ?? "",
+                AnsiCStackPath = parseResult.GetValue(ansiCStackPathOpt) ?? "",
+                DotNetStackPath = parseResult.GetValue(dotNetStackPathOpt) ?? "",
+                Version = parseResult.GetValue(versionOpt) ?? "",
+                UseAllowSubtypes = parseResult.GetValue(useAllowSubtypesOpt),
+                ModelVersion = parseResult.GetValue(modelVersionOpt) ?? "",
+                ModelPublicationDate = parseResult.GetValue(modelPublicationDateOpt) ?? "",
+                ReleaseCandidate = parseResult.GetValue(releaseCandidateOpt),
+                OutputPrefix = parseResult.GetValue(outputPrefixOpt) ?? "",
+            };
+
+            var path = parseResult.GetValue(generateIdentifierFileOpt) ?? "";
+
+            if (!String.IsNullOrEmpty(path))
+            {
+                options.IdentifierFile = path;
+                options.CreateIdentifierFile = true;
+            }
+
+            var startId = parseResult.GetValue(startIdOpt) ?? "";
+
+            if (!String.IsNullOrEmpty(startId))
+            {
+                options.StartId = UInt32.Parse(startId, CultureInfo.InvariantCulture);
+            }
+
+            var exclusions = parseResult.GetValue(exclusionsOpt) ?? "";
+
+            if (!String.IsNullOrEmpty(exclusions))
+            {
+                options.Exclusions = new List<string>(exclusions.Split(',', '+'));
+            }
+
+            var suppressOutput = parseResult.GetValue(suppressOutputOpt) ?? "";
+
+            if (!String.IsNullOrEmpty(suppressOutput))
+            {
+                foreach (var value in suppressOutput.Split(','))
+                {
+                    if (Enum.TryParse<OutputType>(value.Trim(), true, out var outputType))
+                    {
+                        options.SuppressedOutputs |= outputType;
+                    }
+                }
+            }
+
+            return options;
+        }
+
+        private static Command CreateCompileCommand()
+        {
+            var command = new Command("compile", "Takes an OPC UA ModelDesign file and generates a NodeSet and code for the .NETStandard stack.");
+
+            var designFilesOpt = new Option<string[]>($"-{OptionsNames.DesignFiles}")
+            {
+                Description = "The path to the ModelDesign or NodeSet2 file which contains the UA information model. The first file specified is the model to generate. The rest are included models. The file path may be followed by the namespace prefix and a short name for model. Commas seperate each field."
+            };
+
+            var identifierFileOpt = new Option<string>($"-{OptionsNames.IdentifierFile}")
+            {
+                Description = "The path to the CSV file which contains the unique identifiers for the types defined in the UA information model. Not used if the target is a NodeSet2 file."
+            };
+
+            var generateIdentifierFileOpt = new Option<string>($"-{OptionsNames.GenerateIdentifierFile}")
+            {
+                Description = "Creates the identifier file if it does not exist (used instead of the -c option)."
+            };
+
+            var outputPathOpt = new Option<string>($"-{OptionsNames.OutputPath}")
+            {
+                Description = "The output directory for the generated files."
+            };
+
+            var ansiCStackPathOpt = new Option<string>($"-{OptionsNames.AnsiCStackPath}")
+            {
+                Description = "The path to use when generating ANSI C stack code (internal use only)."
+            };
+
+            var dotNetStackPathOpt = new Option<string>($"-{OptionsNames.DotNetStackPath}")
+            {
+                Description = "The path to use when generating .NET stack code (internal use only)."
+            };
+
+            var versionOpt = new Option<string>($"-{OptionsNames.Version}")
+            {
+                Description = "Selects the source for the input files. v103 | v104 | v105 are supported."
+            };
+
+            var useAllowSubtypesOpt = new Option<bool>($"-{OptionsNames.UseAllowSubtypes}")
+            {
+                Description = "When subtypes are allowed for a field, C# code with the class name from the model is created instead of ExtensionObject. No effect when subtypes are not allowed."
+            };
+
+            var startIdOpt = new Option<string>($"-{OptionsNames.StartId}")
+            {
+                Description = "The first identifier to use when assigning new ids to nodes."
+            };
+
+            var exclusionsOpt = new Option<string>($"-{OptionsNames.Exclusions}")
+            {
+                Description = "Comma seperated list of ReleaseStatus values to exclude from output."
+            };
+
+            var modelVersionOpt = new Option<string>($"-{OptionsNames.ModelVersion}")
+            {
+                Description = "The version of the model to produce."
+            };
+
+            var modelPublicationDateOpt = new Option<string>($"-{OptionsNames.ModelPublicationDate}")
+            {
+                Description = "The publication date of the model to produce."
+            };
+
+            var releaseCandidateOpt = new Option<bool>($"-{OptionsNames.ReleaseCandidate}")
+            {
+                Description = "Indicates that a release candidate nodeset is being generated."
+            };
+
+            var outputPrefixOpt = new Option<string>($"-{OptionsNames.OutputPrefix}")
+            {
+                Description = "The prefix to use on the generated files names."
+            };
+
+            var suppressOutputOpt = new Option<string>($"-{OptionsNames.SuppressOutput}")
+            {
+                Description = "A comma separated list of output types to suppress (PredefinedNodes,Constants,NodeSet,JsonSchema,Classes,DataTypes)."
+            };
+
+            command.Options.Add(designFilesOpt);
+            command.Options.Add(identifierFileOpt);
+            command.Options.Add(generateIdentifierFileOpt);
+            command.Options.Add(outputPathOpt);
+            command.Options.Add(ansiCStackPathOpt);
+            command.Options.Add(dotNetStackPathOpt);
+            command.Options.Add(versionOpt);
+            command.Options.Add(useAllowSubtypesOpt);
+            command.Options.Add(startIdOpt);
+            command.Options.Add(exclusionsOpt);
+            command.Options.Add(modelVersionOpt);
+            command.Options.Add(modelPublicationDateOpt);
+            command.Options.Add(releaseCandidateOpt);
+            command.Options.Add(outputPrefixOpt);
+            command.Options.Add(suppressOutputOpt);
+
+            command.SetAction(async (ParseResult parseResult, CancellationToken ct) =>
+            {
+                var options = GetCompileOptions(parseResult,
+                    designFilesOpt, identifierFileOpt, generateIdentifierFileOpt,
+                    outputPathOpt, ansiCStackPathOpt, dotNetStackPathOpt,
+                    versionOpt, useAllowSubtypesOpt, startIdOpt,
+                    exclusionsOpt, modelVersionOpt, modelPublicationDateOpt,
+                    releaseCandidateOpt, outputPrefixOpt, suppressOutputOpt);
 
                 ModelGenerator2 generator = new ModelGenerator2(LocalFileSystem.Instance, m_telemetry);
 
@@ -583,326 +697,260 @@ namespace ModelCompiler
                         Directory.CreateDirectory(options.OutputPath);
                     }
 
-                    await generator.GenerateMultipleFiles(options.OutputPath, false, options.Exclusions, false).ConfigureAwait(false);
+                    await generator.GenerateMultipleFiles(
+                        options.OutputPath,
+                        false,
+                        options.Exclusions,
+                        false,
+                        options.SuppressedOutputs).ConfigureAwait(false);
+                }
+            });
+
+            return command;
+        }
+
+        private static Command CreateUnitsCommand()
+        {
+            var command = new Command("units", "Generates the OPC UA Engineering Units CSV from the official UNECE table of units.");
+
+            var annex1PathOpt = new Option<string>($"-{OptionsNames.Annex1Path}")
+            {
+                Description = "The path to the UNECE Annex 1 CSV file."
+            };
+
+            var annex2PathOpt = new Option<string>($"-{OptionsNames.Annex2Path}")
+            {
+                Description = "The path to the UNECE Annex 2/3 CSV file."
+            };
+
+            var outputPathOpt = new Option<string>($"-{OptionsNames.UnitsOutputPath}")
+            {
+                Description = "The output directory."
+            };
+
+            command.Options.Add(annex1PathOpt);
+            command.Options.Add(annex2PathOpt);
+            command.Options.Add(outputPathOpt);
+
+            command.SetAction((ParseResult parseResult) =>
+            {
+                var options = new OptionValues()
+                {
+                    Annex1Path = parseResult.GetValue(annex1PathOpt) ?? "",
+                    Annex2Path = parseResult.GetValue(annex2PathOpt) ?? "",
+                    OutputPath = parseResult.GetValue(outputPathOpt) ?? ""
+                };
+
+                MeasurementUnits.Process(options.Annex1Path, options.Annex2Path, options.OutputPath);
+            });
+
+            return command;
+        }
+
+        private static Command CreateUpdateHeadersCommand()
+        {
+            var command = new Command("update-headers", "Updates all files in the output directory with the OPC Foundation MIT license header.");
+
+            var inputPathOpt = new Option<string>($"-{OptionsNames.InputPath}")
+            {
+                Description = "The path folders to search for files to update."
+            };
+
+            var filePatternOpt = new Option<string>($"-{OptionsNames.FilePattern}")
+            {
+                Description = "The file pattern to use when selecting files."
+            };
+
+            var licenseTypeOpt = new Option<string>($"-{OptionsNames.LicenseType}")
+            {
+                Description = "The type of license (MIT | MITXML | NONE)."
+            };
+
+            var silentOpt = new Option<bool>($"-{OptionsNames.Silent}")
+            {
+                Description = "Supresses any exceptions."
+            };
+
+            command.Options.Add(inputPathOpt);
+            command.Options.Add(filePatternOpt);
+            command.Options.Add(licenseTypeOpt);
+            command.Options.Add(silentOpt);
+
+            command.SetAction((ParseResult parseResult) =>
+            {
+                var options = new OptionValues()
+                {
+                    InputPath = parseResult.GetValue(inputPathOpt) ?? "",
+                    FilePattern = parseResult.GetValue(filePatternOpt) ?? "",
+                    Silent = parseResult.GetValue(silentOpt)
+                };
+
+                var licenseType = parseResult.GetValue(licenseTypeOpt) ?? "";
+
+                if (!String.IsNullOrEmpty(licenseType))
+                {
+                    options.LicenseType = Enum.Parse<HeaderUpdateTool.LicenseType>(licenseType);
                 }
 
-                return 0;
-            });
-        }
-
-        private static void Units(CommandLineApplication app)
-        {
-            app.Description = "Generates the OPC UA Engineering Units CSV from the official UNECE table of units.";
-            app.HelpOption("-?|-h|--help");
-            AddUnitsOptions(app);
-
-            app.OnExecute(() =>
-            {
-                var options = GetUnitsOptions(app);
-                MeasurementUnits.Process(options.Annex1Path, options.Annex2Path, options.OutputPath);
-                return 0;
-            });
-        }
-
-        private static void UpdateHeaders(CommandLineApplication app)
-        {
-            app.Description = "Updates all files in the output directory with the OPC Foundation MIT license header.";
-            app.HelpOption("-?|-h|--help");
-            AddUpdateHeadersOptions(app);
-
-            app.OnExecute(() =>
-            {
-                var options = GetUpdateHeadersOptions(app);
                 HeaderUpdateTool.ProcessDirectory(options.InputPath, options.FilePattern, options.LicenseType, options.Silent);
-                return 0;
             });
+
+            return command;
         }
 
-        private static class OptionsNames
+        private static Command CreateCompileNodeSetsCommand()
         {
-            public const string DesignFiles = "d2";
-            public const string IdentifierFile = "c";
-            public const string GenerateIdentifierFile = "cg";
-            public const string OutputPath = "o2";
-            public const string Version = "version";
-            public const string AnsiCStackPath = "ansic";
-            public const string DotNetStackPath = "stack";
-            public const string UseAllowSubtypes = "useAllowSubtypes";
-            public const string StartId = "id";
-            public const string Exclusions = "exclude";
-            public const string InputPath = "input";
-            public const string FilePattern = "pattern";
-            public const string LicenseType = "license";
-            public const string Silent = "silent";
-            public const string Annex1Path = "annex1";
-            public const string Annex2Path = "annex2";
-            public const string UnitsOutputPath = "output";
-            public const string ModelVersion = "mv";
-            public const string ModelPublicationDate = "pd";
-            public const string ReleaseCandidate = "rc";
-            public const string ModelUris = "uri";
-            public const string OutputPrefix = "prefix";
-        }
+            var command = new Command("compile-nodesets", "Searches a directory tree for nodesets and generates code for the specified model URIs.");
 
-        private sealed class OptionValues
-        {
-            public List<string> DesignFiles;
-            public string IdentifierFile;
-            public bool CreateIdentifierFile;
-            public string OutputPath;
-            public string DotNetStackPath;
-            public string AnsiCStackPath;
-            public string Version;
-            public bool UseAllowSubtypes;
-            public uint StartId;
-            public IList<string> Exclusions;
-            public string ModelVersion;
-            public string ModelPublicationDate;
-            public bool ReleaseCandidate;
-            public string InputPath;
-            public string FilePattern;
-            public HeaderUpdateTool.LicenseType LicenseType;
-            public bool Silent;
-            public string Annex1Path;
-            public string Annex2Path;
-            public IList<string> ModelUris;
-            public string OutputPrefix;
-        }
-
-        private static void AddCompileOptions(CommandLineApplication app)
-        {
-            app.Option(
-                $"-{OptionsNames.DesignFiles}",
-                "The path to the ModelDesign or NodeSet2 file which contains the UA information model. The first file specified is the model to generate. The rest are included models. The file path may be followed by the namespace prefix and a short name for model. Commas seperate each field.",
-                CommandOptionType.MultipleValue);
-
-            app.Option(
-                $"-{OptionsNames.IdentifierFile}",
-                "The path to the CSV file which contains the unique identifiers for the types defined in the UA information model. Not used if the target is a NodeSet2 file.",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.GenerateIdentifierFile}",
-                "Creates the identifier file if it does not exist (used instead of the -c option).",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.OutputPath}",
-                "The output directory for the generated files.",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.AnsiCStackPath}",
-                "The path to use when generating ANSI C stack code (internal use only).",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.DotNetStackPath}",
-                "The path to use when generating .NET stack code (internal use only).",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.Version}",
-                "Selects the source for the input files. v103 | v104 | v105 are supported.",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.UseAllowSubtypes}",
-                "When subtypes are allowed for a field, C# code with the class name from the model is created instead of ExtensionObject. No effect when subtypes are not allowed.",
-                CommandOptionType.NoValue);
-
-            app.Option(
-                $"-{OptionsNames.StartId}",
-                "The first identifier to use when assigning new ids to nodes.",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.Exclusions}",
-                "Comma seperated list of ReleaseStatus values to exclude from output.",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.ModelVersion}",
-                "The version of the model to produce.",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.ModelPublicationDate}",
-                "The publication date of the model to produce.",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.ReleaseCandidate}",
-                "Indicates that a release candidate nodeset is being generated.",
-                CommandOptionType.NoValue);
-
-            app.Option(
-                $"-{OptionsNames.OutputPrefix}",
-                "The prefix to use on the generated files names.",
-                CommandOptionType.SingleValue);
-        }
-
-        private static OptionValues GetCompileOptions(CommandLineApplication app)
-        {
-            var options = new OptionValues()
+            var inputPathOpt = new Option<string>($"-{OptionsNames.InputPath}")
             {
-                DesignFiles = app.GetOptionList(OptionsNames.DesignFiles),
-                IdentifierFile = app.GetOption(OptionsNames.IdentifierFile),
-                OutputPath = app.GetOption(OptionsNames.OutputPath),
-                InputPath = app.GetOption(OptionsNames.InputPath),
-                AnsiCStackPath = app.GetOption(OptionsNames.AnsiCStackPath),
-                DotNetStackPath = app.GetOption(OptionsNames.DotNetStackPath),
-                Version = app.GetOption(OptionsNames.Version),
-                UseAllowSubtypes = app.IsOptionSet(OptionsNames.UseAllowSubtypes),
-                ModelVersion = app.GetOption(OptionsNames.ModelVersion),
-                ModelPublicationDate = app.GetOption(OptionsNames.ModelPublicationDate),
-                ReleaseCandidate = app.IsOptionSet(OptionsNames.ReleaseCandidate),
-                ModelUris = app.GetOptionList(OptionsNames.ModelUris),
-                OutputPrefix = app.GetOption(OptionsNames.OutputPrefix),
+                Description = "The path to the directory containing the nodesets."
             };
 
-            var path = app.GetOption(OptionsNames.GenerateIdentifierFile);
-
-            if (!String.IsNullOrEmpty(path))
+            var outputPathOpt = new Option<string>($"-{OptionsNames.OutputPath}")
             {
-                options.IdentifierFile = path;
-                options.CreateIdentifierFile = true;
-            }
-
-            var startId = app.GetOption(OptionsNames.StartId);
-
-            if (!String.IsNullOrEmpty(startId))
-            {
-                options.StartId = UInt32.Parse(startId, CultureInfo.InvariantCulture);
-            }
-
-            var exclusions = app.GetOption(OptionsNames.Exclusions);
-
-            if (!String.IsNullOrEmpty(exclusions))
-            {
-                options.Exclusions = new List<string>(exclusions.Split(',', '+'));
-            }
-
-            return options;
-        }
-
-        private static void AddUpdateHeadersOptions(CommandLineApplication app)
-        {
-            app.Option(
-                $"-{OptionsNames.InputPath}",
-                "The path folders to search for files to update.",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.FilePattern}",
-                "The file pattern to use when selecting files.",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.LicenseType}",
-                "The type of license (MIT | MITXML | NONE).",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.Silent}",
-                "Supresses any exceptions.",
-                CommandOptionType.NoValue);
-        }
-
-        private static OptionValues GetUpdateHeadersOptions(CommandLineApplication app)
-        {
-            var options = new OptionValues()
-            {
-                InputPath = app.GetOption(OptionsNames.InputPath),
-                FilePattern = app.GetOption(OptionsNames.FilePattern),
-                Silent = app.IsOptionSet(OptionsNames.Silent)
+                Description = "The path to the directory to use to write the generated files."
             };
 
-            var licenseType = app.GetOption(OptionsNames.LicenseType);
-
-            if (!String.IsNullOrEmpty(licenseType))
+            var outputPrefixOpt = new Option<string>($"-{OptionsNames.OutputPrefix}")
             {
-                options.LicenseType = Enum.Parse<HeaderUpdateTool.LicenseType>(licenseType);
-            }
-
-            return options;
-        }
-
-        private static void AddUnitsOptions(CommandLineApplication app)
-        {
-            app.Option(
-                $"-{OptionsNames.Annex1Path}",
-                "The path to the UNECE Annex 1 CSV file.",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.Annex2Path}",
-                "The path to the UNECE Annex 2/3 CSV file.",
-                CommandOptionType.SingleValue);
-
-            app.Option(
-                $"-{OptionsNames.UnitsOutputPath}",
-                "The output directory.",
-                CommandOptionType.SingleValue);
-        }
-
-        private static OptionValues GetUnitsOptions(CommandLineApplication app)
-        {
-            var options = new OptionValues()
-            {
-                Annex1Path = app.GetOption(OptionsNames.Annex1Path),
-                Annex2Path = app.GetOption(OptionsNames.Annex2Path),
-                OutputPath = app.GetOption(OptionsNames.UnitsOutputPath)
+                Description = "The prefix on generated files."
             };
 
-            return options;
-        }
-
-        private static List<string> GetOptionList(this CommandLineApplication application, string name)
-        {
-            var option = application.Options
-                .Where(x => x.ShortName == name && x.HasValue())
-                .Select(x => x)
-                .FirstOrDefault();
-
-            if (option == null)
+            var modelUrisOpt = new Option<string[]>($"-{OptionsNames.ModelUris}")
             {
-                return new List<string>();
-            }
+                Description = "The URI of the model to generate."
+            };
 
-            return new List<string>(option.Values);
-        }
-
-        private static string GetOption(this CommandLineApplication application, string name, string defaultValue = "")
-        {
-            var option = application.Options
-                .Where(x => x.ShortName == name && x.HasValue())
-                .Select(x => x)
-                .FirstOrDefault();
-
-            if (option == null)
+            var suppressOutputOpt = new Option<string>($"-{OptionsNames.SuppressOutput}")
             {
-                return defaultValue;
-            }
+                Description = "A comma separated list of output types to suppress (PredefinedNodes,Constants,NodeSet,JsonSchema,Classes,DataTypes)."
+            };
 
-            return option.Value();
-        }
+            command.Options.Add(inputPathOpt);
+            command.Options.Add(outputPathOpt);
+            command.Options.Add(outputPrefixOpt);
+            command.Options.Add(modelUrisOpt);
+            command.Options.Add(suppressOutputOpt);
 
-        private static bool IsOptionSet(this CommandLineApplication application, string name, bool defaultValue = false)
-        {
-            var option = application.Options
-                .Where(x => x.ShortName == name && x.HasValue())
-                .Select(x => x)
-                .FirstOrDefault();
-
-            if (option == null)
+            command.SetAction(async (ParseResult parseResult, CancellationToken ct) =>
             {
-                return defaultValue;
-            }
+                var inputPath = parseResult.GetValue(inputPathOpt) ?? "";
+                var outputPath = parseResult.GetValue(outputPathOpt) ?? "";
+                var outputPrefix = parseResult.GetValue(outputPrefixOpt) ?? "";
+                var modelUris = parseResult.GetValue(modelUrisOpt) ?? Array.Empty<string>();
+                var suppressOutput = parseResult.GetValue(suppressOutputOpt) ?? "";
 
-            return true;
+                OutputType suppressedOutputs = 0;
+
+                if (!String.IsNullOrEmpty(suppressOutput))
+                {
+                    foreach (var value in suppressOutput.Split(','))
+                    {
+                        if (Enum.TryParse<OutputType>(value.Trim(), true, out var outputType))
+                        {
+                            suppressedOutputs |= outputType;
+                        }
+                    }
+                }
+
+                var input = new DirectoryInfo(inputPath);
+
+                if (!input.Exists)
+                {
+                    throw new ArgumentException($"The input directory does not exist ({inputPath}).");
+                }
+
+                Dictionary<string, NodeSetInfo> nodesets = new();
+                CollectNodeSets(input, nodesets);
+                WriteLine($"{nodesets.Count} NodeSets found.", ConsoleColor.Cyan);
+                WriteLine($"Writing output to {outputPath}", ConsoleColor.Cyan);
+
+                HashSet<string> found = new();
+
+                foreach (var modelUri in modelUris)
+                {
+                    if (!nodesets.TryGetValue(modelUri, out NodeSetInfo nodeset))
+                    {
+                        continue;
+                    }
+
+                    var relativePath = new FileInfo(nodeset.FileName).DirectoryName;
+
+                    if (relativePath.Length > input.FullName.Length)
+                    {
+                        relativePath = relativePath.Substring(input.FullName.Length);
+                    }
+                    else
+                    {
+                        relativePath = ".";
+                    }
+
+                    var output = Path.Combine(outputPath, relativePath);
+
+                    if (Directory.Exists(output))
+                    {
+                        Directory.Delete(output, true);
+                    }
+                }
+
+                foreach (var modelUri in modelUris)
+                {
+                    if (!nodesets.TryGetValue(modelUri, out NodeSetInfo nodeset))
+                    {
+                        continue;
+                    }
+
+                    found.Add(modelUri);
+
+                    Dictionary<string, NodeSetInfo> dependencies = new();
+
+                    if (!CollectDependencies(nodeset, nodesets, dependencies))
+                    {
+                        continue;
+                    }
+
+                    WriteLine($"NodeSet ({nodeset.ModelUri}) dependencies found.", ConsoleColor.DarkYellow);
+
+                    if (!String.IsNullOrEmpty(outputPrefix))
+                    {
+                        nodeset.Prefix = nodeset.Prefix.Replace(
+                            "UAModel",
+                            outputPrefix,
+                            StringComparison.Ordinal);
+
+                        foreach (var dependency in dependencies)
+                        {
+                            dependency.Value.Prefix = dependency.Value.Prefix.Replace(
+                                "UAModel",
+                                outputPrefix,
+                                StringComparison.Ordinal);
+                        }
+                    }
+
+                    try
+                    {
+                        await GenerateCode(input.FullName, outputPath, nodesets, nodeset, dependencies, suppressedOutputs).ConfigureAwait(false);
+                    }
+                    catch (Exception e)
+                    {
+                        WriteLine($"NodeSet ({nodeset.ModelUri}) code generation failed: {e.Message}", ConsoleColor.Red);
+                    }
+                }
+
+                foreach (var uri in modelUris)
+                {
+                    if (!found.Contains(uri))
+                    {
+                        WriteLine($"NodeSet ({uri}) not found!", ConsoleColor.Red);
+                    }
+                }
+            });
+
+            return command;
         }
     }
+
     public class ApplicationErrorEventArgs
     {
         public ApplicationErrorEventArgs(string code, string text)

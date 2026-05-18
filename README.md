@@ -1,27 +1,98 @@
 # Model Compiler #
-The [OPC Foundation](https://opcfoundation.org) Model Compiler will generate C# and ANSI C source code from XML files which include the UA Services, data-types, error codes, etc.; and numerous CSV files that contain NodeIds, error codes, and attributes etc.
+The [OPC Foundation](https://opcfoundation.org) Model Compiler will generate C# source code from XML files which include the data-types, error codes, etc.; It also generates JSON schema for DataTypes and constant definitions for different languages.
 
-The input format for the tool is a file that conforms to the schema defined in UA Model Design.xsd. 
-
-**2022-10-15: the tool now supports Part 6 Annex F (a.k.a. NodeSet2) as a syntax for the input files [see schema](https://github.com/OPCFoundation/UA-Nodeset/blob/latest/Schema/UANodeSet.xsd).**  
+The input format for the tool is a file that conforms to the schema defined in UA Model Design.xsd or a Part 6 Annex F (a.k.a. NodeSet2). 
 
 The output of the tool includes:
  1. A NodeSet which conforms to the schema defined in Part 6 Annex F;
  2. An XSD and BSD (defined in Part 3 Annex C)  that describes any datatypes;
  3. Class and constant definitions suitable for use with the .NET sample libraries;
  4. Other data files used to load an information model into a Server built with the .NET sample libraries;
- 5. A CSV file which contains numeric identifiers. 
+ 5. A CSV file which contains numeric identifiers;
+ 6. JSON schema and OpenAPI schema for DataTypes (only for UANodeSet2 input files).
+ 7. Constant definitions for JavaScript/TypeScript, Python and C#. 
 
 The [UA Model Design.xsd](https://github.com/OPCFoundation/UA-ModelCompiler/blob/master/Opc.Ua.ModelCompiler/UA%20Model%20Design.xsd) has more information about the schema itself.
 
+## .NET Tool
+
+The Model Compiler is published on [nuget.org](https://www.nuget.org/packages/OPCFoundation.Opc.Ua.ModelCompiler.Tool) as a cross-platform .NET global tool. The same NuGet package runs on Windows, Linux, and macOS.
+
+### Installation Instructions
+
+#### Prerequisites
+
+A .NET runtime is required. The tool ships builds for both .NET 8 (LTS) and .NET 10 (LTS), and rolls forward to any newer major release. If you do not already have .NET installed, download it from the official Microsoft site:
+
+* **.NET SDK / Runtime downloads:** https://dotnet.microsoft.com/download
+
+To check what is installed:
+
+```
+dotnet --list-runtimes
+```
+
+#### Install (all platforms)
+
+The install command is the same on every operating system:
+
+**Windows (PowerShell or Command Prompt):**
+```
+dotnet tool install --global OPCFoundation.Opc.Ua.ModelCompiler.Tool
+```
+
+**Linux (bash / zsh):**
+```
+dotnet tool install --global OPCFoundation.Opc.Ua.ModelCompiler.Tool
+```
+
+**macOS (zsh / bash):**
+```
+dotnet tool install --global OPCFoundation.Opc.Ua.ModelCompiler.Tool
+```
+
+#### PATH setup (Linux / macOS only)
+
+On Windows the installer adds `%USERPROFILE%\.dotnet\tools` to `PATH` automatically. On Linux and macOS you may need to do this yourself. If `Opc.Ua.ModelCompiler` is reported as "command not found", add the global-tools folder to your shell startup file:
+
+**Linux (bash):**
+```
+echo 'export PATH="$PATH:$HOME/.dotnet/tools"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+**macOS / Linux (zsh):**
+```
+echo 'export PATH="$PATH:$HOME/.dotnet/tools"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+#### Updating and uninstalling
+
+```
+dotnet tool update    --global OPCFoundation.Opc.Ua.ModelCompiler.Tool
+dotnet tool uninstall --global OPCFoundation.Opc.Ua.ModelCompiler.Tool
+```
+
+### Usage
+
+Once installed, the tool is available as `Opc.Ua.ModelCompiler` on all platforms:
+
+```
+Opc.Ua.ModelCompiler compile -d2 ./MyModel.xml -cg ./MyModel.csv -o2 ./output
+```
+
+```
+Opc.Ua.ModelCompiler compile-nodesets -input ./NodeSets -o2 ./output -uri http://opcfoundation.org/UA/DI/
+```
+
+Run `Opc.Ua.ModelCompiler --help` for all available commands and options.
+
 The .NET sample libraries has [a sample Model Design file](https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/Sample/SampleDesign.xml) that illustrate how to create a user defined model.
+
 This [batch file](https://github.com/OPCFoundation/UA-.NET/blob/master/SampleApplications/Samples/Common/BuildDesign.bat) is used to regenerate the files used in the sample after changes.
 
-The tool only produces ANSI C output for the stack.
-
 All of the standard outputs are published in the [Nodeset GitHub repository](https://github.com/OPCFoundation/UA-Nodeset)
-
-Developers should never need to build the standard outputs themselves.
 
 Command line parameters for ModelDesigns or NodeSets:
 ```
@@ -38,8 +109,6 @@ Options:
                      information model. Not used if the target is a NodeSet2 file.
   -cg                Creates the identifier file if it does not exist (used instead of the -c option).
   -o2                The output directory for the generated files.
-  -ansic             The path to use when generating ANSI C stack code (internal use only).
-  -stack             The path to use when generating .NET stack code (internal use only).
   -version           Selects the source for the input files. v103 | v104 | v105 are supported.
   -useAllowSubtypes  When subtypes are allowed for a field, C# code with the class name from the model is created
                      instead of ExtensionObject. No effect when subtypes are not allowed.
@@ -84,6 +153,7 @@ Opc.Ua.ModelCompiler compile-nodesets -input .\v105\ -o2 .\Tests -uri http://opc
 |2.4|Added JSON schema generation.| 
 |2.6|Added OpenAPI schema generation.<br/>1.05.04 Release| 
 |2.7|Refactoring<br/>1.05.06 Release| 
+|2.8|Updates for 1.05.07 release of specification|
 
 The executable file version has the form 2.0.YYMM.DDHH where the last two fields are based on the time that it was built.
 
@@ -109,45 +179,6 @@ The ModelCompiler code is [MIT license](https://github.com/OPCFoundation/UA-Mode
 
 The 2.7 version introduced unit tests that depend on [AGPL assemblies](https://www.newtonsoft.com/jsonschema). These assemblies are not part of the published NuGets. Users who maintain forks of the repository may wish to delete the [unit tests](https://github.com/OPCF-Members/UA-ModelCompiler/tree/master/Tests/SchemaGeneration.Tests) if the AGPL license is a concern.
   
-## Docker Build
-
-A Docker build with the UA Model Compiler is available in GitHub as [ua-modelcompiler](https://github.com/OPCFoundation/UA-ModelCompiler/pkgs/container/ua-modelcompiler).
-
-It can be downloaded with this command:
-```
-docker pull ghcr.io/opcfoundation/ua-modelcompiler:latest
-```
-
-You may need to use this command before downloading the docker image:
-```
-docker login ghcr.io -u <user> -p <person access token>
-```
-
-Running the image requires a local directory with the source files which is specified with the -v option (the ${pwd} is using bash/powershell syntax. Use %CD% if using Windows CMD). The following command is run from the directory where the source files are:
-
-```
-docker run -v ${pwd}:/data --rm ghcr.io/opcfoundation/ua-modelcompiler:latest compile -d2 /data/Opc.Ua.Di.NodeSet2.xml,Opc.Ua.DI,DI -o2 /data/generated 
-```
-
-The tool can also automatically find all NodeSet dependencies if it is run from a directory with all necessary NodeSets (i.e. [UA-Nodeset](https://github.com/OPCFoundation/UA-Nodeset)). The command to run from the nodeset directory is:
-
-```
-docker run -v ${pwd}:/nodesets --rm ghcr.io/opcfoundation/ua-modelcompiler:latest compile-nodesets -input /nodesets -o2 /nodesets/generated -uri http://opcfoundation.org/UA/Machinery/ -uri http://opcfoundation.org/UA/DI/
-```
-
-The docker image can be rebuilt from source with this command:
-
-```
-docker build -t opcua-modelcompiler .
-```
-
-## Example Generation ##
-The following process will demonstrate how to generate code using the supplied nodeset files:
- 1. Clone the repository and then build the source in Visual Studio 2022, in Release mode.
- 2. Open a Command prompt and then launch the BuildStandardTypes.bat
- 3. After the script completes, navigate to the .\Published folder to view the output.
- 4. Optionally, modify the BAT file and specify the location of your UA Stack(s) to automatically copy the generated files.
-
 ### XML Files ###
 #### Model Design example ####
 An excerpt of the Model Design file is shown here:
@@ -175,6 +206,7 @@ An excerpt of the Model Design file is shown here:
     <opc:Description>The version number of the view.</opc:Description>
   </opc:Property>
 ```
+
 ## Other Repositories ##
 This ModelCompiler is used to generate the content of the [Nodeset GitHub repository](https://github.com/OPCFoundation/UA-Nodeset).
 

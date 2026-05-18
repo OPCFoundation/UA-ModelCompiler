@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<UANodeSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" LastModified="2025-10-31T00:00:00Z" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+<UANodeSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" LastModified="2026-04-20T00:00:00Z" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
   <NamespaceUris>
     <Uri>urn:opcfoundation.org:2024-01:TestModel</Uri>
   </NamespaceUris>
   <Models>
-    <Model ModelUri="urn:opcfoundation.org:2024-01:TestModel" XmlSchemaUri="urn:opcfoundation.org:2024-01:TestModelTypes.xsd" Version="1.05.06" PublicationDate="2025-10-31T00:00:00Z" ModelVersion="1.5.6">
-      <RequiredModel ModelUri="http://opcfoundation.org/UA/" XmlSchemaUri="http://opcfoundation.org/UA/2008/02/Types.xsd" Version="1.05.06" PublicationDate="2025-11-08T00:00:00Z" ModelVersion="1.5.6" />
+    <Model ModelUri="urn:opcfoundation.org:2024-01:TestModel" XmlSchemaUri="urn:opcfoundation.org:2024-01:TestModelTypes.xsd" Version="1.05.07" PublicationDate="2026-04-20T00:00:00Z" ModelVersion="1.5.7">
+      <RequiredModel ModelUri="http://opcfoundation.org/UA/" XmlSchemaUri="http://opcfoundation.org/UA/2008/02/Types.xsd" Version="1.05.07" PublicationDate="2026-04-20T00:00:00Z" ModelVersion="1.5.7" />
     </Model>
   </Models>
   <Aliases>
@@ -62,11 +62,24 @@
     <Alias Alias="AlarmGroupMember">i=16362</Alias>
     <Alias Alias="AlarmSuppressionGroupMember">i=32059</Alias>
   </Aliases>
+  <Extensions>
+    <Extension>
+      <blue:Something xmlns:blue="http://something.net/schemas">
+        <blue:Begin color="Red">Hello</blue:Begin>
+        <blue:End brightness="Dim">World</blue:End>
+      </blue:Something>
+    </Extension>
+  </Extensions>
   <UADataType NodeId="ns=1;i=1" BrowseName="1:TestAbstractStructure" IsAbstract="true">
     <DisplayName>TestAbstractStructure</DisplayName>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
     </References>
+    <Extensions>
+      <Extension>
+        <tag:Something xmlns:tag="http://tagsrus.net/schemas">TestAbstractStructure</tag:Something>
+      </Extension>
+    </Extensions>
     <Definition Name="1:TestAbstractStructure">
       <Field Name="A" DataType="i=4" />
       <Field Name="B" DataType="i=11" />
@@ -78,6 +91,11 @@
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=1</Reference>
     </References>
+    <Extensions>
+      <Extension>
+        <tag:Something xmlns:tag="http://tagsrus.net/schemas">TestConcreteStructure</tag:Something>
+      </Extension>
+    </Extensions>
     <Definition Name="1:TestConcreteStructure">
       <Field Name="D" DataType="i=4" />
       <Field Name="E" DataType="i=11" />
@@ -89,6 +107,11 @@
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=12756</Reference>
     </References>
+    <Extensions>
+      <Extension>
+        <tag:Something xmlns:tag="http://tagsrus.net/schemas">TestUnion</tag:Something>
+      </Extension>
+    </Extensions>
     <Definition Name="1:TestUnion" IsUnion="true">
       <Field Name="A" DataType="i=4" />
       <Field Name="B" DataType="i=11" />
@@ -100,6 +123,11 @@
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
     </References>
+    <Extensions>
+      <Extension>
+        <tag:Something xmlns:tag="http://tagsrus.net/schemas">TestOptionalFields</tag:Something>
+      </Extension>
+    </Extensions>
     <Definition Name="1:TestOptionalFields">
       <Field Name="A" DataType="i=4" IsOptional="true" />
       <Field Name="B" DataType="i=11" IsOptional="true" />
@@ -112,6 +140,11 @@
       <Reference ReferenceType="HasProperty">ns=1;i=4</Reference>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=29</Reference>
     </References>
+    <Extensions>
+      <Extension>
+        <tag:Something xmlns:tag="http://tagsrus.net/schemas">TestEnumeration</tag:Something>
+      </Extension>
+    </Extensions>
     <Definition Name="1:TestEnumeration">
       <Field Name="Invalid" Value="0" />
       <Field Name="Red" Value="2" />
@@ -188,6 +221,11 @@
       <Reference ReferenceType="HasProperty">ns=1;i=166</Reference>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=9</Reference>
     </References>
+    <Extensions>
+      <Extension>
+        <tag:Something xmlns:tag="http://tagsrus.net/schemas">TestOptionSet</tag:Something>
+      </Extension>
+    </Extensions>
     <Definition Name="1:TestOptionSet" IsOptionSet="true">
       <Field Name="A" Value="0" />
       <Field Name="B" Value="1" />
@@ -334,6 +372,11 @@
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
     </References>
+    <Extensions>
+      <Extension>
+        <tag:Something xmlns:tag="http://tagsrus.net/schemas">TestScalarStructure</tag:Something>
+      </Extension>
+    </Extensions>
     <Definition Name="1:TestScalarStructure">
       <Field Name="A" DataType="i=1" />
       <Field Name="B" DataType="i=2" />
@@ -371,6 +414,11 @@
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
     </References>
+    <Extensions>
+      <Extension>
+        <tag:Something xmlns:tag="http://tagsrus.net/schemas">TestArrayStructure</tag:Something>
+      </Extension>
+    </Extensions>
     <Definition Name="1:TestArrayStructure">
       <Field Name="A" DataType="i=1" ValueRank="1" />
       <Field Name="B" DataType="i=2" ValueRank="1" />
@@ -408,6 +456,11 @@
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
     </References>
+    <Extensions>
+      <Extension>
+        <tag:Something xmlns:tag="http://tagsrus.net/schemas">TestStructure</tag:Something>
+      </Extension>
+    </Extensions>
     <Definition Name="1:TestStructure">
       <Field Name="A" DataType="ns=1;i=5" />
       <Field Name="B" DataType="ns=1;i=6" />
@@ -1758,7 +1811,7 @@ VHlwZXMueHNkIg0KICB0YXJnZXROYW1lc3BhY2U9InVybjpvcGNmb3VuZGF0aW9uLm9yZzoyMDI0
 LTAxOlRlc3RNb2RlbFR5cGVzLnhzZCINCiAgZWxlbWVudEZvcm1EZWZhdWx0PSJxdWFsaWZpZWQi
 DQo+DQogIDx4czphbm5vdGF0aW9uPg0KICAgIDx4czphcHBpbmZvPg0KICAgICAgPHVhOk1vZGVs
 IE1vZGVsVXJpPSJ1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpUZXN0TW9kZWwiIFZlcnNp
-b249IjEuMDUuMDYiIFB1YmxpY2F0aW9uRGF0ZT0iMjAyNS0xMC0zMVQwMDowMDowMFoiIC8+DQog
+b249IjEuMDUuMDciIFB1YmxpY2F0aW9uRGF0ZT0iMjAyNi0wNC0xNVQwMDowMDowMFoiIC8+DQog
 ICAgPC94czphcHBpbmZvPg0KICA8L3hzOmFubm90YXRpb24+DQogIA0KICA8eHM6aW1wb3J0IG5h
 bWVzcGFjZT0iaHR0cDovL29wY2ZvdW5kYXRpb24ub3JnL1VBLzIwMDgvMDIvVHlwZXMueHNkIiAv
 Pg0KDQogIDx4czpjb21wbGV4VHlwZSBuYW1lPSJUZXN0QWJzdHJhY3RTdHJ1Y3R1cmUiPg0KICAg
@@ -2343,130 +2396,4 @@ DQo8L3hzOnNjaGVtYT4=</ByteString>
       <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='Student']</String>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=1;i=56" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=1</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=57" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=2</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=192" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=163</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=193" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=164</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=58" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=5</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=59" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=6</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=194" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=167</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=345" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=244</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=346" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=245</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=347" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=246</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=348" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=247</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=349" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=248</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=350" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=249</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=351" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=250</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=352" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=251</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=353" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=252</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=354" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=255</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=355" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=256</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
 </UANodeSet>

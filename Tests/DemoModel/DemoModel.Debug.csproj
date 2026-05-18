@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>DemoModel</AssemblyName>
     <IntermediateOutputPath>$(SolutionDir)build\obj\$(Configuration)\$(MSBuildProjectName)\</IntermediateOutputPath>
     <RootNamespace>DemoModel</RootNamespace>
@@ -21,45 +21,21 @@
 
   <ItemGroup>
     <Compile Remove="build\**" />
-    <Compile Remove="DemoModel\**" />
-    <Compile Remove="Models\Machinery\**" />
     <EmbeddedResource Remove="build\**" />
-    <EmbeddedResource Remove="DemoModel\**" />
-    <EmbeddedResource Remove="Models\Machinery\**" />
     <None Remove="build\**" />
-    <None Remove="DemoModel\**" />
-    <None Remove="Models\Machinery\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="DemoModel\DemoModel.Classes.cs" />
-    <Compile Include="DemoModel\DemoModel.Constants.cs" />
-    <Compile Include="DemoModel\DemoModel.DataTypes.cs" />
-    <Compile Include="DemoModel\DemoModel.PredefinedNodes.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="DemoModel\DemoModel.NodeSet2.xml" />
-    <Content Include="DemoModel\DemoModel.PredefinedNodes.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Folder Include="DemoModel\" />
     <Folder Include="Models\" />
     <Folder Include="Scheduler\" />
     <Folder Include="Onboarding\" />
+    <Folder Include="TestModel\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="DemoModel\DemoModel.NodeIds.csv" />
-    <None Include="DemoModel\DemoModel.NodeIds.permissions.csv" />
-    <EmbeddedResource Include="DemoModel\DemoModel.PredefinedNodes.uanodes" />
-    <None Include="DemoModel\DemoModel.Types.bsd" />
-    <None Include="DemoModel\DemoModel.Types.xsd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Serilog" Version="4.3.0" />
-    <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.2" />
+    <PackageReference Include="Serilog" Version="4.3.1" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="10.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
   </ItemGroup>

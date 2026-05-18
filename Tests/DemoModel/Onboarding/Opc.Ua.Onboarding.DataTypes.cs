@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -31,33 +31,42 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
+using System.Threading;
 using Opc.Ua.Gds;
 using Opc.Ua;
+
+namespace Opc.Ua.Gds {}
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable CA1515 // Consider making public types internal
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+#pragma warning disable CA1028 // Enum Storage should be Int32
 
 namespace Opc.Ua.Onboarding
 {
     #region CertificateAuthorityType Class
     #if (!OPCUA_EXCLUDE_CertificateAuthorityType)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [DataContract(Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd)]
     public partial class CertificateAuthorityType : IEncodeable, IJsonEncodeable
     {
         #region Constructors
-        /// <remarks />
         public CertificateAuthorityType()
         {
             Initialize();
         }
-            
+
         [OnDeserializing]
         private void Initialize(StreamingContext context)
         {
             Initialize();
         }
-            
+
         private void Initialize()
         {
             m_authorityCertificate = null;
@@ -66,7 +75,6 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Public Properties
-        /// <remarks />
         [DataMember(Name = "AuthorityCertificate", IsRequired = false, Order = 1)]
         public byte[] AuthorityCertificate
         {
@@ -97,16 +105,16 @@ namespace Opc.Ua.Onboarding
 
         #region IEncodeable Members
         /// <summary cref="IEncodeable.TypeId" />
-        public virtual ExpandedNodeId TypeId => DataTypeIds.CertificateAuthorityType; 
+        public virtual ExpandedNodeId TypeId => DataTypeIds.CertificateAuthorityType;
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
         public virtual ExpandedNodeId BinaryEncodingId => ObjectIds.CertificateAuthorityType_Encoding_DefaultBinary;
 
         /// <summary cref="IEncodeable.XmlEncodingId" />
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.CertificateAuthorityType_Encoding_DefaultXml;
-                    
+
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.CertificateAuthorityType_Encoding_DefaultJson; 
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -176,25 +184,21 @@ namespace Opc.Ua.Onboarding
     }
 
     #region CertificateAuthorityTypeCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfCertificateAuthorityType", Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd, ItemName = "CertificateAuthorityType")]
     public partial class CertificateAuthorityTypeCollection : List<CertificateAuthorityType>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public CertificateAuthorityTypeCollection() {}
 
-        /// <remarks />
         public CertificateAuthorityTypeCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public CertificateAuthorityTypeCollection(IEnumerable<CertificateAuthorityType> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator CertificateAuthorityTypeCollection(CertificateAuthorityType[] values)
         {
             if (values != null)
@@ -205,7 +209,6 @@ namespace Opc.Ua.Onboarding
             return new CertificateAuthorityTypeCollection();
         }
 
-        /// <remarks />
         public static explicit operator CertificateAuthorityType[](CertificateAuthorityTypeCollection values)
         {
             if (values != null)
@@ -218,7 +221,6 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (CertificateAuthorityTypeCollection)this.MemberwiseClone();
@@ -244,25 +246,24 @@ namespace Opc.Ua.Onboarding
 
     #region BaseTicketType Class
     #if (!OPCUA_EXCLUDE_BaseTicketType)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [DataContract(Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd)]
     public partial class BaseTicketType : IEncodeable, IJsonEncodeable
     {
         #region Constructors
-        /// <remarks />
         public BaseTicketType()
         {
             Initialize();
         }
-            
+
         [OnDeserializing]
         private void Initialize(StreamingContext context)
         {
             Initialize();
         }
-            
+
         private void Initialize()
         {
             m_manufacturerName = null;
@@ -277,7 +278,6 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Public Properties
-        /// <remarks />
         [DataMember(Name = "ManufacturerName", IsRequired = false, Order = 1)]
         public string ManufacturerName
         {
@@ -285,7 +285,6 @@ namespace Opc.Ua.Onboarding
             set { m_manufacturerName = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "ModelName", IsRequired = false, Order = 2)]
         public string ModelName
         {
@@ -293,7 +292,6 @@ namespace Opc.Ua.Onboarding
             set { m_modelName = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "ModelVersion", IsRequired = false, Order = 3)]
         public string ModelVersion
         {
@@ -301,7 +299,6 @@ namespace Opc.Ua.Onboarding
             set { m_modelVersion = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "HardwareRevision", IsRequired = false, Order = 4)]
         public string HardwareRevision
         {
@@ -309,7 +306,6 @@ namespace Opc.Ua.Onboarding
             set { m_hardwareRevision = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "SoftwareRevision", IsRequired = false, Order = 5)]
         public string SoftwareRevision
         {
@@ -317,7 +313,6 @@ namespace Opc.Ua.Onboarding
             set { m_softwareRevision = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "SerialNumber", IsRequired = false, Order = 6)]
         public string SerialNumber
         {
@@ -325,7 +320,6 @@ namespace Opc.Ua.Onboarding
             set { m_serialNumber = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "ManufactureDate", IsRequired = false, Order = 7)]
         public DateTime ManufactureDate
         {
@@ -356,16 +350,16 @@ namespace Opc.Ua.Onboarding
 
         #region IEncodeable Members
         /// <summary cref="IEncodeable.TypeId" />
-        public virtual ExpandedNodeId TypeId => DataTypeIds.BaseTicketType; 
+        public virtual ExpandedNodeId TypeId => DataTypeIds.BaseTicketType;
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
         public virtual ExpandedNodeId BinaryEncodingId => ObjectIds.BaseTicketType_Encoding_DefaultBinary;
 
         /// <summary cref="IEncodeable.XmlEncodingId" />
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.BaseTicketType_Encoding_DefaultXml;
-                    
+
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.BaseTicketType_Encoding_DefaultJson; 
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -465,25 +459,21 @@ namespace Opc.Ua.Onboarding
     }
 
     #region BaseTicketTypeCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfBaseTicketType", Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd, ItemName = "BaseTicketType")]
     public partial class BaseTicketTypeCollection : List<BaseTicketType>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public BaseTicketTypeCollection() {}
 
-        /// <remarks />
         public BaseTicketTypeCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public BaseTicketTypeCollection(IEnumerable<BaseTicketType> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator BaseTicketTypeCollection(BaseTicketType[] values)
         {
             if (values != null)
@@ -494,7 +484,6 @@ namespace Opc.Ua.Onboarding
             return new BaseTicketTypeCollection();
         }
 
-        /// <remarks />
         public static explicit operator BaseTicketType[](BaseTicketTypeCollection values)
         {
             if (values != null)
@@ -507,7 +496,6 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (BaseTicketTypeCollection)this.MemberwiseClone();
@@ -533,14 +521,13 @@ namespace Opc.Ua.Onboarding
 
     #region DeviceIdentityTicketType Class
     #if (!OPCUA_EXCLUDE_DeviceIdentityTicketType)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [DataContract(Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd)]
     public partial class DeviceIdentityTicketType : Opc.Ua.Onboarding.BaseTicketType
     {
         #region Constructors
-        /// <remarks />
         public DeviceIdentityTicketType()
         {
             Initialize();
@@ -559,7 +546,6 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Public Properties
-        /// <remarks />
         [DataMember(Name = "ProductInstanceUri", IsRequired = false, Order = 1)]
         public string ProductInstanceUri
         {
@@ -570,16 +556,16 @@ namespace Opc.Ua.Onboarding
 
         #region IEncodeable Members
         /// <summary cref="IEncodeable.TypeId" />
-        public override ExpandedNodeId TypeId => DataTypeIds.DeviceIdentityTicketType; 
+        public override ExpandedNodeId TypeId => DataTypeIds.DeviceIdentityTicketType;
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
         public override ExpandedNodeId BinaryEncodingId => ObjectIds.DeviceIdentityTicketType_Encoding_DefaultBinary;
 
         /// <summary cref="IEncodeable.XmlEncodingId" />
         public override ExpandedNodeId XmlEncodingId => ObjectIds.DeviceIdentityTicketType_Encoding_DefaultXml;
-            
+
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public override ExpandedNodeId JsonEncodingId => ObjectIds.DeviceIdentityTicketType_Encoding_DefaultJson; 
+        public override ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public override void Encode(IEncoder encoder)
@@ -623,7 +609,7 @@ namespace Opc.Ua.Onboarding
             if (!Utils.IsEqual(m_productInstanceUri, value.m_productInstanceUri)) return false;
 
             return base.IsEqual(encodeable);
-        }    
+        }
 
         /// <summary cref="ICloneable.Clone" />
         public override object Clone()
@@ -648,25 +634,21 @@ namespace Opc.Ua.Onboarding
     }
 
     #region DeviceIdentityTicketTypeCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfDeviceIdentityTicketType", Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd, ItemName = "DeviceIdentityTicketType")]
     public partial class DeviceIdentityTicketTypeCollection : List<DeviceIdentityTicketType>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public DeviceIdentityTicketTypeCollection() {}
 
-        /// <remarks />
         public DeviceIdentityTicketTypeCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public DeviceIdentityTicketTypeCollection(IEnumerable<DeviceIdentityTicketType> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator DeviceIdentityTicketTypeCollection(DeviceIdentityTicketType[] values)
         {
             if (values != null)
@@ -677,7 +659,6 @@ namespace Opc.Ua.Onboarding
             return new DeviceIdentityTicketTypeCollection();
         }
 
-        /// <remarks />
         public static explicit operator DeviceIdentityTicketType[](DeviceIdentityTicketTypeCollection values)
         {
             if (values != null)
@@ -690,7 +671,6 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (DeviceIdentityTicketTypeCollection)this.MemberwiseClone();
@@ -716,14 +696,13 @@ namespace Opc.Ua.Onboarding
 
     #region CompositeIdentityTicketType Class
     #if (!OPCUA_EXCLUDE_CompositeIdentityTicketType)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [DataContract(Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd)]
     public partial class CompositeIdentityTicketType : Opc.Ua.Onboarding.BaseTicketType
     {
         #region Constructors
-        /// <remarks />
         public CompositeIdentityTicketType()
         {
             Initialize();
@@ -744,7 +723,6 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Public Properties
-        /// <remarks />
         [DataMember(Name = "CompositeInstanceUri", IsRequired = false, Order = 1)]
         public string CompositeInstanceUri
         {
@@ -795,16 +773,16 @@ namespace Opc.Ua.Onboarding
 
         #region IEncodeable Members
         /// <summary cref="IEncodeable.TypeId" />
-        public override ExpandedNodeId TypeId => DataTypeIds.CompositeIdentityTicketType; 
+        public override ExpandedNodeId TypeId => DataTypeIds.CompositeIdentityTicketType;
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
         public override ExpandedNodeId BinaryEncodingId => ObjectIds.CompositeIdentityTicketType_Encoding_DefaultBinary;
 
         /// <summary cref="IEncodeable.XmlEncodingId" />
         public override ExpandedNodeId XmlEncodingId => ObjectIds.CompositeIdentityTicketType_Encoding_DefaultXml;
-            
+
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public override ExpandedNodeId JsonEncodingId => ObjectIds.CompositeIdentityTicketType_Encoding_DefaultJson; 
+        public override ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public override void Encode(IEncoder encoder)
@@ -854,7 +832,7 @@ namespace Opc.Ua.Onboarding
             if (!Utils.IsEqual(m_composites, value.m_composites)) return false;
 
             return base.IsEqual(encodeable);
-        }    
+        }
 
         /// <summary cref="ICloneable.Clone" />
         public override object Clone()
@@ -883,25 +861,21 @@ namespace Opc.Ua.Onboarding
     }
 
     #region CompositeIdentityTicketTypeCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfCompositeIdentityTicketType", Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd, ItemName = "CompositeIdentityTicketType")]
     public partial class CompositeIdentityTicketTypeCollection : List<CompositeIdentityTicketType>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public CompositeIdentityTicketTypeCollection() {}
 
-        /// <remarks />
         public CompositeIdentityTicketTypeCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public CompositeIdentityTicketTypeCollection(IEnumerable<CompositeIdentityTicketType> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator CompositeIdentityTicketTypeCollection(CompositeIdentityTicketType[] values)
         {
             if (values != null)
@@ -912,7 +886,6 @@ namespace Opc.Ua.Onboarding
             return new CompositeIdentityTicketTypeCollection();
         }
 
-        /// <remarks />
         public static explicit operator CompositeIdentityTicketType[](CompositeIdentityTicketTypeCollection values)
         {
             if (values != null)
@@ -925,7 +898,6 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (CompositeIdentityTicketTypeCollection)this.MemberwiseClone();
@@ -951,25 +923,24 @@ namespace Opc.Ua.Onboarding
 
     #region TicketListType Class
     #if (!OPCUA_EXCLUDE_TicketListType)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [DataContract(Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd)]
     public partial class TicketListType : IEncodeable, IJsonEncodeable
     {
         #region Constructors
-        /// <remarks />
         public TicketListType()
         {
             Initialize();
         }
-            
+
         [OnDeserializing]
         private void Initialize(StreamingContext context)
         {
             Initialize();
         }
-            
+
         private void Initialize()
         {
             m_devices = new StringCollection();
@@ -1021,16 +992,16 @@ namespace Opc.Ua.Onboarding
 
         #region IEncodeable Members
         /// <summary cref="IEncodeable.TypeId" />
-        public virtual ExpandedNodeId TypeId => DataTypeIds.TicketListType; 
+        public virtual ExpandedNodeId TypeId => DataTypeIds.TicketListType;
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
         public virtual ExpandedNodeId BinaryEncodingId => ObjectIds.TicketListType_Encoding_DefaultBinary;
 
         /// <summary cref="IEncodeable.XmlEncodingId" />
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.TicketListType_Encoding_DefaultXml;
-                    
+
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.TicketListType_Encoding_DefaultJson; 
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -1100,25 +1071,21 @@ namespace Opc.Ua.Onboarding
     }
 
     #region TicketListTypeCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfTicketListType", Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd, ItemName = "TicketListType")]
     public partial class TicketListTypeCollection : List<TicketListType>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public TicketListTypeCollection() {}
 
-        /// <remarks />
         public TicketListTypeCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public TicketListTypeCollection(IEnumerable<TicketListType> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator TicketListTypeCollection(TicketListType[] values)
         {
             if (values != null)
@@ -1129,7 +1096,6 @@ namespace Opc.Ua.Onboarding
             return new TicketListTypeCollection();
         }
 
-        /// <remarks />
         public static explicit operator TicketListType[](TicketListTypeCollection values)
         {
             if (values != null)
@@ -1142,7 +1108,6 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (TicketListTypeCollection)this.MemberwiseClone();
@@ -1168,25 +1133,24 @@ namespace Opc.Ua.Onboarding
 
     #region ManagerDescription Class
     #if (!OPCUA_EXCLUDE_ManagerDescription)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [DataContract(Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd)]
     public partial class ManagerDescription : IEncodeable, IJsonEncodeable
     {
         #region Constructors
-        /// <remarks />
         public ManagerDescription()
         {
             Initialize();
         }
-            
+
         [OnDeserializing]
         private void Initialize(StreamingContext context)
         {
             Initialize();
         }
-            
+
         private void Initialize()
         {
             m_name = null;
@@ -1198,7 +1162,6 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Public Properties
-        /// <remarks />
         [DataMember(Name = "Name", IsRequired = false, Order = 1)]
         public LocalizedText Name
         {
@@ -1206,7 +1169,6 @@ namespace Opc.Ua.Onboarding
             set { m_name = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "IsRequired", IsRequired = false, Order = 2)]
         public bool IsRequired
         {
@@ -1214,7 +1176,6 @@ namespace Opc.Ua.Onboarding
             set { m_isRequired = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "PurposeUri", IsRequired = false, Order = 3)]
         public string PurposeUri
         {
@@ -1222,7 +1183,6 @@ namespace Opc.Ua.Onboarding
             set { m_purposeUri = value; }
         }
 
-        /// <remarks />
         [DataMember(Name = "ProtocolUri", IsRequired = false, Order = 4)]
         public string ProtocolUri
         {
@@ -1253,16 +1213,16 @@ namespace Opc.Ua.Onboarding
 
         #region IEncodeable Members
         /// <summary cref="IEncodeable.TypeId" />
-        public virtual ExpandedNodeId TypeId => DataTypeIds.ManagerDescription; 
+        public virtual ExpandedNodeId TypeId => DataTypeIds.ManagerDescription;
 
         /// <summary cref="IEncodeable.BinaryEncodingId" />
         public virtual ExpandedNodeId BinaryEncodingId => ObjectIds.ManagerDescription_Encoding_DefaultBinary;
 
         /// <summary cref="IEncodeable.XmlEncodingId" />
         public virtual ExpandedNodeId XmlEncodingId => ObjectIds.ManagerDescription_Encoding_DefaultXml;
-                    
+
         /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-        public virtual ExpandedNodeId JsonEncodingId => ObjectIds.ManagerDescription_Encoding_DefaultJson; 
+        public virtual ExpandedNodeId JsonEncodingId => Opc.Ua.ExpandedNodeId.Null;
 
         /// <summary cref="IEncodeable.Encode(IEncoder)" />
         public virtual void Encode(IEncoder encoder)
@@ -1347,25 +1307,21 @@ namespace Opc.Ua.Onboarding
     }
 
     #region ManagerDescriptionCollection Class
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     [CollectionDataContract(Name = "ListOfManagerDescription", Namespace = Opc.Ua.Onboarding.Namespaces.OpcUaOnboardingXsd, ItemName = "ManagerDescription")]
     public partial class ManagerDescriptionCollection : List<ManagerDescription>, ICloneable
     {
         #region Constructors
-        /// <remarks />
         public ManagerDescriptionCollection() {}
 
-        /// <remarks />
         public ManagerDescriptionCollection(int capacity) : base(capacity) {}
 
-        /// <remarks />
         public ManagerDescriptionCollection(IEnumerable<ManagerDescription> collection) : base(collection) {}
         #endregion
 
         #region Static Operators
-        /// <remarks />
         public static implicit operator ManagerDescriptionCollection(ManagerDescription[] values)
         {
             if (values != null)
@@ -1376,7 +1332,6 @@ namespace Opc.Ua.Onboarding
             return new ManagerDescriptionCollection();
         }
 
-        /// <remarks />
         public static explicit operator ManagerDescription[](ManagerDescriptionCollection values)
         {
             if (values != null)
@@ -1389,7 +1344,6 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region ICloneable Methods
-        /// <remarks />
         public object Clone()
         {
             return (ManagerDescriptionCollection)this.MemberwiseClone();

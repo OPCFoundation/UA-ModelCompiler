@@ -1,8 +1,8 @@
 /* ========================================================================
- * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
+ * Copyright (c) 2005-2026 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- *
+ * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -36,6 +36,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Threading;
 using Opc.Ua;
+
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable CA1515 // Consider making public types internal
@@ -92,12 +93,11 @@ namespace DemoModel
 
         #region Initialization String
         private const string InitializationString =
-           "AgAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWwfAAAAaHR0cDovL29w" +
-           "Y2ZvdW5kYXRpb24ub3JnL1VBL0RJL/////8VYIECAgAAAAEAHgAAAFJlc3RyaWN0ZWRWYXJpYWJsZVR5" +
-           "cGVJbnN0YW5jZQEBegABAXoAegAAAAAMAQH/////BAAAABVgiQoCAAAAAQAGAAAAWWVsbG93AQF7AAAv" +
-           "AER7AAAAAAb/////AQH/////AAAAABVgiQoCAAAAAQABAAAAWAEB0gAALwBE0gAAAAAG/////wEB////" +
-           "/wAAAAAVYIkKAgAAAAEAAQAAAFkBAdMAAC8ARNMAAAAABv////8BAf////8AAAAAFWCJCgIAAAABAAEA" +
-           "AABaAQHUAAAvAETUAAAAAAb/////AQH/////AAAAAA==";
+           "AQAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWz/////FWCBAgIAAAAB" +
+           "AB4AAABSZXN0cmljdGVkVmFyaWFibGVUeXBlSW5zdGFuY2UBAXoAAQF6AHoAAAAADAEB/////wQAAAAV" +
+           "YIkKAgAAAAEABgAAAFllbGxvdwEBewAALwBEewAAAAAG/////wEB/////wAAAAAVYIkKAgAAAAEAAQAA" +
+           "AFgBAdIAAC8ARNIAAAAABv////8BAf////8AAAAAFWCJCgIAAAABAAEAAABZAQHTAAAvAETTAAAAAAb/" +
+           "////AQH/////AAAAABVgiQoCAAAAAQABAAAAWgEB1AAALwBE1AAAAAAG/////wEB/////wAAAAA=";
         #endregion
         #endif
         #endregion
@@ -423,23 +423,46 @@ namespace DemoModel
 
         #region Initialization String
         private const string InitializationString =
-           "AgAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWwfAAAAaHR0cDovL29w" +
-           "Y2ZvdW5kYXRpb24ub3JnL1VBL0RJL/////8EYIACAQAAAAEAHAAAAFJlc3RyaWN0ZWRPYmplY3RUeXBl" +
-           "SW5zdGFuY2UBAXwAAQF8AHwAAAD/////AwAAABVgiQoCAAAAAQADAAAAUmVkAQF9AAAvAQF6AH0AAAAA" +
-           "DP////8BAf////8EAAAAFWCJCgIAAAABAAYAAABZZWxsb3cBATkAAC8ARDkAAAAABv////8BAf////8A" +
-           "AAAAFWCJCgIAAAABAAEAAABYAQHVAAAvAETVAAAAAAb/////AQH/////AAAAABVgiQoCAAAAAQABAAAA" +
-           "WQEB1gAALwBE1gAAAAAG/////wEB/////wAAAAAVYIkKAgAAAAEAAQAAAFoBAdcAAC8ARNcAAAAABv//" +
-           "//8BAf////8AAAAAFWDJCgIAAAAQAAAAUGlua19QbGFjZWhvbGRlcgEABgAAADxQaW5rPgEBhAAALwEB" +
-           "egCEAAAAAAz/////AQH/////BAAAABVgiQoCAAAAAQAGAAAAWWVsbG93AQE6AAAvAEQ6AAAAAAb/////" +
-           "AQH/////AAAAABVgiQoCAAAAAQABAAAAWAEB2AAALwBE2AAAAAAG/////wEB/////wAAAAAVYIkKAgAA" +
-           "AAEAAQAAAFkBAdkAAC8ARNkAAAAABv////8BAf////8AAAAAFWCJCgIAAAABAAEAAABaAQHaAAAvAETa" +
-           "AAAAAAb/////AQH/////AAAAAARhggoEAAAAAQAIAAAAQmx1ZVR5cGUBAVYBAC8BAVYBVgEAAAEB////" +
-           "/wAAAAA=";
+           "AQAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWz/////BGCAAgEAAAAB" +
+           "ABwAAABSZXN0cmljdGVkT2JqZWN0VHlwZUluc3RhbmNlAQF8AAEBfAB8AAAA/////wQAAAAEYIAKAQAA" +
+           "AAEABgAAAFB1cnBsZQEBewEALwEAVwl7AQAA/////wUAAAAVYIkKAgAAAAAADAAAAEN1cnJlbnRTdGF0" +
+           "ZQEBfQEALwEAyAp9AQAAABX/////AQH/////AgAAABVgiQoCAAAAAAACAAAASWQBAX4BAC4ARH4BAAAA" +
+           "Ef////8BAf////8AAAAAFWCJCgIAAAAAAAYAAABOdW1iZXIBAYABAC4ARIABAAAAB/////8BAf////8A" +
+           "AAAAFWCJCgIAAAAAAA4AAABMYXN0VHJhbnNpdGlvbgEBggEALwEAzwqCAQAAABX/////AQH/////AwAA" +
+           "ABVgiQoCAAAAAAACAAAASWQBAYMBAC4ARIMBAAAAEf////8BAf////8AAAAAFWCJCgIAAAAAAAYAAABO" +
+           "dW1iZXIBAYUBAC4ARIUBAAAAB/////8BAf////8AAAAAFWCJCgIAAAAAAA4AAABUcmFuc2l0aW9uVGlt" +
+           "ZQEBhgEALgBEhgEAAAEAJgH/////AQH/////AAAAABVgiQoCAAAAAAAJAAAARGVsZXRhYmxlAQGKAQAu" +
+           "AESKAQAAAAH/////AQH/////AAAAABVgiQoCAAAAAAAKAAAAQXV0b0RlbGV0ZQEBiwEALgBEiwEAAAAB" +
+           "/////wEB/////wAAAAAVYIkKAgAAAAAADAAAAFJlY3ljbGVDb3VudAEBjAEALgBEjAEAAAAG/////wEB" +
+           "/////wAAAAAVYIkKAgAAAAEAAwAAAFJlZAEBfQAALwEBegB9AAAAAAz/////AQH/////BAAAABVgiQoC" +
+           "AAAAAQAGAAAAWWVsbG93AQE5AAAvAEQ5AAAAAAb/////AQH/////AAAAABVgiQoCAAAAAQABAAAAWAEB" +
+           "1QAALwBE1QAAAAAG/////wEB/////wAAAAAVYIkKAgAAAAEAAQAAAFkBAdYAAC8ARNYAAAAABv////8B" +
+           "Af////8AAAAAFWCJCgIAAAABAAEAAABaAQHXAAAvAETXAAAAAAb/////AQH/////AAAAABVgyQoCAAAA" +
+           "EAAAAFBpbmtfUGxhY2Vob2xkZXIBAAYAAAA8UGluaz4BAYQAAC8BAXoAhAAAAAAM/////wEB/////wQA" +
+           "AAAVYIkKAgAAAAEABgAAAFllbGxvdwEBOgAALwBEOgAAAAAG/////wEB/////wAAAAAVYIkKAgAAAAEA" +
+           "AQAAAFgBAdgAAC8ARNgAAAAABv////8BAf////8AAAAAFWCJCgIAAAABAAEAAABZAQHZAAAvAETZAAAA" +
+           "AAb/////AQH/////AAAAABVgiQoCAAAAAQABAAAAWgEB2gAALwBE2gAAAAAG/////wEB/////wAAAAAE" +
+           "YYIKBAAAAAEACAAAAEJsdWVUeXBlAQFWAQAvAQFWAVYBAAABAf////8AAAAA";
         #endregion
         #endif
         #endregion
 
         #region Public Properties
+        public ProgramStateMachineState Purple
+        {
+            get => m_purple;
+
+            set
+            {
+                if (!Object.ReferenceEquals(m_purple, value))
+                {
+                    ChangeMasks |= NodeStateChangeMasks.Children;
+                }
+
+                m_purple = value;
+            }
+        }
+
         public RestrictedVariableState<string> Red
         {
             get => m_red;
@@ -476,6 +499,11 @@ namespace DemoModel
             ISystemContext context,
             IList<BaseInstanceState> children)
         {
+            if (m_purple != null)
+            {
+                children.Add(m_purple);
+            }
+
             if (m_red != null)
             {
                 children.Add(m_red);
@@ -491,6 +519,12 @@ namespace DemoModel
             
         protected override void RemoveExplicitlyDefinedChild(BaseInstanceState child)
         {
+            if (Object.ReferenceEquals(m_purple, child))
+            {
+                m_purple = null;
+                return;
+            }
+
             if (Object.ReferenceEquals(m_red, child))
             {
                 m_red = null;
@@ -521,6 +555,27 @@ namespace DemoModel
 
             switch (browseName.Name)
             {
+                case DemoModel.BrowseNames.Purple:
+                {
+                    if (createOrReplace)
+                    {
+                        if (Purple == null)
+                        {
+                            if (replacement == null)
+                            {
+                                Purple = new ProgramStateMachineState(this);
+                            }
+                            else
+                            {
+                                Purple = (ProgramStateMachineState)replacement;
+                            }
+                        }
+                    }
+
+                    instance = Purple;
+                    break;
+                }
+
                 case DemoModel.BrowseNames.Red:
                 {
                     if (createOrReplace)
@@ -574,6 +629,7 @@ namespace DemoModel
         #endregion
 
         #region Private Fields
+        private ProgramStateMachineState m_purple;
         private RestrictedVariableState<string> m_red;
         private MethodState m_blueTypeMethod;
         #endregion
@@ -629,11 +685,11 @@ namespace DemoModel
 
         #region Initialization String
         private const string InitializationString =
-           "AgAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWwfAAAAaHR0cDovL29w" +
-           "Y2ZvdW5kYXRpb24ub3JnL1VBL0RJL/////8VYIECAgAAAAEAEgAAAFllbGxvd1R5cGVJbnN0YW5jZQEB" +
-           "WQEBAVkBWQEAAAAMAQH/////AgAAABVgqQoCAAAAAQAFAAAAU2hhZGUBAVoBAC4ARFoBAAAMBAAAAFBh" +
-           "bGUADP////8BAf////8AAAAAFWCpCgIAAAAAABkAAABEZWZhdWx0SW5zdGFuY2VCcm93c2VOYW1lAQFb" +
-           "AQAuAERbAQAAFAEACwAAAFllbGxvd1RoaW5nABT/////AQH/////AAAAAA==";
+           "AQAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWz/////FWCBAgIAAAAB" +
+           "ABIAAABZZWxsb3dUeXBlSW5zdGFuY2UBAVkBAQFZAVkBAAAADAEB/////wIAAAAVYKkKAgAAAAEABQAA" +
+           "AFNoYWRlAQFaAQAuAERaAQAADAQAAABQYWxlAAz/////AQH/////AAAAABVgqQoCAAAAAAAZAAAARGVm" +
+           "YXVsdEluc3RhbmNlQnJvd3NlTmFtZQEBWwEALgBEWwEAABQBAAsAAABZZWxsb3dUaGluZwAU/////wEB" +
+           "/////wAAAAA=";
         #endregion
         #endif
         #endregion
@@ -777,6 +833,67 @@ namespace DemoModel
     #endif
     #endregion
 
+    #region BrightnessState Class
+    #if (!OPCUA_EXCLUDE_BrightnessState)
+    /// <exclude />
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
+    public partial class BrightnessState : BaseObjectState
+    {
+        #region Constructors
+        public BrightnessState(NodeState parent) : base(parent)
+        {
+        }
+
+        protected override NodeId GetDefaultTypeDefinitionId(NamespaceTable namespaceUris)
+        {
+            return Opc.Ua.NodeId.Create(DemoModel.ObjectTypes.BrightnessType, DemoModel.Namespaces.DemoModel, namespaceUris);
+        }
+
+        #if (!OPCUA_EXCLUDE_InitializationStrings)
+        protected override void Initialize(ISystemContext context)
+        {
+            base.Initialize(context);
+            Initialize(context, InitializationString);
+            InitializeOptionalChildren(context);
+        }
+
+        protected override void Initialize(ISystemContext context, NodeState source)
+        {
+            InitializeOptionalChildren(context);
+            base.Initialize(context, source);
+        }
+
+        protected override void InitializeOptionalChildren(ISystemContext context)
+        {
+            base.InitializeOptionalChildren(context);
+        }
+
+        #region Initialization String
+        private const string InitializationString =
+           "AQAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWz/////BGCAAgEAAAAB" +
+           "ABYAAABCcmlnaHRuZXNzVHlwZUluc3RhbmNlAQFsAQEBbAFsAQAA/////wIAAAAEYMAKAQAAABEAAABB" +
+           "bWJlcl9QbGFjZWhvbGRlcgEABwAAADxBbWJlcj4BAW0BADEBAAMJbQEAAP////8BAAAAFWCJCgIAAAAA" +
+           "AAsAAABTdGF0ZU51bWJlcgEBbgEALgBEbgEAAAAH/////wEB/////wAAAAAEYMAKAQAAABEAAABHcmVl" +
+           "bl9QbGFjZWhvbGRlcgEABwAAADxHcmVlbj4BAW8BACMBAPsIbwEAAP////8BAAAAFWCJCgIAAAAAAAwA" +
+           "AABDdXJyZW50U3RhdGUBAXABAC8BAMMKcAEAAAAV/////wEB/////wEAAAAVYIkKAgAAAAAAAgAAAElk" +
+           "AQFxAQAuAERxAQAAABj/////AQH/////AAAAAA==";
+        #endregion
+        #endif
+        #endregion
+
+        #region Public Properties
+        #endregion
+
+        #region Overridden Methods
+        #endregion
+
+        #region Private Fields
+        #endregion
+    }
+    #endif
+    #endregion
+
     #region PictureState Class
     #if (!OPCUA_EXCLUDE_PictureState)
     /// <exclude />
@@ -815,11 +932,11 @@ namespace DemoModel
 
         #region Initialization String
         private const string InitializationString =
-           "AgAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWwfAAAAaHR0cDovL29w" +
-           "Y2ZvdW5kYXRpb24ub3JnL1VBL0RJL/////8EYIACAQAAAAEAEwAAAFBpY3R1cmVUeXBlSW5zdGFuY2UB" +
-           "AVwBAQFcAVwBAAD/////AQAAABVgiQoCAAAAAQALAAAAWWVsbG93VGhpbmcBAV0BAC4BAVkBXQEAAAAM" +
-           "/////wEB/////wEAAAAVYKkKAgAAAAEABQAAAFNoYWRlAQFeAQAuAEReAQAADAQAAABQYWxlAAz/////" +
-           "AQH/////AAAAAA==";
+           "AQAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWz/////BGCAAgEAAAAB" +
+           "ABMAAABQaWN0dXJlVHlwZUluc3RhbmNlAQFcAQEBXAFcAQAA/////wIAAAAVYIkKAgAAAAEACwAAAFll" +
+           "bGxvd1RoaW5nAQFdAQAuAQFZAV0BAAAADP////8BAf////8BAAAAFWCpCgIAAAABAAUAAABTaGFkZQEB" +
+           "XgEALgBEXgEAAAwEAAAAUGFsZQAM/////wEB/////wAAAAAEYMAKAQAAABIAAABJbmRpZ29fUGxhY2Vo" +
+           "b2xkZXIBAAgAAAA8SW5kaWdvPgEBfAEALwEBbAF8AQAA/////wAAAAA=";
         #endregion
         #endif
         #endregion
@@ -961,15 +1078,13 @@ namespace DemoModel
 
         #region Initialization String
         private const string X_InitializationString =
-           "AgAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWwfAAAAaHR0cDovL29w" +
-           "Y2ZvdW5kYXRpb24ub3JnL1VBL0RJL/////8XYIkKAgAAAAEAAQAAAFgBAXkAAC8AP3kAAAAABgIAAAAC" +
-           "AAAAAAAAAAAAAAABAf////8AAAAA";
+           "AQAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWz/////F2CJCgIAAAAB" +
+           "AAEAAABYAQF5AAAvAD95AAAAAAYCAAAAAgAAAAAAAAAAAAAAAQH/////AAAAAA==";
 
         private const string InitializationString =
-           "AgAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWwfAAAAaHR0cDovL29w" +
-           "Y2ZvdW5kYXRpb24ub3JnL1VBL0RJL/////8EYIACAQAAAAEAJgAAAFdpdGhUd29EaW1lbnNpb25hbFZh" +
-           "cmlhYmxlVHlwZUluc3RhbmNlAQF4AAEBeAB4AAAA/////wEAAAAXYIkKAgAAAAEAAQAAAFgBAXkAAC8A" +
-           "P3kAAAAABgIAAAACAAAAAAAAAAAAAAABAf////8AAAAA";
+           "AQAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWz/////BGCAAgEAAAAB" +
+           "ACYAAABXaXRoVHdvRGltZW5zaW9uYWxWYXJpYWJsZVR5cGVJbnN0YW5jZQEBeAABAXgAeAAAAP////8B" +
+           "AAAAF2CJCgIAAAABAAEAAABYAQF5AAAvAD95AAAAAAYCAAAAAgAAAAAAAAAAAAAAAQH/////AAAAAA==";
         #endregion
         #endif
         #endregion

@@ -521,7 +521,7 @@ namespace ModelCompiler
 
                             while (builtInType == BuiltInType.Null)
                             {
-                                var dataType = FindDataType(type.Value.DataTypeId);
+                                var dataType = FindDataType(dataTypeId);
 
                                 if (dataType?.SuperTypeId == null)
                                 {

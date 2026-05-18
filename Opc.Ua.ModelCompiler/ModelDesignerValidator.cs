@@ -185,7 +185,11 @@ namespace ModelCompiler
             // flag built-in types as declarations.
             foreach (NodeDesign node in model.Items)
             {
-                node.Description = null;
+                if (node.Description?.DoNotIgnore != true)
+                {
+                    node.Description = null;
+                }
+
                 node.IsDeclaration = true;
             }
 
@@ -1004,7 +1008,7 @@ namespace ModelCompiler
 
             foreach (var node in model.Items)
             {
-                if (!node.Description?.DoNotIgnore == null)
+                if (node.Description?.DoNotIgnore != true)
                 {
                     node.Description = null;
                 }
@@ -1081,6 +1085,8 @@ namespace ModelCompiler
             var fileToLoad = fields[0];
             var prefix = (fields.Length > 1) ? fields[1] : null;
             var name = (fields.Length > 2) ? fields[2] : null;
+
+            
 
             if (NodeSetToModelDesign.IsNodeSet(m_fileSystem, fileToLoad))
             {
@@ -2182,18 +2188,21 @@ namespace ModelCompiler
                 encoding.SymbolicId = new XmlQualifiedName(dataType.SymbolicId.Name + "_Encoding_DefaultXml", dataType.SymbolicId.Namespace);
                 encoding.SymbolicName = new XmlQualifiedName("DefaultXml", DefaultNamespace);
                 encoding.BrowseName = "Default XML";
+                encoding.ReleaseStatus = dataType.ReleaseStatus;
             }
             else if (encodingType == EncodingType.Json)
             {
                 encoding.SymbolicId = new XmlQualifiedName(dataType.SymbolicId.Name + "_Encoding_DefaultJson", dataType.SymbolicId.Namespace);
                 encoding.SymbolicName = new XmlQualifiedName("DefaultJson", DefaultNamespace);
                 encoding.BrowseName = "Default JSON";
+                encoding.ReleaseStatus = ReleaseStatus.Deprecated;
             }
             else
             {
                 encoding.SymbolicId = new XmlQualifiedName(dataType.SymbolicId.Name + "_Encoding_DefaultBinary", dataType.SymbolicId.Namespace);
                 encoding.SymbolicName = new XmlQualifiedName("DefaultBinary", DefaultNamespace);
                 encoding.BrowseName = "Default Binary";
+                encoding.ReleaseStatus = dataType.ReleaseStatus;
             }
 
             encoding.DisplayName = new LocalizedText();
@@ -2207,7 +2216,6 @@ namespace ModelCompiler
             encoding.PartNo = dataType.PartNo;
             encoding.NotInAddressSpace = dataType.NotInAddressSpace;
             encoding.Category = dataType.Category;
-            encoding.ReleaseStatus = dataType.ReleaseStatus;
             encoding.Purpose = dataType.Purpose;
             encoding.Parent = dataType;
 
@@ -2630,7 +2638,10 @@ namespace ModelCompiler
 
                 if (node.SymbolicId.Namespace == "http://opcfoundation.org/UA/")
                 {
-                    node.Description = null;
+                    if (node.Description?.DoNotIgnore != true)
+                    {
+                        node.Description = null;
+                    }
                 }
             }
 
@@ -2640,7 +2651,10 @@ namespace ModelCompiler
 
                 if (parent != null && parent.SymbolicId.Namespace == "http://opcfoundation.org/UA/")
                 {
-                    node.Description = null;
+                    if (node.Description?.DoNotIgnore != true)
+                    {
+                        node.Description = null;
+                    }
                 }
             }
 
@@ -3190,7 +3204,7 @@ namespace ModelCompiler
                         case Permissions.DeleteNode: { output |= PermissionType.DeleteNode; break; }
                         case Permissions.AddNode: { output |= PermissionType.AddNode; break; }
                         case Permissions.AllRead: { output |= PermissionType.Browse | PermissionType.Read | PermissionType.ReadHistory | PermissionType.ReceiveEvents | PermissionType.ReadRolePermissions; break; }
-                        case Permissions.All: { output |= (PermissionType)0x1FFFF; break; }
+                        case Permissions.All: { output |= (PermissionType)(0x1FFFF & ~(int)PermissionType.AddNode); break; }
                     }
                 }
             }
@@ -6055,6 +6069,12 @@ namespace ModelCompiler
                 {
                     rootNode.Instance.BrowseName = root.BrowseName;
                     rootNode.Instance.DisplayName = root.DisplayName;
+                }
+
+                if (rootNode.Instance.ReleaseStatus == ReleaseStatus.Released &&
+                    rootNode.Instance.ReleaseStatus != root.ReleaseStatus)
+                {
+                    rootNode.Instance.ReleaseStatus = root.ReleaseStatus;
                 }
 
                 UpdateMergedInstance((InstanceDesign)rootNode.Instance, root);

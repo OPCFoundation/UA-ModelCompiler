@@ -1,4 +1,3 @@
-﻿using McMaster.Extensions.CommandLineUtils;
 using ModelCompiler;
 using Opc.Ua;
 using System.Diagnostics;
@@ -6,15 +5,10 @@ using System.Reflection;
 
 internal sealed class Program
 {
-    private static Task Main(string[] args)
+    private static async Task Main(string[] args)
     {
         try
         {
-            //if (Debugger.IsAttached)
-            //{
-            //    return Task.CompletedTask;
-            //}
-
             for (int ii = 0; ii < args.Length; ii++)
             {
                 args[ii] = args[ii].Replace("\n", "\\n", StringComparison.InvariantCulture);
@@ -27,13 +21,7 @@ internal sealed class Program
                 Console.WriteLine($"Opc.Ua.Core: {typeof(NodeId).Assembly.GetName().FullName}");
             }
 
-            ModelCompilerApplication.Run(args);
-        }
-        catch (CommandParsingException e)
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"[{e.GetType().Name}] {e.Message} ({e.Command})");
-            Environment.Exit(3);
+            await ModelCompilerApplication.Run(args).ConfigureAwait(false);
         }
         catch (AggregateException e)
         {
@@ -68,6 +56,5 @@ internal sealed class Program
 
             Environment.Exit(3);
         }
-        return Task.CompletedTask;
     }
 }

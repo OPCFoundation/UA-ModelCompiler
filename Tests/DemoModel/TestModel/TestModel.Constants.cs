@@ -35,6 +35,7 @@ using System.Xml;
 using System.Runtime.Serialization;
 using Opc.Ua;
 
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 
@@ -189,42 +190,6 @@ namespace TestModel
         public const uint Person_Encoding_DefaultXml = 310;
 
         public const uint Student_Encoding_DefaultXml = 311;
-
-        public const uint TestAbstractStructure_Encoding_DefaultJson = 56;
-
-        public const uint TestConcreteStructure_Encoding_DefaultJson = 57;
-
-        public const uint TestUnion_Encoding_DefaultJson = 192;
-
-        public const uint TestOptionalFields_Encoding_DefaultJson = 193;
-
-        public const uint TestScalarStructure_Encoding_DefaultJson = 58;
-
-        public const uint TestArrayStructure_Encoding_DefaultJson = 59;
-
-        public const uint TestStructure_Encoding_DefaultJson = 194;
-
-        public const uint Vector_Encoding_DefaultJson = 345;
-
-        public const uint WorkOrderStatusType_Encoding_DefaultJson = 346;
-
-        public const uint WorkOrderType_Encoding_DefaultJson = 347;
-
-        public const uint ExtendedWorkOrderType_Encoding_DefaultJson = 348;
-
-        public const uint FinalWorkOrderType_Encoding_DefaultJson = 349;
-
-        public const uint SampleUnion_Encoding_DefaultJson = 350;
-
-        public const uint SampleStructureWithOptionalFields_Encoding_DefaultJson = 351;
-
-        public const uint SampleUnionAllowSubtypes_Encoding_DefaultJson = 352;
-
-        public const uint SampleStructureAllowSubtypes_Encoding_DefaultJson = 353;
-
-        public const uint Person_Encoding_DefaultJson = 354;
-
-        public const uint Student_Encoding_DefaultJson = 355;
     }
     #endregion
 
@@ -553,42 +518,6 @@ namespace TestModel
         public static readonly ExpandedNodeId Person_Encoding_DefaultXml = new ExpandedNodeId(TestModel.Objects.Person_Encoding_DefaultXml, TestModel.Namespaces.TestModel);
 
         public static readonly ExpandedNodeId Student_Encoding_DefaultXml = new ExpandedNodeId(TestModel.Objects.Student_Encoding_DefaultXml, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId TestAbstractStructure_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.TestAbstractStructure_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId TestConcreteStructure_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.TestConcreteStructure_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId TestUnion_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.TestUnion_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId TestOptionalFields_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.TestOptionalFields_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId TestScalarStructure_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.TestScalarStructure_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId TestArrayStructure_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.TestArrayStructure_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId TestStructure_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.TestStructure_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId Vector_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.Vector_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId WorkOrderStatusType_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.WorkOrderStatusType_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId WorkOrderType_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.WorkOrderType_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId ExtendedWorkOrderType_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.ExtendedWorkOrderType_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId FinalWorkOrderType_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.FinalWorkOrderType_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId SampleUnion_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.SampleUnion_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId SampleStructureWithOptionalFields_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.SampleStructureWithOptionalFields_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId SampleUnionAllowSubtypes_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.SampleUnionAllowSubtypes_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId SampleStructureAllowSubtypes_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.SampleStructureAllowSubtypes_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId Person_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.Person_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
-
-        public static readonly ExpandedNodeId Student_Encoding_DefaultJson = new ExpandedNodeId(TestModel.Objects.Student_Encoding_DefaultJson, TestModel.Namespaces.TestModel);
     }
     #endregion
 

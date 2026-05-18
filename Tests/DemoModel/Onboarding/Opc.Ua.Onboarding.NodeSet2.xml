@@ -1,40 +1,11 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<!--
- * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
- *
- * OPC Foundation MIT License 1.00
- * 
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
- * 
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- *
- * The complete license agreement can be found here:
- * http://opcfoundation.org/License/MIT/1.00/
--->
-
+﻿<?xml version="1.0" encoding="utf-8"?>
 <UANodeSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" LastModified="2025-01-08T00:00:00Z" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
   <NamespaceUris>
     <Uri>http://opcfoundation.org/UA/Onboarding/</Uri>
     <Uri>http://opcfoundation.org/UA/GDS/</Uri>
   </NamespaceUris>
   <Models>
-    <Model ModelUri="http://opcfoundation.org/UA/Onboarding/" XmlSchemaUri="http://opcfoundation.org/UA/Onboarding/Types.xsd" Version="1.05.04" PublicationDate="2025-01-08T00:00:00Z" ModelVersion="1.5.4">
+    <Model ModelUri="http://opcfoundation.org/UA/Onboarding/" XmlSchemaUri="http://opcfoundation.org/UA/Onboarding/Types.xsd" Version="1.05.05" PublicationDate="2025-01-08T00:00:00Z" ModelVersion="1.5.5">
       <RequiredModel ModelUri="http://opcfoundation.org/UA/GDS/" XmlSchemaUri="http://opcfoundation.org/UA/GDS/Types.xsd" />
       <RequiredModel ModelUri="http://opcfoundation.org/UA/" XmlSchemaUri="http://opcfoundation.org/UA/2008/02/Types.xsd" Version="1.05.04" PublicationDate="2025-01-08T00:00:00Z" ModelVersion="1.5.4" />
     </Model>
@@ -95,7 +66,6 @@
   </Aliases>
   <UAObject NodeId="ns=1;i=1" BrowseName="1:http://opcfoundation.org/UA/Onboarding/" SymbolicName="OPCUAOnboardingNamespaceMetadata">
     <DisplayName>http://opcfoundation.org/UA/Onboarding/</DisplayName>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/10.1</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=2</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=3</Reference>
@@ -129,7 +99,7 @@
       <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=1</Reference>
     </References>
     <Value>
-      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">1.05.04</String>
+      <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">1.05.05</String>
     </Value>
   </UAVariable>
   <UAVariable NodeId="ns=1;i=4" BrowseName="NamespacePublicationDate" ParentNodeId="ns=1;i=1" DataType="DateTime">
@@ -207,7 +177,7 @@
       <Reference ReferenceType="HasProperty" IsForward="false">ns=1;i=1</Reference>
     </References>
   </UAVariable>
-  <UAVariable NodeId="ns=1;i=4986" BrowseName="1:ModelVersion" ParentNodeId="ns=1;i=1" DataType="i=24263">
+  <UAVariable NodeId="ns=1;i=4986" BrowseName="ModelVersion" ParentNodeId="ns=1;i=1" DataType="i=24263">
     <DisplayName>ModelVersion</DisplayName>
     <References>
       <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
@@ -533,8 +503,6 @@
   </UAVariable>
   <UADataType NodeId="ns=1;i=1164" BrowseName="1:CertificateAuthorityType">
     <DisplayName>CertificateAuthorityType</DisplayName>
-    <Category>Onboarding Ticket Reader</Category>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/8.2.6</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
     </References>
@@ -545,8 +513,6 @@
   </UADataType>
   <UADataType NodeId="ns=1;i=1165" BrowseName="1:BaseTicketType" IsAbstract="true">
     <DisplayName>BaseTicketType</DisplayName>
-    <Category>Onboarding Ticket Reader</Category>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/8.2.2</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
     </References>
@@ -563,8 +529,6 @@
   </UADataType>
   <UADataType NodeId="ns=1;i=1166" BrowseName="1:DeviceIdentityTicketType">
     <DisplayName>DeviceIdentityTicketType</DisplayName>
-    <Category>Onboarding Ticket Reader</Category>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/8.2.3</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=1165</Reference>
     </References>
@@ -574,8 +538,6 @@
   </UADataType>
   <UADataType NodeId="ns=1;i=1167" BrowseName="1:CompositeIdentityTicketType">
     <DisplayName>CompositeIdentityTicketType</DisplayName>
-    <Category>Onboarding Ticket Reader</Category>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/8.2.4</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=1165</Reference>
     </References>
@@ -587,8 +549,6 @@
   </UADataType>
   <UADataType NodeId="ns=1;i=1168" BrowseName="1:TicketListType">
     <DisplayName>TicketListType</DisplayName>
-    <Category>Onboarding Ticket Reader</Category>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/8.2.5</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
     </References>
@@ -599,8 +559,6 @@
   </UADataType>
   <UADataType NodeId="ns=1;i=1495" BrowseName="1:ManagerDescription">
     <DisplayName>ManagerDescription</DisplayName>
-    <Category>Onboarding Registrar PullManagement</Category>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/9.2.7</Documentation>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=22</Reference>
     </References>
@@ -614,8 +572,6 @@
   </UADataType>
   <UAObjectType NodeId="ns=1;i=1175" BrowseName="1:DeviceRegistrarAdminType">
     <DisplayName>DeviceRegistrarAdminType</DisplayName>
-    <Category>Onboarding Registrar Administration</Category>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/9.2.10</Documentation>
     <References>
       <Reference ReferenceType="HasComponent">ns=1;i=1176</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=1179</Reference>
@@ -626,7 +582,6 @@
   </UAObjectType>
   <UAMethod NodeId="ns=1;i=1176" BrowseName="1:RegisterTickets" ParentNodeId="ns=1;i=1175">
     <DisplayName>RegisterTickets</DisplayName>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/9.2.11</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=1177</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=1178</Reference>
@@ -694,7 +649,6 @@
   </UAVariable>
   <UAMethod NodeId="ns=1;i=1179" BrowseName="1:UnregisterTickets" ParentNodeId="ns=1;i=1175">
     <DisplayName>UnregisterTickets</DisplayName>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/9.2.12</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=1180</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=1181</Reference>
@@ -2018,8 +1972,6 @@
   </UAVariable>
   <UAObjectType NodeId="ns=1;i=1259" BrowseName="1:DeviceRegistrarType">
     <DisplayName>DeviceRegistrarType</DisplayName>
-    <Category>Onboarding Registrar PullManagement</Category>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/9.2.2</Documentation>
     <References>
       <Reference ReferenceType="HasComponent">ns=1;i=1260</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=1503</Reference>
@@ -2032,7 +1984,6 @@
   </UAObjectType>
   <UAMethod NodeId="ns=1;i=1260" BrowseName="1:ProvideIdentities" ParentNodeId="ns=1;i=1259">
     <DisplayName>ProvideIdentities</DisplayName>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/9.2.3</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=1261</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=1262</Reference>
@@ -2177,7 +2128,6 @@
   </UAVariable>
   <UAMethod NodeId="ns=1;i=1503" BrowseName="1:UpdateSoftwareStatus" ParentNodeId="ns=1;i=1259">
     <DisplayName>UpdateSoftwareStatus</DisplayName>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/9.2.4</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=1504</Reference>
       <Reference ReferenceType="HasModellingRule">i=78</Reference>
@@ -2243,7 +2193,6 @@
   </UAVariable>
   <UAMethod NodeId="ns=1;i=1263" BrowseName="1:RegisterDeviceEndpoint" ParentNodeId="ns=1;i=1259">
     <DisplayName>RegisterDeviceEndpoint</DisplayName>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/9.2.5</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=1264</Reference>
       <Reference ReferenceType="HasModellingRule">i=78</Reference>
@@ -2279,7 +2228,6 @@
   </UAVariable>
   <UAMethod NodeId="ns=1;i=1505" BrowseName="1:GetManagers" ParentNodeId="ns=1;i=1259">
     <DisplayName>GetManagers</DisplayName>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/9.2.6</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=1506</Reference>
       <Reference ReferenceType="HasModellingRule">i=78</Reference>
@@ -2317,7 +2265,6 @@
   </UAVariable>
   <UAMethod NodeId="ns=1;i=1507" BrowseName="1:RegisterManagedApplication" ParentNodeId="ns=1;i=1259">
     <DisplayName>RegisterManagedApplication</DisplayName>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/9.2.8</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=1508</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=1509</Reference>
@@ -3798,8 +3745,6 @@
   </UAVariable>
   <UAObject NodeId="ns=1;i=1344" BrowseName="1:DeviceRegistrar">
     <DisplayName>DeviceRegistrar</DisplayName>
-    <Category>Onboarding Registrar PullManagement</Category>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/9.2.9</Documentation>
     <References>
       <Reference ReferenceType="HasComponent">ns=1;i=1345</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=1510</Reference>
@@ -3813,7 +3758,6 @@
   </UAObject>
   <UAMethod NodeId="ns=1;i=1345" BrowseName="1:ProvideIdentities" ParentNodeId="ns=1;i=1344" MethodDeclarationId="ns=1;i=1260">
     <DisplayName>ProvideIdentities</DisplayName>
-    <Documentation>https://reference.opcfoundation.org/v105/Onboarding/docs/9.2.3</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=1346</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=1347</Reference>
@@ -3955,7 +3899,6 @@
   </UAVariable>
   <UAMethod NodeId="ns=1;i=1510" BrowseName="1:UpdateSoftwareStatus" ParentNodeId="ns=1;i=1344" MethodDeclarationId="ns=1;i=1503">
     <DisplayName>UpdateSoftwareStatus</DisplayName>
-    <Documentation>https://reference.opcfoundation.org/v105/Onboarding/docs/9.2.4</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=1511</Reference>
       <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=1344</Reference>
@@ -4019,7 +3962,6 @@
   </UAVariable>
   <UAMethod NodeId="ns=1;i=1348" BrowseName="1:RegisterDeviceEndpoint" ParentNodeId="ns=1;i=1344" MethodDeclarationId="ns=1;i=1263">
     <DisplayName>RegisterDeviceEndpoint</DisplayName>
-    <Documentation>https://reference.opcfoundation.org/v105/Onboarding/docs/9.2.5</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=1349</Reference>
       <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=1344</Reference>
@@ -4174,7 +4116,6 @@
   </UAObject>
   <UAMethod NodeId="ns=1;i=1351" BrowseName="1:RegisterTickets" ParentNodeId="ns=1;i=1350" MethodDeclarationId="ns=1;i=1176">
     <DisplayName>RegisterTickets</DisplayName>
-    <Documentation>https://reference.opcfoundation.org/v105/Onboarding/docs/9.2.12</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=1352</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=1353</Reference>
@@ -4239,7 +4180,6 @@
   </UAVariable>
   <UAMethod NodeId="ns=1;i=1354" BrowseName="1:UnregisterTickets" ParentNodeId="ns=1;i=1350" MethodDeclarationId="ns=1;i=1179">
     <DisplayName>UnregisterTickets</DisplayName>
-    <Documentation>https://reference.opcfoundation.org/v105/Onboarding/docs/9.2.13</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=1355</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=1356</Reference>
@@ -5498,8 +5438,6 @@
   </UAVariable>
   <UAObjectType NodeId="ns=1;i=1517" BrowseName="1:DeviceRegistrationAuditEventType" IsAbstract="true">
     <DisplayName>DeviceRegistrationAuditEventType</DisplayName>
-    <Category>Onboarding Registrar PullManagement</Category>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/9.2.13</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=1532</Reference>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=2052</Reference>
@@ -5515,8 +5453,6 @@
   </UAVariable>
   <UAObjectType NodeId="ns=1;i=1533" BrowseName="1:DeviceIdentityAcceptedAuditEventType" IsAbstract="true">
     <DisplayName>DeviceIdentityAcceptedAuditEventType</DisplayName>
-    <Category>Onboarding Registrar PullManagement</Category>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/9.2.14</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=1549</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=1550</Reference>
@@ -5550,8 +5486,6 @@
   </UAVariable>
   <UAObjectType NodeId="ns=1;i=1552" BrowseName="1:DeviceSoftwareUpdatedAuditEventType" IsAbstract="true">
     <DisplayName>DeviceSoftwareUpdatedAuditEventType</DisplayName>
-    <Category>Onboarding Registrar PullManagement</Category>
-    <Documentation>https://reference.opcfoundation.org/Onboarding/docs/9.2.15</Documentation>
     <References>
       <Reference ReferenceType="HasProperty">ns=1;i=1563</Reference>
       <Reference ReferenceType="HasProperty">ns=1;i=1568</Reference>
@@ -5876,7 +5810,7 @@ VHlwZXMueHNkIg0KICB0YXJnZXROYW1lc3BhY2U9Imh0dHA6Ly9vcGNmb3VuZGF0aW9uLm9yZy9V
 QS9PbmJvYXJkaW5nL1R5cGVzLnhzZCINCiAgZWxlbWVudEZvcm1EZWZhdWx0PSJxdWFsaWZpZWQi
 DQo+DQogIDx4czphbm5vdGF0aW9uPg0KICAgIDx4czphcHBpbmZvPg0KICAgICAgPHVhOk1vZGVs
 IE1vZGVsVXJpPSJodHRwOi8vb3BjZm91bmRhdGlvbi5vcmcvVUEvT25ib2FyZGluZy8iIFZlcnNp
-b249IjEuMDUuMDQiIFB1YmxpY2F0aW9uRGF0ZT0iMjAyNS0wMS0wOFQwMDowMDowMFoiIC8+DQog
+b249IjEuMDUuMDUiIFB1YmxpY2F0aW9uRGF0ZT0iMjAyNS0wMS0wOFQwMDowMDowMFoiIC8+DQog
 ICAgPC94czphcHBpbmZvPg0KICA8L3hzOmFubm90YXRpb24+DQogIA0KICA8eHM6aW1wb3J0IG5h
 bWVzcGFjZT0iaHR0cDovL29wY2ZvdW5kYXRpb24ub3JnL1VBL0dEUy9UeXBlcy54c2QiIC8+DQog
 IDx4czppbXBvcnQgbmFtZXNwYWNlPSJodHRwOi8vb3BjZm91bmRhdGlvbi5vcmcvVUEvMjAwOC8w
@@ -6061,46 +5995,4 @@ Pg0KDQo8L3hzOnNjaGVtYT4=</ByteString>
       <String xmlns="http://opcfoundation.org/UA/2008/02/Types.xsd">//xs:element[@name='ManagerDescription']</String>
     </Value>
   </UAVariable>
-  <UAObject NodeId="ns=1;i=1487" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=1164</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=1488" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=1165</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=1489" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=1166</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=1490" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=1167</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=1491" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=1168</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
-  <UAObject NodeId="ns=1;i=4222" BrowseName="Default JSON" SymbolicName="DefaultJson">
-    <DisplayName>Default JSON</DisplayName>
-    <References>
-      <Reference ReferenceType="HasEncoding" IsForward="false">ns=1;i=1495</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
-    </References>
-  </UAObject>
 </UANodeSet>

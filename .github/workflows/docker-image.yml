@@ -29,10 +29,10 @@ jobs:
       with:
         fetch-depth: 0
         
-    - name: Set up .NET 9.0
+    - name: Set up .NET 10.0
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '9.x'
+        dotnet-version: '10.x'
         
     # Install the cosign tool except on pull request.
     # https://github.com/sigstore/cosign-installer
@@ -49,7 +49,7 @@ jobs:
     # Login against a Docker registry except on PR
     # https://github.com/docker/login-action
     - name: Log into registry ${{ env.REGISTRY }}
-      if: github.event_name != 'pull_request'
+      if: github.ref_type == 'tag'
       uses: docker/login-action@v2
       with:
         registry: ${{ env.REGISTRY }}
@@ -97,7 +97,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         context: .
-        push: ${{ github.event_name != 'pull_request' }}
+        push: ${{ github.ref_type == 'tag' }}
         tags: ${{ env.TAG_BRANCH }} ${{ env.TAG_LATEST }}
         platforms: linux/amd64
         file: ./Dockerfile
@@ -109,7 +109,7 @@ jobs:
     # Sign the resulting Docker image digest except on PRs.
     # https://github.com/sigstore/cosign
     - name: Sign the published Docker image
-      if: github.event_name != 'pull_request' && env.DOCKERSIGN == 'true'
+      if: github.ref_type == 'tag' && env.DOCKERSIGN == 'true'
       env:
         COSIGN_EXPERIMENTAL: "true"
       # This step uses the identity token to provision an ephemeral certificate

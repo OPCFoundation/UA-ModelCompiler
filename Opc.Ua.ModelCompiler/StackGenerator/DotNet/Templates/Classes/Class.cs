@@ -52,7 +52,7 @@ public partial class _NAME_ : _BASETYPE_
     public override ExpandedNodeId XmlEncodingId => ObjectIds._NAME__Encoding_DefaultXml;
 
     /// <summary cref="IJsonEncodeable.JsonEncodingId" />
-    public override ExpandedNodeId JsonEncodingId => ObjectIds._NAME__Encoding_DefaultJson;
+    public override ExpandedNodeId JsonEncodingId => DataTypeIds._NAME_;
 
     /// <summary cref="IEncodeable.Encode(IEncoder)" />
     public override void Encode(IEncoder encoder)

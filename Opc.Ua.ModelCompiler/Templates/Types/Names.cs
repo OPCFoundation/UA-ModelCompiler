@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 // ListOfImports
 
+// ListOfNamespaceDeclarations
+
 namespace _Namespace_
 {
     /// <summary>

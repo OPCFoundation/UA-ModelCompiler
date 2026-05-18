@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -31,36 +31,40 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
+using System.Threading;
 using Opc.Ua.Gds;
 using Opc.Ua;
 
+namespace Opc.Ua.Gds {}
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable CA1515 // Consider making public types internal
 #pragma warning disable CA1707 // Identifiers should not contain underscores
+#pragma warning disable CA1028 // Enum Storage should be Int32
 
 namespace Opc.Ua.Onboarding
 {
     #region RegisterTicketsMethodState Class
     #if (!OPCUA_EXCLUDE_RegisterTicketsMethodState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class RegisterTicketsMethodState : MethodState
     {
         #region Constructors
-        /// <remarks />
         public RegisterTicketsMethodState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         public new static NodeState Construct(NodeState parent)
         {
             return new RegisterTicketsMethodState(parent);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -68,7 +72,6 @@ namespace Opc.Ua.Onboarding
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -88,15 +91,15 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Event Callbacks
-        /// <remarks />
         public RegisterTicketsMethodStateMethodCallHandler OnCall;
+
+        public RegisterTicketsMethodStateMethodAsyncCallHandler OnCallAsync;
         #endregion
 
         #region Public Properties
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         protected override ServiceResult Call(
             ISystemContext _context,
             NodeId _objectId,
@@ -128,13 +131,50 @@ namespace Opc.Ua.Onboarding
 
             return _result;
         }
+
+        #if (OPCUA_INCLUDE_ASYNC)
+        protected override async ValueTask<ServiceResult> CallAsync(
+            ISystemContext _context,
+            NodeId _objectId,
+            IList<object> _inputArguments,
+            IList<object> _outputArguments,
+            CancellationToken cancellationToken = default)
+        {
+            if (OnCall == null && OnCallAsync == null)
+            {
+                return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
+            }
+
+            RegisterTicketsMethodStateResult _result = null;
+
+            string[] tickets = (string[])_inputArguments[0];
+
+            if (OnCallAsync != null)
+            {
+                _result = await OnCallAsync(
+                    _context,
+                    this,
+                    _objectId,
+                    tickets,
+                    cancellationToken).ConfigureAwait(false);
+            }
+            else if (OnCall != null)
+            {
+                return Call(_context, _objectId, _inputArguments, _outputArguments);
+            }
+
+            _outputArguments[0] = _result.Results;
+
+            return _result.ServiceResult;
+        }
+        #endif
+
         #endregion
 
         #region Private Fields
         #endregion
     }
 
-    /// <remarks />
     /// <exclude />
     public delegate ServiceResult RegisterTicketsMethodStateMethodCallHandler(
         ISystemContext _context,
@@ -142,30 +182,42 @@ namespace Opc.Ua.Onboarding
         NodeId _objectId,
         string[] tickets,
         ref StatusCode[] results);
+
+    /// <exclude />
+    public partial class RegisterTicketsMethodStateResult
+    {
+        public ServiceResult ServiceResult { get; set; }
+        public StatusCode[] Results { get; set; }
+    }
+
+    /// <exclude />
+    public delegate ValueTask<RegisterTicketsMethodStateResult> RegisterTicketsMethodStateMethodAsyncCallHandler(
+        ISystemContext _context,
+        MethodState _method,
+        NodeId _objectId,
+        string[] tickets,
+        CancellationToken cancellationToken);
     #endif
     #endregion
 
     #region UnregisterTicketsMethodState Class
     #if (!OPCUA_EXCLUDE_UnregisterTicketsMethodState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class UnregisterTicketsMethodState : MethodState
     {
         #region Constructors
-        /// <remarks />
         public UnregisterTicketsMethodState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         public new static NodeState Construct(NodeState parent)
         {
             return new UnregisterTicketsMethodState(parent);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -173,7 +225,6 @@ namespace Opc.Ua.Onboarding
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -193,15 +244,15 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Event Callbacks
-        /// <remarks />
         public UnregisterTicketsMethodStateMethodCallHandler OnCall;
+
+        public UnregisterTicketsMethodStateMethodAsyncCallHandler OnCallAsync;
         #endregion
 
         #region Public Properties
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         protected override ServiceResult Call(
             ISystemContext _context,
             NodeId _objectId,
@@ -233,13 +284,50 @@ namespace Opc.Ua.Onboarding
 
             return _result;
         }
+
+        #if (OPCUA_INCLUDE_ASYNC)
+        protected override async ValueTask<ServiceResult> CallAsync(
+            ISystemContext _context,
+            NodeId _objectId,
+            IList<object> _inputArguments,
+            IList<object> _outputArguments,
+            CancellationToken cancellationToken = default)
+        {
+            if (OnCall == null && OnCallAsync == null)
+            {
+                return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
+            }
+
+            UnregisterTicketsMethodStateResult _result = null;
+
+            string[] tickets = (string[])_inputArguments[0];
+
+            if (OnCallAsync != null)
+            {
+                _result = await OnCallAsync(
+                    _context,
+                    this,
+                    _objectId,
+                    tickets,
+                    cancellationToken).ConfigureAwait(false);
+            }
+            else if (OnCall != null)
+            {
+                return Call(_context, _objectId, _inputArguments, _outputArguments);
+            }
+
+            _outputArguments[0] = _result.Results;
+
+            return _result.ServiceResult;
+        }
+        #endif
+
         #endregion
 
         #region Private Fields
         #endregion
     }
 
-    /// <remarks />
     /// <exclude />
     public delegate ServiceResult UnregisterTicketsMethodStateMethodCallHandler(
         ISystemContext _context,
@@ -247,30 +335,42 @@ namespace Opc.Ua.Onboarding
         NodeId _objectId,
         string[] tickets,
         ref StatusCode[] results);
+
+    /// <exclude />
+    public partial class UnregisterTicketsMethodStateResult
+    {
+        public ServiceResult ServiceResult { get; set; }
+        public StatusCode[] Results { get; set; }
+    }
+
+    /// <exclude />
+    public delegate ValueTask<UnregisterTicketsMethodStateResult> UnregisterTicketsMethodStateMethodAsyncCallHandler(
+        ISystemContext _context,
+        MethodState _method,
+        NodeId _objectId,
+        string[] tickets,
+        CancellationToken cancellationToken);
     #endif
     #endregion
 
     #region DeviceRegistrarAdminState Class
     #if (!OPCUA_EXCLUDE_DeviceRegistrarAdminState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class DeviceRegistrarAdminState : BaseObjectState
     {
         #region Constructors
-        /// <remarks />
         public DeviceRegistrarAdminState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         protected override NodeId GetDefaultTypeDefinitionId(NamespaceTable namespaceUris)
         {
             return Opc.Ua.NodeId.Create(Opc.Ua.Onboarding.ObjectTypes.DeviceRegistrarAdminType, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding, namespaceUris);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -278,14 +378,12 @@ namespace Opc.Ua.Onboarding
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void Initialize(ISystemContext context, NodeState source)
         {
             InitializeOptionalChildren(context);
             base.Initialize(context, source);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -395,13 +493,9 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Public Properties
-        /// <remarks />
         public RegisterTicketsMethodState RegisterTickets
         {
-            get
-            {
-                return m_registerTicketsMethod;
-            }
+            get => m_registerTicketsMethod;
 
             set
             {
@@ -414,13 +508,9 @@ namespace Opc.Ua.Onboarding
             }
         }
 
-        /// <remarks />
         public UnregisterTicketsMethodState UnregisterTickets
         {
-            get
-            {
-                return m_unregisterTicketsMethod;
-            }
+            get => m_unregisterTicketsMethod;
 
             set
             {
@@ -433,13 +523,9 @@ namespace Opc.Ua.Onboarding
             }
         }
 
-        /// <remarks />
         public TrustListState TicketAuthorities
         {
-            get
-            {
-                return m_ticketAuthorities;
-            }
+            get => m_ticketAuthorities;
 
             set
             {
@@ -452,13 +538,9 @@ namespace Opc.Ua.Onboarding
             }
         }
 
-        /// <remarks />
         public TrustListState DeviceIdentityAuthorities
         {
-            get
-            {
-                return m_deviceIdentityAuthorities;
-            }
+            get => m_deviceIdentityAuthorities;
 
             set
             {
@@ -473,7 +555,6 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         public override void GetChildren(
             ISystemContext context,
             IList<BaseInstanceState> children)
@@ -501,7 +582,35 @@ namespace Opc.Ua.Onboarding
             base.GetChildren(context, children);
         }
             
-        /// <remarks />
+        protected override void RemoveExplicitlyDefinedChild(BaseInstanceState child)
+        {
+            if (Object.ReferenceEquals(m_registerTicketsMethod, child))
+            {
+                m_registerTicketsMethod = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_unregisterTicketsMethod, child))
+            {
+                m_unregisterTicketsMethod = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_ticketAuthorities, child))
+            {
+                m_ticketAuthorities = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_deviceIdentityAuthorities, child))
+            {
+                m_deviceIdentityAuthorities = null;
+                return;
+            }
+
+            base.RemoveExplicitlyDefinedChild(child);
+        }
+
         protected override BaseInstanceState FindChild(
             ISystemContext context,
             QualifiedName browseName,
@@ -623,25 +732,22 @@ namespace Opc.Ua.Onboarding
 
     #region ProvideIdentitiesMethodState Class
     #if (!OPCUA_EXCLUDE_ProvideIdentitiesMethodState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class ProvideIdentitiesMethodState : MethodState
     {
         #region Constructors
-        /// <remarks />
         public ProvideIdentitiesMethodState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         public new static NodeState Construct(NodeState parent)
         {
             return new ProvideIdentitiesMethodState(parent);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -649,7 +755,6 @@ namespace Opc.Ua.Onboarding
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -672,15 +777,15 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Event Callbacks
-        /// <remarks />
         public ProvideIdentitiesMethodStateMethodCallHandler OnCall;
+
+        public ProvideIdentitiesMethodStateMethodAsyncCallHandler OnCallAsync;
         #endregion
 
         #region Public Properties
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         protected override ServiceResult Call(
             ISystemContext _context,
             NodeId _objectId,
@@ -725,13 +830,57 @@ namespace Opc.Ua.Onboarding
 
             return _result;
         }
+
+        #if (OPCUA_INCLUDE_ASYNC)
+        protected override async ValueTask<ServiceResult> CallAsync(
+            ISystemContext _context,
+            NodeId _objectId,
+            IList<object> _inputArguments,
+            IList<object> _outputArguments,
+            CancellationToken cancellationToken = default)
+        {
+            if (OnCall == null && OnCallAsync == null)
+            {
+                return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
+            }
+
+            ProvideIdentitiesMethodStateResult _result = null;
+
+            byte[][] identities = (byte[][])_inputArguments[0];
+            byte[][] issuers = (byte[][])_inputArguments[1];
+            string[] tickets = (string[])_inputArguments[2];
+
+            if (OnCallAsync != null)
+            {
+                _result = await OnCallAsync(
+                    _context,
+                    this,
+                    _objectId,
+                    identities,
+                    issuers,
+                    tickets,
+                    cancellationToken).ConfigureAwait(false);
+            }
+            else if (OnCall != null)
+            {
+                return Call(_context, _objectId, _inputArguments, _outputArguments);
+            }
+
+            _outputArguments[0] = _result.SelectedIdentity;
+            _outputArguments[1] = _result.MatchingTicket;
+            _outputArguments[2] = _result.ApplicationId;
+            _outputArguments[3] = _result.SoftwareUpdateManager;
+
+            return _result.ServiceResult;
+        }
+        #endif
+
         #endregion
 
         #region Private Fields
         #endregion
     }
 
-    /// <remarks />
     /// <exclude />
     public delegate ServiceResult ProvideIdentitiesMethodStateMethodCallHandler(
         ISystemContext _context,
@@ -744,30 +893,47 @@ namespace Opc.Ua.Onboarding
         ref BaseTicketType matchingTicket,
         ref NodeId applicationId,
         ref ManagerDescription softwareUpdateManager);
+
+    /// <exclude />
+    public partial class ProvideIdentitiesMethodStateResult
+    {
+        public ServiceResult ServiceResult { get; set; }
+        public byte[] SelectedIdentity { get; set; }
+        public BaseTicketType MatchingTicket { get; set; }
+        public NodeId ApplicationId { get; set; }
+        public ManagerDescription SoftwareUpdateManager { get; set; }
+    }
+
+    /// <exclude />
+    public delegate ValueTask<ProvideIdentitiesMethodStateResult> ProvideIdentitiesMethodStateMethodAsyncCallHandler(
+        ISystemContext _context,
+        MethodState _method,
+        NodeId _objectId,
+        byte[][] identities,
+        byte[][] issuers,
+        string[] tickets,
+        CancellationToken cancellationToken);
     #endif
     #endregion
 
     #region UpdateSoftwareStatusMethodState Class
     #if (!OPCUA_EXCLUDE_UpdateSoftwareStatusMethodState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class UpdateSoftwareStatusMethodState : MethodState
     {
         #region Constructors
-        /// <remarks />
         public UpdateSoftwareStatusMethodState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         public new static NodeState Construct(NodeState parent)
         {
             return new UpdateSoftwareStatusMethodState(parent);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -775,7 +941,6 @@ namespace Opc.Ua.Onboarding
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -794,15 +959,15 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Event Callbacks
-        /// <remarks />
         public UpdateSoftwareStatusMethodStateMethodCallHandler OnCall;
+
+        public UpdateSoftwareStatusMethodStateMethodAsyncCallHandler OnCallAsync;
         #endregion
 
         #region Public Properties
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         protected override ServiceResult Call(
             ISystemContext _context,
             NodeId _objectId,
@@ -833,13 +998,52 @@ namespace Opc.Ua.Onboarding
 
             return _result;
         }
+
+        #if (OPCUA_INCLUDE_ASYNC)
+        protected override async ValueTask<ServiceResult> CallAsync(
+            ISystemContext _context,
+            NodeId _objectId,
+            IList<object> _inputArguments,
+            IList<object> _outputArguments,
+            CancellationToken cancellationToken = default)
+        {
+            if (OnCall == null && OnCallAsync == null)
+            {
+                return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
+            }
+
+            UpdateSoftwareStatusMethodStateResult _result = null;
+
+            string productInstanceUri = (string)_inputArguments[0];
+            bool status = (bool)_inputArguments[1];
+            string softwareRevision = (string)_inputArguments[2];
+
+            if (OnCallAsync != null)
+            {
+                _result = await OnCallAsync(
+                    _context,
+                    this,
+                    _objectId,
+                    productInstanceUri,
+                    status,
+                    softwareRevision,
+                    cancellationToken).ConfigureAwait(false);
+            }
+            else if (OnCall != null)
+            {
+                return Call(_context, _objectId, _inputArguments, _outputArguments);
+            }
+
+            return _result.ServiceResult;
+        }
+        #endif
+
         #endregion
 
         #region Private Fields
         #endregion
     }
 
-    /// <remarks />
     /// <exclude />
     public delegate ServiceResult UpdateSoftwareStatusMethodStateMethodCallHandler(
         ISystemContext _context,
@@ -848,30 +1052,43 @@ namespace Opc.Ua.Onboarding
         string productInstanceUri,
         bool status,
         string softwareRevision);
+
+    /// <exclude />
+    public partial class UpdateSoftwareStatusMethodStateResult
+    {
+        public ServiceResult ServiceResult { get; set; }
+    }
+
+    /// <exclude />
+    public delegate ValueTask<UpdateSoftwareStatusMethodStateResult> UpdateSoftwareStatusMethodStateMethodAsyncCallHandler(
+        ISystemContext _context,
+        MethodState _method,
+        NodeId _objectId,
+        string productInstanceUri,
+        bool status,
+        string softwareRevision,
+        CancellationToken cancellationToken);
     #endif
     #endregion
 
     #region RegisterDeviceEndpointMethodState Class
     #if (!OPCUA_EXCLUDE_RegisterDeviceEndpointMethodState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class RegisterDeviceEndpointMethodState : MethodState
     {
         #region Constructors
-        /// <remarks />
         public RegisterDeviceEndpointMethodState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         public new static NodeState Construct(NodeState parent)
         {
             return new RegisterDeviceEndpointMethodState(parent);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -879,7 +1096,6 @@ namespace Opc.Ua.Onboarding
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -897,15 +1113,15 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Event Callbacks
-        /// <remarks />
         public RegisterDeviceEndpointMethodStateMethodCallHandler OnCall;
+
+        public RegisterDeviceEndpointMethodStateMethodAsyncCallHandler OnCallAsync;
         #endregion
 
         #region Public Properties
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         protected override ServiceResult Call(
             ISystemContext _context,
             NodeId _objectId,
@@ -932,43 +1148,89 @@ namespace Opc.Ua.Onboarding
 
             return _result;
         }
+
+        #if (OPCUA_INCLUDE_ASYNC)
+        protected override async ValueTask<ServiceResult> CallAsync(
+            ISystemContext _context,
+            NodeId _objectId,
+            IList<object> _inputArguments,
+            IList<object> _outputArguments,
+            CancellationToken cancellationToken = default)
+        {
+            if (OnCall == null && OnCallAsync == null)
+            {
+                return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
+            }
+
+            RegisterDeviceEndpointMethodStateResult _result = null;
+
+            Opc.Ua.ApplicationDescription application = (Opc.Ua.ApplicationDescription)ExtensionObject.ToEncodeable((ExtensionObject)_inputArguments[0]);
+
+            if (OnCallAsync != null)
+            {
+                _result = await OnCallAsync(
+                    _context,
+                    this,
+                    _objectId,
+                    application,
+                    cancellationToken).ConfigureAwait(false);
+            }
+            else if (OnCall != null)
+            {
+                return Call(_context, _objectId, _inputArguments, _outputArguments);
+            }
+
+            return _result.ServiceResult;
+        }
+        #endif
+
         #endregion
 
         #region Private Fields
         #endregion
     }
 
-    /// <remarks />
     /// <exclude />
     public delegate ServiceResult RegisterDeviceEndpointMethodStateMethodCallHandler(
         ISystemContext _context,
         MethodState _method,
         NodeId _objectId,
         Opc.Ua.ApplicationDescription application);
+
+    /// <exclude />
+    public partial class RegisterDeviceEndpointMethodStateResult
+    {
+        public ServiceResult ServiceResult { get; set; }
+    }
+
+    /// <exclude />
+    public delegate ValueTask<RegisterDeviceEndpointMethodStateResult> RegisterDeviceEndpointMethodStateMethodAsyncCallHandler(
+        ISystemContext _context,
+        MethodState _method,
+        NodeId _objectId,
+        Opc.Ua.ApplicationDescription application,
+        CancellationToken cancellationToken);
     #endif
     #endregion
 
     #region GetManagersMethodState Class
     #if (!OPCUA_EXCLUDE_GetManagersMethodState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class GetManagersMethodState : MethodState
     {
         #region Constructors
-        /// <remarks />
         public GetManagersMethodState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         public new static NodeState Construct(NodeState parent)
         {
             return new GetManagersMethodState(parent);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -976,7 +1238,6 @@ namespace Opc.Ua.Onboarding
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -994,15 +1255,15 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Event Callbacks
-        /// <remarks />
         public GetManagersMethodStateMethodCallHandler OnCall;
+
+        public GetManagersMethodStateMethodAsyncCallHandler OnCallAsync;
         #endregion
 
         #region Public Properties
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         protected override ServiceResult Call(
             ISystemContext _context,
             NodeId _objectId,
@@ -1031,43 +1292,88 @@ namespace Opc.Ua.Onboarding
 
             return _result;
         }
+
+        #if (OPCUA_INCLUDE_ASYNC)
+        protected override async ValueTask<ServiceResult> CallAsync(
+            ISystemContext _context,
+            NodeId _objectId,
+            IList<object> _inputArguments,
+            IList<object> _outputArguments,
+            CancellationToken cancellationToken = default)
+        {
+            if (OnCall == null && OnCallAsync == null)
+            {
+                return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
+            }
+
+            GetManagersMethodStateResult _result = null;
+
+            if (OnCallAsync != null)
+            {
+                _result = await OnCallAsync(
+                    _context,
+                    this,
+                    _objectId,
+                    cancellationToken).ConfigureAwait(false);
+            }
+            else if (OnCall != null)
+            {
+                return Call(_context, _objectId, _inputArguments, _outputArguments);
+            }
+
+            _outputArguments[0] = _result.Managers;
+
+            return _result.ServiceResult;
+        }
+        #endif
+
         #endregion
 
         #region Private Fields
         #endregion
     }
 
-    /// <remarks />
     /// <exclude />
     public delegate ServiceResult GetManagersMethodStateMethodCallHandler(
         ISystemContext _context,
         MethodState _method,
         NodeId _objectId,
         ref ManagerDescription[] managers);
+
+    /// <exclude />
+    public partial class GetManagersMethodStateResult
+    {
+        public ServiceResult ServiceResult { get; set; }
+        public ManagerDescription[] Managers { get; set; }
+    }
+
+    /// <exclude />
+    public delegate ValueTask<GetManagersMethodStateResult> GetManagersMethodStateMethodAsyncCallHandler(
+        ISystemContext _context,
+        MethodState _method,
+        NodeId _objectId,
+        CancellationToken cancellationToken);
     #endif
     #endregion
 
     #region RegisterManagedApplicationMethodState Class
     #if (!OPCUA_EXCLUDE_RegisterManagedApplicationMethodState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class RegisterManagedApplicationMethodState : MethodState
     {
         #region Constructors
-        /// <remarks />
         public RegisterManagedApplicationMethodState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         public new static NodeState Construct(NodeState parent)
         {
             return new RegisterManagedApplicationMethodState(parent);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -1075,7 +1381,6 @@ namespace Opc.Ua.Onboarding
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -1095,15 +1400,15 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Event Callbacks
-        /// <remarks />
         public RegisterManagedApplicationMethodStateMethodCallHandler OnCall;
+
+        public RegisterManagedApplicationMethodStateMethodAsyncCallHandler OnCallAsync;
         #endregion
 
         #region Public Properties
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         protected override ServiceResult Call(
             ISystemContext _context,
             NodeId _objectId,
@@ -1137,13 +1442,52 @@ namespace Opc.Ua.Onboarding
 
             return _result;
         }
+
+        #if (OPCUA_INCLUDE_ASYNC)
+        protected override async ValueTask<ServiceResult> CallAsync(
+            ISystemContext _context,
+            NodeId _objectId,
+            IList<object> _inputArguments,
+            IList<object> _outputArguments,
+            CancellationToken cancellationToken = default)
+        {
+            if (OnCall == null && OnCallAsync == null)
+            {
+                return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
+            }
+
+            RegisterManagedApplicationMethodStateResult _result = null;
+
+            Opc.Ua.Gds.ApplicationRecordDataType application = (Opc.Ua.Gds.ApplicationRecordDataType)ExtensionObject.ToEncodeable((ExtensionObject)_inputArguments[0]);
+            string protocolUri = (string)_inputArguments[1];
+
+            if (OnCallAsync != null)
+            {
+                _result = await OnCallAsync(
+                    _context,
+                    this,
+                    _objectId,
+                    application,
+                    protocolUri,
+                    cancellationToken).ConfigureAwait(false);
+            }
+            else if (OnCall != null)
+            {
+                return Call(_context, _objectId, _inputArguments, _outputArguments);
+            }
+
+            _outputArguments[0] = _result.ApplicationId;
+
+            return _result.ServiceResult;
+        }
+        #endif
+
         #endregion
 
         #region Private Fields
         #endregion
     }
 
-    /// <remarks />
     /// <exclude />
     public delegate ServiceResult RegisterManagedApplicationMethodStateMethodCallHandler(
         ISystemContext _context,
@@ -1152,30 +1496,43 @@ namespace Opc.Ua.Onboarding
         Opc.Ua.Gds.ApplicationRecordDataType application,
         string protocolUri,
         ref NodeId applicationId);
+
+    /// <exclude />
+    public partial class RegisterManagedApplicationMethodStateResult
+    {
+        public ServiceResult ServiceResult { get; set; }
+        public NodeId ApplicationId { get; set; }
+    }
+
+    /// <exclude />
+    public delegate ValueTask<RegisterManagedApplicationMethodStateResult> RegisterManagedApplicationMethodStateMethodAsyncCallHandler(
+        ISystemContext _context,
+        MethodState _method,
+        NodeId _objectId,
+        Opc.Ua.Gds.ApplicationRecordDataType application,
+        string protocolUri,
+        CancellationToken cancellationToken);
     #endif
     #endregion
 
     #region DeviceRegistrarState Class
     #if (!OPCUA_EXCLUDE_DeviceRegistrarState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class DeviceRegistrarState : BaseObjectState
     {
         #region Constructors
-        /// <remarks />
         public DeviceRegistrarState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         protected override NodeId GetDefaultTypeDefinitionId(NamespaceTable namespaceUris)
         {
             return Opc.Ua.NodeId.Create(Opc.Ua.Onboarding.ObjectTypes.DeviceRegistrarType, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding, namespaceUris);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -1183,14 +1540,12 @@ namespace Opc.Ua.Onboarding
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void Initialize(ISystemContext context, NodeState source)
         {
             InitializeOptionalChildren(context);
             base.Initialize(context, source);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -1427,13 +1782,9 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Public Properties
-        /// <remarks />
         public ProvideIdentitiesMethodState ProvideIdentities
         {
-            get
-            {
-                return m_provideIdentitiesMethod;
-            }
+            get => m_provideIdentitiesMethod;
 
             set
             {
@@ -1446,13 +1797,9 @@ namespace Opc.Ua.Onboarding
             }
         }
 
-        /// <remarks />
         public UpdateSoftwareStatusMethodState UpdateSoftwareStatus
         {
-            get
-            {
-                return m_updateSoftwareStatusMethod;
-            }
+            get => m_updateSoftwareStatusMethod;
 
             set
             {
@@ -1465,13 +1812,9 @@ namespace Opc.Ua.Onboarding
             }
         }
 
-        /// <remarks />
         public RegisterDeviceEndpointMethodState RegisterDeviceEndpoint
         {
-            get
-            {
-                return m_registerDeviceEndpointMethod;
-            }
+            get => m_registerDeviceEndpointMethod;
 
             set
             {
@@ -1484,13 +1827,9 @@ namespace Opc.Ua.Onboarding
             }
         }
 
-        /// <remarks />
         public GetManagersMethodState GetManagers
         {
-            get
-            {
-                return m_getManagersMethod;
-            }
+            get => m_getManagersMethod;
 
             set
             {
@@ -1503,13 +1842,9 @@ namespace Opc.Ua.Onboarding
             }
         }
 
-        /// <remarks />
         public RegisterManagedApplicationMethodState RegisterManagedApplication
         {
-            get
-            {
-                return m_registerManagedApplicationMethod;
-            }
+            get => m_registerManagedApplicationMethod;
 
             set
             {
@@ -1522,13 +1857,9 @@ namespace Opc.Ua.Onboarding
             }
         }
 
-        /// <remarks />
         public DeviceRegistrarAdminState Administration
         {
-            get
-            {
-                return m_administration;
-            }
+            get => m_administration;
 
             set
             {
@@ -1543,7 +1874,6 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         public override void GetChildren(
             ISystemContext context,
             IList<BaseInstanceState> children)
@@ -1581,7 +1911,47 @@ namespace Opc.Ua.Onboarding
             base.GetChildren(context, children);
         }
             
-        /// <remarks />
+        protected override void RemoveExplicitlyDefinedChild(BaseInstanceState child)
+        {
+            if (Object.ReferenceEquals(m_provideIdentitiesMethod, child))
+            {
+                m_provideIdentitiesMethod = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_updateSoftwareStatusMethod, child))
+            {
+                m_updateSoftwareStatusMethod = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_registerDeviceEndpointMethod, child))
+            {
+                m_registerDeviceEndpointMethod = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_getManagersMethod, child))
+            {
+                m_getManagersMethod = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_registerManagedApplicationMethod, child))
+            {
+                m_registerManagedApplicationMethod = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_administration, child))
+            {
+                m_administration = null;
+                return;
+            }
+
+            base.RemoveExplicitlyDefinedChild(child);
+        }
+
         protected override BaseInstanceState FindChild(
             ISystemContext context,
             QualifiedName browseName,
@@ -1747,25 +2117,22 @@ namespace Opc.Ua.Onboarding
 
     #region RequestTicketsMethodState Class
     #if (!OPCUA_EXCLUDE_RequestTicketsMethodState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class RequestTicketsMethodState : MethodState
     {
         #region Constructors
-        /// <remarks />
         public RequestTicketsMethodState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         public new static NodeState Construct(NodeState parent)
         {
             return new RequestTicketsMethodState(parent);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -1773,7 +2140,6 @@ namespace Opc.Ua.Onboarding
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -1791,15 +2157,15 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Event Callbacks
-        /// <remarks />
         public RequestTicketsMethodStateMethodCallHandler OnCall;
+
+        public RequestTicketsMethodStateMethodAsyncCallHandler OnCallAsync;
         #endregion
 
         #region Public Properties
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         protected override ServiceResult Call(
             ISystemContext _context,
             NodeId _objectId,
@@ -1828,43 +2194,88 @@ namespace Opc.Ua.Onboarding
 
             return _result;
         }
+
+        #if (OPCUA_INCLUDE_ASYNC)
+        protected override async ValueTask<ServiceResult> CallAsync(
+            ISystemContext _context,
+            NodeId _objectId,
+            IList<object> _inputArguments,
+            IList<object> _outputArguments,
+            CancellationToken cancellationToken = default)
+        {
+            if (OnCall == null && OnCallAsync == null)
+            {
+                return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
+            }
+
+            RequestTicketsMethodStateResult _result = null;
+
+            if (OnCallAsync != null)
+            {
+                _result = await OnCallAsync(
+                    _context,
+                    this,
+                    _objectId,
+                    cancellationToken).ConfigureAwait(false);
+            }
+            else if (OnCall != null)
+            {
+                return Call(_context, _objectId, _inputArguments, _outputArguments);
+            }
+
+            _outputArguments[0] = _result.Tickets;
+
+            return _result.ServiceResult;
+        }
+        #endif
+
         #endregion
 
         #region Private Fields
         #endregion
     }
 
-    /// <remarks />
     /// <exclude />
     public delegate ServiceResult RequestTicketsMethodStateMethodCallHandler(
         ISystemContext _context,
         MethodState _method,
         NodeId _objectId,
         ref string[] tickets);
+
+    /// <exclude />
+    public partial class RequestTicketsMethodStateResult
+    {
+        public ServiceResult ServiceResult { get; set; }
+        public string[] Tickets { get; set; }
+    }
+
+    /// <exclude />
+    public delegate ValueTask<RequestTicketsMethodStateResult> RequestTicketsMethodStateMethodAsyncCallHandler(
+        ISystemContext _context,
+        MethodState _method,
+        NodeId _objectId,
+        CancellationToken cancellationToken);
     #endif
     #endregion
 
     #region SetRegistrarEndpointsMethodState Class
     #if (!OPCUA_EXCLUDE_SetRegistrarEndpointsMethodState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class SetRegistrarEndpointsMethodState : MethodState
     {
         #region Constructors
-        /// <remarks />
         public SetRegistrarEndpointsMethodState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         public new static NodeState Construct(NodeState parent)
         {
             return new SetRegistrarEndpointsMethodState(parent);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -1872,7 +2283,6 @@ namespace Opc.Ua.Onboarding
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -1890,15 +2300,15 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Event Callbacks
-        /// <remarks />
         public SetRegistrarEndpointsMethodStateMethodCallHandler OnCall;
+
+        public SetRegistrarEndpointsMethodStateMethodAsyncCallHandler OnCallAsync;
         #endregion
 
         #region Public Properties
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         protected override ServiceResult Call(
             ISystemContext _context,
             NodeId _objectId,
@@ -1925,43 +2335,89 @@ namespace Opc.Ua.Onboarding
 
             return _result;
         }
+
+        #if (OPCUA_INCLUDE_ASYNC)
+        protected override async ValueTask<ServiceResult> CallAsync(
+            ISystemContext _context,
+            NodeId _objectId,
+            IList<object> _inputArguments,
+            IList<object> _outputArguments,
+            CancellationToken cancellationToken = default)
+        {
+            if (OnCall == null && OnCallAsync == null)
+            {
+                return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
+            }
+
+            SetRegistrarEndpointsMethodStateResult _result = null;
+
+            Opc.Ua.ApplicationDescription[] registrars = (Opc.Ua.ApplicationDescription[])ExtensionObject.ToArray(_inputArguments[0], typeof(Opc.Ua.ApplicationDescription));
+
+            if (OnCallAsync != null)
+            {
+                _result = await OnCallAsync(
+                    _context,
+                    this,
+                    _objectId,
+                    registrars,
+                    cancellationToken).ConfigureAwait(false);
+            }
+            else if (OnCall != null)
+            {
+                return Call(_context, _objectId, _inputArguments, _outputArguments);
+            }
+
+            return _result.ServiceResult;
+        }
+        #endif
+
         #endregion
 
         #region Private Fields
         #endregion
     }
 
-    /// <remarks />
     /// <exclude />
     public delegate ServiceResult SetRegistrarEndpointsMethodStateMethodCallHandler(
         ISystemContext _context,
         MethodState _method,
         NodeId _objectId,
         Opc.Ua.ApplicationDescription[] registrars);
+
+    /// <exclude />
+    public partial class SetRegistrarEndpointsMethodStateResult
+    {
+        public ServiceResult ServiceResult { get; set; }
+    }
+
+    /// <exclude />
+    public delegate ValueTask<SetRegistrarEndpointsMethodStateResult> SetRegistrarEndpointsMethodStateMethodAsyncCallHandler(
+        ISystemContext _context,
+        MethodState _method,
+        NodeId _objectId,
+        Opc.Ua.ApplicationDescription[] registrars,
+        CancellationToken cancellationToken);
     #endif
     #endregion
 
     #region DeviceRegistrationAuditEventState Class
     #if (!OPCUA_EXCLUDE_DeviceRegistrationAuditEventState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class DeviceRegistrationAuditEventState : AuditEventState
     {
         #region Constructors
-        /// <remarks />
         public DeviceRegistrationAuditEventState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         protected override NodeId GetDefaultTypeDefinitionId(NamespaceTable namespaceUris)
         {
             return Opc.Ua.NodeId.Create(Opc.Ua.Onboarding.ObjectTypes.DeviceRegistrationAuditEventType, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding, namespaceUris);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -1969,14 +2425,12 @@ namespace Opc.Ua.Onboarding
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void Initialize(ISystemContext context, NodeState source)
         {
             InitializeOptionalChildren(context);
             base.Initialize(context, source);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -2005,13 +2459,9 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Public Properties
-        /// <remarks />
         public PropertyState<string> ProductInstanceUri
         {
-            get
-            {
-                return m_productInstanceUri;
-            }
+            get => m_productInstanceUri;
 
             set
             {
@@ -2026,7 +2476,6 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         public override void GetChildren(
             ISystemContext context,
             IList<BaseInstanceState> children)
@@ -2039,7 +2488,17 @@ namespace Opc.Ua.Onboarding
             base.GetChildren(context, children);
         }
             
-        /// <remarks />
+        protected override void RemoveExplicitlyDefinedChild(BaseInstanceState child)
+        {
+            if (Object.ReferenceEquals(m_productInstanceUri, child))
+            {
+                m_productInstanceUri = null;
+                return;
+            }
+
+            base.RemoveExplicitlyDefinedChild(child);
+        }
+
         protected override BaseInstanceState FindChild(
             ISystemContext context,
             QualifiedName browseName,
@@ -2095,25 +2554,22 @@ namespace Opc.Ua.Onboarding
 
     #region DeviceIdentityAcceptedAuditEventState Class
     #if (!OPCUA_EXCLUDE_DeviceIdentityAcceptedAuditEventState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class DeviceIdentityAcceptedAuditEventState : DeviceRegistrationAuditEventState
     {
         #region Constructors
-        /// <remarks />
         public DeviceIdentityAcceptedAuditEventState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         protected override NodeId GetDefaultTypeDefinitionId(NamespaceTable namespaceUris)
         {
             return Opc.Ua.NodeId.Create(Opc.Ua.Onboarding.ObjectTypes.DeviceIdentityAcceptedAuditEventType, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding, namespaceUris);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -2121,14 +2577,12 @@ namespace Opc.Ua.Onboarding
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void Initialize(ISystemContext context, NodeState source)
         {
             InitializeOptionalChildren(context);
             base.Initialize(context, source);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -2139,19 +2593,19 @@ namespace Opc.Ua.Onboarding
            "AgAAACcAAABodHRwOi8vb3BjZm91bmRhdGlvbi5vcmcvVUEvT25ib2FyZGluZy8gAAAAaHR0cDovL29w" +
            "Y2ZvdW5kYXRpb24ub3JnL1VBL0dEUy//////BGCAAgEAAAABACwAAABEZXZpY2VJZGVudGl0eUFjY2Vw" +
            "dGVkQXVkaXRFdmVudFR5cGVJbnN0YW5jZQEB/QUBAf0F/QUAAP////8RAAAAFWCJCgIAAAAAAAcAAABF" +
-           "dmVudElkAgEAU0IPAAAuAERTQg8AAA//////AQH/////AAAAABVgiQoCAAAAAAAJAAAARXZlbnRUeXBl" +
-           "AgEAVEIPAAAuAERUQg8AABH/////AQH/////AAAAABVgiQoCAAAAAAAKAAAAU291cmNlTm9kZQIBAFVC" +
-           "DwAALgBEVUIPAAAR/////wEB/////wAAAAAVYIkKAgAAAAAACgAAAFNvdXJjZU5hbWUCAQBWQg8AAC4A" +
-           "RFZCDwAADP////8BAf////8AAAAAFWCJCgIAAAAAAAQAAABUaW1lAgEAV0IPAAAuAERXQg8AAQAmAf//" +
-           "//8BAf////8AAAAAFWCJCgIAAAAAAAsAAABSZWNlaXZlVGltZQIBAFhCDwAALgBEWEIPAAEAJgH/////" +
-           "AQH/////AAAAABVgiQoCAAAAAAAHAAAATWVzc2FnZQIBAFpCDwAALgBEWkIPAAAV/////wEB/////wAA" +
-           "AAAVYIkKAgAAAAAACAAAAFNldmVyaXR5AgEAW0IPAAAuAERbQg8AAAX/////AQH/////AAAAABVgiQoC" +
-           "AAAAAAAPAAAAQWN0aW9uVGltZVN0YW1wAgEAYEIPAAAuAERgQg8AAQAmAf////8BAf////8AAAAAFWCJ" +
-           "CgIAAAAAAAYAAABTdGF0dXMCAQBhQg8AAC4ARGFCDwAAAf////8BAf////8AAAAAFWCJCgIAAAAAAAgA" +
-           "AABTZXJ2ZXJJZAIBAGJCDwAALgBEYkIPAAAM/////wEB/////wAAAAAVYIkKAgAAAAAAEgAAAENsaWVu" +
-           "dEF1ZGl0RW50cnlJZAIBAGNCDwAALgBEY0IPAAAM/////wEB/////wAAAAAVYIkKAgAAAAAADAAAAENs" +
-           "aWVudFVzZXJJZAIBAGRCDwAALgBEZEIPAAAM/////wEB/////wAAAAAVYIkKAgAAAAEAEgAAAFByb2R1" +
-           "Y3RJbnN0YW5jZVVyaQIBAGVCDwAALgBEZUIPAAEAx1z/////AQH/////AAAAABVgiQoCAAAAAQALAAAA" +
+           "dmVudElkAgEAVEIPAAAuAERUQg8AAA//////AQH/////AAAAABVgiQoCAAAAAAAJAAAARXZlbnRUeXBl" +
+           "AgEAVUIPAAAuAERVQg8AABH/////AQH/////AAAAABVgiQoCAAAAAAAKAAAAU291cmNlTm9kZQIBAFZC" +
+           "DwAALgBEVkIPAAAR/////wEB/////wAAAAAVYIkKAgAAAAAACgAAAFNvdXJjZU5hbWUCAQBXQg8AAC4A" +
+           "RFdCDwAADP////8BAf////8AAAAAFWCJCgIAAAAAAAQAAABUaW1lAgEAWEIPAAAuAERYQg8AAQAmAf//" +
+           "//8BAf////8AAAAAFWCJCgIAAAAAAAsAAABSZWNlaXZlVGltZQIBAFlCDwAALgBEWUIPAAEAJgH/////" +
+           "AQH/////AAAAABVgiQoCAAAAAAAHAAAATWVzc2FnZQIBAFtCDwAALgBEW0IPAAAV/////wEB/////wAA" +
+           "AAAVYIkKAgAAAAAACAAAAFNldmVyaXR5AgEAXEIPAAAuAERcQg8AAAX/////AQH/////AAAAABVgiQoC" +
+           "AAAAAAAPAAAAQWN0aW9uVGltZVN0YW1wAgEAYUIPAAAuAERhQg8AAQAmAf////8BAf////8AAAAAFWCJ" +
+           "CgIAAAAAAAYAAABTdGF0dXMCAQBiQg8AAC4ARGJCDwAAAf////8BAf////8AAAAAFWCJCgIAAAAAAAgA" +
+           "AABTZXJ2ZXJJZAIBAGNCDwAALgBEY0IPAAAM/////wEB/////wAAAAAVYIkKAgAAAAAAEgAAAENsaWVu" +
+           "dEF1ZGl0RW50cnlJZAIBAGRCDwAALgBEZEIPAAAM/////wEB/////wAAAAAVYIkKAgAAAAAADAAAAENs" +
+           "aWVudFVzZXJJZAIBAGVCDwAALgBEZUIPAAAM/////wEB/////wAAAAAVYIkKAgAAAAEAEgAAAFByb2R1" +
+           "Y3RJbnN0YW5jZVVyaQIBAGdCDwAALgBEZ0IPAAEAx1z/////AQH/////AAAAABVgiQoCAAAAAQALAAAA" +
            "Q2VydGlmaWNhdGUBAQ0GAC4ARA0GAAAAD/////8BAf////8AAAAAFWCJCgIAAAABAAYAAABUaWNrZXQB" +
            "AQ4GAC4ARA4GAAABAH5k/////wEB/////wAAAAAVYIkKAgAAAAEACQAAAENvbXBvc2l0ZQEBDwYALgBE" +
            "DwYAAAEAfmT/////AQH/////AAAAAA==";
@@ -2160,13 +2614,9 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Public Properties
-        /// <remarks />
         public PropertyState<byte[]> Certificate
         {
-            get
-            {
-                return m_certificate;
-            }
+            get => m_certificate;
 
             set
             {
@@ -2179,13 +2629,9 @@ namespace Opc.Ua.Onboarding
             }
         }
 
-        /// <remarks />
         public PropertyState<string> Ticket
         {
-            get
-            {
-                return m_ticket;
-            }
+            get => m_ticket;
 
             set
             {
@@ -2198,13 +2644,9 @@ namespace Opc.Ua.Onboarding
             }
         }
 
-        /// <remarks />
         public PropertyState<string> Composite
         {
-            get
-            {
-                return m_composite;
-            }
+            get => m_composite;
 
             set
             {
@@ -2219,7 +2661,6 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         public override void GetChildren(
             ISystemContext context,
             IList<BaseInstanceState> children)
@@ -2242,7 +2683,29 @@ namespace Opc.Ua.Onboarding
             base.GetChildren(context, children);
         }
             
-        /// <remarks />
+        protected override void RemoveExplicitlyDefinedChild(BaseInstanceState child)
+        {
+            if (Object.ReferenceEquals(m_certificate, child))
+            {
+                m_certificate = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_ticket, child))
+            {
+                m_ticket = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_composite, child))
+            {
+                m_composite = null;
+                return;
+            }
+
+            base.RemoveExplicitlyDefinedChild(child);
+        }
+
         protected override BaseInstanceState FindChild(
             ISystemContext context,
             QualifiedName browseName,
@@ -2342,25 +2805,22 @@ namespace Opc.Ua.Onboarding
 
     #region DeviceSoftwareUpdatedAuditEventState Class
     #if (!OPCUA_EXCLUDE_DeviceSoftwareUpdatedAuditEventState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class DeviceSoftwareUpdatedAuditEventState : DeviceRegistrationAuditEventState
     {
         #region Constructors
-        /// <remarks />
         public DeviceSoftwareUpdatedAuditEventState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         protected override NodeId GetDefaultTypeDefinitionId(NamespaceTable namespaceUris)
         {
             return Opc.Ua.NodeId.Create(Opc.Ua.Onboarding.ObjectTypes.DeviceSoftwareUpdatedAuditEventType, Opc.Ua.Onboarding.Namespaces.OpcUaOnboarding, namespaceUris);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -2368,14 +2828,12 @@ namespace Opc.Ua.Onboarding
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void Initialize(ISystemContext context, NodeState source)
         {
             InitializeOptionalChildren(context);
             base.Initialize(context, source);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -2386,32 +2844,28 @@ namespace Opc.Ua.Onboarding
            "AgAAACcAAABodHRwOi8vb3BjZm91bmRhdGlvbi5vcmcvVUEvT25ib2FyZGluZy8gAAAAaHR0cDovL29w" +
            "Y2ZvdW5kYXRpb24ub3JnL1VBL0dEUy//////BGCAAgEAAAABACsAAABEZXZpY2VTb2Z0d2FyZVVwZGF0" +
            "ZWRBdWRpdEV2ZW50VHlwZUluc3RhbmNlAQEQBgEBEAYQBgAA/////w8AAAAVYIkKAgAAAAAABwAAAEV2" +
-           "ZW50SWQCAQBmQg8AAC4ARGZCDwAAD/////8BAf////8AAAAAFWCJCgIAAAAAAAkAAABFdmVudFR5cGUC" +
-           "AQBnQg8AAC4ARGdCDwAAEf////8BAf////8AAAAAFWCJCgIAAAAAAAoAAABTb3VyY2VOb2RlAgEAaEIP" +
-           "AAAuAERoQg8AABH/////AQH/////AAAAABVgiQoCAAAAAAAKAAAAU291cmNlTmFtZQIBAGlCDwAALgBE" +
-           "aUIPAAAM/////wEB/////wAAAAAVYIkKAgAAAAAABAAAAFRpbWUCAQBqQg8AAC4ARGpCDwABACYB////" +
-           "/wEB/////wAAAAAVYIkKAgAAAAAACwAAAFJlY2VpdmVUaW1lAgEAa0IPAAAuAERrQg8AAQAmAf////8B" +
-           "Af////8AAAAAFWCJCgIAAAAAAAcAAABNZXNzYWdlAgEAbUIPAAAuAERtQg8AABX/////AQH/////AAAA" +
-           "ABVgiQoCAAAAAAAIAAAAU2V2ZXJpdHkCAQBuQg8AAC4ARG5CDwAABf////8BAf////8AAAAAFWCJCgIA" +
-           "AAAAAA8AAABBY3Rpb25UaW1lU3RhbXACAQBzQg8AAC4ARHNCDwABACYB/////wEB/////wAAAAAVYIkK" +
+           "ZW50SWQCAQBoQg8AAC4ARGhCDwAAD/////8BAf////8AAAAAFWCJCgIAAAAAAAkAAABFdmVudFR5cGUC" +
+           "AQBpQg8AAC4ARGlCDwAAEf////8BAf////8AAAAAFWCJCgIAAAAAAAoAAABTb3VyY2VOb2RlAgEAakIP" +
+           "AAAuAERqQg8AABH/////AQH/////AAAAABVgiQoCAAAAAAAKAAAAU291cmNlTmFtZQIBAGtCDwAALgBE" +
+           "a0IPAAAM/////wEB/////wAAAAAVYIkKAgAAAAAABAAAAFRpbWUCAQBsQg8AAC4ARGxCDwABACYB////" +
+           "/wEB/////wAAAAAVYIkKAgAAAAAACwAAAFJlY2VpdmVUaW1lAgEAbUIPAAAuAERtQg8AAQAmAf////8B" +
+           "Af////8AAAAAFWCJCgIAAAAAAAcAAABNZXNzYWdlAgEAb0IPAAAuAERvQg8AABX/////AQH/////AAAA" +
+           "ABVgiQoCAAAAAAAIAAAAU2V2ZXJpdHkCAQBwQg8AAC4ARHBCDwAABf////8BAf////8AAAAAFWCJCgIA" +
+           "AAAAAA8AAABBY3Rpb25UaW1lU3RhbXACAQB1Qg8AAC4ARHVCDwABACYB/////wEB/////wAAAAAVYIkK" +
            "AgAAAAEABgAAAFN0YXR1cwEBGwYALgBEGwYAAAAB/////wEB/////wAAAAAVYIkKAgAAAAAACAAAAFNl" +
-           "cnZlcklkAgEAdEIPAAAuAER0Qg8AAAz/////AQH/////AAAAABVgiQoCAAAAAAASAAAAQ2xpZW50QXVk" +
-           "aXRFbnRyeUlkAgEAdUIPAAAuAER1Qg8AAAz/////AQH/////AAAAABVgiQoCAAAAAAAMAAAAQ2xpZW50" +
-           "VXNlcklkAgEAdkIPAAAuAER2Qg8AAAz/////AQH/////AAAAABVgiQoCAAAAAQASAAAAUHJvZHVjdElu" +
-           "c3RhbmNlVXJpAgEAd0IPAAAuAER3Qg8AAQDHXP////8BAf////8AAAAAFWCJCgIAAAABABAAAABTb2Z0" +
+           "cnZlcklkAgEAdkIPAAAuAER2Qg8AAAz/////AQH/////AAAAABVgiQoCAAAAAAASAAAAQ2xpZW50QXVk" +
+           "aXRFbnRyeUlkAgEAd0IPAAAuAER3Qg8AAAz/////AQH/////AAAAABVgiQoCAAAAAAAMAAAAQ2xpZW50" +
+           "VXNlcklkAgEAeEIPAAAuAER4Qg8AAAz/////AQH/////AAAAABVgiQoCAAAAAQASAAAAUHJvZHVjdElu" +
+           "c3RhbmNlVXJpAgEAekIPAAAuAER6Qg8AAQDHXP////8BAf////8AAAAAFWCJCgIAAAABABAAAABTb2Z0" +
            "d2FyZVJldmlzaW9uAQEgBgAuAEQgBgAAAAz/////AQH/////AAAAAA==";
         #endregion
         #endif
         #endregion
 
         #region Public Properties
-        /// <remarks />
         public PropertyState<string> SoftwareRevision
         {
-            get
-            {
-                return m_softwareRevision;
-            }
+            get => m_softwareRevision;
 
             set
             {
@@ -2426,7 +2880,6 @@ namespace Opc.Ua.Onboarding
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         public override void GetChildren(
             ISystemContext context,
             IList<BaseInstanceState> children)
@@ -2439,7 +2892,17 @@ namespace Opc.Ua.Onboarding
             base.GetChildren(context, children);
         }
             
-        /// <remarks />
+        protected override void RemoveExplicitlyDefinedChild(BaseInstanceState child)
+        {
+            if (Object.ReferenceEquals(m_softwareRevision, child))
+            {
+                m_softwareRevision = null;
+                return;
+            }
+
+            base.RemoveExplicitlyDefinedChild(child);
+        }
+
         protected override BaseInstanceState FindChild(
             ISystemContext context,
             QualifiedName browseName,

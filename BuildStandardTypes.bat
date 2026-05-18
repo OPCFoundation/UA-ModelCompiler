@@ -2,7 +2,7 @@
 SETLOCAL
 
 set ROOT=%~dp0
-set MODELCOMPILER=%ROOT%build\bin\Release\net9.0\Opc.Ua.ModelCompiler.exe
+set MODELCOMPILER=%ROOT%build\bin\Release\net8.0\Opc.Ua.ModelCompiler.exe
 set OUTPUT=%ROOT%..\nodesets
 set INPUT=%ROOT%Opc.Ua.ModelCompiler\Design
 set CSVINPUT=%ROOT%Opc.Ua.ModelCompiler\CSVs
@@ -40,8 +40,7 @@ set MODELVERSION=
 
 REM Set overrides for older versions. set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
 IF "%1"=="v105" (
-    set MODELVERSION=-mv 1.05.06 -pd 2025-11-08
-    REM set MODELVERSION=-mv 1.05.05 -pd 2025-06-30
+    set MODELVERSION=-mv 1.05.07 -pd 2026-05-01
 	set USEALLOWSUBTYPES=
 )
 
@@ -49,7 +48,7 @@ IF "%1"=="v104" (
 	set DOTNET_TARGET=
 	set GDS_TARGET=
 	set USEALLOWSUBTYPES=
-	set MODELVERSION=-mv 1.04.12 -pd 2024-01-05
+	set MODELVERSION=-mv 1.04.13 -pd 2026-01-12
 )
 
 IF "%1"=="v103" (
@@ -57,14 +56,14 @@ IF "%1"=="v103" (
 	set GDS_TARGET=
 	set USEALLOWSUBTYPES=
 	set CSVINPUT=%INPUT%
-	set MODELVERSION=-mv 1.03.9 -pd 2022-03-29
+	set MODELVERSION=-mv 1.03.10 -pd 2026-01-12
 )
 
 IF NOT "%3"=="" GOTO skipcore
 
 SET MODELNAME="CORE"
 ECHO Building Model %MODELNAME%
-ECHO %MODELCOMPILER% compile -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\\" -stack "%OUTPUT%\DotNet\\" -ansic "%OUTPUT%\AnsiC\\" %USEALLOWSUBTYPES% %MODELVERSION%
+ECHO %MODELCOMPILER% compile -rc -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\\" -stack "%OUTPUT%\DotNet\\" -ansic "%OUTPUT%\AnsiC\\" %USEALLOWSUBTYPES% %MODELVERSION%
 %MODELCOMPILER% compile -rc -d2 "%INPUT%\StandardTypes.xml" %VERSION% %EXCLUDE% -d2 "%INPUT%\UA Core Services.xml" -c "%CSVINPUT%\StandardTypes.csv" -o2 "%OUTPUT%\Schema\\" -stack "%OUTPUT%\DotNet\\" -ansic "%OUTPUT%\AnsiC\\" %USEALLOWSUBTYPES% %MODELVERSION%
 IF %ERRORLEVEL% NEQ 0 ( ECHO Failed %MODELNAME% & EXIT /B 1 )
 

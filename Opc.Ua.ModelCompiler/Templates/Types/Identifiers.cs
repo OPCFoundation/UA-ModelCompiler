@@ -7,6 +7,8 @@ using System.IO;
 using System.Xml;
 // ListOfImports
 
+// ListOfNamespaceDeclarations
+
 namespace _Namespace_
 {
     /// <summary>

@@ -1,33 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<!--
- * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
- *
- * OPC Foundation MIT License 1.00
- * 
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
- * 
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- *
- * The complete license agreement can be found here:
- * http://opcfoundation.org/License/MIT/1.00/
--->
-
+﻿<?xml version="1.0" encoding="utf-8"?>
 <uax:ListOfNodeState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd">
   <uax:NamespaceUris>
     <uax:NamespaceUri>http://opcfoundation.org/UA/Onboarding/</uax:NamespaceUri>
@@ -106,7 +77,7 @@
       <uax:NumericId>3</uax:NumericId>
       <uax:Value>
         <uax:Value>
-          <uax:String>1.05.04</uax:String>
+          <uax:String>1.05.05</uax:String>
         </uax:Value>
       </uax:Value>
       <uax:DataType>
@@ -333,13 +304,13 @@
       <uax:AccessLevel>1</uax:AccessLevel>
       <uax:UserAccessLevel>1</uax:UserAccessLevel>
     </DefaultAccessRestrictions>
-    <ModelVersion>
+    <ModelVersion xmlns="http://opcfoundation.org/UA/">
       <uax:NodeClass>Variable_2</uax:NodeClass>
       <uax:NodeId>
         <uax:Identifier>ns=1;i=4986</uax:Identifier>
       </uax:NodeId>
       <uax:BrowseName>
-        <uax:NamespaceIndex>1</uax:NamespaceIndex>
+        <uax:NamespaceIndex>0</uax:NamespaceIndex>
         <uax:Name>ModelVersion</uax:Name>
       </uax:BrowseName>
       <uax:ReferenceTypeId>
@@ -11158,7 +11129,7 @@ VHlwZXMueHNkIg0KICB0YXJnZXROYW1lc3BhY2U9Imh0dHA6Ly9vcGNmb3VuZGF0aW9uLm9yZy9V
 QS9PbmJvYXJkaW5nL1R5cGVzLnhzZCINCiAgZWxlbWVudEZvcm1EZWZhdWx0PSJxdWFsaWZpZWQi
 DQo+DQogIDx4czphbm5vdGF0aW9uPg0KICAgIDx4czphcHBpbmZvPg0KICAgICAgPHVhOk1vZGVs
 IE1vZGVsVXJpPSJodHRwOi8vb3BjZm91bmRhdGlvbi5vcmcvVUEvT25ib2FyZGluZy8iIFZlcnNp
-b249IjEuMDUuMDQiIFB1YmxpY2F0aW9uRGF0ZT0iMjAyNS0wMS0wOFQwMDowMDowMFoiIC8+DQog
+b249IjEuMDUuMDUiIFB1YmxpY2F0aW9uRGF0ZT0iMjAyNS0wMS0wOFQwMDowMDowMFoiIC8+DQog
 ICAgPC94czphcHBpbmZvPg0KICA8L3hzOmFubm90YXRpb24+DQogIA0KICA8eHM6aW1wb3J0IG5h
 bWVzcGFjZT0iaHR0cDovL29wY2ZvdW5kYXRpb24ub3JnL1VBL0dEUy9UeXBlcy54c2QiIC8+DQog
 IDx4czppbXBvcnQgbmFtZXNwYWNlPSJodHRwOi8vb3BjZm91bmRhdGlvbi5vcmcvVUEvMjAwOC8w
@@ -11505,154 +11476,4 @@ Pg0KDQo8L3hzOnNjaGVtYT4=</uax:ByteString>
       <uax:UserAccessLevel>1</uax:UserAccessLevel>
     </ManagerDescription>
   </OpcUaOnboarding_XmlSchema>
-  <DefaultJson xmlns="http://opcfoundation.org/UA/">
-    <uax:NodeClass>Object_1</uax:NodeClass>
-    <uax:NodeId>
-      <uax:Identifier>ns=1;i=1487</uax:Identifier>
-    </uax:NodeId>
-    <uax:BrowseName>
-      <uax:NamespaceIndex>0</uax:NamespaceIndex>
-      <uax:Name>Default JSON</uax:Name>
-    </uax:BrowseName>
-    <uax:TypeDefinitionId>
-      <uax:Identifier>i=76</uax:Identifier>
-    </uax:TypeDefinitionId>
-    <uax:NumericId>1487</uax:NumericId>
-    <uax:References>
-      <uax:Reference>
-        <uax:ReferenceTypeId>
-          <uax:Identifier>i=38</uax:Identifier>
-        </uax:ReferenceTypeId>
-        <uax:IsInverse>true</uax:IsInverse>
-        <uax:TargetId>
-          <uax:Identifier>ns=1;i=1164</uax:Identifier>
-        </uax:TargetId>
-      </uax:Reference>
-    </uax:References>
-  </DefaultJson>
-  <DefaultJson xmlns="http://opcfoundation.org/UA/">
-    <uax:NodeClass>Object_1</uax:NodeClass>
-    <uax:NodeId>
-      <uax:Identifier>ns=1;i=1488</uax:Identifier>
-    </uax:NodeId>
-    <uax:BrowseName>
-      <uax:NamespaceIndex>0</uax:NamespaceIndex>
-      <uax:Name>Default JSON</uax:Name>
-    </uax:BrowseName>
-    <uax:TypeDefinitionId>
-      <uax:Identifier>i=76</uax:Identifier>
-    </uax:TypeDefinitionId>
-    <uax:NumericId>1488</uax:NumericId>
-    <uax:References>
-      <uax:Reference>
-        <uax:ReferenceTypeId>
-          <uax:Identifier>i=38</uax:Identifier>
-        </uax:ReferenceTypeId>
-        <uax:IsInverse>true</uax:IsInverse>
-        <uax:TargetId>
-          <uax:Identifier>ns=1;i=1165</uax:Identifier>
-        </uax:TargetId>
-      </uax:Reference>
-    </uax:References>
-  </DefaultJson>
-  <DefaultJson xmlns="http://opcfoundation.org/UA/">
-    <uax:NodeClass>Object_1</uax:NodeClass>
-    <uax:NodeId>
-      <uax:Identifier>ns=1;i=1489</uax:Identifier>
-    </uax:NodeId>
-    <uax:BrowseName>
-      <uax:NamespaceIndex>0</uax:NamespaceIndex>
-      <uax:Name>Default JSON</uax:Name>
-    </uax:BrowseName>
-    <uax:TypeDefinitionId>
-      <uax:Identifier>i=76</uax:Identifier>
-    </uax:TypeDefinitionId>
-    <uax:NumericId>1489</uax:NumericId>
-    <uax:References>
-      <uax:Reference>
-        <uax:ReferenceTypeId>
-          <uax:Identifier>i=38</uax:Identifier>
-        </uax:ReferenceTypeId>
-        <uax:IsInverse>true</uax:IsInverse>
-        <uax:TargetId>
-          <uax:Identifier>ns=1;i=1166</uax:Identifier>
-        </uax:TargetId>
-      </uax:Reference>
-    </uax:References>
-  </DefaultJson>
-  <DefaultJson xmlns="http://opcfoundation.org/UA/">
-    <uax:NodeClass>Object_1</uax:NodeClass>
-    <uax:NodeId>
-      <uax:Identifier>ns=1;i=1490</uax:Identifier>
-    </uax:NodeId>
-    <uax:BrowseName>
-      <uax:NamespaceIndex>0</uax:NamespaceIndex>
-      <uax:Name>Default JSON</uax:Name>
-    </uax:BrowseName>
-    <uax:TypeDefinitionId>
-      <uax:Identifier>i=76</uax:Identifier>
-    </uax:TypeDefinitionId>
-    <uax:NumericId>1490</uax:NumericId>
-    <uax:References>
-      <uax:Reference>
-        <uax:ReferenceTypeId>
-          <uax:Identifier>i=38</uax:Identifier>
-        </uax:ReferenceTypeId>
-        <uax:IsInverse>true</uax:IsInverse>
-        <uax:TargetId>
-          <uax:Identifier>ns=1;i=1167</uax:Identifier>
-        </uax:TargetId>
-      </uax:Reference>
-    </uax:References>
-  </DefaultJson>
-  <DefaultJson xmlns="http://opcfoundation.org/UA/">
-    <uax:NodeClass>Object_1</uax:NodeClass>
-    <uax:NodeId>
-      <uax:Identifier>ns=1;i=1491</uax:Identifier>
-    </uax:NodeId>
-    <uax:BrowseName>
-      <uax:NamespaceIndex>0</uax:NamespaceIndex>
-      <uax:Name>Default JSON</uax:Name>
-    </uax:BrowseName>
-    <uax:TypeDefinitionId>
-      <uax:Identifier>i=76</uax:Identifier>
-    </uax:TypeDefinitionId>
-    <uax:NumericId>1491</uax:NumericId>
-    <uax:References>
-      <uax:Reference>
-        <uax:ReferenceTypeId>
-          <uax:Identifier>i=38</uax:Identifier>
-        </uax:ReferenceTypeId>
-        <uax:IsInverse>true</uax:IsInverse>
-        <uax:TargetId>
-          <uax:Identifier>ns=1;i=1168</uax:Identifier>
-        </uax:TargetId>
-      </uax:Reference>
-    </uax:References>
-  </DefaultJson>
-  <DefaultJson xmlns="http://opcfoundation.org/UA/">
-    <uax:NodeClass>Object_1</uax:NodeClass>
-    <uax:NodeId>
-      <uax:Identifier>ns=1;i=4222</uax:Identifier>
-    </uax:NodeId>
-    <uax:BrowseName>
-      <uax:NamespaceIndex>0</uax:NamespaceIndex>
-      <uax:Name>Default JSON</uax:Name>
-    </uax:BrowseName>
-    <uax:TypeDefinitionId>
-      <uax:Identifier>i=76</uax:Identifier>
-    </uax:TypeDefinitionId>
-    <uax:NumericId>4222</uax:NumericId>
-    <uax:References>
-      <uax:Reference>
-        <uax:ReferenceTypeId>
-          <uax:Identifier>i=38</uax:Identifier>
-        </uax:ReferenceTypeId>
-        <uax:IsInverse>true</uax:IsInverse>
-        <uax:TargetId>
-          <uax:Identifier>ns=1;i=1495</uax:Identifier>
-        </uax:TargetId>
-      </uax:Reference>
-    </uax:References>
-  </DefaultJson>
 </uax:ListOfNodeState>

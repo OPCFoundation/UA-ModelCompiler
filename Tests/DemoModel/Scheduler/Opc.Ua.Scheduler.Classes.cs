@@ -2,7 +2,7 @@
  * Copyright (c) 2005-2024 The OPC Foundation, Inc. All rights reserved.
  *
  * OPC Foundation MIT License 1.00
- * 
+ *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
@@ -11,7 +11,7 @@
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be
  * included in all copies or substantial portions of the Software.
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -31,35 +31,38 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
+using System.Threading;
 using Opc.Ua;
 
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable CA1515 // Consider making public types internal
 #pragma warning disable CA1707 // Identifiers should not contain underscores
+#pragma warning disable CA1028 // Enum Storage should be Int32
 
 namespace Opc.Ua.Scheduler
 {
     #region CalendarState Class
     #if (!OPCUA_EXCLUDE_CalendarState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class CalendarState : BaseObjectState
     {
         #region Constructors
-        /// <remarks />
         public CalendarState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         protected override NodeId GetDefaultTypeDefinitionId(NamespaceTable namespaceUris)
         {
             return Opc.Ua.NodeId.Create(Opc.Ua.Scheduler.ObjectTypes.CalendarType, Opc.Ua.Scheduler.Namespaces.OpcUaScheduler, namespaceUris);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -67,14 +70,12 @@ namespace Opc.Ua.Scheduler
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void Initialize(ISystemContext context, NodeState source)
         {
             InitializeOptionalChildren(context);
             base.Initialize(context, source);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -133,13 +134,9 @@ namespace Opc.Ua.Scheduler
         #endregion
 
         #region Public Properties
-        /// <remarks />
         public BaseDataVariableState<bool> PresentValue
         {
-            get
-            {
-                return m_presentValue;
-            }
+            get => m_presentValue;
 
             set
             {
@@ -152,13 +149,9 @@ namespace Opc.Ua.Scheduler
             }
         }
 
-        /// <remarks />
         public PropertyState<CalendarEntryType[]> DateList
         {
-            get
-            {
-                return m_dateList;
-            }
+            get => m_dateList;
 
             set
             {
@@ -171,13 +164,9 @@ namespace Opc.Ua.Scheduler
             }
         }
 
-        /// <remarks />
         public AddDateListElementsMethodState AddDateListElements
         {
-            get
-            {
-                return m_addDateListElementsMethod;
-            }
+            get => m_addDateListElementsMethod;
 
             set
             {
@@ -190,13 +179,9 @@ namespace Opc.Ua.Scheduler
             }
         }
 
-        /// <remarks />
         public RemoveDateListElementsMethodState RemoveDateListElements
         {
-            get
-            {
-                return m_removeDateListElementsMethod;
-            }
+            get => m_removeDateListElementsMethod;
 
             set
             {
@@ -211,7 +196,6 @@ namespace Opc.Ua.Scheduler
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         public override void GetChildren(
             ISystemContext context,
             IList<BaseInstanceState> children)
@@ -239,7 +223,35 @@ namespace Opc.Ua.Scheduler
             base.GetChildren(context, children);
         }
             
-        /// <remarks />
+        protected override void RemoveExplicitlyDefinedChild(BaseInstanceState child)
+        {
+            if (Object.ReferenceEquals(m_presentValue, child))
+            {
+                m_presentValue = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_dateList, child))
+            {
+                m_dateList = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_addDateListElementsMethod, child))
+            {
+                m_addDateListElementsMethod = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_removeDateListElementsMethod, child))
+            {
+                m_removeDateListElementsMethod = null;
+                return;
+            }
+
+            base.RemoveExplicitlyDefinedChild(child);
+        }
+
         protected override BaseInstanceState FindChild(
             ISystemContext context,
             QualifiedName browseName,
@@ -361,25 +373,22 @@ namespace Opc.Ua.Scheduler
 
     #region AddDateListElementsMethodState Class
     #if (!OPCUA_EXCLUDE_AddDateListElementsMethodState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class AddDateListElementsMethodState : MethodState
     {
         #region Constructors
-        /// <remarks />
         public AddDateListElementsMethodState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         public new static NodeState Construct(NodeState parent)
         {
             return new AddDateListElementsMethodState(parent);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -387,7 +396,6 @@ namespace Opc.Ua.Scheduler
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -407,15 +415,15 @@ namespace Opc.Ua.Scheduler
         #endregion
 
         #region Event Callbacks
-        /// <remarks />
         public AddDateListElementsMethodStateMethodCallHandler OnCall;
+
+        public AddDateListElementsMethodStateMethodAsyncCallHandler OnCallAsync;
         #endregion
 
         #region Public Properties
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         protected override ServiceResult Call(
             ISystemContext _context,
             NodeId _objectId,
@@ -447,13 +455,50 @@ namespace Opc.Ua.Scheduler
 
             return _result;
         }
+
+        #if (OPCUA_INCLUDE_ASYNC)
+        protected override async ValueTask<ServiceResult> CallAsync(
+            ISystemContext _context,
+            NodeId _objectId,
+            IList<object> _inputArguments,
+            IList<object> _outputArguments,
+            CancellationToken cancellationToken = default)
+        {
+            if (OnCall == null && OnCallAsync == null)
+            {
+                return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
+            }
+
+            AddDateListElementsMethodStateResult _result = null;
+
+            CalendarEntryType[] calendarEntries = (CalendarEntryType[])ExtensionObject.ToArray(_inputArguments[0], typeof(CalendarEntryType));
+
+            if (OnCallAsync != null)
+            {
+                _result = await OnCallAsync(
+                    _context,
+                    this,
+                    _objectId,
+                    calendarEntries,
+                    cancellationToken).ConfigureAwait(false);
+            }
+            else if (OnCall != null)
+            {
+                return Call(_context, _objectId, _inputArguments, _outputArguments);
+            }
+
+            _outputArguments[0] = _result.EntryResults;
+
+            return _result.ServiceResult;
+        }
+        #endif
+
         #endregion
 
         #region Private Fields
         #endregion
     }
 
-    /// <remarks />
     /// <exclude />
     public delegate ServiceResult AddDateListElementsMethodStateMethodCallHandler(
         ISystemContext _context,
@@ -461,30 +506,42 @@ namespace Opc.Ua.Scheduler
         NodeId _objectId,
         CalendarEntryType[] calendarEntries,
         ref int[] entryResults);
+
+    /// <exclude />
+    public partial class AddDateListElementsMethodStateResult
+    {
+        public ServiceResult ServiceResult { get; set; }
+        public int[] EntryResults { get; set; }
+    }
+
+    /// <exclude />
+    public delegate ValueTask<AddDateListElementsMethodStateResult> AddDateListElementsMethodStateMethodAsyncCallHandler(
+        ISystemContext _context,
+        MethodState _method,
+        NodeId _objectId,
+        CalendarEntryType[] calendarEntries,
+        CancellationToken cancellationToken);
     #endif
     #endregion
 
     #region RemoveDateListElementsMethodState Class
     #if (!OPCUA_EXCLUDE_RemoveDateListElementsMethodState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class RemoveDateListElementsMethodState : MethodState
     {
         #region Constructors
-        /// <remarks />
         public RemoveDateListElementsMethodState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         public new static NodeState Construct(NodeState parent)
         {
             return new RemoveDateListElementsMethodState(parent);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -492,7 +549,6 @@ namespace Opc.Ua.Scheduler
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -512,15 +568,15 @@ namespace Opc.Ua.Scheduler
         #endregion
 
         #region Event Callbacks
-        /// <remarks />
         public RemoveDateListElementsMethodStateMethodCallHandler OnCall;
+
+        public RemoveDateListElementsMethodStateMethodAsyncCallHandler OnCallAsync;
         #endregion
 
         #region Public Properties
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         protected override ServiceResult Call(
             ISystemContext _context,
             NodeId _objectId,
@@ -552,13 +608,50 @@ namespace Opc.Ua.Scheduler
 
             return _result;
         }
+
+        #if (OPCUA_INCLUDE_ASYNC)
+        protected override async ValueTask<ServiceResult> CallAsync(
+            ISystemContext _context,
+            NodeId _objectId,
+            IList<object> _inputArguments,
+            IList<object> _outputArguments,
+            CancellationToken cancellationToken = default)
+        {
+            if (OnCall == null && OnCallAsync == null)
+            {
+                return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
+            }
+
+            RemoveDateListElementsMethodStateResult _result = null;
+
+            CalendarEntryType[] calendarEntries = (CalendarEntryType[])ExtensionObject.ToArray(_inputArguments[0], typeof(CalendarEntryType));
+
+            if (OnCallAsync != null)
+            {
+                _result = await OnCallAsync(
+                    _context,
+                    this,
+                    _objectId,
+                    calendarEntries,
+                    cancellationToken).ConfigureAwait(false);
+            }
+            else if (OnCall != null)
+            {
+                return Call(_context, _objectId, _inputArguments, _outputArguments);
+            }
+
+            _outputArguments[0] = _result.EntryResults;
+
+            return _result.ServiceResult;
+        }
+        #endif
+
         #endregion
 
         #region Private Fields
         #endregion
     }
 
-    /// <remarks />
     /// <exclude />
     public delegate ServiceResult RemoveDateListElementsMethodStateMethodCallHandler(
         ISystemContext _context,
@@ -566,30 +659,42 @@ namespace Opc.Ua.Scheduler
         NodeId _objectId,
         CalendarEntryType[] calendarEntries,
         ref int[] entryResults);
+
+    /// <exclude />
+    public partial class RemoveDateListElementsMethodStateResult
+    {
+        public ServiceResult ServiceResult { get; set; }
+        public int[] EntryResults { get; set; }
+    }
+
+    /// <exclude />
+    public delegate ValueTask<RemoveDateListElementsMethodStateResult> RemoveDateListElementsMethodStateMethodAsyncCallHandler(
+        ISystemContext _context,
+        MethodState _method,
+        NodeId _objectId,
+        CalendarEntryType[] calendarEntries,
+        CancellationToken cancellationToken);
     #endif
     #endregion
 
     #region ScheduleState Class
     #if (!OPCUA_EXCLUDE_ScheduleState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class ScheduleState : BaseObjectState
     {
         #region Constructors
-        /// <remarks />
         public ScheduleState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         protected override NodeId GetDefaultTypeDefinitionId(NamespaceTable namespaceUris)
         {
             return Opc.Ua.NodeId.Create(Opc.Ua.Scheduler.ObjectTypes.ScheduleType, Opc.Ua.Scheduler.Namespaces.OpcUaScheduler, namespaceUris);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -597,14 +702,12 @@ namespace Opc.Ua.Scheduler
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void Initialize(ISystemContext context, NodeState source)
         {
             InitializeOptionalChildren(context);
             base.Initialize(context, source);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -723,13 +826,9 @@ namespace Opc.Ua.Scheduler
         #endregion
 
         #region Public Properties
-        /// <remarks />
         public PropertyState<SpecialEventType[]> ExceptionSchedule
         {
-            get
-            {
-                return m_exceptionSchedule;
-            }
+            get => m_exceptionSchedule;
 
             set
             {
@@ -742,13 +841,9 @@ namespace Opc.Ua.Scheduler
             }
         }
 
-        /// <remarks />
         public AddExceptionScheduleElementsMethodState AddExceptionScheduleElements
         {
-            get
-            {
-                return m_addExceptionScheduleElementsMethod;
-            }
+            get => m_addExceptionScheduleElementsMethod;
 
             set
             {
@@ -761,13 +856,9 @@ namespace Opc.Ua.Scheduler
             }
         }
 
-        /// <remarks />
         public RemoveExceptionScheduleElementsMethodState RemoveExceptionScheduleElements
         {
-            get
-            {
-                return m_removeExceptionScheduleElementsMethod;
-            }
+            get => m_removeExceptionScheduleElementsMethod;
 
             set
             {
@@ -780,13 +871,9 @@ namespace Opc.Ua.Scheduler
             }
         }
 
-        /// <remarks />
         public PropertyState<DailyScheduleType[]> WeeklySchedule
         {
-            get
-            {
-                return m_weeklySchedule;
-            }
+            get => m_weeklySchedule;
 
             set
             {
@@ -799,13 +886,9 @@ namespace Opc.Ua.Scheduler
             }
         }
 
-        /// <remarks />
         public PropertyState<TimeZoneDataType> LocalTime
         {
-            get
-            {
-                return m_localTime;
-            }
+            get => m_localTime;
 
             set
             {
@@ -818,13 +901,9 @@ namespace Opc.Ua.Scheduler
             }
         }
 
-        /// <remarks />
         public PropertyState<DateRangeType> EffectivePeriod
         {
-            get
-            {
-                return m_effectivePeriod;
-            }
+            get => m_effectivePeriod;
 
             set
             {
@@ -837,13 +916,9 @@ namespace Opc.Ua.Scheduler
             }
         }
 
-        /// <remarks />
         public PropertyState<bool> ApplyLastAfterStart
         {
-            get
-            {
-                return m_applyLastAfterStart;
-            }
+            get => m_applyLastAfterStart;
 
             set
             {
@@ -858,7 +933,6 @@ namespace Opc.Ua.Scheduler
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         public override void GetChildren(
             ISystemContext context,
             IList<BaseInstanceState> children)
@@ -901,7 +975,53 @@ namespace Opc.Ua.Scheduler
             base.GetChildren(context, children);
         }
             
-        /// <remarks />
+        protected override void RemoveExplicitlyDefinedChild(BaseInstanceState child)
+        {
+            if (Object.ReferenceEquals(m_exceptionSchedule, child))
+            {
+                m_exceptionSchedule = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_addExceptionScheduleElementsMethod, child))
+            {
+                m_addExceptionScheduleElementsMethod = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_removeExceptionScheduleElementsMethod, child))
+            {
+                m_removeExceptionScheduleElementsMethod = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_weeklySchedule, child))
+            {
+                m_weeklySchedule = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_localTime, child))
+            {
+                m_localTime = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_effectivePeriod, child))
+            {
+                m_effectivePeriod = null;
+                return;
+            }
+
+            if (Object.ReferenceEquals(m_applyLastAfterStart, child))
+            {
+                m_applyLastAfterStart = null;
+                return;
+            }
+
+            base.RemoveExplicitlyDefinedChild(child);
+        }
+
         protected override BaseInstanceState FindChild(
             ISystemContext context,
             QualifiedName browseName,
@@ -1089,25 +1209,22 @@ namespace Opc.Ua.Scheduler
 
     #region AddExceptionScheduleElementsMethodState Class
     #if (!OPCUA_EXCLUDE_AddExceptionScheduleElementsMethodState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class AddExceptionScheduleElementsMethodState : MethodState
     {
         #region Constructors
-        /// <remarks />
         public AddExceptionScheduleElementsMethodState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         public new static NodeState Construct(NodeState parent)
         {
             return new AddExceptionScheduleElementsMethodState(parent);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -1115,7 +1232,6 @@ namespace Opc.Ua.Scheduler
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -1135,15 +1251,15 @@ namespace Opc.Ua.Scheduler
         #endregion
 
         #region Event Callbacks
-        /// <remarks />
         public AddExceptionScheduleElementsMethodStateMethodCallHandler OnCall;
+
+        public AddExceptionScheduleElementsMethodStateMethodAsyncCallHandler OnCallAsync;
         #endregion
 
         #region Public Properties
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         protected override ServiceResult Call(
             ISystemContext _context,
             NodeId _objectId,
@@ -1175,13 +1291,50 @@ namespace Opc.Ua.Scheduler
 
             return _result;
         }
+
+        #if (OPCUA_INCLUDE_ASYNC)
+        protected override async ValueTask<ServiceResult> CallAsync(
+            ISystemContext _context,
+            NodeId _objectId,
+            IList<object> _inputArguments,
+            IList<object> _outputArguments,
+            CancellationToken cancellationToken = default)
+        {
+            if (OnCall == null && OnCallAsync == null)
+            {
+                return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
+            }
+
+            AddExceptionScheduleElementsMethodStateResult _result = null;
+
+            SpecialEventType[] specialEvents = (SpecialEventType[])ExtensionObject.ToArray(_inputArguments[0], typeof(SpecialEventType));
+
+            if (OnCallAsync != null)
+            {
+                _result = await OnCallAsync(
+                    _context,
+                    this,
+                    _objectId,
+                    specialEvents,
+                    cancellationToken).ConfigureAwait(false);
+            }
+            else if (OnCall != null)
+            {
+                return Call(_context, _objectId, _inputArguments, _outputArguments);
+            }
+
+            _outputArguments[0] = _result.EntryResults;
+
+            return _result.ServiceResult;
+        }
+        #endif
+
         #endregion
 
         #region Private Fields
         #endregion
     }
 
-    /// <remarks />
     /// <exclude />
     public delegate ServiceResult AddExceptionScheduleElementsMethodStateMethodCallHandler(
         ISystemContext _context,
@@ -1189,30 +1342,42 @@ namespace Opc.Ua.Scheduler
         NodeId _objectId,
         SpecialEventType[] specialEvents,
         ref int[] entryResults);
+
+    /// <exclude />
+    public partial class AddExceptionScheduleElementsMethodStateResult
+    {
+        public ServiceResult ServiceResult { get; set; }
+        public int[] EntryResults { get; set; }
+    }
+
+    /// <exclude />
+    public delegate ValueTask<AddExceptionScheduleElementsMethodStateResult> AddExceptionScheduleElementsMethodStateMethodAsyncCallHandler(
+        ISystemContext _context,
+        MethodState _method,
+        NodeId _objectId,
+        SpecialEventType[] specialEvents,
+        CancellationToken cancellationToken);
     #endif
     #endregion
 
     #region RemoveExceptionScheduleElementsMethodState Class
     #if (!OPCUA_EXCLUDE_RemoveExceptionScheduleElementsMethodState)
-    /// <remarks />
     /// <exclude />
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Opc.Ua.ModelCompiler", "1.0.0.0")]
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute()]
     public partial class RemoveExceptionScheduleElementsMethodState : MethodState
     {
         #region Constructors
-        /// <remarks />
         public RemoveExceptionScheduleElementsMethodState(NodeState parent) : base(parent)
         {
         }
 
-        /// <remarks />
         public new static NodeState Construct(NodeState parent)
         {
             return new RemoveExceptionScheduleElementsMethodState(parent);
         }
 
         #if (!OPCUA_EXCLUDE_InitializationStrings)
-        /// <remarks />
         protected override void Initialize(ISystemContext context)
         {
             base.Initialize(context);
@@ -1220,7 +1385,6 @@ namespace Opc.Ua.Scheduler
             InitializeOptionalChildren(context);
         }
 
-        /// <remarks />
         protected override void InitializeOptionalChildren(ISystemContext context)
         {
             base.InitializeOptionalChildren(context);
@@ -1240,15 +1404,15 @@ namespace Opc.Ua.Scheduler
         #endregion
 
         #region Event Callbacks
-        /// <remarks />
         public RemoveExceptionScheduleElementsMethodStateMethodCallHandler OnCall;
+
+        public RemoveExceptionScheduleElementsMethodStateMethodAsyncCallHandler OnCallAsync;
         #endregion
 
         #region Public Properties
         #endregion
 
         #region Overridden Methods
-        /// <remarks />
         protected override ServiceResult Call(
             ISystemContext _context,
             NodeId _objectId,
@@ -1280,13 +1444,50 @@ namespace Opc.Ua.Scheduler
 
             return _result;
         }
+
+        #if (OPCUA_INCLUDE_ASYNC)
+        protected override async ValueTask<ServiceResult> CallAsync(
+            ISystemContext _context,
+            NodeId _objectId,
+            IList<object> _inputArguments,
+            IList<object> _outputArguments,
+            CancellationToken cancellationToken = default)
+        {
+            if (OnCall == null && OnCallAsync == null)
+            {
+                return await base.CallAsync(_context, _objectId, _inputArguments, _outputArguments, cancellationToken).ConfigureAwait(false);
+            }
+
+            RemoveExceptionScheduleElementsMethodStateResult _result = null;
+
+            SpecialEventType[] specialEvents = (SpecialEventType[])ExtensionObject.ToArray(_inputArguments[0], typeof(SpecialEventType));
+
+            if (OnCallAsync != null)
+            {
+                _result = await OnCallAsync(
+                    _context,
+                    this,
+                    _objectId,
+                    specialEvents,
+                    cancellationToken).ConfigureAwait(false);
+            }
+            else if (OnCall != null)
+            {
+                return Call(_context, _objectId, _inputArguments, _outputArguments);
+            }
+
+            _outputArguments[0] = _result.EntryResults;
+
+            return _result.ServiceResult;
+        }
+        #endif
+
         #endregion
 
         #region Private Fields
         #endregion
     }
 
-    /// <remarks />
     /// <exclude />
     public delegate ServiceResult RemoveExceptionScheduleElementsMethodStateMethodCallHandler(
         ISystemContext _context,
@@ -1294,6 +1495,21 @@ namespace Opc.Ua.Scheduler
         NodeId _objectId,
         SpecialEventType[] specialEvents,
         ref int[] entryResults);
+
+    /// <exclude />
+    public partial class RemoveExceptionScheduleElementsMethodStateResult
+    {
+        public ServiceResult ServiceResult { get; set; }
+        public int[] EntryResults { get; set; }
+    }
+
+    /// <exclude />
+    public delegate ValueTask<RemoveExceptionScheduleElementsMethodStateResult> RemoveExceptionScheduleElementsMethodStateMethodAsyncCallHandler(
+        ISystemContext _context,
+        MethodState _method,
+        NodeId _objectId,
+        SpecialEventType[] specialEvents,
+        CancellationToken cancellationToken);
     #endif
     #endregion
 }
