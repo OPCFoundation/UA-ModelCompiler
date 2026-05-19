@@ -48,7 +48,7 @@
     <None Include="$(MSBuildThisFileDirectory)/readme.md" Pack="true" PackagePath="\" />
   </ItemGroup>
   <ItemGroup Condition="'$(TF_BUILD)' == 'true' OR '$(GITHUB_ACTIONS)' == 'true'">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300" PrivateAssets="All" />
   </ItemGroup>
   <!-- Deterministic build is currently not supported for code coverage tests. -->
   <PropertyGroup Condition="'$(CollectCoverage)' != 'true' AND ('$(TF_BUILD)' == 'true' OR '$(GITHUB_ACTIONS)' == 'true')">
