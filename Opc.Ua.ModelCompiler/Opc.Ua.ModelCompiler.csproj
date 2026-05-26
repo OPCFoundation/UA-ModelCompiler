@@ -489,7 +489,7 @@
 
   <ItemGroup>
     <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.378.134" />
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Types" Version="1.5.378.134" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Types" Version="1.5.378.145" />
   </ItemGroup>
   
   <ItemGroup>
