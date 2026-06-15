@@ -53,7 +53,7 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="3.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="JsonSchema.Net" Version="9.2.1" />
+    <PackageReference Include="JsonSchema.Net" Version="9.2.2" />
   </ItemGroup>
 
   <ItemGroup>
