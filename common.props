@@ -42,7 +42,7 @@
     <None Include="$(MSBuildThisFileDirectory)/Opc.Ua.ModelCompiler/License/UA_MIT.txt" Pack="true" PackagePath="$(PackageLicenseFile)" />
   </ItemGroup>
   <ItemGroup Condition="'$(IsPackable)' != 'false'">
-    <None Include="$(MSBuildThisFileDirectory)/Opc.Ua.ModelCompiler/License/logo.jpg" Pack="true" PackagePath="$(PackageIcon)" />
+    <None Include="$(MSBuildThisFileDirectory)/Opc.Ua.ModelCompiler/License/logo.jpg" Pack="true" PackagePath="images/" />
   </ItemGroup>
   <ItemGroup Condition="'$(IsPackable)' != 'false'">
     <None Include="$(MSBuildThisFileDirectory)/readme.md" Pack="true" PackagePath="\" />

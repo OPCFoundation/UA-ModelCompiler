@@ -488,12 +488,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.378.145" />
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Types" Version="1.5.378.145" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.378.152" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Types" Version="1.5.378.152" />
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Update="Nerdbank.GitVersioning" Version="3.9.50" />
+    <PackageReference Update="Nerdbank.GitVersioning" Version="3.10.85" />
   </ItemGroup>
 
   <ItemGroup>
