@@ -24,7 +24,7 @@ jobs:
         fetch-depth: 0
         submodules: true
         
-    - name: Set up .NET 8.0
+    - name: Set up .NET 10.0
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.x'
