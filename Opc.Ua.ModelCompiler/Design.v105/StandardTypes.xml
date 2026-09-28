@@ -8,7 +8,7 @@
   xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd"
   TargetNamespace="http://opcfoundation.org/UA/"
   TargetVersion="1.05.07"
-  TargetPublicationDate="2026-04-20T00:00:00Z"
+  TargetPublicationDate="2026-07-30T00:00:00Z"
 >
   <opc:Namespaces>
     <opc:Namespace Name="OpcUa" Prefix="Opc.Ua" InternalPrefix="Opc.Ua.Server" XmlNamespace="http://opcfoundation.org/UA/2008/02/Types.xsd">http://opcfoundation.org/UA/</opc:Namespace>
@@ -210,79 +210,79 @@
     </opc:References>
   </opc:Object>
 
-  <opc:Property SymbolicName="NodeVersion" DataType="ua:String" ValueRank="Scalar" PartNo="3">
+  <opc:Property SymbolicName="NodeVersion" DataType="ua:String" ValueRank="Scalar" DesignToolOnly="true" PartNo="3">
     <opc:Description>The version number of the node (used to indicate changes to references of the owning node).</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="ViewVersion" DataType="ua:UInt32" ValueRank="Scalar" PartNo="3">
+  <opc:Property SymbolicName="ViewVersion" DataType="ua:UInt32" ValueRank="Scalar" DesignToolOnly="true" PartNo="3">
     <opc:Description>The version number of the view.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="Icon" DataType="Image" ValueRank="Scalar" PartNo="3">
+  <opc:Property SymbolicName="Icon" DataType="Image" ValueRank="Scalar" DesignToolOnly="true" PartNo="3">
     <opc:Description>A small image representing the object.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="LocalTime" DataType="TimeZoneDataType" ValueRank="Scalar" PartNo="3">
+  <opc:Property SymbolicName="LocalTime" DataType="TimeZoneDataType" ValueRank="Scalar" DesignToolOnly="true" PartNo="3">
     <opc:Description>The local time where the owning variable value was collected.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="AllowNulls" DataType="ua:Boolean" ValueRank="Scalar" PartNo="3">
+  <opc:Property SymbolicName="AllowNulls" DataType="ua:Boolean" ValueRank="Scalar" DesignToolOnly="true" PartNo="3">
     <opc:Description>Whether the value of the owning variable is allowed to be null.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="ValueAsText" DataType="ua:LocalizedText" ValueRank="Scalar" PartNo="3">
+  <opc:Property SymbolicName="ValueAsText" DataType="ua:LocalizedText" ValueRank="Scalar" DesignToolOnly="true" PartNo="3">
     <opc:Description>The string representation of the current value for a variable with an enumerated data type.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="MaxStringLength" DataType="ua:UInt32" ValueRank="Scalar" PartNo="3">
+  <opc:Property SymbolicName="MaxStringLength" DataType="ua:UInt32" ValueRank="Scalar" DesignToolOnly="true" PartNo="3">
     <opc:Description>The maximum number of bytes supported by the DataVariable.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="MaxCharacters" DataType="ua:UInt32" ValueRank="Scalar" PartNo="3">
+  <opc:Property SymbolicName="MaxCharacters" DataType="ua:UInt32" ValueRank="Scalar" DesignToolOnly="true" PartNo="3">
     <opc:Description>The maximum number of Unicode characters supported by the DataVariable.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="MaxByteStringLength" DataType="ua:UInt32" ValueRank="Scalar" PartNo="3">
+  <opc:Property SymbolicName="MaxByteStringLength" DataType="ua:UInt32" ValueRank="Scalar" DesignToolOnly="true" PartNo="3">
     <opc:Description>The maximum length for a byte string that can be stored in the owning variable.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="MaxArrayLength" DataType="ua:UInt32" ValueRank="Scalar" PartNo="3">
+  <opc:Property SymbolicName="MaxArrayLength" DataType="ua:UInt32" ValueRank="Scalar" DesignToolOnly="true" PartNo="3">
     <opc:Description>The maximum length for an array that can be stored in the owning variable.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="EngineeringUnits" DataType="EUInformation" ValueRank="Scalar" PartNo="3">
+  <opc:Property SymbolicName="EngineeringUnits" DataType="EUInformation" ValueRank="Scalar" DesignToolOnly="true" PartNo="3">
     <opc:Description>The engineering units for the value of the owning variable.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="FixedSizeArray" DataType="Boolean" ValueRank="Scalar" PartNo="3">
+  <opc:Property SymbolicName="FixedSizeArray" DataType="Boolean" ValueRank="Scalar" DesignToolOnly="true" PartNo="3">
     <opc:Description>If it is set to TRUE, the array size is fixed to the size defined by the ArrayDimensions Attribute.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="EnumStrings" DataType="ua:LocalizedText" ValueRank="Array" PartNo="3">
+  <opc:Property SymbolicName="EnumStrings" DataType="ua:LocalizedText" ValueRank="Array" DesignToolOnly="true" PartNo="3">
     <opc:Description>The human readable strings associated with the values of an enumerated value (when values are sequential).</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="EnumValues" DataType="EnumValueType" ValueRank="Array" PartNo="3">
+  <opc:Property SymbolicName="EnumValues" DataType="EnumValueType" ValueRank="Array" DesignToolOnly="true" PartNo="3">
     <opc:Description>The human readable strings associated with the values of an enumerated value (when values have no sequence).</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="OptionSetValues" DataType="LocalizedText" ValueRank="Array" PartNo="3">
+  <opc:Property SymbolicName="OptionSetValues" DataType="LocalizedText" ValueRank="Array" DesignToolOnly="true" PartNo="3">
     <opc:Description>Contains the human-readable representation for each bit of the bit mask.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="OptionSetLength" DataType="UInt32" ValueRank="Scalar" PartNo="3">
+  <opc:Property SymbolicName="OptionSetLength" DataType="UInt32" ValueRank="Scalar" DesignToolOnly="true" PartNo="3">
     <opc:Description>Specifies the length, in bytes, of the OptionSet.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="InputArguments" DataType="Argument" ValueRank="Array" PartNo="3">
+  <opc:Property SymbolicName="InputArguments" DataType="Argument" ValueRank="Array" DesignToolOnly="true" PartNo="3">
     <opc:Description>The input arguments for a method.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="OutputArguments" DataType="Argument" ValueRank="Array" PartNo="3">
+  <opc:Property SymbolicName="OutputArguments" DataType="Argument" ValueRank="Array" DesignToolOnly="true" PartNo="3">
     <opc:Description>The output arguments for a method.</opc:Description>
   </opc:Property>
 
-  <opc:Property SymbolicName="DefaultInstanceBrowseName" DataType="QualifiedName" ValueRank="Scalar" PartNo="3">
+  <opc:Property SymbolicName="DefaultInstanceBrowseName" DataType="QualifiedName" ValueRank="Scalar" DesignToolOnly="true" PartNo="3">
     <opc:Description>Allows the definition of BrowseName on an ObjectType that all instances should use by default.</opc:Description>
   </opc:Property>
 
@@ -5407,6 +5407,7 @@
       <opc:Property SymbolicName="ProductUri" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="ApplicationType" ModellingRule="Mandatory" />
       <opc:Property SymbolicName="HasSecureElement" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="InApplicationSetup" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="CancelChanges" ModellingRule="Mandatory" />
       <opc:Method SymbolicName="ResetToServerDefaults" ModellingRule="Mandatory" />
 
@@ -9345,7 +9346,9 @@
 
   <opc:ObjectType SymbolicName="PriorityMappingTableType" BaseType="BaseObjectType" PartNo="22">
     <opc:Children>
-      <opc:Property SymbolicName="PriorityMapppingEntries" DataType="PriorityMappingEntryType" ValueRank="Array" ModellingRule="Mandatory" />
+      <opc:Property SymbolicName="PriorityMapppingEntries" DataType="PriorityMappingEntryType" ValueRank="Array" ModellingRule="Mandatory">
+        <DisplayName>PriorityMappingEntries</DisplayName>
+      </opc:Property>
       <opc:Method SymbolicName="AddPriorityMappingEntry" TypeDefinition="AddPriorityMappingEntryMethodType" ModellingRule="Optional" />
       <opc:Method SymbolicName="DeletePriorityMappingEntry" TypeDefinition="DeletePriorityMappingEntryMethodType" ModellingRule="Optional" />
     </opc:Children>

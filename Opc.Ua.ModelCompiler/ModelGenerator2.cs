@@ -158,7 +158,7 @@ namespace ModelCompiler
             bool includeDisplayNames,
             OutputType suppressedOutputs)
         {
-            m_useXmlInitializers = useXmlInitializers;
+            m_useXmlInitializers = true; // useXmlInitializers;
             m_exclusions = excludedCategories;
             m_includeDisplayNames = includeDisplayNames;
             SuppressedOutputs = suppressedOutputs;
@@ -7392,6 +7392,11 @@ namespace ModelCompiler
             if (state == null)
             {
                 return null;
+            }
+
+            if (state.BrowseName.Name.Contains("Identifier"))
+            {
+                Console.WriteLine("x");
             }
 
             List<BaseInstanceState> list = new List<BaseInstanceState>();

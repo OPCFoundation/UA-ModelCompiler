@@ -40,7 +40,7 @@ set MODELVERSION=
 
 REM Set overrides for older versions. set DOTNET_TARGET=.\Stack\Stack\Opc.Ua.Core\
 IF "%1"=="v105" (
-    set MODELVERSION=-mv 1.05.07 -pd 2026-05-01
+    set MODELVERSION=-mv 1.05.07 -pd 2026-07-30
 	set USEALLOWSUBTYPES=
 )
 
