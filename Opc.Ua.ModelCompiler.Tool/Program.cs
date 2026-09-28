@@ -5,7 +5,7 @@ using System.Reflection;
 
 internal sealed class Program
 {
-    private static async Task Main(string[] args)
+    private static async Task<int> Main(string[] args)
     {
         try
         {
@@ -21,7 +21,7 @@ internal sealed class Program
                 Console.WriteLine($"Opc.Ua.Core: {typeof(NodeId).Assembly.GetName().FullName}");
             }
 
-            await ModelCompilerApplication.Run(args).ConfigureAwait(false);
+            return await ModelCompilerApplication.Run(args).ConfigureAwait(false);
         }
         catch (AggregateException e)
         {
@@ -33,7 +33,7 @@ internal sealed class Program
                 Console.WriteLine($">>> [{ie.GetType().Name}] {ie.Message}");
             }
 
-            Environment.Exit(3);
+            return 3;
         }
         catch (Exception e)
         {
@@ -54,7 +54,7 @@ internal sealed class Program
             Console.WriteLine($"========================");
             Console.WriteLine();
 
-            Environment.Exit(3);
+            return 3;
         }
     }
 }
