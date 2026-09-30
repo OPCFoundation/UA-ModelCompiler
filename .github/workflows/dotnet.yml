@@ -20,7 +20,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        token: ${{ secrets.DOCKER_UPLOAD }}
+        token: ${{ secrets.DOCKER_UPLOAD || github.token }}
         fetch-depth: 0
         submodules: true
         
