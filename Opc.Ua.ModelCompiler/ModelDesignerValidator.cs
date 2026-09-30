@@ -6153,7 +6153,14 @@ namespace ModelCompiler
         /// <summary>
         /// Removes the modelling rules for instances.
         /// </summary>
-        private void ClearModellingRules(BaseInstanceState root)
+        /// <param name="root">The instance to update.</param>
+        /// <param name="clearChildren">
+        /// If false, the modelling rules of the children are kept. This is required for the instance
+        /// state of a type which is used as InitializationString of the generated class: the children
+        /// are instance declarations and the stack uses their modelling rules to decide which children
+        /// are instantiated at runtime (e.g. children without a generated property such as AddIns).
+        /// </param>
+        private void ClearModellingRules(BaseInstanceState root, bool clearChildren = true)
         {
             if (root == null)
             {
@@ -6162,9 +6169,17 @@ namespace ModelCompiler
 
             root.ModellingRuleId = null;
 
-            if (root.BrowseName.Name.Contains("BuildingBlock"))
+            ApplyDefaultPermissions(root, clearChildren);
+        }
+
+        /// <summary>
+        /// Applies the default permissions and optionally removes the modelling rules for the children.
+        /// </summary>
+        private void ApplyDefaultPermissions(BaseInstanceState root, bool clearModellingRules)
+        {
+            if (clearModellingRules)
             {
-                Console.WriteLine("x");
+                root.ModellingRuleId = null;
             }
 
             var design = root.Handle as NodeDesign;
@@ -6187,7 +6202,7 @@ namespace ModelCompiler
 
             for (int ii = 0; ii < children.Count; ii++)
             {
-                ClearModellingRules(children[ii]);
+                ApplyDefaultPermissions(children[ii], clearModellingRules);
             }
         }
 
@@ -6289,7 +6304,7 @@ namespace ModelCompiler
                         }
                     }
 
-                    ClearModellingRules(hierarchyNode.Instance.State as BaseInstanceState);
+                    ClearModellingRules(hierarchyNode.Instance.State as BaseInstanceState, clearChildren: false);
                 }
             }
         }

@@ -7394,11 +7394,6 @@ namespace ModelCompiler
                 return null;
             }
 
-            if (state.BrowseName.Name.Contains("Identifier"))
-            {
-                Console.WriteLine("x");
-            }
-
             List<BaseInstanceState> list = new List<BaseInstanceState>();
             state.GetChildren(context, list);
 
