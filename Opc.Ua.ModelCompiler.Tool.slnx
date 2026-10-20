@@ -1,0 +1,8 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Project Path="Opc.Ua.ModelCompiler.Tool/Opc.Ua.ModelCompiler.Tool.csproj" />
+  <Project Path="Opc.Ua.ModelCompiler/Opc.Ua.ModelCompiler.csproj" />
+</Solution>

@@ -442,7 +442,7 @@
             "$ref": "#/components/schemas/Variant"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part5/12.21)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.21)."
       },
       "DataTypeSchemaHeader": {
         "type": "object",
@@ -472,7 +472,7 @@
             }
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part5/12.31)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.31)."
       },
       "DataTypeDescription": {
         "type": "object",
@@ -486,7 +486,7 @@
             "format": "UaQualifiedName"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part5/12.32)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.32)."
       },
       "StructureDescription": {
         "type": "object",
@@ -500,7 +500,7 @@
             "$ref": "#/components/schemas/StructureDefinition"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part5/12.33)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.33)."
       },
       "EnumDescription": {
         "type": "object",
@@ -521,7 +521,7 @@
             "default": 0
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part5/12.34)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.34)."
       },
       "SimpleTypeDescription": {
         "type": "object",
@@ -543,7 +543,7 @@
             "default": 0
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part5/12.35)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.35)."
       },
       "PubSubState": {
         "enum": [
@@ -554,7 +554,7 @@
           4
         ],
         "type": "integer",
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.1).",
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.1).",
         "format": "int32",
         "x-enum-varnames": [
           "Disabled",
@@ -592,7 +592,7 @@
             "$ref": "#/components/schemas/ConfigurationVersionDataType"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.3/#6.2.3.2.3)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.3.2.3)."
       },
       "FieldMetaData": {
         "type": "object",
@@ -654,14 +654,14 @@
             }
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.3/#6.2.3.2.4)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.3.2.4)."
       },
       "DataSetFieldFlagsBits": {
         "enum": [
           1
         ],
         "type": "integer",
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.3/#6.2.3.2.5).",
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.3.2.5).",
         "format": "int32",
         "x-enum-varnames": [
           "PromotedField"
@@ -692,7 +692,7 @@
             "default": 0
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.3/#6.2.3.2.6)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.3.2.6)."
       },
       "PublishedDataSetDataType": {
         "type": "object",
@@ -719,7 +719,7 @@
             "type": "object"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.3/#6.2.3.5)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.3.5)."
       },
       "ActionTargetDataType": {
         "type": "object",
@@ -738,7 +738,7 @@
             "$ref": "#/components/schemas/LocalizedText"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.3/#6.2.3.10.3)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.3.10.3)."
       },
       "ActionState": {
         "enum": [
@@ -747,7 +747,7 @@
           2
         ],
         "type": "integer",
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.11/#6.2.11.2.1).",
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.11.2.1).",
         "format": "int32",
         "x-enum-varnames": [
           "Idle",
@@ -767,7 +767,7 @@
             "format": "UaNodeId"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.3/#6.2.3.10.5)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.3.10.5)."
       },
       "DataSetFieldContentMaskBits": {
         "enum": [
@@ -779,7 +779,7 @@
           32
         ],
         "type": "integer",
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.4/#6.2.4.2).",
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.4.2).",
         "format": "int32",
         "x-enum-varnames": [
           "StatusCode",
@@ -844,7 +844,7 @@
             "type": "object"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.4/#6.2.4.5.1)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.4.5.1)."
       },
       "DataSetWriterTransportDataType": {
         "type": "object",
@@ -866,7 +866,7 @@
           },
           "SecurityMode": {
             "type": "integer",
-            "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.20).",
+            "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.3.10).",
             "format": "MessageSecurityMode"
           },
           "SecurityGroupId": {
@@ -892,7 +892,7 @@
             }
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.5/#6.2.5.7)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.5.7)."
       },
       "WriterGroupDataType": {
         "type": "object",
@@ -948,7 +948,7 @@
             }
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.6/#6.2.6.7.1)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.6.7.1)."
       },
       "WriterGroupTransportDataType": {
         "type": "object",
@@ -999,7 +999,7 @@
             }
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.7/#6.2.7.5.1)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.7.5.1)."
       },
       "ConnectionTransportDataType": {
         "type": "object",
@@ -1012,7 +1012,7 @@
             "type": "string"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.7/#6.2.7.5.3)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.7.5.3)."
       },
       "ReaderGroupDataType": {
         "type": "object",
@@ -1035,7 +1035,7 @@
             }
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.8/#6.2.8.2.1)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.8.2.1)."
       },
       "ReaderGroupTransportDataType": {
         "type": "object",
@@ -1099,7 +1099,7 @@
           },
           "SecurityMode": {
             "type": "integer",
-            "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.20).",
+            "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.3.10).",
             "format": "MessageSecurityMode"
           },
           "SecurityGroupId": {
@@ -1127,7 +1127,7 @@
             "type": "object"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.9/#6.2.9.13.1)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.9.13.1)."
       },
       "DataSetReaderTransportDataType": {
         "type": "object",
@@ -1161,7 +1161,7 @@
             "default": false
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.12/#6.2.12.1)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.12.1)."
       },
       "StandaloneSubscribedDataSetDataType": {
         "type": "object",
@@ -1187,7 +1187,7 @@
             "type": "object"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.10/#6.2.10.5)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.10.5)."
       },
       "SecurityGroupDataType": {
         "type": "object",
@@ -1239,7 +1239,7 @@
             }
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.12/#6.2.12.2)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.12.2)."
       },
       "PubSubKeyPushTargetDataType": {
         "type": "object",
@@ -1287,7 +1287,7 @@
             }
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.12/#6.2.12.3)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.12.3)."
       },
       "PubSubConfiguration2DataType": {
         "type": "object",
@@ -1341,7 +1341,7 @@
             }
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.12/#6.2.12.4)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.12.4)."
       },
       "JsonNetworkMessageContentMaskBits": {
         "enum": [
@@ -1354,7 +1354,7 @@
           64
         ],
         "type": "integer",
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.3.2/#6.3.2.1.1).",
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.3.2.1.1).",
         "format": "int32",
         "x-enum-varnames": [
           "NetworkMessageHeader",
@@ -1389,7 +1389,7 @@
             "default": 0
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.3.2/#6.3.2.1.2)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.3.2.1.2)."
       },
       "JsonDataSetMessageContentMaskBits": {
         "enum": [
@@ -1407,7 +1407,7 @@
           2048
         ],
         "type": "integer",
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.3.2/#6.3.2.3.1).",
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.3.2.3.1).",
         "format": "int32",
         "x-enum-varnames": [
           "DataSetWriterId",
@@ -1447,7 +1447,7 @@
             "default": 0
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.3.2/#6.3.2.3.2)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.3.2.3.2)."
       },
       "JsonDataSetReaderMessageDataType": {
         "type": "object",
@@ -1472,7 +1472,7 @@
             "default": 0
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.3.2/#6.3.2.4.3)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.3.2.4.3)."
       },
       "BrokerConnectionTransportDataType": {
         "type": "object",
@@ -1489,7 +1489,7 @@
             "type": "string"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.4.2/#6.4.2.2.3)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.4.2.2.3)."
       },
       "BrokerTransportQualityOfService": {
         "enum": [
@@ -1500,7 +1500,7 @@
           4
         ],
         "type": "integer",
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.4.2/#6.4.2.1).",
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.4.2.1).",
         "format": "int32",
         "x-enum-varnames": [
           "NotSpecified",
@@ -1529,11 +1529,11 @@
           },
           "RequestedDeliveryGuarantee": {
             "type": "integer",
-            "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.4.2/#6.4.2.1).",
+            "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.4.2.1).",
             "format": "BrokerTransportQualityOfService"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.4.2/#6.4.2.3.5)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.4.2.3.5)."
       },
       "BrokerDataSetWriterTransportDataType": {
         "type": "object",
@@ -1554,7 +1554,7 @@
           },
           "RequestedDeliveryGuarantee": {
             "type": "integer",
-            "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.4.2/#6.4.2.1).",
+            "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.4.2.1).",
             "format": "BrokerTransportQualityOfService"
           },
           "MetaDataQueueName": {
@@ -1566,7 +1566,7 @@
             "default": 0
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.4.2/#6.4.2.5.7)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.4.2.5.7)."
       },
       "BrokerDataSetReaderTransportDataType": {
         "type": "object",
@@ -1587,14 +1587,14 @@
           },
           "RequestedDeliveryGuarantee": {
             "type": "integer",
-            "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.4.2/#6.4.2.1).",
+            "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.4.2.1).",
             "format": "BrokerTransportQualityOfService"
           },
           "MetaDataQueueName": {
             "type": "string"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.4.2/#6.4.2.6.6)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.4.2.6.6)."
       },
       "JsonNetworkMessage": {
         "type": "object",
@@ -1788,7 +1788,7 @@
           },
           "Status": {
             "type": "integer",
-            "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.1).",
+            "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.1).",
             "format": "PubSubState"
           },
           "NextReportTime": {
@@ -1984,7 +1984,7 @@
           },
           "ActionState": {
             "type": "integer",
-            "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.11/#6.2.11.2.1).",
+            "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.11.2.1).",
             "format": "ActionState"
           },
           "Payload": {
@@ -2046,7 +2046,7 @@
           },
           "ActionState": {
             "type": "integer",
-            "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part14/6.2.11/#6.2.11.2.1).",
+            "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/6.2.11.2.1).",
             "format": "ActionState"
           },
           "Payload": {
@@ -2068,7 +2068,7 @@
           128
         ],
         "type": "integer",
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part3/8.29).",
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.2.5.2).",
         "format": "int32",
         "x-enum-varnames": [
           "Unspecified",
@@ -2147,7 +2147,7 @@
             "default": 0
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part3/5.2.9)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.2.12.9)."
       },
       "DataTypeDefinition": {
         "type": "object",
@@ -2162,7 +2162,7 @@
           4
         ],
         "type": "integer",
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part3/8.49).",
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.2.5.3).",
         "format": "int32",
         "x-enum-varnames": [
           "Structure",
@@ -2212,7 +2212,7 @@
             "default": false
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part3/8.51)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.2.12.10)."
       },
       "StructureDefinition": {
         "type": "object",
@@ -2232,7 +2232,7 @@
           },
           "StructureType": {
             "type": "integer",
-            "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part3/8.49).",
+            "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.2.5.3).",
             "format": "StructureType"
           },
           "Fields": {
@@ -2242,7 +2242,7 @@
             }
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part3/8.48)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.2.12.5)."
       },
       "EnumDefinition": {
         "type": "object",
@@ -2259,7 +2259,7 @@
             }
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part3/8.50)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.2.12.4)."
       },
       "Argument": {
         "type": "object",
@@ -2290,7 +2290,7 @@
             "$ref": "#/components/schemas/LocalizedText"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part3/8.6)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.2.12.1)."
       },
       "EnumValueType": {
         "type": "object",
@@ -2307,7 +2307,7 @@
             "$ref": "#/components/schemas/LocalizedText"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part3/8.39)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.2.12.6)."
       },
       "EnumField": {
         "type": "object",
@@ -2321,7 +2321,7 @@
             "type": "string"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part3/8.52)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.2.12.7)."
       },
       "Duration": {
         "type": "number",
@@ -2351,7 +2351,7 @@
           3
         ],
         "type": "integer",
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.4).",
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.4).",
         "format": "int32",
         "x-enum-varnames": [
           "Server",
@@ -2374,7 +2374,7 @@
           },
           "ApplicationType": {
             "type": "integer",
-            "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.4).",
+            "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.4).",
             "format": "ApplicationType"
           },
           "GatewayServerUri": {
@@ -2390,7 +2390,7 @@
             }
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.2)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-14/7.2.4.6.5)."
       },
       "RequestHeader": {
         "type": "object",
@@ -2432,7 +2432,7 @@
             "$ref": "#/components/schemas/ExtensionObject"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.32)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.32)."
       },
       "ResponseHeader": {
         "type": "object",
@@ -2465,7 +2465,7 @@
             "$ref": "#/components/schemas/ExtensionObject"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.33)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.33)."
       },
       "VersionTime": {
         "maximum": 4294967295,
@@ -2488,7 +2488,7 @@
           3
         ],
         "type": "integer",
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.20).",
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.3.10).",
         "format": "int32",
         "x-enum-varnames": [
           "Invalid",
@@ -2505,7 +2505,7 @@
           3
         ],
         "type": "integer",
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.42).",
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.42).",
         "format": "int32",
         "x-enum-varnames": [
           "Anonymous",
@@ -2522,7 +2522,7 @@
           },
           "TokenType": {
             "type": "integer",
-            "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.42).",
+            "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.42).",
             "format": "UserTokenType"
           },
           "IssuedTokenType": {
@@ -2535,7 +2535,7 @@
             "type": "string"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.41)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.41)."
       },
       "EndpointDescription": {
         "type": "object",
@@ -2552,7 +2552,7 @@
           },
           "SecurityMode": {
             "type": "integer",
-            "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.20).",
+            "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.3.10).",
             "format": "MessageSecurityMode"
           },
           "SecurityPolicyUri": {
@@ -2575,7 +2575,7 @@
             "default": 0
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.14)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.14)."
       },
       "SessionAuthenticationToken": {
         "type": "string",
@@ -2590,7 +2590,7 @@
           3
         ],
         "type": "integer",
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.5).",
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.5).",
         "format": "int32",
         "x-enum-varnames": [
           "Forward",
@@ -2619,7 +2619,7 @@
             "default": 0
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.44)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.44)."
       },
       "BrowseDescription": {
         "type": "object",
@@ -2630,7 +2630,7 @@
           },
           "BrowseDirection": {
             "type": "integer",
-            "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.5).",
+            "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.5).",
             "format": "BrowseDirection"
           },
           "ReferenceTypeId": {
@@ -2682,7 +2682,7 @@
           },
           "NodeClass": {
             "type": "integer",
-            "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part3/8.29).",
+            "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.2.5.2).",
             "format": "NodeClass"
           },
           "TypeDefinition": {
@@ -2690,7 +2690,7 @@
             "format": "UaExpandedNodeId"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.29)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.29)."
       },
       "ContinuationPoint": {
         "type": "string",
@@ -2714,7 +2714,7 @@
             }
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.6)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.6)."
       },
       "BrowseRequest": {
         "type": "object",
@@ -2835,7 +2835,7 @@
             }
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.30)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.30)."
       },
       "BrowsePath": {
         "type": "object",
@@ -3002,7 +3002,7 @@
             }
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.7.1)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-5/12.3.4)."
       },
       "FilterOperand": {
         "type": "object",
@@ -3038,7 +3038,7 @@
             "type": "string"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.7.4/#7.7.4.5)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.7.4.5)."
       },
       "TimestampsToReturn": {
         "enum": [
@@ -3049,7 +3049,7 @@
           4
         ],
         "type": "integer",
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.39).",
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.39).",
         "format": "int32",
         "x-enum-varnames": [
           "Source",
@@ -3081,7 +3081,7 @@
             "format": "UaQualifiedName"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.28)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.28)."
       },
       "ReadRequest": {
         "type": "object",
@@ -3096,7 +3096,7 @@
           },
           "TimestampsToReturn": {
             "type": "integer",
-            "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.39).",
+            "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.39).",
             "format": "TimestampsToReturn"
           },
           "NodesToRead": {
@@ -3401,7 +3401,7 @@
           },
           "TimestampsToReturn": {
             "type": "integer",
-            "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.39).",
+            "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.39).",
             "format": "TimestampsToReturn"
           },
           "ReleaseContinuationPoints": {
@@ -3778,7 +3778,7 @@
             "$ref": "#/components/schemas/ContentFilter"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part4/7.22.3)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-4/7.22.3)."
       },
       "AggregateConfiguration": {
         "type": "object",
@@ -3838,7 +3838,7 @@
             "default": 0
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part8/5.6.2)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-8/5.6.2)."
       },
       "EUInformation": {
         "type": "object",
@@ -3858,7 +3858,7 @@
             "$ref": "#/components/schemas/LocalizedText"
           }
         },
-        "description": "[Link to specification](https://reference.opcfoundation.org/v105/Core/docs/Part8/5.6.4/#5.6.4.3)."
+        "description": "[Link to specification](https://reference.opcfoundation.org/specs/OPC-10000-8/5.6.4.3)."
       },
       "JsonMessageType": {
         "enum": [

@@ -1,0 +1,6 @@
+$env:SigningCertName     = ''
+$env:SigningClientId     = ''
+$env:SigningClientSecret = ''
+$env:SigningTenantId     = ''
+$env:SigningURL          = ''
+$env:SigningVaultURL     = ''

@@ -484,16 +484,16 @@
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="33.1.0" />
-    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.29" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.31" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.378.152" />
-    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Types" Version="1.5.378.152" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Core" Version="1.5.378.182" />
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua.Types" Version="1.5.378.182" />
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Update="Nerdbank.GitVersioning" Version="3.10.85" />
+    <PackageReference Update="Nerdbank.GitVersioning" Version="3.10.94" />
   </ItemGroup>
 
   <ItemGroup>

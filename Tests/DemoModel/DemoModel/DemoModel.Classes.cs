@@ -1,30 +1,6 @@
 /* ========================================================================
- * Copyright (c) 2005-2026, OPC Federation AISBL, All rights reserved.
- *
- * OPC Foundation MIT License 1.00
- * 
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
- * 
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
- *
- * The complete license agreement can be found here:
- * http://opcfoundation.org/License/MIT/1.00/
+ * SPDX-FileCopyrightText: Copyright (c) 2005-2026, OPC Federation AISBL
+ * SPDX-License-Identifier: MIT
  * ======================================================================*/
 
 using System;
@@ -95,9 +71,10 @@ namespace DemoModel
         private const string InitializationString =
            "AQAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWz/////FWCBAgIAAAAB" +
            "AB4AAABSZXN0cmljdGVkVmFyaWFibGVUeXBlSW5zdGFuY2UBAXoAAQF6AHoAAAAADAEB/////wQAAAAV" +
-           "YIkKAgAAAAEABgAAAFllbGxvdwEBewAALwBEewAAAAAG/////wEB/////wAAAAAVYIkKAgAAAAEAAQAA" +
-           "AFgBAdIAAC8ARNIAAAAABv////8BAf////8AAAAAFWCJCgIAAAABAAEAAABZAQHTAAAvAETTAAAAAAb/" +
-           "////AQH/////AAAAABVgiQoCAAAAAQABAAAAWgEB1AAALwBE1AAAAAAG/////wEB/////wAAAAA=";
+           "YIkLAgAAAAEABgAAAFllbGxvdwEBewAALwBEAE57AAAAAAb/////AQH/////AAAAABVgiQsCAAAAAQAB" +
+           "AAAAWAEB0gAALwBEAE7SAAAAAAb/////AQH/////AAAAABVgiQsCAAAAAQABAAAAWQEB0wAALwBEAE7T" +
+           "AAAAAAb/////AQH/////AAAAABVgiQsCAAAAAQABAAAAWgEB1AAALwBEAE7UAAAAAAb/////AQH/////" +
+           "AAAAAA==";
         #endregion
         #endif
         #endregion
@@ -424,25 +401,26 @@ namespace DemoModel
         #region Initialization String
         private const string InitializationString =
            "AQAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWz/////BGCAAgEAAAAB" +
-           "ABwAAABSZXN0cmljdGVkT2JqZWN0VHlwZUluc3RhbmNlAQF8AAEBfAB8AAAA/////wQAAAAEYIAKAQAA" +
-           "AAEABgAAAFB1cnBsZQEBewEALwEAVwl7AQAA/////wUAAAAVYIkKAgAAAAAADAAAAEN1cnJlbnRTdGF0" +
-           "ZQEBfQEALwEAyAp9AQAAABX/////AQH/////AgAAABVgiQoCAAAAAAACAAAASWQBAX4BAC4ARH4BAAAA" +
-           "Ef////8BAf////8AAAAAFWCJCgIAAAAAAAYAAABOdW1iZXIBAYABAC4ARIABAAAAB/////8BAf////8A" +
-           "AAAAFWCJCgIAAAAAAA4AAABMYXN0VHJhbnNpdGlvbgEBggEALwEAzwqCAQAAABX/////AQH/////AwAA" +
-           "ABVgiQoCAAAAAAACAAAASWQBAYMBAC4ARIMBAAAAEf////8BAf////8AAAAAFWCJCgIAAAAAAAYAAABO" +
-           "dW1iZXIBAYUBAC4ARIUBAAAAB/////8BAf////8AAAAAFWCJCgIAAAAAAA4AAABUcmFuc2l0aW9uVGlt" +
-           "ZQEBhgEALgBEhgEAAAEAJgH/////AQH/////AAAAABVgiQoCAAAAAAAJAAAARGVsZXRhYmxlAQGKAQAu" +
-           "AESKAQAAAAH/////AQH/////AAAAABVgiQoCAAAAAAAKAAAAQXV0b0RlbGV0ZQEBiwEALgBEiwEAAAAB" +
-           "/////wEB/////wAAAAAVYIkKAgAAAAAADAAAAFJlY3ljbGVDb3VudAEBjAEALgBEjAEAAAAG/////wEB" +
-           "/////wAAAAAVYIkKAgAAAAEAAwAAAFJlZAEBfQAALwEBegB9AAAAAAz/////AQH/////BAAAABVgiQoC" +
-           "AAAAAQAGAAAAWWVsbG93AQE5AAAvAEQ5AAAAAAb/////AQH/////AAAAABVgiQoCAAAAAQABAAAAWAEB" +
-           "1QAALwBE1QAAAAAG/////wEB/////wAAAAAVYIkKAgAAAAEAAQAAAFkBAdYAAC8ARNYAAAAABv////8B" +
-           "Af////8AAAAAFWCJCgIAAAABAAEAAABaAQHXAAAvAETXAAAAAAb/////AQH/////AAAAABVgyQoCAAAA" +
-           "EAAAAFBpbmtfUGxhY2Vob2xkZXIBAAYAAAA8UGluaz4BAYQAAC8BAXoAhAAAAAAM/////wEB/////wQA" +
-           "AAAVYIkKAgAAAAEABgAAAFllbGxvdwEBOgAALwBEOgAAAAAG/////wEB/////wAAAAAVYIkKAgAAAAEA" +
-           "AQAAAFgBAdgAAC8ARNgAAAAABv////8BAf////8AAAAAFWCJCgIAAAABAAEAAABZAQHZAAAvAETZAAAA" +
-           "AAb/////AQH/////AAAAABVgiQoCAAAAAQABAAAAWgEB2gAALwBE2gAAAAAG/////wEB/////wAAAAAE" +
-           "YYIKBAAAAAEACAAAAEJsdWVUeXBlAQFWAQAvAQFWAVYBAAABAf////8AAAAA";
+           "ABwAAABSZXN0cmljdGVkT2JqZWN0VHlwZUluc3RhbmNlAQF8AAEBfAB8AAAA/////wQAAAAEYIALAQAA" +
+           "AAEABgAAAFB1cnBsZQEBewEALwEAVwkATnsBAAD/////BQAAABVgiQsCAAAAAAAMAAAAQ3VycmVudFN0" +
+           "YXRlAQF9AQAvAQDICgBOfQEAAAAV/////wEB/////wIAAAAVYIkLAgAAAAAAAgAAAElkAQF+AQAuAEQA" +
+           "Tn4BAAAAEf////8BAf////8AAAAAFWCJCwIAAAAAAAYAAABOdW1iZXIBAYABAC4ARABOgAEAAAAH////" +
+           "/wEB/////wAAAAAVYIkLAgAAAAAADgAAAExhc3RUcmFuc2l0aW9uAQGCAQAvAQDPCgBOggEAAAAV////" +
+           "/wEB/////wMAAAAVYIkLAgAAAAAAAgAAAElkAQGDAQAuAEQAToMBAAAAEf////8BAf////8AAAAAFWCJ" +
+           "CwIAAAAAAAYAAABOdW1iZXIBAYUBAC4ARABOhQEAAAAH/////wEB/////wAAAAAVYIkLAgAAAAAADgAA" +
+           "AFRyYW5zaXRpb25UaW1lAQGGAQAuAEQAToYBAAABACYB/////wEB/////wAAAAAVYIkLAgAAAAAACQAA" +
+           "AERlbGV0YWJsZQEBigEALgBEAE6KAQAAAAH/////AQH/////AAAAABVgiQsCAAAAAAAKAAAAQXV0b0Rl" +
+           "bGV0ZQEBiwEALgBEAE6LAQAAAAH/////AQH/////AAAAABVgiQsCAAAAAAAMAAAAUmVjeWNsZUNvdW50" +
+           "AQGMAQAuAEQATowBAAAABv////8BAf////8AAAAAFWCJCwIAAAABAAMAAABSZWQBAX0AAC8BAXoAAE59" +
+           "AAAAAAz/////AQH/////BAAAABVgiQsCAAAAAQAGAAAAWWVsbG93AQE5AAAvAEQATjkAAAAABv////8B" +
+           "Af////8AAAAAFWCJCwIAAAABAAEAAABYAQHVAAAvAEQATtUAAAAABv////8BAf////8AAAAAFWCJCwIA" +
+           "AAABAAEAAABZAQHWAAAvAEQATtYAAAAABv////8BAf////8AAAAAFWCJCwIAAAABAAEAAABaAQHXAAAv" +
+           "AEQATtcAAAAABv////8BAf////8AAAAAFWDJCwIAAAAQAAAAUGlua19QbGFjZWhvbGRlcgEABgAAADxQ" +
+           "aW5rPgEBhAAALwEBegABAPQshAAAAAAM/////wEB/////wQAAAAVYIkLAgAAAAEABgAAAFllbGxvdwEB" +
+           "OgAALwBEAE46AAAAAAb/////AQH/////AAAAABVgiQsCAAAAAQABAAAAWAEB2AAALwBEAE7YAAAAAAb/" +
+           "////AQH/////AAAAABVgiQsCAAAAAQABAAAAWQEB2QAALwBEAE7ZAAAAAAb/////AQH/////AAAAABVg" +
+           "iQsCAAAAAQABAAAAWgEB2gAALwBEAE7aAAAAAAb/////AQH/////AAAAAARhggsEAAAAAQAIAAAAQmx1" +
+           "ZVR5cGUBAVYBAC8BAVYBAE5WAQAAAQH/////AAAAAA==";
         #endregion
         #endif
         #endregion
@@ -686,10 +664,10 @@ namespace DemoModel
         #region Initialization String
         private const string InitializationString =
            "AQAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWz/////FWCBAgIAAAAB" +
-           "ABIAAABZZWxsb3dUeXBlSW5zdGFuY2UBAVkBAQFZAVkBAAAADAEB/////wIAAAAVYKkKAgAAAAEABQAA" +
-           "AFNoYWRlAQFaAQAuAERaAQAADAQAAABQYWxlAAz/////AQH/////AAAAABVgqQoCAAAAAAAZAAAARGVm" +
-           "YXVsdEluc3RhbmNlQnJvd3NlTmFtZQEBWwEALgBEWwEAABQBAAsAAABZZWxsb3dUaGluZwAU/////wEB" +
-           "/////wAAAAA=";
+           "ABIAAABZZWxsb3dUeXBlSW5zdGFuY2UBAVkBAQFZAVkBAAAADAEB/////wIAAAAVYKkLAgAAAAEABQAA" +
+           "AFNoYWRlAQFaAQAuAEQATloBAAAMBAAAAFBhbGUADP////8BAf////8AAAAAFWCpCgIAAAAAABkAAABE" +
+           "ZWZhdWx0SW5zdGFuY2VCcm93c2VOYW1lAQFbAQAuAERbAQAAFAEACwAAAFllbGxvd1RoaW5nABT/////" +
+           "AQH/////AAAAAA==";
         #endregion
         #endif
         #endregion
@@ -872,12 +850,12 @@ namespace DemoModel
         #region Initialization String
         private const string InitializationString =
            "AQAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWz/////BGCAAgEAAAAB" +
-           "ABYAAABCcmlnaHRuZXNzVHlwZUluc3RhbmNlAQFsAQEBbAFsAQAA/////wIAAAAEYMAKAQAAABEAAABB" +
-           "bWJlcl9QbGFjZWhvbGRlcgEABwAAADxBbWJlcj4BAW0BADEBAAMJbQEAAP////8BAAAAFWCJCgIAAAAA" +
-           "AAsAAABTdGF0ZU51bWJlcgEBbgEALgBEbgEAAAAH/////wEB/////wAAAAAEYMAKAQAAABEAAABHcmVl" +
-           "bl9QbGFjZWhvbGRlcgEABwAAADxHcmVlbj4BAW8BACMBAPsIbwEAAP////8BAAAAFWCJCgIAAAAAAAwA" +
-           "AABDdXJyZW50U3RhdGUBAXABAC8BAMMKcAEAAAAV/////wEB/////wEAAAAVYIkKAgAAAAAAAgAAAElk" +
-           "AQFxAQAuAERxAQAAABj/////AQH/////AAAAAA==";
+           "ABYAAABCcmlnaHRuZXNzVHlwZUluc3RhbmNlAQFsAQEBbAFsAQAA/////wIAAAAEYMALAQAAABEAAABB" +
+           "bWJlcl9QbGFjZWhvbGRlcgEABwAAADxBbWJlcj4BAW0BADEBAAMJAQD2LG0BAAD/////AQAAABVgiQsC" +
+           "AAAAAAALAAAAU3RhdGVOdW1iZXIBAW4BAC4ARABObgEAAAAH/////wEB/////wAAAAAEYMALAQAAABEA" +
+           "AABHcmVlbl9QbGFjZWhvbGRlcgEABwAAADxHcmVlbj4BAW8BACMBAPsIAQD0LG8BAAD/////AQAAABVg" +
+           "iQsCAAAAAAAMAAAAQ3VycmVudFN0YXRlAQFwAQAvAQDDCgBOcAEAAAAV/////wEB/////wEAAAAVYIkL" +
+           "AgAAAAAAAgAAAElkAQFxAQAuAEQATnEBAAAAGP////8BAf////8AAAAA";
         #endregion
         #endif
         #endregion
@@ -933,10 +911,10 @@ namespace DemoModel
         #region Initialization String
         private const string InitializationString =
            "AQAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWz/////BGCAAgEAAAAB" +
-           "ABMAAABQaWN0dXJlVHlwZUluc3RhbmNlAQFcAQEBXAFcAQAA/////wIAAAAVYIkKAgAAAAEACwAAAFll" +
-           "bGxvd1RoaW5nAQFdAQAuAQFZAV0BAAAADP////8BAf////8BAAAAFWCpCgIAAAABAAUAAABTaGFkZQEB" +
-           "XgEALgBEXgEAAAwEAAAAUGFsZQAM/////wEB/////wAAAAAEYMAKAQAAABIAAABJbmRpZ29fUGxhY2Vo" +
-           "b2xkZXIBAAgAAAA8SW5kaWdvPgEBfAEALwEBbAF8AQAA/////wAAAAA=";
+           "ABMAAABQaWN0dXJlVHlwZUluc3RhbmNlAQFcAQEBXAFcAQAA/////wIAAAAVYIkLAgAAAAEACwAAAFll" +
+           "bGxvd1RoaW5nAQFdAQAuAQFZAQBOXQEAAAAM/////wEB/////wEAAAAVYKkLAgAAAAEABQAAAFNoYWRl" +
+           "AQFeAQAuAEQATl4BAAAMBAAAAFBhbGUADP////8BAf////8AAAAABGDACwEAAAASAAAASW5kaWdvX1Bs" +
+           "YWNlaG9sZGVyAQAIAAAAPEluZGlnbz4BAXwBAC8BAWwBAQD2LHwBAAD/////AAAAAA==";
         #endregion
         #endif
         #endregion
@@ -1078,13 +1056,13 @@ namespace DemoModel
 
         #region Initialization String
         private const string X_InitializationString =
-           "AQAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWz/////F2CJCgIAAAAB" +
-           "AAEAAABYAQF5AAAvAD95AAAAAAYCAAAAAgAAAAAAAAAAAAAAAQH/////AAAAAA==";
+           "AQAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWz/////F2CJCwIAAAAB" +
+           "AAEAAABYAQF5AAAvAD8AUHkAAAAABgIAAAACAAAAAAAAAAAAAAABAf////8AAAAA";
 
         private const string InitializationString =
            "AQAAACcAAAB1cm46b3BjZm91bmRhdGlvbi5vcmc6MjAyNC0wMTpEZW1vTW9kZWz/////BGCAAgEAAAAB" +
            "ACYAAABXaXRoVHdvRGltZW5zaW9uYWxWYXJpYWJsZVR5cGVJbnN0YW5jZQEBeAABAXgAeAAAAP////8B" +
-           "AAAAF2CJCgIAAAABAAEAAABYAQF5AAAvAD95AAAAAAYCAAAAAgAAAAAAAAAAAAAAAQH/////AAAAAA==";
+           "AAAAF2CJCwIAAAABAAEAAABYAQF5AAAvAD8AUHkAAAAABgIAAAACAAAAAAAAAAAAAAABAf////8AAAAA";
         #endregion
         #endif
         #endregion

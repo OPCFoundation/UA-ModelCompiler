@@ -83,6 +83,11 @@ namespace ModelCompiler
 
             fileText = fileText.TrimStart();
 
+            if (fileText.StartsWith("//"))
+            {
+                return RemoveLineCommentHeader(fileText);
+            }
+
             if (!fileText.StartsWith("/*"))
             {
                 return fileText;
@@ -142,6 +147,30 @@ namespace ModelCompiler
             }
 
             return fileText;
+        }
+
+        static string RemoveLineCommentHeader(string fileText)
+        {
+            if (String.IsNullOrWhiteSpace(fileText)) return String.Empty;
+
+            var lines = fileText.Split('\n');
+
+            // skip the contiguous block of leading single-line comments.
+            int ii = 0;
+
+            while (ii < lines.Length && lines[ii].TrimStart().StartsWith("//"))
+            {
+                ii++;
+            }
+
+            var body = String.Join("\n", lines, ii, lines.Length - ii).Trim();
+
+            if (String.IsNullOrEmpty(body))
+            {
+                return Environment.NewLine;
+            }
+
+            return $"{Environment.NewLine}{body}";
         }
 
         public static void ProcessDirectory(string directory, string fileType, LicenseType licenseType, bool silent = false)
